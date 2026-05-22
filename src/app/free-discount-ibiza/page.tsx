@@ -26,7 +26,7 @@ export default function FreeDiscountIbizaPage() {
       <Hero
         title="Free & Cheap Things to Do in Ibiza"
         subtitle="Ibiza doesn't have to be expensive. Our guide to the best free beaches, free entry nights, discount passes, and budget-friendly ways to have an incredible time."
-        backgroundImage="https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1920&q=85"
+        backgroundImage="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=85"
         eyebrow="Budget Ibiza Guide"
         minHeight="min-h-[65vh]"
       />

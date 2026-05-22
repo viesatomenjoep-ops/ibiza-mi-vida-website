@@ -7,6 +7,7 @@ import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { ProductSchema } from '@/components/seo/ProductSchema'
 import { createServerClient } from '@/lib/supabase/server'
+import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences'
 import type { Experience } from '@/types/experience'
 
 export const revalidate = 3600
@@ -29,9 +30,19 @@ const inclusions = [
 ]
 
 async function getCatamarans(): Promise<Experience[]> {
-  const supabase = createServerClient()
-  const { data } = await supabase.from('experiences').select('*').eq('category', 'catamaran').eq('available', true).order('sort_order')
-  return data ?? []
+  try {
+    const supabase = createServerClient()
+    const { data } = await supabase
+      .from('experiences')
+      .select('*')
+      .eq('category', 'catamaran')
+      .eq('available', true)
+      .order('sort_order')
+    if (data && data.length > 0) return data
+  } catch {
+    // fall through
+  }
+  return FALLBACK_EXPERIENCES['catamaran']
 }
 
 export default async function VipCatamaranPage() {
@@ -49,7 +60,7 @@ export default async function VipCatamaranPage() {
       <Hero
         title="VIP Catamaran Cruise Ibiza"
         subtitle="The most beautiful way to experience Ibiza. Sail in luxury with an open bar, catering, and breathtaking views across the Mediterranean."
-        backgroundImage="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1920&q=85"
+        backgroundImage="https://images.unsplash.com/photo-1527004611998-0c6fde22b1ca?w=1920&q=85"
         eyebrow="Luxury Sailing"
         minHeight="min-h-[70vh]"
       />
@@ -73,16 +84,17 @@ export default async function VipCatamaranPage() {
           <SectionHeader eyebrow="Catamaran Experiences" title="Choose your cruise" subtitle="Half-day, full-day, and sunset options available." />
         </AnimatedSection>
         <CategoryGrid columns={3}>
-          {catamarans.length > 0
-            ? catamarans.map((c: Experience) => (
-                <CategoryCard key={c.id} title={c.title} tagline={c.tagline ?? undefined} imageUrl={c.image_url ?? 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=900&q=85'} bookingConfig={{ serviceType: 'catamaran', serviceName: c.title, sourcePage: '/vip-catamaran' }} badge={c.price_from ? `From €${c.price_from}` : undefined} />
-              ))
-            : [
-                { title: 'Sunset Catamaran', tagline: '3.5 hours · Open bar · From €120', badge: 'From €120' },
-                { title: 'Full Day Catamaran', tagline: '8 hours · Lunch included · From €180', badge: 'From €180' },
-              ].map((c) => (
-                <CategoryCard key={c.title} title={c.title} tagline={c.tagline} imageUrl="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=900&q=85" bookingConfig={{ serviceType: 'catamaran', serviceName: c.title, sourcePage: '/vip-catamaran' }} badge={c.badge} />
-              ))}
+          {catamarans.map((c: Experience) => (
+            <CategoryCard
+              key={c.id}
+              title={c.title}
+              tagline={c.tagline ?? undefined}
+              imageUrl={c.image_url ?? 'https://images.unsplash.com/photo-1527004611998-0c6fde22b1ca?w=900&q=85'}
+              href={`/experiences/${c.slug}`}
+              bookingConfig={{ serviceType: 'catamaran', serviceName: c.title, sourcePage: '/vip-catamaran' }}
+              badge={c.price_from ? `From €${c.price_from}` : undefined}
+            />
+          ))}
         </CategoryGrid>
       </section>
 

@@ -9,7 +9,7 @@ interface ClubCardProps {
 
 export function ClubCard({ club }: ClubCardProps) {
   const isPromoterLink = club.booking_type === 'promoter_link'
-  const imageUrl = club.image_url ?? 'https://images.unsplash.com/photo-1571266028243-e4d811c95a1f?w=800&q=80'
+  const imageUrl = club.image_url ?? 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800&q=80'
 
   return (
     <Link

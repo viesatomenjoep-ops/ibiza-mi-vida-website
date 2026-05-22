@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { useBooking } from '@/context/booking-context'
 import type { BookingConfig } from '@/types/booking'
@@ -11,6 +12,10 @@ interface CategoryCardProps {
   imageUrl: string
   bookingConfig: BookingConfig
   badge?: string
+  /** When provided, the card navigates to this URL instead of opening the booking modal */
+  href?: string
+  /** Override the CTA button label (defaults to "Explore" for links, "Book Now" for modal) */
+  ctaLabel?: string
 }
 
 export function CategoryCard({
@@ -19,18 +24,15 @@ export function CategoryCard({
   imageUrl,
   bookingConfig,
   badge,
+  href,
+  ctaLabel,
 }: CategoryCardProps) {
   const { openModal } = useBooking()
 
-  return (
-    <article
-      className="group relative flex min-h-[500px] cursor-pointer flex-col justify-end overflow-hidden rounded-3xl"
-      onClick={() => openModal(bookingConfig)}
-      role="button"
-      tabIndex={0}
-      aria-label={`Enquire about ${title}`}
-      onKeyDown={(e) => e.key === 'Enter' && openModal(bookingConfig)}
-    >
+  const label = ctaLabel ?? (href ? 'Explore' : 'Book Now')
+
+  const inner = (
+    <>
       {/* Background image */}
       <Image
         src={imageUrl}
@@ -60,7 +62,7 @@ export function CategoryCard({
         {/* CTA pill */}
         <div className="mt-1 self-start">
           <span className="inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 font-sans text-sm font-semibold text-white transition-all duration-200 group-hover:bg-teal-dark group-hover:gap-3">
-            Book Now
+            {label}
             <ArrowRight
               size={15}
               className="transition-transform duration-200 group-hover:translate-x-0.5"
@@ -68,6 +70,33 @@ export function CategoryCard({
           </span>
         </div>
       </div>
+    </>
+  )
+
+  /* Navigation variant — renders as a Next.js Link */
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className="group relative flex min-h-[500px] flex-col justify-end overflow-hidden rounded-3xl"
+        aria-label={`View ${title}`}
+      >
+        {inner}
+      </Link>
+    )
+  }
+
+  /* Modal variant — renders as a button-like article */
+  return (
+    <article
+      className="group relative flex min-h-[500px] cursor-pointer flex-col justify-end overflow-hidden rounded-3xl"
+      onClick={() => openModal(bookingConfig)}
+      role="button"
+      tabIndex={0}
+      aria-label={`Enquire about ${title}`}
+      onKeyDown={(e) => e.key === 'Enter' && openModal(bookingConfig)}
+    >
+      {inner}
     </article>
   )
 }

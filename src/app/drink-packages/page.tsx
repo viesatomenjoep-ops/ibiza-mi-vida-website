@@ -22,7 +22,7 @@ export default function DrinkPackagesPage() {
       <Hero
         title="VIP Bottle Service & Drink Packages Ibiza"
         subtitle="Arrive in style. From entry + drink packages to full champagne VIP tables — we arrange everything so you can enjoy the night."
-        backgroundImage="https://images.unsplash.com/photo-1571266028243-e4d811c95a1f?w=1920&q=85"
+        backgroundImage="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85"
         eyebrow="VIP Experience"
         minHeight="min-h-[65vh]"
       />

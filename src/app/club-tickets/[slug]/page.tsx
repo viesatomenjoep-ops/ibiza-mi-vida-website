@@ -8,6 +8,7 @@ import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { EventSchema } from '@/components/seo/EventSchema'
 import { VenueSchema } from '@/components/seo/VenueSchema'
 import { createServerClient } from '@/lib/supabase/server'
+import { FALLBACK_CLUB_EVENTS } from '@/lib/fallback-club-events'
 import type { Club, ClubEvent } from '@/types/club'
 
 export const revalidate = 3600
@@ -17,28 +18,42 @@ interface Props {
 }
 
 async function getClub(slug: string): Promise<Club | null> {
-  const supabase = createServerClient()
-  const { data } = await supabase.from('clubs').select('*').eq('slug', slug).eq('active', true).single()
-  return data ?? null
+  try {
+    const supabase = createServerClient()
+    const { data } = await supabase.from('clubs').select('*').eq('slug', slug).eq('active', true).single()
+    return data ?? null
+  } catch {
+    return null
+  }
 }
 
-async function getUpcomingEvents(clubId: string): Promise<ClubEvent[]> {
-  const supabase = createServerClient()
-  const today = new Date().toISOString().split('T')[0]
-  const { data } = await supabase
-    .from('events')
-    .select('*')
-    .eq('club_id', clubId)
-    .eq('published', true)
-    .gte('event_date', today)
-    .order('event_date', { ascending: true })
-  return data ?? []
+async function getUpcomingEvents(clubId: string, clubSlug: string): Promise<ClubEvent[]> {
+  try {
+    const supabase = createServerClient()
+    const today = new Date().toISOString().split('T')[0]
+    const { data } = await supabase
+      .from('events')
+      .select('*')
+      .eq('club_id', clubId)
+      .eq('published', true)
+      .gte('event_date', today)
+      .order('event_date', { ascending: true })
+    if (data && data.length > 0) return data
+  } catch {
+    // fall through to static fallback
+  }
+  return FALLBACK_CLUB_EVENTS[clubSlug] ?? []
 }
 
 export async function generateStaticParams() {
-  const supabase = createServerClient()
-  const { data } = await supabase.from('clubs').select('slug').eq('active', true)
-  return (data ?? []).map((c) => ({ slug: c.slug }))
+  try {
+    const supabase = createServerClient()
+    const { data } = await supabase.from('clubs').select('slug').eq('active', true)
+    if (data && data.length > 0) return data.map((c) => ({ slug: c.slug }))
+  } catch {
+    // fall through
+  }
+  return Object.keys(FALLBACK_CLUB_EVENTS).map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -60,10 +75,10 @@ export default async function ClubDetailPage({ params }: Props) {
   const club = await getClub(params.slug)
   if (!club) notFound()
 
-  const events = await getUpcomingEvents(club.id)
+  const events = await getUpcomingEvents(club.id, club.slug)
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ibizamivida.com'
   const pageUrl = `${siteUrl}/club-tickets/${club.slug}`
-  const imageUrl = club.image_url ?? 'https://images.unsplash.com/photo-1571266028243-e4d811c95a1f?w=1920&q=85'
+  const imageUrl = club.image_url ?? 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85'
 
   return (
     <>

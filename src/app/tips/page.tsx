@@ -35,7 +35,7 @@ export default async function TipsPage() {
       <Hero
         title="Ibiza Tips & Travel Guide"
         subtitle="Everything you need to know for the perfect Ibiza trip — from the best beaches to the clubs, the secret spots, and the inside knowledge most tourists never find."
-        backgroundImage="https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1920&q=85"
+        backgroundImage="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=85"
         eyebrow="Insider Guide"
         minHeight="min-h-[65vh]"
       />

@@ -39,7 +39,7 @@ export default async function ClubTicketsPage() {
       <Hero
         title="Ibiza Club Tickets"
         subtitle="From Pacha to Amnesia, Hi Ibiza to Ushaia — browse every venue, every event, and book your tickets instantly via WhatsApp."
-        backgroundImage="https://images.unsplash.com/photo-1571266028243-e4d811c95a1f?w=1920&q=85"
+        backgroundImage="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85"
         eyebrow="All Ibiza Venues"
         minHeight="min-h-[70vh]"
       />

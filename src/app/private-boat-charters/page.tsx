@@ -7,6 +7,7 @@ import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { ProductSchema } from '@/components/seo/ProductSchema'
 import { createServerClient } from '@/lib/supabase/server'
+import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences'
 import type { Experience, Review } from '@/types/experience'
 
 export const revalidate = 1800
@@ -37,12 +38,17 @@ const howItWorks = [
 ]
 
 async function getData() {
-  const supabase = createServerClient()
-  const [{ data: charters }, { data: reviews }] = await Promise.all([
-    supabase.from('experiences').select('*').eq('category', 'boat-charter').eq('available', true).order('sort_order'),
-    supabase.from('reviews').select('*').eq('published', true).eq('verified', true).order('created_at', { ascending: false }).limit(6),
-  ])
-  return { charters: charters ?? [], reviews: reviews ?? [] }
+  try {
+    const supabase = createServerClient()
+    const [{ data: charters }, { data: reviews }] = await Promise.all([
+      supabase.from('experiences').select('*').eq('category', 'boat-charter').eq('available', true).order('sort_order'),
+      supabase.from('reviews').select('*').eq('published', true).eq('verified', true).order('created_at', { ascending: false }).limit(6),
+    ])
+    const charterData = (charters && charters.length > 0) ? charters : FALLBACK_EXPERIENCES['boat-charter']
+    return { charters: charterData, reviews: reviews ?? [] }
+  } catch {
+    return { charters: FALLBACK_EXPERIENCES['boat-charter'], reviews: [] }
+  }
 }
 
 export default async function PrivateBoatChartersPage() {
@@ -66,7 +72,7 @@ export default async function PrivateBoatChartersPage() {
       <Hero
         title="Private Boat Charter Ibiza"
         subtitle="The whole Ibiza coastline, entirely for your group. Custom routes, experienced crew, and memories that last a lifetime."
-        backgroundImage="https://images.unsplash.com/photo-1540946485063-a40da27545f8?w=1920&q=85"
+        backgroundImage="https://images.unsplash.com/photo-1504735689966-4f12eb87a84e?w=1920&q=85"
         eyebrow="Luxury Yacht Rental"
         minHeight="min-h-[85vh]"
       />
@@ -98,42 +104,23 @@ export default async function PrivateBoatChartersPage() {
           />
         </AnimatedSection>
 
-        {charters.length > 0 ? (
-          <CategoryGrid columns={3}>
-            {charters.map((charter: Experience) => (
-              <CategoryCard
-                key={charter.id}
-                title={charter.title}
-                tagline={charter.tagline ?? undefined}
-                imageUrl={charter.image_url ?? 'https://images.unsplash.com/photo-1540946485063-a40da27545f8?w=900&q=85'}
-                bookingConfig={{
-                  serviceType: 'private-boat-charter',
-                  serviceName: charter.title,
-                  sourcePage: '/private-boat-charters',
-                }}
-                badge={charter.price_from ? `From €${charter.price_from}` : undefined}
-              />
-            ))}
-          </CategoryGrid>
-        ) : (
-          /* Fallback placeholder cards while DB is being seeded */
-          <CategoryGrid columns={3}>
-            {[
-              { title: 'Half-Day Charter', tagline: '4 hours · Up to 10 guests · From €500', badge: 'From €500' },
-              { title: 'Full-Day Luxury Charter', tagline: '8 hours · Up to 12 guests · From €950', badge: 'From €950' },
-              { title: 'Sunset Charter', tagline: '3 hours · Up to 8 guests · From €350', badge: 'From €350' },
-            ].map((c) => (
-              <CategoryCard
-                key={c.title}
-                title={c.title}
-                tagline={c.tagline}
-                imageUrl="https://images.unsplash.com/photo-1540946485063-a40da27545f8?w=900&q=85"
-                bookingConfig={{ serviceType: 'private-boat-charter', serviceName: c.title, sourcePage: '/private-boat-charters' }}
-                badge={c.badge}
-              />
-            ))}
-          </CategoryGrid>
-        )}
+        <CategoryGrid columns={3}>
+          {charters.map((charter: Experience) => (
+            <CategoryCard
+              key={charter.id}
+              title={charter.title}
+              tagline={charter.tagline ?? undefined}
+              imageUrl={charter.image_url ?? 'https://images.unsplash.com/photo-1504735689966-4f12eb87a84e?w=900&q=85'}
+              href={`/experiences/${charter.slug}`}
+              bookingConfig={{
+                serviceType: 'private-boat-charter',
+                serviceName: charter.title,
+                sourcePage: '/private-boat-charters',
+              }}
+              badge={charter.price_from ? `From €${charter.price_from}` : undefined}
+            />
+          ))}
+        </CategoryGrid>
       </section>
 
       {/* How it works */}

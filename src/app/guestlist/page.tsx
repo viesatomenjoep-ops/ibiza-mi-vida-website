@@ -33,7 +33,7 @@ export default function GuestlistPage() {
       <Hero
         title="Ibiza Club Guestlist"
         subtitle="Skip the queue and skip the full price. We get you on the guestlist at Ibiza's best clubs — free entry, priority access, instant confirmation."
-        backgroundImage="https://images.unsplash.com/photo-1571266028243-e4d811c95a1f?w=1920&q=85"
+        backgroundImage="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85"
         eyebrow="Free Entry Ibiza"
         minHeight="min-h-[65vh]"
       />

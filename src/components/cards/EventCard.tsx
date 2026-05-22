@@ -28,7 +28,7 @@ function formatTime(time: string | null): string | null {
 
 export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
   const { openModal } = useBooking()
-  const imageUrl = event.image_url ?? 'https://images.unsplash.com/photo-1571266028243-e4d811c95a1f?w=600&q=80'
+  const imageUrl = event.image_url ?? 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&q=80'
   const isPromoterLink = event.booking_type === 'promoter_link'
   const doorsOpen = formatTime(event.doors_open)
 

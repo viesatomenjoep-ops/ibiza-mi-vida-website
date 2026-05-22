@@ -1,0 +1,245 @@
+import type { Experience } from '@/types/experience'
+
+/**
+ * Static fallback experiences shown on category pages when the experiences
+ * table is empty or Supabase is not yet connected. Keyed by category.
+ */
+
+const BOAT_PARTY_EXPERIENCES: Experience[] = [
+  {
+    id: 'fb-bp-1',
+    created_at: new Date().toISOString(),
+    slug: 'sunset-cruise-ibiza',
+    category: 'boat-party',
+    title: 'Sunset Cruise',
+    tagline: '3 hrs · DJ · Open bar · From €65',
+    description:
+      'The perfect way to end a perfect Ibiza day. Watch the sun sink into the Mediterranean from the deck of our party boat, cocktail in hand, with a live DJ setting the mood.',
+    image_url: 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=900&q=85',
+    price_from: 65,
+    currency: 'EUR',
+    duration: '3 hours',
+    capacity: 80,
+    available: true,
+    featured: true,
+    sort_order: 1,
+  },
+  {
+    id: 'fb-bp-2',
+    created_at: new Date().toISOString(),
+    slug: 'full-day-boat-party',
+    category: 'boat-party',
+    title: 'Full Day Party',
+    tagline: '8 hrs · Multiple DJs · Lunch · From €120',
+    description:
+      'The ultimate boat party experience. 8 hours at sea with multiple DJs, a delicious lunch, and an open bar. Swim stops at the most beautiful coves around Ibiza.',
+    image_url: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85',
+    price_from: 120,
+    currency: 'EUR',
+    duration: '8 hours',
+    capacity: 100,
+    available: true,
+    featured: true,
+    sort_order: 2,
+  },
+  {
+    id: 'fb-bp-3',
+    created_at: new Date().toISOString(),
+    slug: 'private-group-boat-party',
+    category: 'boat-party',
+    title: 'Private Group Party',
+    tagline: 'Your crew · Your music · From €400',
+    description:
+      'Hire the whole boat for your group. Choose your own music, set your own itinerary, and party on your terms. Perfect for birthdays, hen dos, and group celebrations.',
+    image_url: 'https://images.unsplash.com/photo-1527004611998-0c6fde22b1ca?w=900&q=85',
+    price_from: 400,
+    currency: 'EUR',
+    duration: 'Flexible',
+    capacity: 50,
+    available: true,
+    featured: false,
+    sort_order: 3,
+  },
+]
+
+const BOAT_CHARTER_EXPERIENCES: Experience[] = [
+  {
+    id: 'fb-bc-1',
+    created_at: new Date().toISOString(),
+    slug: 'half-day-private-charter',
+    category: 'boat-charter',
+    title: 'Half-Day Charter',
+    tagline: '4 hours · Up to 10 guests · From €500',
+    description:
+      'Perfect for a morning or afternoon at sea. Choose your route — hidden coves, Es Vedrà, or Formentera — and let our experienced captain take the wheel.',
+    image_url: 'https://images.unsplash.com/photo-1504735689966-4f12eb87a84e?w=900&q=85',
+    price_from: 500,
+    currency: 'EUR',
+    duration: '4 hours',
+    capacity: 10,
+    available: true,
+    featured: true,
+    sort_order: 1,
+  },
+  {
+    id: 'fb-bc-2',
+    created_at: new Date().toISOString(),
+    slug: 'full-day-luxury-charter',
+    category: 'boat-charter',
+    title: 'Full-Day Luxury Charter',
+    tagline: '8 hours · Up to 12 guests · From €950',
+    description:
+      'The complete private charter experience. A full day at sea covering the best spots around the island — with catering, snorkelling equipment, and everything you need.',
+    image_url: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85',
+    price_from: 950,
+    currency: 'EUR',
+    duration: '8 hours',
+    capacity: 12,
+    available: true,
+    featured: true,
+    sort_order: 2,
+  },
+  {
+    id: 'fb-bc-3',
+    created_at: new Date().toISOString(),
+    slug: 'sunset-private-charter',
+    category: 'boat-charter',
+    title: 'Sunset Charter',
+    tagline: '3 hours · Up to 8 guests · From €350',
+    description:
+      "Watch Ibiza's legendary sunset from the water. A 3-hour private charter timed perfectly for the golden hour — ideal for couples and small groups.",
+    image_url: 'https://images.unsplash.com/photo-1527004611998-0c6fde22b1ca?w=900&q=85',
+    price_from: 350,
+    currency: 'EUR',
+    duration: '3 hours',
+    capacity: 8,
+    available: true,
+    featured: false,
+    sort_order: 3,
+  },
+]
+
+const CATAMARAN_EXPERIENCES: Experience[] = [
+  {
+    id: 'fb-cat-1',
+    created_at: new Date().toISOString(),
+    slug: 'sunset-catamaran-cruise',
+    category: 'catamaran',
+    title: 'Sunset Catamaran',
+    tagline: '3.5 hours · Open bar · From €120',
+    description:
+      'Sail into the sunset on our luxury catamaran. Open bar, great music, and the most spectacular sunset views in the Mediterranean — all included.',
+    image_url: 'https://images.unsplash.com/photo-1527004611998-0c6fde22b1ca?w=900&q=85',
+    price_from: 120,
+    currency: 'EUR',
+    duration: '3.5 hours',
+    capacity: 30,
+    available: true,
+    featured: true,
+    sort_order: 1,
+  },
+  {
+    id: 'fb-cat-2',
+    created_at: new Date().toISOString(),
+    slug: 'full-day-catamaran-cruise',
+    category: 'catamaran',
+    title: 'Full Day Catamaran',
+    tagline: '8 hours · Lunch included · From €180',
+    description:
+      'A full day of luxury sailing around Ibiza and Formentera. Gourmet lunch, open bar, multiple swimming stops, and a professional crew looking after your every need.',
+    image_url: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85',
+    price_from: 180,
+    currency: 'EUR',
+    duration: '8 hours',
+    capacity: 25,
+    available: true,
+    featured: true,
+    sort_order: 2,
+  },
+]
+
+const FORMENTERA_EXPERIENCES: Experience[] = [
+  {
+    id: 'fb-form-1',
+    created_at: new Date().toISOString(),
+    slug: 'formentera-full-day-trip',
+    category: 'formentera',
+    title: 'Formentera Full Day Trip',
+    tagline: 'Full day · Crystal water · From €80',
+    description:
+      "Spend a full day on the world's most beautiful island. Pristine white sand, crystal-clear turquoise water, and that unmistakable Formentera magic — completely unspoilt.",
+    image_url: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=900&q=85',
+    price_from: 80,
+    currency: 'EUR',
+    duration: '8 hours',
+    capacity: null,
+    available: true,
+    featured: true,
+    sort_order: 1,
+  },
+  {
+    id: 'fb-form-2',
+    created_at: new Date().toISOString(),
+    slug: 'formentera-half-day-snorkel',
+    category: 'formentera',
+    title: 'Formentera Snorkel & Beach',
+    tagline: 'Half day · Snorkelling included · From €55',
+    description:
+      'A half-day trip combining the best beaches of Formentera with guided snorkelling in the clearest water in the Med. Equipment and guide included.',
+    image_url: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85',
+    price_from: 55,
+    currency: 'EUR',
+    duration: '4 hours',
+    capacity: null,
+    available: true,
+    featured: false,
+    sort_order: 2,
+  },
+]
+
+const CAR_RENTAL_EXPERIENCES: Experience[] = [
+  {
+    id: 'fb-car-1',
+    created_at: new Date().toISOString(),
+    slug: 'car-rental-ibiza',
+    category: 'car-rental',
+    title: 'Car Rental Ibiza',
+    tagline: 'From €35/day · Full insurance · Free delivery',
+    description:
+      'Explore Ibiza at your own pace. We deliver the car to your hotel or villa and pick it up when you\'re done. Full insurance included, no hidden fees.',
+    image_url: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=900&q=85',
+    price_from: 35,
+    currency: 'EUR',
+    duration: 'Per day',
+    capacity: null,
+    available: true,
+    featured: true,
+    sort_order: 1,
+  },
+  {
+    id: 'fb-car-2',
+    created_at: new Date().toISOString(),
+    slug: 'scooter-rental-ibiza',
+    category: 'car-rental',
+    title: 'Scooter Rental',
+    tagline: 'From €25/day · Helmet included · Explore freely',
+    description:
+      'The best way to discover Ibiza\'s hidden coves and villages. Lightweight scooters ideal for one or two people — perfect for the winding island roads.',
+    image_url: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=900&q=85',
+    price_from: 25,
+    currency: 'EUR',
+    duration: 'Per day',
+    capacity: null,
+    available: true,
+    featured: false,
+    sort_order: 2,
+  },
+]
+
+export const FALLBACK_EXPERIENCES: Record<string, Experience[]> = {
+  'boat-party': BOAT_PARTY_EXPERIENCES,
+  'boat-charter': BOAT_CHARTER_EXPERIENCES,
+  catamaran: CATAMARAN_EXPERIENCES,
+  formentera: FORMENTERA_EXPERIENCES,
+  'car-rental': CAR_RENTAL_EXPERIENCES,
+}

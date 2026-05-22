@@ -33,7 +33,7 @@ export default async function BlogPage() {
       <Hero
         title="Ibiza Blog"
         subtitle="Event guides, nightlife reviews, travel tips, and insider knowledge. Everything you need to make the most of your time in Ibiza."
-        backgroundImage="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=85"
+        backgroundImage="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&q=85"
         eyebrow="Ibiza mi vida Blog"
         minHeight="min-h-[55vh]"
       />

@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { Hero } from '@/components/hero/Hero'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
+import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Car & Scooter Rental Ibiza — Cheap Hire from €25',
@@ -11,10 +13,34 @@ export const metadata: Metadata = {
 }
 
 const fleet = [
-  { type: 'Scooter 50cc', price: 'From €25/day', ideal: 'Solo or couple · City & beaches · No licence required in most EU countries', emoji: '🛵' },
-  { type: 'Scooter 125cc', price: 'From €35/day', ideal: 'Solo or couple · Island-wide · A1 licence or car licence required', emoji: '🛵' },
-  { type: 'Small City Car', price: 'From €45/day', ideal: 'Group of 4 · Air-conditioned · Full island access', emoji: '🚗' },
-  { type: 'SUV / Family Car', price: 'From €75/day', ideal: 'Group of 5–7 · Comfort · Perfect for Formentera ferry days', emoji: '🚙' },
+  {
+    type: 'Scooter 50cc',
+    price: 'From €25/day',
+    ideal: 'Solo or couple · City & beaches · No licence required in most EU countries',
+    emoji: '🛵',
+    href: '/experiences/scooter-rental-ibiza',
+  },
+  {
+    type: 'Scooter 125cc',
+    price: 'From €35/day',
+    ideal: 'Solo or couple · Island-wide · A1 licence or car licence required',
+    emoji: '🛵',
+    href: '/experiences/scooter-rental-ibiza',
+  },
+  {
+    type: 'Small City Car',
+    price: 'From €45/day',
+    ideal: 'Group of 4 · Air-conditioned · Full island access',
+    emoji: '🚗',
+    href: '/experiences/car-rental-ibiza',
+  },
+  {
+    type: 'SUV / Family Car',
+    price: 'From €75/day',
+    ideal: 'Group of 5–7 · Comfort · Perfect for Formentera ferry days',
+    emoji: '🚙',
+    href: '/experiences/car-rental-ibiza',
+  },
 ]
 
 export default function CarScooterRentalPage() {
@@ -30,28 +56,42 @@ export default function CarScooterRentalPage() {
 
       <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
         <AnimatedSection className="mb-12">
-          <SectionHeader eyebrow="Our Fleet" title="Choose your ride" subtitle="Scooters, city cars, and SUVs available daily or weekly. Delivered to your hotel or villa." />
+          <SectionHeader
+            eyebrow="Our Fleet"
+            title="Choose your ride"
+            subtitle="Scooters, city cars, and SUVs available daily or weekly. Delivered to your hotel or villa."
+          />
         </AnimatedSection>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {fleet.map(({ type, price, ideal, emoji }, i) => (
-            <AnimatedSection key={type} delay={i * 0.08} className="flex flex-col gap-4 rounded-2xl border border-midnight/10 bg-white p-6 shadow-sm">
-              <div className="text-4xl">{emoji}</div>
-              <div>
-                <p className="font-sans text-xs font-semibold uppercase tracking-widest text-teal">{price}</p>
-                <h3 className="mt-1 font-serif text-xl font-light text-midnight">{type}</h3>
-                <p className="mt-2 font-sans text-xs leading-relaxed text-midnight/50">{ideal}</p>
-              </div>
-              <button className="mt-auto w-full rounded-full bg-teal py-2.5 font-sans text-sm font-semibold text-white transition-colors hover:bg-teal-dark">
-                Book Now
-              </button>
+          {fleet.map(({ type, price, ideal, emoji, href }, i) => (
+            <AnimatedSection key={type} delay={i * 0.08}>
+              <Link
+                href={href}
+                className="group flex h-full flex-col gap-4 rounded-2xl border border-midnight/10 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+              >
+                <div className="text-4xl">{emoji}</div>
+                <div className="flex-1">
+                  <p className="font-sans text-xs font-semibold uppercase tracking-widest text-teal">
+                    {price}
+                  </p>
+                  <h3 className="mt-1 font-serif text-xl font-light text-midnight">{type}</h3>
+                  <p className="mt-2 font-sans text-xs leading-relaxed text-midnight/50">{ideal}</p>
+                </div>
+                <span className="flex items-center justify-center gap-1.5 rounded-full bg-teal py-2.5 font-sans text-sm font-semibold text-white transition-colors group-hover:bg-teal-dark">
+                  View Details
+                  <ArrowRight size={14} />
+                </span>
+              </Link>
             </AnimatedSection>
           ))}
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24">
-        <AnimatedSection><CrossSellBanner triggerPage="/car-scooter-rental" fromPrice={500} /></AnimatedSection>
+        <AnimatedSection>
+          <CrossSellBanner triggerPage="/car-scooter-rental" fromPrice={500} />
+        </AnimatedSection>
       </section>
     </>
   )
