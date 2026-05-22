@@ -1,0 +1,64 @@
+import type { Metadata } from 'next'
+import { Hero } from '@/components/hero/Hero'
+import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
+import { SectionHeader } from '@/components/ui/SectionHeader'
+import { AnimatedSection } from '@/components/ui/AnimatedSection'
+
+export const metadata: Metadata = {
+  title: 'VIP Bottle Service & Drink Packages Ibiza',
+  description:
+    'Book VIP bottle service and drink packages at Ibiza\'s top clubs. Champagne towers, premium spirits, and table service arranged by Ibiza mi vida. Book via WhatsApp.',
+}
+
+const packages = [
+  { title: 'Entry + Drink Package', price: '€45', description: 'Club entry + 2 drinks of your choice. Perfect for a budget-conscious night out.', tags: ['Entry included', '2 drinks'] },
+  { title: 'VIP Table Package', price: 'From €300', description: 'Reserved table with a bottle of premium spirits and mixers for your group.', tags: ['Table included', '1 bottle', 'Mixers', 'Up to 4 guests'] },
+  { title: 'Champagne VIP', price: 'From €500', description: 'Premium VIP table with Moët & Chandon, priority entry, and dedicated service.', tags: ['Champagne', 'Priority entry', 'Dedicated host', 'Up to 6 guests'] },
+]
+
+export default function DrinkPackagesPage() {
+  return (
+    <>
+      <Hero
+        title="VIP Bottle Service & Drink Packages Ibiza"
+        subtitle="Arrive in style. From entry + drink packages to full champagne VIP tables — we arrange everything so you can enjoy the night."
+        backgroundImage="https://images.unsplash.com/photo-1571266028243-e4d811c95a1f?w=1920&q=85"
+        eyebrow="VIP Experience"
+        minHeight="min-h-[65vh]"
+      />
+
+      <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
+        <AnimatedSection className="mb-12">
+          <SectionHeader eyebrow="Packages" title="Choose your package" subtitle="Every package is arranged directly with the venue. We handle the details, you enjoy the night." />
+        </AnimatedSection>
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {packages.map(({ title, price, description, tags }, i) => (
+            <AnimatedSection key={title} delay={i * 0.1} className="flex flex-col gap-4 rounded-2xl border border-midnight/10 bg-white p-6 shadow-sm">
+              <div>
+                <p className="font-sans text-xs font-semibold uppercase tracking-widest text-teal">{price}</p>
+                <h3 className="mt-1 font-serif text-2xl font-light text-midnight">{title}</h3>
+                <p className="mt-2 font-sans text-sm leading-relaxed text-midnight/60">{description}</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {tags.map((tag) => (
+                  <span key={tag} className="rounded-full bg-sandstone px-3 py-1 font-sans text-xs text-midnight/60">{tag}</span>
+                ))}
+              </div>
+              <button
+                className="mt-auto w-full rounded-full bg-teal py-3 font-sans text-sm font-semibold text-white transition-colors hover:bg-teal-dark"
+                onClick={() => {}}
+              >
+                Enquire Now
+              </button>
+            </AnimatedSection>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24">
+        <AnimatedSection><CrossSellBanner triggerPage="/drink-packages" fromPrice={500} /></AnimatedSection>
+      </section>
+    </>
+  )
+}
