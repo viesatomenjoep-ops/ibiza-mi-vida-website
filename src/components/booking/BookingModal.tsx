@@ -47,7 +47,8 @@ export function BookingModal() {
   return (
     <AnimatePresence>
       {isOpen && config && (
-        <>
+        /* Full-screen flex wrapper — centers the panel in both axes */
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
           {/* Backdrop */}
           <motion.div
             key="backdrop"
@@ -55,7 +56,7 @@ export function BookingModal() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[60] bg-midnight/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-midnight/70 backdrop-blur-sm"
             onClick={closeModal}
             aria-hidden="true"
           />
@@ -66,11 +67,11 @@ export function BookingModal() {
             role="dialog"
             aria-modal="true"
             aria-label={`Enquire about ${config.serviceName}`}
-            initial={{ opacity: 0, y: 40, scale: 0.97 }}
+            initial={{ opacity: 0, y: 32, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 40, scale: 0.97 }}
+            exit={{ opacity: 0, y: 32, scale: 0.97 }}
             transition={{ duration: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="fixed inset-x-4 top-1/2 z-[70] mx-auto max-w-lg -translate-y-1/2 rounded-3xl bg-soft-white shadow-2xl md:inset-x-auto md:left-1/2 md:-translate-x-1/2"
+            className="relative z-10 w-full max-w-lg rounded-3xl bg-soft-white shadow-2xl"
           >
             {/* Header */}
             <div className="flex items-start justify-between border-b border-midnight/10 px-6 py-5">
@@ -141,7 +142,7 @@ export function BookingModal() {
               </AnimatePresence>
             </div>
           </motion.div>
-        </>
+        </div>
       )}
     </AnimatePresence>
   )
