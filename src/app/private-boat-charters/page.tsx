@@ -166,16 +166,15 @@ export default async function PrivateBoatChartersPage() {
 
       {/* Mobile sticky CTA */}
       <div className="fixed bottom-16 left-0 right-0 z-30 px-4 pb-3 lg:hidden" aria-label="Book your private boat">
-        <button
+        <a
+          href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '31683052875'}?text=${encodeURIComponent('Hi, I am interested in a private boat charter in Ibiza.')}`}
+          target="_blank"
+          rel="noopener noreferrer"
           className="flex w-full items-center justify-center gap-2 rounded-full bg-teal py-4 font-sans font-semibold text-white shadow-lg shadow-teal/30"
-          onClick={() => {
-            const el = document.querySelector('[data-booking-trigger]') as HTMLElement | null
-            el?.click()
-          }}
         >
           <MessageCircle size={18} />
           Book Your Private Boat — Chat on WhatsApp
-        </button>
+        </a>
       </div>
     </>
   )
