@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { MessageCircle } from 'lucide-react'
 import { Hero } from '@/components/hero/Hero'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { SectionHeader } from '@/components/ui/SectionHeader'
@@ -45,12 +46,15 @@ export default function DrinkPackagesPage() {
                   <span key={tag} className="rounded-full bg-sandstone px-3 py-1 font-sans text-xs text-midnight/60">{tag}</span>
                 ))}
               </div>
-              <button
-                className="mt-auto w-full rounded-full bg-teal py-3 font-sans text-sm font-semibold text-white transition-colors hover:bg-teal-dark"
-                onClick={() => {}}
+              <a
+                href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '31683052875'}?text=${encodeURIComponent(`Hi! I'm interested in the ${title} (${price}) drink package in Ibiza.`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-auto flex w-full items-center justify-center gap-2 rounded-full bg-teal py-3 font-sans text-sm font-semibold text-white transition-colors hover:bg-teal-dark"
               >
+                <MessageCircle size={15} />
                 Enquire Now
-              </button>
+              </a>
             </AnimatedSection>
           ))}
         </div>
