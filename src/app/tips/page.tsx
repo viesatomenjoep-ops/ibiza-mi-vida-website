@@ -17,14 +17,18 @@ export const metadata: Metadata = {
 }
 
 async function getTips(): Promise<BlogPost[]> {
-  const supabase = createServerClient()
-  const { data } = await supabase
-    .from('blog_posts')
-    .select('*')
-    .eq('published', true)
-    .eq('category', 'tips')
-    .order('published_at', { ascending: false })
-  return data ?? []
+  try {
+    const supabase = createServerClient()
+    const { data } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('published', true)
+      .eq('category', 'tips')
+      .order('published_at', { ascending: false })
+    return data ?? []
+  } catch {
+    return []
+  }
 }
 
 export default async function TipsPage() {

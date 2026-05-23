@@ -19,29 +19,33 @@ const staticRoutes: MetadataRoute.Sitemap = [
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const supabase = createServerClient()
+  try {
+    const supabase = createServerClient()
 
-  // Dynamic club pages
-  const { data: clubs } = await supabase.from('clubs').select('slug, created_at').eq('active', true)
-  const clubRoutes: MetadataRoute.Sitemap = (clubs ?? []).map((club) => ({
-    url: `${siteUrl}/club-tickets/${club.slug}`,
-    changeFrequency: 'daily',
-    priority: 0.75,
-    lastModified: club.created_at,
-  }))
+    // Dynamic club pages
+    const { data: clubs } = await supabase.from('clubs').select('slug, created_at').eq('active', true)
+    const clubRoutes: MetadataRoute.Sitemap = (clubs ?? []).map((club) => ({
+      url: `${siteUrl}/club-tickets/${club.slug}`,
+      changeFrequency: 'daily',
+      priority: 0.75,
+      lastModified: club.created_at,
+    }))
 
-  // Dynamic blog posts
-  const { data: posts } = await supabase
-    .from('blog_posts')
-    .select('slug, updated_at')
-    .eq('published', true)
+    // Dynamic blog posts
+    const { data: posts } = await supabase
+      .from('blog_posts')
+      .select('slug, updated_at')
+      .eq('published', true)
 
-  const blogRoutes: MetadataRoute.Sitemap = (posts ?? []).map((post) => ({
-    url: `${siteUrl}/blog/${post.slug}`,
-    changeFrequency: 'weekly',
-    priority: 0.5,
-    lastModified: post.updated_at,
-  }))
+    const blogRoutes: MetadataRoute.Sitemap = (posts ?? []).map((post) => ({
+      url: `${siteUrl}/blog/${post.slug}`,
+      changeFrequency: 'weekly',
+      priority: 0.5,
+      lastModified: post.updated_at,
+    }))
 
-  return [...staticRoutes, ...clubRoutes, ...blogRoutes]
+    return [...staticRoutes, ...clubRoutes, ...blogRoutes]
+  } catch {
+    return staticRoutes
+  }
 }

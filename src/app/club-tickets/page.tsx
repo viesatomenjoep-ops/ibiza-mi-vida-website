@@ -22,13 +22,17 @@ const howItWorks = [
 ]
 
 async function getClubs(): Promise<Club[]> {
-  const supabase = createServerClient()
-  const { data } = await supabase
-    .from('clubs')
-    .select('*')
-    .eq('active', true)
-    .order('sort_order')
-  return data ?? []
+  try {
+    const supabase = createServerClient()
+    const { data } = await supabase
+      .from('clubs')
+      .select('*')
+      .eq('active', true)
+      .order('sort_order')
+    return data ?? []
+  } catch {
+    return []
+  }
 }
 
 export default async function ClubTicketsPage() {
