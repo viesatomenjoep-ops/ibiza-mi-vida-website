@@ -55,7 +55,7 @@ export function Navbar() {
         >
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0" aria-label="Ibiza mi vida — home">
-            <div className="relative h-8 w-8 md:h-10 md:w-10">
+            <div className="relative h-10 w-10 md:h-14 md:w-14">
               <Image
                 src="/logo.png"
                 alt="Ibiza mi vida"
