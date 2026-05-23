@@ -22,8 +22,8 @@ const config: Config = {
         driftwood: '#B89F84',
       },
       fontFamily: {
-        sans: ['var(--font-inter)', ...defaultTheme.fontFamily.sans],
-        serif: ['var(--font-cormorant)', ...defaultTheme.fontFamily.serif],
+        sans: ['var(--font-quicksand)', ...defaultTheme.fontFamily.sans],
+        serif: ['var(--font-quicksand)', ...defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

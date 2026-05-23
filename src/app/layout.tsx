@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Cormorant_Garamond } from 'next/font/google'
+import { Quicksand } from 'next/font/google'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppFAB } from '@/components/layout/WhatsAppFAB'
@@ -7,16 +7,9 @@ import { BookingProvider } from '@/context/booking-context'
 import { BookingModal } from '@/components/booking/BookingModal'
 import '@/styles/globals.css'
 
-const inter = Inter({
+const quicksand = Quicksand({
   subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
-
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['300', '400', '600', '700'],
-  variable: '--font-cormorant',
+  variable: '--font-quicksand',
   display: 'swap',
 })
 
@@ -54,7 +47,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${cormorant.variable}`}>
+    <html lang="en" className={`${quicksand.variable}`}>
       <body className="font-sans bg-soft-white text-midnight antialiased">
         <BookingProvider>
           <Navbar />
