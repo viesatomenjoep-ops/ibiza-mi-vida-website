@@ -21,9 +21,13 @@ async function getPost(slug: string): Promise<BlogPost | null> {
 }
 
 export async function generateStaticParams() {
-  const supabase = createServerClient()
-  const { data } = await supabase.from('blog_posts').select('slug').eq('published', true)
-  return (data ?? []).map((p) => ({ slug: p.slug }))
+  try {
+    const supabase = createServerClient()
+    const { data } = await supabase.from('blog_posts').select('slug').eq('published', true)
+    return (data ?? []).map((p) => ({ slug: p.slug }))
+  } catch {
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
