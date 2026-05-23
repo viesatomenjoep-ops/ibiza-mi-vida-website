@@ -60,7 +60,7 @@ export function Navbar() {
                 src="/logo.png"
                 alt="Ibiza mi vida"
                 fill
-                className="object-contain"
+                className="object-contain invert brightness-0"
                 priority
               />
             </div>

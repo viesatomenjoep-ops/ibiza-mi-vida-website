@@ -30,7 +30,7 @@ export function Footer() {
           <div className="flex flex-col gap-4 lg:col-span-1">
             <Link href="/" className="flex items-center gap-2" aria-label="Ibiza mi vida — home">
               <div className="relative h-8 w-8">
-                <Image src="/logo.png" alt="Ibiza mi vida" fill className="object-contain" />
+                <Image src="/logo.png" alt="Ibiza mi vida" fill className="object-contain invert brightness-0" />
               </div>
               <span className="font-serif text-xl font-light">
                 Ibiza <span className="text-teal">mi vida</span>
