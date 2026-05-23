@@ -57,7 +57,7 @@ export function Navbar() {
           <Link href="/" className="flex items-center gap-2 shrink-0" aria-label="Ibiza mi vida — home">
             <div className="relative h-8 w-8 md:h-10 md:w-10">
               <Image
-                src="/logo.svg"
+                src="/logo.png"
                 alt="Ibiza mi vida"
                 fill
                 className="object-contain"
