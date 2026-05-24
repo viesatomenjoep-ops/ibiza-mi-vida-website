@@ -42,7 +42,7 @@ export default async function ClubTicketsPage() {
     getPageContent('club-ticket', {
       title: "Ibiza Club Tickets",
       subtitle: "From Pacha to Amnesia, Hi Ibiza to Ushaia — browse every venue, every event, and book your tickets instantly via WhatsApp.",
-      backgroundImage: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85"
+      backgroundImage: "/fotos/club_tickets_hero.png"
     })
   ])
 
@@ -51,7 +51,7 @@ export default async function ClubTicketsPage() {
       <Hero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
-        backgroundImage={pageContent.backgroundImage}
+        backgroundImage={pageContent.backgroundImage?.includes('unsplash.com') || !pageContent.backgroundImage ? "/fotos/club_tickets_hero.png" : pageContent.backgroundImage}
         eyebrow="All Ibiza Venues"
         minHeight="min-h-[70vh]"
       />
