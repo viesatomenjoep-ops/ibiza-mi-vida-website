@@ -22,13 +22,11 @@ const allCategories = [
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
     setMenuOpen(false)
-    setSearchQuery('')
   }, [pathname])
 
   // Prevent scroll when menu is open
@@ -48,18 +46,6 @@ export function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  const filteredCategories = allCategories.filter(c => 
-    c.label.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    c.desc.toLowerCase().includes(searchQuery.toLowerCase())
-  )
-
-  const handleSearchClick = () => {
-    setMenuOpen(true)
-    setTimeout(() => {
-      document.getElementById('category-search')?.focus()
-    }, 100)
-  }
 
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '31683052875'
 
@@ -86,16 +72,8 @@ export function Navbar() {
           </Link>
         </div>
 
-        {/* Right: Search, DOD, Menu */}
+        {/* Right: DOD, Menu */}
         <div className="pointer-events-auto flex items-center gap-2 md:gap-3">
-          
-          <button 
-            onClick={handleSearchClick}
-            className="flex h-[44px] w-[44px] md:h-[56px] md:w-[56px] shrink-0 items-center justify-center rounded-full bg-white text-midnight shadow-xl transition-transform hover:scale-105 hover:bg-gray-50 border border-black/5"
-            aria-label="Search categories"
-          >
-            <Search size={20} strokeWidth={2.5} className="md:w-[22px] md:h-[22px]" />
-          </button>
 
           <Link
             href="/deals-of-the-day"
@@ -134,22 +112,9 @@ export function Navbar() {
           >
             <div className="mx-auto w-full max-w-5xl flex-1 flex flex-col">
               
-              {/* Search Bar */}
-              <div className="relative mb-10 group">
-                <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-midnight/40 transition-colors group-focus-within:text-teal" size={24} />
-                <input
-                  id="category-search"
-                  type="text"
-                  placeholder="Search experiences..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-full bg-white py-6 pl-16 pr-6 font-serif text-xl md:text-2xl text-midnight shadow-sm outline-none placeholder:text-midnight/30 focus:ring-4 focus:ring-teal/10 transition-shadow border border-black/5"
-                />
-              </div>
-
               {/* Grid of Categories */}
               <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                {filteredCategories.map((cat, i) => (
+                {allCategories.map((cat, i) => (
                   <motion.div
                     key={cat.label}
                     initial={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -173,11 +138,6 @@ export function Navbar() {
                   </motion.div>
                 ))}
                 
-                {filteredCategories.length === 0 && (
-                  <div className="col-span-full py-12 text-center text-midnight/50 font-serif text-lg">
-                    No categories found for "{searchQuery}"
-                  </div>
-                )}
               </div>
 
               {/* WhatsApp Contact inside Menu */}
