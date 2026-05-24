@@ -4431,7 +4431,7 @@ function importExcel(input){
       
       if(newEvents.length > 0) {
         toast(`Uploading ${imported} events to database...`, 'info');
-        const { data, error } = await supabaseClient.from('featured_events').insert(newEvents).select();
+        const { data, error } = await sb.from('featured_events').insert(newEvents).select();
         if(error) {
           toast('Failed to save to database: ' + error.message, 'error');
           console.error('Import Error:', error);
