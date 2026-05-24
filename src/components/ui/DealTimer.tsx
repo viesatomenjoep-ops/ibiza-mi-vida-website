@@ -11,7 +11,7 @@ export function DealTimer() {
     setMounted(true)
     const calculateTimeLeft = () => {
       const now = new Date()
-      // Calculate time until next midnight
+      // Calculate time until next velvet-obsidian
       const midnight = new Date()
       midnight.setHours(24, 0, 0, 0)
       const diff = midnight.getTime() - now.getTime()
@@ -32,7 +32,7 @@ export function DealTimer() {
 
   if (!mounted) {
     return (
-      <div className="w-32 h-40 bg-midnight rounded-[2.5rem] border-[6px] border-[#2A2A2A] shadow-2xl relative flex items-center justify-center">
+      <div className="w-32 h-40 bg-velvet-obsidian rounded-[2.5rem] border-[6px] border-[#2A2A2A] shadow-2xl relative flex items-center justify-center">
          <div className="animate-pulse w-10 h-10 bg-white/10 rounded-full" />
       </div>
     )

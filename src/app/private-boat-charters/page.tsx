@@ -94,11 +94,11 @@ export default async function PrivateBoatChartersPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 md:gap-12">
             {usps.map(({ icon: Icon, title, body }) => (
               <div key={title} className="flex flex-col items-center gap-4 text-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-teal/10 text-teal">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-rustic-terracotta/10 text-rustic-terracotta">
                   <Icon size={28} />
                 </div>
-                <h3 className="font-serif text-2xl md:text-3xl font-light text-midnight">{title}</h3>
-                <p className="font-sans text-base md:text-lg leading-relaxed text-midnight/80">{body}</p>
+                <h3 className="font-serif text-2xl md:text-3xl font-light text-velvet-obsidian">{title}</h3>
+                <p className="font-sans text-base md:text-lg leading-relaxed text-velvet-obsidian/80">{body}</p>
               </div>
             ))}
           </div>
@@ -135,7 +135,7 @@ export default async function PrivateBoatChartersPage() {
       </section>
 
       {/* How it works */}
-      <section className="bg-midnight py-16 md:py-20" aria-label="How to book a private charter">
+      <section className="bg-velvet-obsidian py-16 md:py-20" aria-label="How to book a private charter">
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <AnimatedSection className="mb-14">
             <SectionHeader eyebrow="Booking Process" title="How it works" light />
@@ -144,9 +144,9 @@ export default async function PrivateBoatChartersPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {howItWorks.map(({ step, title, body }) => (
               <AnimatedSection key={step} className="flex flex-col gap-4">
-                <span className="font-serif text-5xl font-light text-teal/30">{step}</span>
-                <h3 className="font-serif text-2xl font-light text-soft-white">{title}</h3>
-                <p className="font-sans text-sm leading-relaxed text-soft-white/60">{body}</p>
+                <span className="font-serif text-5xl font-light text-rustic-terracotta/30">{step}</span>
+                <h3 className="font-serif text-2xl font-light text-ibiza-sand">{title}</h3>
+                <p className="font-sans text-sm leading-relaxed text-ibiza-sand/60">{body}</p>
               </AnimatedSection>
             ))}
           </div>
@@ -164,11 +164,11 @@ export default async function PrivateBoatChartersPage() {
               <div key={review.id} className="flex flex-col gap-3 rounded-2xl bg-white p-6 shadow-sm">
                 <div className="flex gap-0.5">
                   {Array.from({ length: review.rating }).map((_, i) => (
-                    <Star key={i} size={14} className="fill-teal text-teal" />
+                    <Star key={i} size={14} className="fill-rustic-terracotta text-rustic-terracotta" />
                   ))}
                 </div>
-                {review.body && <p className="font-sans text-sm leading-relaxed text-midnight/70">&quot;{review.body}&quot;</p>}
-                <p className="font-sans text-xs font-semibold text-midnight/40">{review.reviewer_name}</p>
+                {review.body && <p className="font-sans text-sm leading-relaxed text-velvet-obsidian/70">&quot;{review.body}&quot;</p>}
+                <p className="font-sans text-xs font-semibold text-velvet-obsidian/40">{review.reviewer_name}</p>
               </div>
             ))}
           </div>
@@ -181,7 +181,7 @@ export default async function PrivateBoatChartersPage() {
           href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '31683052875'}?text=${encodeURIComponent('Hi, I am interested in a private boat charter in Ibiza.')}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-teal py-4 font-sans font-semibold text-white shadow-lg shadow-teal/30"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-rustic-terracotta py-4 font-sans font-semibold text-white shadow-lg shadow-rustic-terracotta/30"
         >
           <MessageCircle size={18} />
           Book Your Private Boat — Chat on WhatsApp

@@ -31,14 +31,14 @@ export function EventBookingCTA({ event }: EventBookingCTAProps) {
           href={event.external_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-teal px-6 py-3.5 font-sans text-base font-semibold text-white transition-colors hover:bg-teal-dark"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-rustic-terracotta px-6 py-3.5 font-sans text-base font-semibold text-white transition-colors hover:bg-rustic-terracotta/90"
         >
           {event.cta_label}
           <ExternalLink size={15} />
         </a>
         <button
           onClick={handleWhatsApp}
-          className="flex w-full items-center justify-center gap-2 rounded-full border border-midnight/20 px-6 py-3 font-sans text-sm font-medium text-midnight transition-colors hover:border-midnight hover:bg-midnight hover:text-soft-white"
+          className="flex w-full items-center justify-center gap-2 rounded-full border border-velvet-obsidian/20 px-6 py-3 font-sans text-sm font-medium text-velvet-obsidian transition-colors hover:border-velvet-obsidian hover:bg-velvet-obsidian hover:text-ibiza-sand"
         >
           <MessageCircle size={15} />
           Ask us on WhatsApp
@@ -52,7 +52,7 @@ export function EventBookingCTA({ event }: EventBookingCTAProps) {
     <div className="flex flex-col gap-3">
       <button
         onClick={handleWhatsApp}
-        className="flex w-full items-center justify-center gap-2 rounded-full bg-teal px-6 py-3.5 font-sans text-base font-semibold text-white transition-colors hover:bg-teal-dark"
+        className="flex w-full items-center justify-center gap-2 rounded-full bg-rustic-terracotta px-6 py-3.5 font-sans text-base font-semibold text-white transition-colors hover:bg-rustic-terracotta/90"
       >
         <MessageCircle size={15} />
         {event.cta_label}
@@ -61,7 +61,7 @@ export function EventBookingCTA({ event }: EventBookingCTAProps) {
       {event.cta_href && (
         <Link
           href={event.cta_href}
-          className="flex w-full items-center justify-center rounded-full border border-midnight/20 px-6 py-3 font-sans text-sm font-medium text-midnight transition-colors hover:border-midnight hover:bg-midnight hover:text-soft-white"
+          className="flex w-full items-center justify-center rounded-full border border-velvet-obsidian/20 px-6 py-3 font-sans text-sm font-medium text-velvet-obsidian transition-colors hover:border-velvet-obsidian hover:bg-velvet-obsidian hover:text-ibiza-sand"
         >
           Browse all {CATEGORY_LABELS[event.category]}s
         </Link>

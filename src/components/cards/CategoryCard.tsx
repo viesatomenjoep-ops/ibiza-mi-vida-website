@@ -47,7 +47,7 @@ export function CategoryCard({
 
       {/* Badge */}
       {badge && (
-        <div className="absolute right-4 top-4 z-10 rounded-full bg-teal px-3 py-1 font-sans text-[11px] font-semibold uppercase tracking-wide text-white">
+        <div className="absolute right-4 top-4 z-10 rounded-full bg-rustic-terracotta px-3 py-1 font-sans text-[11px] font-semibold uppercase tracking-wide text-white">
           {badge}
         </div>
       )}
@@ -55,13 +55,13 @@ export function CategoryCard({
       {/* Text content */}
       <div className="relative z-10 flex flex-col gap-3 p-6">
         {tagline && (
-          <p className="font-sans text-sm font-light text-soft-white/70">{tagline}</p>
+          <p className="font-sans text-sm font-light text-ibiza-sand/70">{tagline}</p>
         )}
-        <h3 className="font-serif text-3xl font-light leading-tight text-soft-white">{title}</h3>
+        <h3 className="font-serif text-3xl font-light leading-tight text-ibiza-sand">{title}</h3>
 
         {/* CTA pill */}
         <div className="mt-1 self-start">
-          <span className="inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 font-sans text-sm font-semibold text-white transition-all duration-200 group-hover:bg-teal-dark group-hover:gap-3">
+          <span className="inline-flex items-center gap-2 rounded-full bg-rustic-terracotta px-5 py-2.5 font-sans text-sm font-semibold text-white transition-all duration-200 group-hover:bg-rustic-terracotta/90 group-hover:gap-3">
             {label}
             <ArrowRight
               size={15}

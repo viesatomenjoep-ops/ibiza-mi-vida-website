@@ -54,7 +54,7 @@ export default async function BlogPostPage({ params }: Props) {
     <>
       {/* Back link */}
       <div className="mx-auto max-w-3xl px-4 pt-24 md:px-8">
-        <Link href="/blog" className="inline-flex items-center gap-2 font-sans text-sm text-midnight/50 transition-colors hover:text-midnight">
+        <Link href="/blog" className="inline-flex items-center gap-2 font-sans text-sm text-velvet-obsidian/50 transition-colors hover:text-velvet-obsidian">
           <ArrowLeft size={14} />
           Back to blog
         </Link>
@@ -63,13 +63,13 @@ export default async function BlogPostPage({ params }: Props) {
       {/* Article header */}
       <article className="mx-auto max-w-3xl px-4 py-8 md:px-8" itemScope itemType="https://schema.org/BlogPosting">
         {post.category && (
-          <span className="font-sans text-xs font-semibold uppercase tracking-widest text-teal">{post.category}</span>
+          <span className="font-sans text-xs font-semibold uppercase tracking-widest text-rustic-terracotta">{post.category}</span>
         )}
-        <h1 className="mt-3 font-serif text-4xl font-light leading-tight text-midnight md:text-5xl lg:text-6xl" itemProp="headline">
+        <h1 className="mt-3 font-serif text-4xl font-light leading-tight text-velvet-obsidian md:text-5xl lg:text-6xl" itemProp="headline">
           {post.title}
         </h1>
         {post.published_at && (
-          <time className="mt-3 block font-sans text-sm text-midnight/40" dateTime={post.published_at} itemProp="datePublished">
+          <time className="mt-3 block font-sans text-sm text-velvet-obsidian/40" dateTime={post.published_at} itemProp="datePublished">
             {new Date(post.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
           </time>
         )}
@@ -89,9 +89,9 @@ export default async function BlogPostPage({ params }: Props) {
 
         {/* Article body (Markdown stored as plain text for now) */}
         {post.content && (
-          <div className="prose prose-lg prose-midnight mt-10 max-w-none font-sans" itemProp="articleBody">
+          <div className="prose prose-lg prose-velvet-obsidian mt-10 max-w-none font-sans" itemProp="articleBody">
             {post.content.split('\n\n').map((paragraph, i) => (
-              <p key={i} className="mb-5 leading-relaxed text-midnight/75">
+              <p key={i} className="mb-5 leading-relaxed text-velvet-obsidian/75">
                 {paragraph}
               </p>
             ))}

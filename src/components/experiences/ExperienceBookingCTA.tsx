@@ -20,7 +20,7 @@ export function ExperienceBookingCTA({ experience }: ExperienceBookingCTAProps) 
           sourcePage: `/experiences/${experience.slug}`,
         })
       }
-      className="flex w-full items-center justify-center gap-2 rounded-full bg-teal px-6 py-3.5 font-sans text-base font-semibold text-white transition-colors hover:bg-teal-dark"
+      className="flex w-full items-center justify-center gap-2 rounded-full bg-rustic-terracotta px-6 py-3.5 font-sans text-base font-semibold text-white transition-colors hover:bg-rustic-terracotta/90"
     >
       <MessageCircle size={15} />
       Book via WhatsApp

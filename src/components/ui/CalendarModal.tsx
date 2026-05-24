@@ -49,7 +49,7 @@ export function CalendarModal({ customTrigger }: CalendarModalProps = {}) {
       {customTrigger ? customTrigger(() => setIsOpen(true), setCurrentMonth) : (
         <button 
           onClick={() => setIsOpen(true)}
-          className="w-full mt-6 flex items-center justify-center gap-2 py-3 bg-midnight text-white hover:bg-midnight/90 transition-colors font-semibold rounded-xl text-sm"
+          className="w-full mt-6 flex items-center justify-center gap-2 py-3 bg-velvet-obsidian text-white hover:bg-velvet-obsidian/90 transition-colors font-semibold rounded-xl text-sm"
         >
           <Calendar size={16} />
           View Full Calendar

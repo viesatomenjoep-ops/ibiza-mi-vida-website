@@ -68,7 +68,7 @@ export default async function VipCatamaranPage() {
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
-        colorTheme="midnight"
+        colorTheme="velvet-obsidian"
         eyebrow="Luxury Sailing"
         minHeight="min-h-[45vh]"
       />
@@ -78,8 +78,8 @@ export default async function VipCatamaranPage() {
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {inclusions.map((item) => (
-              <div key={item} className="flex items-center gap-4 font-sans text-lg md:text-xl lg:text-2xl font-medium text-midnight/90">
-                <span className="h-2.5 w-2.5 md:h-3 md:w-3 rounded-full bg-teal shrink-0" />
+              <div key={item} className="flex items-center gap-4 font-sans text-lg md:text-xl lg:text-2xl font-medium text-velvet-obsidian/90">
+                <span className="h-2.5 w-2.5 md:h-3 md:w-3 rounded-full bg-rustic-terracotta shrink-0" />
                 {item}
               </div>
             ))}

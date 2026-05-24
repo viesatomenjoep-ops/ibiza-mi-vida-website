@@ -201,7 +201,7 @@ export default async function HomePage() {
         title={pageContent.title}
         subtitle={pageContent.subtitle}
         eyebrow="Ibiza mi vida"
-        colorTheme="midnight"
+        colorTheme="velvet-obsidian"
         backgroundImage="/fotos/hero-pattern.jpg"
         backgroundOpacity={0.3}
       />
@@ -214,7 +214,7 @@ export default async function HomePage() {
       </section>
 
       {/* New Figma Search Component placed directly under the Hero */}
-      <div className="bg-white">
+      <div className="bg-ibiza-sand">
         <HomeSearchFigma events={featuredEvents} />
       </div>
 
@@ -230,8 +230,8 @@ export default async function HomePage() {
               </div>
               <div className="z-10 text-center md:text-left flex-1">
                 <DealDateBanner />
-                <h2 className="text-3xl md:text-5xl font-serif text-midnight mb-4">Deal of the Day</h2>
-                <p className="text-midnight/70 font-sans text-lg max-w-lg">The best hand-picked offers, strictly valid until midnight. Book now before the timer runs out!</p>
+                <h2 className="text-3xl md:text-5xl font-serif text-velvet-obsidian mb-4">Deal of the Day</h2>
+                <p className="text-velvet-obsidian/70 font-sans text-lg max-w-lg">The best hand-picked offers, strictly valid until velvet-obsidian. Book now before the timer runs out!</p>
               </div>
               <div className="z-10 bg-white/50 backdrop-blur-md p-6 rounded-2xl border border-white shrink-0">
                 <DealTimer />
@@ -252,12 +252,12 @@ export default async function HomePage() {
       </section>
 
       {/* ── Featured events slider ── */}
-      <div className="bg-sys-bg">
+      <div className="bg-ibiza-sand">
         <FeaturedEventsSlider events={featuredEvents} />
       </div>
 
       {/* ── Trust pillars ── */}
-      <section className="bg-midnight py-16 md:py-20" aria-label="Why Ibiza mi vida">
+      <section className="bg-velvet-obsidian py-16 md:py-20" aria-label="Why Ibiza mi vida">
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <AnimatedSection className="mb-12 text-center">
             <SectionHeader
@@ -275,11 +275,11 @@ export default async function HomePage() {
                 delay={i * 0.1}
                 className="flex flex-col items-center gap-4 text-center"
               >
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-teal/15 text-teal">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-rustic-terracotta/15 text-rustic-terracotta">
                   <Icon size={24} />
                 </div>
-                <h3 className="font-serif text-2xl font-light text-soft-white">{title}</h3>
-                <p className="font-sans text-sm leading-relaxed text-soft-white/60">{body}</p>
+                <h3 className="font-serif text-2xl font-light text-ibiza-sand">{title}</h3>
+                <p className="font-sans text-sm leading-relaxed text-ibiza-sand/60">{body}</p>
               </AnimatedSection>
             ))}
           </div>
@@ -322,7 +322,7 @@ export default async function HomePage() {
       )}
 
       {/* ── Reviews ── */}
-      <section className="bg-white pb-16" aria-label="Guest Reviews">
+      <section className="bg-ibiza-sand pb-16" aria-label="Guest Reviews">
         <HomeReviews />
       </section>
 
@@ -334,7 +334,7 @@ export default async function HomePage() {
               <SectionHeader eyebrow="Ibiza Guide" title="Tips & inspiration" align="left" />
               <Link
                 href="/blog"
-                className="hidden shrink-0 rounded-full border border-midnight/20 px-5 py-2.5 font-sans text-sm font-medium text-midnight transition-colors hover:bg-midnight hover:text-soft-white md:inline-block"
+                className="hidden shrink-0 rounded-full border border-velvet-obsidian/20 px-5 py-2.5 font-sans text-sm font-medium text-velvet-obsidian transition-colors hover:bg-velvet-obsidian hover:text-ibiza-sand md:inline-block"
               >
                 All articles →
               </Link>
@@ -360,15 +360,15 @@ export default async function HomePage() {
                     )}
                     <div>
                       {post.category && (
-                        <span className="font-sans text-xs font-semibold uppercase tracking-wider text-teal">
+                        <span className="font-sans text-xs font-semibold uppercase tracking-wider text-rustic-terracotta">
                           {post.category}
                         </span>
                       )}
-                      <h3 className="mt-1 font-serif text-xl font-light text-midnight transition-colors group-hover:text-teal">
+                      <h3 className="mt-1 font-serif text-xl font-light text-velvet-obsidian transition-colors group-hover:text-rustic-terracotta">
                         {post.title}
                       </h3>
                       {post.excerpt && (
-                        <p className="mt-1.5 line-clamp-2 font-sans text-sm leading-relaxed text-midnight/60">
+                        <p className="mt-1.5 line-clamp-2 font-sans text-sm leading-relaxed text-velvet-obsidian/60">
                           {post.excerpt}
                         </p>
                       )}
@@ -381,7 +381,7 @@ export default async function HomePage() {
             <div className="mt-8 text-center md:hidden">
               <Link
                 href="/blog"
-                className="rounded-full border border-midnight/20 px-6 py-2.5 font-sans text-sm font-medium text-midnight"
+                className="rounded-full border border-velvet-obsidian/20 px-6 py-2.5 font-sans text-sm font-medium text-velvet-obsidian"
               >
                 All articles →
               </Link>

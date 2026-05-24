@@ -11,7 +11,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        midnight: '#102033',
+        midnight: '#102033', // Keeping for legacy, use velvet-obsidian
         sandstone: '#E9DFD2',
         teal: {
           DEFAULT: '#169C90',
@@ -21,6 +21,12 @@ const config: Config = {
         'soft-white': '#FAF8F4',
         driftwood: '#B89F84',
         'sys-bg': '#EFF2F6',
+        
+        // Ibiza Velvet & Modern Luxury Palette
+        'velvet-obsidian': '#181A1F',
+        'ibiza-sand': '#F7F5F0',
+        'rustic-terracotta': '#944933',
+        'champagne-bronze': '#BAA382',
       },
       fontFamily: {
         sans: ['var(--font-quicksand)', ...defaultTheme.fontFamily.sans],

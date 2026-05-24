@@ -75,17 +75,17 @@ export default async function CarScooterRentalPage() {
             <AnimatedSection key={type} delay={i * 0.08}>
               <Link
                 href={href}
-                className="group flex h-full flex-col gap-4 rounded-2xl border border-midnight/10 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+                className="group flex h-full flex-col gap-4 rounded-2xl border border-velvet-obsidian/10 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
               >
                 <div className="text-4xl">{emoji}</div>
                 <div className="flex-1">
-                  <p className="font-sans text-xs font-semibold uppercase tracking-widest text-teal">
+                  <p className="font-sans text-xs font-semibold uppercase tracking-widest text-rustic-terracotta">
                     {price}
                   </p>
-                  <h3 className="mt-1 font-serif text-xl font-light text-midnight">{type}</h3>
-                  <p className="mt-2 font-sans text-xs leading-relaxed text-midnight/50">{ideal}</p>
+                  <h3 className="mt-1 font-serif text-xl font-light text-velvet-obsidian">{type}</h3>
+                  <p className="mt-2 font-sans text-xs leading-relaxed text-velvet-obsidian/50">{ideal}</p>
                 </div>
-                <span className="flex items-center justify-center gap-1.5 rounded-full bg-teal py-2.5 font-sans text-sm font-semibold text-white transition-colors group-hover:bg-teal-dark">
+                <span className="flex items-center justify-center gap-1.5 rounded-full bg-rustic-terracotta py-2.5 font-sans text-sm font-semibold text-white transition-colors group-hover:bg-rustic-terracotta/90">
                   View Details
                   <ArrowRight size={14} />
                 </span>

@@ -5,15 +5,15 @@ import Link from 'next/link'
 import { Anchor, Ticket, Music, Navigation, Sun, CheckCircle, GlassWater, Car, Star, ChevronRight } from 'lucide-react'
 
 const allCategories = [
-  { label: 'Deals of the Day', href: '/deals-of-the-day', icon: Star, desc: 'Best daily offers & events', color: 'bg-[#7086F8]', group: 'Deals' },
-  { label: 'Private Boat Charters', href: '/private-boat-charters', icon: Anchor, desc: 'Yachts & exclusive rentals', color: 'bg-[#89F4C7]', group: 'Boats' },
-  { label: 'Club Tickets', href: '/club-tickets', icon: Ticket, desc: 'Pacha, Amnesia, Hi Ibiza', color: 'bg-[#F8B5E5]', group: 'Clubs' },
-  { label: 'Boat Parties', href: '/boat-parties', icon: Music, desc: 'Sunset cruises & music', color: 'bg-[#F6FE80]', group: 'Boats' },
-  { label: 'VIP Catamaran', href: '/vip-catamaran', icon: Navigation, desc: 'Luxury sailing experiences', color: 'bg-[#7086F8]', group: 'VIP' },
-  { label: 'Formentera Trips', href: '/formentera-boat-trips', icon: Sun, desc: 'Day trips to paradise', color: 'bg-[#89F4C7]', group: 'Boats' },
-  { label: 'Guestlist', href: '/guestlist', icon: CheckCircle, desc: 'Free entry & access', color: 'bg-[#F8B5E5]', group: 'Clubs' },
-  { label: 'Drink Packages', href: '/drink-packages', icon: GlassWater, desc: 'VIP tables & bottle service', color: 'bg-[#F6FE80]', group: 'VIP' },
-  { label: 'Car & Scooter', href: '/car-scooter-rental', icon: Car, desc: 'Explore at your own pace', color: 'bg-[#7086F8]', group: 'Deals' },
+  { label: 'Deals of the Day', href: '/deals-of-the-day', icon: Star, desc: 'Best daily offers & events', color: 'bg-velvet-obsidian', group: 'Deals' },
+  { label: 'Private Boat Charters', href: '/private-boat-charters', icon: Anchor, desc: 'Yachts & exclusive rentals', color: 'bg-champagne-bronze', group: 'Boats' },
+  { label: 'Club Tickets', href: '/club-tickets', icon: Ticket, desc: 'Pacha, Amnesia, Hi Ibiza', color: 'bg-rustic-terracotta', group: 'Clubs' },
+  { label: 'Boat Parties', href: '/boat-parties', icon: Music, desc: 'Sunset cruises & music', color: 'bg-velvet-obsidian', group: 'Boats' },
+  { label: 'VIP Catamaran', href: '/vip-catamaran', icon: Navigation, desc: 'Luxury sailing experiences', color: 'bg-champagne-bronze', group: 'VIP' },
+  { label: 'Formentera Trips', href: '/formentera-boat-trips', icon: Sun, desc: 'Day trips to paradise', color: 'bg-rustic-terracotta', group: 'Boats' },
+  { label: 'Guestlist', href: '/guestlist', icon: CheckCircle, desc: 'Free entry & access', color: 'bg-champagne-bronze', group: 'Clubs' },
+  { label: 'Drink Packages', href: '/drink-packages', icon: GlassWater, desc: 'VIP tables & bottle service', color: 'bg-velvet-obsidian', group: 'VIP' },
+  { label: 'Car & Scooter', href: '/car-scooter-rental', icon: Car, desc: 'Explore at your own pace', color: 'bg-rustic-terracotta', group: 'Deals' },
 ]
 
 const tabs = ['All', 'Boats', 'Clubs', 'VIP', 'Deals']
@@ -37,7 +37,7 @@ export function ColorfulCategoryList() {
           <button 
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`whitespace-nowrap px-6 py-3.5 rounded-full font-sans text-[15px] font-medium transition-colors shadow-sm ${activeTab === tab ? 'bg-midnight text-white' : 'bg-white text-midnight/60 border border-black/5'}`}
+            className={`whitespace-nowrap px-6 py-3.5 rounded-full font-sans text-[15px] font-medium transition-colors shadow-sm ${activeTab === tab ? 'bg-velvet-obsidian text-ibiza-sand' : 'bg-white text-velvet-obsidian/60 border border-black/5'}`}
           >
             {tab}
           </button>
@@ -46,18 +46,18 @@ export function ColorfulCategoryList() {
 
       {/* Section Title */}
       <div className="mb-6 flex justify-between items-center">
-        <h3 className="font-serif text-[24px] md:text-[32px] text-midnight">Explore Categories</h3>
-        <Link href="/club-tickets" className="font-sans text-[16px] text-[#007AFF] font-medium cursor-pointer transition-colors hover:text-[#0056b3]">See All</Link>
+        <h3 className="font-serif text-[24px] md:text-[32px] text-velvet-obsidian">Explore Categories</h3>
+        <Link href="/club-tickets" className="font-sans text-[16px] text-champagne-bronze font-medium cursor-pointer transition-colors hover:text-rustic-terracotta">See All</Link>
       </div>
 
       {/* Cards List */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {displayedCategories.map((cat) => {
-          const isDarkText = cat.color !== 'bg-[#7086F8]'
-          const textColor = isDarkText ? 'text-midnight' : 'text-white'
-          const subtitleColor = isDarkText ? 'text-midnight/70' : 'text-white/80'
-          const badgeBg = isDarkText ? 'bg-white/50' : 'bg-midnight'
-          const badgeText = isDarkText ? 'text-midnight' : 'text-white'
+          const isDarkBg = cat.color === 'bg-velvet-obsidian' || cat.color === 'bg-rustic-terracotta'
+          const textColor = isDarkBg ? 'text-ibiza-sand' : 'text-velvet-obsidian'
+          const subtitleColor = isDarkBg ? 'text-ibiza-sand/80' : 'text-velvet-obsidian/70'
+          const badgeBg = isDarkBg ? 'bg-white/10' : 'bg-white/40'
+          const badgeText = isDarkBg ? 'text-ibiza-sand' : 'text-velvet-obsidian'
 
           return (
             <Link href={cat.href} key={cat.label}>

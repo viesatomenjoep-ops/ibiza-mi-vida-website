@@ -52,20 +52,20 @@ export function EventDetailLayout({
   whatsappNumber = '31683052875'
 }: EventDetailLayoutProps) {
   return (
-    <div className="relative w-full max-w-md mx-auto min-h-screen bg-sys-bg pb-32">
+    <div className="relative w-full max-w-md mx-auto min-h-screen bg-ibiza-sand pb-32">
       {/* ── Top Nav / Status Chrome ── */}
       <div className="absolute top-0 left-0 right-0 z-50 flex justify-between items-center px-4 py-6">
         <button 
           onClick={onBack}
           className="w-12 h-12 bg-white/80 backdrop-blur-md border border-[#EFF2F6] rounded-full flex items-center justify-center shadow-sm hover:scale-105 transition-transform"
         >
-          <ChevronLeft size={20} className="text-midnight" />
+          <ChevronLeft size={20} className="text-velvet-obsidian" />
         </button>
         <button 
           onClick={onShare}
           className="w-12 h-12 bg-white/80 backdrop-blur-md border border-[#EFF2F6] rounded-full flex items-center justify-center shadow-sm hover:scale-105 transition-transform"
         >
-          <Share2 size={20} className="text-midnight" />
+          <Share2 size={20} className="text-velvet-obsidian" />
         </button>
       </div>
 
@@ -82,8 +82,8 @@ export function EventDetailLayout({
         {/* Floating Card Content */}
         <div className="absolute -bottom-8 left-4 right-4 bg-white/30 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex justify-between items-center shadow-lg">
           <div className="flex flex-col gap-1">
-            <h1 className="font-serif text-2xl font-normal text-midnight">{title}</h1>
-            <div className="flex items-center gap-1.5 text-midnight/70">
+            <h1 className="font-serif text-2xl font-normal text-velvet-obsidian">{title}</h1>
+            <div className="flex items-center gap-1.5 text-velvet-obsidian/70">
               <Clock size={16} />
               <span className="font-sans text-sm">{timeLabel}</span>
             </div>
@@ -101,7 +101,7 @@ export function EventDetailLayout({
         
         {/* About */}
         <AnimatedSection>
-          <h2 className="font-serif text-[18px] text-midnight mb-3">About {title}</h2>
+          <h2 className="font-serif text-[18px] text-velvet-obsidian mb-3">About {title}</h2>
           <p className="font-sans text-[14px] text-[#7C8690] leading-[140%] font-light">
             {description}
           </p>
@@ -114,18 +114,18 @@ export function EventDetailLayout({
               {organizerLogo ? (
                  <Image src={organizerLogo} alt={organizerName} fill className="object-cover" />
               ) : (
-                <MessageCircle size={20} className="text-midnight/50" />
+                <MessageCircle size={20} className="text-velvet-obsidian/50" />
               )}
             </div>
             <div className="flex-1 flex flex-col">
-              <span className="font-sans text-[16px] text-midnight">{organizerName}</span>
+              <span className="font-sans text-[16px] text-velvet-obsidian">{organizerName}</span>
               <span className="font-sans text-[12px] text-[#7C8690] font-light">{organizerSubtitle}</span>
             </div>
             <a 
               href={`https://wa.me/${whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-midnight text-white text-[12px] px-4 py-2 rounded-full font-sans hover:bg-midnight/80 transition-colors shrink-0"
+              className="bg-velvet-obsidian text-white text-[12px] px-4 py-2 rounded-full font-sans hover:bg-velvet-obsidian/80 transition-colors shrink-0"
             >
               Contact
             </a>
@@ -135,7 +135,7 @@ export function EventDetailLayout({
         {/* Gallery */}
         {galleryImages.length > 0 && (
           <AnimatedSection>
-            <h2 className="font-serif text-[18px] text-midnight mb-3">Gallery</h2>
+            <h2 className="font-serif text-[18px] text-velvet-obsidian mb-3">Gallery</h2>
             <div className="flex overflow-x-auto gap-3 pb-2 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {galleryImages.map((img, i) => (
                 <div key={i} className="relative w-[110px] h-[110px] shrink-0 bg-[#F7F8FA] rounded-2xl overflow-hidden">
@@ -148,7 +148,7 @@ export function EventDetailLayout({
 
         {/* Available Tickets / Events */}
         <AnimatedSection>
-          <h2 className="font-serif text-[18px] text-midnight mb-3">{ticketsTitle}</h2>
+          <h2 className="font-serif text-[18px] text-velvet-obsidian mb-3">{ticketsTitle}</h2>
           <div className="flex flex-col gap-3">
             {tickets.map(ticket => (
               <div 
@@ -157,10 +157,10 @@ export function EventDetailLayout({
                 className="bg-[#F7F8FA] rounded-2xl p-3 flex items-center gap-3 cursor-pointer hover:bg-[#EFF2F6] transition-colors"
               >
                 <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shrink-0 shadow-sm relative overflow-hidden">
-                  {ticket.icon ? ticket.icon : <Ticket size={20} className="text-midnight" />}
+                  {ticket.icon ? ticket.icon : <Ticket size={20} className="text-velvet-obsidian" />}
                 </div>
                 <div className="flex-1 flex flex-col gap-0.5">
-                  <span className="font-sans text-[16px] text-midnight truncate">{ticket.title}</span>
+                  <span className="font-sans text-[16px] text-velvet-obsidian truncate">{ticket.title}</span>
                   <span className="font-sans text-[12px] text-[#7C8690] font-light line-clamp-1">{ticket.description}</span>
                 </div>
                 <div className="font-sans text-[18px] font-semibold text-[#7086F8] shrink-0">
@@ -183,7 +183,7 @@ export function EventDetailLayout({
       <div className="fixed bottom-0 w-full max-w-md mx-auto left-0 right-0 bg-gradient-to-t from-white via-white to-transparent pt-16 pb-8 px-4 z-40">
         <button 
           onClick={onBookPrimary}
-          className="w-full bg-midnight text-white font-sans text-[16px] py-4 rounded-full shadow-xl hover:scale-[1.02] transition-transform flex justify-center items-center gap-2"
+          className="w-full bg-velvet-obsidian text-white font-sans text-[16px] py-4 rounded-full shadow-xl hover:scale-[1.02] transition-transform flex justify-center items-center gap-2"
         >
           {bookButtonLabel}
         </button>

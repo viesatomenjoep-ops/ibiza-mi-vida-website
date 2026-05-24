@@ -54,7 +54,7 @@ export function Navbar() {
     <>
       <header className={[
         "fixed left-0 right-0 z-50 pointer-events-none flex items-center justify-between transition-all duration-300 px-4 md:px-8",
-        scrolled ? "top-0 py-3 bg-midnight/95 backdrop-blur-md shadow-lg" : "top-4 md:top-6"
+        scrolled ? "top-0 py-3 bg-velvet-obsidian/95 backdrop-blur-md shadow-lg" : "top-4 md:top-6"
       ].join(' ')}>
         
         {/* Left: Logo */}
@@ -78,20 +78,20 @@ export function Navbar() {
 
           <Link
             href="/deals-of-the-day"
-            className="hidden sm:flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 md:px-7 md:py-[17px] shadow-xl transition-all hover:bg-teal/90 hover:scale-105 border border-black/5"
+            className="hidden sm:flex items-center gap-2 rounded-full bg-rustic-terracotta px-5 py-2.5 md:px-7 md:py-[17px] shadow-xl transition-all hover:bg-rustic-terracotta/90 hover:scale-105 border border-black/5"
           >
             <span className="font-serif text-sm md:text-[15px] font-semibold tracking-wide text-white whitespace-nowrap">Deals of the Day</span>
           </Link>
           <Link
             href="/deals-of-the-day"
-            className="flex sm:hidden items-center gap-2 rounded-full bg-teal px-4 py-2.5 shadow-xl transition-all hover:bg-teal/90 hover:scale-105 border border-black/5"
+            className="flex sm:hidden items-center gap-2 rounded-full bg-rustic-terracotta px-4 py-2.5 shadow-xl transition-all hover:bg-rustic-terracotta/90 hover:scale-105 border border-black/5"
           >
             <span className="font-serif text-[13px] font-semibold tracking-wide text-white whitespace-nowrap">DOD</span>
           </Link>
 
           <button 
             onClick={() => setMenuOpen(!menuOpen)}
-            className="flex h-[44px] w-[44px] md:h-[56px] md:w-[56px] shrink-0 items-center justify-center rounded-full bg-midnight text-white shadow-xl transition-transform hover:scale-105 hover:bg-midnight/90 border border-black/5"
+            className="flex h-[44px] w-[44px] md:h-[56px] md:w-[56px] shrink-0 items-center justify-center rounded-full bg-velvet-obsidian text-white shadow-xl transition-transform hover:scale-105 hover:bg-velvet-obsidian/90 border border-black/5"
             aria-label="Open menu"
           >
             {menuOpen ? <X size={20} strokeWidth={2.5} className="md:w-[24px] md:h-[24px]" /> : <Menu size={20} strokeWidth={2.5} className="md:w-[24px] md:h-[24px]" />}
@@ -109,7 +109,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="fixed inset-0 z-40 flex flex-col bg-soft-white px-4 pb-20 pt-28 md:px-8 md:pt-32 overflow-y-auto"
+            className="fixed inset-0 z-40 flex flex-col bg-ibiza-sand px-4 pb-20 pt-28 md:px-8 md:pt-32 overflow-y-auto"
           >
             <div className="mx-auto w-full max-w-5xl flex-1 flex flex-col">
               
@@ -125,13 +125,13 @@ export function Navbar() {
                     <Link
                       href={cat.href}
                       onClick={() => setMenuOpen(false)}
-                      className="group flex aspect-square flex-col items-center justify-center gap-3 rounded-[32px] bg-white p-4 text-center shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg border border-transparent hover:border-midnight/5"
+                      className="group flex aspect-square flex-col items-center justify-center gap-3 rounded-[32px] bg-white p-4 text-center shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg border border-transparent hover:border-velvet-obsidian/5"
                     >
-                      <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-sandstone/30 text-midnight transition-all duration-300 group-hover:scale-110 group-hover:bg-teal group-hover:text-white">
+                      <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-ibiza-sand text-velvet-obsidian transition-all duration-300 group-hover:scale-110 group-hover:bg-rustic-terracotta group-hover:text-white">
                         <cat.icon size={28} strokeWidth={1.5} />
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-serif text-lg md:text-xl font-medium text-midnight group-hover:text-teal transition-colors leading-tight">
+                        <span className="font-serif text-lg md:text-xl font-medium text-velvet-obsidian group-hover:text-rustic-terracotta transition-colors leading-tight">
                           {cat.label}
                         </span>
                       </div>
@@ -147,7 +147,7 @@ export function Navbar() {
                   href={`https://wa.me/${whatsappNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-midnight px-8 py-4 font-sans text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105"
+                  className="inline-flex items-center gap-2 rounded-full bg-velvet-obsidian px-8 py-4 font-sans text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105"
                 >
                   <MessageCircle size={18} />
                   Chat with us on WhatsApp

@@ -159,13 +159,13 @@ export default async function ExperienceDetailPage({
           className="object-cover object-center"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/60 to-midnight/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian via-velvet-obsidian/60 to-velvet-obsidian/10" />
 
         {/* Back link */}
         <div className="absolute left-4 top-24 z-10 md:left-8">
           <Link
             href={backLink?.href ?? '/'}
-            className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-sans text-sm text-soft-white backdrop-blur-sm transition-colors hover:bg-white/20"
+            className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-sans text-sm text-ibiza-sand backdrop-blur-sm transition-colors hover:bg-white/20"
           >
             <ArrowLeft size={14} />
             {backLink?.label ?? 'Back'}
@@ -174,7 +174,7 @@ export default async function ExperienceDetailPage({
 
         {/* Category chip */}
         <div className="absolute left-4 top-36 z-10 md:left-8">
-          <span className="rounded-full bg-midnight/60 px-3 py-1 font-sans text-xs font-semibold uppercase tracking-wide text-soft-white backdrop-blur-sm">
+          <span className="rounded-full bg-velvet-obsidian/60 px-3 py-1 font-sans text-xs font-semibold uppercase tracking-wide text-ibiza-sand backdrop-blur-sm">
             {categoryLabel}
           </span>
         </div>
@@ -185,24 +185,24 @@ export default async function ExperienceDetailPage({
             {(exp.duration || exp.capacity) && (
               <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1.5">
                 {exp.duration && (
-                  <span className="flex items-center gap-1.5 font-sans text-sm text-soft-white/70">
-                    <Clock size={13} className="text-teal" />
+                  <span className="flex items-center gap-1.5 font-sans text-sm text-ibiza-sand/70">
+                    <Clock size={13} className="text-rustic-terracotta" />
                     {exp.duration}
                   </span>
                 )}
                 {exp.capacity && (
-                  <span className="flex items-center gap-1.5 font-sans text-sm text-soft-white/70">
-                    <Users size={13} className="text-teal" />
+                  <span className="flex items-center gap-1.5 font-sans text-sm text-ibiza-sand/70">
+                    <Users size={13} className="text-rustic-terracotta" />
                     Up to {exp.capacity} guests
                   </span>
                 )}
               </div>
             )}
-            <h1 className="font-serif text-4xl font-light leading-tight text-soft-white md:text-6xl">
+            <h1 className="font-serif text-4xl font-light leading-tight text-ibiza-sand md:text-6xl">
               {exp.title}
             </h1>
             {exp.tagline && (
-              <p className="mt-3 max-w-xl font-sans text-base leading-relaxed text-soft-white/70">
+              <p className="mt-3 max-w-xl font-sans text-base leading-relaxed text-ibiza-sand/70">
                 {exp.tagline}
               </p>
             )}
@@ -219,8 +219,8 @@ export default async function ExperienceDetailPage({
 
             {/* About */}
             <div>
-              <h2 className="font-serif text-3xl font-light text-midnight">About this experience</h2>
-              <p className="mt-4 font-sans text-base leading-relaxed text-midnight/70">
+              <h2 className="font-serif text-3xl font-light text-velvet-obsidian">About this experience</h2>
+              <p className="mt-4 font-sans text-base leading-relaxed text-velvet-obsidian/70">
                 {exp.description ??
                   `Experience the best of Ibiza with this hand-picked ${categoryLabel.toLowerCase()} experience. Book instantly via WhatsApp and our team will take care of every detail.`}
               </p>
@@ -229,14 +229,14 @@ export default async function ExperienceDetailPage({
             {/* What's included */}
             {includes.length > 0 && (
               <div>
-                <h2 className="mb-5 font-serif text-2xl font-light text-midnight">
+                <h2 className="mb-5 font-serif text-2xl font-light text-velvet-obsidian">
                   {"What's included"}
                 </h2>
                 <ul className="space-y-3">
                   {includes.map((item) => (
                     <li key={item} className="flex items-start gap-3">
-                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-teal" />
-                      <span className="font-sans text-sm leading-relaxed text-midnight/70">
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-rustic-terracotta" />
+                      <span className="font-sans text-sm leading-relaxed text-velvet-obsidian/70">
                         {item}
                       </span>
                     </li>
@@ -247,8 +247,8 @@ export default async function ExperienceDetailPage({
 
             {/* Booking note */}
             <div className="rounded-2xl bg-sandstone/50 px-6 py-5">
-              <p className="font-sans text-sm leading-relaxed text-midnight/70">
-                <span className="font-semibold text-midnight">Instant booking via WhatsApp.</span>{' '}
+              <p className="font-sans text-sm leading-relaxed text-velvet-obsidian/70">
+                <span className="font-semibold text-velvet-obsidian">Instant booking via WhatsApp.</span>{' '}
                 Message us with your group size and preferred date — we reply within minutes and
                 confirm everything for you.
               </p>
@@ -257,16 +257,16 @@ export default async function ExperienceDetailPage({
 
           {/* Right: sticky booking card */}
           <div className="md:col-span-1">
-            <div className="sticky top-24 rounded-3xl border border-midnight/10 bg-soft-white p-6 shadow-sm">
+            <div className="sticky top-24 rounded-3xl border border-velvet-obsidian/10 bg-ibiza-sand p-6 shadow-sm">
               {/* Price */}
               {exp.price_from !== null && (
-                <div className="mb-5 border-b border-midnight/10 pb-5">
-                  <span className="font-sans text-xs uppercase tracking-wide text-midnight/40">
+                <div className="mb-5 border-b border-velvet-obsidian/10 pb-5">
+                  <span className="font-sans text-xs uppercase tracking-wide text-velvet-obsidian/40">
                     From
                   </span>
-                  <p className="font-serif text-4xl font-light leading-none text-midnight">
+                  <p className="font-serif text-4xl font-light leading-none text-velvet-obsidian">
                     €{exp.price_from.toFixed(0)}
-                    <span className="font-sans text-sm font-normal text-midnight/40"> / person</span>
+                    <span className="font-sans text-sm font-normal text-velvet-obsidian/40"> / person</span>
                   </p>
                 </div>
               )}
@@ -275,14 +275,14 @@ export default async function ExperienceDetailPage({
               <div className="mb-6 space-y-2">
                 {exp.duration && (
                   <div className="flex items-center gap-2.5 rounded-xl bg-sandstone/40 px-4 py-3">
-                    <Clock size={14} className="shrink-0 text-teal" />
-                    <span className="font-sans text-sm text-midnight">{exp.duration}</span>
+                    <Clock size={14} className="shrink-0 text-rustic-terracotta" />
+                    <span className="font-sans text-sm text-velvet-obsidian">{exp.duration}</span>
                   </div>
                 )}
                 {exp.capacity && (
                   <div className="flex items-center gap-2.5 rounded-xl bg-sandstone/40 px-4 py-3">
-                    <Users size={14} className="shrink-0 text-teal" />
-                    <span className="font-sans text-sm text-midnight">
+                    <Users size={14} className="shrink-0 text-rustic-terracotta" />
+                    <span className="font-sans text-sm text-velvet-obsidian">
                       Up to {exp.capacity} guests
                     </span>
                   </div>
@@ -292,7 +292,7 @@ export default async function ExperienceDetailPage({
               {/* CTA */}
               <ExperienceBookingCTA experience={exp} />
 
-              <p className="mt-4 text-center font-sans text-xs text-midnight/40">
+              <p className="mt-4 text-center font-sans text-xs text-velvet-obsidian/40">
                 Free cancellation · No booking fees
               </p>
             </div>

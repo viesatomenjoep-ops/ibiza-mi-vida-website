@@ -42,22 +42,22 @@ export default async function DrinkPackagesPage() {
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {packages.map(({ title, price, description, tags }, i) => (
-            <AnimatedSection key={title} delay={i * 0.1} className="flex flex-col gap-4 rounded-2xl border border-midnight/10 bg-white p-6 shadow-sm">
+            <AnimatedSection key={title} delay={i * 0.1} className="flex flex-col gap-4 rounded-2xl border border-velvet-obsidian/10 bg-white p-6 shadow-sm">
               <div>
-                <p className="font-sans text-xs font-semibold uppercase tracking-widest text-teal">{price}</p>
-                <h3 className="mt-1 font-serif text-2xl font-light text-midnight">{title}</h3>
-                <p className="mt-2 font-sans text-sm leading-relaxed text-midnight/60">{description}</p>
+                <p className="font-sans text-xs font-semibold uppercase tracking-widest text-rustic-terracotta">{price}</p>
+                <h3 className="mt-1 font-serif text-2xl font-light text-velvet-obsidian">{title}</h3>
+                <p className="mt-2 font-sans text-sm leading-relaxed text-velvet-obsidian/60">{description}</p>
               </div>
               <div className="flex flex-wrap gap-2">
                 {tags.map((tag) => (
-                  <span key={tag} className="rounded-full bg-sandstone px-3 py-1 font-sans text-xs text-midnight/60">{tag}</span>
+                  <span key={tag} className="rounded-full bg-sandstone px-3 py-1 font-sans text-xs text-velvet-obsidian/60">{tag}</span>
                 ))}
               </div>
               <a
                 href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '31683052875'}?text=${encodeURIComponent(`Hi! I'm interested in the ${title} (${price}) drink package in Ibiza.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-auto flex w-full items-center justify-center gap-2 rounded-full bg-teal py-3 font-sans text-sm font-semibold text-white transition-colors hover:bg-teal-dark"
+                className="mt-auto flex w-full items-center justify-center gap-2 rounded-full bg-rustic-terracotta py-3 font-sans text-sm font-semibold text-white transition-colors hover:bg-rustic-terracotta/90"
               >
                 <MessageCircle size={15} />
                 Enquire Now

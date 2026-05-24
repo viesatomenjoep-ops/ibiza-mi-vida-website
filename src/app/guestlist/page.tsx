@@ -40,7 +40,7 @@ export default async function GuestlistPage() {
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
-        colorTheme="midnight"
+        colorTheme="velvet-obsidian"
         eyebrow="Free Entry Ibiza"
         minHeight="min-h-[45vh]"
       />
@@ -51,8 +51,8 @@ export default async function GuestlistPage() {
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
             {benefits.map((b) => (
               <div key={b} className="flex items-center gap-2">
-                <CheckCircle size={16} className="shrink-0 text-teal" />
-                <span className="font-sans text-sm text-midnight/70">{b}</span>
+                <CheckCircle size={16} className="shrink-0 text-rustic-terracotta" />
+                <span className="font-sans text-sm text-velvet-obsidian/70">{b}</span>
               </div>
             ))}
           </div>
@@ -71,16 +71,16 @@ export default async function GuestlistPage() {
             { step: '03', title: 'Walk in for free', body: 'Arrive before the guestlist closes, give your name at the door, and walk straight in.' },
           ].map(({ step, title, body }) => (
             <AnimatedSection key={step}>
-              <span className="font-serif text-5xl font-light text-teal/30">{step}</span>
-              <h3 className="mt-2 font-serif text-2xl font-light text-midnight">{title}</h3>
-              <p className="mt-2 font-sans text-sm leading-relaxed text-midnight/60">{body}</p>
+              <span className="font-serif text-5xl font-light text-rustic-terracotta/30">{step}</span>
+              <h3 className="mt-2 font-serif text-2xl font-light text-velvet-obsidian">{title}</h3>
+              <p className="mt-2 font-sans text-sm leading-relaxed text-velvet-obsidian/60">{body}</p>
             </AnimatedSection>
           ))}
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="bg-midnight py-16 md:py-20">
+      <section className="bg-velvet-obsidian py-16 md:py-20">
         <div className="mx-auto max-w-4xl px-4 md:px-8">
           <AnimatedSection className="mb-12 text-center">
             <SectionHeader eyebrow="FAQ" title="Common questions" light />
@@ -88,8 +88,8 @@ export default async function GuestlistPage() {
           <div className="flex flex-col gap-6">
             {faqs.map(({ q, a }) => (
               <AnimatedSection key={q}>
-                <h3 className="font-serif text-xl font-light text-soft-white">{q}</h3>
-                <p className="mt-2 font-sans text-sm leading-relaxed text-soft-white/60">{a}</p>
+                <h3 className="font-serif text-xl font-light text-ibiza-sand">{q}</h3>
+                <p className="mt-2 font-sans text-sm leading-relaxed text-ibiza-sand/60">{a}</p>
               </AnimatedSection>
             ))}
           </div>

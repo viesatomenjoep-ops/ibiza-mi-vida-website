@@ -59,7 +59,7 @@ export default async function FormenteraBoatTripsPage() {
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
-        colorTheme="teal"
+        colorTheme="rustic-terracotta"
         eyebrow="Day Trips from Ibiza"
         minHeight="min-h-[45vh]"
       />

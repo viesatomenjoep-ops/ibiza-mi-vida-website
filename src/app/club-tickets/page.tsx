@@ -62,9 +62,9 @@ export default async function ClubTicketsPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {howItWorks.map(({ step, title, body }) => (
               <div key={step} className="flex flex-col gap-2">
-                <span className="font-serif text-4xl font-light text-teal/40">{step}</span>
-                <h3 className="font-serif text-xl font-light text-midnight">{title}</h3>
-                <p className="font-sans text-sm leading-relaxed text-midnight/60">{body}</p>
+                <span className="font-serif text-4xl font-light text-rustic-terracotta/40">{step}</span>
+                <h3 className="font-serif text-xl font-light text-velvet-obsidian">{title}</h3>
+                <p className="font-sans text-sm leading-relaxed text-velvet-obsidian/60">{body}</p>
               </div>
             ))}
           </div>
@@ -100,9 +100,9 @@ export default async function ClubTicketsPage() {
             ].map((name) => (
               <div
                 key={name}
-                className="flex min-h-[400px] items-end rounded-3xl bg-midnight/10 p-6"
+                className="flex min-h-[400px] items-end rounded-3xl bg-velvet-obsidian/10 p-6"
               >
-                <p className="font-serif text-2xl text-midnight/30">{name}</p>
+                <p className="font-serif text-2xl text-velvet-obsidian/30">{name}</p>
               </div>
             ))}
           </div>

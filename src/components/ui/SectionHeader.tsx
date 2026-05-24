@@ -14,9 +14,9 @@ export function SectionHeader({
   light = false,
 }: SectionHeaderProps) {
   const alignClass = align === 'center' ? 'text-center items-center' : 'text-left items-start'
-  const titleColor = light ? 'text-soft-white' : 'text-midnight'
-  const eyebrowColor = light ? 'text-teal-light' : 'text-teal'
-  const subtitleColor = light ? 'text-soft-white/70' : 'text-midnight/60'
+  const titleColor = light ? 'text-ibiza-sand' : 'text-velvet-obsidian'
+  const eyebrowColor = light ? 'text-rustic-terracotta-light' : 'text-rustic-terracotta'
+  const subtitleColor = light ? 'text-ibiza-sand/70' : 'text-velvet-obsidian/60'
 
   return (
     <div className={`flex flex-col gap-3 ${alignClass}`}>

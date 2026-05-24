@@ -13,11 +13,11 @@ export function DealDateBanner() {
   }, [])
 
   if (!mounted) {
-    return <div className="inline-block px-3 py-1 bg-gold text-midnight text-xs font-bold uppercase tracking-widest rounded-full mb-4">Loading Date...</div>
+    return <div className="inline-block px-3 py-1 bg-gold text-velvet-obsidian text-xs font-bold uppercase tracking-widest rounded-full mb-4">Loading Date...</div>
   }
 
   return (
-    <div className="inline-block px-4 py-1.5 bg-gold text-midnight text-sm font-bold uppercase tracking-widest rounded-full mb-4 shadow-sm border border-gold/50">
+    <div className="inline-block px-4 py-1.5 bg-gold text-velvet-obsidian text-sm font-bold uppercase tracking-widest rounded-full mb-4 shadow-sm border border-gold/50">
       {dateStr}
     </div>
   )

@@ -77,12 +77,12 @@ export default async function DealsOfTheDayPage({
       <CategoryHero
         title="Deals of the Day"
         subtitle="Your ultimate overview. Find the best club tickets, boat parties, excursions, and drink packages all in one place."
-        colorTheme="teal"
+        colorTheme="rustic-terracotta"
         eyebrow="Special Offers"
       />
 
       {/* DASHBOARD TOP: Deal of the Day vs Deal of the Week */}
-      <section className="bg-soft-white px-4 pt-2 pb-12 md:pt-12 md:pb-12 md:px-8 -mt-8 md:mt-0 relative z-20">
+      <section className="bg-ibiza-sand px-4 pt-2 pb-12 md:pt-12 md:pb-12 md:px-8 -mt-8 md:mt-0 relative z-20">
         <div className="mx-auto max-w-5xl flex flex-col gap-10">
           
           {/* TOP: Deal of the Day Active Banner */}
@@ -93,8 +93,8 @@ export default async function DealsOfTheDayPage({
               </div>
               <div className="z-10 text-center md:text-left flex-1">
                 <DealDateBanner />
-                <h2 className="text-3xl md:text-5xl font-serif text-midnight mb-4">Deal of the Day</h2>
-                <p className="text-midnight/70 font-sans text-lg max-w-lg">The best hand-picked offers, strictly valid until midnight. Book now before the timer runs out!</p>
+                <h2 className="text-3xl md:text-5xl font-serif text-velvet-obsidian mb-4">Deal of the Day</h2>
+                <p className="text-velvet-obsidian/70 font-sans text-lg max-w-lg">The best hand-picked offers, strictly valid until velvet-obsidian. Book now before the timer runs out!</p>
               </div>
               <div className="z-10 bg-white/50 backdrop-blur-md p-6 rounded-2xl border border-white shrink-0">
                 <DealTimer />
@@ -104,9 +104,9 @@ export default async function DealsOfTheDayPage({
 
           {/* BOTTOM: Deal of the Week */}
           <AnimatedSection>
-            <div className="bg-midnight rounded-3xl p-6 md:p-10 flex flex-col relative overflow-hidden text-sandstone shadow-2xl">
+            <div className="bg-velvet-obsidian rounded-3xl p-6 md:p-10 flex flex-col relative overflow-hidden text-sandstone shadow-2xl">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full bg-gold flex items-center justify-center text-midnight">
+                <div className="w-10 h-10 rounded-full bg-gold flex items-center justify-center text-velvet-obsidian">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 </div>
                 <div>
@@ -175,7 +175,7 @@ export default async function DealsOfTheDayPage({
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 text-midnight/50 font-serif text-lg">
+          <div className="text-center py-12 text-velvet-obsidian/50 font-serif text-lg">
             No clubs available at the moment.
           </div>
         )}
@@ -215,7 +215,7 @@ export default async function DealsOfTheDayPage({
 
       {/* DRINK PACKAGES SECTION */}
       {drinkPackages.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24 bg-teal/5 rounded-3xl mb-16">
+        <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24 bg-rustic-terracotta/5 rounded-3xl mb-16">
           <AnimatedSection className="mb-12">
             <SectionHeader
               eyebrow="VIP Service"

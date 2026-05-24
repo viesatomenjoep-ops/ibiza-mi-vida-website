@@ -64,8 +64,8 @@ export function HomeSearchWidget() {
                 }}
                 className={`shrink-0 px-8 py-4 rounded-full text-base md:text-lg font-bold tracking-wide transition-all ${
                   activeTab === tab.href 
-                    ? 'bg-midnight text-white shadow-xl scale-105 border border-midnight' 
-                    : 'bg-white/50 text-midnight hover:bg-white border border-black/10'
+                    ? 'bg-velvet-obsidian text-white shadow-xl scale-105 border border-velvet-obsidian' 
+                    : 'bg-white/50 text-velvet-obsidian hover:bg-white border border-black/10'
                 }`}
               >
                 {tab.label}
@@ -77,14 +77,14 @@ export function HomeSearchWidget() {
           <div className="flex items-center justify-center gap-6 mt-3 mb-2 w-full">
             <button 
               onClick={scrollLeft}
-              className="p-2 md:p-3 bg-white/80 backdrop-blur-md rounded-full shadow-md text-midnight hover:bg-gold transition-colors border border-black/5"
+              className="p-2 md:p-3 bg-white/80 backdrop-blur-md rounded-full shadow-md text-velvet-obsidian hover:bg-gold transition-colors border border-black/5"
               aria-label="Scroll left"
             >
               <ChevronLeft size={20} />
             </button>
             <button 
               onClick={scrollRight}
-              className="p-2 md:p-3 bg-white/80 backdrop-blur-md rounded-full shadow-md text-midnight hover:bg-gold transition-colors border border-black/5"
+              className="p-2 md:p-3 bg-white/80 backdrop-blur-md rounded-full shadow-md text-velvet-obsidian hover:bg-gold transition-colors border border-black/5"
               aria-label="Scroll right"
             >
               <ChevronRight size={20} />
@@ -95,7 +95,7 @@ export function HomeSearchWidget() {
         {/* Input & Search */}
         <div className="flex flex-col md:flex-row items-center gap-2 p-2 mt-2">
           <div className="flex-1 flex flex-col px-4 py-3 bg-white hover:bg-sandstone/10 transition-colors rounded-2xl w-full">
-            <label htmlFor="search-date" className="text-xs font-bold uppercase tracking-wider text-midnight/50 mb-1 flex items-center gap-2">
+            <label htmlFor="search-date" className="text-xs font-bold uppercase tracking-wider text-velvet-obsidian/50 mb-1 flex items-center gap-2">
               <Calendar size={12} />
               Dates
             </label>
@@ -105,12 +105,12 @@ export function HomeSearchWidget() {
               value={date}
               min={today}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full bg-transparent font-sans text-lg font-medium text-midnight focus:outline-none cursor-pointer"
+              className="w-full bg-transparent font-sans text-lg font-medium text-velvet-obsidian focus:outline-none cursor-pointer"
             />
           </div>
           <button
             onClick={handleSearch}
-            className="w-full md:w-auto h-[68px] px-10 bg-gold hover:bg-gold/90 transition-colors text-midnight font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full md:w-auto h-[68px] px-10 bg-gold hover:bg-gold/90 transition-colors text-velvet-obsidian font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg hover:scale-[1.02] active:scale-[0.98]"
           >
             <Search size={20} />
             Search

@@ -23,7 +23,7 @@ export function MobileCategoryExplorer() {
   const [activeTab, setActiveTab] = useState('All')
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto bg-sys-bg pb-32 pt-8">
+    <div className="relative w-full max-w-2xl mx-auto bg-ibiza-sand pb-32 pt-8">
       {/* Header */}
       <div className="px-4 pb-6">
         <h2 className="font-sans text-[18px] text-[#7C8690] font-light mb-1">Welcome to Ibiza</h2>

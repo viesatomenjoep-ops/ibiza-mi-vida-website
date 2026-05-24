@@ -85,8 +85,8 @@ export function BookingForm({ config, onSuccess }: BookingFormProps) {
     required = true
   ) => (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="font-sans text-xs font-semibold uppercase tracking-wider text-midnight/60">
-        {label}{required && <span className="ml-0.5 text-teal">*</span>}
+      <label htmlFor={id} className="font-sans text-xs font-semibold uppercase tracking-wider text-velvet-obsidian/60">
+        {label}{required && <span className="ml-0.5 text-rustic-terracotta">*</span>}
       </label>
       <input
         id={id}
@@ -95,9 +95,9 @@ export function BookingForm({ config, onSuccess }: BookingFormProps) {
         onChange={(e) => setValues((v) => ({ ...v, [id]: e.target.value }))}
         required={required}
         className={[
-          'rounded-xl border bg-transparent px-4 py-3 font-sans text-sm text-midnight placeholder-midnight/30',
-          'transition-colors focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-0',
-          errors[id] ? 'border-red-400' : 'border-midnight/20 focus:border-teal',
+          'rounded-xl border bg-transparent px-4 py-3 font-sans text-sm text-velvet-obsidian placeholder-velvet-obsidian/30',
+          'transition-colors focus:outline-none focus:ring-2 focus:ring-rustic-terracotta focus:ring-offset-0',
+          errors[id] ? 'border-red-400' : 'border-velvet-obsidian/20 focus:border-rustic-terracotta',
         ].join(' ')}
         aria-describedby={errors[id] ? `${id}-error` : undefined}
         aria-invalid={!!errors[id]}
@@ -120,8 +120,8 @@ export function BookingForm({ config, onSuccess }: BookingFormProps) {
       <div className="mt-4">{field('email', 'Email Address', 'email')}</div>
 
       <div className="mt-4 flex flex-col gap-1.5">
-        <label htmlFor="message" className="font-sans text-xs font-semibold uppercase tracking-wider text-midnight/60">
-          Message <span className="text-midnight/30 normal-case">(optional)</span>
+        <label htmlFor="message" className="font-sans text-xs font-semibold uppercase tracking-wider text-velvet-obsidian/60">
+          Message <span className="text-velvet-obsidian/30 normal-case">(optional)</span>
         </label>
         <textarea
           id="message"
@@ -129,7 +129,7 @@ export function BookingForm({ config, onSuccess }: BookingFormProps) {
           value={values.message}
           onChange={(e) => setValues((v) => ({ ...v, message: e.target.value }))}
           placeholder="Any special requests or questions?"
-          className="resize-none rounded-xl border border-midnight/20 bg-transparent px-4 py-3 font-sans text-sm text-midnight placeholder-midnight/30 transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal"
+          className="resize-none rounded-xl border border-velvet-obsidian/20 bg-transparent px-4 py-3 font-sans text-sm text-velvet-obsidian placeholder-velvet-obsidian/30 transition-colors focus:border-rustic-terracotta focus:outline-none focus:ring-2 focus:ring-rustic-terracotta"
         />
       </div>
 
@@ -141,7 +141,7 @@ export function BookingForm({ config, onSuccess }: BookingFormProps) {
 
       <Button
         type="submit"
-        variant="teal"
+        variant="rustic-terracotta"
         size="lg"
         fullWidth
         disabled={loading}
@@ -158,7 +158,7 @@ export function BookingForm({ config, onSuccess }: BookingFormProps) {
         )}
       </Button>
 
-      <p className="mt-3 text-center font-sans text-xs text-midnight/40">
+      <p className="mt-3 text-center font-sans text-xs text-velvet-obsidian/40">
         We&apos;ll save your details and open WhatsApp for a direct reply.
       </p>
     </form>

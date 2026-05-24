@@ -7,7 +7,7 @@ interface CategoryHeroProps {
   searchComponent?: React.ReactNode
   eyebrow?: string
   minHeight?: string
-  colorTheme?: 'teal' | 'gold' | 'rose' | 'indigo' | 'midnight'
+  colorTheme?: 'rustic-terracotta' | 'gold' | 'rose' | 'indigo' | 'velvet-obsidian'
   backgroundImage?: string
   backgroundOpacity?: number
 }
@@ -18,18 +18,18 @@ export function CategoryHero({
   searchComponent,
   eyebrow,
   minHeight = 'min-h-[30vh]',
-  colorTheme = 'teal',
+  colorTheme = 'rustic-terracotta',
   backgroundImage = '/fotos/hero-pattern.jpg',
   backgroundOpacity = 0.3,
 }: CategoryHeroProps) {
   
   // Dynamic color selection for the abstract shapes
   const themeColors = {
-    teal: 'from-teal/20 via-teal/5 to-transparent',
+    'rustic-terracotta': 'from-rustic-terracotta/20 via-rustic-terracotta/5 to-transparent',
     gold: 'from-gold/20 via-gold/5 to-transparent',
     rose: 'from-rose-500/20 via-rose-500/5 to-transparent',
     indigo: 'from-indigo-500/20 via-indigo-500/5 to-transparent',
-    midnight: 'from-midnight/10 via-midnight/5 to-transparent',
+    'velvet-obsidian': 'from-velvet-obsidian/10 via-velvet-obsidian/5 to-transparent',
   }
   
   const accentColor = themeColors[colorTheme]
@@ -37,7 +37,7 @@ export function CategoryHero({
 
   return (
     <section
-      className={`relative flex ${minHeight} flex-col items-center justify-center overflow-hidden ${isHome ? 'bg-midnight' : 'bg-midnight'} pt-24 pb-8 md:pt-28`}
+      className={`relative flex ${minHeight} flex-col items-center justify-center overflow-hidden ${isHome ? 'bg-velvet-obsidian' : 'bg-velvet-obsidian'} pt-24 pb-8 md:pt-28`}
       aria-label="Category Hero section"
     >
       {/* Background Image (if provided) */}
@@ -80,7 +80,7 @@ export function CategoryHero({
           {title}
         </h1>
 
-        <p className="max-w-2xl font-sans text-sm leading-relaxed md:text-lg text-white/90 font-medium bg-midnight/40 px-4 py-1 rounded-full backdrop-blur-sm">
+        <p className="max-w-2xl font-sans text-sm leading-relaxed md:text-lg text-white/90 font-medium bg-velvet-obsidian/40 px-4 py-1 rounded-full backdrop-blur-sm">
           {subtitle}
         </p>
 

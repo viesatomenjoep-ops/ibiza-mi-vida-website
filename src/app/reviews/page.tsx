@@ -56,7 +56,7 @@ export default function ReviewsPage() {
       </div>
 
       {/* ── Hero Image & Floating Header ── */}
-      <div className="relative h-[311px] w-full bg-midnight overflow-hidden">
+      <div className="relative h-[311px] w-full bg-velvet-obsidian overflow-hidden">
         <Image
           src="/fotos/Vanquish 1.jpg"
           alt="Ibiza mi vida Experience"
@@ -65,7 +65,7 @@ export default function ReviewsPage() {
           priority
         />
         
-        <div className="absolute inset-0 bg-gradient-to-t from-midnight via-transparent to-transparent opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian via-transparent to-transparent opacity-60" />
 
         {/* Organizer Float Box */}
         <div className="absolute bottom-6 left-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-[12px] p-4 flex justify-between items-center shadow-lg">

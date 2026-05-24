@@ -20,9 +20,9 @@ export function Hero({
   searchComponent,
   eyebrow,
   minHeight = 'min-h-screen',
-  overlayClassName = 'bg-gradient-to-b from-midnight/60 via-midnight/40 to-midnight/70',
-  titleClassName = 'text-soft-white',
-  subtitleClassName = 'text-soft-white/90',
+  overlayClassName = 'bg-gradient-to-b from-velvet-obsidian/60 via-velvet-obsidian/40 to-velvet-obsidian/70',
+  titleClassName = 'text-ibiza-sand',
+  subtitleClassName = 'text-ibiza-sand/90',
 }: HeroProps) {
   return (
     <section
@@ -46,7 +46,7 @@ export function Hero({
       {/* Content */}
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center gap-6 px-4 pb-12 pt-32 text-center md:px-8 md:pt-36">
         {eyebrow && (
-          <span className="inline-block rounded-full border border-teal/50 bg-teal/10 px-4 py-1 font-sans text-xs font-semibold uppercase tracking-widest text-teal">
+          <span className="inline-block rounded-full border border-rustic-terracotta/50 bg-rustic-terracotta/10 px-4 py-1 font-sans text-xs font-semibold uppercase tracking-widest text-rustic-terracotta">
             {eyebrow}
           </span>
         )}
@@ -67,7 +67,7 @@ export function Hero({
       </div>
 
       {/* Bottom gradient for smooth section transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-soft-white to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-ibiza-sand to-transparent" />
     </section>
   )
 }

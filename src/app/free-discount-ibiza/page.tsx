@@ -45,12 +45,12 @@ export default async function FreeDiscountIbizaPage() {
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {freeTips.map(({ title, description }, i) => (
-            <AnimatedSection key={title} delay={i * 0.07} className="flex flex-col gap-3 rounded-2xl bg-white p-6 shadow-sm border border-midnight/5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal/10 text-teal">
+            <AnimatedSection key={title} delay={i * 0.07} className="flex flex-col gap-3 rounded-2xl bg-white p-6 shadow-sm border border-velvet-obsidian/5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-rustic-terracotta/10 text-rustic-terracotta">
                 <Tag size={18} />
               </div>
-              <h3 className="font-serif text-xl font-light text-midnight">{title}</h3>
-              <p className="font-sans text-sm leading-relaxed text-midnight/60">{description}</p>
+              <h3 className="font-serif text-xl font-light text-velvet-obsidian">{title}</h3>
+              <p className="font-sans text-sm leading-relaxed text-velvet-obsidian/60">{description}</p>
             </AnimatedSection>
           ))}
         </div>

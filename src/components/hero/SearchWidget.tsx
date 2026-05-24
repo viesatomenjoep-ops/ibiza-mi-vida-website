@@ -35,7 +35,7 @@ export function SearchWidget() {
       <div className="flex flex-1 flex-col border-b border-black/5 px-5 py-4 md:border-b-0 md:border-r md:py-0 md:justify-center transition-colors hover:bg-black/5 md:rounded-l-full">
         <label
           htmlFor="search-service"
-          className="mb-1 font-sans text-[11px] font-bold uppercase tracking-wider text-midnight/50"
+          className="mb-1 font-sans text-[11px] font-bold uppercase tracking-wider text-velvet-obsidian/50"
         >
           What are you planning?
         </label>
@@ -43,11 +43,11 @@ export function SearchWidget() {
           id="search-service"
           value={selectedService}
           onChange={(e) => setSelectedService(e.target.value)}
-          className="w-full bg-transparent font-serif text-lg font-medium text-midnight focus:outline-none cursor-pointer"
+          className="w-full bg-transparent font-serif text-lg font-medium text-velvet-obsidian focus:outline-none cursor-pointer"
           aria-label="Select service type"
         >
           {serviceOptions.map((opt) => (
-            <option key={opt.href} value={opt.href} className="bg-white text-midnight">
+            <option key={opt.href} value={opt.href} className="bg-white text-velvet-obsidian">
               {opt.label}
             </option>
           ))}
@@ -58,7 +58,7 @@ export function SearchWidget() {
       <div className="flex flex-1 flex-col border-b border-black/5 px-5 py-4 md:border-b-0 md:py-0 md:justify-center transition-colors hover:bg-black/5">
         <label
           htmlFor="search-date"
-          className="mb-1 font-sans text-[11px] font-bold uppercase tracking-wider text-midnight/50"
+          className="mb-1 font-sans text-[11px] font-bold uppercase tracking-wider text-velvet-obsidian/50"
         >
           When are you arriving?
         </label>
@@ -68,7 +68,7 @@ export function SearchWidget() {
           value={date}
           min={today}
           onChange={(e) => setDate(e.target.value)}
-          className="w-full bg-transparent font-sans text-base font-medium text-midnight placeholder-midnight/40 focus:outline-none cursor-pointer"
+          className="w-full bg-transparent font-sans text-base font-medium text-velvet-obsidian placeholder-velvet-obsidian/40 focus:outline-none cursor-pointer"
           aria-label="Select arrival date"
         />
       </div>
@@ -77,7 +77,7 @@ export function SearchWidget() {
       <div className="flex items-center justify-center p-3">
         <button
           onClick={handleSearch}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-midnight px-8 py-4 font-sans text-[15px] font-semibold text-white shadow-lg transition-transform hover:scale-105 hover:bg-midnight/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal md:w-auto"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-velvet-obsidian px-8 py-4 font-sans text-[15px] font-semibold text-white shadow-lg transition-transform hover:scale-105 hover:bg-velvet-obsidian/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rustic-terracotta md:w-auto"
           aria-label="Search for experiences"
         >
           <Search size={16} />

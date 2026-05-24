@@ -26,7 +26,7 @@ function EventSlideCard({ event }: { event: FeaturedEvent }) {
 
   return (
     <Link href={`/events/${event.id}`} aria-label={`View details for ${event.title}`}>
-      <div className="group relative flex h-[400px] w-[280px] shrink-0 flex-col justify-end overflow-hidden rounded-[2rem] md:w-[320px] shadow-lg border border-black/5 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-midnight">
+      <div className="group relative flex h-[400px] w-[280px] shrink-0 flex-col justify-end overflow-hidden rounded-[2rem] md:w-[320px] shadow-lg border border-black/5 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-velvet-obsidian">
         <Image
           src={event.image_url || 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85'}
           alt={event.title}
@@ -34,7 +34,7 @@ function EventSlideCard({ event }: { event: FeaturedEvent }) {
           className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110 opacity-90 group-hover:opacity-100"
           sizes="(max-width: 768px) 280px, 320px"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-midnight/90 via-midnight/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian/90 via-velvet-obsidian/40 to-transparent" />
 
         <div className="absolute left-4 top-4 z-10 flex flex-col gap-2">
           <div className="flex items-center gap-2">
@@ -42,13 +42,13 @@ function EventSlideCard({ event }: { event: FeaturedEvent }) {
               {CATEGORY_LABELS[event.category]}
             </span>
             {event.badge_text && (
-              <span className="rounded-full bg-gold px-3 py-1.5 font-sans text-[11px] font-bold uppercase tracking-wider text-midnight shadow-sm">
+              <span className="rounded-full bg-gold px-3 py-1.5 font-sans text-[11px] font-bold uppercase tracking-wider text-velvet-obsidian shadow-sm">
                 {event.badge_text}
               </span>
             )}
           </div>
           {formattedDate && (
-            <div className="flex items-center gap-1.5 font-sans text-sm font-bold text-white bg-midnight/80 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/20 shadow-lg w-fit">
+            <div className="flex items-center gap-1.5 font-sans text-sm font-bold text-white bg-velvet-obsidian/80 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/20 shadow-lg w-fit">
               <Calendar size={14} className="text-gold" />
               {formattedDate}
             </div>
@@ -67,7 +67,7 @@ function EventSlideCard({ event }: { event: FeaturedEvent }) {
           <h3 className="mt-1 font-serif text-3xl font-medium leading-tight text-white line-clamp-2 drop-shadow-md">
             {event.title}
           </h3>
-          <div className="mt-3 flex items-center gap-2 font-sans text-sm font-bold text-gold transition-colors group-hover:text-white bg-white/10 w-fit px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10 group-hover:bg-gold group-hover:text-midnight group-hover:border-gold">
+          <div className="mt-3 flex items-center gap-2 font-sans text-sm font-bold text-gold transition-colors group-hover:text-white bg-white/10 w-fit px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10 group-hover:bg-gold group-hover:text-velvet-obsidian group-hover:border-gold">
             <span>Explore Event</span>
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
           </div>
@@ -164,18 +164,18 @@ export function FeaturedEventsSlider({ events }: FeaturedEventsSliderProps) {
   }
 
   return (
-    <section className="overflow-hidden py-16 md:py-24 bg-soft-white" aria-label="Featured events">
+    <section className="overflow-hidden py-16 md:py-24 bg-ibiza-sand" aria-label="Featured events">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8 mb-8 flex flex-col items-center justify-center text-center gap-4">
         <div>
-          <span className="font-sans text-xs md:text-sm font-bold uppercase tracking-widest text-teal bg-teal/10 px-3 py-1 rounded-full border border-teal/20">
+          <span className="font-sans text-xs md:text-sm font-bold uppercase tracking-widest text-rustic-terracotta bg-rustic-terracotta/10 px-3 py-1 rounded-full border border-rustic-terracotta/20">
             This Season
           </span>
-          <h2 className="mt-4 font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-midnight tracking-tight">
+          <h2 className="mt-4 font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-velvet-obsidian tracking-tight">
             Featured Events
           </h2>
         </div>
         
-        <p className="text-midnight/60 font-sans max-w-sm text-sm md:text-base font-medium">
+        <p className="text-velvet-obsidian/60 font-sans max-w-sm text-sm md:text-base font-medium">
           Discover the hottest tickets and exclusive parties happening on the island this week.
         </p>
 
@@ -183,14 +183,14 @@ export function FeaturedEventsSlider({ events }: FeaturedEventsSliderProps) {
         <div className="flex items-center gap-4 mt-6">
           <button
             onClick={scrollLeft}
-            className="w-12 h-12 rounded-full bg-white border border-black/10 shadow-md flex items-center justify-center text-midnight hover:bg-gold hover:text-white transition-all transform hover:scale-105 active:scale-95"
+            className="w-12 h-12 rounded-full bg-white border border-black/10 shadow-md flex items-center justify-center text-velvet-obsidian hover:bg-gold hover:text-white transition-all transform hover:scale-105 active:scale-95"
             aria-label="Scroll left"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           </button>
           <button
             onClick={scrollRight}
-            className="w-12 h-12 rounded-full bg-white border border-black/10 shadow-md flex items-center justify-center text-midnight hover:bg-gold hover:text-white transition-all transform hover:scale-105 active:scale-95"
+            className="w-12 h-12 rounded-full bg-white border border-black/10 shadow-md flex items-center justify-center text-velvet-obsidian hover:bg-gold hover:text-white transition-all transform hover:scale-105 active:scale-95"
             aria-label="Scroll right"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
@@ -200,8 +200,8 @@ export function FeaturedEventsSlider({ events }: FeaturedEventsSliderProps) {
 
       <div className="relative w-full">
         {/* Left/Right fading edges for desktop */}
-        <div className="hidden md:block absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-soft-white to-transparent z-10 pointer-events-none" />
-        <div className="hidden md:block absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-soft-white to-transparent z-10 pointer-events-none" />
+        <div className="hidden md:block absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-ibiza-sand to-transparent z-10 pointer-events-none" />
+        <div className="hidden md:block absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-ibiza-sand to-transparent z-10 pointer-events-none" />
 
         <div
           ref={scrollRef}

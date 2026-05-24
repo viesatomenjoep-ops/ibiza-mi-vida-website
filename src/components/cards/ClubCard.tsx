@@ -31,7 +31,7 @@ export function ClubCard({ club }: ClubCardProps) {
 
       {/* Official badge for promoter-link clubs */}
       {isPromoterLink && (
-        <div className="absolute right-4 top-4 z-10 flex items-center gap-1 rounded-full bg-driftwood px-3 py-1 font-sans text-[11px] font-semibold uppercase tracking-wide text-white">
+        <div className="absolute right-4 top-4 z-10 flex items-center gap-1 rounded-full bg-champagne-bronze px-3 py-1 font-sans text-[11px] font-semibold uppercase tracking-wide text-white">
           <ExternalLink size={10} />
           Official
         </div>
@@ -40,19 +40,19 @@ export function ClubCard({ club }: ClubCardProps) {
       {/* Content */}
       <div className="relative z-10 flex flex-col gap-2.5 p-6">
         {club.music_genre && (
-          <p className="font-sans text-xs font-medium uppercase tracking-widest text-driftwood">
+          <p className="font-sans text-xs font-medium uppercase tracking-widest text-champagne-bronze">
             {club.music_genre}
           </p>
         )}
-        <h3 className="font-serif text-2xl font-light leading-tight text-soft-white">
+        <h3 className="font-serif text-2xl font-light leading-tight text-ibiza-sand">
           {club.name}
         </h3>
         {club.tagline && (
-          <p className="font-sans text-sm font-light text-soft-white/70">{club.tagline}</p>
+          <p className="font-sans text-sm font-light text-ibiza-sand/70">{club.tagline}</p>
         )}
 
         <div className="mt-1 self-start">
-          <span className="inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 font-sans text-sm font-semibold text-white transition-all duration-200 group-hover:bg-teal-dark group-hover:gap-3">
+          <span className="inline-flex items-center gap-2 rounded-full bg-rustic-terracotta px-5 py-2.5 font-sans text-sm font-semibold text-white transition-all duration-200 group-hover:bg-rustic-terracotta/90 group-hover:gap-3">
             See Events
             <ArrowRight
               size={15}

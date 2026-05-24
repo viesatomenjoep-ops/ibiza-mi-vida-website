@@ -48,7 +48,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${quicksand.variable}`}>
-      <body className="font-sans bg-sys-bg text-midnight antialiased overflow-x-hidden w-full max-w-[100vw]">
+      <body className="font-sans bg-ibiza-sand text-velvet-obsidian antialiased overflow-x-hidden w-full max-w-[100vw]">
         <BookingProvider>
           <Navbar />
           <main id="main-content" className="pb-16 lg:pb-0">

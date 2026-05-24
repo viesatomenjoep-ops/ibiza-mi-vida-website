@@ -3,7 +3,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 import { ArrowRight } from 'lucide-react'
 
-type Variant = 'teal' | 'midnight' | 'outline' | 'ghost'
+type Variant = 'rustic-terracotta' | 'velvet-obsidian' | 'outline' | 'ghost'
 type Size = 'sm' | 'md' | 'lg'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -15,10 +15,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<Variant, string> = {
-  teal: 'bg-teal text-white hover:bg-teal-dark active:bg-teal-dark',
-  midnight: 'bg-midnight text-soft-white hover:bg-midnight/80',
-  outline: 'border border-midnight text-midnight hover:bg-midnight hover:text-soft-white',
-  ghost: 'text-teal hover:text-teal-dark underline-offset-4 hover:underline',
+  'rustic-terracotta': 'bg-rustic-terracotta text-white hover:bg-rustic-terracotta/90 active:bg-rustic-terracotta/90',
+  'velvet-obsidian': 'bg-velvet-obsidian text-ibiza-sand hover:bg-velvet-obsidian/80',
+  outline: 'border border-velvet-obsidian text-velvet-obsidian hover:bg-velvet-obsidian hover:text-ibiza-sand',
+  ghost: 'text-rustic-terracotta hover:text-rustic-terracotta/90 underline-offset-4 hover:underline',
 }
 
 const sizeClasses: Record<Size, string> = {
@@ -28,7 +28,7 @@ const sizeClasses: Record<Size, string> = {
 }
 
 export function Button({
-  variant = 'teal',
+  variant = 'rustic-terracotta',
   size = 'md',
   children,
   showArrow = false,
@@ -42,7 +42,7 @@ export function Button({
       className={[
         'inline-flex items-center justify-center rounded-full font-sans font-medium',
         'transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2',
-        'focus-visible:ring-teal focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed',
+        'focus-visible:ring-rustic-terracotta focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed',
         variantClasses[variant],
         sizeClasses[size],
         fullWidth ? 'w-full' : '',

@@ -47,7 +47,7 @@ export default async function TipsPage() {
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
-        colorTheme="teal"
+        colorTheme="rustic-terracotta"
         eyebrow="Insider Guide"
         minHeight="min-h-[45vh]"
       />
@@ -67,16 +67,16 @@ export default async function TipsPage() {
                       <Image src={post.cover_image} alt={post.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
                     </div>
                   )}
-                  <h3 className="font-serif text-xl font-light text-midnight group-hover:text-teal transition-colors">{post.title}</h3>
-                  {post.excerpt && <p className="font-sans text-sm leading-relaxed text-midnight/60 line-clamp-2">{post.excerpt}</p>}
+                  <h3 className="font-serif text-xl font-light text-velvet-obsidian group-hover:text-rustic-terracotta transition-colors">{post.title}</h3>
+                  {post.excerpt && <p className="font-sans text-sm leading-relaxed text-velvet-obsidian/60 line-clamp-2">{post.excerpt}</p>}
                 </Link>
               </AnimatedSection>
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border-2 border-dashed border-midnight/10 p-16 text-center">
-            <p className="font-serif text-2xl font-light text-midnight/40">Tips coming soon</p>
-            <p className="mt-2 font-sans text-sm text-midnight/30">Our Ibiza team is writing the best tips guide on the island.</p>
+          <div className="rounded-2xl border-2 border-dashed border-velvet-obsidian/10 p-16 text-center">
+            <p className="font-serif text-2xl font-light text-velvet-obsidian/40">Tips coming soon</p>
+            <p className="mt-2 font-sans text-sm text-velvet-obsidian/30">Our Ibiza team is writing the best tips guide on the island.</p>
           </div>
         )}
       </section>

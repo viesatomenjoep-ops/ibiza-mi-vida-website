@@ -43,7 +43,7 @@ export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
   }
 
   return (
-    <article className="flex flex-col gap-4 rounded-2xl border border-midnight/10 bg-white p-4 shadow-sm transition-shadow hover:shadow-md sm:flex-row sm:items-start">
+    <article className="flex flex-col gap-4 rounded-2xl border border-velvet-obsidian/10 bg-white p-4 shadow-sm transition-shadow hover:shadow-md sm:flex-row sm:items-start">
       {/* Thumbnail */}
       <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden rounded-xl sm:w-32">
         <Image
@@ -54,7 +54,7 @@ export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
           sizes="(max-width: 640px) 100vw, 128px"
         />
         {event.sold_out && (
-          <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-midnight/70">
+          <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-velvet-obsidian/70">
             <span className="rounded-full bg-red-500 px-3 py-1 font-sans text-xs font-bold text-white">
               Sold Out
             </span>
@@ -64,16 +64,16 @@ export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
 
       {/* Details */}
       <div className="flex flex-1 flex-col gap-2">
-        <h3 className="font-serif text-xl font-light text-midnight leading-tight">{event.title}</h3>
+        <h3 className="font-serif text-xl font-light text-velvet-obsidian leading-tight">{event.title}</h3>
 
         <div className="flex flex-wrap gap-x-4 gap-y-1">
-          <span className="flex items-center gap-1.5 font-sans text-xs text-midnight/50">
-            <Calendar size={12} className="text-teal" />
+          <span className="flex items-center gap-1.5 font-sans text-xs text-velvet-obsidian/50">
+            <Calendar size={12} className="text-rustic-terracotta" />
             {formatDate(event.event_date)}
           </span>
           {doorsOpen && (
-            <span className="flex items-center gap-1.5 font-sans text-xs text-midnight/50">
-              <Clock size={12} className="text-teal" />
+            <span className="flex items-center gap-1.5 font-sans text-xs text-velvet-obsidian/50">
+              <Clock size={12} className="text-rustic-terracotta" />
               Doors {doorsOpen}
             </span>
           )}
@@ -81,7 +81,7 @@ export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
 
         {/* Lineup */}
         {event.lineup && event.lineup.length > 0 && (
-          <p className="font-sans text-sm text-midnight/70">
+          <p className="font-sans text-sm text-velvet-obsidian/70">
             {event.lineup.slice(0, 3).join(' · ')}
             {event.lineup.length > 3 && ` + ${event.lineup.length - 3} more`}
           </p>
@@ -93,7 +93,7 @@ export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
             {event.genre_tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-driftwood/40 px-2.5 py-0.5 font-sans text-[11px] text-driftwood"
+                className="rounded-full border border-champagne-bronze/40 px-2.5 py-0.5 font-sans text-[11px] text-champagne-bronze"
               >
                 {tag}
               </span>
@@ -106,8 +106,8 @@ export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
       <div className="flex shrink-0 flex-row items-center gap-3 sm:flex-col sm:items-end sm:justify-between">
         {event.price_from !== null && (
           <div className="text-right">
-            <p className="font-sans text-[10px] uppercase tracking-wide text-midnight/40">From</p>
-            <p className="font-serif text-2xl font-light text-midnight">
+            <p className="font-sans text-[10px] uppercase tracking-wide text-velvet-obsidian/40">From</p>
+            <p className="font-serif text-2xl font-light text-velvet-obsidian">
               €{event.price_from.toFixed(0)}
             </p>
           </div>
@@ -118,7 +118,7 @@ export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
             href={event.promoter_url ?? '#'}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full bg-midnight px-5 py-2.5 font-sans text-sm font-semibold text-white transition-colors hover:bg-midnight/80 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-full bg-velvet-obsidian px-5 py-2.5 font-sans text-sm font-semibold text-white transition-colors hover:bg-velvet-obsidian/80 disabled:opacity-50"
             aria-label={`Get tickets for ${event.title} — opens official ticketing site`}
           >
             Get Tickets
@@ -128,7 +128,7 @@ export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
           <button
             onClick={handleWhatsAppBook}
             disabled={event.sold_out}
-            className="inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 font-sans text-sm font-semibold text-white transition-colors hover:bg-teal-dark disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-full bg-rustic-terracotta px-5 py-2.5 font-sans text-sm font-semibold text-white transition-colors hover:bg-rustic-terracotta/90 disabled:cursor-not-allowed disabled:opacity-50"
             aria-label={`Book tickets for ${event.title} via WhatsApp`}
           >
             Book via WhatsApp

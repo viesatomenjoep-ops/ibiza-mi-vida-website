@@ -58,12 +58,12 @@ export default async function BlogPage() {
                     </div>
                   )}
                   {post.category && (
-                    <span className="font-sans text-xs font-semibold uppercase tracking-wider text-teal">{post.category}</span>
+                    <span className="font-sans text-xs font-semibold uppercase tracking-wider text-rustic-terracotta">{post.category}</span>
                   )}
-                  <h2 className="font-serif text-xl font-light text-midnight group-hover:text-teal transition-colors leading-snug">{post.title}</h2>
-                  {post.excerpt && <p className="font-sans text-sm leading-relaxed text-midnight/60 line-clamp-3">{post.excerpt}</p>}
+                  <h2 className="font-serif text-xl font-light text-velvet-obsidian group-hover:text-rustic-terracotta transition-colors leading-snug">{post.title}</h2>
+                  {post.excerpt && <p className="font-sans text-sm leading-relaxed text-velvet-obsidian/60 line-clamp-3">{post.excerpt}</p>}
                   {post.published_at && (
-                    <time className="mt-auto font-sans text-xs text-midnight/30" dateTime={post.published_at}>
+                    <time className="mt-auto font-sans text-xs text-velvet-obsidian/30" dateTime={post.published_at}>
                       {new Date(post.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
                     </time>
                   )}
@@ -72,8 +72,8 @@ export default async function BlogPage() {
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border-2 border-dashed border-midnight/10 p-16 text-center">
-            <p className="font-serif text-2xl font-light text-midnight/40">Blog posts coming soon</p>
+          <div className="rounded-2xl border-2 border-dashed border-velvet-obsidian/10 p-16 text-center">
+            <p className="font-serif text-2xl font-light text-velvet-obsidian/40">Blog posts coming soon</p>
           </div>
         )}
       </section>
