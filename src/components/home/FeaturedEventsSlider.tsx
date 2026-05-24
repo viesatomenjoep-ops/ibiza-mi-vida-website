@@ -42,14 +42,14 @@ function EventSlideCard({ event }: { event: FeaturedEvent }) {
               {CATEGORY_LABELS[event.category]}
             </span>
             {event.badge_text && (
-              <span className="rounded-full bg-gold px-3 py-1.5 font-sans text-[11px] font-bold uppercase tracking-wider text-velvet-obsidian shadow-sm">
+              <span className="rounded-full bg-champagne-bronze px-3 py-1.5 font-sans text-[11px] font-bold uppercase tracking-wider text-white shadow-sm">
                 {event.badge_text}
               </span>
             )}
           </div>
           {formattedDate && (
-            <div className="flex items-center gap-1.5 font-sans text-sm font-bold text-white bg-velvet-obsidian/80 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/20 shadow-lg w-fit">
-              <Calendar size={14} className="text-gold" />
+            <div className="flex items-center gap-1.5 font-sans text-sm font-bold text-velvet-obsidian bg-white/90 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/20 shadow-lg w-fit">
+              <Calendar size={14} className="text-rustic-terracotta" />
               {formattedDate}
             </div>
           )}
@@ -58,8 +58,8 @@ function EventSlideCard({ event }: { event: FeaturedEvent }) {
         <div className="relative z-10 flex flex-col gap-2 p-6">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
             {event.venue_name && (
-              <span className="flex items-center gap-1.5 font-sans text-xs font-semibold text-white/80 bg-white/10 px-2.5 py-1 rounded-md backdrop-blur-sm border border-white/10">
-                <MapPin size={12} className="text-gold" />
+              <span className="flex items-center gap-1.5 font-sans text-xs font-semibold text-white/90 bg-white/10 px-2.5 py-1 rounded-md backdrop-blur-sm border border-white/10">
+                <MapPin size={12} className="text-champagne-bronze" />
                 {event.venue_name}
               </span>
             )}
@@ -67,7 +67,7 @@ function EventSlideCard({ event }: { event: FeaturedEvent }) {
           <h3 className="mt-1 font-serif text-3xl font-medium leading-tight text-white line-clamp-2 drop-shadow-md">
             {event.title}
           </h3>
-          <div className="mt-3 flex items-center gap-2 font-sans text-sm font-bold text-gold transition-colors group-hover:text-white bg-white/10 w-fit px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10 group-hover:bg-gold group-hover:text-velvet-obsidian group-hover:border-gold">
+          <div className="mt-3 flex items-center gap-2 font-sans text-sm font-bold text-champagne-bronze transition-colors group-hover:text-white bg-white/10 w-fit px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10 group-hover:bg-rustic-terracotta group-hover:border-rustic-terracotta">
             <span>Explore Event</span>
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
           </div>
@@ -183,14 +183,14 @@ export function FeaturedEventsSlider({ events }: FeaturedEventsSliderProps) {
         <div className="flex items-center gap-4 mt-6">
           <button
             onClick={scrollLeft}
-            className="w-12 h-12 rounded-full bg-white border border-black/10 shadow-md flex items-center justify-center text-velvet-obsidian hover:bg-gold hover:text-white transition-all transform hover:scale-105 active:scale-95"
+            className="w-12 h-12 rounded-full bg-white border border-black/10 shadow-md flex items-center justify-center text-velvet-obsidian hover:bg-rustic-terracotta hover:text-white transition-all transform hover:scale-105 active:scale-95"
             aria-label="Scroll left"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           </button>
           <button
             onClick={scrollRight}
-            className="w-12 h-12 rounded-full bg-white border border-black/10 shadow-md flex items-center justify-center text-velvet-obsidian hover:bg-gold hover:text-white transition-all transform hover:scale-105 active:scale-95"
+            className="w-12 h-12 rounded-full bg-white border border-black/10 shadow-md flex items-center justify-center text-velvet-obsidian hover:bg-rustic-terracotta hover:text-white transition-all transform hover:scale-105 active:scale-95"
             aria-label="Scroll right"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>

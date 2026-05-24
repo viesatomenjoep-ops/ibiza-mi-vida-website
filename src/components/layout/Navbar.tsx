@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Anchor, MessageCircle, Search, Music, Sun, Car, GlassWater, CheckCircle, Navigation, Ticket, Star, Heart } from 'lucide-react'
+import { Menu, X, Anchor, MessageCircle, Search, Music, Sun, Car, GlassWater, CheckCircle, Navigation, Ticket, Star, Heart, ChevronRight } from 'lucide-react'
 
 const allCategories = [
   { label: 'Deals of the Day', href: '/deals-of-the-day', icon: Star, desc: 'Best daily offers & events' },
@@ -114,7 +114,7 @@ export function Navbar() {
             <div className="mx-auto w-full max-w-5xl flex-1 flex flex-col">
               
               {/* Grid of Categories */}
-              <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 mt-4">
                 {allCategories.map((cat, i) => (
                   <motion.div
                     key={cat.label}
@@ -125,13 +125,21 @@ export function Navbar() {
                     <Link
                       href={cat.href}
                       onClick={() => setMenuOpen(false)}
-                      className="group flex aspect-square flex-col items-center justify-center gap-3 rounded-[32px] bg-white p-4 text-center shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg border border-transparent hover:border-velvet-obsidian/5"
+                      className="group flex flex-col justify-between w-full h-[120px] rounded-[20px] bg-white p-4 shadow-sm transition-all hover:scale-[1.02] hover:shadow-lg border border-velvet-obsidian/5"
                     >
-                      <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-ibiza-sand text-velvet-obsidian transition-all duration-300 group-hover:scale-110 group-hover:bg-rustic-terracotta group-hover:text-white">
-                        <cat.icon size={28} strokeWidth={1.5} />
+                      <div className="flex justify-between items-start">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ibiza-sand text-velvet-obsidian transition-transform group-hover:scale-110 group-hover:bg-rustic-terracotta group-hover:text-white">
+                          <cat.icon size={20} strokeWidth={1.5} />
+                        </div>
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-white/40 text-velvet-obsidian opacity-0 group-hover:opacity-100 transition-opacity">
+                          <ChevronRight size={16} />
+                        </div>
                       </div>
-                      <div className="flex flex-col">
-                        <span className="font-serif text-lg md:text-xl font-medium text-velvet-obsidian group-hover:text-rustic-terracotta transition-colors leading-tight">
+                      <div className="flex flex-col mt-auto">
+                        <span className="font-sans text-[11px] font-light tracking-wide text-velvet-obsidian/70 line-clamp-1">
+                          {cat.desc}
+                        </span>
+                        <span className="font-sans text-[18px] font-medium leading-[120%] tracking-tight text-velvet-obsidian line-clamp-1 group-hover:text-rustic-terracotta transition-colors">
                           {cat.label}
                         </span>
                       </div>

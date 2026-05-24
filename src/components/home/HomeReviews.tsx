@@ -27,41 +27,47 @@ export function HomeReviews() {
   return (
     <div className="w-full max-w-5xl mx-auto bg-ibiza-sand px-4 py-8">
       {/* Ratings Header */}
-      <div className="max-w-md mx-auto">
-        <div className="bg-white rounded-[16px] p-4 flex flex-col gap-4 mb-6 shadow-sm border border-velvet-obsidian/5">
-          <h2 className="font-serif text-[18px] text-velvet-obsidian">Ratings & Review</h2>
-          <div className="flex items-center gap-3">
-            <span className="font-sans font-medium text-[34px] text-velvet-obsidian leading-none">5.0</span>
-            <div className="flex flex-col gap-1">
-              <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map(i => (
-                  <div key={i} className="w-5 h-5 bg-champagne-bronze rounded flex items-center justify-center">
-                    <Star size={12} className="text-white fill-white" />
+      <div className="flex flex-col gap-6 md:flex-row md:items-start md:gap-8">
+        
+        {/* Ratings Header (Left Column on Desktop) */}
+        <div className="w-full md:w-1/3 shrink-0">
+          <div className="bg-white rounded-[16px] p-6 flex flex-col gap-4 shadow-sm border border-velvet-obsidian/5">
+            <h2 className="font-serif text-[24px] text-velvet-obsidian">Ratings & Reviews</h2>
+            <div className="flex flex-col gap-3">
+              <div className="flex items-end gap-3">
+                <span className="font-sans font-medium text-[48px] text-velvet-obsidian leading-none">5.0</span>
+                <div className="flex flex-col gap-1 pb-1">
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map(i => (
+                      <div key={i} className="w-6 h-6 bg-champagne-bronze rounded flex items-center justify-center">
+                        <Star size={14} className="text-white fill-white" />
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
               <div className="flex items-center gap-2">
-                <span className="bg-velvet-obsidian text-ibiza-sand text-[10px] px-2 py-0.5 rounded-full font-sans">Excellent</span>
-                <span className="font-sans text-[12px] text-velvet-obsidian/60">Based on 982 Reviews</span>
+                <span className="bg-velvet-obsidian text-ibiza-sand text-[12px] px-3 py-1 rounded-full font-sans uppercase tracking-wider font-bold">Excellent</span>
+                <span className="font-sans text-[14px] text-velvet-obsidian/60">Based on 982 Reviews</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Reviews List */}
-        <div className="flex flex-col gap-4">
+        {/* Reviews List (Right Column on Desktop, Grid layout) */}
+        <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
           {reviews.map((rev, i) => (
-            <div key={i} className="bg-white rounded-[20px] p-4 flex flex-col gap-3 shadow-sm border border-velvet-obsidian/5">
+            <div key={i} className="bg-white rounded-[20px] p-5 flex flex-col gap-4 shadow-sm border border-velvet-obsidian/5 h-full">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full overflow-hidden relative shrink-0">
+                <div className="w-12 h-12 rounded-full overflow-hidden relative shrink-0">
                   <Image src={rev.avatar} alt={rev.name} fill className="object-cover" />
                 </div>
                 <div className="flex flex-col flex-1">
                   <span className="font-sans text-[16px] font-medium text-velvet-obsidian">{rev.name}</span>
-                  <div className="flex items-center gap-1 mt-0.5">
+                  <div className="flex items-center gap-1 mt-1">
                     <div className="flex gap-0.5">
                       {[1, 2, 3, 4, 5].map(star => (
-                        <div key={star} className={`w-3 h-3 rounded-[3px] flex items-center justify-center ${star <= Math.floor(rev.rating) ? 'bg-champagne-bronze' : 'bg-gray-300'}`}>
+                        <div key={star} className={`w-3.5 h-3.5 rounded-[3px] flex items-center justify-center ${star <= Math.floor(rev.rating) ? 'bg-champagne-bronze' : 'bg-gray-300'}`}>
                           <Star size={8} className="text-white fill-white" />
                         </div>
                       ))}
@@ -70,12 +76,13 @@ export function HomeReviews() {
                   </div>
                 </div>
               </div>
-              <p className="font-sans text-[14px] text-velvet-obsidian/80 leading-[140%]">
+              <p className="font-sans text-[14px] text-velvet-obsidian/80 leading-[150%]">
                 {rev.text}
               </p>
             </div>
           ))}
         </div>
+
       </div>
     </div>
   )

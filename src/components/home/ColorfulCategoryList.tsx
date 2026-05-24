@@ -5,15 +5,23 @@ import Link from 'next/link'
 import { Anchor, Ticket, Music, Navigation, Sun, CheckCircle, GlassWater, Car, Star, ChevronRight } from 'lucide-react'
 
 const allCategories = [
-  { label: 'Deals of the Day', href: '/deals-of-the-day', icon: Star, desc: 'Best daily offers & events', color: 'bg-velvet-obsidian', group: 'Deals' },
-  { label: 'Private Boat Charters', href: '/private-boat-charters', icon: Anchor, desc: 'Yachts & exclusive rentals', color: 'bg-champagne-bronze', group: 'Boats' },
-  { label: 'Club Tickets', href: '/club-tickets', icon: Ticket, desc: 'Pacha, Amnesia, Hi Ibiza', color: 'bg-rustic-terracotta', group: 'Clubs' },
-  { label: 'Boat Parties', href: '/boat-parties', icon: Music, desc: 'Sunset cruises & music', color: 'bg-velvet-obsidian', group: 'Boats' },
-  { label: 'VIP Catamaran', href: '/vip-catamaran', icon: Navigation, desc: 'Luxury sailing experiences', color: 'bg-champagne-bronze', group: 'VIP' },
-  { label: 'Formentera Trips', href: '/formentera-boat-trips', icon: Sun, desc: 'Day trips to paradise', color: 'bg-rustic-terracotta', group: 'Boats' },
-  { label: 'Guestlist', href: '/guestlist', icon: CheckCircle, desc: 'Free entry & access', color: 'bg-champagne-bronze', group: 'Clubs' },
-  { label: 'Drink Packages', href: '/drink-packages', icon: GlassWater, desc: 'VIP tables & bottle service', color: 'bg-velvet-obsidian', group: 'VIP' },
-  { label: 'Car & Scooter', href: '/car-scooter-rental', icon: Car, desc: 'Explore at your own pace', color: 'bg-rustic-terracotta', group: 'Deals' },
+  { label: 'Deals of the Day', href: '/deals-of-the-day', icon: Star, desc: 'Best daily offers', color: 'bg-velvet-obsidian', group: 'Deals' },
+  { label: 'Private Boat Charters', href: '/private-boat-charters', icon: Anchor, desc: 'Yachts & rentals', color: 'bg-champagne-bronze', group: 'Boats' },
+  
+  // Specific Clubs
+  { label: 'Pacha', href: '/club-tickets/pacha', icon: Ticket, desc: 'Ibiza Town', color: 'bg-velvet-obsidian', group: 'Clubs' },
+  { label: 'Amnesia', href: '/club-tickets/amnesia', icon: Ticket, desc: 'San Rafael', color: 'bg-champagne-bronze', group: 'Clubs' },
+  { label: 'Hï Ibiza', href: '/club-tickets/hi-ibiza', icon: Ticket, desc: 'Playa d\'en Bossa', color: 'bg-rustic-terracotta', group: 'Clubs' },
+  { label: 'Ushuaïa', href: '/club-tickets/ushuaia', icon: Ticket, desc: 'Day club', color: 'bg-velvet-obsidian', group: 'Clubs' },
+  { label: 'O Beach', href: '/club-tickets/o-beach', icon: Ticket, desc: 'San Antonio', color: 'bg-champagne-bronze', group: 'Clubs' },
+  { label: 'Eden', href: '/club-tickets/eden', icon: Ticket, desc: 'San Antonio', color: 'bg-rustic-terracotta', group: 'Clubs' },
+  
+  { label: 'Boat Parties', href: '/boat-parties', icon: Music, desc: 'Sunset cruises', color: 'bg-velvet-obsidian', group: 'Boats' },
+  { label: 'VIP Catamaran', href: '/vip-catamaran', icon: Navigation, desc: 'Luxury sailing', color: 'bg-champagne-bronze', group: 'VIP' },
+  { label: 'Formentera Trips', href: '/formentera-boat-trips', icon: Sun, desc: 'Day trips', color: 'bg-rustic-terracotta', group: 'Boats' },
+  { label: 'Guestlist', href: '/guestlist', icon: CheckCircle, desc: 'Free entry', color: 'bg-champagne-bronze', group: 'Clubs' },
+  { label: 'Drink Packages', href: '/drink-packages', icon: GlassWater, desc: 'VIP tables', color: 'bg-velvet-obsidian', group: 'VIP' },
+  { label: 'Car & Scooter', href: '/car-scooter-rental', icon: Car, desc: 'Explore Ibiza', color: 'bg-rustic-terracotta', group: 'Deals' },
 ]
 
 const tabs = ['All', 'Boats', 'Clubs', 'VIP', 'Deals']
@@ -23,9 +31,9 @@ export function ColorfulCategoryList() {
 
   // Filter categories based on active tab
   const displayedCategories = activeTab === 'All' 
-    ? allCategories 
+    ? allCategories.filter(cat => cat.group !== 'Clubs') // Show high level when All is selected
     : activeTab === null
-      ? allCategories.slice(0, 3) // Show Deals, Private Boats, Club Tickets by default
+      ? allCategories.filter(cat => cat.label === 'Deals of the Day' || cat.label === 'Private Boat Charters' || cat.label === 'Club Tickets') // Show defaults
       : allCategories.filter(cat => cat.group === activeTab)
 
   return (
@@ -37,7 +45,7 @@ export function ColorfulCategoryList() {
           <button 
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`whitespace-nowrap px-6 py-3.5 rounded-full font-sans text-[15px] font-medium transition-colors shadow-sm ${activeTab === tab ? 'bg-velvet-obsidian text-ibiza-sand' : 'bg-white text-velvet-obsidian/60 border border-black/5'}`}
+            className={`whitespace-nowrap px-6 py-2.5 rounded-full font-sans text-[14px] font-medium transition-colors shadow-sm ${activeTab === tab ? 'bg-velvet-obsidian text-ibiza-sand' : 'bg-white text-velvet-obsidian/60 border border-black/5'}`}
           >
             {tab}
           </button>
@@ -50,8 +58,8 @@ export function ColorfulCategoryList() {
         <Link href="/club-tickets" className="font-sans text-[16px] text-champagne-bronze font-medium cursor-pointer transition-colors hover:text-rustic-terracotta">See All</Link>
       </div>
 
-      {/* Cards List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+      {/* Cards List (Smaller sizing) */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
         {displayedCategories.map((cat) => {
           const isDarkBg = cat.color === 'bg-velvet-obsidian' || cat.color === 'bg-rustic-terracotta'
           const textColor = isDarkBg ? 'text-ibiza-sand' : 'text-velvet-obsidian'
@@ -61,27 +69,27 @@ export function ColorfulCategoryList() {
 
           return (
             <Link href={cat.href} key={cat.label}>
-              <div className={`w-full rounded-[24px] p-6 flex flex-col justify-between ${cat.color} h-[200px] shadow-sm hover:scale-[1.02] hover:shadow-lg transition-all relative overflow-hidden group`}>
+              <div className={`w-full rounded-[20px] p-4 flex flex-col justify-between ${cat.color} h-[130px] shadow-sm hover:scale-[1.02] hover:shadow-lg transition-all relative overflow-hidden group`}>
                 <div className="flex justify-between items-start z-10">
-                  <div className={`w-14 h-14 rounded-full flex items-center justify-center ${badgeBg} ${badgeText} shadow-sm group-hover:scale-110 transition-transform`}>
-                    <cat.icon size={26} strokeWidth={1.5} />
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badgeBg} ${badgeText} shadow-sm group-hover:scale-110 transition-transform`}>
+                    <cat.icon size={20} strokeWidth={1.5} />
                   </div>
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${badgeBg} ${badgeText} opacity-0 group-hover:opacity-100 transition-opacity`}>
-                    <ChevronRight size={20} />
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${badgeBg} ${badgeText} opacity-0 group-hover:opacity-100 transition-opacity`}>
+                    <ChevronRight size={16} />
                   </div>
                 </div>
                 
-                <div className="flex flex-col gap-1 mt-auto z-10">
-                  <span className={`font-sans text-[13px] font-light tracking-wide ${subtitleColor}`}>
+                <div className="flex flex-col mt-auto z-10">
+                  <span className={`font-sans text-[11px] font-light tracking-wide ${subtitleColor} line-clamp-1`}>
                     {cat.desc}
                   </span>
-                  <span className={`font-sans text-[26px] font-medium leading-[120%] tracking-tight ${textColor}`}>
+                  <span className={`font-sans text-[18px] font-medium leading-[120%] tracking-tight ${textColor} line-clamp-1`}>
                     {cat.label}
                   </span>
                 </div>
                 
                 {/* Decoration blob */}
-                <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none group-hover:bg-white/20 transition-colors" />
+                <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none group-hover:bg-white/20 transition-colors" />
               </div>
             </Link>
           )
