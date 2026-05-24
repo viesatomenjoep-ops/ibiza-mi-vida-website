@@ -58,6 +58,8 @@ async function getAllExperiences(): Promise<Experience[]> {
   ]
 }
 
+import { DealOfTheWeekList } from '@/components/home/DealOfTheWeekList'
+
 export default async function DealsOfTheDayPage({
   searchParams,
 }: {
@@ -77,33 +79,32 @@ export default async function DealsOfTheDayPage({
         subtitle="Your ultimate overview. Find the best club tickets, boat parties, excursions, and drink packages all in one place."
         colorTheme="teal"
         eyebrow="Special Offers"
-        minHeight="min-h-[60vh]"
       />
 
       {/* DASHBOARD TOP: Deal of the Day vs Deal of the Week */}
-      <section className="mx-auto max-w-7xl px-4 py-12 md:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <section className="bg-soft-white px-4 py-12 md:px-8">
+        <div className="mx-auto max-w-5xl flex flex-col gap-10">
           
-          {/* LEFT: Deal of the Day Active Banner */}
-          <AnimatedSection className="lg:col-span-2">
-            <div className="bg-gold/10 border-2 border-gold/30 rounded-3xl p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden h-full">
+          {/* TOP: Deal of the Day Active Banner */}
+          <AnimatedSection>
+            <div className="bg-gold/10 border-2 border-gold/30 rounded-3xl p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-4 opacity-10">
                 <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
               </div>
-              <div className="z-10 text-center md:text-left">
+              <div className="z-10 text-center md:text-left flex-1">
                 <DealDateBanner />
-                <h2 className="text-3xl md:text-4xl font-serif text-midnight mb-2">Deal of the Day</h2>
-                <p className="text-midnight/70 font-sans max-w-md">The best hand-picked offers, strictly valid until midnight. Book now before the timer runs out!</p>
+                <h2 className="text-3xl md:text-5xl font-serif text-midnight mb-4">Deal of the Day</h2>
+                <p className="text-midnight/70 font-sans text-lg max-w-lg">The best hand-picked offers, strictly valid until midnight. Book now before the timer runs out!</p>
               </div>
-              <div className="z-10 bg-white/50 backdrop-blur-md p-4 rounded-2xl border border-white">
+              <div className="z-10 bg-white/50 backdrop-blur-md p-6 rounded-2xl border border-white shrink-0">
                 <DealTimer />
               </div>
             </div>
           </AnimatedSection>
 
-          {/* RIGHT: Deal of the Week */}
-          <AnimatedSection className="lg:col-span-1">
-            <div className="bg-midnight rounded-3xl p-6 md:p-8 h-full flex flex-col relative overflow-hidden text-sandstone">
+          {/* BOTTOM: Deal of the Week */}
+          <AnimatedSection>
+            <div className="bg-midnight rounded-3xl p-6 md:p-10 flex flex-col relative overflow-hidden text-sandstone shadow-2xl">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-full bg-gold flex items-center justify-center text-midnight">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -114,30 +115,7 @@ export default async function DealsOfTheDayPage({
                 </div>
               </div>
               
-              <div className="flex-1 flex flex-col gap-3">
-                {/* Mock Weekly Events */}
-                <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex justify-between items-center">
-                  <div>
-                    <p className="font-semibold text-white text-sm">Oceanbeat VIP Boat</p>
-                    <p className="text-xs text-sandstone/70">Thursday</p>
-                  </div>
-                  <span className="text-gold font-bold">€89</span>
-                </div>
-                <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex justify-between items-center">
-                  <div>
-                    <p className="font-semibold text-white text-sm">Amnesia Balcony</p>
-                    <p className="text-xs text-sandstone/70">Friday</p>
-                  </div>
-                  <span className="text-gold font-bold">€120</span>
-                </div>
-                <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex justify-between items-center">
-                  <div>
-                    <p className="font-semibold text-white text-sm">Formentera Trip</p>
-                    <p className="text-xs text-sandstone/70">Saturday</p>
-                  </div>
-                  <span className="text-gold font-bold">€150</span>
-                </div>
-              </div>
+              <DealOfTheWeekList />
               
               <CalendarModal />
             </div>
