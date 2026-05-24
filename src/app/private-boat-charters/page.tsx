@@ -47,7 +47,7 @@ async function getData() {
       getPageContent('private-boat', {
         title: "Private Boat Charter Ibiza",
         subtitle: "The whole Ibiza coastline, entirely for your group. Custom routes, experienced crew, and memories that last a lifetime.",
-        backgroundImage: "https://images.unsplash.com/photo-1504735689966-4f12eb87a84e?w=1920&q=85"
+        backgroundImage: "/fotos/Sunseeker 68 1.webp"
       })
     ])
     const charterData = (charters && charters.length > 0) ? charters : FALLBACK_EXPERIENCES['boat-charter']
@@ -56,7 +56,7 @@ async function getData() {
     const pageContent = await getPageContent('private-boat', {
       title: "Private Boat Charter Ibiza",
       subtitle: "The whole Ibiza coastline, entirely for your group. Custom routes, experienced crew, and memories that last a lifetime.",
-      backgroundImage: "https://images.unsplash.com/photo-1504735689966-4f12eb87a84e?w=1920&q=85"
+      backgroundImage: "/fotos/Sunseeker 68 1.webp"
     })
     return { charters: FALLBACK_EXPERIENCES['boat-charter'], reviews: [], pageContent }
   }
@@ -83,7 +83,7 @@ export default async function PrivateBoatChartersPage() {
       <Hero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
-        backgroundImage={pageContent.backgroundImage}
+        backgroundImage={pageContent.backgroundImage?.includes('unsplash.com') || !pageContent.backgroundImage ? "/fotos/Sunseeker 68 1.webp" : pageContent.backgroundImage}
         eyebrow="Luxury Yacht Rental"
         minHeight="min-h-[85vh]"
       />
