@@ -36,11 +36,11 @@ export function Footer() {
                 Ibiza <span className="text-teal">mi vida</span>
               </span>
             </Link>
-            <p className="font-sans text-sm leading-relaxed text-soft-white/60">
+            <p className="font-sans text-base leading-relaxed text-soft-white/60 mt-2">
               Your premium Ibiza events & booking agency. Club tickets, private boat charters,
               and everything you need for the perfect Ibiza experience.
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4 mt-2">
               <a
                 href="https://instagram.com/ibizamivida"
                 target="_blank"
@@ -71,15 +71,15 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h3 className="mb-4 font-sans text-xs font-semibold uppercase tracking-widest text-driftwood">
+            <h3 className="mb-5 font-sans text-sm font-semibold uppercase tracking-widest text-driftwood">
               Services
             </h3>
-            <ul className="flex flex-col gap-2" role="list">
+            <ul className="flex flex-col gap-3" role="list">
               {services.map(({ label, href }) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    className="font-sans text-sm text-soft-white/60 transition-colors hover:text-soft-white"
+                    className="font-sans text-base text-soft-white/60 transition-colors hover:text-soft-white"
                   >
                     {label}
                   </Link>
@@ -90,15 +90,15 @@ export function Footer() {
 
           {/* Guides */}
           <div>
-            <h3 className="mb-4 font-sans text-xs font-semibold uppercase tracking-widest text-driftwood">
+            <h3 className="mb-5 font-sans text-sm font-semibold uppercase tracking-widest text-driftwood">
               Ibiza Guides
             </h3>
-            <ul className="flex flex-col gap-2" role="list">
+            <ul className="flex flex-col gap-3" role="list">
               {guides.map(({ label, href }) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    className="font-sans text-sm text-soft-white/60 transition-colors hover:text-soft-white"
+                    className="font-sans text-base text-soft-white/60 transition-colors hover:text-soft-white"
                   >
                     {label}
                   </Link>
@@ -108,42 +108,42 @@ export function Footer() {
           </div>
 
           {/* Contact CTA */}
-          <div className="flex flex-col gap-4">
-            <h3 className="font-sans text-xs font-semibold uppercase tracking-widest text-driftwood">
+          <div className="flex flex-col gap-5">
+            <h3 className="font-sans text-sm font-semibold uppercase tracking-widest text-driftwood">
               Book Now
             </h3>
-            <p className="font-sans text-sm text-soft-white/60">
+            <p className="font-sans text-base text-soft-white/60 leading-relaxed">
               Ready to plan your Ibiza experience? Chat with us on WhatsApp for instant replies.
             </p>
             <a
               href={`https://wa.me/${whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 font-sans text-sm font-semibold text-white transition-colors hover:bg-teal-dark"
+              className="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 font-sans text-base font-semibold text-white transition-colors hover:bg-teal-dark shadow-lg"
             >
-              <MessageCircle size={15} />
+              <MessageCircle size={18} />
               Chat on WhatsApp
             </a>
             <Link
               href="/private-boat-charters"
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 font-sans text-sm font-medium text-soft-white/80 transition-colors hover:border-white hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 font-sans text-base font-medium text-soft-white/80 transition-colors hover:border-white hover:text-white"
             >
-              <Anchor size={15} />
+              <Anchor size={18} />
               Private Boat Charters
             </Link>
           </div>
         </div>
 
         {/* Bottom row */}
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 md:flex-row">
-          <p className="font-sans text-xs text-soft-white/40">
+        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 md:flex-row">
+          <p className="font-sans text-sm text-soft-white/40">
             © {new Date().getFullYear()} Ibiza mi vida. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy-policy" className="font-sans text-xs text-soft-white/40 hover:text-soft-white/70 transition-colors">
+            <Link href="/privacy-policy" className="font-sans text-sm text-soft-white/40 hover:text-soft-white/70 transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/cookie-policy" className="font-sans text-xs text-soft-white/40 hover:text-soft-white/70 transition-colors">
+            <Link href="/cookie-policy" className="font-sans text-sm text-soft-white/40 hover:text-soft-white/70 transition-colors">
               Cookie Policy
             </Link>
           </div>
