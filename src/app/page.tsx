@@ -9,6 +9,7 @@ import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { LocalBusinessSchema } from '@/components/seo/LocalBusinessSchema'
 import { FeaturedEventsSlider } from '@/components/home/FeaturedEventsSlider'
+import { FlyerSlider } from '@/components/home/FlyerSlider'
 import { createServerClient } from '@/lib/supabase/server'
 import { getPageContent } from '@/lib/page-content'
 import { FALLBACK_FEATURED_EVENTS } from '@/lib/fallback-events'
@@ -211,14 +212,44 @@ export default async function HomePage() {
         </AnimatedSection>
       </section>
 
-      {/* ── Featured events slider ── */}
-      <div className="bg-ibiza-sand">
-        <FeaturedEventsSlider events={featuredEvents} />
-      </div>
-
       {/* New Figma Search Component placed directly under the Hero */}
       <div className="bg-ibiza-sand">
         <HomeSearchFigma events={featuredEvents} />
+      </div>
+
+      {/* ── Hï Ibiza 2026 Slider ── */}
+      <div className="bg-ibiza-sand">
+        <FlyerSlider
+          title="Hï Ibiza 2026"
+          subtitle="Discover the hottest parties at the World's #1 Club this season."
+          images={[
+            '/hi-ibiza-2026/FB_IMG_1779623220486.jpg',
+            '/hi-ibiza-2026/FB_IMG_1779623247060.jpg',
+            '/hi-ibiza-2026/FB_IMG_1779623300180.jpg',
+            '/hi-ibiza-2026/FB_IMG_1779623326826.jpg',
+            '/hi-ibiza-2026/FB_IMG_1779623412887.jpg',
+            '/hi-ibiza-2026/FB_IMG_1779623459527.jpg',
+            '/hi-ibiza-2026/image_search_1779622831241.webp',
+            '/hi-ibiza-2026/image_search_1779622859133.jpg',
+          ]}
+        />
+      </div>
+
+      {/* ── Ushuaïa 2026 Slider ── */}
+      <div className="bg-ibiza-sand">
+        <FlyerSlider
+          title="Ushuaïa Ibiza 2026"
+          subtitle="Experience the most spectacular open-air events in Ibiza."
+          images={[
+            '/ushuaia-2026/image_search_1779624236635.jpg',
+            '/ushuaia-2026/image_search_1779624261942.jpg',
+            '/ushuaia-2026/image_search_1779624290030.jpg',
+            '/ushuaia-2026/image_search_1779624372415.jpg',
+            '/ushuaia-2026/image_search_1779624407835.jpg',
+            '/ushuaia-2026/image_search_1779624441099.jpg',
+            '/ushuaia-2026/image_search_1779624489607.jpg',
+          ]}
+        />
       </div>
 
       {/* DASHBOARD TOP: Deal of the Day vs Deal of the Week */}
