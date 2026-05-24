@@ -27,6 +27,18 @@ export const metadata: Metadata = {
 
 const categories = [
   {
+    title: 'Deals of the Day',
+    tagline: 'Best daily offers · Clubs & Parties',
+    imageUrl: 'https://images.unsplash.com/photo-1574347781078-d4dd21af64e8?w=900&q=85',
+    href: '/deals-of-the-day',
+    bookingConfig: {
+      serviceType: 'deals',
+      serviceName: 'Deals of the Day Ibiza',
+      sourcePage: '/',
+    },
+    badge: 'Hot Deals',
+  },
+  {
     title: 'Private Boat Charters',
     tagline: 'Exclusive · Custom routes · From €500',
     imageUrl: 'https://images.unsplash.com/photo-1504735689966-4f12eb87a84e?w=900&q=85',

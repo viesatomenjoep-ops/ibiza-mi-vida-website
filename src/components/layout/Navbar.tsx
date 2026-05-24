@@ -5,9 +5,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Anchor, MessageCircle, Search, Music, Sun, Car, GlassWater, CheckCircle, Navigation, Ticket } from 'lucide-react'
+import { Menu, X, Anchor, MessageCircle, Search, Music, Sun, Car, GlassWater, CheckCircle, Navigation, Ticket, Star } from 'lucide-react'
 
 const allCategories = [
+  { label: 'Deals of the Day', href: '/deals-of-the-day', icon: Star, desc: 'Best daily offers & events' },
   { label: 'Private Boat Charters', href: '/private-boat-charters', icon: Anchor, desc: 'Yachts & exclusive rentals' },
   { label: 'Club Tickets', href: '/club-tickets', icon: Ticket, desc: 'Pacha, Amnesia, Hi Ibiza & more' },
   { label: 'Boat Parties', href: '/boat-parties', icon: Music, desc: 'Sunset cruises & music events' },
@@ -17,6 +18,7 @@ const allCategories = [
   { label: 'Drink Packages', href: '/drink-packages', icon: GlassWater, desc: 'VIP tables & bottle service' },
   { label: 'Car & Scooter Rental', href: '/car-scooter-rental', icon: Car, desc: 'Explore at your own pace' },
 ]
+
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -68,20 +70,9 @@ export function Navbar() {
         scrolled ? "top-0 py-3 bg-midnight/95 backdrop-blur-md shadow-lg" : "top-4 md:top-6"
       ].join(' ')}>
         
-        {/* Left: Search Button */}
-        <div className="pointer-events-auto flex items-center">
-          <button 
-            onClick={handleSearchClick}
-            className="flex h-[56px] w-[56px] shrink-0 items-center justify-center rounded-full bg-white text-midnight shadow-xl transition-transform hover:scale-105 hover:bg-gray-50 border border-black/5"
-            aria-label="Search categories"
-          >
-            <Search size={22} strokeWidth={2.5} />
-          </button>
-        </div>
-
-        {/* Center: Scalable Logo */}
-        <div className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-transform duration-500 ease-out" style={{ transform: `translate(-50%, -50%) scale(${scrolled ? 0.8 : 1.1})` }}>
-          <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 p-2">
+        {/* Left: Logo */}
+        <div className="pointer-events-auto flex items-center transition-transform duration-500 ease-out" style={{ transform: `scale(${scrolled ? 0.8 : 1})`, transformOrigin: 'left center' }}>
+          <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 py-2">
             <Image
               src="/logo.png"
               alt="Ibiza mi vida"
@@ -93,17 +84,36 @@ export function Navbar() {
           </Link>
         </div>
 
-        {/* Right: Explore Pill & Menu */}
+        {/* Right: Search, DOD, Menu */}
         <div className="pointer-events-auto flex items-center gap-2 md:gap-3">
           
+          <button 
+            onClick={handleSearchClick}
+            className="flex h-[44px] w-[44px] md:h-[56px] md:w-[56px] shrink-0 items-center justify-center rounded-full bg-white text-midnight shadow-xl transition-transform hover:scale-105 hover:bg-gray-50 border border-black/5"
+            aria-label="Search categories"
+          >
+            <Search size={20} strokeWidth={2.5} className="md:w-[22px] md:h-[22px]" />
+          </button>
 
+          <Link
+            href="/deals-of-the-day"
+            className="hidden sm:flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 md:px-7 md:py-[17px] shadow-xl transition-all hover:bg-teal/90 hover:scale-105 border border-black/5"
+          >
+            <span className="font-serif text-sm md:text-[15px] font-semibold tracking-wide text-white whitespace-nowrap">Deals of the Day</span>
+          </Link>
+          <Link
+            href="/deals-of-the-day"
+            className="flex sm:hidden items-center gap-2 rounded-full bg-teal px-4 py-2.5 shadow-xl transition-all hover:bg-teal/90 hover:scale-105 border border-black/5"
+          >
+            <span className="font-serif text-[13px] font-semibold tracking-wide text-white whitespace-nowrap">DOD</span>
+          </Link>
 
           <button 
             onClick={() => setMenuOpen(!menuOpen)}
-            className="flex h-[56px] w-[56px] shrink-0 items-center justify-center rounded-full bg-midnight text-white shadow-xl transition-transform hover:scale-105 hover:bg-midnight/90 border border-black/5"
+            className="flex h-[44px] w-[44px] md:h-[56px] md:w-[56px] shrink-0 items-center justify-center rounded-full bg-midnight text-white shadow-xl transition-transform hover:scale-105 hover:bg-midnight/90 border border-black/5"
             aria-label="Open menu"
           >
-            {menuOpen ? <X size={24} strokeWidth={2.5} /> : <Menu size={24} strokeWidth={2.5} />}
+            {menuOpen ? <X size={20} strokeWidth={2.5} className="md:w-[24px] md:h-[24px]" /> : <Menu size={20} strokeWidth={2.5} className="md:w-[24px] md:h-[24px]" />}
           </button>
 
         </div>
