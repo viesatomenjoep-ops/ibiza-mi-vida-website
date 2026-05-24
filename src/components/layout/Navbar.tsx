@@ -96,12 +96,7 @@ export function Navbar() {
         {/* Right: Explore Pill & Menu */}
         <div className="pointer-events-auto flex items-center gap-2 md:gap-3">
           
-          <button
-            onClick={() => setMenuOpen(true)}
-            className="hidden md:flex items-center gap-2 rounded-[32px] bg-white px-7 py-[17px] shadow-xl transition-all hover:bg-gray-50 hover:scale-105 border border-black/5"
-          >
-            <span className="font-serif text-[15px] font-semibold tracking-wide text-midnight">Explore</span>
-          </button>
+
 
           <button 
             onClick={() => setMenuOpen(!menuOpen)}
