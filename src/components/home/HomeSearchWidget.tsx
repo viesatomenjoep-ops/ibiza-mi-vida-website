@@ -34,16 +34,16 @@ export function HomeSearchWidget() {
       {/* Search Bar Container */}
       <div className="bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-2xl p-2 md:p-3 overflow-hidden border border-white">
         
-        {/* Tabs - Scrollable horizontally on small screens */}
-        <div className="flex overflow-x-auto gap-2 px-3 pt-2 pb-4 border-b border-black/10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        {/* Tabs - Scrollable horizontally */}
+        <div className="flex overflow-x-auto gap-3 px-4 pt-4 pb-6 border-b border-black/10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {allCategories.map(tab => (
             <button
               key={tab.label}
               onClick={() => setActiveTab(tab.href)}
-              className={`shrink-0 px-4 py-2 rounded-full text-xs md:text-sm font-semibold transition-all ${
+              className={`shrink-0 px-6 py-3 rounded-full text-sm md:text-base font-bold tracking-wide transition-all ${
                 activeTab === tab.href 
-                  ? 'bg-midnight text-white shadow-md scale-105' 
-                  : 'bg-transparent text-midnight hover:bg-black/5'
+                  ? 'bg-midnight text-white shadow-lg scale-105 border border-midnight' 
+                  : 'bg-white/50 text-midnight hover:bg-white border border-black/10'
               }`}
             >
               {tab.label}

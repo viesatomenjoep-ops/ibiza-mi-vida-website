@@ -71,18 +71,18 @@ export function Navbar() {
       ].join(' ')}>
         
         {/* Left: Logo */}
-        <div className="pointer-events-auto flex items-center transition-transform duration-500 ease-out" style={{ transform: `scale(${scrolled ? 0.8 : 1})`, transformOrigin: 'left center' }}>
-          <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 py-2">
-            <Image
-              src="/logo-clean.png"
-              alt="Ibiza mi vida"
-              width={90}
-              height={90}
-              className={`object-contain drop-shadow-md transition-all duration-300 hover:opacity-90 ${
-                scrolled ? 'invert brightness-0' : 'brightness-0'
-              }`}
-              priority
-            />
+        <div className="pointer-events-auto flex items-center transition-transform duration-500 ease-out" style={{ transform: `scale(${scrolled ? 0.9 : 1})`, transformOrigin: 'left center' }}>
+          <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105">
+            <div className="bg-white rounded-full w-[60px] h-[60px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-lg border border-black/5 overflow-hidden">
+              <Image
+                src="/logo-clean.png"
+                alt="Ibiza mi vida"
+                width={45}
+                height={45}
+                className="object-contain brightness-0 hover:opacity-80 transition-opacity"
+                priority
+              />
+            </div>
           </Link>
         </div>
 
