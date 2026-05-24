@@ -23,6 +23,7 @@ import { DealDateBanner } from '@/components/ui/DealDateBanner'
 import { WeekRange } from '@/components/ui/WeekRange'
 import { CalendarModal } from '@/components/ui/CalendarModal'
 import { DealOfTheWeekList } from '@/components/home/DealOfTheWeekList'
+import { HomeSearchFigma } from '@/components/home/HomeSearchFigma'
 
 export const revalidate = 60
 
@@ -198,12 +199,16 @@ export default async function HomePage() {
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
-        searchComponent={<HomeSearchWidget />}
         eyebrow="Ibiza mi vida"
         colorTheme="midnight"
         backgroundImage="/fotos/hero-pattern.jpg"
         backgroundOpacity={0.3}
       />
+
+      {/* New Figma Search Component placed directly under the Hero */}
+      <div className="bg-white">
+        <HomeSearchFigma />
+      </div>
 
       {/* DASHBOARD TOP: Deal of the Day vs Deal of the Week */}
       <section className="px-4 pb-12 md:pb-12 md:px-8 mt-8 md:mt-12 relative z-20">

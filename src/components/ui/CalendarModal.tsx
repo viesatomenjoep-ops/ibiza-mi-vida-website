@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { Calendar, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Calendar, ChevronLeft, ChevronRight, X } from 'lucide-react'
 
 interface CalendarModalProps {
   customTrigger?: (open: () => void, setMonth: (m: number) => void) => React.ReactNode
@@ -9,7 +9,8 @@ interface CalendarModalProps {
 
 export function CalendarModal({ customTrigger }: CalendarModalProps = {}) {
   const [isOpen, setIsOpen] = useState(false)
-  const [currentMonth, setCurrentMonth] = useState(4) // Start at April (0-indexed, so 3 is April, 4 is May)
+  const [currentMonth, setCurrentMonth] = useState(4) // Start at May (0-indexed)
+  const [selectedDate, setSelectedDate] = useState<number | null>(null)
   const year = 2026
 
   const months = [
@@ -31,12 +32,24 @@ export function CalendarModal({ customTrigger }: CalendarModalProps = {}) {
     if (currentMonth > 3) setCurrentMonth(prev => prev - 1)
   }
 
+  // Prevent body scroll when open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isOpen])
+
   return (
     <>
       {customTrigger ? customTrigger(() => setIsOpen(true), setCurrentMonth) : (
         <button 
           onClick={() => setIsOpen(true)}
-          className="w-full mt-6 flex items-center justify-center gap-2 py-3 bg-white/10 hover:bg-white/20 transition-colors text-white font-semibold rounded-xl text-sm border border-white/20"
+          className="w-full mt-6 flex items-center justify-center gap-2 py-3 bg-midnight text-white hover:bg-midnight/90 transition-colors font-semibold rounded-xl text-sm"
         >
           <Calendar size={16} />
           View Full Calendar
@@ -44,97 +57,142 @@ export function CalendarModal({ customTrigger }: CalendarModalProps = {}) {
       )}
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-          <div className="absolute inset-0 bg-midnight/80 backdrop-blur-sm" onClick={() => setIsOpen(false)} />
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center pointer-events-auto">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-[#030527]/40 backdrop-blur-[2px] transition-opacity" 
+            onClick={() => setIsOpen(false)} 
+          />
           
-          <div className="relative w-full max-w-3xl bg-[#111111] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-white/10 flex flex-col max-h-[95vh] md:max-h-[90vh]">
+          {/* Bottom Sheet Modal */}
+          <div className="relative w-full sm:max-w-md bg-white rounded-t-[24px] sm:rounded-b-[24px] flex flex-col shadow-2xl animate-in slide-in-from-bottom-full sm:slide-in-from-bottom-0 sm:fade-in-0 duration-300 h-[85vh] sm:h-auto sm:max-h-[90vh]">
+            
+            {/* Drag Handle (Mobile only) */}
+            <div className="w-full flex justify-center pt-3 pb-1 sm:hidden shrink-0">
+              <div className="w-10 h-1 bg-[#B8C2CC]/50 rounded-full" />
+            </div>
+
             {/* Header */}
-            <div className="flex items-center justify-between p-4 md:p-6 border-b border-white/10 bg-[#161616] shrink-0">
-              <div>
-                <h2 className="text-xl md:text-2xl font-serif text-gold">Ibiza Season {year}</h2>
-                <p className="text-sandstone/60 text-xs md:text-sm">Select a date to view all events and deals</p>
-              </div>
+            <div className="px-4 pb-4 pt-2 flex items-center justify-between shrink-0">
+              <div className="w-8" /> {/* spacer for centering */}
+              <h2 className="text-[18px] font-sans text-[#030527] text-center flex-1">Select Date</h2>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="p-2 bg-white/5 rounded-full hover:bg-white/10 text-white transition-colors"
+                className="w-8 h-8 rounded-full bg-[#F7F8FA] flex items-center justify-center text-[#030527] hover:bg-gray-200 transition-colors"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
-            {/* Calendar Controls (Scrollable area) */}
-            <div className="p-4 md:p-6 bg-gradient-to-b from-[#161616] to-transparent overflow-y-auto flex-1">
-              <div className="flex items-center justify-between mb-6 md:mb-8">
-                <button 
-                  onClick={prevMonth}
-                  disabled={currentMonth === 3}
-                  className="p-2 md:p-3 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 transition-colors text-white"
-                >
-                  <ChevronLeft size={20} className="md:w-6 md:h-6" />
-                </button>
-                <div className="text-center">
-                  <h3 className="text-2xl md:text-3xl font-serif text-white">{activeMonth.name}</h3>
-                  <p className="text-gold tracking-widest uppercase text-[10px] md:text-xs font-bold mt-1">High Season</p>
-                </div>
-                <button 
-                  onClick={nextMonth}
-                  disabled={currentMonth === 9}
-                  className="p-2 md:p-3 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 transition-colors text-white"
-                >
-                  <ChevronRight size={20} className="md:w-6 md:h-6" />
-                </button>
-              </div>
-
-              {/* Grid */}
-              <div className="grid grid-cols-7 gap-1 md:gap-4 mb-2">
-                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                  <div key={day} className="text-center text-sandstone/40 text-[10px] md:text-xs uppercase tracking-wider font-semibold">
-                    {day}
+            <div className="px-4 pb-6 overflow-y-auto flex-1 custom-scrollbar">
+              {/* Calendar Container */}
+              <div className="bg-[#F7F8FA] rounded-[16px] p-4">
+                
+                {/* Month Navigation */}
+                <div className="flex justify-between items-center mb-6">
+                  <span className="font-sans text-[18px] text-[#030527] pl-2">
+                    {activeMonth.name} {year}
+                  </span>
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={prevMonth}
+                      disabled={currentMonth === 3}
+                      className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#030527] disabled:opacity-50 shadow-sm border border-[#030527]/10"
+                    >
+                      <ChevronLeft size={16} />
+                    </button>
+                    <button 
+                      onClick={nextMonth}
+                      disabled={currentMonth === 9}
+                      className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#030527] disabled:opacity-50 shadow-sm border border-[#030527]/10"
+                    >
+                      <ChevronRight size={16} />
+                    </button>
                   </div>
-                ))}
+                </div>
+
+                {/* Weekdays */}
+                <div className="grid grid-cols-7 mb-4">
+                  {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
+                    <div key={i} className="text-center font-sans text-[14px] font-semibold text-[#030527]">
+                      {day}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Days Grid */}
+                <div className="grid grid-cols-7 gap-y-2">
+                  {/* Empty cells for start of month */}
+                  {Array.from({ length: activeMonth.startDay }).map((_, i) => (
+                    <div key={`empty-${i}`} className="flex justify-center items-center h-8">
+                      {/* Previous month day mock */}
+                      <span className="font-sans text-[14px] text-[#B8C2CC]">
+                        {30 - activeMonth.startDay + i + 1}
+                      </span>
+                    </div>
+                  ))}
+                  
+                  {/* Current month days */}
+                  {Array.from({ length: activeMonth.days }).map((_, i) => {
+                    const dayNum = i + 1
+                    const isSelected = selectedDate === dayNum
+                    // Mock events: day 7, 14, 21, 28
+                    const hasEvent = dayNum % 7 === 0
+
+                    return (
+                      <div key={dayNum} className="flex justify-center items-center h-8 relative">
+                        <button
+                          onClick={() => setSelectedDate(dayNum)}
+                          className={`
+                            w-[30px] h-[30px] rounded-full flex items-center justify-center font-sans text-[14px] transition-all relative
+                            ${isSelected 
+                              ? 'bg-[#7086F8] text-white shadow-sm' 
+                              : hasEvent 
+                                ? 'border border-[#7086F8] text-[#030527] hover:bg-[#7086F8]/10' 
+                                : 'text-[#030527] hover:bg-black/5'}
+                          `}
+                        >
+                          {dayNum}
+                        </button>
+                      </div>
+                    )
+                  })}
+
+                  {/* Empty cells for end of month */}
+                  {Array.from({ length: 42 - (activeMonth.startDay + activeMonth.days) }).map((_, i) => (
+                    <div key={`end-empty-${i}`} className="flex justify-center items-center h-8">
+                      <span className="font-sans text-[14px] text-[#B8C2CC]">
+                        {i + 1}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
               
-              <div className="grid grid-cols-7 gap-1 md:gap-4">
-                {Array.from({ length: activeMonth.startDay }).map((_, i) => (
-                  <div key={`empty-${i}`} className="aspect-square rounded-lg md:rounded-xl bg-white/5 opacity-20" />
-                ))}
-                
-                {Array.from({ length: activeMonth.days }).map((_, i) => {
-                  const dayNum = i + 1
-                  const isToday = currentMonth === new Date().getMonth() && dayNum === new Date().getDate()
-                  // Mock some random events
-                  const hasEvents = dayNum % 3 === 0 || dayNum % 5 === 0
-                  
-                  return (
-                    <button 
-                      key={dayNum}
-                      className={`
-                        aspect-square flex flex-col items-center justify-center rounded-lg md:rounded-xl border transition-all
-                        ${isToday ? 'border-gold bg-gold/10' : 'border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20'}
-                      `}
-                    >
-                      <span className={`text-sm md:text-lg font-semibold ${isToday ? 'text-gold' : 'text-white'}`}>{dayNum}</span>
-                      {hasEvents && (
-                        <div className="flex gap-1 mt-0.5 md:mt-1">
-                          <span className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-gold"></span>
-                          <span className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-teal"></span>
-                        </div>
-                      )}
-                    </button>
-                  )
-                })}
+              {/* Event Time Mock / Details */}
+              <div className="mt-4 bg-[#F7F8FA] rounded-[16px] p-4 flex justify-between items-center">
+                 <span className="font-sans text-[18px] text-[#030527]">Time</span>
+                 <div className="bg-white rounded-full px-4 py-1.5 shadow-sm border border-black/5">
+                   <span className="font-sans text-[14px] text-[#030527]">12 PM</span>
+                 </div>
               </div>
+
             </div>
 
-            {/* Selected Date Details (Mock) */}
-            <div className="p-4 md:p-6 bg-white/5 border-t border-white/10 shrink-0">
-              <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
-                <p className="text-sandstone/60 text-xs md:text-sm">Click any date to instantly load the deals for that day.</p>
-                <div className="flex items-center gap-3 md:gap-4 text-[10px] md:text-xs font-semibold text-white">
-                  <div className="flex items-center gap-1.5 md:gap-2"><span className="w-2 h-2 rounded-full bg-gold"></span> Club Event</div>
-                  <div className="flex items-center gap-1.5 md:gap-2"><span className="w-2 h-2 rounded-full bg-teal"></span> Boat Party</div>
-                </div>
-              </div>
+            {/* Bottom Button Bar */}
+            <div className="px-4 pb-8 pt-4 border-t border-[#EFF2F6] shrink-0 bg-white sm:rounded-b-[24px]">
+              <button 
+                onClick={() => {
+                  if (selectedDate) {
+                    setIsOpen(false)
+                    // You can add routing logic here based on date
+                  }
+                }}
+                disabled={!selectedDate}
+                className="w-full py-4 rounded-full bg-[#030527] text-white font-sans text-[16px] font-medium transition-all disabled:opacity-50 disabled:bg-[#B8C2CC]"
+              >
+                {selectedDate ? `Show Events for ${activeMonth.name} ${selectedDate}` : 'Select a Date'}
+              </button>
             </div>
           </div>
         </div>
