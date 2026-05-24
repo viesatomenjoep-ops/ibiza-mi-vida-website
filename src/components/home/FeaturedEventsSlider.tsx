@@ -219,17 +219,33 @@ export function FeaturedEventsSlider({ events }: FeaturedEventsSliderProps) {
         {/* Scroll container — centered within max-w-7xl */}
         <div
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto pb-2"
+          className="flex gap-4 overflow-x-auto pb-12 pt-8"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           aria-label="Scrollable events list"
         >
           {events.map((event, i) => (
             <motion.div
               key={event.id}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-30px' }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
+              initial={{ 
+                opacity: 0, 
+                y: i % 2 === 0 ? 80 : 120,
+                rotate: i % 2 === 0 ? -6 : 6,
+                scale: 0.9
+              }}
+              whileInView={{ 
+                opacity: 1, 
+                y: i % 2 === 0 ? 8 : -8, 
+                rotate: i % 2 === 0 ? -2 : 2,
+                scale: 1 
+              }}
+              viewport={{ once: false, amount: 0.1 }}
+              transition={{ 
+                type: "spring",
+                stiffness: 100,
+                damping: 14,
+                delay: i * 0.05
+              }}
+              className="origin-bottom"
             >
               <EventSlideCard event={event} />
             </motion.div>
