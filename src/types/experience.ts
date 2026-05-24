@@ -6,6 +6,10 @@ export type ExperienceCategory =
   | 'formentera'
   | 'car-rental'
   | 'drink-packages'
+  | 'guestlist'
+  | 'aftersun'
+  | 'free-discount'
+  | 'ibiza-tips'
 
 export interface Experience {
   id: string
