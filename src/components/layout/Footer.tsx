@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Instagram, MessageCircle, Mail, Anchor } from 'lucide-react'
 
 const services = [
+  { label: 'Deals of the Day', href: '/deals-of-the-day' },
   { label: 'Private Boat Charters', href: '/private-boat-charters' },
   { label: 'Club Tickets', href: '/club-tickets' },
   { label: 'Boat Parties', href: '/boat-parties' },
@@ -30,7 +31,7 @@ export function Footer() {
           <div className="flex flex-col gap-4 lg:col-span-1">
             <Link href="/" className="flex items-center gap-2" aria-label="Ibiza mi vida — home">
               <div className="relative h-10 w-10 md:h-12 md:w-12">
-                <Image src="/logo.png" alt="Ibiza mi vida" fill className="object-contain invert brightness-0" />
+                <Image src="/logo.png" alt="Ibiza mi vida" fill className="object-contain invert mix-blend-screen opacity-90 transition-opacity hover:opacity-100" />
               </div>
               <span className="font-serif text-xl font-light">
                 Ibiza <span className="text-teal">mi vida</span>
