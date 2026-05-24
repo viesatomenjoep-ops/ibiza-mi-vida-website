@@ -5,14 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Home, Ticket, Anchor, MessageCircle, Search, Music, Sun, Compass, Calendar, Car, Tag, GlassWater, CheckCircle, Navigation } from 'lucide-react'
-
-const pillLinks = [
-  { label: 'Clubbing', href: '/club-tickets', icon: Music },
-  { label: 'Next events', href: '/boat-parties', icon: Calendar },
-  { label: 'Ibiza Boat', href: '/private-boat-charters', icon: Anchor },
-  { label: 'Activities', href: '/formentera-boat-trips', icon: Sun },
-]
+import { Menu, X, Anchor, MessageCircle, Search, Music, Sun, Car, GlassWater, CheckCircle, Navigation, Ticket } from 'lucide-react'
 
 const allCategories = [
   { label: 'Private Boat Charters', href: '/private-boat-charters', icon: Anchor, desc: 'Yachts & exclusive rentals' },
@@ -28,6 +21,7 @@ const allCategories = [
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -45,6 +39,14 @@ export function Navbar() {
     return () => { document.body.style.overflow = 'auto' }
   }, [menuOpen])
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   const filteredCategories = allCategories.filter(c => 
     c.label.toLowerCase().includes(searchQuery.toLowerCase()) || 
     c.desc.toLowerCase().includes(searchQuery.toLowerCase())
@@ -61,74 +63,49 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-4 left-0 right-0 z-50 pointer-events-none flex justify-center px-4 md:top-6 lg:justify-between lg:px-8">
+      <header className="fixed top-4 left-0 right-0 z-50 pointer-events-none flex items-center justify-between px-4 md:top-6 lg:px-8">
         
-        {/* Logo (hidden on mobile, centered pill takes over) */}
-        <Link href="/" className="pointer-events-auto hidden items-center gap-2 lg:flex" aria-label="Ibiza mi vida — home">
-          <div className="relative h-12 w-12 rounded-full bg-white shadow-md flex items-center justify-center p-2">
+        {/* Left: Search Button */}
+        <div className="pointer-events-auto flex items-center">
+          <button 
+            onClick={handleSearchClick}
+            className="flex h-[56px] w-[56px] shrink-0 items-center justify-center rounded-full bg-white text-midnight shadow-xl transition-transform hover:scale-105 hover:bg-gray-50 border border-black/5"
+            aria-label="Search categories"
+          >
+            <Search size={22} strokeWidth={2.5} />
+          </button>
+        </div>
+
+        {/* Center: Scalable Logo */}
+        <div className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-transform duration-500 ease-out" style={{ transform: `translate(-50%, -50%) scale(${scrolled ? 1.3 : 1})` }}>
+          <Link href="/" className="flex h-[64px] w-[64px] items-center justify-center rounded-full bg-white shadow-xl transition-transform hover:scale-105 border border-black/5 p-2">
             <Image
               src="/logo.png"
               alt="Ibiza mi vida"
-              width={32}
-              height={32}
+              width={40}
+              height={40}
               className="object-contain"
               priority
             />
-          </div>
-        </Link>
+          </Link>
+        </div>
 
-        {/* Central Pill Nav */}
+        {/* Right: Explore Pill & Menu */}
         <div className="pointer-events-auto flex items-center gap-2 md:gap-3">
           
-          {/* Mobile Logo (only visible on mobile, alongside pill) */}
-          <Link href="/" className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full bg-white shadow-lg lg:hidden transition-transform hover:scale-105">
-            <Image
-              src="/logo.png"
-              alt="Ibiza mi vida"
-              width={26}
-              height={26}
-              className="object-contain"
-            />
-          </Link>
-
-          {/* Pill Container */}
-          <div className="hidden items-center rounded-[32px] bg-white/90 p-1.5 shadow-lg backdrop-blur-md lg:flex border border-black/5">
-            {pillLinks.map((link) => {
-              const isActive = pathname === link.href
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={[
-                    'flex items-center gap-2 rounded-full px-5 py-2.5 font-sans text-[13px] font-semibold transition-all duration-300',
-                    isActive
-                      ? 'bg-midnight text-white shadow-sm'
-                      : 'text-midnight/70 hover:bg-black/5 hover:text-midnight',
-                  ].join(' ')}
-                >
-                  <link.icon size={16} className={isActive ? 'text-white' : 'text-midnight/50'} />
-                  {link.label}
-                </Link>
-              )
-            })}
-          </div>
-
-          {/* Search Button */}
-          <button 
-            onClick={handleSearchClick}
-            className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full bg-white text-midnight shadow-lg transition-transform hover:scale-105 hover:bg-gray-50 border border-black/5"
-            aria-label="Search categories"
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="hidden md:flex items-center gap-2 rounded-[32px] bg-white px-7 py-[17px] shadow-xl transition-all hover:bg-gray-50 hover:scale-105 border border-black/5"
           >
-            <Search size={20} strokeWidth={2.5} />
+            <span className="font-serif text-[15px] font-semibold tracking-wide text-midnight">Explore</span>
           </button>
 
-          {/* Menu Button (Green background like screenshot) */}
           <button 
             onClick={() => setMenuOpen(!menuOpen)}
-            className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full bg-[#BEE9CD] text-midnight shadow-lg transition-transform hover:scale-105 hover:bg-[#a6dcb8] border border-black/5"
+            className="flex h-[56px] w-[56px] shrink-0 items-center justify-center rounded-full bg-midnight text-white shadow-xl transition-transform hover:scale-105 hover:bg-midnight/90 border border-black/5"
             aria-label="Open menu"
           >
-            {menuOpen ? <X size={22} strokeWidth={2.5} /> : <Menu size={22} strokeWidth={2.5} />}
+            {menuOpen ? <X size={24} strokeWidth={2.5} /> : <Menu size={24} strokeWidth={2.5} />}
           </button>
 
         </div>
@@ -153,7 +130,7 @@ export function Navbar() {
                 <input
                   id="category-search"
                   type="text"
-                  placeholder="Search for club tickets, boat parties, rentals..."
+                  placeholder="Search experiences..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full rounded-full bg-white py-6 pl-16 pr-6 font-serif text-xl md:text-2xl text-midnight shadow-sm outline-none placeholder:text-midnight/30 focus:ring-4 focus:ring-teal/10 transition-shadow border border-black/5"
