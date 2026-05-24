@@ -78,7 +78,7 @@ export function Navbar() {
               alt="Ibiza mi vida"
               width={90}
               height={90}
-              className="object-contain invert mix-blend-screen opacity-90 transition-opacity hover:opacity-100"
+              className="object-contain invert brightness-0 drop-shadow-md transition-opacity hover:opacity-90"
               priority
             />
           </Link>
