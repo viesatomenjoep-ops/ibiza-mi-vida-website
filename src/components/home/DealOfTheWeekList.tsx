@@ -1,6 +1,7 @@
 'use client'
 
 import { useBooking } from '@/context/booking-context'
+import { Calendar } from 'lucide-react'
 
 const mockDeals = [
   { name: 'Oceanbeat VIP Boat', day: 'Thursday', price: '€89', type: 'Boat Party' },
@@ -12,24 +13,42 @@ export function DealOfTheWeekList() {
   const { openModal } = useBooking()
 
   return (
-    <div className="flex-1 flex flex-col gap-3">
-      {mockDeals.map((deal) => (
-        <button
-          key={deal.name}
-          onClick={() => openModal({
-            serviceType: deal.type,
-            serviceName: deal.name,
-            sourcePage: '/homepage (Deal of the week)'
-          })}
-          className="w-full text-left bg-white/5 border border-white/10 rounded-xl p-3 flex justify-between items-center transition-all hover:bg-white/10 hover:border-gold/30 hover:scale-[1.02]"
-        >
-          <div>
-            <p className="font-semibold text-white text-sm">{deal.name}</p>
-            <p className="text-xs text-sandstone/70">{deal.day}</p>
-          </div>
-          <span className="text-gold font-bold">{deal.price}</span>
-        </button>
-      ))}
+    <div className="w-full max-w-md mx-auto bg-white pt-2 pb-6 px-4 flex flex-col gap-4">
+      
+      {/* Header */}
+      <div className="flex flex-col gap-1 mb-2">
+        <h3 className="font-sans text-[20px] font-medium text-[#030527]">Deal of the Week</h3>
+        <p className="font-sans text-[14px] text-[#7C8690]">18 May — 24 May</p>
+      </div>
+
+      {/* List */}
+      <div className="flex flex-col gap-3">
+        {mockDeals.map((deal) => (
+          <button
+            key={deal.name}
+            onClick={() => openModal({
+              serviceType: deal.type,
+              serviceName: deal.name,
+              sourcePage: '/homepage (Deal of the week)'
+            })}
+            className="w-full bg-[#F7F8FA] rounded-[16px] p-4 flex justify-between items-center transition-transform hover:scale-[1.02] shadow-sm border border-[#EFF2F6]"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-[#EFF2F6] shrink-0">
+                <Calendar size={18} className="text-[#030527]" />
+              </div>
+              <div className="flex flex-col items-start text-left">
+                <span className="font-sans text-[16px] font-medium text-[#030527] line-clamp-1">{deal.name}</span>
+                <span className="font-sans text-[12px] font-light text-[#7C8690]">{deal.day}</span>
+              </div>
+            </div>
+            
+            <div className="flex flex-col items-end shrink-0 pl-2">
+              <span className="font-sans text-[18px] font-medium text-[#030527]">{deal.price}</span>
+            </div>
+          </button>
+        ))}
+      </div>
     </div>
   )
 }

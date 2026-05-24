@@ -24,6 +24,7 @@ import { WeekRange } from '@/components/ui/WeekRange'
 import { CalendarModal } from '@/components/ui/CalendarModal'
 import { DealOfTheWeekList } from '@/components/home/DealOfTheWeekList'
 import { HomeSearchFigma } from '@/components/home/HomeSearchFigma'
+import { HomeReviews } from '@/components/home/HomeReviews'
 
 export const revalidate = 60
 
@@ -214,7 +215,7 @@ export default async function HomePage() {
 
       {/* New Figma Search Component placed directly under the Hero */}
       <div className="bg-white">
-        <HomeSearchFigma />
+        <HomeSearchFigma events={featuredEvents} />
       </div>
 
       {/* DASHBOARD TOP: Deal of the Day vs Deal of the Week */}
@@ -240,20 +241,11 @@ export default async function HomePage() {
 
           {/* BOTTOM: Deal of the Week */}
           <AnimatedSection>
-            <div className="bg-midnight rounded-3xl p-6 md:p-10 flex flex-col relative overflow-hidden text-sandstone shadow-2xl">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full bg-gold flex items-center justify-center text-midnight">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                </div>
-                <div>
-                  <h3 className="font-serif text-xl text-gold">Deal of the Week</h3>
-                  <WeekRange />
-                </div>
-              </div>
-              
+            <div className="bg-white rounded-3xl pt-2 pb-6 flex flex-col relative overflow-hidden">
               <DealOfTheWeekList />
-              
-              <CalendarModal />
+              <div className="px-4 max-w-md mx-auto w-full">
+                <CalendarModal />
+              </div>
             </div>
           </AnimatedSection>
         </div>
@@ -328,6 +320,11 @@ export default async function HomePage() {
           </CategoryGrid>
         </section>
       )}
+
+      {/* ── Reviews ── */}
+      <section className="bg-white pb-16" aria-label="Guest Reviews">
+        <HomeReviews />
+      </section>
 
       {/* ── Blog preview ── */}
       {latestPosts.length > 0 && (
