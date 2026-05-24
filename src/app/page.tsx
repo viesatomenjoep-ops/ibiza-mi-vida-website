@@ -9,6 +9,7 @@ import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { LocalBusinessSchema } from '@/components/seo/LocalBusinessSchema'
 import { FeaturedEventsSlider } from '@/components/home/FeaturedEventsSlider'
 import { createServerClient } from '@/lib/supabase/server'
+import { getPageContent } from '@/lib/page-content'
 import { FALLBACK_FEATURED_EVENTS } from '@/lib/fallback-events'
 import type { Experience } from '@/types/experience'
 import type { BlogPost } from '@/types/blog'
@@ -159,10 +160,15 @@ async function getLatestPosts(): Promise<BlogPost[]> {
 }
 
 export default async function HomePage() {
-  const [featuredEvents, featuredExperiences, latestPosts] = await Promise.all([
+  const [featuredEvents, featuredExperiences, latestPosts, pageContent] = await Promise.all([
     getFeaturedEvents(),
     getFeaturedExperiences(),
     getLatestPosts(),
+    getPageContent('homepage', {
+      title: "Ibiza Events, Club Tickets & Private Yachts",
+      subtitle: "Your premium Ibiza booking agency. From exclusive boat charters to the island's best club nights — we handle every detail so you don't have to.",
+      backgroundImage: "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&q=85"
+    })
   ])
 
   return (
@@ -171,9 +177,9 @@ export default async function HomePage() {
 
       {/* Hero */}
       <Hero
-        title="Ibiza Events, Club Tickets & Private Yachts"
-        subtitle="Your premium Ibiza booking agency. From exclusive boat charters to the island's best club nights — we handle every detail so you don't have to."
-        backgroundImage="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&q=85"
+        title={pageContent.title}
+        subtitle={pageContent.subtitle}
+        backgroundImage={pageContent.backgroundImage}
         showSearch
         eyebrow="Ibiza mi vida"
       />

@@ -6,6 +6,7 @@ import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { createServerClient } from '@/lib/supabase/server'
+import { getPageContent } from '@/lib/page-content'
 import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences'
 import type { Experience } from '@/types/experience'
 
@@ -34,14 +35,21 @@ async function getBoatParties(): Promise<Experience[]> {
 }
 
 export default async function BoatPartiesPage() {
-  const parties = await getBoatParties()
+  const [parties, pageContent] = await Promise.all([
+    getBoatParties(),
+    getPageContent('boat-party', {
+      title: "Ibiza Boat Parties",
+      subtitle: "Dance on the open sea. Ibiza's best boat parties — sunset cruises, full-day music events, and private group celebrations.",
+      backgroundImage: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1920&q=85"
+    })
+  ])
 
   return (
     <>
       <Hero
-        title="Ibiza Boat Parties"
-        subtitle="Dance on the open sea. Ibiza's best boat parties — sunset cruises, full-day music events, and private group celebrations."
-        backgroundImage="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1920&q=85"
+        title={pageContent.title}
+        subtitle={pageContent.subtitle}
+        backgroundImage={pageContent.backgroundImage}
         eyebrow="Party on the Water"
         minHeight="min-h-[70vh]"
       />

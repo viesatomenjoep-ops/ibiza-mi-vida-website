@@ -7,6 +7,7 @@ import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { ProductSchema } from '@/components/seo/ProductSchema'
 import { createServerClient } from '@/lib/supabase/server'
+import { getPageContent } from '@/lib/page-content'
 import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences'
 import type { Experience } from '@/types/experience'
 
@@ -46,7 +47,14 @@ async function getCatamarans(): Promise<Experience[]> {
 }
 
 export default async function VipCatamaranPage() {
-  const catamarans = await getCatamarans()
+  const [catamarans, pageContent] = await Promise.all([
+    getCatamarans(),
+    getPageContent('vip-catamaran', {
+      title: "VIP Catamaran Cruise Ibiza",
+      subtitle: "The most beautiful way to experience Ibiza. Sail in luxury with an open bar, catering, and breathtaking views across the Mediterranean.",
+      backgroundImage: "https://images.unsplash.com/photo-1527004611998-0c6fde22b1ca?w=1920&q=85"
+    })
+  ])
 
   return (
     <>
@@ -58,9 +66,9 @@ export default async function VipCatamaranPage() {
       />
 
       <Hero
-        title="VIP Catamaran Cruise Ibiza"
-        subtitle="The most beautiful way to experience Ibiza. Sail in luxury with an open bar, catering, and breathtaking views across the Mediterranean."
-        backgroundImage="https://images.unsplash.com/photo-1527004611998-0c6fde22b1ca?w=1920&q=85"
+        title={pageContent.title}
+        subtitle={pageContent.subtitle}
+        backgroundImage={pageContent.backgroundImage}
         eyebrow="Luxury Sailing"
         minHeight="min-h-[70vh]"
       />

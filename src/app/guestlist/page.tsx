@@ -3,7 +3,9 @@ import { Hero } from '@/components/hero/Hero'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
+import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { CheckCircle } from 'lucide-react'
+import { getPageContent } from '@/lib/page-content'
 
 export const metadata: Metadata = {
   title: 'Ibiza Club Guestlist — Free Entry & Priority Access',
@@ -27,13 +29,19 @@ const benefits = [
   'Change your plans easily',
 ]
 
-export default function GuestlistPage() {
+export default async function GuestlistPage() {
+  const pageContent = await getPageContent('guestlist', {
+    title: "Ibiza Club Guestlist",
+    subtitle: "Skip the queue and skip the full price. We get you on the guestlist at Ibiza's best clubs — free entry, priority access, instant confirmation.",
+    backgroundImage: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85"
+  })
+
   return (
     <>
       <Hero
-        title="Ibiza Club Guestlist"
-        subtitle="Skip the queue and skip the full price. We get you on the guestlist at Ibiza's best clubs — free entry, priority access, instant confirmation."
-        backgroundImage="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85"
+        title={pageContent.title}
+        subtitle={pageContent.subtitle}
+        backgroundImage={pageContent.backgroundImage}
         eyebrow="Free Entry Ibiza"
         minHeight="min-h-[65vh]"
       />

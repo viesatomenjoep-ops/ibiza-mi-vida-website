@@ -5,6 +5,7 @@ import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { createServerClient } from '@/lib/supabase/server'
+import { getPageContent } from '@/lib/page-content'
 import type { Club } from '@/types/club'
 
 export const revalidate = 60
@@ -36,14 +37,21 @@ async function getClubs(): Promise<Club[]> {
 }
 
 export default async function ClubTicketsPage() {
-  const clubs = await getClubs()
+  const [clubs, pageContent] = await Promise.all([
+    getClubs(),
+    getPageContent('club-ticket', {
+      title: "Ibiza Club Tickets",
+      subtitle: "From Pacha to Amnesia, Hi Ibiza to Ushaia — browse every venue, every event, and book your tickets instantly via WhatsApp.",
+      backgroundImage: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85"
+    })
+  ])
 
   return (
     <>
       <Hero
-        title="Ibiza Club Tickets"
-        subtitle="From Pacha to Amnesia, Hi Ibiza to Ushaia — browse every venue, every event, and book your tickets instantly via WhatsApp."
-        backgroundImage="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85"
+        title={pageContent.title}
+        subtitle={pageContent.subtitle}
+        backgroundImage={pageContent.backgroundImage}
         eyebrow="All Ibiza Venues"
         minHeight="min-h-[70vh]"
       />

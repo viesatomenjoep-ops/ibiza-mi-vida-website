@@ -4,7 +4,9 @@ import { Hero } from '@/components/hero/Hero'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
+import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { ArrowRight } from 'lucide-react'
+import { getPageContent } from '@/lib/page-content'
 
 export const metadata: Metadata = {
   title: 'Car & Scooter Rental Ibiza — Cheap Hire from €25',
@@ -43,13 +45,19 @@ const fleet = [
   },
 ]
 
-export default function CarScooterRentalPage() {
+export default async function CarScooterRentalPage() {
+  const pageContent = await getPageContent('car-scooter', {
+    title: "Car & Scooter Rental Ibiza",
+    subtitle: "Freedom to explore. Rent a scooter or car and discover Ibiza's hidden beaches, mountain villages, and sunset spots at your own pace.",
+    backgroundImage: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1920&q=85"
+  })
+
   return (
     <>
       <Hero
-        title="Car & Scooter Rental Ibiza"
-        subtitle="Freedom to explore. Rent a scooter or car and discover Ibiza's hidden beaches, mountain villages, and sunset spots at your own pace."
-        backgroundImage="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1920&q=85"
+        title={pageContent.title}
+        subtitle={pageContent.subtitle}
+        backgroundImage={pageContent.backgroundImage}
         eyebrow="Explore Ibiza"
         minHeight="min-h-[65vh]"
       />

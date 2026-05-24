@@ -7,6 +7,7 @@ import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { ProductSchema } from '@/components/seo/ProductSchema'
 import { createServerClient } from '@/lib/supabase/server'
+import { getPageContent } from '@/lib/page-content'
 import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences'
 import type { Experience } from '@/types/experience'
 
@@ -37,7 +38,14 @@ async function getTrips(): Promise<Experience[]> {
 }
 
 export default async function FormenteraBoatTripsPage() {
-  const trips = await getTrips()
+  const [trips, pageContent] = await Promise.all([
+    getTrips(),
+    getPageContent('formentera-boat', {
+      title: "Formentera Boat Trips",
+      subtitle: "One of the world's most beautiful islands, just a short boat ride from Ibiza. Pristine beaches, turquoise water, and effortless Mediterranean calm.",
+      backgroundImage: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=85"
+    })
+  ])
 
   return (
     <>
@@ -49,9 +57,9 @@ export default async function FormenteraBoatTripsPage() {
       />
 
       <Hero
-        title="Formentera Boat Trips"
-        subtitle="One of the world's most beautiful islands, just a short boat ride from Ibiza. Pristine beaches, turquoise water, and effortless Mediterranean calm."
-        backgroundImage="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=85"
+        title={pageContent.title}
+        subtitle={pageContent.subtitle}
+        backgroundImage={pageContent.backgroundImage}
         eyebrow="Day Trips from Ibiza"
         minHeight="min-h-[70vh]"
       />

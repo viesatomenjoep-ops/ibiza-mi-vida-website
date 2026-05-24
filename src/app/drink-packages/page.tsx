@@ -4,6 +4,7 @@ import { Hero } from '@/components/hero/Hero'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
+import { getPageContent } from '@/lib/page-content'
 
 export const metadata: Metadata = {
   title: 'VIP Bottle Service & Drink Packages Ibiza',
@@ -17,13 +18,19 @@ const packages = [
   { title: 'Champagne VIP', price: 'From €500', description: 'Premium VIP table with Moët & Chandon, priority entry, and dedicated service.', tags: ['Champagne', 'Priority entry', 'Dedicated host', 'Up to 6 guests'] },
 ]
 
-export default function DrinkPackagesPage() {
+export default async function DrinkPackagesPage() {
+  const pageContent = await getPageContent('drink-package', {
+    title: "VIP Bottle Service & Drink Packages Ibiza",
+    subtitle: "Arrive in style. From entry + drink packages to full champagne VIP tables — we arrange everything so you can enjoy the night.",
+    backgroundImage: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85"
+  })
+
   return (
     <>
       <Hero
-        title="VIP Bottle Service & Drink Packages Ibiza"
-        subtitle="Arrive in style. From entry + drink packages to full champagne VIP tables — we arrange everything so you can enjoy the night."
-        backgroundImage="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85"
+        title={pageContent.title}
+        subtitle={pageContent.subtitle}
+        backgroundImage={pageContent.backgroundImage}
         eyebrow="VIP Experience"
         minHeight="min-h-[65vh]"
       />

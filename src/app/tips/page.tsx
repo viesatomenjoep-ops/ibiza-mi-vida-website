@@ -6,6 +6,7 @@ import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { createServerClient } from '@/lib/supabase/server'
+import { getPageContent } from '@/lib/page-content'
 import type { BlogPost } from '@/types/blog'
 
 export const revalidate = 60
@@ -32,14 +33,21 @@ async function getTips(): Promise<BlogPost[]> {
 }
 
 export default async function TipsPage() {
-  const tips = await getTips()
+  const [tips, pageContent] = await Promise.all([
+    getTips(),
+    getPageContent('ibiza-tips', {
+      title: "Ibiza Tips & Travel Guide",
+      subtitle: "Everything you need to know for the perfect Ibiza trip — from the best beaches to the clubs, the secret spots, and the inside knowledge most tourists never find.",
+      backgroundImage: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=85"
+    })
+  ])
 
   return (
     <>
       <Hero
-        title="Ibiza Tips & Travel Guide"
-        subtitle="Everything you need to know for the perfect Ibiza trip — from the best beaches to the clubs, the secret spots, and the inside knowledge most tourists never find."
-        backgroundImage="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=85"
+        title={pageContent.title}
+        subtitle={pageContent.subtitle}
+        backgroundImage={pageContent.backgroundImage}
         eyebrow="Insider Guide"
         minHeight="min-h-[65vh]"
       />

@@ -7,6 +7,7 @@ import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { ProductSchema } from '@/components/seo/ProductSchema'
 import { createServerClient } from '@/lib/supabase/server'
+import { getPageContent } from '@/lib/page-content'
 import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences'
 import type { Experience, Review } from '@/types/experience'
 
@@ -40,19 +41,29 @@ const howItWorks = [
 async function getData() {
   try {
     const supabase = createServerClient()
-    const [{ data: charters }, { data: reviews }] = await Promise.all([
+    const [{ data: charters }, { data: reviews }, pageContent] = await Promise.all([
       supabase.from('experiences').select('*').eq('category', 'boat-charter').eq('available', true).order('sort_order'),
       supabase.from('reviews').select('*').eq('published', true).eq('verified', true).order('created_at', { ascending: false }).limit(6),
+      getPageContent('private-boat', {
+        title: "Private Boat Charter Ibiza",
+        subtitle: "The whole Ibiza coastline, entirely for your group. Custom routes, experienced crew, and memories that last a lifetime.",
+        backgroundImage: "https://images.unsplash.com/photo-1504735689966-4f12eb87a84e?w=1920&q=85"
+      })
     ])
     const charterData = (charters && charters.length > 0) ? charters : FALLBACK_EXPERIENCES['boat-charter']
-    return { charters: charterData, reviews: reviews ?? [] }
+    return { charters: charterData, reviews: reviews ?? [], pageContent }
   } catch {
-    return { charters: FALLBACK_EXPERIENCES['boat-charter'], reviews: [] }
+    const pageContent = await getPageContent('private-boat', {
+      title: "Private Boat Charter Ibiza",
+      subtitle: "The whole Ibiza coastline, entirely for your group. Custom routes, experienced crew, and memories that last a lifetime.",
+      backgroundImage: "https://images.unsplash.com/photo-1504735689966-4f12eb87a84e?w=1920&q=85"
+    })
+    return { charters: FALLBACK_EXPERIENCES['boat-charter'], reviews: [], pageContent }
   }
 }
 
 export default async function PrivateBoatChartersPage() {
-  const { charters, reviews } = await getData()
+  const { charters, reviews, pageContent } = await getData()
   const avgRating = reviews.length > 0
     ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1)
     : '4.9'
@@ -70,9 +81,9 @@ export default async function PrivateBoatChartersPage() {
 
       {/* Hero */}
       <Hero
-        title="Private Boat Charter Ibiza"
-        subtitle="The whole Ibiza coastline, entirely for your group. Custom routes, experienced crew, and memories that last a lifetime."
-        backgroundImage="https://images.unsplash.com/photo-1504735689966-4f12eb87a84e?w=1920&q=85"
+        title={pageContent.title}
+        subtitle={pageContent.subtitle}
+        backgroundImage={pageContent.backgroundImage}
         eyebrow="Luxury Yacht Rental"
         minHeight="min-h-[85vh]"
       />

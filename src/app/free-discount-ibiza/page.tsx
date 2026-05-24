@@ -3,7 +3,9 @@ import { Hero } from '@/components/hero/Hero'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
+import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { Tag } from 'lucide-react'
+import { getPageContent } from '@/lib/page-content'
 
 export const metadata: Metadata = {
   title: 'Free & Cheap Things to Do in Ibiza — Discount Passes',
@@ -20,13 +22,19 @@ const freeTips = [
   { title: 'Hippy markets', description: 'Las Dalias and Punta Arabí markets are free to browse. A classic Ibiza cultural experience.' },
 ]
 
-export default function FreeDiscountIbizaPage() {
+export default async function FreeDiscountIbizaPage() {
+  const pageContent = await getPageContent('free-discount', {
+    title: "Free & Cheap Things to Do in Ibiza",
+    subtitle: "Ibiza doesn't have to be expensive. Our guide to the best free beaches, free entry nights, discount passes, and budget-friendly ways to have an incredible time.",
+    backgroundImage: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=85"
+  })
+
   return (
     <>
       <Hero
-        title="Free & Cheap Things to Do in Ibiza"
-        subtitle="Ibiza doesn't have to be expensive. Our guide to the best free beaches, free entry nights, discount passes, and budget-friendly ways to have an incredible time."
-        backgroundImage="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=85"
+        title={pageContent.title}
+        subtitle={pageContent.subtitle}
+        backgroundImage={pageContent.backgroundImage}
         eyebrow="Budget Ibiza Guide"
         minHeight="min-h-[65vh]"
       />
