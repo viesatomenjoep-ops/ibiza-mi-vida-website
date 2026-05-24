@@ -1,15 +1,13 @@
 export type ExperienceCategory =
+  | 'deals-of-the-day'
   | 'boat-charter'
   | 'club-ticket'
   | 'boat-party'
   | 'catamaran'
   | 'formentera'
-  | 'car-rental'
-  | 'drink-packages'
   | 'guestlist'
-  | 'aftersun'
-  | 'free-discount'
-  | 'ibiza-tips'
+  | 'drink-packages'
+  | 'car-rental'
 
 export interface Experience {
   id: string
