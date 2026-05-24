@@ -37,7 +37,7 @@ export function CategoryHero({
 
   return (
     <section
-      className={`relative flex ${minHeight} flex-col items-center justify-center overflow-hidden ${isHome ? 'bg-transparent' : 'bg-[#FAFAFA]'} pt-24 pb-8 md:pt-28`}
+      className={`relative flex ${minHeight} flex-col items-center justify-center overflow-hidden ${isHome ? 'bg-midnight' : 'bg-midnight'} pt-24 pb-8 md:pt-28`}
       aria-label="Category Hero section"
     >
       {/* Background Image (if provided) */}
@@ -48,10 +48,8 @@ export function CategoryHero({
             alt="Hero Background"
             fill
             priority
-            className="object-cover"
-            style={{ opacity: backgroundOpacity }}
+            className="object-cover brightness-[0.35]"
           />
-          {!isHome && <div className="absolute inset-0 bg-white/50" />} {/* Extra wash for categories to ensure text readability */}
         </div>
       ) : (
         /* Abstract Design Patterns (only show if no background image) */
@@ -73,16 +71,16 @@ export function CategoryHero({
       {/* Content */}
       <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center gap-3 px-4 text-center md:px-8">
         {eyebrow && (
-          <span className="inline-block rounded-full border border-midnight/10 bg-midnight/5 px-4 py-1 font-sans text-[10px] md:text-xs font-bold uppercase tracking-widest text-midnight/80 shadow-sm backdrop-blur-sm">
+          <span className="inline-block rounded-full border border-white/20 bg-white/10 px-4 py-1 font-sans text-[10px] md:text-xs font-bold uppercase tracking-widest text-white shadow-sm backdrop-blur-sm">
             {eyebrow}
           </span>
         )}
 
-        <h1 className="font-serif text-3xl font-medium leading-tight text-balance md:text-5xl lg:text-6xl text-midnight drop-shadow-sm">
+        <h1 className="font-serif text-3xl font-medium leading-tight text-balance md:text-5xl lg:text-6xl text-white drop-shadow-md">
           {title}
         </h1>
 
-        <p className="max-w-2xl font-sans text-sm leading-relaxed md:text-lg text-midnight/70 font-medium bg-white/40 px-4 py-1 rounded-full backdrop-blur-sm">
+        <p className="max-w-2xl font-sans text-sm leading-relaxed md:text-lg text-white/90 font-medium bg-midnight/40 px-4 py-1 rounded-full backdrop-blur-sm">
           {subtitle}
         </p>
 
