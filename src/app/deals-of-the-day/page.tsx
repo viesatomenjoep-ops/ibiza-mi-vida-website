@@ -8,6 +8,7 @@ import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { createServerClient } from '@/lib/supabase/server'
 import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences'
+import { DealsPreviewWrapper } from '@/components/admin/DealsPreviewWrapper'
 import type { Club } from '@/types/club'
 import type { Experience } from '@/types/experience'
 
@@ -53,7 +54,12 @@ async function getAllExperiences(): Promise<Experience[]> {
   ]
 }
 
-export default async function DealsOfTheDayPage() {
+export default async function DealsOfTheDayPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
+  const isAdminPreview = searchParams.admin_preview === '1'
   const [clubs, allExperiences] = await Promise.all([getClubs(), getAllExperiences()])
 
   const boatParties = allExperiences.filter(e => e.category === 'boat-party')
@@ -61,7 +67,7 @@ export default async function DealsOfTheDayPage() {
   const drinkPackages = allExperiences.filter(e => e.category === 'drink-packages')
 
   return (
-    <>
+    <DealsPreviewWrapper isAdminPreview={isAdminPreview}>
       <Hero
         title="Deals of the Day"
         subtitle="Your ultimate overview. Find the best club tickets, boat parties, excursions, and drink packages all in one place."
@@ -191,11 +197,12 @@ export default async function DealsOfTheDayPage() {
         </section>
       )}
 
+      {/* ── Cross-sell banner ── */}
       <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24">
         <AnimatedSection>
           <CrossSellBanner triggerPage="/deals-of-the-day" fromPrice={500} />
         </AnimatedSection>
       </section>
-    </>
+    </DealsPreviewWrapper>
   )
 }
