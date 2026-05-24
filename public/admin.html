@@ -4400,9 +4400,10 @@ function importExcel(input){
   const file=input.files[0];
   if(!file)return;
   if(file.name.endsWith('.csv')){
-    Papa.parse(file,{header:true,complete:function(results){
+    Papa.parse(file,{header:true,complete:async function(results){
       const rows=results.data;
       let imported=0;
+      let newEvents = [];
       rows.forEach(row=>{
         if(!row.title&&!row.Title)return;
         
@@ -4412,7 +4413,6 @@ function importExcel(input){
         }
 
         const ev={
-          id:'import-'+Date.now()+'-'+imported,
           title:row.title||row.Title||'',
           subtitle:row.subtitle||row.Subtitle||'',
           category:(row.category||row.Category||'club-ticket').toLowerCase().replace(' ','-'),
@@ -4422,13 +4422,27 @@ function importExcel(input){
           badge_text:row.badge_text||row.Badge||null,
           cta_label:row.cta_label||'Book Now',
           image_url:row.image_url||row.Image||null,
-          active:true,sort_order:allEvents.length+imported
+          active:true,
+          sort_order:allEvents.length+imported
         };
-        allEvents.push(ev);
+        newEvents.push(ev);
         imported++;
       });
-      renderEventsTable(allEvents);
-      toast(`Imported ${imported} events from CSV ✓`,'success');
+      
+      if(newEvents.length > 0) {
+        toast(`Uploading ${imported} events to database...`, 'info');
+        const { data, error } = await supabaseClient.from('featured_events').insert(newEvents).select();
+        if(error) {
+          toast('Failed to save to database: ' + error.message, 'error');
+          console.error('Import Error:', error);
+        } else if (data) {
+          allEvents.push(...data);
+          renderEventsTable(allEvents);
+          toast(`Imported and saved ${imported} events ✓`,'success');
+        }
+      } else {
+        toast('No valid events found in CSV', 'info');
+      }
     }});
   } else {
     toast('For XLSX: save as CSV first, then import','info');
