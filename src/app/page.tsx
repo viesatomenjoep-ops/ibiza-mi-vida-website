@@ -18,13 +18,11 @@ import type { FeaturedEvent } from '@/types/featured-event'
 import Link from 'next/link'
 import Image from 'next/image'
 import { HomeSearchWidget } from '@/components/home/HomeSearchWidget'
-import { DealTimer } from '@/components/ui/DealTimer'
-import { DealDateBanner } from '@/components/ui/DealDateBanner'
 import { WeekRange } from '@/components/ui/WeekRange'
 import { CalendarModal } from '@/components/ui/CalendarModal'
-import { DealOfTheWeekList } from '@/components/home/DealOfTheWeekList'
 import { HomeSearchFigma } from '@/components/home/HomeSearchFigma'
 import { HomeReviews } from '@/components/home/HomeReviews'
+import { DealsSection } from '@/components/home/DealsSection'
 
 export const revalidate = 60
 
@@ -225,34 +223,14 @@ export default async function HomePage() {
 
       {/* DASHBOARD TOP: Deal of the Day vs Deal of the Week */}
       <section className="px-4 pb-12 md:pb-12 md:px-8 mt-8 md:mt-12 relative z-20">
-        <div className="mx-auto max-w-5xl flex flex-col gap-10">
-          
-          {/* TOP: Deal of the Day Active Banner */}
-          <AnimatedSection>
-            <div className="bg-gold/10 border-2 border-gold/30 rounded-3xl p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-4 opacity-10">
-                <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-              </div>
-              <div className="z-10 text-center md:text-left flex-1">
-                <DealDateBanner />
-                <h2 className="text-3xl md:text-5xl font-serif text-velvet-obsidian mb-4">Deal of the Day</h2>
-                <p className="text-velvet-obsidian/70 font-sans text-lg max-w-lg">The best hand-picked offers, strictly valid until velvet-obsidian. Book now before the timer runs out!</p>
-              </div>
-              <div className="z-10 bg-white/50 backdrop-blur-md p-6 rounded-2xl border border-white shrink-0">
-                <DealTimer />
-              </div>
-            </div>
-          </AnimatedSection>
-
-          {/* BOTTOM: Deal of the Week */}
-          <AnimatedSection>
-            <div className="bg-white rounded-3xl pt-2 pb-6 flex flex-col relative overflow-hidden">
-              <DealOfTheWeekList />
-              <div className="px-4 max-w-md mx-auto w-full">
-                <CalendarModal />
-              </div>
-            </div>
-          </AnimatedSection>
+        <AnimatedSection>
+          <DealsSection />
+        </AnimatedSection>
+        <div className="hidden">
+          {/* Keep CalendarModal mounted but hidden, or move it to DealsSection if it's strictly needed.
+              Actually, DealsSection uses openModal which might require CalendarModal to be mounted somewhere.
+              CalendarModal is self-contained. */}
+          <CalendarModal />
         </div>
       </section>
 
