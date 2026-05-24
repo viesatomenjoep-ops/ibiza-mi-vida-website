@@ -21,6 +21,7 @@ import { DealTimer } from '@/components/ui/DealTimer'
 import { DealDateBanner } from '@/components/ui/DealDateBanner'
 import { WeekRange } from '@/components/ui/WeekRange'
 import { CalendarModal } from '@/components/ui/CalendarModal'
+import { DealOfTheWeekList } from '@/components/home/DealOfTheWeekList'
 
 export const revalidate = 60
 
@@ -235,29 +236,7 @@ export default async function HomePage() {
                 </div>
               </div>
               
-              <div className="flex-1 flex flex-col gap-3">
-                <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex justify-between items-center">
-                  <div>
-                    <p className="font-semibold text-white text-sm">Oceanbeat VIP Boat</p>
-                    <p className="text-xs text-sandstone/70">Thursday</p>
-                  </div>
-                  <span className="text-gold font-bold">€89</span>
-                </div>
-                <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex justify-between items-center">
-                  <div>
-                    <p className="font-semibold text-white text-sm">Amnesia Balcony</p>
-                    <p className="text-xs text-sandstone/70">Friday</p>
-                  </div>
-                  <span className="text-gold font-bold">€120</span>
-                </div>
-                <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex justify-between items-center">
-                  <div>
-                    <p className="font-semibold text-white text-sm">Formentera Trip</p>
-                    <p className="text-xs text-sandstone/70">Saturday</p>
-                  </div>
-                  <span className="text-gold font-bold">€150</span>
-                </div>
-              </div>
+              <DealOfTheWeekList />
               
               <CalendarModal />
             </div>

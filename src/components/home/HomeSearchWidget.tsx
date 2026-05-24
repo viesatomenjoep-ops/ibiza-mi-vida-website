@@ -3,23 +3,27 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Calendar, Search } from 'lucide-react'
-import { CalendarModal } from '@/components/ui/CalendarModal'
-import Image from 'next/image'
+
+const allCategories = [
+  { label: 'Deals of the Day', href: '/deals-of-the-day' },
+  { label: 'Private Boat Charters', href: '/private-boat-charters' },
+  { label: 'Club Tickets', href: '/club-tickets' },
+  { label: 'Boat Parties', href: '/boat-parties' },
+  { label: 'VIP Catamaran', href: '/vip-catamaran' },
+  { label: 'Formentera Trips', href: '/formentera-boat-trips' },
+  { label: 'Guestlist', href: '/guestlist' },
+  { label: 'Drink Packages', href: '/drink-packages' },
+  { label: 'Car & Scooter Rental', href: '/car-scooter-rental' },
+]
 
 export function HomeSearchWidget() {
   const router = useRouter()
-  const [activeTab, setActiveTab] = useState('Clubbing')
+  const [activeTab, setActiveTab] = useState(allCategories[0].href)
   const [date, setDate] = useState('')
 
-  const tabs = ['Clubbing', 'Ibiza Boat', 'Activities', 'Ferry']
   const handleSearch = () => {
-    let route = '/club-tickets'
-    if (activeTab === 'Ibiza Boat') route = '/boat-parties'
-    if (activeTab === 'Activities') route = '/deals-of-the-day'
-    if (activeTab === 'Ferry') route = '/formentera-boat-trips'
-    
     const params = date ? `?date=${date}` : ''
-    router.push(`${route}${params}`)
+    router.push(`${activeTab}${params}`)
   }
 
   const today = new Date().toISOString().split('T')[0]
@@ -30,19 +34,19 @@ export function HomeSearchWidget() {
       {/* Search Bar Container */}
       <div className="bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-2xl p-2 md:p-3 overflow-hidden border border-white">
         
-        {/* Tabs */}
-        <div className="flex flex-wrap gap-2 px-3 pt-2 pb-4 border-b border-black/10">
-          {tabs.map(tab => (
+        {/* Tabs - Scrollable horizontally on small screens */}
+        <div className="flex overflow-x-auto gap-2 px-3 pt-2 pb-4 border-b border-black/10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {allCategories.map(tab => (
             <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
-                activeTab === tab 
+              key={tab.label}
+              onClick={() => setActiveTab(tab.href)}
+              className={`shrink-0 px-4 py-2 rounded-full text-xs md:text-sm font-semibold transition-all ${
+                activeTab === tab.href 
                   ? 'bg-midnight text-white shadow-md scale-105' 
                   : 'bg-transparent text-midnight hover:bg-black/5'
               }`}
             >
-              {tab}
+              {tab.label}
             </button>
           ))}
         </div>
@@ -70,45 +74,6 @@ export function HomeSearchWidget() {
             <Search size={20} />
             Search
           </button>
-        </div>
-      </div>
-
-      {/* Calendar Browse & Months */}
-      <div className="mt-4 flex flex-col gap-4 text-center md:text-left">
-        <p className="text-midnight/70 font-semibold drop-shadow-sm text-sm">Or browse our full calendar and discover everything thats going on:</p>
-        
-        <CalendarModal customTrigger={(open, setMonth) => (
-          <div className="flex flex-wrap justify-center md:justify-start gap-2">
-            {[
-              { label: 'May', idx: 4 },
-              { label: 'June', idx: 5 },
-              { label: 'July', idx: 6 },
-              { label: 'August', idx: 7 },
-              { label: 'September', idx: 8 },
-              { label: 'October', idx: 9 }
-            ].map(m => (
-              <button 
-                key={m.label} 
-                onClick={() => {
-                  setMonth(m.idx)
-                  open()
-                }}
-                className="w-16 h-14 rounded-xl bg-white/60 hover:bg-white/90 backdrop-blur-md text-midnight text-sm font-bold shadow-sm transition-all hover:scale-105 border border-white flex items-center justify-center"
-              >
-                {m.label}
-              </button>
-            ))}
-          </div>
-        )} />
-        
-        {/* Quick Club Links */}
-        <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-4">
-          {['UNVRS', 'Ushuaïa Ibiza', 'Hï Ibiza'].map(club => (
-            <div key={club} className="flex items-center gap-2 bg-midnight/80 backdrop-blur-md text-white px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-white/20">
-              <span className="w-2 h-2 rounded-full bg-gold"></span>
-              {club}
-            </div>
-          ))}
         </div>
       </div>
     </div>
