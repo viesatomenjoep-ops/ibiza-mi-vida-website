@@ -11,7 +11,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import { FALLBACK_CLUB_EVENTS } from '@/lib/fallback-club-events'
 import type { Club, ClubEvent } from '@/types/club'
 
-export const revalidate = 3600
+export const revalidate = 60
 
 interface Props {
   params: { slug: string }

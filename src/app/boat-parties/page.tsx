@@ -9,7 +9,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences'
 import type { Experience } from '@/types/experience'
 
-export const revalidate = 1800
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Ibiza Boat Party Tickets — Sunset & Party Cruises',

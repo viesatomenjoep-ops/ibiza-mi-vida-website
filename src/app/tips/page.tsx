@@ -8,7 +8,7 @@ import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { createServerClient } from '@/lib/supabase/server'
 import type { BlogPost } from '@/types/blog'
 
-export const revalidate = 3600
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Ibiza Tips & Travel Guide — What to Do in Ibiza',

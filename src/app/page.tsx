@@ -16,7 +16,7 @@ import type { FeaturedEvent } from '@/types/featured-event'
 import Link from 'next/link'
 import Image from 'next/image'
 
-export const revalidate = 3600
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Ibiza Events, Club Tickets & Private Boat Charters | Ibiza mi vida',

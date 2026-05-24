@@ -9,7 +9,7 @@ import type { Experience } from '@/types/experience'
 import { LocalBusinessSchema } from '@/components/seo/LocalBusinessSchema'
 import { ExperienceBookingCTA } from '@/components/experiences/ExperienceBookingCTA'
 
-export const revalidate = 3600
+export const revalidate = 60
 
 /* ── All fallback experiences flat list ── */
 const ALL_FALLBACK = Object.values(FALLBACK_EXPERIENCES).flat()
