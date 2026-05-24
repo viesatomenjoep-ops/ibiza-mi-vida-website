@@ -10,7 +10,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences'
 import type { Experience } from '@/types/experience'
 
-export const revalidate = 0
+export const revalidate = 3600
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ibizamivida.com'
 

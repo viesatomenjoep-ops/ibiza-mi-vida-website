@@ -8,7 +8,7 @@ import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { createServerClient } from '@/lib/supabase/server'
 import type { BlogPost } from '@/types/blog'
 
-export const revalidate = 0
+export const revalidate = 3600
 
 interface Props {
   params: { slug: string }
