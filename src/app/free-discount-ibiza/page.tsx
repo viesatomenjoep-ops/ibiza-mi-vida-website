@@ -3,7 +3,6 @@ import { Hero } from '@/components/hero/Hero'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
-import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { Tag } from 'lucide-react'
 import { getPageContent } from '@/lib/page-content'
 
