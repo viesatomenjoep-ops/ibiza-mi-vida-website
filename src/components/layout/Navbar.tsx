@@ -15,17 +15,14 @@ const pillLinks = [
 ]
 
 const allCategories = [
-  { label: 'Home', href: '/', icon: Home, desc: 'Back to the start' },
+  { label: 'Private Boat Charters', href: '/private-boat-charters', icon: Anchor, desc: 'Yachts & exclusive rentals' },
   { label: 'Club Tickets', href: '/club-tickets', icon: Ticket, desc: 'Pacha, Amnesia, Hi Ibiza & more' },
   { label: 'Boat Parties', href: '/boat-parties', icon: Music, desc: 'Sunset cruises & music events' },
-  { label: 'Private Boat Charters', href: '/private-boat-charters', icon: Anchor, desc: 'Yachts & exclusive rentals' },
   { label: 'VIP Catamaran', href: '/vip-catamaran', icon: Navigation, desc: 'Luxury sailing experiences' },
   { label: 'Formentera Trips', href: '/formentera-boat-trips', icon: Sun, desc: 'Day trips to paradise' },
-  { label: 'Car & Scooter Rental', href: '/car-scooter-rental', icon: Car, desc: 'Explore at your own pace' },
-  { label: 'Drink Packages', href: '/drink-packages', icon: GlassWater, desc: 'VIP tables & bottle service' },
   { label: 'Guestlist', href: '/guestlist', icon: CheckCircle, desc: 'Free entry & priority access' },
-  { label: 'Free & Discount', href: '/free-discount-ibiza', icon: Tag, desc: 'Budget tips & passes' },
-  { label: 'Ibiza Tips', href: '/tips', icon: Compass, desc: 'Local secrets & guides' },
+  { label: 'Drink Packages', href: '/drink-packages', icon: GlassWater, desc: 'VIP tables & bottle service' },
+  { label: 'Car & Scooter Rental', href: '/car-scooter-rental', icon: Car, desc: 'Explore at your own pace' },
 ]
 
 export function Navbar() {
@@ -164,27 +161,25 @@ export function Navbar() {
               </div>
 
               {/* Grid of Categories */}
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
                 {filteredCategories.map((cat, i) => (
                   <motion.div
                     key={cat.label}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.03 }}
+                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ delay: i * 0.04 }}
                   >
                     <Link
                       href={cat.href}
-                      className="group flex items-start gap-4 rounded-3xl bg-white p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md border border-transparent hover:border-midnight/5"
+                      onClick={() => setMenuOpen(false)}
+                      className="group flex aspect-square flex-col items-center justify-center gap-3 rounded-[32px] bg-white p-4 text-center shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg border border-transparent hover:border-midnight/5"
                     >
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sandstone/50 text-midnight transition-colors group-hover:bg-teal group-hover:text-white">
-                        <cat.icon size={20} />
+                      <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-sandstone/30 text-midnight transition-all duration-300 group-hover:scale-110 group-hover:bg-teal group-hover:text-white">
+                        <cat.icon size={28} strokeWidth={1.5} />
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-serif text-lg font-medium text-midnight group-hover:text-teal transition-colors">
+                        <span className="font-serif text-lg md:text-xl font-medium text-midnight group-hover:text-teal transition-colors leading-tight">
                           {cat.label}
-                        </span>
-                        <span className="font-sans text-xs text-midnight/50 mt-1 leading-relaxed">
-                          {cat.desc}
                         </span>
                       </div>
                     </Link>
