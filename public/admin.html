@@ -2881,7 +2881,7 @@ function renderEventsTable(events){
       <td style="color:var(--text);max-width:180px">
         <div style="font-weight:600;margin-bottom:8px">${e.title}</div>
         <div style="display:flex;gap:4px">
-          <button class="btn btn-secondary btn-sm" onclick='editEvent(${JSON.stringify(e)})' style="padding:0.2rem 0.5rem;font-size:0.68rem">Edit</button>
+          <button class="btn btn-secondary btn-sm" onclick='editEvent(${JSON.stringify(e).replace(/'/g, "&#39;")})' style="padding:0.2rem 0.5rem;font-size:0.68rem">Edit</button>
           <button class="btn btn-danger btn-sm" onclick="deleteEvent('${e.id}')" style="padding:0.2rem 0.5rem;font-size:0.68rem">Del</button>
         </div>
       </td>
