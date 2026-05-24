@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { Calendar, Search } from 'lucide-react'
+import { Calendar, Search, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const allCategories = [
   { label: 'Deals of the Day', href: '/deals-of-the-day' },
@@ -20,10 +20,23 @@ export function HomeSearchWidget() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState(allCategories[0].href)
   const [date, setDate] = useState('')
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   const handleSearch = () => {
     const params = date ? `?date=${date}` : ''
     router.push(`${activeTab}${params}`)
+  }
+
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -200, behavior: 'smooth' })
+    }
+  }
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 200, behavior: 'smooth' })
+    }
   }
 
   const today = new Date().toISOString().split('T')[0]
@@ -35,24 +48,66 @@ export function HomeSearchWidget() {
       <div className="bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-2xl p-2 md:p-3 overflow-hidden border border-white">
         
         {/* Tabs - Scrollable horizontally */}
-        <div className="flex overflow-x-auto gap-3 px-4 pt-4 pb-6 border-b border-black/10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          {allCategories.map(tab => (
-            <button
-              key={tab.label}
-              onClick={() => setActiveTab(tab.href)}
-              className={`shrink-0 px-6 py-3 rounded-full text-sm md:text-base font-bold tracking-wide transition-all ${
-                activeTab === tab.href 
-                  ? 'bg-midnight text-white shadow-lg scale-105 border border-midnight' 
-                  : 'bg-white/50 text-midnight hover:bg-white border border-black/10'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+        <div className="relative border-b border-black/10 flex items-center">
+          
+          <button 
+            onClick={scrollLeft}
+            className="absolute left-0 z-10 p-2 bg-white/80 backdrop-blur-md rounded-full shadow-md text-midnight hover:bg-gold transition-colors ml-2 md:hidden block"
+            aria-label="Scroll left"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          
+          <button 
+            onClick={scrollLeft}
+            className="hidden md:flex absolute left-0 z-10 p-2 bg-white shadow-md rounded-full text-midnight hover:bg-gold hover:text-white transition-all transform -translate-x-1/2"
+            aria-label="Scroll left"
+          >
+            <ChevronLeft size={20} />
+          </button>
+
+          <div 
+            ref={scrollRef}
+            className="flex flex-1 overflow-x-auto gap-3 px-8 md:px-12 pt-4 pb-6 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          >
+            {allCategories.map(tab => (
+              <button
+                key={tab.label}
+                onClick={() => {
+                  setActiveTab(tab.href)
+                  const params = date ? `?date=${date}` : ''
+                  router.push(`${tab.href}${params}`)
+                }}
+                className={`shrink-0 px-6 py-3 rounded-full text-sm md:text-base font-bold tracking-wide transition-all ${
+                  activeTab === tab.href 
+                    ? 'bg-midnight text-white shadow-lg scale-105 border border-midnight' 
+                    : 'bg-white/50 text-midnight hover:bg-white border border-black/10'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <button 
+            onClick={scrollRight}
+            className="absolute right-0 z-10 p-2 bg-white/80 backdrop-blur-md rounded-full shadow-md text-midnight hover:bg-gold transition-colors mr-2 md:hidden block"
+            aria-label="Scroll right"
+          >
+            <ChevronRight size={20} />
+          </button>
+          
+          <button 
+            onClick={scrollRight}
+            className="hidden md:flex absolute right-0 z-10 p-2 bg-white shadow-md rounded-full text-midnight hover:bg-gold hover:text-white transition-all transform translate-x-1/2"
+            aria-label="Scroll right"
+          >
+            <ChevronRight size={20} />
+          </button>
         </div>
 
         {/* Input & Search */}
-        <div className="flex flex-col md:flex-row items-center gap-2 p-2">
+        <div className="flex flex-col md:flex-row items-center gap-2 p-2 mt-2">
           <div className="flex-1 flex flex-col px-4 py-3 bg-white hover:bg-sandstone/10 transition-colors rounded-2xl w-full">
             <label htmlFor="search-date" className="text-xs font-bold uppercase tracking-wider text-midnight/50 mb-1 flex items-center gap-2">
               <Calendar size={12} />
