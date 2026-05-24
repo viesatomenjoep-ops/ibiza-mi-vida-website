@@ -78,7 +78,9 @@ export function Navbar() {
               alt="Ibiza mi vida"
               width={90}
               height={90}
-              className="object-contain invert brightness-0 drop-shadow-md transition-opacity hover:opacity-90"
+              className={`object-contain drop-shadow-md transition-all duration-300 hover:opacity-90 ${
+                scrolled ? 'invert brightness-0' : 'brightness-0'
+              }`}
               priority
             />
           </Link>
