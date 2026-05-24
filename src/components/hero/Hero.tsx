@@ -5,18 +5,24 @@ interface HeroProps {
   title: string
   subtitle: string
   backgroundImage: string
-  showSearch?: boolean
+  searchComponent?: React.ReactNode
   eyebrow?: string
   minHeight?: string
+  overlayClassName?: string
+  titleClassName?: string
+  subtitleClassName?: string
 }
 
 export function Hero({
   title,
   subtitle,
   backgroundImage,
-  showSearch = false,
+  searchComponent,
   eyebrow,
   minHeight = 'min-h-screen',
+  overlayClassName = 'bg-gradient-to-b from-midnight/60 via-midnight/40 to-midnight/70',
+  titleClassName = 'text-soft-white',
+  subtitleClassName = 'text-soft-white/90',
 }: HeroProps) {
   return (
     <section
@@ -35,7 +41,7 @@ export function Hero({
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-midnight/60 via-midnight/40 to-midnight/70" />
+      <div className={`absolute inset-0 ${overlayClassName}`} />
 
       {/* Content */}
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center gap-6 px-4 pb-12 pt-32 text-center md:px-8 md:pt-36">
@@ -45,17 +51,17 @@ export function Hero({
           </span>
         )}
 
-        <h1 className="font-serif text-5xl font-light leading-tight text-soft-white text-balance md:text-6xl lg:text-7xl xl:text-8xl">
+        <h1 className={`font-serif text-5xl font-light leading-tight text-balance md:text-6xl lg:text-7xl xl:text-8xl ${titleClassName}`}>
           {title}
         </h1>
 
-        <p className="max-w-3xl font-sans text-lg leading-relaxed text-soft-white/90 md:text-xl lg:text-2xl drop-shadow-sm">
+        <p className={`max-w-3xl font-sans text-lg leading-relaxed md:text-xl lg:text-2xl drop-shadow-sm ${subtitleClassName}`}>
           {subtitle}
         </p>
 
-        {showSearch && (
-          <div className="mt-4 w-full max-w-3xl">
-            <SearchWidget />
+        {searchComponent && (
+          <div className="mt-8 w-full max-w-5xl">
+            {searchComponent}
           </div>
         )}
       </div>
