@@ -26,6 +26,15 @@ const CLUBS = [
   { name: 'Ushuaïa', href: '/club-tickets/ushuaia' },
   { name: 'O Beach', href: '/club-tickets/o-beach' },
   { name: 'Eden', href: '/club-tickets/eden' },
+  { name: 'Swag Ibiza', href: '/club-tickets/swag-ibiza' },
+  { name: '528 Ibiza', href: '/club-tickets/528-ibiza' },
+  { name: 'UNVRS', href: '/club-tickets/universe' },
+  { name: 'Lío', href: '/club-tickets/lio' },
+  { name: 'Ibiza Rocks', href: '/club-tickets/ibiza-rocks' },
+  { name: 'Es Paradis', href: '/club-tickets/es-paradis' },
+  { name: 'Playa Soleil', href: '/club-tickets/playa-soleil' },
+  { name: 'Bam Bu Ku', href: '/club-tickets/bam-bu-ku' },
+  { name: 'Chinois', href: '/club-tickets/chinois' },
 ]
 
 export function HomeSearchFigma({ events }: HomeSearchFigmaProps) {

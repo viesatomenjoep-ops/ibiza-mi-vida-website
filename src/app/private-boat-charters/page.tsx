@@ -181,10 +181,10 @@ export default async function PrivateBoatChartersPage() {
           href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '31683052875'}?text=${encodeURIComponent('Hi, I am interested in a private boat charter in Ibiza.')}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-rustic-terracotta py-4 font-sans font-semibold text-white shadow-lg shadow-rustic-terracotta/30"
+          className="flex w-full max-w-[280px] mx-auto items-center justify-center gap-2 rounded-full bg-[#25D366] py-3 px-4 font-sans text-sm font-semibold text-white shadow-lg shadow-green-500/30"
         >
-          <MessageCircle size={18} />
-          Book Your Private Boat — Chat on WhatsApp
+          <MessageCircle size={16} />
+          Book Your Private Boat
         </a>
       </div>
     </>
