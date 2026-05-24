@@ -48,9 +48,8 @@ export function AdminDashboard() {
 
     if (editingItem.id) {
       // Update
-      // @ts-ignore
-      const { error: updateError } = await supabase
-        .from('experiences')
+      const experiencesTable = supabase.from('experiences') as any
+      const { error: updateError } = await experiencesTable
         .update({
           title: editingItem.title,
           description: editingItem.description || '',
@@ -62,9 +61,8 @@ export function AdminDashboard() {
       error = updateError
     } else {
       // Insert
-      // @ts-ignore
-      const { error: insertError } = await supabase
-        .from('experiences')
+      const experiencesTable = supabase.from('experiences') as any
+      const { error: insertError } = await experiencesTable
         .insert({
           slug: editingItem.title.toLowerCase().replace(/\\s+/g, '-').replace(/[^a-z0-9-]/g, '') + '-' + Date.now(),
           title: editingItem.title,
@@ -115,8 +113,8 @@ export function AdminDashboard() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this item?')) return
     
-    // @ts-ignore
-    const { error } = await supabase.from('experiences').delete().eq('id', id)
+    const experiencesTable = supabase.from('experiences') as any
+    const { error } = await experiencesTable.delete().eq('id', id)
     if (error) alert('Error: ' + error.message)
     else fetchExperiences()
   }
