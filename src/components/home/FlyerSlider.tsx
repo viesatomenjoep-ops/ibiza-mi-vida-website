@@ -85,21 +85,23 @@ export function FlyerSlider({ title, subtitle, images }: FlyerSliderProps) {
               {images.map((src, idx) => (
                 <div
                   key={idx}
-                  className="group relative flex h-[420px] w-[280px] md:h-[500px] md:w-[320px] shrink-0 snap-start flex-col justify-end overflow-hidden rounded-2xl bg-velvet-obsidian shadow-md transition-all duration-300 hover:shadow-xl"
+                  className="group relative flex w-[240px] md:w-[280px] aspect-[4/5] shrink-0 snap-start flex-col justify-end overflow-hidden rounded-2xl bg-velvet-obsidian shadow-md transition-all duration-300 hover:shadow-xl"
                 >
                   {/* Background Image */}
-                  <div className="absolute inset-0">
-                    <Image
-                      src={src}
-                      alt={`Flyer ${idx + 1}`}
-                      fill
-                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                      sizes="(max-width: 768px) 280px, 320px"
-                      priority={idx < 4}
-                    />
-                    {/* Gradient Overlay for luxury feel */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <div className="absolute inset-0 p-2 md:p-3">
+                    <div className="relative w-full h-full rounded-xl overflow-hidden">
+                      <Image
+                        src={src}
+                        alt={`Flyer ${idx + 1}`}
+                        fill
+                        className="object-contain transition-transform duration-700 ease-out group-hover:scale-105"
+                        sizes="(max-width: 768px) 240px, 280px"
+                        priority={idx < 4}
+                      />
+                    </div>
                   </div>
+                  {/* Gradient Overlay for luxury feel */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" />
                 </div>
               ))}
             </div>

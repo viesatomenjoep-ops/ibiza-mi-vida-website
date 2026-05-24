@@ -58,8 +58,8 @@ export function Navbar() {
       ].join(' ')}>
         
         {/* Left: Logo */}
-        <div className="pointer-events-auto flex items-center transition-transform duration-500 ease-out" style={{ transform: `scale(${scrolled ? 0.9 : 1})`, transformOrigin: 'left center' }}>
-          <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105">
+        <div className="pointer-events-auto flex items-center gap-3 transition-transform duration-500 ease-out" style={{ transform: `scale(${scrolled ? 0.9 : 1})`, transformOrigin: 'left center' }}>
+          <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 shrink-0">
             <div className={`rounded-full w-[60px] h-[60px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-lg border border-white/10 overflow-hidden ${pathname === '/' ? 'bg-transparent' : 'bg-white'}`}>
               <Image
                 src="/logo-clean.png"
@@ -71,6 +71,9 @@ export function Navbar() {
               />
             </div>
           </Link>
+          <div className={`hidden sm:flex items-center justify-center px-4 py-2 rounded-xl border backdrop-blur-md transition-colors ${pathname === '/' ? (scrolled ? 'bg-velvet-obsidian/40 border-white/10 text-ibiza-sand' : 'bg-white/10 border-white/20 text-white') : 'bg-white border-velvet-obsidian/10 text-velvet-obsidian shadow-sm'}`}>
+            <span className="font-serif text-[18px] md:text-[22px] tracking-wide font-medium italic">Ibiza mi vida</span>
+          </div>
         </div>
 
         {/* Right: DOD, Menu */}

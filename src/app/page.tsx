@@ -199,7 +199,6 @@ export default async function HomePage() {
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
-        eyebrow="Ibiza mi vida"
         colorTheme="velvet-obsidian"
         backgroundImage="/fotos/hero-pattern.jpg"
         backgroundOpacity={0.3}
