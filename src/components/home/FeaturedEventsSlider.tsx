@@ -115,6 +115,18 @@ export function FeaturedEventsSlider({ events }: FeaturedEventsSliderProps) {
   // Duplicate to allow infinite scrolling effect manually and automatically
   const displayEvents = [...events, ...events, ...events, ...events, ...events, ...events, ...events]
 
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -340, behavior: 'smooth' })
+    }
+  }
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 340, behavior: 'smooth' })
+    }
+  }
+
   return (
     <section className="overflow-hidden py-16 md:py-24 bg-soft-white" aria-label="Featured events">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8 mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -126,9 +138,28 @@ export function FeaturedEventsSlider({ events }: FeaturedEventsSliderProps) {
             Featured Events
           </h2>
         </div>
-        <p className="text-midnight/60 font-sans max-w-sm text-sm md:text-base font-medium">
-          Discover the hottest tickets and exclusive parties happening on the island this week.
-        </p>
+        
+        <div className="flex flex-col md:items-end gap-4">
+          <p className="text-midnight/60 font-sans max-w-sm text-sm md:text-base font-medium">
+            Discover the hottest tickets and exclusive parties happening on the island this week.
+          </p>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={scrollLeft}
+              className="w-10 h-10 rounded-full bg-white border border-black/10 shadow-sm flex items-center justify-center text-midnight hover:bg-gold hover:text-white transition-colors"
+              aria-label="Scroll left"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button
+              onClick={scrollRight}
+              className="w-10 h-10 rounded-full bg-white border border-black/10 shadow-sm flex items-center justify-center text-midnight hover:bg-gold hover:text-white transition-colors"
+              aria-label="Scroll right"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="relative w-full">
@@ -138,7 +169,7 @@ export function FeaturedEventsSlider({ events }: FeaturedEventsSliderProps) {
 
         <div
           ref={scrollRef}
-          className="flex gap-4 md:gap-6 px-4 md:px-[10vw] overflow-x-auto snap-x snap-mandatory py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] touch-pan-x"
+          className="flex gap-4 md:gap-6 px-4 md:px-[10vw] overflow-x-auto snap-x snap-mandatory py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] touch-pan-x scroll-smooth"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={() => setIsPaused(true)}
