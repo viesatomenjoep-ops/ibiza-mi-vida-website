@@ -73,13 +73,13 @@ export function Navbar() {
         {/* Left: Logo */}
         <div className="pointer-events-auto flex items-center transition-transform duration-500 ease-out" style={{ transform: `scale(${scrolled ? 0.9 : 1})`, transformOrigin: 'left center' }}>
           <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105">
-            <div className="bg-white rounded-full w-[60px] h-[60px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-lg border border-black/5 overflow-hidden">
+            <div className={`rounded-full w-[60px] h-[60px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-lg border border-white/10 overflow-hidden ${pathname === '/' ? 'bg-transparent' : 'bg-white'}`}>
               <Image
                 src="/logo-clean.png"
                 alt="Ibiza mi vida"
-                width={45}
-                height={45}
-                className="object-contain brightness-0 hover:opacity-80 transition-opacity"
+                width={70}
+                height={70}
+                className={`object-contain transition-opacity ${pathname === '/' ? 'brightness-0 invert hover:opacity-80 w-[70%] h-[70%]' : 'brightness-0 hover:opacity-80 w-[85%] h-[85%]'}`}
                 priority
               />
             </div>

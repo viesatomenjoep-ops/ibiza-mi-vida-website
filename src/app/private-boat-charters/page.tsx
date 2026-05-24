@@ -85,7 +85,7 @@ export default async function PrivateBoatChartersPage() {
         subtitle={pageContent.subtitle}
         colorTheme="indigo"
         eyebrow="Luxury Yacht Rental"
-        minHeight="min-h-[85vh]"
+        minHeight="min-h-[45vh]"
       />
 
       {/* USP strip */}

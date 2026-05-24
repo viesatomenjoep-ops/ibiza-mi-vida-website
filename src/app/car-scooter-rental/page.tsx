@@ -58,7 +58,7 @@ export default async function CarScooterRentalPage() {
         subtitle={pageContent.subtitle}
         colorTheme="rose"
         eyebrow="Explore Ibiza"
-        minHeight="min-h-[65vh]"
+        minHeight="min-h-[45vh]"
       />
 
       <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">

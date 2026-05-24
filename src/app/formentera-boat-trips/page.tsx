@@ -61,7 +61,7 @@ export default async function FormenteraBoatTripsPage() {
         subtitle={pageContent.subtitle}
         colorTheme="teal"
         eyebrow="Day Trips from Ibiza"
-        minHeight="min-h-[70vh]"
+        minHeight="min-h-[45vh]"
       />
 
       <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">

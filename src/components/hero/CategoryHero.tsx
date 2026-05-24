@@ -91,8 +91,6 @@ export function CategoryHero({
         )}
       </div>
 
-      {/* Bottom gradient for smooth section transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-soft-white to-transparent z-10 pointer-events-none" />
     </section>
   )
 }

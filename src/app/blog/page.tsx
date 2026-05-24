@@ -39,7 +39,7 @@ export default async function BlogPage() {
         subtitle="Event guides, nightlife reviews, travel tips, and insider knowledge. Everything you need to make the most of your time in Ibiza."
         colorTheme="gold"
         eyebrow="Ibiza mi vida Blog"
-        minHeight="min-h-[55vh]"
+        minHeight="min-h-[45vh]"
       />
 
       <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">

@@ -48,27 +48,11 @@ export function HomeSearchWidget() {
       <div className="bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-2xl p-2 md:p-3 overflow-hidden border border-white">
         
         {/* Tabs - Scrollable horizontally */}
-        <div className="relative border-b border-black/10 flex items-center">
+        <div className="border-b border-black/10 flex flex-col pb-2">
           
-          <button 
-            onClick={scrollLeft}
-            className="absolute left-0 z-10 p-2 bg-white/80 backdrop-blur-md rounded-full shadow-md text-midnight hover:bg-gold transition-colors ml-2 md:hidden block"
-            aria-label="Scroll left"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          
-          <button 
-            onClick={scrollLeft}
-            className="hidden md:flex absolute left-0 z-10 p-2 bg-white shadow-md rounded-full text-midnight hover:bg-gold hover:text-white transition-all transform -translate-x-1/2"
-            aria-label="Scroll left"
-          >
-            <ChevronLeft size={20} />
-          </button>
-
           <div 
             ref={scrollRef}
-            className="flex flex-1 overflow-x-auto gap-4 px-8 md:px-12 pt-4 pb-6 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            className="flex w-full overflow-x-auto gap-4 px-4 pt-4 pb-2 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           >
             {allCategories.map(tab => (
               <button
@@ -89,21 +73,23 @@ export function HomeSearchWidget() {
             ))}
           </div>
 
-          <button 
-            onClick={scrollRight}
-            className="absolute right-0 z-10 p-2 bg-white/80 backdrop-blur-md rounded-full shadow-md text-midnight hover:bg-gold transition-colors mr-2 md:hidden block"
-            aria-label="Scroll right"
-          >
-            <ChevronRight size={20} />
-          </button>
-          
-          <button 
-            onClick={scrollRight}
-            className="hidden md:flex absolute right-0 z-10 p-2 bg-white shadow-md rounded-full text-midnight hover:bg-gold hover:text-white transition-all transform translate-x-1/2"
-            aria-label="Scroll right"
-          >
-            <ChevronRight size={20} />
-          </button>
+          {/* Scroll Controls Below (Mobile & Desktop) */}
+          <div className="flex items-center justify-center gap-6 mt-3 mb-2 w-full">
+            <button 
+              onClick={scrollLeft}
+              className="p-2 md:p-3 bg-white/80 backdrop-blur-md rounded-full shadow-md text-midnight hover:bg-gold transition-colors border border-black/5"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button 
+              onClick={scrollRight}
+              className="p-2 md:p-3 bg-white/80 backdrop-blur-md rounded-full shadow-md text-midnight hover:bg-gold transition-colors border border-black/5"
+              aria-label="Scroll right"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
         </div>
 
         {/* Input & Search */}

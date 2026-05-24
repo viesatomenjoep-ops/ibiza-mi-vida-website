@@ -51,7 +51,7 @@ export default async function BoatPartiesPage() {
         subtitle={pageContent.subtitle}
         colorTheme="rose"
         eyebrow="Party on the Water"
-        minHeight="min-h-[70vh]"
+        minHeight="min-h-[45vh]"
       />
 
       <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">

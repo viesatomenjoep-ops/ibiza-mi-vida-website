@@ -70,7 +70,7 @@ export default async function VipCatamaranPage() {
         subtitle={pageContent.subtitle}
         colorTheme="midnight"
         eyebrow="Luxury Sailing"
-        minHeight="min-h-[70vh]"
+        minHeight="min-h-[45vh]"
       />
 
       {/* Inclusions */}

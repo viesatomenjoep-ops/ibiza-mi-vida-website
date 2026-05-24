@@ -53,7 +53,7 @@ export default async function ClubTicketsPage() {
         subtitle={pageContent.subtitle}
         colorTheme="gold"
         eyebrow="All Ibiza Venues"
-        minHeight="min-h-[70vh]"
+        minHeight="min-h-[45vh]"
       />
 
       {/* How it works */}

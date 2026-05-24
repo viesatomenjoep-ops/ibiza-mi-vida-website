@@ -42,7 +42,7 @@ export default async function GuestlistPage() {
         subtitle={pageContent.subtitle}
         colorTheme="midnight"
         eyebrow="Free Entry Ibiza"
-        minHeight="min-h-[65vh]"
+        minHeight="min-h-[45vh]"
       />
 
       {/* Benefits */}
