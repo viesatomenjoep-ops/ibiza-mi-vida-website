@@ -41,12 +41,12 @@ export function CalendarModal() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
           <div className="absolute inset-0 bg-midnight/80 backdrop-blur-sm" onClick={() => setIsOpen(false)} />
           
-          <div className="relative w-full max-w-3xl bg-[#111111] rounded-3xl overflow-hidden shadow-2xl border border-white/10 flex flex-col max-h-[90vh]">
+          <div className="relative w-full max-w-3xl bg-[#111111] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-white/10 flex flex-col max-h-[95vh] md:max-h-[90vh]">
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-white/10 bg-[#161616]">
+            <div className="flex items-center justify-between p-4 md:p-6 border-b border-white/10 bg-[#161616] shrink-0">
               <div>
-                <h2 className="text-2xl font-serif text-gold">Ibiza Season {year}</h2>
-                <p className="text-sandstone/60 text-sm">Select a date to view all events and deals</p>
+                <h2 className="text-xl md:text-2xl font-serif text-gold">Ibiza Season {year}</h2>
+                <p className="text-sandstone/60 text-xs md:text-sm">Select a date to view all events and deals</p>
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
@@ -56,41 +56,41 @@ export function CalendarModal() {
               </button>
             </div>
 
-            {/* Calendar Controls */}
-            <div className="p-6 bg-gradient-to-b from-[#161616] to-transparent">
-              <div className="flex items-center justify-between mb-8">
+            {/* Calendar Controls (Scrollable area) */}
+            <div className="p-4 md:p-6 bg-gradient-to-b from-[#161616] to-transparent overflow-y-auto flex-1">
+              <div className="flex items-center justify-between mb-6 md:mb-8">
                 <button 
                   onClick={prevMonth}
                   disabled={currentMonth === 3}
-                  className="p-3 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 transition-colors text-white"
+                  className="p-2 md:p-3 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 transition-colors text-white"
                 >
-                  <ChevronLeft size={24} />
+                  <ChevronLeft size={20} className="md:w-6 md:h-6" />
                 </button>
                 <div className="text-center">
-                  <h3 className="text-3xl font-serif text-white">{activeMonth.name}</h3>
-                  <p className="text-gold tracking-widest uppercase text-xs font-bold mt-1">High Season</p>
+                  <h3 className="text-2xl md:text-3xl font-serif text-white">{activeMonth.name}</h3>
+                  <p className="text-gold tracking-widest uppercase text-[10px] md:text-xs font-bold mt-1">High Season</p>
                 </div>
                 <button 
                   onClick={nextMonth}
                   disabled={currentMonth === 9}
-                  className="p-3 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 transition-colors text-white"
+                  className="p-2 md:p-3 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 transition-colors text-white"
                 >
-                  <ChevronRight size={24} />
+                  <ChevronRight size={20} className="md:w-6 md:h-6" />
                 </button>
               </div>
 
               {/* Grid */}
-              <div className="grid grid-cols-7 gap-2 sm:gap-4 mb-2">
+              <div className="grid grid-cols-7 gap-1 md:gap-4 mb-2">
                 {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                  <div key={day} className="text-center text-sandstone/40 text-xs uppercase tracking-wider font-semibold">
+                  <div key={day} className="text-center text-sandstone/40 text-[10px] md:text-xs uppercase tracking-wider font-semibold">
                     {day}
                   </div>
                 ))}
               </div>
               
-              <div className="grid grid-cols-7 gap-2 sm:gap-4">
+              <div className="grid grid-cols-7 gap-1 md:gap-4">
                 {Array.from({ length: activeMonth.startDay }).map((_, i) => (
-                  <div key={`empty-${i}`} className="aspect-square rounded-xl bg-white/5 opacity-20" />
+                  <div key={`empty-${i}`} className="aspect-square rounded-lg md:rounded-xl bg-white/5 opacity-20" />
                 ))}
                 
                 {Array.from({ length: activeMonth.days }).map((_, i) => {
@@ -103,15 +103,15 @@ export function CalendarModal() {
                     <button 
                       key={dayNum}
                       className={`
-                        aspect-square flex flex-col items-center justify-center rounded-xl border transition-all
+                        aspect-square flex flex-col items-center justify-center rounded-lg md:rounded-xl border transition-all
                         ${isToday ? 'border-gold bg-gold/10' : 'border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20'}
                       `}
                     >
-                      <span className={`text-lg font-semibold ${isToday ? 'text-gold' : 'text-white'}`}>{dayNum}</span>
+                      <span className={`text-sm md:text-lg font-semibold ${isToday ? 'text-gold' : 'text-white'}`}>{dayNum}</span>
                       {hasEvents && (
-                        <div className="flex gap-1 mt-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-gold"></span>
-                          <span className="w-1.5 h-1.5 rounded-full bg-teal"></span>
+                        <div className="flex gap-1 mt-0.5 md:mt-1">
+                          <span className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-gold"></span>
+                          <span className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-teal"></span>
                         </div>
                       )}
                     </button>
@@ -121,12 +121,12 @@ export function CalendarModal() {
             </div>
 
             {/* Selected Date Details (Mock) */}
-            <div className="p-6 bg-white/5 border-t border-white/10 mt-auto">
-              <div className="flex justify-between items-center">
-                <p className="text-sandstone/60 text-sm">Click any date to instantly load the deals for that day.</p>
-                <div className="flex items-center gap-4 text-xs font-semibold text-white">
-                  <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-gold"></span> Club Event</div>
-                  <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-teal"></span> Boat Party</div>
+            <div className="p-4 md:p-6 bg-white/5 border-t border-white/10 shrink-0">
+              <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+                <p className="text-sandstone/60 text-xs md:text-sm">Click any date to instantly load the deals for that day.</p>
+                <div className="flex items-center gap-3 md:gap-4 text-[10px] md:text-xs font-semibold text-white">
+                  <div className="flex items-center gap-1.5 md:gap-2"><span className="w-2 h-2 rounded-full bg-gold"></span> Club Event</div>
+                  <div className="flex items-center gap-1.5 md:gap-2"><span className="w-2 h-2 rounded-full bg-teal"></span> Boat Party</div>
                 </div>
               </div>
             </div>
