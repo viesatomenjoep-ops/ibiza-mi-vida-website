@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Star, Users, MessageCircle } from 'lucide-react'
-import { Hero } from '@/components/hero/Hero'
+import { CategoryHero } from '@/components/hero/CategoryHero'
 import { CategoryCard } from '@/components/cards/CategoryCard'
 import { CategoryGrid } from '@/components/cards/CategoryGrid'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
@@ -193,15 +193,12 @@ export default async function HomePage() {
       <LocalBusinessSchema />
 
       {/* Hero */}
-      <Hero
+      <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
-        backgroundImage={pageContent.backgroundImage}
         searchComponent={<HomeSearchWidget />}
         eyebrow="Ibiza mi vida"
-        overlayClassName="bg-white/40"
-        titleClassName="text-midnight"
-        subtitleClassName="text-midnight/80 font-medium"
+        colorTheme="midnight"
       />
 
       {/* DASHBOARD TOP: Deal of the Day vs Deal of the Week */}

@@ -3,7 +3,11 @@
 import { useState } from 'react'
 import { Calendar, X, ChevronLeft, ChevronRight } from 'lucide-react'
 
-export function CalendarModal() {
+interface CalendarModalProps {
+  customTrigger?: (open: () => void, setMonth: (m: number) => void) => React.ReactNode
+}
+
+export function CalendarModal({ customTrigger }: CalendarModalProps = {}) {
   const [isOpen, setIsOpen] = useState(false)
   const [currentMonth, setCurrentMonth] = useState(4) // Start at April (0-indexed, so 3 is April, 4 is May)
   const year = 2026
@@ -29,13 +33,15 @@ export function CalendarModal() {
 
   return (
     <>
-      <button 
-        onClick={() => setIsOpen(true)}
-        className="w-full mt-6 flex items-center justify-center gap-2 py-3 bg-white/10 hover:bg-white/20 transition-colors text-white font-semibold rounded-xl text-sm border border-white/20"
-      >
-        <Calendar size={16} />
-        View Full Calendar
-      </button>
+      {customTrigger ? customTrigger(() => setIsOpen(true), setCurrentMonth) : (
+        <button 
+          onClick={() => setIsOpen(true)}
+          className="w-full mt-6 flex items-center justify-center gap-2 py-3 bg-white/10 hover:bg-white/20 transition-colors text-white font-semibold rounded-xl text-sm border border-white/20"
+        >
+          <Calendar size={16} />
+          View Full Calendar
+        </button>
+      )}
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">

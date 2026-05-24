@@ -12,8 +12,6 @@ export function HomeSearchWidget() {
   const [date, setDate] = useState('')
 
   const tabs = ['Clubbing', 'Ibiza Boat', 'Activities', 'Ferry']
-  const months = ['May 26', 'Jun 26', 'Jul 26', 'Aug 26', 'Sep 26', 'Oct 26']
-  
   const handleSearch = () => {
     let route = '/club-tickets'
     if (activeTab === 'Ibiza Boat') route = '/boat-parties'
@@ -79,13 +77,29 @@ export function HomeSearchWidget() {
       <div className="mt-4 flex flex-col gap-4 text-center md:text-left">
         <p className="text-midnight/70 font-semibold drop-shadow-sm text-sm">Or browse our full calendar and discover everything thats going on:</p>
         
-        <div className="flex flex-wrap justify-center md:justify-start gap-2">
-          {months.map(m => (
-            <button key={m} className="px-4 py-2 rounded-full bg-white/60 hover:bg-white/90 backdrop-blur-md text-midnight text-sm font-bold shadow-sm transition-all hover:scale-105 border border-white">
-              {m}
-            </button>
-          ))}
-        </div>
+        <CalendarModal customTrigger={(open, setMonth) => (
+          <div className="flex flex-wrap justify-center md:justify-start gap-2">
+            {[
+              { label: 'May', idx: 4 },
+              { label: 'June', idx: 5 },
+              { label: 'July', idx: 6 },
+              { label: 'August', idx: 7 },
+              { label: 'September', idx: 8 },
+              { label: 'October', idx: 9 }
+            ].map(m => (
+              <button 
+                key={m.label} 
+                onClick={() => {
+                  setMonth(m.idx)
+                  open()
+                }}
+                className="w-16 h-14 rounded-xl bg-white/60 hover:bg-white/90 backdrop-blur-md text-midnight text-sm font-bold shadow-sm transition-all hover:scale-105 border border-white flex items-center justify-center"
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+        )} />
         
         {/* Quick Club Links */}
         <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-4">

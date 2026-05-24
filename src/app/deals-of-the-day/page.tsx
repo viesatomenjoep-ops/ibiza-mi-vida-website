@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Hero } from '@/components/hero/Hero'
+import { CategoryHero } from '@/components/hero/CategoryHero'
 import { ClubCard } from '@/components/cards/ClubCard'
 import { CategoryCard } from '@/components/cards/CategoryCard'
 import { CategoryGrid } from '@/components/cards/CategoryGrid'
@@ -72,10 +72,10 @@ export default async function DealsOfTheDayPage({
 
   return (
     <DealsPreviewWrapper isAdminPreview={isAdminPreview}>
-      <Hero
+      <CategoryHero
         title="Deals of the Day"
         subtitle="Your ultimate overview. Find the best club tickets, boat parties, excursions, and drink packages all in one place."
-        backgroundImage="/fotos/deals-of-the-day.webp"
+        colorTheme="teal"
         eyebrow="Special Offers"
         minHeight="min-h-[60vh]"
       />

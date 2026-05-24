@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Anchor, Users, Utensils, Navigation, MessageCircle, Star } from 'lucide-react'
-import { Hero } from '@/components/hero/Hero'
+import { CategoryHero } from '@/components/hero/CategoryHero'
 import { CategoryCard } from '@/components/cards/CategoryCard'
 import { CategoryGrid } from '@/components/cards/CategoryGrid'
 import { SectionHeader } from '@/components/ui/SectionHeader'
@@ -80,10 +80,10 @@ export default async function PrivateBoatChartersPage() {
       />
 
       {/* Hero */}
-      <Hero
+      <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
-        backgroundImage={pageContent.backgroundImage?.includes('unsplash.com') || !pageContent.backgroundImage ? "/fotos/Sunseeker 68 1.webp" : pageContent.backgroundImage}
+        colorTheme="indigo"
         eyebrow="Luxury Yacht Rental"
         minHeight="min-h-[85vh]"
       />

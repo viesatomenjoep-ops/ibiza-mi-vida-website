@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Hero } from '@/components/hero/Hero'
+import { CategoryHero } from '@/components/hero/CategoryHero'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
@@ -37,10 +37,10 @@ export default async function GuestlistPage() {
 
   return (
     <>
-      <Hero
+      <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
-        backgroundImage={pageContent.backgroundImage}
+        colorTheme="midnight"
         eyebrow="Free Entry Ibiza"
         minHeight="min-h-[65vh]"
       />

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Hero } from '@/components/hero/Hero'
+import { CategoryHero } from '@/components/hero/CategoryHero'
 import { CategoryCard } from '@/components/cards/CategoryCard'
 import { CategoryGrid } from '@/components/cards/CategoryGrid'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
@@ -46,10 +46,10 @@ export default async function BoatPartiesPage() {
 
   return (
     <>
-      <Hero
+      <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
-        backgroundImage={pageContent.backgroundImage}
+        colorTheme="rose"
         eyebrow="Party on the Water"
         minHeight="min-h-[70vh]"
       />

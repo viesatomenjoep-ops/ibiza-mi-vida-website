@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Hero } from '@/components/hero/Hero'
+import { CategoryHero } from '@/components/hero/CategoryHero'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { createServerClient } from '@/lib/supabase/server'
@@ -34,10 +34,10 @@ export default async function BlogPage() {
 
   return (
     <>
-      <Hero
+      <CategoryHero
         title="Ibiza Blog"
         subtitle="Event guides, nightlife reviews, travel tips, and insider knowledge. Everything you need to make the most of your time in Ibiza."
-        backgroundImage="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&q=85"
+        colorTheme="gold"
         eyebrow="Ibiza mi vida Blog"
         minHeight="min-h-[55vh]"
       />

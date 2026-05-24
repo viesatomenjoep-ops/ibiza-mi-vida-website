@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Hero } from '@/components/hero/Hero'
+import { CategoryHero } from '@/components/hero/CategoryHero'
 import { ClubCard } from '@/components/cards/ClubCard'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { SectionHeader } from '@/components/ui/SectionHeader'
@@ -48,10 +48,10 @@ export default async function ClubTicketsPage() {
 
   return (
     <>
-      <Hero
+      <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
-        backgroundImage={pageContent.backgroundImage?.includes('unsplash.com') || !pageContent.backgroundImage ? "/fotos/club_tickets_hero.png" : pageContent.backgroundImage}
+        colorTheme="gold"
         eyebrow="All Ibiza Venues"
         minHeight="min-h-[70vh]"
       />
