@@ -10,6 +10,9 @@ import { createServerClient } from '@/lib/supabase/server'
 import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences'
 import { DealsPreviewWrapper } from '@/components/admin/DealsPreviewWrapper'
 import { DealTimer } from '@/components/ui/DealTimer'
+import { DealDateBanner } from '@/components/ui/DealDateBanner'
+import { WeekRange } from '@/components/ui/WeekRange'
+import { CalendarModal } from '@/components/ui/CalendarModal'
 import type { Club } from '@/types/club'
 import type { Experience } from '@/types/experience'
 
@@ -88,7 +91,7 @@ export default async function DealsOfTheDayPage({
                 <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
               </div>
               <div className="z-10 text-center md:text-left">
-                <div className="inline-block px-3 py-1 bg-gold text-midnight text-xs font-bold uppercase tracking-widest rounded-full mb-4">Active Today</div>
+                <DealDateBanner />
                 <h2 className="text-3xl md:text-4xl font-serif text-midnight mb-2">Deal of the Day</h2>
                 <p className="text-midnight/70 font-sans max-w-md">The best hand-picked offers, strictly valid until midnight. Book now before the timer runs out!</p>
               </div>
@@ -107,7 +110,7 @@ export default async function DealsOfTheDayPage({
                 </div>
                 <div>
                   <h3 className="font-serif text-xl text-gold">Deal of the Week</h3>
-                  <p className="text-xs text-sandstone/60 uppercase tracking-wider">Weekly Overview</p>
+                  <WeekRange />
                 </div>
               </div>
               
@@ -136,9 +139,7 @@ export default async function DealsOfTheDayPage({
                 </div>
               </div>
               
-              <button className="w-full mt-6 py-3 bg-white/10 hover:bg-white/20 transition-colors text-white font-semibold rounded-xl text-sm border border-white/20">
-                View Full Calendar
-              </button>
+              <CalendarModal />
             </div>
           </AnimatedSection>
           
