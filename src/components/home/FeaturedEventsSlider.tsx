@@ -25,13 +25,13 @@ function EventSlideCard({ event }: { event: FeaturedEvent }) {
 
   return (
     <Link href={event.cta_href || `/events/${event.id}`} aria-label={`View details for ${event.title}`} className="block h-full">
-      <div className="group relative flex h-[260px] md:h-[320px] w-[160px] md:w-[240px] flex-col justify-end overflow-hidden rounded-[20px] shadow-sm hover:shadow-md transition-all duration-300 bg-velvet-obsidian snap-start shrink-0">
+      <div className="group relative flex h-[260px] md:h-[300px] w-[160px] md:w-[260px] flex-col justify-end overflow-hidden rounded-[20px] shadow-sm hover:shadow-md transition-all duration-300 bg-velvet-obsidian snap-start shrink-0">
         <Image
           src={event.image_url || 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85'}
           alt={event.title}
           fill
           className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
-          sizes="(max-width: 768px) 160px, 240px"
+          sizes="(max-width: 768px) 160px, 260px"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian/95 via-velvet-obsidian/40 to-transparent pointer-events-none" />
 
@@ -152,7 +152,7 @@ export function FeaturedEventsSlider({ events }: FeaturedEventsSliderProps) {
       </div>
 
       {/* Slider Area */}
-      <div className="w-full relative">
+      <div className="w-full relative mx-auto max-w-6xl">
         <style dangerouslySetInnerHTML={{__html: `
           .custom-scrollbar::-webkit-scrollbar {
             height: 6px;
@@ -160,7 +160,7 @@ export function FeaturedEventsSlider({ events }: FeaturedEventsSliderProps) {
           .custom-scrollbar::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.05);
             border-radius: 10px;
-            margin: 0 5vw;
+            margin: 0 32px; /* Matches md:px-8 */
           }
           .custom-scrollbar::-webkit-scrollbar-thumb {
             background: rgba(148, 73, 51, 0.5); /* rustic-terracotta semi-transparent */
@@ -173,7 +173,7 @@ export function FeaturedEventsSlider({ events }: FeaturedEventsSliderProps) {
         
         <div 
           ref={scrollRef}
-          className="custom-scrollbar flex gap-4 md:gap-5 px-4 md:px-[5vw] overflow-x-auto snap-x snap-mandatory py-4 pb-8 w-full"
+          className="custom-scrollbar flex gap-4 md:gap-5 px-4 md:px-8 overflow-x-auto snap-x snap-mandatory py-4 pb-8 w-full"
           style={{ WebkitOverflowScrolling: 'touch' }}
         >
           {displayEvents.map((event, i) => (
