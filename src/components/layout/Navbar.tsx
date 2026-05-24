@@ -74,7 +74,7 @@ export function Navbar() {
         <div className="pointer-events-auto flex items-center transition-transform duration-500 ease-out" style={{ transform: `scale(${scrolled ? 0.8 : 1})`, transformOrigin: 'left center' }}>
           <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 py-2">
             <Image
-              src="/logo.png"
+              src="/logo-clean.png"
               alt="Ibiza mi vida"
               width={90}
               height={90}
