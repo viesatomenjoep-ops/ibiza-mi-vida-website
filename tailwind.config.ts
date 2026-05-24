@@ -20,6 +20,7 @@ const config: Config = {
         },
         'soft-white': '#FAF8F4',
         driftwood: '#B89F84',
+        'sys-bg': '#EFF2F6',
       },
       fontFamily: {
         sans: ['var(--font-quicksand)', ...defaultTheme.fontFamily.sans],

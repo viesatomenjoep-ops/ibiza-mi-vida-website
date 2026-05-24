@@ -3,6 +3,7 @@ import { Star, Users, MessageCircle } from 'lucide-react'
 import { CategoryHero } from '@/components/hero/CategoryHero'
 import { CategoryCard } from '@/components/cards/CategoryCard'
 import { CategoryGrid } from '@/components/cards/CategoryGrid'
+import { ColorfulCategoryList } from '@/components/home/ColorfulCategoryList'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
@@ -247,34 +248,15 @@ export default async function HomePage() {
       </section>
 
       {/* ── Featured events slider ── */}
-      <div className="bg-soft-white">
+      <div className="bg-sys-bg">
         <FeaturedEventsSlider events={featuredEvents} />
       </div>
 
-      {/* ── Category grid ── */}
-      <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24" aria-label="Our services">
-        <AnimatedSection className="mb-12">
-          <SectionHeader
-            eyebrow="Everything Ibiza"
-            title="What are you planning?"
-            subtitle="From sunrise boat trips to late-night club nights — pick your experience and we'll take care of the rest."
-          />
+      {/* ── Colorful Category List ── */}
+      <section className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-16" aria-label="Our services">
+        <AnimatedSection>
+          <ColorfulCategoryList />
         </AnimatedSection>
-
-        <CategoryGrid columns={3}>
-          {categories.map((cat) => (
-            <AnimatedSection key={cat.title} delay={0.05}>
-              <CategoryCard
-                title={cat.title}
-                tagline={cat.tagline}
-                imageUrl={cat.imageUrl}
-                bookingConfig={cat.bookingConfig}
-                badge={cat.badge}
-                href={cat.href}
-              />
-            </AnimatedSection>
-          ))}
-        </CategoryGrid>
       </section>
 
       {/* ── Trust pillars ── */}
