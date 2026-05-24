@@ -63,7 +63,10 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-4 left-0 right-0 z-50 pointer-events-none flex items-center justify-between px-4 md:top-6 lg:px-8">
+      <header className={[
+        "fixed left-0 right-0 z-50 pointer-events-none flex items-center justify-between transition-all duration-300 px-4 md:px-8",
+        scrolled ? "top-0 py-3 bg-midnight/95 backdrop-blur-md shadow-lg" : "top-4 md:top-6"
+      ].join(' ')}>
         
         {/* Left: Search Button */}
         <div className="pointer-events-auto flex items-center">
@@ -77,14 +80,14 @@ export function Navbar() {
         </div>
 
         {/* Center: Scalable Logo */}
-        <div className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-transform duration-500 ease-out" style={{ transform: `translate(-50%, -50%) scale(${scrolled ? 1.3 : 1})` }}>
-          <Link href="/" className="flex h-[64px] w-[64px] items-center justify-center rounded-full bg-white shadow-xl transition-transform hover:scale-105 border border-black/5 p-2">
+        <div className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-transform duration-500 ease-out" style={{ transform: `translate(-50%, -50%) scale(${scrolled ? 0.8 : 1.1})` }}>
+          <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 p-2">
             <Image
               src="/logo.png"
               alt="Ibiza mi vida"
-              width={40}
-              height={40}
-              className="object-contain"
+              width={90}
+              height={90}
+              className="object-contain invert brightness-0 drop-shadow-md"
               priority
             />
           </Link>
