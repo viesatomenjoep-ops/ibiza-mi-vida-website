@@ -65,7 +65,7 @@ export default async function DealsOfTheDayPage() {
       <Hero
         title="Deals of the Day"
         subtitle="Your ultimate overview. Find the best club tickets, boat parties, excursions, and drink packages all in one place."
-        backgroundImage="https://images.unsplash.com/photo-1574347781078-d4dd21af64e8?w=1920&q=85"
+        backgroundImage="/fotos/deals-of-the-day.jpeg"
         eyebrow="Special Offers"
         minHeight="min-h-[60vh]"
       />
