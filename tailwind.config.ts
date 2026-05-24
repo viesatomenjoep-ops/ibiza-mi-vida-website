@@ -29,8 +29,8 @@ const config: Config = {
         'champagne-bronze': '#BAA382',
       },
       fontFamily: {
-        sans: ['var(--font-quicksand)', ...defaultTheme.fontFamily.sans],
-        serif: ['var(--font-quicksand)', ...defaultTheme.fontFamily.sans],
+        sans: ['var(--font-outfit)', ...defaultTheme.fontFamily.sans],
+        serif: ['var(--font-playfair)', ...defaultTheme.fontFamily.serif],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

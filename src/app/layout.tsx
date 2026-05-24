@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Quicksand } from 'next/font/google'
+import { Outfit, Playfair_Display } from 'next/font/google'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppFAB } from '@/components/layout/WhatsAppFAB'
@@ -7,9 +7,15 @@ import { BookingProvider } from '@/context/booking-context'
 import { BookingModal } from '@/components/booking/BookingModal'
 import '@/styles/globals.css'
 
-const quicksand = Quicksand({
+const outfit = Outfit({
   subsets: ['latin'],
-  variable: '--font-quicksand',
+  variable: '--font-outfit',
+  display: 'swap',
+})
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
   display: 'swap',
 })
 
@@ -47,7 +53,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${quicksand.variable}`}>
+    <html lang="en" className={`${outfit.variable} ${playfair.variable}`}>
       <body className="font-sans bg-ibiza-sand text-velvet-obsidian antialiased overflow-x-hidden w-full max-w-[100vw]">
         <BookingProvider>
           <Navbar />
