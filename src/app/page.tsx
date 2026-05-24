@@ -25,6 +25,7 @@ import { CalendarModal } from '@/components/ui/CalendarModal'
 import { DealOfTheWeekList } from '@/components/home/DealOfTheWeekList'
 import { HomeSearchFigma } from '@/components/home/HomeSearchFigma'
 import { HomeReviews } from '@/components/home/HomeReviews'
+import { HomeContact } from '@/components/home/HomeContact'
 
 export const revalidate = 60
 
@@ -395,6 +396,11 @@ export default async function HomePage() {
         <AnimatedSection>
           <CrossSellBanner triggerPage="/" fromPrice={500} />
         </AnimatedSection>
+      </section>
+
+      {/* ── Contact Section ── */}
+      <section className="bg-ibiza-sand pb-16" aria-label="Contact Us">
+        <HomeContact />
       </section>
     </>
   )
