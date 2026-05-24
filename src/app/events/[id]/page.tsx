@@ -135,7 +135,7 @@ export default async function EventDetailPage({
       {/* ── Hero ── */}
       <section className="relative h-[65vh] min-h-[440px] w-full">
         <Image
-          src={event.image_url}
+          src={event.image_url || 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&q=85'}
           alt={event.title}
           fill
           priority

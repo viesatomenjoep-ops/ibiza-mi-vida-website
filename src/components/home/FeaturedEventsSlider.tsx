@@ -31,7 +31,7 @@ function EventSlideCard({ event }: { event: FeaturedEvent }) {
       {/* Card: slightly smaller than before — 240/265/290px × 380px */}
       <div className="group relative flex h-[380px] w-[240px] shrink-0 flex-col justify-end overflow-hidden rounded-2xl sm:w-[265px] md:w-[290px]">
         <Image
-          src={event.image_url}
+          src={event.image_url || 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85'}
           alt={event.title}
           fill
           className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
