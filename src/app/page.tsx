@@ -203,7 +203,7 @@ export default async function HomePage() {
       />
 
       {/* DASHBOARD TOP: Deal of the Day vs Deal of the Week */}
-      <section className="bg-soft-white px-4 py-12 md:px-8">
+      <section className="bg-soft-white px-4 pt-2 pb-12 md:pt-12 md:pb-12 md:px-8 -mt-4 md:mt-0 relative z-20">
         <div className="mx-auto max-w-5xl flex flex-col gap-10">
           
           {/* TOP: Deal of the Day Active Banner */}
