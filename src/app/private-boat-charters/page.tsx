@@ -91,14 +91,14 @@ export default async function PrivateBoatChartersPage() {
       {/* USP strip */}
       <section className="bg-sandstone/40 py-14" aria-label="What's included">
         <div className="mx-auto max-w-7xl px-4 md:px-8">
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 md:gap-12">
             {usps.map(({ icon: Icon, title, body }) => (
-              <div key={title} className="flex flex-col items-center gap-3 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-teal/10 text-teal">
-                  <Icon size={20} />
+              <div key={title} className="flex flex-col items-center gap-4 text-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-teal/10 text-teal">
+                  <Icon size={28} />
                 </div>
-                <h3 className="font-serif text-lg font-light text-midnight">{title}</h3>
-                <p className="font-sans text-xs leading-relaxed text-midnight/60">{body}</p>
+                <h3 className="font-serif text-2xl md:text-3xl font-light text-midnight">{title}</h3>
+                <p className="font-sans text-base md:text-lg leading-relaxed text-midnight/80">{body}</p>
               </div>
             ))}
           </div>

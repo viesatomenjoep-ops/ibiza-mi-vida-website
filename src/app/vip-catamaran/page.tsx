@@ -74,12 +74,12 @@ export default async function VipCatamaranPage() {
       />
 
       {/* Inclusions */}
-      <section className="bg-sandstone/40 py-14">
+      <section className="bg-sandstone/40 py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 md:px-8">
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {inclusions.map((item) => (
-              <div key={item} className="flex items-center gap-2 font-sans text-sm text-midnight/70">
-                <span className="h-1.5 w-1.5 rounded-full bg-teal shrink-0" />
+              <div key={item} className="flex items-center gap-4 font-sans text-lg md:text-xl lg:text-2xl font-medium text-midnight/90">
+                <span className="h-2.5 w-2.5 md:h-3 md:w-3 rounded-full bg-teal shrink-0" />
                 {item}
               </div>
             ))}

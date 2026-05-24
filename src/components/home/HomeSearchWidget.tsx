@@ -68,7 +68,7 @@ export function HomeSearchWidget() {
 
           <div 
             ref={scrollRef}
-            className="flex flex-1 overflow-x-auto gap-3 px-8 md:px-12 pt-4 pb-6 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            className="flex flex-1 overflow-x-auto gap-4 px-8 md:px-12 pt-4 pb-6 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           >
             {allCategories.map(tab => (
               <button
@@ -78,9 +78,9 @@ export function HomeSearchWidget() {
                   const params = date ? `?date=${date}` : ''
                   router.push(`${tab.href}${params}`)
                 }}
-                className={`shrink-0 px-6 py-3 rounded-full text-sm md:text-base font-bold tracking-wide transition-all ${
+                className={`shrink-0 px-8 py-4 rounded-full text-base md:text-lg font-bold tracking-wide transition-all ${
                   activeTab === tab.href 
-                    ? 'bg-midnight text-white shadow-lg scale-105 border border-midnight' 
+                    ? 'bg-midnight text-white shadow-xl scale-105 border border-midnight' 
                     : 'bg-white/50 text-midnight hover:bg-white border border-black/10'
                 }`}
               >

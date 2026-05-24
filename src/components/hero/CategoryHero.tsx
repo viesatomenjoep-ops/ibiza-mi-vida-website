@@ -19,7 +19,7 @@ export function CategoryHero({
   eyebrow,
   minHeight = 'min-h-[30vh]',
   colorTheme = 'teal',
-  backgroundImage,
+  backgroundImage = '/fotos/hero-pattern.png',
   backgroundOpacity = 0.3,
 }: CategoryHeroProps) {
   
@@ -33,10 +33,11 @@ export function CategoryHero({
   }
   
   const accentColor = themeColors[colorTheme]
+  const isHome = searchComponent != null
 
   return (
     <section
-      className={`relative flex ${minHeight} flex-col items-center justify-center overflow-hidden bg-[#FAFAFA] pt-24 pb-8 md:pt-28`}
+      className={`relative flex ${minHeight} flex-col items-center justify-center overflow-hidden ${isHome ? 'bg-transparent' : 'bg-[#FAFAFA]'} pt-24 pb-8 md:pt-28`}
       aria-label="Category Hero section"
     >
       {/* Background Image (if provided) */}
@@ -50,7 +51,7 @@ export function CategoryHero({
             className="object-cover"
             style={{ opacity: backgroundOpacity }}
           />
-          <div className="absolute inset-0 bg-white/50" /> {/* Extra wash to ensure text readability */}
+          {!isHome && <div className="absolute inset-0 bg-white/50" />} {/* Extra wash for categories to ensure text readability */}
         </div>
       ) : (
         /* Abstract Design Patterns (only show if no background image) */
