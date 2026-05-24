@@ -1,13 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
 import { MapPin, ArrowRight, Calendar, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { FeaturedEvent } from '@/types/featured-event'
 import { CATEGORY_LABELS } from '@/types/featured-event'
-import useWindowSize from '@/hooks/useWindowSize'
 
 interface FeaturedEventsSliderProps {
   events: FeaturedEvent[]
@@ -27,50 +25,50 @@ function EventSlideCard({ event }: { event: FeaturedEvent }) {
 
   return (
     <Link href={event.cta_href || `/events/${event.id}`} aria-label={`View details for ${event.title}`} className="block h-full">
-      <div className="group relative flex h-full min-h-[400px] w-full flex-col justify-end overflow-hidden rounded-[20px] shadow-sm hover:shadow-md transition-all duration-300 bg-velvet-obsidian">
+      <div className="group relative flex h-[260px] md:h-[320px] w-[160px] md:w-[240px] flex-col justify-end overflow-hidden rounded-[20px] shadow-sm hover:shadow-md transition-all duration-300 bg-velvet-obsidian snap-start shrink-0">
         <Image
           src={event.image_url || 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85'}
           alt={event.title}
           fill
           className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
-          sizes="(max-width: 768px) 100vw, 50vw"
+          sizes="(max-width: 768px) 160px, 240px"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian/90 via-velvet-obsidian/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian/95 via-velvet-obsidian/40 to-transparent pointer-events-none" />
 
-        <div className="absolute left-5 top-5 z-10 flex flex-col gap-2">
-          <div className="flex items-center gap-2">
-            <span className="rounded-full bg-white/20 px-3 py-1 font-sans text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur-md border border-white/20 shadow-sm">
+        <div className="absolute left-3 top-3 md:left-4 md:top-4 z-10 flex flex-col gap-1.5 md:gap-2">
+          <div className="flex flex-wrap items-center gap-1.5 md:gap-2">
+            <span className="rounded-full bg-white/20 px-2 py-0.5 md:px-2.5 md:py-1 font-sans text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-md border border-white/20 shadow-sm">
               {CATEGORY_LABELS[event.category]}
             </span>
             {event.badge_text && (
-              <span className="rounded-full bg-champagne-bronze px-3 py-1 font-sans text-[11px] font-bold uppercase tracking-wider text-white shadow-sm">
+              <span className="rounded-full bg-champagne-bronze px-2 py-0.5 md:px-2.5 md:py-1 font-sans text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
                 {event.badge_text}
               </span>
             )}
           </div>
           {formattedDate && (
-            <div className="flex items-center gap-1.5 font-sans text-xs font-bold text-velvet-obsidian bg-white/90 px-3 py-1.5 rounded-full backdrop-blur-md shadow-sm w-fit mt-1">
-              <Calendar size={12} className="text-rustic-terracotta" />
+            <div className="flex items-center gap-1 md:gap-1.5 font-sans text-[10px] md:text-xs font-bold text-velvet-obsidian bg-white/95 px-2 py-1 md:px-2.5 md:py-1.5 rounded-full backdrop-blur-md shadow-sm w-fit mt-0.5 md:mt-1">
+              <Calendar size={10} className="text-rustic-terracotta md:w-3 md:h-3" />
               {formattedDate}
             </div>
           )}
         </div>
 
-        <div className="relative z-10 flex flex-col gap-3 p-6 mt-auto">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+        <div className="relative z-10 flex flex-col gap-1.5 md:gap-2 p-3 md:p-4 mt-auto">
+          <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
             {event.venue_name && (
-              <span className="flex items-center gap-1.5 font-sans text-xs font-semibold text-white/90 bg-white/20 px-2.5 py-1 rounded-md backdrop-blur-sm">
-                <MapPin size={12} className="text-champagne-bronze" />
+              <span className="flex items-center gap-1 font-sans text-[9px] md:text-[11px] font-semibold text-white/90 bg-white/20 px-1.5 py-0.5 md:px-2 md:py-1 rounded-md backdrop-blur-sm">
+                <MapPin size={9} className="text-champagne-bronze md:w-2.5 md:h-2.5" />
                 {event.venue_name}
               </span>
             )}
           </div>
-          <h3 className="font-serif text-[24px] font-medium leading-[110%] text-white line-clamp-2 drop-shadow-md">
+          <h3 className="font-serif text-[16px] md:text-[20px] font-medium leading-[110%] text-white line-clamp-2 drop-shadow-md">
             {event.title}
           </h3>
-          <div className="mt-2 flex items-center gap-2 font-sans text-sm font-bold text-champagne-bronze transition-colors group-hover:text-white bg-white/10 w-fit px-4 py-2 rounded-xl backdrop-blur-sm group-hover:bg-rustic-terracotta">
+          <div className="mt-1 md:mt-2 flex items-center gap-1.5 md:gap-2 font-sans text-[10px] md:text-xs font-bold text-champagne-bronze transition-colors group-hover:text-white bg-white/10 w-fit px-2.5 py-1 md:px-3 md:py-1.5 rounded-xl backdrop-blur-sm group-hover:bg-rustic-terracotta">
             <span>Explore Event</span>
-            <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            <ArrowRight size={12} className="transition-transform group-hover:translate-x-1 md:w-3.5 md:h-3.5" />
           </div>
         </div>
       </div>
@@ -79,39 +77,57 @@ function EventSlideCard({ event }: { event: FeaturedEvent }) {
 }
 
 export function FeaturedEventsSlider({ events }: FeaturedEventsSliderProps) {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const { width } = useWindowSize()
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   if (events.length === 0) return null
 
-  // Determine how many items to show based on screen width
-  const itemsToShow = width && width >= 768 ? 2 : 1
-  const maxIndex = Math.max(0, events.length - itemsToShow)
+  // Sort events so that upcoming events (>= today) are at the front, followed by past events
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  
+  const sortedEvents = [...events].sort((a, b) => {
+    const dateA = a.event_date ? new Date(a.event_date) : new Date(0)
+    const dateB = b.event_date ? new Date(b.event_date) : new Date(0)
+    const isFutureA = dateA >= today
+    const isFutureB = dateB >= today
+    
+    if (isFutureA && !isFutureB) return -1
+    if (!isFutureA && isFutureB) return 1
+    if (isFutureA && isFutureB) return dateA.getTime() - dateB.getTime() // Soonest first
+    return dateB.getTime() - dateA.getTime() // Most recent past event first
+  })
+
+  // All events are shown, no slicing
+  const displayEvents = sortedEvents
 
   const handleNext = () => {
-    setCurrentIndex(prev => (prev < maxIndex ? prev + 1 : 0)) // Loop back to 0
+    if (scrollRef.current) {
+      // Card width (160 or 240) + gap (16 or 20). Just scroll approx 1 card width and let snap handle the rest.
+      const scrollAmount = window.innerWidth < 768 ? 176 : 260
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+    }
   }
 
   const handlePrev = () => {
-    setCurrentIndex(prev => (prev > 0 ? prev - 1 : maxIndex)) // Loop to end
+    if (scrollRef.current) {
+      const scrollAmount = window.innerWidth < 768 ? -176 : -260
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+    }
   }
-
-  // Calculate widths for slider wrapper
-  const percentage = 100 / itemsToShow
 
   return (
     <section className="overflow-hidden py-12 md:py-20 bg-ibiza-sand" aria-label="Featured events">
-      <div className="mx-auto max-w-5xl px-4 md:px-8 mb-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <div className="mx-auto max-w-6xl px-4 md:px-8 mb-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         
         {/* Header Content */}
         <div>
           <span className="font-sans text-[11px] font-bold uppercase tracking-widest text-rustic-terracotta bg-rustic-terracotta/10 px-3 py-1 rounded-full border border-rustic-terracotta/20">
             This Season
           </span>
-          <h2 className="mt-4 font-serif text-[32px] md:text-[40px] font-medium text-velvet-obsidian tracking-tight leading-none">
+          <h2 className="mt-4 font-serif text-[28px] md:text-[36px] font-medium text-velvet-obsidian tracking-tight leading-none">
             Featured Events
           </h2>
-          <p className="mt-4 text-velvet-obsidian/60 font-sans max-w-sm text-sm">
+          <p className="mt-3 text-velvet-obsidian/60 font-sans max-w-sm text-sm">
             Discover the hottest tickets and exclusive parties happening on the island this week.
           </p>
         </div>
@@ -120,59 +136,51 @@ export function FeaturedEventsSlider({ events }: FeaturedEventsSliderProps) {
         <div className="flex items-center gap-3 self-start md:self-end">
           <button
             onClick={handlePrev}
-            className="w-12 h-12 rounded-full bg-white border border-velvet-obsidian/10 shadow-sm flex items-center justify-center text-velvet-obsidian hover:bg-rustic-terracotta hover:text-white hover:border-rustic-terracotta transition-all"
+            className="w-10 h-10 rounded-full bg-white border border-velvet-obsidian/10 shadow-sm flex items-center justify-center text-velvet-obsidian hover:bg-rustic-terracotta hover:text-white hover:border-rustic-terracotta transition-all"
             aria-label="Previous"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={20} />
           </button>
           <button
             onClick={handleNext}
-            className="w-12 h-12 rounded-full bg-white border border-velvet-obsidian/10 shadow-sm flex items-center justify-center text-velvet-obsidian hover:bg-rustic-terracotta hover:text-white hover:border-rustic-terracotta transition-all"
+            className="w-10 h-10 rounded-full bg-white border border-velvet-obsidian/10 shadow-sm flex items-center justify-center text-velvet-obsidian hover:bg-rustic-terracotta hover:text-white hover:border-rustic-terracotta transition-all"
             aria-label="Next"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={20} />
           </button>
         </div>
       </div>
 
       {/* Slider Area */}
-      <div className="mx-auto max-w-5xl px-4 md:px-8">
-        <div className="relative w-full overflow-hidden">
-          <motion.div
-            className="flex"
-            animate={{
-              x: `-${currentIndex * percentage}%`,
-            }}
-            transition={{
-              type: 'spring',
-              stiffness: 300,
-              damping: 30,
-              mass: 1
-            }}
-            style={{ width: `${(events.length / itemsToShow) * 100}%` }}
-          >
-            {events.map((event, i) => (
-              <div 
-                key={`${event.id}-${i}`} 
-                style={{ width: `${100 / events.length}%` }} 
-                className="px-2 md:px-3 h-full"
-              >
-                <EventSlideCard event={event} />
-              </div>
-            ))}
-          </motion.div>
-        </div>
+      <div className="w-full relative">
+        <style dangerouslySetInnerHTML={{__html: `
+          .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            margin: 0 5vw;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(148, 73, 51, 0.5); /* rustic-terracotta semi-transparent */
+            border-radius: 10px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(148, 73, 51, 1);
+          }
+        `}} />
         
-        {/* Progress indicators (Dots) */}
-        <div className="mt-8 flex items-center justify-center gap-2">
-          {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              className={`h-2 rounded-full transition-all ${currentIndex === idx ? 'w-6 bg-rustic-terracotta' : 'w-2 bg-velvet-obsidian/20 hover:bg-velvet-obsidian/40'}`}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
+        <div 
+          ref={scrollRef}
+          className="custom-scrollbar flex gap-4 md:gap-5 px-4 md:px-[5vw] overflow-x-auto snap-x snap-mandatory py-4 pb-8 w-full"
+          style={{ WebkitOverflowScrolling: 'touch' }}
+        >
+          {displayEvents.map((event, i) => (
+            <EventSlideCard key={`${event.id}-${i}`} event={event} />
           ))}
+          {/* Spacer to allow the last item to scroll into center if needed */}
+          <div className="shrink-0 w-4 md:w-8" />
         </div>
       </div>
     </section>
