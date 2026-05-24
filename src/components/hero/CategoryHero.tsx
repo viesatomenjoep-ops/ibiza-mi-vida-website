@@ -71,7 +71,7 @@ export function CategoryHero({
       {/* Content */}
       <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center gap-3 px-4 text-center md:px-8">
         {eyebrow && (
-          <span className="inline-block rounded-[40px] border border-white/20 bg-white/10 px-8 py-3 md:px-10 md:py-4 font-serif text-[24px] md:text-[36px] font-light tracking-wide text-white shadow-sm backdrop-blur-sm mb-2">
+          <span className="inline-block rounded-full border border-white/20 bg-white/10 px-6 py-2 md:px-8 md:py-2.5 font-serif text-[18px] md:text-[24px] font-medium tracking-wide text-white shadow-sm backdrop-blur-sm mb-2">
             {eyebrow}
           </span>
         )}
