@@ -167,7 +167,7 @@ export default async function HomePage() {
     getPageContent('homepage', {
       title: "Ibiza Events, Club Tickets & Private Yachts",
       subtitle: "Your premium Ibiza booking agency. From exclusive boat charters to the island's best club nights — we handle every detail so you don't have to.",
-      backgroundImage: "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&q=85"
+      backgroundImage: "/fotos/Vanquish%201.jpg"
     })
   ])
 
