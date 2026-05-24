@@ -205,6 +205,13 @@ export default async function HomePage() {
         backgroundOpacity={0.3}
       />
 
+      {/* ── Colorful Category List ── */}
+      <section className="mx-auto max-w-7xl px-4 pt-8 md:px-8 md:pt-16" aria-label="Our services">
+        <AnimatedSection>
+          <ColorfulCategoryList />
+        </AnimatedSection>
+      </section>
+
       {/* New Figma Search Component placed directly under the Hero */}
       <div className="bg-white">
         <HomeSearchFigma />
@@ -256,13 +263,6 @@ export default async function HomePage() {
       <div className="bg-sys-bg">
         <FeaturedEventsSlider events={featuredEvents} />
       </div>
-
-      {/* ── Colorful Category List ── */}
-      <section className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-16" aria-label="Our services">
-        <AnimatedSection>
-          <ColorfulCategoryList />
-        </AnimatedSection>
-      </section>
 
       {/* ── Trust pillars ── */}
       <section className="bg-midnight py-16 md:py-20" aria-label="Why Ibiza mi vida">
