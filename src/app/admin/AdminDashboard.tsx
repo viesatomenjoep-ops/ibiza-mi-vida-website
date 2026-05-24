@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { getSupabaseClient } from '@/lib/supabase/client'
 import { Plus, Save, Image as ImageIcon, Trash2, Edit2, X, Loader2 } from 'lucide-react'
 
 type Experience = {
@@ -22,7 +22,7 @@ export function AdminDashboard() {
   const [editingItem, setEditingItem] = useState<Partial<Experience> | null>(null)
   const [uploading, setUploading] = useState(false)
 
-  const supabase = createClient()
+  const supabase = getSupabaseClient()
 
   useEffect(() => {
     fetchExperiences()
