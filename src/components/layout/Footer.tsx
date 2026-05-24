@@ -27,104 +27,46 @@ export function Footer() {
     <footer className="bg-ibiza-sand text-velvet-obsidian pt-16 pb-8 border-t border-velvet-obsidian/10" aria-label="Site footer">
       <div className="mx-auto max-w-7xl px-4 md:px-8 flex flex-col gap-12">
         
-        {/* Top Section: Contact & Brand Info (Figma Style) */}
-        <div className="flex flex-col lg:flex-row gap-8 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           
-          {/* Brand & Socials Card */}
-          <div className="flex-1 bg-white rounded-[20px] p-6 flex flex-col gap-6 shadow-sm border border-velvet-obsidian/5 justify-between">
+          {/* Column 1: Brand & Socials */}
+          <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
               <Link href="/" className="flex items-center gap-2" aria-label="Ibiza mi vida — home">
-                <div className="relative h-10 w-10 md:h-12 md:w-12">
-                  <Image src="/logo-clean.png" alt="Ibiza mi vida" fill className="object-contain brightness-0 transition-opacity hover:opacity-90" />
+                <div className="relative h-10 w-10">
+                  <Image src="/logo-clean.png" alt="Ibiza mi vida" fill className="object-contain brightness-0" />
                 </div>
                 <span className="font-serif text-xl font-light text-velvet-obsidian">
                   Ibiza <span className="text-champagne-bronze">mi vida</span>
                 </span>
               </Link>
-              <p className="font-sans text-[14px] leading-relaxed text-velvet-obsidian/60">
-                Your premium Ibiza events & booking agency. Club tickets, private boat charters, and everything you need for the perfect Ibiza experience.
+              <p className="font-sans text-[14px] leading-relaxed text-velvet-obsidian/70 pr-4">
+                Your premium Ibiza events & booking agency. Club tickets, private boat charters, and everything you need for the perfect experience.
               </p>
             </div>
             
-            <div className="flex flex-col gap-3">
-              <h3 className="font-sans text-[16px] text-velvet-obsidian">Our Social Media</h3>
-              <div className="flex flex-wrap items-center gap-3">
-                <a href="https://instagram.com/ibizamivida" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-ibiza-sand flex items-center justify-center transition-transform hover:scale-110 hover:bg-rustic-terracotta hover:text-white text-velvet-obsidian group shadow-sm border border-velvet-obsidian/5">
-                  <Instagram size={18} />
-                </a>
-                <a href="#" className="w-10 h-10 rounded-full bg-ibiza-sand flex items-center justify-center transition-transform hover:scale-110 hover:bg-rustic-terracotta hover:text-white text-velvet-obsidian group shadow-sm border border-velvet-obsidian/5">
-                  <Facebook size={18} />
-                </a>
-                <a href="#" className="w-10 h-10 rounded-full bg-ibiza-sand flex items-center justify-center transition-transform hover:scale-110 hover:bg-rustic-terracotta hover:text-white text-velvet-obsidian group shadow-sm border border-velvet-obsidian/5">
-                  <Music2 size={18} />
-                </a>
-                <a href="#" className="w-10 h-10 rounded-full bg-ibiza-sand flex items-center justify-center transition-transform hover:scale-110 hover:bg-rustic-terracotta hover:text-white text-velvet-obsidian group shadow-sm border border-velvet-obsidian/5">
-                  <Youtube size={18} />
-                </a>
-              </div>
+            <div className="flex items-center gap-3">
+              <a href="https://instagram.com/ibizamivida" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-transform hover:scale-110 hover:bg-rustic-terracotta hover:text-white text-velvet-obsidian shadow-sm border border-velvet-obsidian/5" aria-label="Instagram">
+                <Instagram size={18} />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-transform hover:scale-110 hover:bg-rustic-terracotta hover:text-white text-velvet-obsidian shadow-sm border border-velvet-obsidian/5" aria-label="Facebook">
+                <Facebook size={18} />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-transform hover:scale-110 hover:bg-rustic-terracotta hover:text-white text-velvet-obsidian shadow-sm border border-velvet-obsidian/5" aria-label="TikTok">
+                <Music2 size={18} />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-transform hover:scale-110 hover:bg-rustic-terracotta hover:text-white text-velvet-obsidian shadow-sm border border-velvet-obsidian/5" aria-label="YouTube">
+                <Youtube size={18} />
+              </a>
             </div>
           </div>
 
-          {/* Contact Info Card */}
-          <div className="flex-[1.5] bg-white rounded-[20px] p-6 flex flex-col gap-4 shadow-sm border border-velvet-obsidian/5 justify-between">
-            {/* Call */}
-            <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 pb-3 border-b border-velvet-obsidian/5 group">
-              <div className="w-9 h-9 rounded-full bg-champagne-bronze flex items-center justify-center shrink-0 transition-transform group-hover:scale-110">
-                <Phone size={16} className="text-white fill-white" />
-              </div>
-              <div className="flex flex-col flex-1">
-                <span className="font-sans text-[16px] text-velvet-obsidian leading-tight">Call</span>
-                <span className="font-sans text-[12px] text-velvet-obsidian/60 leading-tight mt-0.5">+{whatsappNumber}</span>
-              </div>
-              <ChevronRight size={18} className="text-velvet-obsidian/40 group-hover:text-rustic-terracotta transition-colors" />
-            </a>
-
-            {/* Text */}
-            <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 pb-3 border-b border-velvet-obsidian/5 group">
-              <div className="w-9 h-9 rounded-full bg-champagne-bronze flex items-center justify-center shrink-0 transition-transform group-hover:scale-110">
-                <MessageCircle size={16} className="text-white fill-white" />
-              </div>
-              <div className="flex flex-col flex-1">
-                <span className="font-sans text-[16px] text-velvet-obsidian leading-tight">Text</span>
-                <span className="font-sans text-[12px] text-velvet-obsidian/60 leading-tight mt-0.5">For inquiries, bookings, or more information, don't hesitate to text us!</span>
-              </div>
-              <ChevronRight size={18} className="text-velvet-obsidian/40 group-hover:text-rustic-terracotta transition-colors" />
-            </a>
-
-            {/* E-Mail */}
-            <a href="mailto:hello@ibizamivida.com" className="flex items-center gap-3 pb-3 border-b border-velvet-obsidian/5 group">
-              <div className="w-9 h-9 rounded-full bg-champagne-bronze flex items-center justify-center shrink-0 transition-transform group-hover:scale-110">
-                <Mail size={16} className="text-white fill-white" />
-              </div>
-              <div className="flex flex-col flex-1">
-                <span className="font-sans text-[16px] text-velvet-obsidian leading-tight">E-Mail</span>
-                <span className="font-sans text-[12px] text-velvet-obsidian/60 leading-tight mt-0.5">hello@ibizamivida.com</span>
-              </div>
-              <ChevronRight size={18} className="text-velvet-obsidian/40 group-hover:text-rustic-terracotta transition-colors" />
-            </a>
-
-            {/* Website */}
-            <div className="flex items-center gap-3 group cursor-default">
-              <div className="w-9 h-9 rounded-full bg-champagne-bronze flex items-center justify-center shrink-0">
-                <Globe size={16} className="text-white" />
-              </div>
-              <div className="flex flex-col flex-1">
-                <span className="font-sans text-[16px] text-velvet-obsidian leading-tight">Our Website</span>
-                <span className="font-sans text-[12px] text-velvet-obsidian/60 leading-tight mt-0.5">www.ibizamivida.com</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Links Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Services */}
+          {/* Column 2: Services */}
           <div>
-            <h3 className="mb-4 font-sans text-sm font-semibold uppercase tracking-widest text-champagne-bronze">
+            <h3 className="mb-6 font-sans text-sm font-semibold uppercase tracking-widest text-champagne-bronze">
               Services
             </h3>
-            <ul className="flex flex-col gap-2" role="list">
+            <ul className="flex flex-col gap-3" role="list">
               {services.map(({ label, href }) => (
                 <li key={href}>
                   <Link
@@ -138,12 +80,12 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Guides */}
+          {/* Column 3: Guides */}
           <div>
-            <h3 className="mb-4 font-sans text-sm font-semibold uppercase tracking-widest text-champagne-bronze">
+            <h3 className="mb-6 font-sans text-sm font-semibold uppercase tracking-widest text-champagne-bronze">
               Ibiza Guides
             </h3>
-            <ul className="flex flex-col gap-2" role="list">
+            <ul className="flex flex-col gap-3" role="list">
               {guides.map(({ label, href }) => (
                 <li key={href}>
                   <Link
@@ -157,31 +99,31 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Book Now */}
-          <div className="flex flex-col gap-4">
+          {/* Column 4: Book Now */}
+          <div className="flex flex-col gap-6">
             <h3 className="font-sans text-sm font-semibold uppercase tracking-widest text-champagne-bronze">
               Book Now
             </h3>
             <p className="font-sans text-[15px] text-velvet-obsidian/70 leading-relaxed">
               Ready to plan your Ibiza experience? Chat with us on WhatsApp for instant replies.
             </p>
-            <div className="flex flex-col gap-3 mt-2">
+            <div className="flex flex-col gap-3">
               <a
                 href={`https://wa.me/${whatsappNumber}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex w-fit items-center gap-2 rounded-full bg-rustic-terracotta px-6 py-3 font-sans text-sm font-semibold text-white transition-colors hover:bg-rustic-terracotta/90 shadow-sm"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-rustic-terracotta px-6 py-3.5 font-sans text-sm font-semibold text-white transition-colors hover:bg-rustic-terracotta/90 shadow-sm"
               >
-                <MessageCircle size={16} />
+                <MessageCircle size={18} />
                 Chat on WhatsApp
               </a>
-              <Link
-                href="/private-boat-charters"
-                className="inline-flex w-fit items-center gap-2 rounded-full border border-velvet-obsidian/20 bg-white px-6 py-3 font-sans text-sm font-medium text-velvet-obsidian transition-colors hover:bg-velvet-obsidian hover:text-white"
+              <a
+                href="mailto:hello@ibizamivida.com"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-velvet-obsidian/10 bg-white px-6 py-3.5 font-sans text-sm font-medium text-velvet-obsidian transition-colors hover:bg-velvet-obsidian hover:text-white"
               >
-                <Anchor size={16} />
-                Private Boat Charters
-              </Link>
+                <Mail size={18} />
+                hello@ibizamivida.com
+              </a>
             </div>
           </div>
         </div>
