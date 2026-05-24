@@ -15,6 +15,14 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/admin',
+        destination: '/admin.html',
+      },
+    ]
+  },
 }
 
 export default nextConfig
