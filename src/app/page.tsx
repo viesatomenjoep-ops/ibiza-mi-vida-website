@@ -200,7 +200,7 @@ export default async function HomePage() {
         searchComponent={<HomeSearchWidget />}
         eyebrow="Ibiza mi vida"
         colorTheme="midnight"
-        backgroundImage="/fotos/hero-pattern.png"
+        backgroundImage="/fotos/hero-pattern.jpg"
         backgroundOpacity={0.3}
       />
 

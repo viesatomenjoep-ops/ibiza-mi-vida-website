@@ -19,7 +19,7 @@ export function CategoryHero({
   eyebrow,
   minHeight = 'min-h-[30vh]',
   colorTheme = 'teal',
-  backgroundImage = '/fotos/hero-pattern.png',
+  backgroundImage = '/fotos/hero-pattern.jpg',
   backgroundOpacity = 0.3,
 }: CategoryHeroProps) {
   
@@ -48,7 +48,7 @@ export function CategoryHero({
             alt="Hero Background"
             fill
             priority
-            className="object-cover brightness-[0.35]"
+            className="object-cover brightness-[0.30]"
           />
         </div>
       ) : (
