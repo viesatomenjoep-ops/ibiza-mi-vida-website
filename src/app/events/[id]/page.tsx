@@ -10,7 +10,7 @@ import type { FeaturedEvent, FeaturedEventCategory } from '@/types/featured-even
 import { EventBookingCTA } from '@/components/events/EventBookingCTA'
 import { LocalBusinessSchema } from '@/components/seo/LocalBusinessSchema'
 
-export const revalidate = 3600
+export const revalidate = 0
 
 /* ── Data fetching ── */
 async function getEvent(id: string): Promise<FeaturedEvent | null> {

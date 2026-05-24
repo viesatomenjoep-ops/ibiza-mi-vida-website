@@ -10,7 +10,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences'
 import type { Experience, Review } from '@/types/experience'
 
-export const revalidate = 1800
+export const revalidate = 0
 
 export const metadata: Metadata = {
   title: 'Private Boat Charter Ibiza — Luxury Yacht Rental',

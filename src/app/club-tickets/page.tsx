@@ -7,7 +7,7 @@ import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { createServerClient } from '@/lib/supabase/server'
 import type { Club } from '@/types/club'
 
-export const revalidate = 1800
+export const revalidate = 0
 
 export const metadata: Metadata = {
   title: 'Ibiza Club Tickets — Book All Ibiza Venues',
