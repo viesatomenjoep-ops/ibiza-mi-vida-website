@@ -38,7 +38,7 @@ export function DealsPreviewWrapper({ children, isAdminPreview }: DealsPreviewWr
         <div className="bg-gold/10 border-b-2 border-gold p-4 text-center font-sans">
           <p className="font-semibold text-midnight">Live Draft Update Recieved:</p>
           <div className="text-sm mt-1">
-            <strong>Category:</strong> {previewData.category} | 
+            <strong>Active Categories:</strong> {previewData.active_categories?.join(', ') || 'None'} | 
             <strong> Title (EN):</strong> {previewData.title_en} | 
             <strong> Price:</strong> €{previewData.price}
           </div>
