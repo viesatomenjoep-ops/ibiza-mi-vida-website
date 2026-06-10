@@ -99,7 +99,7 @@ export default function HomePageClient({ clubTicketsSlider }: { clubTicketsSlide
 
       <div id="top"></div>
       
-      <section id="hero-video" className="relative h-screen w-full overflow-hidden bg-white">
+      <section id="hero-video" className="relative h-[75vh] min-h-[500px] w-full overflow-hidden bg-white">
         <video autoPlay loop muted playsInline preload="auto" className="absolute inset-0 size-full object-cover scale-[1.35]" src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" />
         <div className="absolute inset-0 bg-black/20 pointer-events-none" /> {/* Subtle overlay for text readability */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
@@ -168,7 +168,7 @@ export default function HomePageClient({ clubTicketsSlider }: { clubTicketsSlide
         </div>
       </section>
 
-      {clubTicketsSlider}
+
 
 <section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28 group">
   <div className="container">
@@ -253,161 +253,7 @@ export default function HomePageClient({ clubTicketsSlider }: { clubTicketsSlide
   </div>
 </section>
 
-
-<section id="clubs" className="px-[5%] py-16 md:py-24 lg:py-28 bg-gray-50 group">
-  <div className="container">
-    <div className="mx-auto mb-12 max-w-lg text-center md:mb-18 lg:mb-20">
-      <h2 className="mb-5 text-4xl font-bold md:mb-6 md:text-5xl lg:text-6xl transition-all duration-500 hover:text-blue-500">
-        The World&apos;s Most Iconic Clubs
-      </h2>
-      <p className="md:text-lg text-gray-600">
-        Ibiza is the home of electronic music. Experience legendary parties in world-renowned venues and dance until the sun comes up.
-      </p>
-    </div>
-    <div className="grid grid-cols-1 items-start gap-y-12 md:grid-cols-3 md:gap-x-8 md:gap-y-16 lg:gap-x-12">
-      <div className="flex flex-col items-center text-center transform transition-all duration-500 hover:scale-105 hover:-translate-y-2 p-6 rounded-2xl hover:shadow-xl bg-white">
-        <div className="mb-5 md:mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
-          <Music size={32} strokeWidth={1.5} />
-        </div>
-        <h3 className="mb-3 text-xl font-bold md:mb-4 md:text-2xl">
-          Ibiza Clubs
-        </h3>
-        <p className="text-gray-600">
-          From open-air superclubs to legendary techno temples. We provide guaranteed access to the biggest events on the island.
-        </p>
-      </div>
-      <div className="flex flex-col items-center text-center transform transition-all duration-500 hover:scale-105 hover:-translate-y-2 p-6 rounded-2xl hover:shadow-xl bg-white">
-        <div className="mb-5 md:mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
-          <Crown size={32} strokeWidth={1.5} />
-        </div>
-        <h3 className="mb-3 text-xl font-bold md:mb-4 md:text-2xl">
-          Premium VIP Tables
-        </h3>
-        <p className="text-gray-600">
-          Book an exclusive VIP table and enjoy the best service, premium bottles, and a phenomenal view of the DJ.
-        </p>
-      </div>
-      <div className="flex flex-col items-center text-center transform transition-all duration-500 hover:scale-105 hover:-translate-y-2 p-6 rounded-2xl hover:shadow-xl bg-white">
-        <div className="mb-5 md:mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
-          <Zap size={32} strokeWidth={1.5} />
-        </div>
-        <h3 className="mb-3 text-xl font-bold md:mb-4 md:text-2xl">
-          Confirmed Within Minutes
-        </h3>
-        <p className="text-gray-600">
-          Our local concierges confirm your booking directly via WhatsApp. Fast, reliable, and completely stress-free.
-        </p>
-      </div>
-    </div>
-    <div className="mt-12 flex items-center justify-center gap-4 md:mt-18 lg:mt-20">
-      <a href="#deals" className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary hover:bg-black hover:text-white hover:scale-105 shadow-md hover:shadow-xl px-6 py-3">
-        View VIP Tables
-      </a>
-      <a href="/club-tickets" className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary hover:bg-black hover:text-white hover:scale-105 shadow-md hover:shadow-xl px-6 py-3">
-        More Info
-      </a>
-    </div>
-  </div>
-</section>
-
-
-<section id="more-clubs" className="px-[5%] py-16 md:py-24 lg:py-28 group">
-  <div className="container">
-    <div className="mb-12 md:mb-18 lg:mb-20">
-      <div className="mx-auto w-full max-w-lg text-center">
-        <p className="mb-3 font-semibold md:mb-4 tracking-widest uppercase text-blue-600">Clubs & Tickets</p>
-        <h2 className="mb-5 text-4xl font-bold md:mb-6 md:text-5xl lg:text-6xl transition-all duration-500 hover:text-blue-500">
-          Find your perfect party
-        </h2>
-        <p className="md:text-lg text-gray-600">
-          From hypnotic techno at Hï Ibiza to classic house beats at Pacha. Choose your favorite club and buy official tickets directly via Ibiza Mi Vida.
-        </p>
-      </div>
-    </div>
-    <div className="grid grid-cols-1 items-start gap-y-12 md:grid-cols-2 md:gap-x-8 md:gap-y-16 lg:grid-cols-4 lg:gap-x-12">
-      <div className="flex flex-col transform transition-all duration-500 hover:scale-105 hover:-translate-y-2">
-        <div className="mb-5 flex w-full flex-col items-center justify-center md:mb-6 overflow-hidden rounded-xl shadow-lg">
-          <img
-            src="/hi-ibiza-2026/FB_IMG_1779623220486.jpg"
-            alt="Amnesia Ibiza"
-            className="h-[300px] w-full object-cover transition-transform duration-700 hover:scale-110"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-2">
-          <div>
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-blue-600">House</p>
-            <h3 className="mb-2 text-xl font-bold md:text-2xl">
-              Amnesia
-            </h3>
-            <p className="text-gray-600">
-              Experience the legendary atmosphere of Amnesia. The ultimate place for immersive techno and unmatched energy.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col transform transition-all duration-500 hover:scale-105 hover:-translate-y-2">
-        <div className="mb-5 flex w-full flex-col items-center justify-center md:mb-6 overflow-hidden rounded-xl shadow-lg">
-          <img
-            src="/hi-ibiza-2026/FB_IMG_1779623247060.jpg"
-            alt="Pacha Ibiza"
-            className="h-[300px] w-full object-cover transition-transform duration-700 hover:scale-110"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-2">
-          <div>
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-blue-600">Disco</p>
-            <h3 className="mb-2 text-xl font-bold md:text-2xl">
-              Pacha Ibiza
-            </h3>
-            <p className="text-gray-600">
-              The oldest club in Ibiza. Enjoy iconic house, disco classics, and a luxurious atmosphere.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col transform transition-all duration-500 hover:scale-105 hover:-translate-y-2">
-        <div className="mb-5 flex w-full flex-col items-center justify-center md:mb-6 overflow-hidden rounded-xl shadow-lg">
-          <img
-            src="/hi-ibiza-2026/FB_IMG_1779623300180.jpg"
-            alt="Hï Ibiza"
-            className="h-[300px] w-full object-cover transition-transform duration-700 hover:scale-110"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-2">
-          <div>
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-blue-600">Techno</p>
-            <h3 className="mb-2 text-xl font-bold md:text-2xl">
-              Hï Ibiza
-            </h3>
-            <p className="text-gray-600">
-              Voted the #1 club in the world. Let yourself be overwhelmed by spectacular light shows and cutting-edge electronic music.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col transform transition-all duration-500 hover:scale-105 hover:-translate-y-2">
-        <div className="mb-5 flex w-full flex-col items-center justify-center md:mb-6 overflow-hidden rounded-xl shadow-lg">
-          <img
-            src="/ushuaia-2026/image_search_1779624236635.jpg"
-            alt="Ushuaïa Ibiza"
-            className="h-[300px] w-full object-cover transition-transform duration-700 hover:scale-110"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-2">
-          <div>
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-blue-600">Commercial</p>
-            <h3 className="mb-2 text-xl font-bold md:text-2xl">
-              Ushuaïa Ibiza
-            </h3>
-            <p className="text-gray-600">
-              Dance open-air around the pool. The place to be for the biggest house artists and commercial hits, from sunset to midnight.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+      {clubTicketsSlider}
     </main>
   );
 }

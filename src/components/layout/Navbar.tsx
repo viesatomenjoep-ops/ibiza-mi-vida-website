@@ -90,7 +90,7 @@ export function Navbar() {
               ? (pastHero ? 'bg-gray-50/80 border-black/5 text-velvet-obsidian shadow-sm' : 'bg-transparent border-transparent text-white drop-shadow-md') 
               : 'bg-white border-velvet-obsidian/10 text-velvet-obsidian shadow-sm'
           }`}>
-            <span className="font-sans text-[18px] md:text-[22px] tracking-tight font-bold">Ibiza mi vida</span>
+            <span className="font-sans text-[27px] md:text-[33px] tracking-tight font-bold">Ibiza mi vida</span>
           </div>
         </div>
 
@@ -101,13 +101,13 @@ export function Navbar() {
             href="/deals-of-the-day"
             className="hidden sm:flex items-center gap-2 rounded-full bg-rustic-terracotta px-5 py-2.5 md:px-7 md:py-[17px] shadow-xl transition-all hover:bg-rustic-terracotta/90 hover:scale-105 border border-black/5"
           >
-            <span className="font-serif text-sm md:text-[15px] font-semibold tracking-wide text-white whitespace-nowrap">Deals of the Day</span>
+            <span className="font-serif text-[21px] md:text-[22px] font-semibold tracking-wide text-white whitespace-nowrap">Deals of the Day</span>
           </Link>
           <Link
             href="/deals-of-the-day"
             className="flex sm:hidden items-center gap-2 rounded-full bg-rustic-terracotta px-4 py-2.5 shadow-xl transition-all hover:bg-rustic-terracotta/90 hover:scale-105 border border-black/5"
           >
-            <span className="font-serif text-[13px] font-semibold tracking-wide text-white whitespace-nowrap">DOD</span>
+            <span className="font-serif text-[16px] font-semibold tracking-wide text-white whitespace-nowrap">Deals of the Day</span>
           </Link>
 
           <button 
@@ -157,10 +157,10 @@ export function Navbar() {
                         </div>
                       </div>
                       <div className="flex flex-col mt-auto">
-                        <span className="font-sans text-[11px] font-light tracking-wide text-velvet-obsidian/70 line-clamp-1">
+                        <span className="font-sans text-[16px] font-light tracking-wide text-velvet-obsidian/70 line-clamp-1">
                           {cat.desc}
                         </span>
-                        <span className="font-sans text-[18px] font-medium leading-[120%] tracking-tight text-velvet-obsidian line-clamp-1 group-hover:text-rustic-terracotta transition-colors">
+                        <span className="font-sans text-[27px] font-medium leading-[120%] tracking-tight text-velvet-obsidian line-clamp-1 group-hover:text-rustic-terracotta transition-colors">
                           {cat.label}
                         </span>
                       </div>
@@ -176,9 +176,9 @@ export function Navbar() {
                   href={`https://wa.me/${whatsappNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-velvet-obsidian px-8 py-4 font-sans text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105"
+                  className="inline-flex items-center gap-2 rounded-full bg-velvet-obsidian px-8 py-4 font-sans text-xl font-semibold text-white shadow-lg transition-transform hover:scale-105"
                 >
-                  <MessageCircle size={18} />
+                  <MessageCircle size={22} />
                   Chat with us on WhatsApp
                 </a>
               </div>

@@ -74,12 +74,19 @@ export default async function ClubDetailPage({ params }: Props) {
 
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-12 pt-32 md:px-8">
           <div className="flex flex-col gap-4">
-            {club.type && (
-              <span className="inline-flex w-fit items-center gap-2 rounded-full border border-rustic-terracotta/50 bg-rustic-terracotta/10 px-4 py-1 font-sans text-xs font-semibold uppercase tracking-widest text-rustic-terracotta">
-                <Music size={12} />
-                {club.type.name}
-              </span>
-            )}
+            <div className="flex gap-2">
+              {club.type && (
+                <span className="inline-flex w-fit items-center gap-2 rounded-full border border-rustic-terracotta/50 bg-rustic-terracotta/10 px-4 py-1 font-sans text-xs font-semibold uppercase tracking-widest text-rustic-terracotta">
+                  <Music size={12} />
+                  {club.type.name}
+                </span>
+              )}
+              {club.isDayClub !== undefined && (
+                <span className="inline-flex w-fit items-center gap-2 rounded-full border border-blue-500/50 bg-blue-500/10 px-4 py-1 font-sans text-xs font-semibold uppercase tracking-widest text-blue-500">
+                  {club.isDayClub ? 'Day Club' : 'Night Club'}
+                </span>
+              )}
+            </div>
             <h1 className="font-serif text-5xl font-bold text-ibiza-sand md:text-6xl lg:text-7xl">
               {club.name}
             </h1>
@@ -112,7 +119,7 @@ export default async function ClubDetailPage({ params }: Props) {
                   <div>
                     <h2 className="font-serif text-3xl font-bold text-velvet-obsidian">Events at {club.name}</h2>
                     <p className="mt-2 font-sans text-velvet-obsidian/60">
-                      Official ClubTickets affiliate events.
+                      {club.activeEvents || events.length} official events coming up.
                     </p>
                   </div>
                 </div>

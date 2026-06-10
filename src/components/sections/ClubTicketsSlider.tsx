@@ -12,12 +12,12 @@ export async function ClubTicketsSlider() {
   if (clubbingVenues.length === 0) return null
 
   return (
-    <section className="py-16 bg-background-primary w-full overflow-hidden">
-      <div className="container mx-auto px-4 md:px-8 mb-8">
+    <section className="py-16 md:py-24 bg-[#f9fafb] w-full overflow-hidden">
+      <div className="container mx-auto px-[5%] mb-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <p className="text-blue-500 font-semibold tracking-widest uppercase mb-2 text-sm">Official Club Tickets</p>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold text-velvet-obsidian">Trending Venues</h2>
+            <p className="text-blue-600 font-semibold tracking-widest uppercase mb-3 text-sm">Official Club Tickets</p>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold transition-all duration-500 hover:text-blue-500 text-velvet-obsidian">Trending Venues</h2>
           </div>
           <Link href="/club-tickets" className="inline-flex items-center gap-2 text-velvet-obsidian font-semibold hover:text-blue-500 transition-colors group">
             See all clubs
@@ -27,7 +27,7 @@ export async function ClubTicketsSlider() {
       </div>
 
       <div className="w-full pb-8">
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 px-4 md:px-8 pb-8 pt-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 md:gap-8 pl-[5%] pr-4 md:pr-8 pb-12 pt-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           <style dangerouslySetInnerHTML={{ __html: `
             .hide-scrollbar::-webkit-scrollbar { display: none; }
           `}} />
@@ -36,7 +36,7 @@ export async function ClubTicketsSlider() {
             <Link 
               key={venue.id} 
               href={`/club-tickets/${venue.slug}`}
-              className="group relative flex flex-col snap-start shrink-0 w-[300px] md:w-[380px] h-[450px] rounded-3xl overflow-hidden bg-white shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2"
+              className="group relative flex flex-col snap-start shrink-0 w-[320px] md:w-[420px] h-[480px] md:h-[560px] rounded-3xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-black/5"
             >
               <div className="relative h-2/3 w-full overflow-hidden">
                 <Image 
@@ -58,19 +58,19 @@ export async function ClubTicketsSlider() {
                   </div>
                 )}
 
-                <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="text-3xl font-serif font-bold text-white drop-shadow-md">{venue.name}</h3>
+                <div className="absolute bottom-6 left-6 right-6">
+                  <h3 className="text-3xl md:text-4xl font-bold text-white drop-shadow-md">{venue.name}</h3>
                 </div>
               </div>
 
-              <div className="p-6 flex flex-col flex-1 justify-between bg-white">
-                <p className="text-gray-600 text-sm line-clamp-2" dangerouslySetInnerHTML={{ __html: venue.description || 'Experience the ultimate party.' }}></p>
-                <div className="flex items-center justify-between mt-4">
-                  <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              <div className="p-6 md:p-8 flex flex-col flex-1 justify-between bg-white">
+                <p className="text-gray-600 text-sm md:text-base line-clamp-2" dangerouslySetInnerHTML={{ __html: venue.description || 'Experience the ultimate party.' }}></p>
+                <div className="flex items-center justify-between mt-6">
+                  <span className="text-xs md:text-sm font-semibold text-gray-400 uppercase tracking-wider">
                     {venue.activeEvents} Upcoming Events
                   </span>
-                  <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-black group-hover:bg-black group-hover:text-white transition-colors">
-                    <ArrowRight size={18} />
+                  <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                    <ArrowRight size={20} />
                   </div>
                 </div>
               </div>

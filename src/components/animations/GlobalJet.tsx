@@ -25,12 +25,12 @@ export function GlobalJet() {
 
   // Calculate jet position based on progress (0 to 1)
   // X: from -20vw (left off-screen) to 120vw (right off-screen)
-  // Y: from -10vh (top off-screen) to 110vh (bottom off-screen)
+  // Y: less steep downward path (e.g. 10vh to 70vh)
   const x = -20 + progress * 140
-  const y = -10 + progress * 120
+  const y = 10 + progress * 60
   
   // Bank angle to make it point towards its trajectory
-  const dy = 120
+  const dy = 60
   const dx = 140
   const bank = Math.atan2(dy, dx) * (180 / Math.PI)
 
@@ -40,7 +40,7 @@ export function GlobalJet() {
       style={{
         top: `${y}vh`,
         left: `${x}vw`,
-        transform: `translate(-50%, -50%) rotate(${bank}deg) scale(0.6)`
+        transform: `translate(-50%, -50%) rotate(${bank}deg) scale(0.8)`
       }}
       aria-hidden="true"
     >

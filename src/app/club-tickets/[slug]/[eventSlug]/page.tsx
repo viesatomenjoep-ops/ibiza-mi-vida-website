@@ -89,6 +89,14 @@ export default async function EventDetailPage({ params }: Props) {
                 <MapPin size={18} className="text-rustic-terracotta" />
                 {event.venue.name}, Ibiza
               </span>
+              {(event.startAt || event.endAt) && (
+                <span className="flex items-center gap-1.5 font-sans text-lg font-medium">
+                  <Calendar size={18} className="text-rustic-terracotta" />
+                  {event.startAt ? new Date(event.startAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : ''}
+                  {event.startAt && event.endAt ? ' - ' : ''}
+                  {event.endAt ? new Date(event.endAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : ''}
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -104,6 +112,13 @@ export default async function EventDetailPage({ params }: Props) {
                 <div className="prose prose-velvet max-w-none prose-p:text-velvet-obsidian/70">
                   <h2 className="font-serif text-3xl font-bold text-velvet-obsidian mb-6">About the Party</h2>
                   <div dangerouslySetInnerHTML={{ __html: event.description }} />
+                </div>
+              )}
+
+              {event.requirements && (
+                <div className="prose prose-velvet max-w-none prose-p:text-velvet-obsidian/70">
+                  <h2 className="font-serif text-3xl font-bold text-velvet-obsidian mb-6">Important Information & Rules</h2>
+                  <div dangerouslySetInnerHTML={{ __html: event.requirements }} />
                 </div>
               )}
             </div>
