@@ -1,21 +1,18 @@
 import type { Metadata } from 'next'
-import { Outfit, Playfair_Display } from 'next/font/google'
-import { Navbar } from '@/components/layout/Navbar'
-import { Footer } from '@/components/layout/Footer'
-import { WhatsAppFAB } from '@/components/layout/WhatsAppFAB'
-import { BookingProvider } from '@/context/booking-context'
-import { BookingModal } from '@/components/booking/BookingModal'
+import { Marcellus, Mulish } from 'next/font/google'
 import '@/styles/globals.css'
+import './ibiza-design.css'
 
-const outfit = Outfit({
+const marcellus = Marcellus({
+  weight: '400',
   subsets: ['latin'],
-  variable: '--font-outfit',
+  variable: '--font-marcellus',
   display: 'swap',
 })
 
-const playfair = Playfair_Display({
+const mulish = Mulish({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-mulish',
   display: 'swap',
 })
 
@@ -53,17 +50,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${playfair.variable}`}>
-      <body className="font-sans bg-ibiza-sand text-velvet-obsidian antialiased overflow-x-hidden w-full max-w-[100vw]">
-        <BookingProvider>
-          <Navbar />
-          <main id="main-content" className="pb-16 lg:pb-0">
-            {children}
-          </main>
-          <Footer />
-          <WhatsAppFAB />
-          <BookingModal />
-        </BookingProvider>
+    <html lang="en" className={`${marcellus.variable} ${mulish.variable}`}>
+      <body className="font-sans antialiased overflow-x-hidden w-full max-w-[100vw]">
+        <main id="main-content">
+          {children}
+        </main>
       </body>
     </html>
   )
