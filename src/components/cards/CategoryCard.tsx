@@ -72,9 +72,9 @@ export function CategoryCard({
       {/* Text content */}
       <div className="relative z-10 flex flex-col gap-3 p-6">
         {tagline && (
-          <p className="font-sans text-sm font-light text-ibiza-sand/70">{tagline}</p>
+          <p className="font-sans text-sm md:text-base font-light text-white/90">{tagline}</p>
         )}
-        <h3 className="font-serif text-3xl font-light leading-tight text-ibiza-sand">{title}</h3>
+        <h3 className="font-serif text-3xl md:text-4xl font-normal leading-tight text-white drop-shadow-sm">{title}</h3>
 
         {/* CTA pill */}
         <div className="mt-1 self-start">
