@@ -65,12 +65,12 @@ export function RadioPlayer() {
 
   return (
     <div className="flex justify-start">
-      <motion.button
-        onClick={togglePlay}
+      <motion.div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="group flex items-center gap-1.5 rounded-full border border-white/20 bg-black/20 p-1 pr-3 shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-black/40 text-white"
+        className="group flex items-center gap-1.5 rounded-full border border-white/20 bg-black/20 p-1 pr-3 shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-black/40 text-white cursor-pointer"
         whileTap={{ scale: 0.95 }}
+        onClick={togglePlay}
       >
         <div className={`relative flex h-8 w-8 items-center justify-center rounded-full transition-colors duration-300 ${isPlaying ? 'bg-[#25D366] text-white shadow-[0_0_15px_rgba(37,211,102,0.5)]' : 'bg-white text-velvet-obsidian'}`}>
           {isLoading ? (
@@ -112,7 +112,7 @@ export function RadioPlayer() {
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.button>
+      </motion.div>
     </div>
   )
 }
