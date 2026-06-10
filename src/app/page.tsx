@@ -330,7 +330,7 @@ export default function Home() {
       <div id="top"></div>
       
       <section id="hero-video" className="relative h-screen w-full overflow-hidden bg-black">
-        <video autoPlay loop muted playsInline className="absolute inset-0 size-full object-cover opacity-80" src="/ocean.mp4" />
+        <video autoPlay loop muted playsInline className="absolute inset-0 size-full object-cover opacity-80 [mask-image:linear-gradient(to_bottom,white_60%,transparent)]" src="/hero-ocean.mp4" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
           <p className="mb-4 tracking-[0.2em] uppercase text-sm md:text-base font-semibold">IBIZA MI VIDA · SEASON 2026</p>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 drop-shadow-lg">
