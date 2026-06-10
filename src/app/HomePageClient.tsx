@@ -2,10 +2,9 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useCart } from '@/context/cart-context';
 import { Music, Crown, Zap } from 'lucide-react';
-import { GlobalJet } from '@/components/animations/GlobalJet';
-import { RadioPlayer } from '@/components/layout/RadioPlayer';
 
 const CONFIG = {
   whatsapp: '31683052875',
@@ -95,9 +94,7 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
 
 
   return (
-    <main>
-      <GlobalJet />
-
+    <main className="bg-ibiza-sand text-velvet-obsidian relative">
       <div id="top"></div>
       
       <section id="hero-video" className="relative h-[75vh] min-h-[500px] w-full overflow-hidden bg-velvet-obsidian">
@@ -112,13 +109,12 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
           <p className="max-w-2xl text-lg md:text-xl drop-shadow-lg mb-8 font-medium">
             Club tickets, private charters and boat parties — hand-picked by locals, confirmed within minutes on WhatsApp.
           </p>
-          <div className="flex flex-col items-center gap-4">
-            <a href="#deals" className="btn btn--primary hover:scale-105 transition-transform duration-300">See today&apos;s deals ↓</a>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4">
+            <Link href="/club-tickets" className="btn btn--primary hover:scale-105 transition-transform duration-300 min-w-[200px]">Book Club Tickets</Link>
+            <Link href="/vip-experiences" className="px-6 py-3 rounded-full border border-white/40 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 min-w-[200px]">View VIP Tables</Link>
           </div>
         </div>
       </section>
-
-      <RadioPlayer />
 
       <section id="deals" className="section section--paper pt-0">
         <div className="container">
@@ -146,20 +142,19 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
             {DEALS.map((d, i) => {
               const isSelected = i === 1;
               return (
-                <button key={d.id} className="ticket text-left shrink-0 w-[85vw] md:w-[320px] snap-center">
+                <button key={d.id} className="ticket flex flex-col items-center justify-center text-center shrink-0 w-[85vw] md:w-[320px] snap-center snap-always">
                   <div className="ticket__body">
-                    {/* REAL IMAGE USING next/image */}
                     <div className="ticket__image">
                       <Image src={d.image} alt={d.title} fill className="object-cover" />
                       <div className="ticket__glow" style={{ background: d.glow }}></div>
                       <span className="ticket__kind">{d.kind}</span>
                       <span className={`ticket__badge ${isSelected ? 'ticket__badge--on' : 'ticket__badge--off'}`}>{isSelected ? '✓' : '+'}</span>
                     </div>
-                    <h3 className="ticket__title">{d.title}</h3>
+                    <h3 className="ticket__title text-center leading-tight">{d.title}</h3>
                     <p className="ticket__when">{d.when}</p>
                   </div>
                   <div className="ticket__perf"></div>
-                  <div className="ticket__foot">
+                  <div className="ticket__foot w-full flex items-center justify-between">
                     <span className="ticket__price">€{d.price}</span>
                     <span className={`ticket__select ${isSelected ? 'ticket__select--on' : 'ticket__select--off'}`}>{isSelected ? 'Selected' : 'Select'}</span>
                   </div>

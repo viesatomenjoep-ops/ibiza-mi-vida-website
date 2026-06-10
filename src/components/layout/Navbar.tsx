@@ -5,12 +5,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Anchor, MessageCircle, Search, Music, Sun, Car, GlassWater, CheckCircle, Navigation, Ticket, Star, Heart, ChevronRight } from 'lucide-react'
+import { Menu, X, Anchor, MessageCircle, Search, Music, Sun, Car, GlassWater, CheckCircle, Navigation, Ticket, Star, Heart, ChevronRight, Disc } from 'lucide-react'
 
 const allCategories = [
   { label: 'Deals of the Day', href: '/deals-of-the-day', icon: Star, desc: 'Best daily offers & events' },
-  { label: 'Private Boat Charters', href: '/private-boat-charters', icon: Anchor, desc: 'Yachts & exclusive rentals' },
+  { label: 'Artists', href: '/artists', icon: Disc, desc: 'Top DJs & headliners' },
   { label: 'Club Tickets', href: '/club-tickets', icon: Ticket, desc: 'Pacha, Amnesia, Hi Ibiza & more' },
+  { label: 'Private Boat Charters', href: '/private-boat-charters', icon: Anchor, desc: 'Yachts & exclusive rentals' },
   { label: 'Boat Parties', href: '/boat-parties', icon: Music, desc: 'Sunset cruises & music events' },
   { label: 'VIP Catamaran', href: '/vip-catamaran', icon: Navigation, desc: 'Luxury sailing experiences' },
   { label: 'Formentera Trips', href: '/formentera-boat-trips', icon: Sun, desc: 'Day trips to paradise' },
@@ -66,16 +67,16 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
       <header className={[
         "fixed left-0 right-0 z-50 pointer-events-none flex items-center justify-between transition-all duration-300 px-4 md:px-8",
         scrolled 
-          ? (pathname === '/' && pastHero ? "top-0 py-3 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100" : "top-0 py-3 bg-transparent") 
-          : "top-4 md:top-6"
+          ? "top-0 py-3 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100"
+          : "top-4 md:top-6 bg-transparent"
       ].join(' ')}>
         
         {/* Left: Logo */}
         <div className="pointer-events-auto flex items-center gap-3 transition-transform duration-500 ease-out" style={{ transform: `scale(${scrolled ? 0.9 : 1})`, transformOrigin: 'left center' }}>
           <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 shrink-0">
             <div className={`rounded-full w-[60px] h-[60px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-lg border overflow-hidden transition-colors duration-300 ${
-              pathname === '/' 
-                ? (pastHero ? 'bg-white border-velvet-obsidian/10' : 'bg-transparent border-white/10') 
+              scrolled 
+                ? 'bg-white border-velvet-obsidian/10' 
                 : 'bg-white border-velvet-obsidian/10'
             }`}>
               <Image
@@ -83,19 +84,15 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
                 alt="Ibiza mi vida"
                 width={70}
                 height={70}
-                className={`object-contain transition-all duration-300 ${
-                  pathname === '/' 
-                    ? (pastHero ? 'brightness-0 hover:opacity-80 w-[70%] h-[70%]' : 'brightness-0 invert hover:opacity-80 w-[70%] h-[70%]')
-                    : 'brightness-0 hover:opacity-80 w-[85%] h-[85%]'
-                }`}
+                className={`object-contain transition-all duration-300 brightness-0 hover:opacity-80 w-[85%] h-[85%]`}
                 priority
               />
             </div>
           </Link>
           <div className={`hidden sm:flex items-center justify-center px-5 py-3 rounded-xl border transition-colors duration-300 ${
-            pathname === '/' 
-              ? (pastHero ? 'bg-gray-50/80 border-black/5 text-velvet-obsidian shadow-sm' : 'bg-transparent border-transparent text-white drop-shadow-md') 
-              : 'bg-white border-velvet-obsidian/10 text-velvet-obsidian shadow-sm'
+            scrolled 
+              ? 'bg-white border-velvet-obsidian/10 text-velvet-obsidian shadow-sm' 
+              : 'bg-transparent border-transparent text-white drop-shadow-md'
           }`}>
             <span className="font-sans text-[36px] md:text-[46px] tracking-tight font-bold">Ibiza mi vida</span>
           </div>
@@ -137,7 +134,7 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="fixed inset-0 z-[45] flex flex-col bg-white px-4 pb-20 pt-28 md:px-8 md:pt-32 overflow-y-auto"
+            className="fixed inset-0 z-[45] flex flex-col bg-white px-4 pb-20 pt-16 md:px-8 md:pt-20 overflow-y-auto"
           >
             <div className="mx-auto w-full max-w-5xl flex-1 flex flex-col">
               
