@@ -60,9 +60,6 @@ const SVG_SCENE = `
       <stop offset="100%" stop-color="#7E97A4" stop-opacity="0"/>
     </linearGradient>
   </defs>
-  <rect width="1440" height="620" fill="url(#skyL)"/>
-  <circle cx="660" cy="130" r="120" fill="url(#hazeSun)"/>
-  <circle cx="660" cy="130" r="42" fill="#FFFFFF" opacity=".9"/>
   <g id="jet">
     <g transform="scale(-1,1)">
       <g id="trail">
@@ -134,12 +131,7 @@ const SVG_SCENE = `
     </g>
     <rect x="1056" y="612" width="384" height="8" rx="2" fill="#7E95A4"/>
   </g>
-  <rect y="620" width="1440" height="280" fill="url(#seaL)"/>
-  <g stroke="#FFFFFF" stroke-opacity=".35" stroke-width="2" fill="none">
-    <path id="w1" d="M-100 668 Q 80 658 260 668 T 620 668 T 980 668 T 1340 668 T 1700 668"/>
-    <path id="w2" d="M-100 726 Q 80 714 260 726 T 620 726 T 980 726 T 1340 726 T 1700 726"/>
-    <path id="w3" d="M-100 796 Q 80 782 260 796 T 620 796 T 980 796 T 1340 796 T 1700 796"/>
-  </g>
+
   <g id="yacht">
     <g transform="scale(-1,1)">
       <g id="wake" stroke="#FFFFFF" stroke-opacity=".75" stroke-width="2.4" fill="none">
@@ -329,6 +321,7 @@ export default function Home() {
       <div id="top"></div>
       <section id="scene" aria-label="Branded yacht departing as the Ibiza Mi Vida jet arrives">
         <div id="sceneSticky">
+          <video autoPlay loop muted playsInline className="scene-video" src="https://cdn.pixabay.com/video/2020/05/25/40141-424855799_large.mp4" />
           <div dangerouslySetInnerHTML={{ __html: SVG_SCENE }} style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }} />
           <div className="scene-copy">
             <p className="scene-copy__eyebrow">IBIZA MI VIDA · SEASON 2026</p>
@@ -407,56 +400,22 @@ export default function Home() {
 
 <section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
   <div className="container">
-    <div
-     
-      className="mx-auto mb-12 max-w-lg text-center md:mb-18 lg:mb-20"
-    >
-      <p className="mb-3 font-semibold md:mb-4">Tagline</p>
-      <h1
-       
-        className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
-      >
-        Medium length section heading goes here
+    <div className="mx-auto mb-12 max-w-lg text-center md:mb-18 lg:mb-20">
+      <p className="mb-3 font-semibold md:mb-4">IBIZA 2026</p>
+      <h1 className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl">
+        Jouw Ultieme Ibiza Party Experience
       </h1>
       <p className="md:text-md">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-        varius enim in eros elementum tristique. Duis cursus, mi quis viverra
-        ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
+        Ontdek de beste feesten, boek exclusieve VIP-tafels en bemachtig tickets voor de meest legendarische clubs op Ibiza. Wij regelen jouw onvergetelijke nacht.
       </p>
-      <div
-       
-       
-        className="mt-6 flex flex-wrap items-center justify-center gap-4 md:mt-8"
-      >
-        <button
-          className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
-         
-          title="Button"
-        >
-          Button</button
-        ><button
-          className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-         
-          title="Button"
-        >
-          Button<svg
-            stroke="currentColor"
-            fill="none"
-            strokeWidth="0"
-            viewBox="0 0 15 15"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-              fill="currentColor"
-            ></path>
-          </svg>
-        </button>
-      </div>
+    </div>
+    <div className="flex items-center justify-center gap-4">
+      <a href="#clubs" className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3">
+        Boek Club Tickets
+      </a>
+      <a href="#deals" className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3">
+        Bekijk VIP Tafels
+      </a>
     </div>
     <div
       className="grid grid-cols-1 items-center gap-x-12 md:grid-cols-2 lg:gap-x-20"

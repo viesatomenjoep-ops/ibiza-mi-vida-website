@@ -77,7 +77,8 @@ a:hover .kin { background-size: 100% 1px; }
    ============================================================ */
 #scene { height: 150vh; }
 #sceneSticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
-#sceneSvg { position: absolute; inset: 0; width: 100%; height: 100%; }
+#sceneSvg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 10; }
+.scene-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
 
 .scene-copy { position: relative; z-index: 10; height: 100%; max-width: 1280px; margin: 0 auto; padding: 4rem 1.25rem 32vh; display: flex; flex-direction: column; justify-content: center; }
 @media (min-width: 768px) { .scene-copy { padding: 4rem 2rem 28vh; } }
