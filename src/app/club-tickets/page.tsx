@@ -47,16 +47,15 @@ export default function ClubTicketsPage() {
 
 <section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
   <div className="container max-w-lg text-center">
-    <p className="mb-3 font-semibold md:mb-4">Tagline</p>
+    <p className="mb-3 font-semibold md:mb-4">Ibiza 2026</p>
     <h1
      
       className="mb-5 text-6xl font-bold md:mb-6 md:text-9xl lg:text-10xl"
     >
-      Short heading here
+      Officiële Club Tickets
     </h1>
     <p className="md:text-md">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-      varius enim in eros elementum tristique.
+      Verzeker je plek op de grootste en beste feesten ter wereld. Koop gegarandeerd echte tickets voor alle topclubs zonder verborgen kosten.
     </p>
     <div
      
@@ -66,15 +65,14 @@ export default function ClubTicketsPage() {
       <button
         className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary bg-background-alternative text-text-alternative px-6 py-3"
         title="Button"
-       
       >
-        Button</button
+        Alle Feesten</button
       ><button
         className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
-        title="Button"
+        title="Bekijk VIP Tafels"
        
       >
-        Button
+        VIP Tafels
       </button>
     </div>
   </div>
@@ -116,18 +114,18 @@ export default function ClubTicketsPage() {
         </div>
         <div className="flex flex-1 flex-col justify-center p-6">
           <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
+            <p className="mb-2 text-sm font-semibold">Techno</p>
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
+              Hï Ibiza
             </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Beleef de #1 club ter wereld met grensverleggende techno en spectaculaire lichtshows.</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
               className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
+              title="Bekijk Line-up"
             >
-              Button<svg
+              Bekijk Line-up<svg
                 stroke="currentColor"
                 fill="none"
                 strokeWidth="0"
@@ -158,18 +156,18 @@ export default function ClubTicketsPage() {
         </div>
         <div className="flex flex-1 flex-col justify-center p-6">
           <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
+            <p className="mb-2 text-sm font-semibold">House</p>
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
+              Amnesia
             </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>De ultieme house en techno ervaring sinds de jaren '70 in deze legendarische tempel.</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
               className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
+              title="Bekijk Line-up"
             >
-              Button<svg
+              Bekijk Line-up<svg
                 stroke="currentColor"
                 fill="none"
                 strokeWidth="0"
@@ -200,18 +198,18 @@ export default function ClubTicketsPage() {
         </div>
         <div className="flex flex-1 flex-col justify-center p-6">
           <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
+            <p className="mb-2 text-sm font-semibold">Commercial</p>
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
+              Ushuaïa Ibiza
             </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Feest in de buitenlucht met 's werelds beste en grootste DJ's rondom het indrukwekkende zwembad.</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
               className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
+              title="Bekijk Line-up"
             >
-              Button<svg
+              Bekijk Line-up<svg
                 stroke="currentColor"
                 fill="none"
                 strokeWidth="0"
@@ -242,18 +240,18 @@ export default function ClubTicketsPage() {
         </div>
         <div className="flex flex-1 flex-col justify-center p-6">
           <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
+            <p className="mb-2 text-sm font-semibold">Disco</p>
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
+              Pacha Ibiza
             </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Glamour, house en disco in de meest iconische club met de beroemde kersen.</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
               className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
+              title="Bekijk Line-up"
             >
-              Button<svg
+              Bekijk Line-up<svg
                 stroke="currentColor"
                 fill="none"
                 strokeWidth="0"
@@ -300,17 +298,15 @@ export default function ClubTicketsPage() {
             alt="Relume logo"
           />
         </div>
-        <p className="mb-3 font-semibold md:mb-4">Tagline</p>
+        <p className="mb-3 font-semibold md:mb-4">Blijf Op De Hoogte</p>
         <h2
          
           className="rb-5 mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
         >
-          Medium length section heading goes here
+          Mis Geen Enkel Feest
         </h2>
         <p className="md:text-md">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          varius enim in eros elementum tristique. Duis cursus, mi quis viverra
-          ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
+          Schrijf je in voor onze nieuwsbrief en ontvang als eerste updates over ticket sales, exclusieve line-up onthullingen en de beste VIP deals voor jouw Ibiza trip.
         </p>
         <div
          
@@ -320,15 +316,15 @@ export default function ClubTicketsPage() {
           <button
             className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
            
-            title="Button"
+            title="Meld je aan"
           >
-            Button</button
+            Meld je aan</button
           ><button
             className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
            
-            title="Button"
+            title="Agenda"
           >
-            Button<svg
+            Bekijk Agenda<svg
               stroke="currentColor"
               fill="none"
               strokeWidth="0"
@@ -367,15 +363,15 @@ export default function ClubTicketsPage() {
   <div className="container">
     <div className="mb-12 md:mb-18 lg:mb-20">
       <div className="mx-auto max-w-lg text-center">
-        <p className="mb-3 font-semibold md:mb-4">Tagline</p>
+        <p className="mb-3 font-semibold md:mb-4">Tickets FAQ</p>
         <h2
          
           className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
         >
-          Short heading goes here
+          Veelgestelde Vragen
         </h2>
         <p className="md:text-md">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Vind snel antwoord op veelgestelde vragen over het boeken van club tickets.
         </p>
       </div>
     </div>
@@ -394,11 +390,11 @@ export default function ClubTicketsPage() {
         </div>
         <div className="flex flex-1 flex-col justify-center p-6">
           <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
+            <p className="mb-2 text-sm font-semibold">Levering</p>
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
+              Hoe ontvang ik mijn tickets?
             </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Tickets worden direct na betaling als PDF of mobiele QR-code naar je e-mailadres gestuurd. Bewaar deze goed op je telefoon.</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
@@ -436,11 +432,11 @@ export default function ClubTicketsPage() {
         </div>
         <div className="flex flex-1 flex-col justify-center p-6">
           <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
+            <p className="mb-2 text-sm font-semibold">Geldigheid</p>
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
+              Zijn de tickets 100% origineel?
             </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Absoluut. Wij zijn officiële partners van alle grote clubs in Ibiza, dus je loopt nooit risico aan de deur.</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
@@ -478,11 +474,11 @@ export default function ClubTicketsPage() {
         </div>
         <div className="flex flex-1 flex-col justify-center p-6">
           <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
+            <p className="mb-2 text-sm font-semibold">Toegang</p>
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
+              Hoe laat moet ik binnen zijn?
             </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Let op het tijdslot op je ticket. Early-entry tickets vereisen vaak dat je voor een bepaald tijdstip (bijv. 01:00) binnen bent.</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
@@ -520,11 +516,11 @@ export default function ClubTicketsPage() {
         </div>
         <div className="flex flex-1 flex-col justify-center p-6">
           <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
+            <p className="mb-2 text-sm font-semibold">VIP</p>
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
+              Kan ik ook VIP tafels boeken?
             </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Ja, we bieden VIP-tafels met flessen en persoonlijke service aan voor vrijwel elke club. Neem contact met ons op via WhatsApp voor de prijzen.</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
