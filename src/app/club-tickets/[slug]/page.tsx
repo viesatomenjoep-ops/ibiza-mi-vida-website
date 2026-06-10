@@ -6,7 +6,7 @@ import { CTEventCard } from '@/components/cards/CTEventCard'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { VenueSchema } from '@/components/seo/VenueSchema'
-import { getVenues, getVenue, CTVenue } from '@/lib/clubtickets'
+import { getVenues, getVenue, CTVenue, getEvent } from '@/lib/clubtickets'
 
 export const revalidate = 3600
 
@@ -47,6 +47,23 @@ export default async function ClubDetailPage({ params }: Props) {
   if (!club) notFound()
 
   const events = club.events || []
+  
+  // Fetch full details for all events to extract their specific dates
+  const fullEventsPromises = events.map(e => getEvent(club.id, e.id, 'en'))
+  const fullEvents = await Promise.all(fullEventsPromises)
+  
+  // Flatten all dates into a single array
+  const allDates = fullEvents.flatMap(e => 
+    e?.dates ? e.dates.map(d => ({
+      ...d, 
+      eventName: e.name, 
+      eventSlug: e.slug
+    })) : []
+  )
+  
+  // Sort chronologically
+  allDates.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+
   const imageUrl = club.cover || club.picture || 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85'
 
   return (
@@ -113,25 +130,46 @@ export default async function ClubDetailPage({ params }: Props) {
                 </AnimatedSection>
               )}
 
-              {/* Events list */}
+              {/* Calendar Events List */}
               <AnimatedSection delay={100} className="flex flex-col gap-6">
                 <div className="flex items-end justify-between">
                   <div>
-                    <h2 className="font-serif text-3xl font-bold text-velvet-obsidian">Events at {club.name}</h2>
+                    <h2 className="font-serif text-3xl font-bold text-velvet-obsidian">Event Calendar</h2>
                     <p className="mt-2 font-sans text-velvet-obsidian/60">
-                      {club.activeEvents || events.length} official events coming up.
+                      All upcoming parties at {club.name}. Book your tickets securely.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-4">
-                  {events.length > 0 ? (
-                    events.map((event) => (
-                      <CTEventCard 
-                        key={event.id} 
-                        event={event} 
-                        venueSlug={club.slug} 
-                      />
+                <div className="flex flex-col gap-3 max-h-[800px] overflow-y-auto pr-2 rounded-2xl" style={{ scrollbarWidth: 'thin' }}>
+                  {allDates.length > 0 ? (
+                    allDates.map((dateObj, idx) => (
+                      <div key={`${dateObj.id}-${idx}`} className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 border border-velvet-obsidian/10 rounded-2xl bg-white transition-all hover:border-velvet-obsidian/30 hover:shadow-md">
+                        <div className="flex flex-col">
+                          <span className="font-serif text-xl font-bold text-velvet-obsidian group-hover:text-blue-600 transition-colors">
+                            {dateObj.eventName}
+                          </span>
+                          <span className="text-sm text-velvet-obsidian/60 font-medium mt-1 flex items-center gap-2">
+                            <span className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md text-xs uppercase tracking-wider font-bold">
+                              {new Date(dateObj.date).toLocaleDateString('en-US', { weekday: 'short' })}
+                            </span>
+                            {new Date(dateObj.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-6">
+                          <span className="font-bold text-lg text-velvet-obsidian">
+                            {dateObj.prices ? `From ${dateObj.prices}` : 'Available'}
+                          </span>
+                          <a 
+                            href={dateObj.affLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="bg-black text-white px-6 py-2.5 rounded-xl font-semibold text-sm transition-all hover:bg-gray-800 hover:scale-105 whitespace-nowrap shadow-sm"
+                          >
+                            Buy Tickets
+                          </a>
+                        </div>
+                      </div>
                     ))
                   ) : (
                     <div className="rounded-2xl border border-dashed border-velvet-obsidian/20 bg-velvet-obsidian/5 p-8 text-center">
@@ -140,6 +178,44 @@ export default async function ClubDetailPage({ params }: Props) {
                       </p>
                     </div>
                   )}
+                </div>
+              </AnimatedSection>
+
+              {/* Drink Package Promo */}
+              <AnimatedSection delay={200} className="mt-8">
+                <div className="flex flex-col md:flex-row bg-white border border-velvet-obsidian/10 rounded-3xl overflow-hidden shadow-lg transition-shadow hover:shadow-xl">
+                  <div className="relative flex-1 min-h-[220px] md:min-h-full">
+                    <Image 
+                      src={imageUrl} 
+                      alt={`Drink packages for ${club.name}`} 
+                      fill 
+                      className="object-cover" 
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                    <div className="absolute top-4 left-4 bg-[#B0EED0] text-[#151515] px-3 py-1.5 rounded-lg font-bold text-xs uppercase tracking-wider shadow-sm">
+                      SPECIAL ONLINE OFFER
+                    </div>
+                  </div>
+                  <div className="flex-[1.5] p-6 md:p-8 flex flex-col justify-center gap-4">
+                    <h3 className="text-2xl md:text-3xl font-bold text-velvet-obsidian leading-tight">
+                      Saving pack 5 drinks in {club.name}
+                    </h3>
+                    <p className="text-sm md:text-base text-velvet-obsidian/60 leading-relaxed">
+                      Buy now your 5 drinks package in {club.name} and save up to 30€. Drink packages are valid for all regular events.
+                    </p>
+                    <div className="flex items-baseline gap-3">
+                      <span className="text-lg text-[#DC143C] line-through opacity-70">130€</span>
+                      <span className="text-3xl font-bold text-velvet-obsidian">99.99€</span>
+                    </div>
+                    <a 
+                      href={club.affLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-block w-fit px-6 py-3 bg-velvet-obsidian text-white rounded-xl font-semibold text-sm md:text-base transition-colors hover:bg-gray-800 mt-2"
+                    >
+                      Buy Drink Package
+                    </a>
+                  </div>
                 </div>
               </AnimatedSection>
             </div>

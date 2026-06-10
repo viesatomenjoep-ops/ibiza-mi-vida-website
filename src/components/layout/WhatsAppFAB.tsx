@@ -58,7 +58,7 @@ export function WhatsAppFAB() {
 
   return (
     <>
-      <div className="fixed bottom-24 right-4 z-50 lg:bottom-8 lg:right-8">
+      <div className="fixed bottom-6 right-4 z-[999] lg:bottom-8 lg:right-8">
         
         {/* Floating Chat Button (Bouncing) */}
         <AnimatePresence>
@@ -92,15 +92,15 @@ export function WhatsAppFAB() {
               className="absolute bottom-0 right-0 w-[350px] max-w-[calc(100vw-32px)] h-[500px] max-h-[calc(100vh-120px)] bg-white rounded-2xl shadow-2xl flex flex-col border border-black/10 overflow-hidden"
             >
               {/* Header */}
-              <div className="bg-velvet-obsidian p-4 flex items-center justify-between text-white shrink-0">
+              <div className="bg-white border-b border-black/5 p-4 flex items-center justify-between text-velvet-obsidian shrink-0">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center relative">
-                    <Bot size={20} className="text-champagne-bronze" />
-                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-[#25D366] rounded-full border-2 border-velvet-obsidian"></span>
+                  <div className="w-10 h-10 rounded-full bg-ibiza-sand flex items-center justify-center relative">
+                    <Bot size={20} className="text-rustic-terracotta" />
+                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-[#25D366] rounded-full border-2 border-white"></span>
                   </div>
                   <div className="flex flex-col">
                     <span className="font-serif text-[16px] font-medium leading-tight">Ibiza mi vida AI</span>
-                    <span className="font-sans text-[11px] text-white/60">Online • Powered by n8n</span>
+                    <span className="font-sans text-[11px] text-velvet-obsidian/60">Online • Powered by n8n</span>
                   </div>
                 </div>
                 <button 
@@ -115,10 +115,10 @@ export function WhatsAppFAB() {
               <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 bg-ibiza-sand/30">
                 {messages.map(msg => (
                   <div key={msg.id} className={`flex gap-2 max-w-[85%] ${msg.sender === 'user' ? 'self-end flex-row-reverse' : 'self-start'}`}>
-                    <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center ${msg.sender === 'user' ? 'bg-rustic-terracotta' : 'bg-velvet-obsidian'}`}>
-                      {msg.sender === 'user' ? <User size={14} className="text-white" /> : <Bot size={14} className="text-champagne-bronze" />}
+                    <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center ${msg.sender === 'user' ? 'bg-gray-200' : 'bg-ibiza-sand'}`}>
+                      {msg.sender === 'user' ? <User size={14} className="text-velvet-obsidian" /> : <Bot size={14} className="text-rustic-terracotta" />}
                     </div>
-                    <div className={`p-3 rounded-2xl font-sans text-[14px] leading-relaxed shadow-sm ${msg.sender === 'user' ? 'bg-rustic-terracotta text-white rounded-tr-sm' : 'bg-white border border-black/5 text-velvet-obsidian rounded-tl-sm'}`}>
+                    <div className={`p-3 rounded-2xl font-sans text-[14px] leading-relaxed shadow-sm ${msg.sender === 'user' ? 'bg-gray-100 text-velvet-obsidian border border-black/5 rounded-tr-sm' : 'bg-white border border-black/5 text-velvet-obsidian rounded-tl-sm'}`}>
                       {msg.text}
                     </div>
                   </div>

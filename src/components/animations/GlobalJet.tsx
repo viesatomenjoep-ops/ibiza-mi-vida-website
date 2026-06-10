@@ -24,13 +24,21 @@ export function GlobalJet() {
   }, [])
 
   // Calculate jet position based on progress (0 to 1)
-  // X: from -20vw (left off-screen) to 120vw (right off-screen)
-  // Y: less steep downward path (e.g. 10vh to 70vh)
-  const x = -20 + progress * 140
-  const y = 10 + progress * 60
+  // The user wants it to fly from left to right around every section.
+  // We'll make it sweep 5 times across the screen as you scroll down.
+  const sweeps = 5
+  // localProgress goes from 0 to 1 repeatedly, 5 times.
+  const localProgress = (progress * sweeps) % 1
   
-  // Bank angle to make it point towards its trajectory
-  const dy = 60
+  // X: from -20vw (left off-screen) to 120vw (right off-screen)
+  const x = -20 + localProgress * 140
+  // Y: steadily downwards from 10vh to 90vh over the whole page
+  const y = 10 + progress * 80
+  
+  // Bank angle
+  // dy is the change in Y over one full sweep. 
+  // It travels 80vh / 5 sweeps = 16vh per sweep.
+  const dy = 16
   const dx = 140
   const bank = Math.atan2(dy, dx) * (180 / Math.PI)
 
@@ -40,7 +48,7 @@ export function GlobalJet() {
       style={{
         top: `${y}vh`,
         left: `${x}vw`,
-        transform: `translate(-50%, -50%) rotate(${bank}deg) scale(0.8)`
+        transform: `translate(-50%, -50%) rotate(${bank}deg) scale(1)`
       }}
       aria-hidden="true"
     >

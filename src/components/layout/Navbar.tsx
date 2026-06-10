@@ -20,8 +20,15 @@ const allCategories = [
   { label: 'Reviews', href: '/reviews', icon: Heart, desc: 'What our guests say' },
 ]
 
+type Artist = {
+  id: number
+  name: string
+  slug: string
+  image: string
+  href: string
+}
 
-export function Navbar() {
+export function Navbar({ artists = [] }: { artists?: Artist[] }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [pastHero, setPastHero] = useState(false)
@@ -85,12 +92,12 @@ export function Navbar() {
               />
             </div>
           </Link>
-          <div className={`hidden sm:flex items-center justify-center px-4 py-2 rounded-xl border transition-colors duration-300 ${
+          <div className={`hidden sm:flex items-center justify-center px-5 py-3 rounded-xl border transition-colors duration-300 ${
             pathname === '/' 
               ? (pastHero ? 'bg-gray-50/80 border-black/5 text-velvet-obsidian shadow-sm' : 'bg-transparent border-transparent text-white drop-shadow-md') 
               : 'bg-white border-velvet-obsidian/10 text-velvet-obsidian shadow-sm'
           }`}>
-            <span className="font-sans text-[27px] md:text-[33px] tracking-tight font-bold">Ibiza mi vida</span>
+            <span className="font-sans text-[36px] md:text-[46px] tracking-tight font-bold">Ibiza mi vida</span>
           </div>
         </div>
 
@@ -99,15 +106,15 @@ export function Navbar() {
 
           <Link
             href="/deals-of-the-day"
-            className="hidden sm:flex items-center gap-2 rounded-full bg-rustic-terracotta px-5 py-2.5 md:px-7 md:py-[17px] shadow-xl transition-all hover:bg-rustic-terracotta/90 hover:scale-105 border border-black/5"
+            className="hidden sm:flex items-center gap-2 rounded-full bg-rustic-terracotta px-6 py-3.5 md:px-8 md:py-4 shadow-xl transition-all hover:bg-rustic-terracotta/90 hover:scale-105 border border-black/5"
           >
-            <span className="font-serif text-[21px] md:text-[22px] font-semibold tracking-wide text-white whitespace-nowrap">Deals of the Day</span>
+            <span className="font-serif text-[28px] md:text-[32px] font-semibold tracking-wide text-white whitespace-nowrap">Deals of the Day</span>
           </Link>
           <Link
             href="/deals-of-the-day"
-            className="flex sm:hidden items-center gap-2 rounded-full bg-rustic-terracotta px-4 py-2.5 shadow-xl transition-all hover:bg-rustic-terracotta/90 hover:scale-105 border border-black/5"
+            className="flex sm:hidden items-center gap-2 rounded-full bg-rustic-terracotta px-5 py-3 shadow-xl transition-all hover:bg-rustic-terracotta/90 hover:scale-105 border border-black/5"
           >
-            <span className="font-serif text-[16px] font-semibold tracking-wide text-white whitespace-nowrap">Deals of the Day</span>
+            <span className="font-serif text-[22px] font-semibold tracking-wide text-white whitespace-nowrap">Deals of the Day</span>
           </Link>
 
           <button 
@@ -170,15 +177,56 @@ export function Navbar() {
                 
               </div>
 
+              {/* Featured Artists Section */}
+              {artists.length > 0 && (
+                <div className="mt-8 mb-4">
+                  <div className="flex items-center justify-between mb-4 px-2">
+                    <h3 className="font-serif text-2xl font-bold text-velvet-obsidian">Featured Artists</h3>
+                    <Link href="/club-tickets" onClick={() => setMenuOpen(false)} className="text-sm font-bold text-rustic-terracotta hover:underline">
+                      View all events
+                    </Link>
+                  </div>
+                  <div className="flex overflow-x-auto gap-4 pb-4 hide-scrollbar px-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                    <style dangerouslySetInnerHTML={{ __html: `.hide-scrollbar::-webkit-scrollbar { display: none; }`}} />
+                    {artists.map((artist, i) => (
+                      <motion.div
+                        key={artist.id}
+                        initial={{ opacity: 0, scale: 0.9, x: 20 }}
+                        animate={{ opacity: 1, scale: 1, x: 0 }}
+                        transition={{ delay: 0.2 + (i * 0.05) }}
+                      >
+                        <Link 
+                          href={artist.href}
+                          onClick={() => setMenuOpen(false)}
+                          className="flex flex-col items-center gap-2 group w-[90px] md:w-[110px]"
+                        >
+                          <div className="w-[80px] h-[80px] md:w-[100px] md:h-[100px] rounded-full overflow-hidden border-2 border-transparent group-hover:border-rustic-terracotta transition-all shadow-md group-hover:shadow-xl relative">
+                            <Image 
+                              src={artist.image} 
+                              alt={artist.name} 
+                              fill 
+                              className="object-cover transition-transform duration-500 group-hover:scale-110" 
+                            />
+                          </div>
+                          <span className="font-sans text-[12px] md:text-[14px] font-bold text-velvet-obsidian text-center leading-tight line-clamp-2 group-hover:text-rustic-terracotta transition-colors">
+                            {artist.name}
+                          </span>
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* WhatsApp Contact inside Menu */}
               <div className="mt-16 pb-12 flex justify-center lg:mt-auto">
                 <a
                   href={`https://wa.me/${whatsappNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-velvet-obsidian px-8 py-4 font-sans text-xl font-semibold text-white shadow-lg transition-transform hover:scale-105"
+                  className="inline-flex items-center gap-2 rounded-full bg-white border border-velvet-obsidian/10 px-8 py-4 font-sans text-xl font-semibold text-velvet-obsidian shadow-lg transition-transform hover:scale-105 hover:bg-gray-50"
                 >
-                  <MessageCircle size={22} />
+                  <MessageCircle size={22} className="text-[#25D366]" />
                   Chat with us on WhatsApp
                 </a>
               </div>

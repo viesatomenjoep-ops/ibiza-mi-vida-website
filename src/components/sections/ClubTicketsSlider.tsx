@@ -36,41 +36,37 @@ export async function ClubTicketsSlider() {
             <Link 
               key={venue.id} 
               href={`/club-tickets/${venue.slug}`}
-              className="group relative flex flex-col snap-start shrink-0 w-[320px] md:w-[420px] h-[480px] md:h-[560px] rounded-3xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-black/5"
+              className="group relative flex flex-col justify-end snap-start shrink-0 w-[85vw] sm:w-[350px] md:w-[400px] h-[500px] md:h-[560px] rounded-3xl overflow-hidden bg-black shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-white/5"
             >
-              <div className="relative h-2/3 w-full overflow-hidden">
-                <Image 
-                  src={venue.cover || venue.picture || '/hi-ibiza-2026/FB_IMG_1779623220486.jpg'} 
-                  alt={venue.name}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width: 768px) 300px, 380px"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-black">
-                  {venue.type.name}
-                </div>
-                
-                {venue.whitelogo && (
-                  <div className="absolute top-4 left-4 w-12 h-12 opacity-90 drop-shadow-md">
-                    <Image src={venue.whitelogo} alt={`${venue.name} logo`} fill className="object-contain" />
-                  </div>
-                )}
-
-                <div className="absolute bottom-6 left-6 right-6">
-                  <h3 className="text-3xl md:text-4xl font-bold text-white drop-shadow-md">{venue.name}</h3>
-                </div>
+              <Image 
+                src={venue.cover || venue.picture || '/hi-ibiza-2026/FB_IMG_1779623220486.jpg'} 
+                alt={venue.name}
+                fill
+                className="object-cover opacity-80 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
+                sizes="(max-width: 768px) 85vw, 400px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
+              
+              <div className="absolute top-5 right-5 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-white border border-white/20">
+                {venue.type.name}
               </div>
+              
+              {venue.whitelogo && (
+                <div className="absolute top-5 left-5 w-14 h-14 md:w-16 md:h-16 opacity-90 drop-shadow-xl">
+                  <Image src={venue.whitelogo} alt={`${venue.name} logo`} fill className="object-contain" />
+                </div>
+              )}
 
-              <div className="p-6 md:p-8 flex flex-col flex-1 justify-between bg-white">
-                <p className="text-gray-600 text-sm md:text-base line-clamp-2" dangerouslySetInnerHTML={{ __html: venue.description || 'Experience the ultimate party.' }}></p>
-                <div className="flex items-center justify-between mt-6">
-                  <span className="text-xs md:text-sm font-semibold text-gray-400 uppercase tracking-wider">
+              <div className="relative z-10 p-6 md:p-8 flex flex-col w-full mt-auto">
+                <h3 className="text-3xl md:text-4xl font-bold text-white drop-shadow-md mb-3">{venue.name}</h3>
+                <p className="text-white/80 text-sm md:text-base line-clamp-2 mb-6 font-sans leading-relaxed" dangerouslySetInnerHTML={{ __html: venue.description || 'Experience the ultimate party.' }}></p>
+                
+                <div className="flex items-center justify-between border-t border-white/20 pt-5">
+                  <span className="text-xs md:text-sm font-semibold text-white/70 uppercase tracking-widest">
                     {venue.activeEvents} Upcoming Events
                   </span>
-                  <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                    <ArrowRight size={20} />
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-colors duration-300 border border-white/20 group-hover:border-transparent">
+                    <ArrowRight size={20} className="transform transition-transform group-hover:translate-x-0.5" />
                   </div>
                 </div>
               </div>

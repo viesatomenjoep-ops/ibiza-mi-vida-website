@@ -4,6 +4,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppFAB } from '@/components/layout/WhatsAppFAB'
 import { BookingProvider } from '@/context/booking-context'
+import { getVenues } from '@/lib/clubtickets'
 import { CartProvider } from '@/context/cart-context'
 import { CartDrawer } from '@/components/ui/CartDrawer'
 import '@/styles/globals.css'
@@ -54,13 +55,38 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // Fetch venues and extract a list of unique top artists/events for the menu
+  const venues = await getVenues('en')
+  
+  const allEvents = venues.flatMap(v => v.events ? v.events.map(e => ({
+    ...e,
+    venueSlug: v.slug
+  })) : [])
+  
+  // Filter out events without good images and deduplicate by name
+  const uniqueArtistsMap = new Map()
+  for (const event of allEvents) {
+    if ((event.cover || event.logo) && !uniqueArtistsMap.has(event.name)) {
+      uniqueArtistsMap.set(event.name, {
+        id: event.id,
+        name: event.name,
+        slug: event.slug,
+        image: event.logo || event.cover,
+        href: `/club-tickets/${event.venueSlug}/${event.slug}`
+      })
+    }
+  }
+  
+  // Get top 15 artists for the menu
+  const artists = Array.from(uniqueArtistsMap.values()).slice(0, 15)
+
   return (
     <html lang="en" className={`${marcellus.variable} ${mulish.variable}`}>
       <body className="font-sans antialiased overflow-x-clip w-full max-w-[100vw]">
         <CartProvider>
           <BookingProvider>
-            <Navbar />
+            <Navbar artists={artists} />
             <main id="main-content">
               {children}
             </main>

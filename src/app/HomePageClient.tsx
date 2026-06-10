@@ -28,7 +28,7 @@ const CLUBS = [
 
 const GENRES = ['All','House','Techno','Commercial','Disco','Chill','Latin','Rock'];
 
-export default function HomePageClient({ clubTicketsSlider }: { clubTicketsSlider: React.ReactNode }) {
+export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }: { clubTicketsSlider: React.ReactNode, dailyEventsSection?: React.ReactNode }) {
   const { items, addToCart, removeFromCart } = useCart();
   const [filter, setFilter] = useState('All');
   const [t, setT] = useState({ h: '00', m: '00', s: '00', flip: { h: false, m: false, s: false } });
@@ -99,8 +99,8 @@ export default function HomePageClient({ clubTicketsSlider }: { clubTicketsSlide
 
       <div id="top"></div>
       
-      <section id="hero-video" className="relative h-[75vh] min-h-[500px] w-full overflow-hidden bg-white">
-        <video autoPlay loop muted playsInline preload="auto" className="absolute inset-0 size-full object-cover scale-[1.35]" src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" />
+      <section id="hero-video" className="relative h-[65vh] min-h-[400px] w-[95%] max-w-7xl mx-auto overflow-hidden bg-white rounded-3xl shadow-2xl mt-4 border border-black/5">
+        <video autoPlay loop muted playsInline preload="auto" className="absolute inset-0 size-full object-cover scale-[1.1]" src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" />
         <div className="absolute inset-0 bg-black/20 pointer-events-none" /> {/* Subtle overlay for text readability */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
           <p className="mb-4 tracking-[0.2em] uppercase text-sm md:text-base font-semibold drop-shadow-md">IBIZA MI VIDA · SEASON 2026</p>
@@ -158,7 +158,6 @@ export default function HomePageClient({ clubTicketsSlider }: { clubTicketsSlide
                   <div className="ticket__perf"></div>
                   <div className="ticket__foot">
                     <span className="ticket__price">€{d.price}</span>
-                    <span className="ticket__barcode"></span>
                     <span className={`ticket__select ${isSelected ? 'ticket__select--on' : 'ticket__select--off'}`}>{isSelected ? 'Selected' : 'Select'}</span>
                   </div>
                 </button>
@@ -170,7 +169,7 @@ export default function HomePageClient({ clubTicketsSlider }: { clubTicketsSlide
 
 
 
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28 group">
+<section id="relume" className="px-[5%] py-4 md:py-8 lg:py-12 group">
   <div className="container">
     <div className="mx-auto mb-12 max-w-lg text-center md:mb-18 lg:mb-20">
       <p className="mb-3 font-semibold md:mb-4 tracking-widest uppercase text-blue-600">IBIZA 2026</p>
@@ -253,6 +252,7 @@ export default function HomePageClient({ clubTicketsSlider }: { clubTicketsSlide
   </div>
 </section>
 
+      {dailyEventsSection}
       {clubTicketsSlider}
     </main>
   );
