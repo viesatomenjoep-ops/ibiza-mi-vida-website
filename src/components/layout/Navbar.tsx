@@ -77,16 +77,14 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
             <div className={`rounded-full w-[60px] h-[60px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-lg border overflow-hidden transition-colors duration-300 ${
               scrolled 
                 ? 'bg-velvet-obsidian border-white/10' 
-                : 'bg-white border-velvet-obsidian/10'
+                : 'bg-transparent border-white/20'
             }`}>
               <Image
                 src="/logo-clean.png"
                 alt="Ibiza mi vida"
                 width={70}
                 height={70}
-                className={`object-contain transition-all duration-300 w-[85%] h-[85%] ${
-                  scrolled ? 'brightness-0 invert hover:opacity-80' : 'brightness-0 hover:opacity-80'
-                }`}
+                className={`object-contain transition-all duration-300 w-[85%] h-[85%] brightness-0 invert hover:opacity-80`}
                 priority
               />
             </div>
