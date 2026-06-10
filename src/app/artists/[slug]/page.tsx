@@ -34,7 +34,7 @@ export default async function ArtistSlugPage({ params }: { params: { slug: strin
           eventRef.name.toLowerCase().includes(meta.name.toLowerCase())) {
         
         eventPromises.push(
-          getEvent(venue.id, eventRef.id, 'en').then(full => full ? { ...full, venueName: venue.name, venueSlug: venue.slug, venueLogo: venue.whitelogo } : null)
+          getEvent(venue.id, eventRef.id, 'en').then(full => full ? { ...full, venueName: venue.name, venueSlug: venue.slug, venueLogo: venue.whitelogo, venueCover: venue.cover || venue.picture } : null)
         )
       }
     }
@@ -51,7 +51,7 @@ export default async function ArtistSlugPage({ params }: { params: { slug: strin
       venueName: e.venueName,
       venueSlug: e.venueSlug,
       venueLogo: e.venueLogo,
-      image: e.cover || e.logo || meta.image
+      image: e.venueCover || meta.image
     })) : []
   )
   

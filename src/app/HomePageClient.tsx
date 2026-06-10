@@ -101,7 +101,7 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
         <video autoPlay loop muted playsInline preload="auto" className="absolute inset-0 size-full object-cover scale-[1.35] opacity-80" src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" />
         <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-ibiza-sand to-transparent pointer-events-none z-10" />
         <div className="absolute inset-0 bg-black/20 pointer-events-none" /> {/* Subtle overlay for text readability */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
+        <div className="absolute inset-0 flex flex-col items-center justify-end pb-24 md:pb-32 text-white text-center px-4">
           <p className="mb-4 tracking-[0.2em] uppercase text-sm md:text-base font-semibold drop-shadow-md">IBIZA MI VIDA · SEASON 2026</p>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 drop-shadow-xl">
             Experience the <span className="text-blue-300">real</span> Ibiza.

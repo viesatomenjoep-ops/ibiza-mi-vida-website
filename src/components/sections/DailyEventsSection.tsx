@@ -24,7 +24,8 @@ export async function DailyEventsSection() {
               ...fullEvent,
               venueName: venue.name,
               venueSlug: venue.slug,
-              venueLogo: venue.whitelogo
+              venueLogo: venue.whitelogo,
+              venueCover: venue.cover || venue.picture
             }
           })
         )
@@ -42,7 +43,7 @@ export async function DailyEventsSection() {
         venueName: e.venueName,
         venueSlug: e.venueSlug,
         venueLogo: e.venueLogo,
-        image: e.logo || e.cover || 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1920'
+        image: e.venueCover || 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1920'
       })) : []
     )
     
@@ -60,14 +61,14 @@ export async function DailyEventsSection() {
     if (upcomingDates.length === 0) return null
 
     return (
-      <section className="py-16 md:py-24 bg-velvet-obsidian w-full overflow-hidden" id="daily-events">
+      <section className="py-16 md:py-24 bg-ibiza-sand w-full overflow-hidden" id="daily-events">
         <div className="container mx-auto px-[5%] mb-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <p className="text-rustic-terracotta font-semibold tracking-widest uppercase mb-3 text-sm">Live Lineup</p>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white transition-all duration-500">Upcoming Daily Events</h2>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-velvet-obsidian transition-all duration-500">Upcoming Daily Events</h2>
             </div>
-            <Link href="/club-tickets" className="inline-flex items-center gap-2 text-white font-semibold hover:text-rustic-terracotta transition-colors group">
+            <Link href="/club-tickets" className="inline-flex items-center gap-2 text-velvet-obsidian font-bold hover:text-rustic-terracotta transition-colors group">
               View full calendar
               <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
             </Link>
@@ -75,7 +76,7 @@ export async function DailyEventsSection() {
         </div>
 
         <div className="w-full pb-8">
-          <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 md:gap-8 pl-[5%] pr-4 md:pr-8 pb-12 pt-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 md:gap-8 px-[7.5vw] md:px-[5%] pb-12 pt-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <style dangerouslySetInnerHTML={{ __html: `
               .hide-scrollbar::-webkit-scrollbar { display: none; }
             `}} />
@@ -88,7 +89,7 @@ export async function DailyEventsSection() {
                   href={dateObj.affLink || `/club-tickets/${dateObj.venueSlug}/${dateObj.eventSlug}`}
                   target={dateObj.affLink ? "_blank" : undefined}
                   rel={dateObj.affLink ? "noopener noreferrer" : undefined}
-                  className="group relative flex flex-col justify-end snap-start shrink-0 w-[85vw] sm:w-[350px] md:w-[400px] h-[500px] md:h-[560px] rounded-3xl overflow-hidden bg-black shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-white/10"
+                  className="group relative flex flex-col justify-end snap-center shrink-0 w-[85vw] sm:w-[350px] md:w-[400px] h-[500px] md:h-[560px] rounded-3xl overflow-hidden bg-black shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-black/10"
                 >
                   <Image 
                     src={dateObj.image} 
