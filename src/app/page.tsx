@@ -292,10 +292,9 @@ export default function Home() {
       const jet = document.getElementById('jet');
       const trail = document.getElementById('trail');
       if (jet && trail) {
-        // Fly steeply downwards towards bottom center-right
-        const jx = lerp(-100, 950, pe);
-        const jy = lerp(-50, 1000, pe);
-        const bank = 35 * (1 - pe * 0.15); // steep downward bank angle
+        const jx = lerp(-300, 1120, pe);
+        const jy = lerp(70, 340, pe);
+        const bank = 11 * (1 - pe * 0.55);
         jet.setAttribute('transform', `translate(${jx.toFixed(1)}, ${jy.toFixed(1)}) rotate(${bank.toFixed(2)}) scale(1.5)`);
         trail.setAttribute('opacity', (0.4 + 0.5 * Math.min(1, (pe * (1 - pe)) * 4)).toFixed(3));
       }
