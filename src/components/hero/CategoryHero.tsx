@@ -47,8 +47,9 @@ export function CategoryHero({
           loop 
           muted 
           playsInline 
+          preload="auto"
           className="absolute inset-0 size-full object-cover opacity-40 mix-blend-screen" 
-          src="/hero-ocean.mp4" 
+          src="/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p.mp4#t=90" 
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/90 pointer-events-none" />
       </div>

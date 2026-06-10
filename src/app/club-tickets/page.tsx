@@ -83,8 +83,9 @@ export default function ClubTicketsPage() {
             loop 
             muted 
             playsInline 
+            preload="auto"
             className="absolute inset-0 size-full object-cover opacity-20 mix-blend-screen" 
-            src="/hero-ocean.mp4" 
+            src="/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p.mp4#t=90" 
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-background-primary pointer-events-none" />
         </div>

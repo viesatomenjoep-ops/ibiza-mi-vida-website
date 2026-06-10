@@ -27,7 +27,7 @@ const CLUBS = [
 const GENRES = ['All','House','Techno','Commercial','Disco','Chill','Latin','Rock'];
 
 const SVG_SCENE = `
-<svg id="sceneSvg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<svg id="sceneSvg" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <defs>
     <linearGradient id="skyL" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#DDE6EC"/>
@@ -44,13 +44,13 @@ const SVG_SCENE = `
       <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="hullL" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#DCE2E5"/>
+      <stop offset="0%" stop-color="#F4F7F8"/>
+      <stop offset="100%" stop-color="#C2D0DA"/>
     </linearGradient>
     <linearGradient id="jetL" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="60%" stop-color="#E8ECEE"/>
-      <stop offset="100%" stop-color="#B9C5CC"/>
+      <stop offset="0%" stop-color="#E8ECEE"/>
+      <stop offset="60%" stop-color="#C8D4DA"/>
+      <stop offset="100%" stop-color="#93A6B0"/>
     </linearGradient>
     <linearGradient id="trailL" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".9"/>
@@ -60,8 +60,11 @@ const SVG_SCENE = `
       <stop offset="0%" stop-color="#7E97A4" stop-opacity=".22"/>
       <stop offset="100%" stop-color="#7E97A4" stop-opacity="0"/>
     </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-opacity="0.15" flood-color="#2B3947"/>
+    </filter>
   </defs>
-  <g id="jet">
+  <g id="jet" filter="url(#softShadow)">
     <g transform="scale(-1,1)">
       <g id="trail">
         <rect x="58" y="-7" width="360" height="2.8" rx="1.4" fill="url(#trailL)"/>
@@ -87,14 +90,14 @@ const SVG_SCENE = `
     <text x="-36" y="1.6" font-family="Marcellus, serif" font-size="7.2" letter-spacing="1.6" fill="#2E5A6B">IBIZA MI VIDA</text>
     <text x="-78" y="-30" font-family="Marcellus, serif" font-size="7" fill="#2E5A6B">MV</text>
   </g>
-  <g transform="translate(0, 270)">
+  <g>
     <path d="M0 620 L0 596 C 60 588 130 586 200 592 C 270 598 330 608 380 616 L 400 620 Z" fill="#9FB0B9"/>
     <rect x="86" y="566" width="8" height="30" fill="#8B9DA7"/>
     <rect x="84" y="560" width="12" height="8" rx="2" fill="#8B9DA7"/>
     <circle cx="90" cy="563" r="3" fill="#FFFFFF" class="lhouse"/>
     <text x="40" y="648" font-family="Mulish, sans-serif" font-weight="600" font-size="11" letter-spacing="4" fill="#FFFFFF" opacity=".85">FORMENTERA</text>
   </g>
-  <g transform="translate(0, 270)">
+  <g>
     <path d="M 980 620 C 1030 580 1090 556 1160 552 C 1250 548 1340 562 1440 588 L 1440 620 Z" fill="#93A6B0"/>
     <text x="1352" y="648" font-family="Mulish, sans-serif" font-weight="600" font-size="11" letter-spacing="4" fill="#FFFFFF" opacity=".85">IBIZA</text>
     <polygon class="led" points="1196,492 1186,150 1218,150 1206,492" fill="url(#beamG)"/>
@@ -133,7 +136,7 @@ const SVG_SCENE = `
     <rect x="1056" y="612" width="384" height="8" rx="2" fill="#7E95A4"/>
   </g>
 
-  <g id="yacht">
+  <g id="yacht" filter="url(#softShadow)">
     <g transform="scale(-1,1)">
       <g id="wake" stroke="#FFFFFF" stroke-opacity=".75" stroke-width="2.4" fill="none">
         <path d="M -118 18 q -60 6 -120 18"/>
@@ -277,7 +280,7 @@ export default function Home() {
       const time = (now - t0) / 1000;
       // YACHT: Van Formentera (links, x=200) naar Club Ibiza (rechts, x=1100) met een natuurlijke boog
       const yx = lerp(200, 1100, pe);
-      const yy = 660 + Math.sin(pe * Math.PI) * 120 + Math.sin(time * 2) * 5;
+      const yy = 550 + Math.sin(pe * Math.PI) * 40 + Math.sin(time * 2) * 5;
       const ys = 1.0; 
       const roll = (yx - 200) / 900 * 5 + Math.sin(time * 1.5) * 2; // slight tilt forward plus bobbing
       liveYacht.setAttribute('transform', `translate(${yx.toFixed(1)}, ${yy.toFixed(1)}) rotate(${roll.toFixed(2)}) scale(${ys.toFixed(3)})`);
@@ -347,7 +350,17 @@ export default function Home() {
       </section>
 
       <section id="scene" className="relative h-[300vh] bg-white w-full" aria-label="Branded yacht departing as the Ibiza Mi Vida jet arrives">
-        <div id="sceneSticky" className="sticky top-0 h-screen w-full overflow-hidden bg-white">
+        <div id="sceneSticky" className="sticky top-0 h-screen w-full overflow-hidden bg-[linear-gradient(to_bottom,#F4F7F6_0%,#FFFFFF_100%)]">
+          {/* Background Video */}
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            preload="auto"
+            className="absolute inset-0 size-full object-cover mix-blend-overlay opacity-60" 
+            src="/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p.mp4#t=90" 
+          />
           <div dangerouslySetInnerHTML={{ __html: SVG_SCENE }} className="absolute inset-0 w-full h-full" />
           
           <div className="wave-divider absolute bottom-0 w-full" aria-hidden="true" style={{ marginBottom: '-1px' }}>
