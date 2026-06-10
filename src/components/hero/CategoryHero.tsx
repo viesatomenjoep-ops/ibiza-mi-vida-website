@@ -41,17 +41,17 @@ export function CategoryHero({
       aria-label="Category Hero section"
     >
       {/* Background Video for all categories */}
-      <div className="absolute inset-0 z-0 bg-black">
+      <div className="absolute inset-0 z-0 bg-velvet-obsidian">
         <video 
           autoPlay 
           loop 
           muted 
           playsInline 
           preload="auto"
-          className="absolute inset-0 size-full object-cover opacity-40 mix-blend-screen" 
+          className="absolute inset-0 size-full object-cover opacity-80" 
           src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" 
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/90 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/40 pointer-events-none" />
       </div>
 
       {/* Content */}

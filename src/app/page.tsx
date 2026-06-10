@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Image from 'next/image';
 import { useCart } from '@/context/cart-context';
+import { Music, Crown, Zap } from 'lucide-react';
 
 const CONFIG = {
   whatsapp: '31683052875',
@@ -520,8 +521,8 @@ export default function Home() {
     </div>
     <div className="grid grid-cols-1 items-start gap-y-12 md:grid-cols-3 md:gap-x-8 md:gap-y-16 lg:gap-x-12">
       <div className="flex flex-col items-center text-center transform transition-all duration-500 hover:scale-105 hover:-translate-y-2 p-6 rounded-2xl hover:shadow-xl bg-white">
-        <div className="mb-5 md:mb-6 flex items-center justify-center">
-          <svg className="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+        <div className="mb-5 md:mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
+          <Music size={32} strokeWidth={1.5} />
         </div>
         <h3 className="mb-3 text-xl font-bold md:mb-4 md:text-2xl">
           Ibiza Clubs
@@ -531,8 +532,8 @@ export default function Home() {
         </p>
       </div>
       <div className="flex flex-col items-center text-center transform transition-all duration-500 hover:scale-105 hover:-translate-y-2 p-6 rounded-2xl hover:shadow-xl bg-white">
-        <div className="mb-5 md:mb-6 flex items-center justify-center">
-          <svg className="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+        <div className="mb-5 md:mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
+          <Crown size={32} strokeWidth={1.5} />
         </div>
         <h3 className="mb-3 text-xl font-bold md:mb-4 md:text-2xl">
           Premium VIP Tables
@@ -542,8 +543,8 @@ export default function Home() {
         </p>
       </div>
       <div className="flex flex-col items-center text-center transform transition-all duration-500 hover:scale-105 hover:-translate-y-2 p-6 rounded-2xl hover:shadow-xl bg-white">
-        <div className="mb-5 md:mb-6 flex items-center justify-center">
-          <svg className="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <div className="mb-5 md:mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
+          <Zap size={32} strokeWidth={1.5} />
         </div>
         <h3 className="mb-3 text-xl font-bold md:mb-4 md:text-2xl">
           Confirmed Within Minutes
