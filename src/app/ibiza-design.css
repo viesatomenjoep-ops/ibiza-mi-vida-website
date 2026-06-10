@@ -72,8 +72,10 @@ a:hover .kin { background-size: 100% 1px; }
 
 /* ============================================================
    HERO / SCROLL SCENE
+/* ============================================================
+   HERO / SCROLL SCENE
    ============================================================ */
-#scene { height: 240vh; }
+#scene { height: 150vh; }
 #sceneSticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
 #sceneSvg { position: absolute; inset: 0; width: 100%; height: 100%; }
 

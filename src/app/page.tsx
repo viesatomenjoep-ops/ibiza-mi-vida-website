@@ -292,9 +292,9 @@ export default function Home() {
       const jet = document.getElementById('jet');
       const trail = document.getElementById('trail');
       if (jet && trail) {
-        const jx = lerp(-300, 1120, pe);
-        const jy = lerp(70, 340, pe);
-        const bank = 11 * (1 - pe * 0.55);
+        const jx = lerp(-300, 1600, pe);
+        const jy = lerp(70, 1200, pe);
+        const bank = 18 * (1 - pe * 0.55);
         jet.setAttribute('transform', `translate(${jx.toFixed(1)}, ${jy.toFixed(1)}) rotate(${bank.toFixed(2)}) scale(1.5)`);
         trail.setAttribute('opacity', (0.4 + 0.5 * Math.min(1, (pe * (1 - pe)) * 4)).toFixed(3));
       }
@@ -404,157 +404,407 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="week" className="section section--card">
-        <div className="container">
-          <p className="section__eyebrow reveal">EDITOR'S PICKS</p>
-          <h2 className="section__heading reveal" style={{ marginBottom: '2.5rem' }}>Deal of the week.</h2>
-          <div className="week-grid">
-            <article className="ticket week-feature reveal" style={{ overflow: 'hidden', position: 'relative' }}>
-              {/* Added Real Image */}
-              <div style={{ position: 'absolute', inset: 0, borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
-                <Image src="/hi-ibiza-2026/FB_IMG_1779623220486.jpg" alt="Hi Ibiza" fill className="object-cover" />
-                <div className="panImg" style={{ position: 'absolute', inset: 0, background: 'radial-gradient(420px 300px at 75% 20%, rgba(46,90,107,.16), transparent 70%)' }}></div>
-              </div>
-              <div style={{ position: 'relative', padding: '2rem 2.25rem', background: 'linear-gradient(to top,#fff,rgba(255,255,255,.88),transparent)', borderRadius: '0 0 var(--radius-md) var(--radius-md)', marginTop: 'auto' }}>
-                <p className="section__eyebrow" style={{ marginBottom: '.5rem' }}>CLUB TICKET · VALID ALL WEEK</p>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.75rem,3vw,2.25rem)' }}>Hï Ibiza — Access All Areas</h3>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '1.25rem' }}>
-                  <span style={{ fontWeight: 800, fontSize: '1.5rem' }}>€199</span>
-                  <a href="https://wa.me/31683052875?text=Hi%20Ibiza%20Mi%20Vida!%20I'd%20like%20to%20book%20H%C3%AF%20Ibiza%20Access%20All%20Areas%20(%E2%82%AC199)"
-                     target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ fontSize: '14px', padding: '.75rem 1.5rem' }}>Book now</a>
-                </div>
-              </div>
-            </article>
 
-            <div className="week-stack">
-              <article className="ticket week-article reveal" style={{ overflow: 'hidden', position: 'relative' }}>
-                {/* Added Real Image */}
-                <div style={{ position: 'absolute', inset: 0, borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
-                  <Image src="/fotos/Vanquish 1.jpg" alt="Luxury Catamaran" fill className="object-cover" />
-                  <div className="panImg" style={{ position: 'absolute', inset: 0, background: 'radial-gradient(260px 180px at 70% 20%, rgba(143,166,176,.25), transparent 70%)' }}></div>
-                </div>
-                <div style={{ position: 'relative', padding: '1.5rem', background: 'linear-gradient(to top,#fff,rgba(255,255,255,.88),transparent)', borderRadius: '0 0 var(--radius-md) var(--radius-md)', marginTop: 'auto' }}>
-                  <p style={{ fontSize: '10px', letterSpacing: '.3em', color: 'var(--color-sea)', fontWeight: 700, marginBottom: '.25rem' }}>CATAMARAN · 12 PAX</p>
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem' }}>Luxury Catamaran</h3>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '.75rem' }}>
-                    <span style={{ fontWeight: 800, fontSize: '1.125rem' }}>€1,200</span>
-                    <a href="https://wa.me/31683052875?text=Hi!%20I'd%20like%20to%20book%20the%20Luxury%20Catamaran%20(%E2%82%AC1%2C200)"
-                       target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: 'var(--color-slate)', fontWeight: 700 }}><span className="kin">Book →</span></a>
-                  </div>
-                </div>
-              </article>
-
-              <article className="ticket week-article reveal" style={{ overflow: 'hidden', position: 'relative' }}>
-                {/* Added Real Image */}
-                <div style={{ position: 'absolute', inset: 0, borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
-                  <Image src="https://images.unsplash.com/photo-1574347781078-d4dd21af64e8?w=900&q=85" alt="O Beach VIP Bed" fill className="object-cover" />
-                  <div className="panImg" style={{ position: 'absolute', inset: 0, background: 'radial-gradient(260px 180px at 70% 20%, rgba(46,90,107,.12), transparent 70%)' }}></div>
-                </div>
-                <div style={{ position: 'relative', padding: '1.5rem', background: 'linear-gradient(to top,#fff,rgba(255,255,255,.88),transparent)', borderRadius: '0 0 var(--radius-md) var(--radius-md)', marginTop: 'auto' }}>
-                  <p style={{ fontSize: '10px', letterSpacing: '.3em', color: 'var(--color-sea)', fontWeight: 700, marginBottom: '.25rem' }}>BEACH CLUB</p>
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem' }}>O Beach VIP Bed</h3>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '.75rem' }}>
-                    <span style={{ fontWeight: 800, fontSize: '1.125rem' }}>€450</span>
-                    <a href="https://wa.me/31683052875?text=Hi!%20I'd%20like%20to%20book%20an%20O%20Beach%20VIP%20Bed%20(%E2%82%AC450)"
-                       target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: 'var(--color-slate)', fontWeight: 700 }}><span className="kin">Book →</span></a>
-                  </div>
-                </div>
-              </article>
-            </div>
+<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
+  <div className="container">
+    <div
+     
+      className="mx-auto mb-12 max-w-lg text-center md:mb-18 lg:mb-20"
+    >
+      <p className="mb-3 font-semibold md:mb-4">Tagline</p>
+      <h1
+       
+        className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
+      >
+        Medium length section heading goes here
+      </h1>
+      <p className="md:text-md">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+        varius enim in eros elementum tristique. Duis cursus, mi quis viverra
+        ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
+      </p>
+      <div
+       
+       
+        className="mt-6 flex flex-wrap items-center justify-center gap-4 md:mt-8"
+      >
+        <button
+          className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
+         
+          title="Button"
+        >
+          Button</button
+        ><button
+          className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
+         
+          title="Button"
+        >
+          Button<svg
+            stroke="currentColor"
+            fill="none"
+            strokeWidth="0"
+            viewBox="0 0 15 15"
+            height="1em"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
+              fill="currentColor"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div
+      className="grid grid-cols-1 items-center gap-x-12 md:grid-cols-2 lg:gap-x-20"
+    >
+      <div
+        className="mb-6 flex max-h-full w-full items-center justify-center overflow-hidden md:mb-0"
+      >
+        <div style={{ "opacity": 1 } as React.CSSProperties}>
+          <img
+            src="/hi-ibiza-2026/FB_IMG_1779623220486.jpg"
+            alt="Hï Ibiza"
+            className="size-full object-cover"
+          />
+        </div>
+      </div>
+      <div
+        className="relative grid auto-cols-fr grid-cols-1 grid-rows-[auto_auto] items-start md:items-stretch"
+      >
+        <div
+          className="cursor-pointer border-b border-border-primary py-6 opacity-100"
+        >
+          <h2
+            className="text-2xl font-bold md:text-3xl md:leading-[1.3] lg:text-4xl"
+          >
+            Hï Ibiza access all areas
+          </h2>
+          <div className="overflow-hidden" style={{ "height": "auto", "opacity": 1 } as React.CSSProperties}>
+            <p className="mt-3 md:mt-4">
+              Valid all week. €199 per person. Full venue access included.
+            </p>
           </div>
         </div>
-      </section>
-
-      <section id="charter" className="section section--paper">
-        <div className="container">
-          <div className="charter-grid">
-            <div className="reveal">
-              <p className="section__eyebrow">UPGRADE YOUR EXPERIENCE</p>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem,4vw,3rem)', lineHeight: 1.1 }}>
-                Make it exclusive — <span style={{ color: 'var(--color-sea)' }}>private</span> yacht charter.
-              </h2>
-              <p style={{ color: 'var(--color-slate)', marginTop: '1.25rem', fontSize: '15px', lineHeight: 1.65, maxWidth: '28rem' }}>
-                Skip the shared crowds. A private boat gives your group the full Ibiza coastline to yourselves — custom route, your own music, your own schedule. Groups of 2–20.
-              </p>
-              <div style={{ marginTop: '1.75rem', display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
-                <a href="https://wa.me/31683052875?text=Hi!%20I'd%20like%20to%20enquire%20about%20a%20private%20yacht%20charter"
-                   target="_blank" rel="noopener noreferrer" className="btn btn--primary">Enquire now</a>
-                <span style={{ fontWeight: 700, fontSize: '14px' }}>from €500 <span style={{ color: 'var(--color-slate)', fontWeight: 400 }}>/ charter</span></span>
-              </div>
-            </div>
-            <div className="reveal charter-image" style={{ position: 'relative', overflow: 'hidden' }}>
-              <Image src="https://images.unsplash.com/photo-1504735689966-4f12eb87a84e?w=900&q=85" alt="Private Charter" fill className="object-cover" />
-              <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(380px 280px at 70% 25%, rgba(46,90,107,.14), transparent 70%)' }}></div>
-              <span style={{ position: 'absolute', bottom: '1rem', left: '1.25rem', fontSize: '10px', letterSpacing: '.3em', color: 'white', fontWeight: 700, zIndex: 10 }}>PRIVATE CHARTER</span>
-            </div>
+        <div
+          className="cursor-pointer border-b border-border-primary py-6 opacity-25"
+        >
+          <h2
+            className="text-2xl font-bold md:text-3xl md:leading-[1.3] lg:text-4xl"
+          >
+            Hï Ibiza access all areas
+          </h2>
+          <div className="overflow-hidden" style={{ "height": "0px", "opacity": 0 } as React.CSSProperties}>
+            <p className="mt-3 md:mt-4">
+              Valid all week. €199 per person. Full venue access included.
+            </p>
           </div>
         </div>
-      </section>
-
-      <section className="section section--card">
-        <div className="container">
-          <div className="trust-grid">
-            <div className="reveal">
-              <p className="trust-stat">500+</p>
-              <p className="trust-label">Happy guests</p>
-              <p className="trust-desc">Every season we help hundreds of guests create unforgettable Ibiza memories.</p>
-            </div>
-            <div className="reveal">
-              <p className="trust-stat">5.0 ★</p>
-              <p className="trust-label">Rated excellent</p>
-              <p className="trust-desc">Based on 982 reviews across Google and TripAdvisor.</p>
-            </div>
-            <div className="reveal">
-              <p className="trust-stat">~2 min</p>
-              <p className="trust-label">WhatsApp reply</p>
-              <p className="trust-desc">Real humans, real fast. We reply to every message within minutes — not hours.</p>
-            </div>
+        <div
+          className="cursor-pointer border-b border-border-primary py-6 opacity-25"
+        >
+          <h2
+            className="text-2xl font-bold md:text-3xl md:leading-[1.3] lg:text-4xl"
+          >
+            Hï Ibiza access all areas
+          </h2>
+          <div className="overflow-hidden" style={{ "height": "0px", "opacity": 0 } as React.CSSProperties}>
+            <p className="mt-3 md:mt-4">
+              Valid all week. €199 per person. Full venue access included.
+            </p>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <section id="clubs" className="section section--paper">
-        <div className="container">
-          <div className="section__header reveal">
-            <div>
-              <p className="section__eyebrow">CLUB TICKETS 2026</p>
-              <h2 className="section__heading">The super-clubs.</h2>
-            </div>
-            <div className="chips">
-              {GENRES.map(g => (
-                <button key={g} className={`chip ${filter === g ? 'chip--on' : 'chip--off'}`}
-                        onClick={() => setFilter(filter === g ? 'All' : g)}>
-                  {g}
-                </button>
-              ))}
-            </div>
+<link
+  rel="preload"
+  as="image"
+  href="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
+/>
+<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
+  <div className="container">
+    <div className="flex flex-col items-start">
+      <div className="mx-auto mb-12 max-w-lg md:mb-18 lg:mb-20">
+        <div>
+          <p
+           
+            className="mb-3 text-center font-semibold md:mb-4"
+          >
+            Tagline
+          </p>
+          <h2
+           
+            className="mb-5 text-center text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
+          >
+            Medium length section heading goes here
+          </h2>
+          <p className="text-center md:text-md">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            varius enim in eros elementum tristique. Duis cursus, mi quis
+            viverra ornare, eros dolor interdum nulla, ut commodo diam libero
+            vitae erat.
+          </p>
+        </div>
+      </div>
+      <div
+       
+        className="grid grid-cols-1 items-start gap-y-12 md:grid-cols-2 md:gap-x-8 md:gap-y-16 lg:grid-cols-4"
+      >
+        <div className="w-full">
+          <div className="mb-5 flex justify-center md:mb-6">
+            <img
+              src="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
+              className="size-12"
+              alt="Relume logo 1"
+            />
           </div>
+          <h3 className="mb-3 text-center text-xl font-bold md:mb-4 md:text-2xl">
+            Medium length section heading goes here
+          </h3>
+          <p className="text-center">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            varius enim in eros elementum tristique.
+          </p>
+        </div>
+      </div>
+      <div
+       
+        className="mt-12 flex w-full flex-wrap items-center justify-center gap-4 md:mt-18 lg:mt-20"
+      >
+        <button
+          className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
+         
+          title="Button"
+        >
+          Button</button
+        ><button
+          className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
+         
+          title="Button"
+        >
+          Button<svg
+            stroke="currentColor"
+            fill="none"
+            strokeWidth="0"
+            viewBox="0 0 15 15"
+            height="1em"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
+              fill="currentColor"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
 
-          <div className="club-grid">
-            {filteredClubs.map(c => (
-              <article key={c.name} className="club-card reveal">
-                {/* Added Real Image */}
-                <div className="club-card__bg">
-                  <Image src={c.image} alt={c.name} fill className="object-cover panImg" />
-                  <div className="panImg" style={{ position: 'absolute', inset: 0, opacity: .7, background: `radial-gradient(300px 220px at 70% 25%, ${c.glow}, transparent 72%)` }}></div>
-                </div>
-                <div className="club-card__foot">
-                  <div className="club-card__genres">
-                    {c.genres.map(tg => (
-                      <span key={tg} className="club-card__genre">{tg}</span>
-                    ))}
-                  </div>
-                  <h3 className="club-card__name">{c.name}</h3>
-                  <p className="club-card__tag">{c.tag}</p>
-                  <a href={waLinkClub(c.name)} target="_blank" rel="noopener noreferrer" className="club-card__cta">
-                    See events <span className="club-card__arrow">→</span>
-                  </a>
-                </div>
-              </article>
-            ))}
+
+<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
+  <div className="container">
+    <div className="mb-12 md:mb-18 lg:mb-20">
+      <div className="mx-auto max-w-lg text-center">
+        <p className="mb-3 font-semibold md:mb-4">Tagline</p>
+        <h2
+         
+          className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
+        >
+          Short heading goes here
+        </h2>
+        <p className="md:text-md">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </p>
+      </div>
+    </div>
+    <div
+      className="grid auto-cols-fr grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-4"
+    >
+      <div className="flex flex-col border border-border-primary">
+        <div className="flex flex-1 flex-col justify-center p-6">
+          <div>
+            <p className="mb-2 text-sm font-semibold">House</p>
+            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
+              Amnesia
+            </h3>
+            <p>Techno, house, and pure energy</p>
+          </div>
+          <div className="mt-5 md:mt-6">
+            <button
+              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
+              title="View"
+            >
+              View<svg
+                stroke="currentColor"
+                fill="none"
+                strokeWidth="0"
+                viewBox="0 0 15 15"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </button>
           </div>
         </div>
-      </section>
+        <div
+          className="flex w-full flex-col items-center justify-center self-start"
+        >
+          <img
+            src="/hi-ibiza-2026/FB_IMG_1779623220486.jpg"
+            alt="Amnesia Ibiza"
+            className="size-full object-cover"
+          />
+        </div>
+      </div>
+      <div className="flex flex-col border border-border-primary">
+        <div className="flex flex-1 flex-col justify-center p-6">
+          <div>
+            <p className="mb-2 text-sm font-semibold">Disco</p>
+            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
+              Pacha Ibiza
+            </h3>
+            <p>House and disco classics</p>
+          </div>
+          <div className="mt-5 md:mt-6">
+            <button
+              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
+              title="View"
+            >
+              View<svg
+                stroke="currentColor"
+                fill="none"
+                strokeWidth="0"
+                viewBox="0 0 15 15"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          className="flex w-full flex-col items-center justify-center self-start"
+        >
+          <img
+            src="/hi-ibiza-2026/FB_IMG_1779623247060.jpg"
+            alt="Pacha Ibiza"
+            className="size-full object-cover"
+          />
+        </div>
+      </div>
+      <div className="flex flex-col border border-border-primary">
+        <div className="flex flex-1 flex-col justify-center p-6">
+          <div>
+            <p className="mb-2 text-sm font-semibold">Techno</p>
+            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
+              Hï Ibiza
+            </h3>
+            <p>Cutting-edge techno and house</p>
+          </div>
+          <div className="mt-5 md:mt-6">
+            <button
+              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
+              title="View"
+            >
+              View<svg
+                stroke="currentColor"
+                fill="none"
+                strokeWidth="0"
+                viewBox="0 0 15 15"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          className="flex w-full flex-col items-center justify-center self-start"
+        >
+          <img
+            src="/hi-ibiza-2026/FB_IMG_1779623300180.jpg"
+            alt="Hï Ibiza"
+            className="size-full object-cover"
+          />
+        </div>
+      </div>
+      <div className="flex flex-col border border-border-primary">
+        <div className="flex flex-1 flex-col justify-center p-6">
+          <div>
+            <p className="mb-2 text-sm font-semibold">Commercial</p>
+            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
+              Ushuaïa Ibiza
+            </h3>
+            <p>House and commercial beats</p>
+          </div>
+          <div className="mt-5 md:mt-6">
+            <button
+              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
+              title="View"
+            >
+              View<svg
+                stroke="currentColor"
+                fill="none"
+                strokeWidth="0"
+                viewBox="0 0 15 15"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          className="flex w-full flex-col items-center justify-center self-start"
+        >
+          <img
+            src="/ushuaia-2026/image_search_1779624236635.jpg"
+            alt="Ushuaïa Ibiza"
+            className="size-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
       <div className={`drawer ${sel.length > 0 ? 'up' : ''}`} role="status" aria-label={`${sel.length} deals selected, total €${total}`}>
         <div className="drawer__inner">

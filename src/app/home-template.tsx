@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ClubTicketsPage() {
+export default function HomePage() {
   return (
     <>
       <link
@@ -45,37 +45,23 @@ export default function ClubTicketsPage() {
   </div>
 </section>
 
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
-  <div className="container max-w-lg text-center">
-    <p className="mb-3 font-semibold md:mb-4">Tagline</p>
-    <h1
-     
-      className="mb-5 text-6xl font-bold md:mb-6 md:text-9xl lg:text-10xl"
-    >
-      Short heading here
-    </h1>
-    <p className="md:text-md">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-      varius enim in eros elementum tristique.
-    </p>
+<link
+  rel="preload"
+  as="image"
+  href="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
+/>
+<section id="relume" className="px-[5%] py-12 md:py-16 lg:py-20">
+  <div className="container relative">
     <div
-     
-     
-      className="mt-6 flex items-center justify-center gap-x-4 md:mt-8"
-    >
-      <button
-        className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary bg-background-alternative text-text-alternative px-6 py-3"
-        title="Button"
-       
-      >
-        Button</button
-      ><button
-        className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
-        title="Button"
-       
-      >
-        Button
-      </button>
+      className="relative z-10 flex min-h-[32rem] flex-col items-center justify-center p-8 text-center md:min-h-[40rem] md:p-16"
+    ></div>
+    <div className="absolute inset-0 z-0">
+      <img
+        src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
+        className="size-full object-cover"
+        alt="Relume placeholder image"
+      />
+      <div className="absolute inset-0 bg-black/50"></div>
     </div>
   </div>
 </section>
@@ -83,193 +69,118 @@ export default function ClubTicketsPage() {
 <link
   rel="preload"
   as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
+  href="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
 />
 <section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
   <div className="container">
-    <div className="mb-12 md:mb-18 lg:mb-20">
-      <div className="mx-auto max-w-lg text-center">
-        <p className="mb-3 font-semibold md:mb-4">Tagline</p>
-        <h2
+    <div
+     
+      className="mx-auto mb-12 max-w-lg text-center md:mb-18 lg:mb-20"
+    >
+      <p className="mb-3 font-semibold md:mb-4">Tagline</p>
+      <h1
+       
+        className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
+      >
+        Medium length section heading goes here
+      </h1>
+      <p className="md:text-md">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+        varius enim in eros elementum tristique. Duis cursus, mi quis viverra
+        ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
+      </p>
+      <div
+       
+       
+        className="mt-6 flex flex-wrap items-center justify-center gap-4 md:mt-8"
+      >
+        <button
+          className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
          
-          className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
+          title="Button"
         >
-          Short heading goes here
-        </h2>
-        <p className="md:text-md">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
+          Button</button
+        ><button
+          className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
+         
+          title="Button"
+        >
+          Button<svg
+            stroke="currentColor"
+            fill="none"
+            strokeWidth="0"
+            viewBox="0 0 15 15"
+            height="1em"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
+              fill="currentColor"
+            ></path>
+          </svg>
+        </button>
       </div>
     </div>
     <div
-     
-      className="grid auto-cols-fr grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-4"
+      className="grid grid-cols-1 items-center gap-x-12 md:grid-cols-2 lg:gap-x-20"
     >
-      <div className="flex flex-col border border-border-primary">
-        <div
-          className="flex w-full flex-col items-center justify-center self-start"
-        >
+      <div
+        className="mb-6 flex max-h-full w-full items-center justify-center overflow-hidden md:mb-0"
+      >
+        <div style={{ "opacity": 1 } as React.CSSProperties}>
           <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
+            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
             alt="Relume placeholder image 1"
+            className="size-full object-cover"
           />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-6">
-          <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
-            </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
-            >
-              Button<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
-          </div>
         </div>
       </div>
-      <div className="flex flex-col border border-border-primary">
+      <div
+        className="relative grid auto-cols-fr grid-cols-1 grid-rows-[auto_auto] items-start md:items-stretch"
+      >
         <div
-          className="flex w-full flex-col items-center justify-center self-start"
+          className="cursor-pointer border-b border-border-primary py-6 opacity-100"
         >
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-            alt="Relume placeholder image 2"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-6">
-          <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
-            </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
-            >
-              Button<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
+          <h2
+            className="text-2xl font-bold md:text-3xl md:leading-[1.3] lg:text-4xl"
+          >
+            Hï Ibiza access all areas
+          </h2>
+          <div className="overflow-hidden" style={{ "height": "auto", "opacity": 1 } as React.CSSProperties}>
+            <p className="mt-3 md:mt-4">
+              Valid all week. €199 per person. Full venue access included.
+            </p>
           </div>
         </div>
-      </div>
-      <div className="flex flex-col border border-border-primary">
         <div
-          className="flex w-full flex-col items-center justify-center self-start"
+          className="cursor-pointer border-b border-border-primary py-6 opacity-25"
         >
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-            alt="Relume placeholder image 3"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-6">
-          <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
-            </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
-            >
-              Button<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
+          <h2
+            className="text-2xl font-bold md:text-3xl md:leading-[1.3] lg:text-4xl"
+          >
+            Hï Ibiza access all areas
+          </h2>
+          <div className="overflow-hidden" style={{ "height": "0px", "opacity": 0 } as React.CSSProperties}>
+            <p className="mt-3 md:mt-4">
+              Valid all week. €199 per person. Full venue access included.
+            </p>
           </div>
         </div>
-      </div>
-      <div className="flex flex-col border border-border-primary">
         <div
-          className="flex w-full flex-col items-center justify-center self-start"
+          className="cursor-pointer border-b border-border-primary py-6 opacity-25"
         >
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-            alt="Relume placeholder image 4"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-6">
-          <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
-            </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
-            >
-              Button<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
+          <h2
+            className="text-2xl font-bold md:text-3xl md:leading-[1.3] lg:text-4xl"
+          >
+            Hï Ibiza access all areas
+          </h2>
+          <div className="overflow-hidden" style={{ "height": "0px", "opacity": 0 } as React.CSSProperties}>
+            <p className="mt-3 md:mt-4">
+              Valid all week. €199 per person. Full venue access included.
+            </p>
           </div>
         </div>
       </div>
@@ -281,79 +192,86 @@ export default function ClubTicketsPage() {
   rel="preload"
   as="image"
   href="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
-/><link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
 />
 <section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
   <div className="container">
-    <div className="mb-12 md:mb-18 lg:mb-20">
-      <div
-       
-        className="mx-auto flex max-w-lg flex-col items-center text-center"
-      >
-        <div className="rb-5 mb-5 md:mb-6">
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
-            className="size-20"
-            alt="Relume logo"
-          />
-        </div>
-        <p className="mb-3 font-semibold md:mb-4">Tagline</p>
-        <h2
-         
-          className="rb-5 mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
-        >
-          Medium length section heading goes here
-        </h2>
-        <p className="md:text-md">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          varius enim in eros elementum tristique. Duis cursus, mi quis viverra
-          ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
-        </p>
-        <div
-         
-         
-          className="mt-6 flex flex-wrap items-center justify-center gap-4 md:mt-8"
-        >
-          <button
-            className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
+    <div className="flex flex-col items-start">
+      <div className="mx-auto mb-12 max-w-lg md:mb-18 lg:mb-20">
+        <div>
+          <p
            
-            title="Button"
+            className="mb-3 text-center font-semibold md:mb-4"
           >
-            Button</button
-          ><button
-            className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
+            Tagline
+          </p>
+          <h2
            
-            title="Button"
+            className="mb-5 text-center text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
           >
-            Button<svg
-              stroke="currentColor"
-              fill="none"
-              strokeWidth="0"
-              viewBox="0 0 15 15"
-              height="1em"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                fill="currentColor"
-              ></path>
-            </svg>
-          </button>
+            Medium length section heading goes here
+          </h2>
+          <p className="text-center md:text-md">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            varius enim in eros elementum tristique. Duis cursus, mi quis
+            viverra ornare, eros dolor interdum nulla, ut commodo diam libero
+            vitae erat.
+          </p>
         </div>
       </div>
-    </div>
-    <div>
-      <img
-        src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-        className="size-full object-cover"
-        alt="Relume placeholder image"
-      />
+      <div
+       
+        className="grid grid-cols-1 items-start gap-y-12 md:grid-cols-2 md:gap-x-8 md:gap-y-16 lg:grid-cols-4"
+      >
+        <div className="w-full">
+          <div className="mb-5 flex justify-center md:mb-6">
+            <img
+              src="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
+              className="size-12"
+              alt="Relume logo 1"
+            />
+          </div>
+          <h3 className="mb-3 text-center text-xl font-bold md:mb-4 md:text-2xl">
+            Medium length section heading goes here
+          </h3>
+          <p className="text-center">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            varius enim in eros elementum tristique.
+          </p>
+        </div>
+      </div>
+      <div
+       
+        className="mt-12 flex w-full flex-wrap items-center justify-center gap-4 md:mt-18 lg:mt-20"
+      >
+        <button
+          className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
+         
+          title="Button"
+        >
+          Button</button
+        ><button
+          className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
+         
+          title="Button"
+        >
+          Button<svg
+            stroke="currentColor"
+            fill="none"
+            strokeWidth="0"
+            viewBox="0 0 15 15"
+            height="1em"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
+              fill="currentColor"
+            ></path>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </section>
@@ -380,10 +298,41 @@ export default function ClubTicketsPage() {
       </div>
     </div>
     <div
-     
       className="grid auto-cols-fr grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-4"
     >
       <div className="flex flex-col border border-border-primary">
+        <div className="flex flex-1 flex-col justify-center p-6">
+          <div>
+            <p className="mb-2 text-sm font-semibold">House</p>
+            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
+              Amnesia
+            </h3>
+            <p>Techno, house, and pure energy</p>
+          </div>
+          <div className="mt-5 md:mt-6">
+            <button
+              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
+              title="View"
+            >
+              View<svg
+                stroke="currentColor"
+                fill="none"
+                strokeWidth="0"
+                viewBox="0 0 15 15"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
         <div
           className="flex w-full flex-col items-center justify-center self-start"
         >
@@ -392,20 +341,22 @@ export default function ClubTicketsPage() {
             alt="Relume placeholder image 1"
           />
         </div>
+      </div>
+      <div className="flex flex-col border border-border-primary">
         <div className="flex flex-1 flex-col justify-center p-6">
           <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
+            <p className="mb-2 text-sm font-semibold">Disco</p>
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
+              Pacha Ibiza
             </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>House and disco classics</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
               className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
+              title="View"
             >
-              Button<svg
+              View<svg
                 stroke="currentColor"
                 fill="none"
                 strokeWidth="0"
@@ -424,30 +375,30 @@ export default function ClubTicketsPage() {
             </button>
           </div>
         </div>
-      </div>
-      <div className="flex flex-col border border-border-primary">
         <div
           className="flex w-full flex-col items-center justify-center self-start"
         >
           <img
             src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-            alt="Relume placeholder image 2"
+            alt="Relume placeholder image 1"
           />
         </div>
+      </div>
+      <div className="flex flex-col border border-border-primary">
         <div className="flex flex-1 flex-col justify-center p-6">
           <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
+            <p className="mb-2 text-sm font-semibold">Techno</p>
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
+              Hï Ibiza
             </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Cutting-edge techno and house</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
               className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
+              title="View"
             >
-              Button<svg
+              View<svg
                 stroke="currentColor"
                 fill="none"
                 strokeWidth="0"
@@ -466,30 +417,30 @@ export default function ClubTicketsPage() {
             </button>
           </div>
         </div>
-      </div>
-      <div className="flex flex-col border border-border-primary">
         <div
           className="flex w-full flex-col items-center justify-center self-start"
         >
           <img
             src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-            alt="Relume placeholder image 3"
+            alt="Relume placeholder image 1"
           />
         </div>
+      </div>
+      <div className="flex flex-col border border-border-primary">
         <div className="flex flex-1 flex-col justify-center p-6">
           <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
+            <p className="mb-2 text-sm font-semibold">Commercial</p>
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
+              Ushuaïa Ibiza
             </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>House and commercial beats</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
               className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
+              title="View"
             >
-              Button<svg
+              View<svg
                 stroke="currentColor"
                 fill="none"
                 strokeWidth="0"
@@ -508,47 +459,13 @@ export default function ClubTicketsPage() {
             </button>
           </div>
         </div>
-      </div>
-      <div className="flex flex-col border border-border-primary">
         <div
           className="flex w-full flex-col items-center justify-center self-start"
         >
           <img
             src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-            alt="Relume placeholder image 4"
+            alt="Relume placeholder image 1"
           />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-6">
-          <div>
-            <p className="mb-2 text-sm font-semibold">Tagline</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Medium length section heading goes here
-            </h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
-            >
-              Button<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
-          </div>
         </div>
       </div>
     </div>
