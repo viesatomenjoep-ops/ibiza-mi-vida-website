@@ -5,18 +5,18 @@
 
 /* ---------- Design tokens ---------- */
 :root {
-  /* Colours */
-  --color-paper:   #F6F5F1;  /* page background  */
-  --color-card:    #FFFFFF;  /* card / white surface */
-  --color-ink:     #1E2733;  /* primary text + buttons */
-  --color-slate:   #5C6B7A;  /* secondary / muted text */
-  --color-sea:     #2E5A6B;  /* brand accent (Mediterranean blue) */
-  --color-mist:    #8FA6B0;  /* very muted blue-grey */
-  --color-line:    #E4E1DA;  /* borders / dividers */
+  /* Colours (RGB triplets for Tailwind opacity support) */
+  --color-paper:   246 245 241;  /* #F6F5F1 */
+  --color-card:    255 255 255;  /* #FFFFFF */
+  --color-ink:     30 39 51;     /* #1E2733 */
+  --color-slate:   92 107 122;   /* #5C6B7A */
+  --color-sea:     46 90 107;    /* #2E5A6B */
+  --color-mist:    143 166 176;  /* #8FA6B0 */
+  --color-line:    228 225 218;  /* #E4E1DA */
 
   /* Typography */
-  --font-display: 'Marcellus', serif;
-  --font-body:    'Mulish', sans-serif;
+  --font-display: var(--font-marcellus, 'Marcellus', serif);
+  --font-body:    var(--font-mulish, 'Mulish', sans-serif);
 
   /* Spacing */
   --space-xs:  0.5rem;

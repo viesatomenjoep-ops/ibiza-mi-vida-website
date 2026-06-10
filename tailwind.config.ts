@@ -22,15 +22,15 @@ const config: Config = {
         driftwood: '#B89F84',
         'sys-bg': '#EFF2F6',
         
-        // Ibiza Velvet & Modern Luxury Palette
-        'velvet-obsidian': '#181A1F',
-        'ibiza-sand': '#F7F5F0',
-        'rustic-terracotta': '#944933',
-        'champagne-bronze': '#BAA382',
+        // Ibiza Velvet & Modern Luxury Palette -> mapped to new ibiza-design tokens
+        'velvet-obsidian': 'var(--color-ink)',
+        'ibiza-sand': 'var(--color-paper)',
+        'rustic-terracotta': 'var(--color-sea)',
+        'champagne-bronze': 'var(--color-mist)',
       },
       fontFamily: {
-        sans: ['var(--font-outfit)', ...defaultTheme.fontFamily.sans],
-        serif: ['var(--font-playfair)', ...defaultTheme.fontFamily.serif],
+        sans: ['var(--font-body)', ...defaultTheme.fontFamily.sans],
+        serif: ['var(--font-display)', ...defaultTheme.fontFamily.serif],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

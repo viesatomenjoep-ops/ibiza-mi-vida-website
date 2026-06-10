@@ -242,22 +242,14 @@ export default function Home() {
   // Scene animation
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const scene = document.getElementById('scene');
-    const yacht = document.getElementById('yacht');
-    const wake = document.getElementById('wake');
-    const jet = document.getElementById('jet');
-    const trail = document.getElementById('trail');
-    const waves = [document.getElementById('w1'), document.getElementById('w2'), document.getElementById('w3')];
-    const tracks = document.querySelectorAll('.waveTrack');
-
-    if (!scene || !yacht) return;
-
     let target = 0, smooth = 0;
     const t0 = performance.now();
     const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
     const ease = (p: number) => p < .5 ? 2*p*p : 1 - Math.pow(-2*p + 2, 2) / 2;
 
     const measure = () => {
+      const scene = document.getElementById('scene');
+      if (!scene) return;
       const r = scene.getBoundingClientRect();
       const total = r.height - window.innerHeight;
       target = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0;
@@ -267,7 +259,9 @@ export default function Home() {
     measure();
 
     if (reduced) {
-      yacht.setAttribute('transform', 'translate(640,716) scale(.85)');
+      const yacht = document.getElementById('yacht');
+      const jet = document.getElementById('jet');
+      if (yacht) yacht.setAttribute('transform', 'translate(640,716) scale(.85)');
       if (jet) jet.setAttribute('transform', 'translate(520,170) rotate(11) scale(1.5)');
       return;
     }
@@ -275,6 +269,13 @@ export default function Home() {
     let animationFrameId: number;
 
     const frame = (now: number) => {
+      const liveScene = document.getElementById('scene');
+      const liveYacht = document.getElementById('yacht');
+      if (!liveScene || !liveYacht) {
+        animationFrameId = requestAnimationFrame(frame);
+        return;
+      }
+
       const time = (now - t0) / 1000;
       smooth = lerp(smooth, target, .08);
       const p = smooth, pe = ease(p);
@@ -283,9 +284,13 @@ export default function Home() {
       const yy = lerp(796, 644, pe) + Math.sin(time * 1.4) * 4 * (1.1 - pe * 0.6);
       const ys = lerp(1.2, 0.5, pe);
       const roll = Math.sin(time * 1.05) * 1.2 * (1 - pe * 0.4);
-      yacht.setAttribute('transform', `translate(${yx.toFixed(1)}, ${yy.toFixed(1)}) rotate(${roll.toFixed(2)}) scale(${ys.toFixed(3)})`);
+      liveYacht.setAttribute('transform', `translate(${yx.toFixed(1)}, ${yy.toFixed(1)}) rotate(${roll.toFixed(2)}) scale(${ys.toFixed(3)})`);
+      
+      const wake = document.getElementById('wake');
       if (wake) wake.setAttribute('opacity', (0.4 + 0.5 * Math.min(1, (pe * (1 - pe)) * 4)).toFixed(3));
 
+      const jet = document.getElementById('jet');
+      const trail = document.getElementById('trail');
       if (jet && trail) {
         const jx = lerp(-300, 1120, pe);
         const jy = lerp(70, 340, pe);
@@ -294,11 +299,13 @@ export default function Home() {
         trail.setAttribute('opacity', (0.4 + 0.5 * Math.min(1, (pe * (1 - pe)) * 4)).toFixed(3));
       }
 
+      const waves = [document.getElementById('w1'), document.getElementById('w2'), document.getElementById('w3')];
       const drift = p * 120;
       if (waves[0]) waves[0].setAttribute('transform', `translate(${(-((time * 13 + drift) % 180)).toFixed(1)},0)`);
       if (waves[1]) waves[1].setAttribute('transform', `translate(${(-((time * 21 + drift * 1.4) % 180)).toFixed(1)},0)`);
       if (waves[2]) waves[2].setAttribute('transform', `translate(${(-((time * 8  + drift * 0.7) % 180)).toFixed(1)},0)`);
 
+      const tracks = document.querySelectorAll('.waveTrack');
       const page = window.scrollY * 0.25;
       tracks.forEach(tr => {
         const half = tr.clientWidth / 2 || 1;
@@ -318,20 +325,6 @@ export default function Home() {
 
   return (
     <>
-      <header className="nav">
-        <div className="nav__inner">
-          <a href="#top" className="nav__logo">Ibiza Mi Vida</a>
-          <nav className="nav__links" aria-label="Primary">
-            <a href="#deals"><span className="kin">Deals of the Day</span></a>
-            <a href="#charter"><span className="kin">Boat Charters</span></a>
-            <a href="#clubs"><span className="kin">Club Tickets</span></a>
-            <a href="#week"><span className="kin">Deal of the Week</span></a>
-          </nav>
-          <a href={`https://wa.me/${CONFIG.whatsapp}`} target="_blank" rel="noopener noreferrer" className="nav__cta">
-            WhatsApp us
-          </a>
-        </div>
-      </header>
 
       <div id="top"></div>
       <section id="scene" aria-label="Branded yacht departing as the Ibiza Mi Vida jet arrives">
@@ -562,53 +555,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-grid">
-            <div>
-              <p className="footer__logo">Ibiza Mi Vida</p>
-              <p className="footer__desc">Your premium Ibiza events & booking agency. Club tickets, private boat charters, and everything you need for the perfect experience.</p>
-              <a href="https://instagram.com/ibizamivida" target="_blank" rel="noopener noreferrer" className="footer__links" style={{ display: 'inline-block', marginTop: '1rem', fontSize: '13px', color: 'rgba(246,245,241,.8)' }}>
-                <span className="kin">@ibizamivida</span>
-              </a>
-            </div>
-            <div>
-              <p className="footer__col-head">SERVICES</p>
-              <ul className="footer__links">
-                <li><a href="/deals-of-the-day"><span className="kin">Deals of the Day</span></a></li>
-                <li><a href="/private-boat-charters"><span className="kin">Private Boat Charters</span></a></li>
-                <li><a href="/club-tickets"><span className="kin">Club Tickets</span></a></li>
-                <li><a href="/boat-parties"><span className="kin">Boat Parties</span></a></li>
-              </ul>
-            </div>
-            <div>
-              <p className="footer__col-head">IBIZA GUIDES</p>
-              <ul className="footer__links">
-                <li><a href="/tips"><span className="kin">Ibiza Tips</span></a></li>
-                <li><a href="/blog"><span className="kin">Blog</span></a></li>
-              </ul>
-            </div>
-            <div>
-              <p className="footer__col-head">BOOK NOW</p>
-              <p style={{ color: 'rgba(246,245,241,.6)', fontSize: '13px', lineHeight: 1.65, marginBottom: '1rem' }}>
-                Ready to plan your Ibiza experience? Chat with us on WhatsApp for instant replies.
-              </p>
-              <a href={`https://wa.me/${CONFIG.whatsapp}`} target="_blank" rel="noopener noreferrer" className="btn btn--wa">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1 1 12 20zm4.5-5.9c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.8 1-.1.1-.3.2-.5 0-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4.2-.4c.1-.1 0-.3 0-.4l-.7-1.7c-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.2 1.6 2.5 4 3.4.6.2 1 .4 1.3.5.6.2 1 .1 1.4.1.4-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1 0-.1-.2-.2-.4-.3z"/></svg>
-                Chat on WhatsApp
-              </a>
-            </div>
-          </div>
-          <div className="footer__bar container">
-            <p>© 2026 Ibiza Mi Vida. All rights reserved.</p>
-            <p className="footer__bar" style={{ margin: 0, padding: 0, border: 'none', gap: '1.25rem', flexDirection: 'row' }}>
-              <a href="/privacy-policy">Privacy Policy</a>
-              <a href="/cookie-policy">Cookie Policy</a>
-            </p>
-          </div>
-        </div>
-      </footer>
 
       <div className={`drawer ${sel.length > 0 ? 'up' : ''}`} role="status" aria-label={`${sel.length} deals selected, total €${total}`}>
         <div className="drawer__inner">

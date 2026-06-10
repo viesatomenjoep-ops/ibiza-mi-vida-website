@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
 import { Marcellus, Mulish } from 'next/font/google'
+import { Navbar } from '@/components/layout/Navbar'
+import { Footer } from '@/components/layout/Footer'
+import { WhatsAppFAB } from '@/components/layout/WhatsAppFAB'
 import { BookingProvider } from '@/context/booking-context'
 import '@/styles/globals.css'
 import './ibiza-design.css'
@@ -54,9 +57,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${marcellus.variable} ${mulish.variable}`}>
       <body className="font-sans antialiased overflow-x-hidden w-full max-w-[100vw]">
         <BookingProvider>
+          <Navbar />
           <main id="main-content">
             {children}
           </main>
+          <Footer />
+          <WhatsAppFAB />
         </BookingProvider>
       </body>
     </html>
