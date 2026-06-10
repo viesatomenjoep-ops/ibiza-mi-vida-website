@@ -66,9 +66,11 @@ export default async function ClubDetailPage({ params }: Props) {
 
   const imageUrl = club.cover || club.picture || 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85'
 
-  // The API returns raw HTML with CSS for their promo banners. Extract just the plain text.
+  // The API returns raw HTML with CSS for their promo banners. Sometimes without even <style> tags! 
+  // We extract just the plain text before the promo garbage starts.
   const cleanDescription = club.description 
-    ? club.description.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+    ? club.description.split('.promo-hz')[0]
+                      .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
                       .replace(/<[^>]+>/g, ' ')
                       .replace(/\s+/g, ' ')
                       .trim()
