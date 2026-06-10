@@ -114,9 +114,11 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
             <Link href="/club-tickets" className="btn btn--primary hover:scale-105 transition-transform duration-300 min-w-[200px]">Book Club Tickets</Link>
             <Link href="/vip-experiences" className="px-6 py-3 rounded-full border border-white/40 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 min-w-[200px]">View VIP Tables</Link>
           </div>
-          <div className="mt-8">
-            <RadioPlayer />
-          </div>
+        </div>
+        
+        {/* Radio Player - Fixed top left under the logo on homepage only */}
+        <div className="fixed top-[90px] md:top-[100px] left-4 md:left-8 z-40">
+          <RadioPlayer />
         </div>
       </section>
 
