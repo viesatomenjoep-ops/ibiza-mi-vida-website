@@ -93,7 +93,25 @@ export default async function ClubTicketsPage() {
                 </div>
                 <div className="p-8 flex flex-col flex-1">
                   <h3 className="text-2xl font-serif font-bold mb-3">{club.name}</h3>
-                  <p className="text-gray-600 mb-6 flex-1 line-clamp-2" dangerouslySetInnerHTML={{ __html: club.description || 'Experience the best parties in Ibiza.' }}></p>
+                  <p className="text-gray-600 mb-4 flex-1 line-clamp-2" dangerouslySetInnerHTML={{ __html: club.description || 'Experience the best parties in Ibiza.' }}></p>
+                  
+                  {club.events && club.events.length > 0 && (
+                    <div className="mb-6">
+                      <p className="text-xs font-bold uppercase tracking-widest text-rustic-terracotta mb-2">Featured Parties</p>
+                      <div className="flex flex-wrap gap-2">
+                        {club.events.slice(0, 4).map(e => (
+                          <span key={e.id} className="bg-black/5 text-velvet-obsidian text-xs px-2.5 py-1 rounded-md font-semibold border border-black/5 whitespace-nowrap">
+                            {e.name}
+                          </span>
+                        ))}
+                        {club.events.length > 4 && (
+                          <span className="text-xs text-velvet-obsidian/50 font-bold flex items-center px-1">
+                            +{club.events.length - 4} more
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
                   <Link href={`/club-tickets/${club.slug}`} className="inline-flex items-center gap-2 text-black font-semibold hover:text-blue-500 transition-colors group/link">
                     View Line-up
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover/link:translate-x-1">
