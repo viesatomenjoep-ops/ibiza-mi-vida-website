@@ -359,7 +359,7 @@ export default function Home() {
             playsInline 
             preload="auto"
             className="absolute inset-0 size-full object-cover mix-blend-overlay opacity-60" 
-            src="/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p.mp4#t=90" 
+            src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_90,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" 
           />
           <div dangerouslySetInnerHTML={{ __html: SVG_SCENE }} className="absolute inset-0 w-full h-full" />
           
