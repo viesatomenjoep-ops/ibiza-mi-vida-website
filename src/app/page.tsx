@@ -287,19 +287,19 @@ export default function Home() {
       
       const wake = document.getElementById('wake');
       if (wake) wake.setAttribute('opacity', (0.4 + 0.5 * Math.min(1, (pe * (1 - pe)) * 4)).toFixed(3));
-
       const jet = document.getElementById('jet');
       const trail = document.getElementById('trail');
       if (jet && trail) {
         const jx = lerp(-300, 1600, pe);
-        // JET: meer naar onder (y=450 aan de randen, y=300 in het midden) in een boog
-        const jy = 450 - Math.sin(pe * Math.PI) * 150;
+        // JET: Meer naar boven, y=200 zodat hij goed zichtbaar is en over de hele breedte vliegt
+        const jy = 200 + Math.sin(pe * Math.PI) * 40;
+        const js = 1.5; 
         
-        const dy = -Math.cos(pe * Math.PI) * Math.PI * 150;
+        const dy = Math.cos(pe * Math.PI) * Math.PI * 40;
         const dx = 1900;
         const bank = Math.atan2(dy, dx) * (180 / Math.PI);
         
-        jet.setAttribute('transform', `translate(${jx.toFixed(1)}, ${jy.toFixed(1)}) rotate(${bank.toFixed(2)}) scale(1.5)`);
+        jet.setAttribute('transform', `translate(${jx.toFixed(1)}, ${jy.toFixed(1)}) rotate(${bank.toFixed(2)}) scale(${js.toFixed(3)})`);
         trail.setAttribute('opacity', (0.4 + 0.5 * Math.min(1, (pe * (1 - pe)) * 4)).toFixed(3));
       }
 
@@ -332,14 +332,15 @@ export default function Home() {
 
       <div id="top"></div>
       
-      <section id="hero-video" className="relative h-screen w-full overflow-hidden bg-black">
-        <video autoPlay loop muted playsInline preload="auto" className="absolute inset-0 size-full object-cover opacity-80 [mask-image:linear-gradient(to_bottom,white_60%,transparent)]" src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" />
+      <section id="hero-video" className="relative h-screen w-full overflow-hidden bg-white">
+        <video autoPlay loop muted playsInline preload="auto" className="absolute inset-0 size-full object-cover" src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" />
+        <div className="absolute inset-0 bg-black/20 pointer-events-none" /> {/* Subtle overlay for text readability */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
-          <p className="mb-4 tracking-[0.2em] uppercase text-sm md:text-base font-semibold">IBIZA MI VIDA · SEASON 2026</p>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 drop-shadow-lg">
-            Experience the <span className="text-blue-400">real</span> Ibiza.
+          <p className="mb-4 tracking-[0.2em] uppercase text-sm md:text-base font-semibold drop-shadow-md">IBIZA MI VIDA · SEASON 2026</p>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 drop-shadow-xl">
+            Experience the <span className="text-blue-300">real</span> Ibiza.
           </h1>
-          <p className="max-w-2xl text-lg md:text-xl drop-shadow-md mb-8">
+          <p className="max-w-2xl text-lg md:text-xl drop-shadow-lg mb-8 font-medium">
             Club tickets, private charters and boat parties — hand-picked by locals, confirmed within minutes on WhatsApp.
           </p>
           <div className="flex flex-col items-center gap-4">
