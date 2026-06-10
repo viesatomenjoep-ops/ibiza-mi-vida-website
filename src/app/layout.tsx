@@ -4,6 +4,8 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppFAB } from '@/components/layout/WhatsAppFAB'
 import { BookingProvider } from '@/context/booking-context'
+import { CartProvider } from '@/context/cart-context'
+import { CartDrawer } from '@/components/ui/CartDrawer'
 import '@/styles/globals.css'
 import './ibiza-design.css'
 
@@ -56,14 +58,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${marcellus.variable} ${mulish.variable}`}>
       <body className="font-sans antialiased overflow-x-clip w-full max-w-[100vw]">
-        <BookingProvider>
-          <Navbar />
-          <main id="main-content">
-            {children}
-          </main>
-          <Footer />
-          <WhatsAppFAB />
-        </BookingProvider>
+        <CartProvider>
+          <BookingProvider>
+            <Navbar />
+            <main id="main-content">
+              {children}
+            </main>
+            <Footer />
+            <WhatsAppFAB />
+            <CartDrawer />
+          </BookingProvider>
+        </CartProvider>
       </body>
     </html>
   )

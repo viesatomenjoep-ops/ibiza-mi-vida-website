@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Image from 'next/image';
+import { useCart } from '@/context/cart-context';
 
 const CONFIG = {
   whatsapp: '31683052875',
@@ -161,7 +162,7 @@ const SVG_SCENE = `
 `;
 
 export default function Home() {
-  const [sel, setSel] = useState<string[]>([]);
+  const { items, addToCart, removeFromCart } = useCart();
   const [filter, setFilter] = useState('All');
   const [t, setT] = useState({ h: '00', m: '00', s: '00', flip: { h: false, m: false, s: false } });
 
@@ -169,27 +170,19 @@ export default function Home() {
     return filter === 'All' ? CLUBS : CLUBS.filter(c => c.genres.includes(filter));
   }, [filter]);
 
-  const total = useMemo(() => {
-    return DEALS
-      .filter(d => sel.includes(d.id))
-      .reduce((s, d) => s + d.price, 0)
-      .toLocaleString('en-US');
-  }, [sel]);
-
-  const waLink = useMemo(() => {
-    const picked = DEALS.filter(d => sel.includes(d.id));
-    const lines = picked.map(d => `• ${d.title} (${d.when}) — €${d.price}`).join('\n');
-    const sum = picked.reduce((s, d) => s + d.price, 0);
-    const msg = `Hi Ibiza Mi Vida! I'd like to book:\n${lines}\n\nTotal: €${sum}`;
-    return `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
-  }, [sel]);
-
-  const waLinkClub = (clubName: string) => {
-    return `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent('Hi! Which events are coming up at ' + clubName + '?')}`;
-  };
-
-  const toggle = (id: string) => {
-    setSel(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+  const toggle = (id: string, d: any) => {
+    const existingItem = items.find(i => i.serviceId === id);
+    if (existingItem) {
+      removeFromCart(existingItem.id);
+    } else {
+      addToCart({
+        serviceId: id,
+        title: d.title,
+        price: d.price,
+        image: d.image,
+        date: d.when
+      });
+    }
   };
 
   // Clock
@@ -268,15 +261,25 @@ export default function Home() {
         return;
       }
 
-      const time = (now - t0) / 1000;
+      // Calculate progress locally within the scene
+      const rect = liveScene.getBoundingClientRect();
+      const localScroll = -rect.top;
+      // Scene is 300vh, so scrollable distance is 200vh
+      let progress = 0;
+      if (localScroll > 0) {
+        progress = Math.min(1, localScroll / (window.innerHeight * 2));
+      }
+      
+      target = progress;
       smooth = lerp(smooth, target, .08);
       const p = smooth, pe = ease(p);
 
-      // YACHT: groot blijven (ys=1), van horizon (y=644) naar beneden (y=850), zigzaggend op X
-      const yx = lerp(800, 200, pe) + Math.sin(pe * Math.PI * 4) * 80;
-      const yy = lerp(644, 850, pe) + Math.sin(time * 2) * 5;
+      const time = (now - t0) / 1000;
+      // YACHT: Van Formentera (links, x=200) naar Club Ibiza (rechts, x=1100) met een natuurlijke boog
+      const yx = lerp(200, 1100, pe);
+      const yy = 660 + Math.sin(pe * Math.PI) * 120 + Math.sin(time * 2) * 5;
       const ys = 1.0; 
-      const roll = Math.sin(time * 1.5) * 2 + Math.cos(pe * Math.PI * 4) * 8;
+      const roll = (yx - 200) / 900 * 5 + Math.sin(time * 1.5) * 2; // slight tilt forward plus bobbing
       liveYacht.setAttribute('transform', `translate(${yx.toFixed(1)}, ${yy.toFixed(1)}) rotate(${roll.toFixed(2)}) scale(${ys.toFixed(3)})`);
       
       const wake = document.getElementById('wake');
@@ -322,27 +325,30 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <main>
 
       <div id="top"></div>
-      <section id="scene" aria-label="Branded yacht departing as the Ibiza Mi Vida jet arrives">
-        <div id="sceneSticky">
-          <video autoPlay loop muted playsInline className="scene-video" src="/ocean.mp4" />
-          <div dangerouslySetInnerHTML={{ __html: SVG_SCENE }} style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }} />
-          <div className="scene-copy">
-            <p className="scene-copy__eyebrow">IBIZA MI VIDA · SEASON 2026</p>
-            <h1 className="scene-copy__h1">
-              Experience the <span className="accent">real</span> Ibiza.
-            </h1>
-            <p className="scene-copy__p">
-              Club tickets, private charters and boat parties — hand-picked by locals, confirmed within minutes on WhatsApp.
-            </p>
-            <div className="scene-copy__actions">
-              <a href="#deals" className="btn btn--primary">See today's deals ↓</a>
-              <span className="scene-copy__hint">Keep scrolling — the crossing has begun.</span>
-            </div>
+      
+      <section id="hero-video" className="relative h-screen w-full overflow-hidden bg-black">
+        <video autoPlay loop muted playsInline className="absolute inset-0 size-full object-cover opacity-80" src="/ocean.mp4" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
+          <p className="mb-4 tracking-[0.2em] uppercase text-sm md:text-base font-semibold">IBIZA MI VIDA · SEASON 2026</p>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 drop-shadow-lg">
+            Experience the <span className="text-blue-400">real</span> Ibiza.
+          </h1>
+          <p className="max-w-2xl text-lg md:text-xl drop-shadow-md mb-8">
+            Club tickets, private charters and boat parties — hand-picked by locals, confirmed within minutes on WhatsApp.
+          </p>
+          <div className="flex flex-col items-center gap-4">
+            <a href="#deals" className="btn btn--primary hover:scale-105 transition-transform duration-300">See today&apos;s deals ↓</a>
+            <span className="text-sm opacity-80 uppercase tracking-widest mt-4">Keep scrolling — the crossing has begun.</span>
           </div>
-          <span className="scene-scroll-hint">SCROLL</span>
+        </div>
+      </section>
+
+      <section id="scene" className="bg-white" aria-label="Branded yacht departing as the Ibiza Mi Vida jet arrives">
+        <div id="sceneSticky" className="bg-white">
+          <div dangerouslySetInnerHTML={{ __html: SVG_SCENE }} style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, backgroundColor: 'white' }} />
         </div>
       </section>
 
@@ -376,9 +382,9 @@ export default function Home() {
 
           <div className="deal-grid">
             {DEALS.map(d => {
-              const isSelected = sel.includes(d.id);
+              const isSelected = items.some(i => i.serviceId === d.id);
               return (
-                <button key={d.id} className={`ticket ${isSelected ? 'sel' : ''}`} onClick={() => toggle(d.id)} aria-pressed={isSelected}>
+                <button key={d.id} className={`ticket ${isSelected ? 'sel' : ''}`} onClick={() => toggle(d.id, d)} aria-pressed={isSelected}>
                   <div className="ticket__body">
                     {/* REAL IMAGE USING next/image */}
                     <div className="ticket__image">
@@ -404,23 +410,23 @@ export default function Home() {
       </section>
 
 
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
+<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28 group">
   <div className="container">
     <div className="mx-auto mb-12 max-w-lg text-center md:mb-18 lg:mb-20">
-      <p className="mb-3 font-semibold md:mb-4">IBIZA 2026</p>
-      <h1 className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl">
-        Jouw Ultieme Ibiza Party Experience
+      <p className="mb-3 font-semibold md:mb-4 tracking-widest uppercase text-blue-600">IBIZA 2026</p>
+      <h1 className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl transition-all duration-500 hover:text-blue-500">
+        Your Ultimate Ibiza Party Experience
       </h1>
-      <p className="md:text-md">
-        Ontdek de beste feesten, boek exclusieve VIP-tafels en bemachtig tickets voor de meest legendarische clubs op Ibiza. Wij regelen jouw onvergetelijke nacht.
+      <p className="md:text-lg text-gray-600">
+        Discover the best parties, book exclusive VIP tables, and secure tickets to Ibiza&apos;s most legendary clubs. We organize your unforgettable night.
       </p>
     </div>
     <div className="flex items-center justify-center gap-4">
-      <a href="#clubs" className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3">
-        Boek Club Tickets
+      <a href="#clubs" className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary hover:bg-black hover:text-white hover:scale-105 shadow-md hover:shadow-xl px-6 py-3">
+        Book Club Tickets
       </a>
-      <a href="#deals" className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3">
-        Bekijk VIP Tafels
+      <a href="#deals" className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary hover:bg-black hover:text-white hover:scale-105 shadow-md hover:shadow-xl px-6 py-3">
+        View VIP Tables
       </a>
     </div>
     <div
@@ -446,39 +452,39 @@ export default function Home() {
           <h2
             className="text-2xl font-bold md:text-3xl md:leading-[1.3] lg:text-4xl"
           >
-            Hï Ibiza access all areas
+            Exclusive VIP Tables
           </h2>
           <div className="overflow-hidden" style={{ "height": "auto", "opacity": 1 } as React.CSSProperties}>
-            <p className="mt-3 md:mt-4">
-              Valid all week. €199 per person. Full venue access included.
+            <p className="mt-3 md:mt-4 text-gray-600">
+              Enjoy premium bottle service, skip the line, and get the best views of the DJ at world-renowned clubs like Hï, Ushuaïa, and Amnesia.
             </p>
           </div>
         </div>
         <div
-          className="cursor-pointer border-b border-border-primary py-6 opacity-25"
+          className="cursor-pointer border-b border-border-primary py-6 opacity-25 hover:opacity-100 transition-opacity duration-300"
         >
           <h2
             className="text-2xl font-bold md:text-3xl md:leading-[1.3] lg:text-4xl"
           >
-            Hï Ibiza access all areas
+            Boat Parties & Catamarans
           </h2>
           <div className="overflow-hidden" style={{ "height": "0px", "opacity": 0 } as React.CSSProperties}>
-            <p className="mt-3 md:mt-4">
-              Valid all week. €199 per person. Full venue access included.
+            <p className="mt-3 md:mt-4 text-gray-600">
+              Experience the Mediterranean sea with all-inclusive drinks, spectacular sunset views, and live DJs.
             </p>
           </div>
         </div>
         <div
-          className="cursor-pointer border-b border-border-primary py-6 opacity-25"
+          className="cursor-pointer border-b border-border-primary py-6 opacity-25 hover:opacity-100 transition-opacity duration-300"
         >
           <h2
             className="text-2xl font-bold md:text-3xl md:leading-[1.3] lg:text-4xl"
           >
-            Hï Ibiza access all areas
+            Official Club Tickets
           </h2>
           <div className="overflow-hidden" style={{ "height": "0px", "opacity": 0 } as React.CSSProperties}>
-            <p className="mt-3 md:mt-4">
-              Valid all week. €199 per person. Full venue access included.
+            <p className="mt-3 md:mt-4 text-gray-600">
+              100% authentic tickets for all major superclubs. Book safely and get instant confirmation directly via WhatsApp.
             </p>
           </div>
         </div>
@@ -487,285 +493,161 @@ export default function Home() {
   </div>
 </section>
 
-<link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
-/>
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
+
+<section id="clubs" className="px-[5%] py-16 md:py-24 lg:py-28 bg-gray-50 group">
   <div className="container">
-    <div className="flex flex-col items-start">
-      <div className="mx-auto mb-12 max-w-lg md:mb-18 lg:mb-20">
-        <div>
-          <p className="mb-3 text-center font-semibold md:mb-4">
-            Ontdek het nachtleven
-          </p>
-          <h2 className="mb-5 text-center text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl">
-            De meest iconische clubs ter wereld
-          </h2>
-          <p className="text-center md:text-md">
-            Ibiza is dé thuisbasis van elektronische muziek. Beleef legendarische feesten in wereldberoemde locaties en dans tot de zon opkomt.
-          </p>
-        </div>
-      </div>
-      <div
-       
-        className="grid grid-cols-1 items-start gap-y-12 md:grid-cols-2 md:gap-x-8 md:gap-y-16 lg:grid-cols-4"
-      >
-        <div className="w-full">
-          <div className="mb-5 flex justify-center md:mb-6">
-            <img
-              src="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
-              className="size-12"
-              alt="Ibiza Clubs"
-            />
-          </div>
-          <h3 className="mb-3 text-center text-xl font-bold md:mb-4 md:text-2xl">
-            Premium VIP Tafels
-          </h3>
-          <p className="text-center">
-            Boek een exclusieve VIP tafel en geniet van de beste service, flessen en een fenomenaal uitzicht op de DJ.
-          </p>
-        </div>
-      </div>
-      <div className="mt-12 flex w-full flex-wrap items-center justify-center gap-4 md:mt-18 lg:mt-20">
-        <a href="#deals" className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3">
-          Bekijk VIP Tafels
-        </a>
-        <a href="#clubs" className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0">
-          Meer Info<svg
-            stroke="currentColor"
-            fill="none"
-            strokeWidth="0"
-            viewBox="0 0 15 15"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-              fill="currentColor"
-            ></path>
-          </svg>
-        </a>
-      </div>
+    <div className="mx-auto mb-12 max-w-lg text-center md:mb-18 lg:mb-20">
+      <h2 className="mb-5 text-4xl font-bold md:mb-6 md:text-5xl lg:text-6xl transition-all duration-500 hover:text-blue-500">
+        The World&apos;s Most Iconic Clubs
+      </h2>
+      <p className="md:text-lg text-gray-600">
+        Ibiza is the home of electronic music. Experience legendary parties in world-renowned venues and dance until the sun comes up.
+      </p>
     </div>
-  </div>
-</section>
-
-
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
-  <div className="container">
-    <div className="mb-12 md:mb-18 lg:mb-20">
-      <div className="mx-auto max-w-lg text-center">
-        <p className="mb-3 font-semibold md:mb-4">Clubs & Tickets</p>
-        <h2 className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl">
-          Vind jouw perfecte feest
-        </h2>
-        <p className="md:text-md">
-          Van de hypnotiserende techno in Hï Ibiza tot de klassieke house beats in Pacha. Kies jouw favoriete club en koop direct officiële tickets via Ibiza Mi Vida.
+    <div className="grid grid-cols-1 items-start gap-y-12 md:grid-cols-3 md:gap-x-8 md:gap-y-16 lg:gap-x-12">
+      <div className="flex flex-col items-center text-center transform transition-all duration-500 hover:scale-105 hover:-translate-y-2 p-6 rounded-2xl hover:shadow-xl bg-white">
+        <div className="mb-5 md:mb-6 flex items-center justify-center">
+          <svg className="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+        </div>
+        <h3 className="mb-3 text-xl font-bold md:mb-4 md:text-2xl">
+          Ibiza Clubs
+        </h3>
+        <p className="text-gray-600">
+          From open-air superclubs to legendary techno temples. We provide guaranteed access to the biggest events on the island.
+        </p>
+      </div>
+      <div className="flex flex-col items-center text-center transform transition-all duration-500 hover:scale-105 hover:-translate-y-2 p-6 rounded-2xl hover:shadow-xl bg-white">
+        <div className="mb-5 md:mb-6 flex items-center justify-center">
+          <svg className="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+        </div>
+        <h3 className="mb-3 text-xl font-bold md:mb-4 md:text-2xl">
+          Premium VIP Tables
+        </h3>
+        <p className="text-gray-600">
+          Book an exclusive VIP table and enjoy the best service, premium bottles, and a phenomenal view of the DJ.
+        </p>
+      </div>
+      <div className="flex flex-col items-center text-center transform transition-all duration-500 hover:scale-105 hover:-translate-y-2 p-6 rounded-2xl hover:shadow-xl bg-white">
+        <div className="mb-5 md:mb-6 flex items-center justify-center">
+          <svg className="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        </div>
+        <h3 className="mb-3 text-xl font-bold md:mb-4 md:text-2xl">
+          Confirmed Within Minutes
+        </h3>
+        <p className="text-gray-600">
+          Our local concierges confirm your booking directly via WhatsApp. Fast, reliable, and completely stress-free.
         </p>
       </div>
     </div>
-    <div
-      className="grid auto-cols-fr grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-4"
-    >
-      <div className="flex flex-col border border-border-primary">
-        <div className="flex flex-1 flex-col justify-center p-6">
-          <div>
-            <p className="mb-2 text-sm font-semibold">House</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Amnesia
-            </h3>
-            <p>Ervaar de legendarische sfeer van Amnesia. De ultieme plek voor meeslepende techno en ongeëvenaarde energie.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="View"
-            >
-              View<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div
-          className="flex w-full flex-col items-center justify-center self-start"
-        >
+    <div className="mt-12 flex items-center justify-center gap-4 md:mt-18 lg:mt-20">
+      <a href="#deals" className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary hover:bg-black hover:text-white hover:scale-105 shadow-md hover:shadow-xl px-6 py-3">
+        View VIP Tables
+      </a>
+      <a href="/club-tickets" className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary hover:bg-black hover:text-white hover:scale-105 shadow-md hover:shadow-xl px-6 py-3">
+        More Info
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<section id="more-clubs" className="px-[5%] py-16 md:py-24 lg:py-28 group">
+  <div className="container">
+    <div className="mb-12 md:mb-18 lg:mb-20">
+      <div className="mx-auto w-full max-w-lg text-center">
+        <p className="mb-3 font-semibold md:mb-4 tracking-widest uppercase text-blue-600">Clubs & Tickets</p>
+        <h2 className="mb-5 text-4xl font-bold md:mb-6 md:text-5xl lg:text-6xl transition-all duration-500 hover:text-blue-500">
+          Find your perfect party
+        </h2>
+        <p className="md:text-lg text-gray-600">
+          From hypnotic techno at Hï Ibiza to classic house beats at Pacha. Choose your favorite club and buy official tickets directly via Ibiza Mi Vida.
+        </p>
+      </div>
+    </div>
+    <div className="grid grid-cols-1 items-start gap-y-12 md:grid-cols-2 md:gap-x-8 md:gap-y-16 lg:grid-cols-4 lg:gap-x-12">
+      <div className="flex flex-col transform transition-all duration-500 hover:scale-105 hover:-translate-y-2">
+        <div className="mb-5 flex w-full flex-col items-center justify-center md:mb-6 overflow-hidden rounded-xl shadow-lg">
           <img
             src="/hi-ibiza-2026/FB_IMG_1779623220486.jpg"
             alt="Amnesia Ibiza"
-            className="size-full object-cover"
+            className="h-[300px] w-full object-cover transition-transform duration-700 hover:scale-110"
           />
         </div>
-      </div>
-      <div className="flex flex-col border border-border-primary">
-        <div className="flex flex-1 flex-col justify-center p-6">
+        <div className="flex flex-1 flex-col justify-center p-2">
           <div>
-            <p className="mb-2 text-sm font-semibold">Disco</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Pacha Ibiza
+            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-blue-600">House</p>
+            <h3 className="mb-2 text-xl font-bold md:text-2xl">
+              Amnesia
             </h3>
-            <p>De oudste club van Ibiza. Geniet van iconische house, disco klassiekers en een luxueuze sfeer.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="View"
-            >
-              View<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
+            <p className="text-gray-600">
+              Experience the legendary atmosphere of Amnesia. The ultimate place for immersive techno and unmatched energy.
+            </p>
           </div>
         </div>
-        <div
-          className="flex w-full flex-col items-center justify-center self-start"
-        >
+      </div>
+      <div className="flex flex-col transform transition-all duration-500 hover:scale-105 hover:-translate-y-2">
+        <div className="mb-5 flex w-full flex-col items-center justify-center md:mb-6 overflow-hidden rounded-xl shadow-lg">
           <img
             src="/hi-ibiza-2026/FB_IMG_1779623247060.jpg"
             alt="Pacha Ibiza"
-            className="size-full object-cover"
+            className="h-[300px] w-full object-cover transition-transform duration-700 hover:scale-110"
           />
         </div>
-      </div>
-      <div className="flex flex-col border border-border-primary">
-        <div className="flex flex-1 flex-col justify-center p-6">
+        <div className="flex flex-1 flex-col justify-center p-2">
           <div>
-            <p className="mb-2 text-sm font-semibold">Techno</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Hï Ibiza
+            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-blue-600">Disco</p>
+            <h3 className="mb-2 text-xl font-bold md:text-2xl">
+              Pacha Ibiza
             </h3>
-            <p>Verkozen tot de #1 club ter wereld. Laat je overdonderen door de spectaculaire lichtshows en cutting-edge elektronische muziek.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="View"
-            >
-              View<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
+            <p className="text-gray-600">
+              The oldest club in Ibiza. Enjoy iconic house, disco classics, and a luxurious atmosphere.
+            </p>
           </div>
         </div>
-        <div
-          className="flex w-full flex-col items-center justify-center self-start"
-        >
+      </div>
+      <div className="flex flex-col transform transition-all duration-500 hover:scale-105 hover:-translate-y-2">
+        <div className="mb-5 flex w-full flex-col items-center justify-center md:mb-6 overflow-hidden rounded-xl shadow-lg">
           <img
             src="/hi-ibiza-2026/FB_IMG_1779623300180.jpg"
             alt="Hï Ibiza"
-            className="size-full object-cover"
+            className="h-[300px] w-full object-cover transition-transform duration-700 hover:scale-110"
           />
         </div>
-      </div>
-      <div className="flex flex-col border border-border-primary">
-        <div className="flex flex-1 flex-col justify-center p-6">
+        <div className="flex flex-1 flex-col justify-center p-2">
           <div>
-            <p className="mb-2 text-sm font-semibold">Commercial</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Ushuaïa Ibiza
+            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-blue-600">Techno</p>
+            <h3 className="mb-2 text-xl font-bold md:text-2xl">
+              Hï Ibiza
             </h3>
-            <p>Dans in de openlucht rond het zwembad. De place to be voor de grootste house artiesten en commerciële hits, van zonsondergang tot middernacht.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="View"
-            >
-              View<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
+            <p className="text-gray-600">
+              Voted the #1 club in the world. Let yourself be overwhelmed by spectacular light shows and cutting-edge electronic music.
+            </p>
           </div>
         </div>
-        <div
-          className="flex w-full flex-col items-center justify-center self-start"
-        >
+      </div>
+      <div className="flex flex-col transform transition-all duration-500 hover:scale-105 hover:-translate-y-2">
+        <div className="mb-5 flex w-full flex-col items-center justify-center md:mb-6 overflow-hidden rounded-xl shadow-lg">
           <img
             src="/ushuaia-2026/image_search_1779624236635.jpg"
             alt="Ushuaïa Ibiza"
-            className="size-full object-cover"
+            className="h-[300px] w-full object-cover transition-transform duration-700 hover:scale-110"
           />
+        </div>
+        <div className="flex flex-1 flex-col justify-center p-2">
+          <div>
+            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-blue-600">Commercial</p>
+            <h3 className="mb-2 text-xl font-bold md:text-2xl">
+              Ushuaïa Ibiza
+            </h3>
+            <p className="text-gray-600">
+              Dance open-air around the pool. The place to be for the biggest house artists and commercial hits, from sunset to midnight.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-      <div className={`drawer ${sel.length > 0 ? 'up' : ''}`} role="status" aria-label={`${sel.length} deals selected, total €${total}`}>
-        <div className="drawer__inner">
-          <div className="drawer__left">
-            <div className={`drawer__counter ${sel.length > 0 ? 'pop' : ''}`}>{sel.length}</div>
-            <div className="drawer__meta">
-              <p className="drawer__label">{sel.length} deal{sel.length > 1 ? 's' : ''} selected</p>
-              <p className="drawer__total">€{total}</p>
-            </div>
-          </div>
-          <div className="drawer__right">
-            <button className="drawer__clear" onClick={() => setSel([])}>Clear</button>
-            <a href={waLink} target="_blank" rel="noopener noreferrer" className="btn btn--wa">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1 1 12 20zm4.5-5.9c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.8 1-.1.1-.3.2-.5 0-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4.2-.4c.1-.1 0-.3 0-.4l-.7-1.7c-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.2 1.6 2.5 4 3.4.6.2 1 .4 1.3.5.6.2 1 .1 1.4.1.4-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1 0-.1-.2-.2-.4-.3z"/></svg>
-              Book via WhatsApp
-            </a>
-          </div>
-        </div>
-      </div>
-    </>
+    </main>
   );
 }

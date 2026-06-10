@@ -33,7 +33,7 @@ const BOAT_PARTY_EXPERIENCES: Experience[] = [
     tagline: '8 hrs · Multiple DJs · Lunch · From €120',
     description:
       'The ultimate boat party experience. 8 hours at sea with multiple DJs, a delicious lunch, and an open bar. Swim stops at the most beautiful coves around Ibiza.',
-    image_url: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85',
+    image_url: '/fotos/full_day_party.png',
     price_from: 120,
     currency: 'EUR',
     duration: '8 hours',
@@ -51,7 +51,7 @@ const BOAT_PARTY_EXPERIENCES: Experience[] = [
     tagline: 'Your crew · Your music · From €400',
     description:
       'Hire the whole boat for your group. Choose your own music, set your own itinerary, and party on your terms. Perfect for birthdays, hen dos, and group celebrations.',
-    image_url: 'https://images.unsplash.com/photo-1527004611998-0c6fde22b1ca?w=900&q=85',
+    image_url: '/fotos/private_group_party.png',
     price_from: 400,
     currency: 'EUR',
     duration: 'Flexible',

@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { useBooking } from '@/context/booking-context'
+import { useCart } from '@/context/cart-context'
 import type { BookingConfig } from '@/types/booking'
 
 interface CategoryCardProps {
@@ -27,9 +27,26 @@ export function CategoryCard({
   href,
   ctaLabel,
 }: CategoryCardProps) {
-  const { openModal } = useBooking()
+  const { addToCart } = useCart()
 
   const label = ctaLabel ?? (href ? 'Explore' : 'Book Now')
+
+  // Parse price from badge (e.g. "From €120" -> 120) or default to 0
+  const parsePrice = (b?: string) => {
+    if (!b) return 0;
+    const match = b.match(/\d+/);
+    return match ? parseInt(match[0], 10) : 0;
+  }
+
+  const handleBook = () => {
+    addToCart({
+      serviceId: bookingConfig.serviceType + '-' + title,
+      title: title,
+      price: parsePrice(badge),
+      image: imageUrl,
+      date: bookingConfig.arrivalDate
+    });
+  }
 
   const inner = (
     <>
@@ -90,11 +107,11 @@ export function CategoryCard({
   return (
     <article
       className="group relative flex min-h-[500px] cursor-pointer flex-col justify-end overflow-hidden rounded-3xl"
-      onClick={() => openModal(bookingConfig)}
+      onClick={handleBook}
       role="button"
       tabIndex={0}
-      aria-label={`Enquire about ${title}`}
-      onKeyDown={(e) => e.key === 'Enter' && openModal(bookingConfig)}
+      aria-label={`Add ${title} to cart`}
+      onKeyDown={(e) => e.key === 'Enter' && handleBook()}
     >
       {inner}
     </article>
