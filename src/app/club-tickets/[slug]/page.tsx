@@ -66,13 +66,21 @@ export default async function ClubDetailPage({ params }: Props) {
 
   const imageUrl = club.cover || club.picture || 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85'
 
+  // The API returns raw HTML with CSS for their promo banners. Extract just the plain text.
+  const cleanDescription = club.description 
+    ? club.description.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+                      .replace(/<[^>]+>/g, ' ')
+                      .replace(/\s+/g, ' ')
+                      .trim()
+    : '';
+
   return (
     <>
       {/* Venue schema */}
       <VenueSchema
         name={club.name}
         slug={club.slug}
-        description={club.description ? club.description.replace(/<[^>]+>/g, '') : undefined}
+        description={cleanDescription || undefined}
         image={club.cover ?? undefined}
       />
 
@@ -124,10 +132,12 @@ export default async function ClubDetailPage({ params }: Props) {
             <div className="flex flex-col gap-12">
               {/* About */}
               {club.description && (
-                <AnimatedSection className="prose prose-velvet max-w-none prose-p:text-velvet-obsidian/70">
-                  <h2 className="font-serif text-3xl font-bold text-velvet-obsidian">About {club.name}</h2>
-                  <div dangerouslySetInnerHTML={{ __html: club.description }} />
-                </AnimatedSection>
+              <AnimatedSection delay={100}>
+                <h2 className="font-serif text-3xl font-bold text-velvet-obsidian mb-6">About {club.name}</h2>
+                <div className="prose prose-lg max-w-none text-velvet-obsidian/70">
+                  <p>{cleanDescription}</p>
+                </div>
+              </AnimatedSection>
               )}
 
               {/* Calendar Events List */}
