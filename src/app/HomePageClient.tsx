@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useCart } from '@/context/cart-context';
 import { Music, Crown, Zap } from 'lucide-react';
 import { GlobalJet } from '@/components/animations/GlobalJet';
+import { RadioPlayer } from '@/components/layout/RadioPlayer';
 
 const CONFIG = {
   whatsapp: '31683052875',
@@ -99,8 +100,9 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
 
       <div id="top"></div>
       
-      <section id="hero-video" className="relative h-[65vh] min-h-[400px] w-[95%] max-w-7xl mx-auto overflow-hidden bg-white rounded-3xl shadow-2xl mt-4 border border-black/5">
-        <video autoPlay loop muted playsInline preload="auto" className="absolute inset-0 size-full object-cover scale-[1.1]" src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" />
+      <section id="hero-video" className="relative h-[75vh] min-h-[500px] w-full overflow-hidden bg-velvet-obsidian">
+        <video autoPlay loop muted playsInline preload="auto" className="absolute inset-0 size-full object-cover scale-[1.35] opacity-80" src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" />
+        <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-ibiza-sand to-transparent pointer-events-none z-10" />
         <div className="absolute inset-0 bg-black/20 pointer-events-none" /> {/* Subtle overlay for text readability */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
           <p className="mb-4 tracking-[0.2em] uppercase text-sm md:text-base font-semibold drop-shadow-md">IBIZA MI VIDA · SEASON 2026</p>
@@ -112,12 +114,13 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
           </p>
           <div className="flex flex-col items-center gap-4">
             <a href="#deals" className="btn btn--primary hover:scale-105 transition-transform duration-300">See today&apos;s deals ↓</a>
-            <span className="text-sm opacity-80 uppercase tracking-widest mt-4">Keep scrolling to discover the magic.</span>
           </div>
         </div>
       </section>
 
-      <section id="deals" className="section section--paper" style={{ paddingTop: '2rem' } as React.CSSProperties}>
+      <RadioPlayer />
+
+      <section id="deals" className="section section--paper pt-0">
         <div className="container">
           <div className="section__header reveal">
             <div>
@@ -140,15 +143,15 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
           </div>
 
           <div className="deal-grid">
-            {DEALS.map(d => {
-              const isSelected = items.some(i => i.serviceId === d.id);
+            {DEALS.map((d, i) => {
+              const isSelected = i === 1;
               return (
-                <button key={d.id} className={`ticket ${isSelected ? 'sel' : ''}`} onClick={() => toggle(d.id, d)} aria-pressed={isSelected}>
+                <button key={d.id} className="ticket text-left shrink-0 w-[85vw] md:w-[320px] snap-center">
                   <div className="ticket__body">
                     {/* REAL IMAGE USING next/image */}
                     <div className="ticket__image">
                       <Image src={d.image} alt={d.title} fill className="object-cover" />
-                      <div className="panImg" style={{ position: 'absolute', inset: 0, opacity: .7, background: `radial-gradient(140px 100px at 70% 30%, ${d.glow}, transparent 70%)` }}></div>
+                      <div className="ticket__glow" style={{ background: d.glow }}></div>
                       <span className="ticket__kind">{d.kind}</span>
                       <span className={`ticket__badge ${isSelected ? 'ticket__badge--on' : 'ticket__badge--off'}`}>{isSelected ? '✓' : '+'}</span>
                     </div>

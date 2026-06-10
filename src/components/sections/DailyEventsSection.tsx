@@ -47,7 +47,14 @@ export async function DailyEventsSection() {
     // Sort chronologically (earliest first)
     // Only include dates in the future (or very recent)
     const now = new Date().getTime() - (24 * 60 * 60 * 1000) // Allow yesterday just in case of timezone diffs
-    const validDates = allDates.filter(d => new Date(d.date).getTime() > now)
+    let validDates = allDates.filter(d => new Date(d.date).getTime() > now)
+    
+    // Fallback: If all API data is from a previous year (e.g. system clock is in 2026 but data is 2025), 
+    // just show the latest chronological events from the dataset so the UI doesn't break.
+    if (validDates.length === 0 && allDates.length > 0) {
+      validDates = allDates
+    }
+    
     validDates.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     
     const upcomingDates = validDates.slice(0, 15) // take top 15 upcoming events

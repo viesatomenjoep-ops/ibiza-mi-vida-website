@@ -128,7 +128,7 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
         </div>
       </header>
 
-      {/* The Huge Selector (Fullscreen Overlay) */}
+      {/* Fullscreen Hamburger Menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -137,7 +137,7 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="fixed inset-0 z-40 flex flex-col bg-ibiza-sand px-4 pb-20 pt-28 md:px-8 md:pt-32 overflow-y-auto"
+            className="fixed inset-0 z-[45] flex flex-col bg-white px-4 pb-20 pt-28 md:px-8 md:pt-32 overflow-y-auto"
           >
             <div className="mx-auto w-full max-w-5xl flex-1 flex flex-col">
               
@@ -153,22 +153,22 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
                     <Link
                       href={cat.href}
                       onClick={() => setMenuOpen(false)}
-                      className="group flex flex-col justify-between w-full h-[120px] rounded-[20px] bg-white p-4 shadow-sm transition-all hover:scale-[1.02] hover:shadow-lg border border-velvet-obsidian/5"
+                      className="group flex flex-col justify-between w-full h-[100px] rounded-[16px] bg-gray-50 p-3 shadow-sm transition-all hover:scale-[1.02] hover:shadow-md border border-velvet-obsidian/5"
                     >
                       <div className="flex justify-between items-start">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ibiza-sand text-velvet-obsidian transition-transform group-hover:scale-110 group-hover:bg-rustic-terracotta group-hover:text-white">
-                          <cat.icon size={20} strokeWidth={1.5} />
+                        <div className="flex items-center gap-2">
+                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-velvet-obsidian transition-transform group-hover:scale-110 border border-black/5">
+                            <cat.icon size={16} strokeWidth={1.5} />
+                          </div>
                         </div>
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-white/40 text-velvet-obsidian opacity-0 group-hover:opacity-100 transition-opacity">
-                          <ChevronRight size={16} />
-                        </div>
+                        <ChevronRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity text-velvet-obsidian" />
                       </div>
                       <div className="flex flex-col mt-auto">
-                        <span className="font-sans text-[16px] font-light tracking-wide text-velvet-obsidian/70 line-clamp-1">
-                          {cat.desc}
-                        </span>
-                        <span className="font-sans text-[27px] font-medium leading-[120%] tracking-tight text-velvet-obsidian line-clamp-1 group-hover:text-rustic-terracotta transition-colors">
+                        <span className="font-sans text-[16px] font-bold tracking-tight text-velvet-obsidian line-clamp-1 group-hover:text-rustic-terracotta transition-colors">
                           {cat.label}
+                        </span>
+                        <span className="font-sans text-[11px] font-light tracking-wide text-velvet-obsidian/70 line-clamp-1">
+                          {cat.desc}
                         </span>
                       </div>
                     </Link>
