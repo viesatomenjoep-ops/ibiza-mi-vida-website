@@ -117,7 +117,7 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
         </div>
         
         {/* Radio Player - Fixed top left under the logo on homepage only */}
-        <div className="fixed top-[90px] md:top-[100px] left-4 md:left-8 z-40">
+        <div className="fixed top-[150px] md:top-[180px] left-4 md:left-8 z-40">
           <RadioPlayer />
         </div>
       </section>
