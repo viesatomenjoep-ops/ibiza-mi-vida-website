@@ -55,7 +55,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${marcellus.variable} ${mulish.variable}`}>
-      <body className="font-sans antialiased overflow-x-hidden w-full max-w-[100vw]">
+      <body className="font-sans antialiased overflow-x-clip w-full max-w-[100vw]">
         <BookingProvider>
           <Navbar />
           <main id="main-content">
