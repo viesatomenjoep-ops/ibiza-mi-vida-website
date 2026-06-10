@@ -24,6 +24,7 @@ const allCategories = [
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [pastHero, setPastHero] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -43,8 +44,11 @@ export function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40)
+      setPastHero(window.scrollY > window.innerHeight - 80)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
+    // Initialize state
+    handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -54,24 +58,38 @@ export function Navbar() {
     <>
       <header className={[
         "fixed left-0 right-0 z-50 pointer-events-none flex items-center justify-between transition-all duration-300 px-4 md:px-8",
-        scrolled ? "top-0 py-3 bg-velvet-obsidian/95 backdrop-blur-md shadow-lg" : "top-4 md:top-6"
+        scrolled 
+          ? (pathname === '/' && pastHero ? "top-0 py-3 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100" : "top-0 py-3 bg-velvet-obsidian/95 backdrop-blur-md shadow-lg") 
+          : "top-4 md:top-6"
       ].join(' ')}>
         
         {/* Left: Logo */}
         <div className="pointer-events-auto flex items-center gap-3 transition-transform duration-500 ease-out" style={{ transform: `scale(${scrolled ? 0.9 : 1})`, transformOrigin: 'left center' }}>
           <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 shrink-0">
-            <div className={`rounded-full w-[60px] h-[60px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-lg border border-white/10 overflow-hidden ${pathname === '/' ? 'bg-transparent' : 'bg-white'}`}>
+            <div className={`rounded-full w-[60px] h-[60px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-lg border overflow-hidden transition-colors duration-300 ${
+              pathname === '/' 
+                ? (pastHero ? 'bg-white border-velvet-obsidian/10' : 'bg-transparent border-white/10') 
+                : 'bg-white border-velvet-obsidian/10'
+            }`}>
               <Image
                 src="/logo-clean.png"
                 alt="Ibiza mi vida"
                 width={70}
                 height={70}
-                className={`object-contain transition-opacity ${pathname === '/' ? 'brightness-0 invert hover:opacity-80 w-[70%] h-[70%]' : 'brightness-0 hover:opacity-80 w-[85%] h-[85%]'}`}
+                className={`object-contain transition-all duration-300 ${
+                  pathname === '/' 
+                    ? (pastHero ? 'brightness-0 hover:opacity-80 w-[70%] h-[70%]' : 'brightness-0 invert hover:opacity-80 w-[70%] h-[70%]')
+                    : 'brightness-0 hover:opacity-80 w-[85%] h-[85%]'
+                }`}
                 priority
               />
             </div>
           </Link>
-          <div className={`hidden sm:flex items-center justify-center px-4 py-2 rounded-xl border backdrop-blur-md transition-colors ${pathname === '/' ? (scrolled ? 'bg-velvet-obsidian/40 border-white/10 text-ibiza-sand' : 'bg-white/10 border-white/20 text-white') : 'bg-white border-velvet-obsidian/10 text-velvet-obsidian shadow-sm'}`}>
+          <div className={`hidden sm:flex items-center justify-center px-4 py-2 rounded-xl border backdrop-blur-md transition-colors duration-300 ${
+            pathname === '/' 
+              ? (pastHero ? 'bg-gray-50/80 border-black/5 text-velvet-obsidian shadow-sm' : (scrolled ? 'bg-velvet-obsidian/40 border-white/10 text-white' : 'bg-white/10 border-white/20 text-white')) 
+              : 'bg-white border-velvet-obsidian/10 text-velvet-obsidian shadow-sm'
+          }`}>
             <span className="font-serif text-[18px] md:text-[22px] tracking-wide font-medium italic">Ibiza mi vida</span>
           </div>
         </div>
