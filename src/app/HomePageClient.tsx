@@ -107,10 +107,10 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
             loop 
             muted 
             playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-          >
-            <source src="https://viesatomenjoep-ops.github.io/ibiza-mi-vida-website/hero-ibiza.mp4" type="video/mp4" />
-          </video>
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover scale-[1.35] opacity-80"
+            src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4"
+          />
           
           {/* Gradients for smooth blending */}
           {/* Top gradient to protect navbar text */}
