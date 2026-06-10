@@ -163,7 +163,7 @@ const SVG_SCENE = `
       <circle cx="-18.7" cy="-58" r="2" fill="#2E5A6B" class="blink" style="animation-delay:.3s"/>
       <path d="M 96 -9 L 142 -1" stroke="#C4CFD5" stroke-width="1.6"/>
     </g>
-    <text x="-78" y="2" font-family="Marcellus, serif" font-size="13" letter-spacing="2.6" fill="#2E5A6B">IBIZA MI VIDA</text>
+    <text x="-78" y="2" font-family="Marcellus, serif" font-size="13" letter-spacing="2.6" fill="#2E5A6B"></text>
   </g>
 </svg>
 `;
@@ -293,8 +293,8 @@ export default function Home() {
       const trail = document.getElementById('trail');
       if (jet && trail) {
         const jx = lerp(-300, 1600, pe);
-        const jy = lerp(70, 1200, pe);
-        const bank = 18 * (1 - pe * 0.55);
+        const jy = lerp(70, 300, pe);
+        const bank = 5 * (1 - pe * 0.55);
         jet.setAttribute('transform', `translate(${jx.toFixed(1)}, ${jy.toFixed(1)}) rotate(${bank.toFixed(2)}) scale(1.5)`);
         trail.setAttribute('opacity', (0.4 + 0.5 * Math.min(1, (pe * (1 - pe)) * 4)).toFixed(3));
       }
@@ -353,7 +353,7 @@ export default function Home() {
         </svg>
       </div>
 
-      <section id="deals" className="section section--paper">
+      <section id="deals" className="section section--paper" style={{ paddingTop: '2rem' } as React.CSSProperties}>
         <div className="container">
           <div className="section__header reveal">
             <div>
