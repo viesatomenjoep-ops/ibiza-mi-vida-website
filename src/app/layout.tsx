@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Marcellus, Mulish } from 'next/font/google'
+import { BookingProvider } from '@/context/booking-context'
 import '@/styles/globals.css'
 import './ibiza-design.css'
 
@@ -52,9 +53,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${marcellus.variable} ${mulish.variable}`}>
       <body className="font-sans antialiased overflow-x-hidden w-full max-w-[100vw]">
-        <main id="main-content">
-          {children}
-        </main>
+        <BookingProvider>
+          <main id="main-content">
+            {children}
+          </main>
+        </BookingProvider>
       </body>
     </html>
   )
