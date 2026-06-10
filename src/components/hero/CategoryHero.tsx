@@ -40,33 +40,18 @@ export function CategoryHero({
       className={`relative flex ${minHeight} flex-col items-center justify-center overflow-hidden ${isHome ? 'bg-velvet-obsidian' : 'bg-velvet-obsidian'} pt-24 pb-8 md:pt-28`}
       aria-label="Category Hero section"
     >
-      {/* Background Image (if provided) */}
-      {backgroundImage ? (
-        <div className="absolute inset-0 z-0">
-          <Image
-            src={backgroundImage}
-            alt="Hero Background"
-            fill
-            priority
-            className="object-cover brightness-[0.30]"
-          />
-        </div>
-      ) : (
-        /* Abstract Design Patterns (only show if no background image) */
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Large Circle Top Right */}
-          <div className={`absolute -top-[20%] -right-[10%] w-[50vw] max-w-[600px] aspect-square rounded-full bg-gradient-to-bl ${accentColor} blur-3xl opacity-70`} />
-          
-          {/* Medium Circle Bottom Left */}
-          <div className={`absolute -bottom-[20%] -left-[10%] w-[40vw] max-w-[400px] aspect-square rounded-full bg-gradient-to-tr ${accentColor} blur-3xl opacity-60`} />
-          
-          {/* Small Accent Shape */}
-          <div className="absolute top-[30%] left-[10%] w-[20vw] max-w-[200px] aspect-square rounded-full bg-sandstone/30 blur-2xl opacity-40 mix-blend-multiply" />
-          
-          {/* Grid Pattern Overlay for Texture */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px]" />
-        </div>
-      )}
+      {/* Background Video for all categories */}
+      <div className="absolute inset-0 z-0 bg-black">
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute inset-0 size-full object-cover opacity-40 mix-blend-screen" 
+          src="/hero-ocean.mp4" 
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/90 pointer-events-none" />
+      </div>
 
       {/* Content */}
       <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center gap-3 px-4 text-center md:px-8">
