@@ -27,7 +27,7 @@ export async function ClubTicketsSlider() {
       </div>
 
       <div className="w-full pb-8">
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 md:gap-8 px-[7.5vw] md:px-[5%] pb-12 pt-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 md:gap-8 px-4 md:px-[5%] pb-12 pt-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           <style dangerouslySetInnerHTML={{ __html: `
             .hide-scrollbar::-webkit-scrollbar { display: none; }
           `}} />
@@ -36,7 +36,7 @@ export async function ClubTicketsSlider() {
             <Link 
               key={venue.id} 
               href={`/club-tickets/${venue.slug}`}
-              className="group relative flex flex-col justify-end snap-center shrink-0 w-[85vw] sm:w-[350px] md:w-[400px] h-[500px] md:h-[560px] rounded-3xl overflow-hidden bg-black shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-white/5"
+              className="group relative flex flex-col justify-end snap-center shrink-0 w-[calc(100vw-2rem)] sm:w-[350px] md:w-[400px] h-[500px] md:h-[560px] rounded-3xl overflow-hidden bg-black shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-white/5"
             >
               <Image 
                 src={venue.cover || venue.picture || '/hi-ibiza-2026/FB_IMG_1779623220486.jpg'} 

@@ -67,7 +67,7 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
       <header className={[
         "fixed left-0 right-0 z-50 pointer-events-none flex items-center justify-between transition-all duration-300 px-4 md:px-8",
         scrolled 
-          ? "top-0 py-3 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100"
+          ? "top-0 py-3 bg-velvet-obsidian/95 backdrop-blur-md shadow-sm border-b border-black"
           : "top-4 md:top-6 bg-transparent"
       ].join(' ')}>
         
@@ -76,7 +76,7 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
           <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 shrink-0">
             <div className={`rounded-full w-[60px] h-[60px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-lg border overflow-hidden transition-colors duration-300 ${
               scrolled 
-                ? 'bg-white border-velvet-obsidian/10' 
+                ? 'bg-velvet-obsidian border-white/10' 
                 : 'bg-white border-velvet-obsidian/10'
             }`}>
               <Image
@@ -84,14 +84,16 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
                 alt="Ibiza mi vida"
                 width={70}
                 height={70}
-                className={`object-contain transition-all duration-300 brightness-0 hover:opacity-80 w-[85%] h-[85%]`}
+                className={`object-contain transition-all duration-300 w-[85%] h-[85%] ${
+                  scrolled ? 'brightness-0 invert hover:opacity-80' : 'brightness-0 hover:opacity-80'
+                }`}
                 priority
               />
             </div>
           </Link>
           <div className={`hidden sm:flex items-center justify-center px-5 py-3 rounded-xl border transition-colors duration-300 ${
             scrolled 
-              ? 'bg-white border-velvet-obsidian/10 text-velvet-obsidian shadow-sm' 
+              ? 'bg-velvet-obsidian border-white/10 text-white shadow-sm' 
               : 'bg-transparent border-transparent text-white drop-shadow-md'
           }`}>
             <span className="font-sans text-[36px] md:text-[46px] tracking-tight font-bold">Ibiza mi vida</span>

@@ -77,11 +77,9 @@ export function RadioPlayer() {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={`group flex items-center gap-2 rounded-full border p-1 md:p-1.5 shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 ${
-          isPlaying 
-            ? 'bg-velvet-obsidian/90 text-white border-black/10' 
-            : (scrolled || pathname !== '/') 
-              ? 'bg-white text-velvet-obsidian border-black/10 hover:bg-ibiza-sand' 
-              : 'bg-black/20 text-white border-white/20 hover:bg-black/30'
+          (scrolled || pathname !== '/') 
+            ? 'bg-white text-velvet-obsidian border-black/10 hover:bg-ibiza-sand' 
+            : 'bg-black/20 text-white border-white/20 hover:bg-black/30'
         }`}
         whileTap={{ scale: 0.95 }}
       >

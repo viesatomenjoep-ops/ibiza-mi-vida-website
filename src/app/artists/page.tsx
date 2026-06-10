@@ -2,25 +2,41 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Disc } from 'lucide-react'
+import { getVenues, getEvent } from '@/lib/clubtickets'
 
-// Dummy fallback data just in case we don't have API access to all artists globally yet,
-// but the user specifically asked for David Guetta, Martin Garrix, etc.
-const FEATURED_ARTISTS = [
-  { slug: 'david-guetta', name: 'David Guetta', image: 'https://images.unsplash.com/photo-1574155376614-2576b91176b9?q=80&w=800', desc: 'F\*\*\* Me I\'m Famous & Future Rave' },
-  { slug: 'martin-garrix', name: 'Martin Garrix', image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800', desc: 'Ushuaïa Thursdays' },
-  { slug: 'calvin-harris', name: 'Calvin Harris', image: 'https://images.unsplash.com/photo-1598387181032-a310322db565?q=80&w=800', desc: 'Ushuaïa Fridays' },
-  { slug: 'black-coffee', name: 'Black Coffee', image: 'https://images.unsplash.com/photo-1502872364588-894d7d6ddfab?q=80&w=800', desc: 'Hï Ibiza Saturdays' },
-  { slug: 'fisher', name: 'Fisher', image: 'https://images.unsplash.com/photo-1543807535-ece20bfc652c?q=80&w=800', desc: 'Hï Ibiza Wednesdays' },
-  { slug: 'tale-of-us', name: 'Tale Of Us', image: 'https://images.unsplash.com/photo-1520092363653-b1d5bd3647f2?q=80&w=800', desc: 'Afterlife @ Hï Ibiza' },
-]
+export const revalidate = 3600
 
-export default function ArtistsPage() {
+export default async function ArtistsPage() {
+  const venues = await getVenues('en')
+  
+  // Top clubs to extract residencies from
+  const topSlugs = ['hi-ibiza', 'ushuaia-ibiza', 'amnesia-ibiza', 'pacha-ibiza', 'eden-ibiza', 'unvrs-ibiza', 'o-beach-ibiza', 'ibiza-rocks-hotel']
+  const topVenues = venues.filter(v => topSlugs.includes(v.slug))
+  
+  const eventPromises: Promise<any>[] = []
+  
+  for (const venue of topVenues) {
+    if (!venue.events) continue
+    for (const eventRef of venue.events) {
+      eventPromises.push(
+        getEvent(venue.id, eventRef.id, 'en').then(full => full ? { ...full, venueName: venue.name } : null)
+      )
+    }
+  }
+  
+  const fetchedEvents = (await Promise.all(eventPromises)).filter(Boolean)
+  
+  // Deduplicate by slug
+  const uniqueArtists = Array.from(new Map(fetchedEvents.map(item => [item.slug, item])).values())
+  // Filter out those without images to make the grid look good
+  const artists = uniqueArtists.filter(a => a.cover || a.logo)
+
   return (
     <main className="bg-ibiza-sand min-h-screen text-velvet-obsidian pt-32 pb-24">
       <div className="container mx-auto px-[5%]">
         <div className="mb-16 max-w-3xl">
           <p className="text-rustic-terracotta font-sans text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
-            <Disc size={16} /> Featured Headliners
+            <Disc size={16} /> Featured Headliners & Parties
           </p>
           <h1 className="font-serif text-5xl md:text-7xl font-bold mb-6">Ibiza Artists</h1>
           <p className="font-sans text-lg text-velvet-obsidian/70">
@@ -29,14 +45,14 @@ export default function ArtistsPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {FEATURED_ARTISTS.map((artist) => (
+          {artists.map((artist) => (
             <Link 
               key={artist.slug}
               href={`/artists/${artist.slug}`}
               className="group relative h-[400px] md:h-[500px] rounded-[2rem] overflow-hidden bg-black shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-black/5"
             >
               <Image 
-                src={artist.image} 
+                src={artist.cover || artist.logo} 
                 alt={artist.name}
                 fill
                 className="object-cover opacity-70 transition-all duration-700 group-hover:scale-110 group-hover:opacity-90"
@@ -45,7 +61,7 @@ export default function ArtistsPage() {
               
               <div className="absolute bottom-0 left-0 w-full p-8 flex flex-col justify-end">
                 <span className="text-rustic-terracotta font-sans text-[10px] font-bold uppercase tracking-widest mb-2">
-                  {artist.desc}
+                  {artist.venueName}
                 </span>
                 <h2 className="font-serif text-4xl text-white font-bold group-hover:text-rustic-terracotta transition-colors">
                   {artist.name}
