@@ -66,30 +66,31 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
     <>
       <header className={[
         "fixed left-0 right-0 z-50 pointer-events-none flex items-center justify-between transition-all duration-500 px-4 md:px-8",
-        scrolled ? "top-0 py-3 bg-velvet-obsidian/95 backdrop-blur-md shadow-sm border-b border-black" : "top-4 md:top-6 bg-transparent border-transparent"
+        scrolled ? "top-0 py-3 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-200" : "top-4 md:top-6 bg-transparent border-transparent"
       ].join(' ')}>
         
         {/* Left: Logo */}
-        <div className="pointer-events-auto flex items-center gap-3 transition-transform duration-500 ease-out" style={{ transform: `scale(${scrolled ? 0.9 : 1})`, transformOrigin: 'left center' }}>
-          <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 shrink-0">
+        <div className="flex items-center gap-4">
+          <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 shrink-0 pointer-events-auto">
             <div className={`rounded-full w-[60px] h-[60px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-lg border overflow-hidden transition-colors duration-500 ${
               scrolled 
-                ? 'bg-velvet-obsidian border-white/10' 
+                ? 'bg-gray-50 border-gray-200' 
                 : 'bg-transparent border-white/20'
             }`}>
-              <Image
-                src="/logo-clean.png"
-                alt="Ibiza mi vida"
-                width={70}
-                height={70}
-                className={`object-contain transition-all duration-500 w-[85%] h-[85%] brightness-0 invert hover:opacity-80`}
-                priority
-              />
+              <div className="relative w-full h-full">
+                <Image 
+                  src="/logo-clean.png" 
+                  alt="Ibiza mi vida Logo" 
+                  fill
+                  className={`object-contain p-2 md:p-3 transition-all duration-500 ${scrolled ? 'brightness-0' : 'brightness-0 invert'}`}
+                  priority
+                />
+              </div>
             </div>
           </Link>
-          <div className={`hidden sm:flex items-center justify-center px-5 py-3 rounded-xl border transition-colors duration-500 ${
+          <div className={`hidden sm:flex items-center justify-center px-5 py-3 rounded-xl border transition-colors duration-500 pointer-events-auto ${
             scrolled 
-              ? 'bg-velvet-obsidian border-white/10 text-white shadow-sm' 
+              ? 'bg-white border-gray-200 text-velvet-obsidian shadow-sm' 
               : 'bg-transparent border-transparent text-white drop-shadow-md'
           }`}>
             <span className="font-sans text-[36px] md:text-[46px] tracking-tight font-bold">Ibiza mi vida</span>
@@ -101,20 +102,26 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
 
           <Link
             href="/deals-of-the-day"
-            className="hidden sm:flex items-center gap-2 rounded-full bg-rustic-terracotta px-6 py-3.5 md:px-8 md:py-4 shadow-xl transition-all hover:bg-rustic-terracotta/90 hover:scale-105 border border-black/5"
+            className={`hidden sm:flex items-center gap-2 rounded-full px-6 py-3.5 md:px-8 md:py-4 shadow-xl transition-all hover:scale-105 border border-black/5 ${
+              scrolled ? 'bg-gray-100 text-velvet-obsidian hover:bg-gray-200' : 'bg-rustic-terracotta text-white hover:bg-rustic-terracotta/90'
+            }`}
           >
-            <span className="font-serif text-[28px] md:text-[32px] font-semibold tracking-wide text-white whitespace-nowrap">Deals of the Day</span>
+            <span className="font-serif text-[28px] md:text-[32px] font-semibold tracking-wide whitespace-nowrap">Deals of the Day</span>
           </Link>
           <Link
             href="/deals-of-the-day"
-            className="flex sm:hidden items-center gap-2 rounded-full bg-rustic-terracotta px-5 py-3 shadow-xl transition-all hover:bg-rustic-terracotta/90 hover:scale-105 border border-black/5"
+            className={`flex sm:hidden items-center gap-2 rounded-full px-5 py-3 shadow-xl transition-all hover:scale-105 border border-black/5 ${
+              scrolled ? 'bg-gray-100 text-velvet-obsidian hover:bg-gray-200' : 'bg-rustic-terracotta text-white hover:bg-rustic-terracotta/90'
+            }`}
           >
-            <span className="font-serif text-[22px] font-semibold tracking-wide text-white whitespace-nowrap">Deals of the Day</span>
+            <span className="font-serif text-[22px] font-semibold tracking-wide whitespace-nowrap">Deals of the Day</span>
           </Link>
 
           <button 
             onClick={() => setMenuOpen(!menuOpen)}
-            className="flex h-[44px] w-[44px] md:h-[56px] md:w-[56px] shrink-0 items-center justify-center rounded-full bg-velvet-obsidian text-white shadow-xl transition-transform hover:scale-105 hover:bg-velvet-obsidian/90 border border-black/5"
+            className={`flex h-[44px] w-[44px] md:h-[56px] md:w-[56px] shrink-0 items-center justify-center rounded-full shadow-xl transition-transform hover:scale-105 border border-black/5 ${
+              scrolled ? 'bg-gray-100 text-velvet-obsidian hover:bg-gray-200' : 'bg-velvet-obsidian text-white hover:bg-velvet-obsidian/90'
+            }`}
             aria-label="Open menu"
           >
             {menuOpen ? <X size={20} strokeWidth={2.5} className="md:w-[24px] md:h-[24px]" /> : <Menu size={20} strokeWidth={2.5} className="md:w-[24px] md:h-[24px]" />}
