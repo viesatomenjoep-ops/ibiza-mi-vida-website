@@ -14,8 +14,7 @@ interface Props {
 
 async function fetchArtistData(slug: string) {
   const venues = await getVenues('en')
-  const topSlugs = ['hi-ibiza', 'ushuaia-ibiza', 'amnesia-ibiza', 'pacha-ibiza', 'eden-ibiza', 'unvrs-ibiza', 'o-beach-ibiza', 'ibiza-rocks-hotel']
-  const topVenues = venues.filter(v => topSlugs.includes(v.slug))
+  const topVenues = venues.filter(v => v.events && v.events.length > 0)
   
   let targetVenueId = -1
   let targetEventId = -1

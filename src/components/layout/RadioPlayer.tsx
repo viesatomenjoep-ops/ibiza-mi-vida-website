@@ -1,120 +1,114 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
-import { Play, Pause } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react'
+import { Play, Volume2, VolumeX, Loader2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { usePathname } from 'next/navigation'
 
 export function RadioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const [isMuted, setIsMuted] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
-  const pathname = usePathname()
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
+    audioRef.current = new Audio('https://ibizaglobalradio.streaming-pro.com:8024/stream')
+    
+    const handleCanPlay = () => setIsLoading(false)
+    const handlePlaying = () => {
+      setIsLoading(false)
+      setIsPlaying(true)
     }
-    window.addEventListener('scroll', handleScroll)
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    const handlePause = () => setIsPlaying(false)
+    const handleWaiting = () => setIsLoading(true)
 
-  useEffect(() => {
-    // Only initialize once on client
-    if (!audioRef.current) {
-      audioRef.current = new Audio('https://listenssl.ibizaglobalradio.com:8024/stream')
-      audioRef.current.preload = 'none'
-    }
-
-    const tryAutoplay = async () => {
-      try {
-        if (audioRef.current) {
-          await audioRef.current.play()
-          setIsPlaying(true)
-        }
-      } catch (err) {
-        setIsPlaying(false)
-      }
-    }
-
-    tryAutoplay()
+    audioRef.current.addEventListener('canplay', handleCanPlay)
+    audioRef.current.addEventListener('playing', handlePlaying)
+    audioRef.current.addEventListener('pause', handlePause)
+    audioRef.current.addEventListener('waiting', handleWaiting)
 
     return () => {
       if (audioRef.current) {
         audioRef.current.pause()
         audioRef.current.src = ''
-        audioRef.current = null
+        audioRef.current.removeEventListener('canplay', handleCanPlay)
+        audioRef.current.removeEventListener('playing', handlePlaying)
+        audioRef.current.removeEventListener('pause', handlePause)
+        audioRef.current.removeEventListener('waiting', handleWaiting)
       }
     }
   }, [])
 
   const togglePlay = () => {
-    // Instant UI feedback
-    const newPlayState = !isPlaying;
-    setIsPlaying(newPlayState);
-
     if (!audioRef.current) return
 
-    if (!newPlayState) {
+    if (isPlaying) {
       audioRef.current.pause()
+      setIsPlaying(false)
     } else {
-      // Catch error silently if it fails to buffer immediately
-      audioRef.current.play().catch(() => {
+      setIsLoading(true)
+      audioRef.current.play().catch((err) => {
+        console.error("Audio playback failed:", err)
+        setIsLoading(false)
         setIsPlaying(false)
       })
     }
   }
 
-  const isHomepageTop = pathname === '/' && !scrolled;
-  const showExpandedText = isHomepageTop || isHovered || isPlaying;
+  const toggleMute = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (!audioRef.current) return
+    const newMuted = !isMuted
+    audioRef.current.muted = newMuted
+    setIsMuted(newMuted)
+  }
 
   return (
-    <div className="fixed top-[90px] md:top-[100px] right-4 md:right-8 z-[60]">
+    <div className="mt-6 flex justify-center">
       <motion.button
         onClick={togglePlay}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`group flex items-center gap-2 rounded-full border p-1 md:p-1.5 shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 ${
-          (scrolled || pathname !== '/') 
-            ? 'bg-white text-velvet-obsidian border-black/10 hover:bg-ibiza-sand' 
-            : 'bg-black/20 text-white border-white/20 hover:bg-black/30'
-        }`}
+        className="group flex items-center gap-2 rounded-full border border-white/20 bg-black/20 p-1.5 pr-4 shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-black/40 text-white"
         whileTap={{ scale: 0.95 }}
       >
-        <div className={`flex h-6 w-6 md:h-8 md:w-8 shrink-0 items-center justify-center rounded-full transition-colors ${
-          isPlaying ? 'bg-[#25D366] text-white' : ((scrolled || pathname !== '/') ? 'bg-velvet-obsidian/5 text-velvet-obsidian' : 'bg-white/20 text-white')
-        }`}>
-          {isPlaying ? <Pause size={14} className="fill-current" /> : <Play size={14} className="ml-0.5 fill-current" />}
+        <div className={`relative flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full transition-colors duration-300 ${isPlaying ? 'bg-[#25D366] text-white shadow-[0_0_15px_rgba(37,211,102,0.5)]' : 'bg-white text-velvet-obsidian'}`}>
+          {isLoading ? (
+            <Loader2 size={18} className="animate-spin" />
+          ) : isPlaying ? (
+            <div className="flex gap-[3px] items-center justify-center h-4">
+              <motion.div animate={{ height: [4, 16, 4] }} transition={{ repeat: Infinity, duration: 0.8, ease: "easeInOut" }} className="w-1 bg-current rounded-full" />
+              <motion.div animate={{ height: [8, 12, 8] }} transition={{ repeat: Infinity, duration: 0.6, ease: "easeInOut", delay: 0.2 }} className="w-1 bg-current rounded-full" />
+              <motion.div animate={{ height: [4, 16, 4] }} transition={{ repeat: Infinity, duration: 1.0, ease: "easeInOut", delay: 0.4 }} className="w-1 bg-current rounded-full" />
+            </div>
+          ) : (
+            <Play size={18} className="ml-0.5 fill-current" />
+          )}
         </div>
-        
-        {/* Expanded state */}
+
+        <div className="flex flex-col items-start px-2 overflow-hidden">
+          <span className="font-sans text-[10px] font-bold uppercase tracking-widest text-white/70">
+            {isPlaying ? 'Live Now' : 'Listen Live'}
+          </span>
+          <span className="font-serif text-sm font-bold whitespace-nowrap">
+            Ibiza Global Radio
+          </span>
+        </div>
+
         <AnimatePresence>
-          {showExpandedText && (
+          {isPlaying && (
             <motion.div
               initial={{ width: 0, opacity: 0 }}
               animate={{ width: 'auto', opacity: 1 }}
               exit={{ width: 0, opacity: 0 }}
-              className="overflow-hidden whitespace-nowrap pr-3 md:pr-4"
+              className="ml-2 overflow-hidden"
             >
-              <div className="flex flex-col items-start text-left">
-                <span className="font-sans text-[7px] md:text-[8px] font-bold uppercase tracking-widest text-current opacity-70">
-                  Live Radio
-                </span>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-serif text-[11px] md:text-[13px] font-semibold leading-none text-current">
-                    Ibiza Global Radio
-                  </span>
-                  {isPlaying && (
-                    <div className="flex items-end gap-[1px] h-2.5 ml-1">
-                      <motion.div animate={{ height: ['3px', '10px', '3px'] }} transition={{ repeat: Infinity, duration: 0.5, ease: 'easeInOut' }} className="w-[2px] bg-current opacity-80" />
-                      <motion.div animate={{ height: ['6px', '3px', '8px', '6px'] }} transition={{ repeat: Infinity, duration: 0.4, ease: 'easeInOut' }} className="w-[2px] bg-current opacity-80" />
-                      <motion.div animate={{ height: ['4px', '10px', '4px'] }} transition={{ repeat: Infinity, duration: 0.6, ease: 'easeInOut' }} className="w-[2px] bg-current opacity-80" />
-                    </div>
-                  )}
-                </div>
-              </div>
+              <button
+                onClick={toggleMute}
+                className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-white/20 transition-colors text-white"
+              >
+                {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+              </button>
             </motion.div>
           )}
         </AnimatePresence>

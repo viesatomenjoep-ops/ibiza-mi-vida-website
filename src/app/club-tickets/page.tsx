@@ -99,16 +99,15 @@ export default async function ClubTicketsPage() {
                     <div className="mb-6">
                       <p className="text-xs font-bold uppercase tracking-widest text-rustic-terracotta mb-2">Featured Parties</p>
                       <div className="flex flex-wrap gap-2">
-                        {club.events.slice(0, 4).map(e => (
-                          <span key={e.id} className="bg-black/5 text-velvet-obsidian text-xs px-2.5 py-1 rounded-md font-semibold border border-black/5 whitespace-nowrap">
+                        {club.events.map(e => (
+                          <Link 
+                            key={e.id} 
+                            href={`/artists/${e.slug}`}
+                            className="text-xs font-medium bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-rustic-terracotta hover:text-white transition-colors"
+                          >
                             {e.name}
-                          </span>
+                          </Link>
                         ))}
-                        {club.events.length > 4 && (
-                          <span className="text-xs text-velvet-obsidian/50 font-bold flex items-center px-1">
-                            +{club.events.length - 4} more
-                          </span>
-                        )}
                       </div>
                     </div>
                   )}

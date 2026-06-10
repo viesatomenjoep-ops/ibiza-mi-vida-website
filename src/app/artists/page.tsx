@@ -9,9 +9,7 @@ export const revalidate = 3600
 export default async function ArtistsPage() {
   const venues = await getVenues('en')
   
-  // Top clubs to extract residencies from
-  const topSlugs = ['hi-ibiza', 'ushuaia-ibiza', 'amnesia-ibiza', 'pacha-ibiza', 'eden-ibiza', 'unvrs-ibiza', 'o-beach-ibiza', 'ibiza-rocks-hotel']
-  const topVenues = venues.filter(v => topSlugs.includes(v.slug))
+  const topVenues = venues.filter(v => v.events && v.events.length > 0)
   
   const eventPromises: Promise<any>[] = []
   

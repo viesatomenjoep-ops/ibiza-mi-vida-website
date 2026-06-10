@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/context/cart-context';
 import { Music, Crown, Zap } from 'lucide-react';
+import { RadioPlayer } from '@/components/layout/RadioPlayer';
 
 const CONFIG = {
   whatsapp: '31683052875',
@@ -113,12 +114,15 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
             <Link href="/club-tickets" className="btn btn--primary hover:scale-105 transition-transform duration-300 min-w-[200px]">Book Club Tickets</Link>
             <Link href="/vip-experiences" className="px-6 py-3 rounded-full border border-white/40 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 min-w-[200px]">View VIP Tables</Link>
           </div>
+          <div className="mt-8">
+            <RadioPlayer />
+          </div>
         </div>
       </section>
 
       <section id="deals" className="section section--paper pt-0">
         <div className="container">
-          <div className="section__header reveal">
+          <div className="section__header reveal pt-16 md:pt-20">
             <div>
               <p className="section__eyebrow">LIVE OFFERS</p>
               <h2 className="section__heading">Deals of the day.</h2>
@@ -165,7 +169,8 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
         </div>
       </section>
 
-
+      {dailyEventsSection}
+      {clubTicketsSlider}
 
 <section id="relume" className="px-[5%] py-4 md:py-8 lg:py-12 group">
   <div className="container">
@@ -249,9 +254,6 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
     </div>
   </div>
 </section>
-
-      {dailyEventsSection}
-      {clubTicketsSlider}
     </main>
   );
 }

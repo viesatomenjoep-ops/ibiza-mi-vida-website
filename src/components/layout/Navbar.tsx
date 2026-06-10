@@ -52,7 +52,7 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40)
-      setPastHero(window.scrollY > window.innerHeight - 80)
+      setPastHero(window.scrollY > (window.innerHeight * 0.6))
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     // Initialize state
@@ -65,17 +65,16 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
   return (
     <>
       <header className={[
-        "fixed left-0 right-0 z-50 pointer-events-none flex items-center justify-between transition-all duration-300 px-4 md:px-8",
-        scrolled 
-          ? "top-0 py-3 bg-velvet-obsidian/95 backdrop-blur-md shadow-sm border-b border-black"
-          : "top-4 md:top-6 bg-transparent"
+        "fixed left-0 right-0 z-50 pointer-events-none flex items-center justify-between transition-all duration-500 px-4 md:px-8",
+        scrolled ? "top-0 py-3" : "top-4 md:top-6",
+        pastHero ? "bg-velvet-obsidian/95 backdrop-blur-md shadow-sm border-b border-black" : "bg-transparent border-transparent"
       ].join(' ')}>
         
         {/* Left: Logo */}
         <div className="pointer-events-auto flex items-center gap-3 transition-transform duration-500 ease-out" style={{ transform: `scale(${scrolled ? 0.9 : 1})`, transformOrigin: 'left center' }}>
           <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 shrink-0">
-            <div className={`rounded-full w-[60px] h-[60px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-lg border overflow-hidden transition-colors duration-300 ${
-              scrolled 
+            <div className={`rounded-full w-[60px] h-[60px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-lg border overflow-hidden transition-colors duration-500 ${
+              pastHero 
                 ? 'bg-velvet-obsidian border-white/10' 
                 : 'bg-transparent border-white/20'
             }`}>
@@ -84,13 +83,13 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
                 alt="Ibiza mi vida"
                 width={70}
                 height={70}
-                className={`object-contain transition-all duration-300 w-[85%] h-[85%] brightness-0 invert hover:opacity-80`}
+                className={`object-contain transition-all duration-500 w-[85%] h-[85%] brightness-0 invert hover:opacity-80`}
                 priority
               />
             </div>
           </Link>
-          <div className={`hidden sm:flex items-center justify-center px-5 py-3 rounded-xl border transition-colors duration-300 ${
-            scrolled 
+          <div className={`hidden sm:flex items-center justify-center px-5 py-3 rounded-xl border transition-colors duration-500 ${
+            pastHero 
               ? 'bg-velvet-obsidian border-white/10 text-white shadow-sm' 
               : 'bg-transparent border-transparent text-white drop-shadow-md'
           }`}>
