@@ -272,10 +272,11 @@ export default function Home() {
       smooth = lerp(smooth, target, .08);
       const p = smooth, pe = ease(p);
 
-      const yx = lerp(1060, 150, pe);
-      const yy = lerp(796, 644, pe) + Math.sin(time * 1.4) * 4 * (1.1 - pe * 0.6);
-      const ys = lerp(1.2, 0.5, pe);
-      const roll = Math.sin(time * 1.05) * 1.2 * (1 - pe * 0.4);
+      // YACHT: groot blijven (ys=1), van horizon (y=644) naar beneden (y=850), zigzaggend op X
+      const yx = lerp(800, 200, pe) + Math.sin(pe * Math.PI * 4) * 80;
+      const yy = lerp(644, 850, pe) + Math.sin(time * 2) * 5;
+      const ys = 1.0; 
+      const roll = Math.sin(time * 1.5) * 2 + Math.cos(pe * Math.PI * 4) * 8;
       liveYacht.setAttribute('transform', `translate(${yx.toFixed(1)}, ${yy.toFixed(1)}) rotate(${roll.toFixed(2)}) scale(${ys.toFixed(3)})`);
       
       const wake = document.getElementById('wake');
@@ -285,8 +286,13 @@ export default function Home() {
       const trail = document.getElementById('trail');
       if (jet && trail) {
         const jx = lerp(-300, 1600, pe);
-        const jy = lerp(70, 300, pe);
-        const bank = 5 * (1 - pe * 0.55);
+        // JET: meer naar onder (y=450 aan de randen, y=300 in het midden) in een boog
+        const jy = 450 - Math.sin(pe * Math.PI) * 150;
+        
+        const dy = -Math.cos(pe * Math.PI) * Math.PI * 150;
+        const dx = 1900;
+        const bank = Math.atan2(dy, dx) * (180 / Math.PI);
+        
         jet.setAttribute('transform', `translate(${jx.toFixed(1)}, ${jy.toFixed(1)}) rotate(${bank.toFixed(2)}) scale(1.5)`);
         trail.setAttribute('opacity', (0.4 + 0.5 * Math.min(1, (pe * (1 - pe)) * 4)).toFixed(3));
       }
@@ -321,7 +327,7 @@ export default function Home() {
       <div id="top"></div>
       <section id="scene" aria-label="Branded yacht departing as the Ibiza Mi Vida jet arrives">
         <div id="sceneSticky">
-          <video autoPlay loop muted playsInline className="scene-video" src="https://cdn.pixabay.com/video/2020/05/25/40141-424855799_large.mp4" />
+          <video autoPlay loop muted playsInline className="scene-video" src="/ocean.mp4" />
           <div dangerouslySetInnerHTML={{ __html: SVG_SCENE }} style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }} />
           <div className="scene-copy">
             <p className="scene-copy__eyebrow">IBIZA MI VIDA · SEASON 2026</p>
@@ -491,23 +497,14 @@ export default function Home() {
     <div className="flex flex-col items-start">
       <div className="mx-auto mb-12 max-w-lg md:mb-18 lg:mb-20">
         <div>
-          <p
-           
-            className="mb-3 text-center font-semibold md:mb-4"
-          >
-            Tagline
+          <p className="mb-3 text-center font-semibold md:mb-4">
+            Ontdek het nachtleven
           </p>
-          <h2
-           
-            className="mb-5 text-center text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
-          >
-            Medium length section heading goes here
+          <h2 className="mb-5 text-center text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl">
+            De meest iconische clubs ter wereld
           </h2>
           <p className="text-center md:text-md">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            varius enim in eros elementum tristique. Duis cursus, mi quis
-            viverra ornare, eros dolor interdum nulla, ut commodo diam libero
-            vitae erat.
+            Ibiza is dé thuisbasis van elektronische muziek. Beleef legendarische feesten in wereldberoemde locaties en dans tot de zon opkomt.
           </p>
         </div>
       </div>
@@ -520,34 +517,23 @@ export default function Home() {
             <img
               src="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
               className="size-12"
-              alt="Relume logo 1"
+              alt="Ibiza Clubs"
             />
           </div>
           <h3 className="mb-3 text-center text-xl font-bold md:mb-4 md:text-2xl">
-            Medium length section heading goes here
+            Premium VIP Tafels
           </h3>
           <p className="text-center">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            varius enim in eros elementum tristique.
+            Boek een exclusieve VIP tafel en geniet van de beste service, flessen en een fenomenaal uitzicht op de DJ.
           </p>
         </div>
       </div>
-      <div
-       
-        className="mt-12 flex w-full flex-wrap items-center justify-center gap-4 md:mt-18 lg:mt-20"
-      >
-        <button
-          className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
-         
-          title="Button"
-        >
-          Button</button
-        ><button
-          className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-         
-          title="Button"
-        >
-          Button<svg
+      <div className="mt-12 flex w-full flex-wrap items-center justify-center gap-4 md:mt-18 lg:mt-20">
+        <a href="#deals" className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3">
+          Bekijk VIP Tafels
+        </a>
+        <a href="#clubs" className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0">
+          Meer Info<svg
             stroke="currentColor"
             fill="none"
             strokeWidth="0"
@@ -563,7 +549,7 @@ export default function Home() {
               fill="currentColor"
             ></path>
           </svg>
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -574,15 +560,12 @@ export default function Home() {
   <div className="container">
     <div className="mb-12 md:mb-18 lg:mb-20">
       <div className="mx-auto max-w-lg text-center">
-        <p className="mb-3 font-semibold md:mb-4">Tagline</p>
-        <h2
-         
-          className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
-        >
-          Short heading goes here
+        <p className="mb-3 font-semibold md:mb-4">Clubs & Tickets</p>
+        <h2 className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl">
+          Vind jouw perfecte feest
         </h2>
         <p className="md:text-md">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Van de hypnotiserende techno in Hï Ibiza tot de klassieke house beats in Pacha. Kies jouw favoriete club en koop direct officiële tickets via Ibiza Mi Vida.
         </p>
       </div>
     </div>
@@ -596,7 +579,7 @@ export default function Home() {
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
               Amnesia
             </h3>
-            <p>Techno, house, and pure energy</p>
+            <p>Ervaar de legendarische sfeer van Amnesia. De ultieme plek voor meeslepende techno en ongeëvenaarde energie.</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
@@ -639,7 +622,7 @@ export default function Home() {
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
               Pacha Ibiza
             </h3>
-            <p>House and disco classics</p>
+            <p>De oudste club van Ibiza. Geniet van iconische house, disco klassiekers en een luxueuze sfeer.</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
@@ -682,7 +665,7 @@ export default function Home() {
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
               Hï Ibiza
             </h3>
-            <p>Cutting-edge techno and house</p>
+            <p>Verkozen tot de #1 club ter wereld. Laat je overdonderen door de spectaculaire lichtshows en cutting-edge elektronische muziek.</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
@@ -725,7 +708,7 @@ export default function Home() {
             <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
               Ushuaïa Ibiza
             </h3>
-            <p>House and commercial beats</p>
+            <p>Dans in de openlucht rond het zwembad. De place to be voor de grootste house artiesten en commerciële hits, van zonsondergang tot middernacht.</p>
           </div>
           <div className="mt-5 md:mt-6">
             <button
