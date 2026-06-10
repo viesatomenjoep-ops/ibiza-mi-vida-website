@@ -3,6 +3,7 @@ import { Marcellus, Mulish } from 'next/font/google'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppFAB } from '@/components/layout/WhatsAppFAB'
+import { RadioPlayer } from '@/components/layout/RadioPlayer'
 import { BookingProvider } from '@/context/booking-context'
 import { getVenues } from '@/lib/clubtickets'
 import { CartProvider } from '@/context/cart-context'
@@ -92,6 +93,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </main>
             <Footer />
             <WhatsAppFAB />
+            <RadioPlayer />
             <CartDrawer />
           </BookingProvider>
         </CartProvider>
