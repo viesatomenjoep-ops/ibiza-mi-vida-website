@@ -1,816 +1,196 @@
-import React from 'react';
+'use client'
+
+import React, { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+const CLUBS = [
+  { 
+    id: 'hi-ibiza',
+    name: 'Hï Ibiza',      
+    category: 'Techno',
+    tagline: 'Beleef de #1 club ter wereld met grensverleggende techno en spectaculaire lichtshows.',
+    image: '/hi-ibiza-2026/FB_IMG_1779623300180.jpg' 
+  },
+  { 
+    id: 'amnesia',
+    name: 'Amnesia',       
+    category: 'House',
+    tagline: 'De ultieme house en techno ervaring sinds de jaren \'70 in deze legendarische tempel.',
+    image: '/hi-ibiza-2026/FB_IMG_1779623220486.jpg' 
+  },
+  { 
+    id: 'ushuaia',
+    name: 'Ushuaïa Ibiza', 
+    category: 'Commercial',
+    tagline: 'Feest in de buitenlucht met \'s werelds beste en grootste DJ\'s rondom het indrukwekkende zwembad.',
+    image: '/ushuaia-2026/image_search_1779624236635.jpg' 
+  },
+  { 
+    id: 'pacha',
+    name: 'Pacha Ibiza',   
+    category: 'Disco',
+    tagline: 'Glamour, house en disco in de meest iconische club met de beroemde kersen.',
+    image: '/hi-ibiza-2026/FB_IMG_1779623247060.jpg' 
+  },
+  { 
+    id: 'obeach',
+    name: 'O Beach Ibiza', 
+    category: 'Pool Party',
+    tagline: 'De ultieme day-club experience in San Antonio met spectaculaire shows overdag in de zon.',
+    image: '/ushuaia-2026/image_search_1779624261942.jpg' 
+  },
+  { 
+    id: 'ibizarocks',
+    name: 'Ibiza Rocks',   
+    category: 'Live / Commercial',
+    tagline: 'Hét iconische poolparty hotel waar live artiesten en de beste UK dj\'s het podium overnemen.',
+    image: '/ushuaia-2026/image_search_1779624290030.jpg' 
+  },
+];
+
+const FAQS = [
+  {
+    question: "Hoe ontvang ik mijn tickets?",
+    answer: "Tickets worden direct na betaling als PDF of mobiele QR-code naar je e-mailadres gestuurd. Bewaar deze goed op je telefoon."
+  },
+  {
+    question: "Zijn de tickets 100% origineel?",
+    answer: "Absoluut. Wij zijn officiële partners van alle grote clubs in Ibiza, dus je loopt nooit risico aan de deur."
+  },
+  {
+    question: "Hoe laat moet ik binnen zijn?",
+    answer: "Let op het tijdslot op je ticket. Early-entry tickets vereisen vaak dat je voor een bepaald tijdstip (bijv. 01:00) binnen bent."
+  },
+  {
+    question: "Kan ik ook VIP tafels boeken?",
+    answer: "Ja, we bieden VIP-tafels met flessen en persoonlijke service aan voor vrijwel elke club. Neem contact met ons op via WhatsApp voor de prijzen."
+  }
+];
 
 export default function ClubTicketsPage() {
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
   return (
-    <>
-      <link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/logo-image.svg"
-/>
-<section
-  id="relume"
-  className="grid h-auto w-full grid-cols-[1fr_max-content_1fr] items-center justify-between border-b border-border-primary bg-background-primary px-[5%] md:min-h-18"
->
-  <button className="flex size-12 flex-col justify-center lg:hidden">
-    <span className="my-[3px] h-0.5 w-6 bg-black lg:hidden"></span
-    ><span className="my-[3px] h-0.5 w-6 bg-black lg:hidden"></span
-    ><span className="my-[3px] h-0.5 w-6 bg-black lg:hidden"></span>
-  </button>
-  <div
-   
-   
-   
-   
-    className="absolute left-0 top-0 z-50 flex h-dvh w-[90%] flex-col border-r border-border-primary bg-white px-[5%] pb-4 md:w-[80%] lg:visible lg:static lg:-ml-4 lg:flex lg:h-auto lg:w-auto lg:flex-row lg:border-none lg:px-0 lg:pb-0 lg:[--opacity-closed:100%] lg:[--x-closed:0%]"
-  ></div>
-  <div
-    className="fixed inset-0 z-40 bg-black lg:hidden hidden"
-    style={{ "opacity": 0 } as React.CSSProperties}
-  ></div>
-  <a href="#" className="flex min-h-16 flex-shrink-0 items-center"
-    ><img
-      src="https://d22po4pjz3o32e.cloudfront.net/logo-image.svg"
-      alt="Logo image"
-  /></a>
-  <div className="flex min-h-16 items-center justify-end gap-x-4">
-    <div>
-      <button
-        className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary bg-background-alternative text-text-alternative px-4 py-1 md:px-6 md:py-2"
-        title="Access"
-      >
-        Access
-      </button>
-    </div>
-  </div>
-</section>
+    <div className="bg-background-primary min-h-screen pt-24 pb-16">
+      
+      {/* Hero Section */}
+      <section className="px-[5%] py-16 md:py-24">
+        <div className="container max-w-3xl text-center mx-auto">
+          <p className="mb-4 font-semibold text-blue-500 tracking-widest uppercase">Ibiza 2026</p>
+          <h1 className="mb-6 text-5xl font-serif font-bold md:text-7xl lg:text-8xl">
+            Officiële Club Tickets
+          </h1>
+          <p className="md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Verzeker je plek op de grootste en beste feesten ter wereld. Koop gegarandeerd echte tickets voor alle topclubs zonder verborgen kosten.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <a href="#clubs" className="bg-black text-white px-8 py-4 rounded-full font-semibold hover:bg-gray-800 transition-colors">
+              Alle Feesten
+            </a>
+            <a href="https://wa.me/31683052875?text=Hi,%20I'm%20interested%20in%20a%20VIP%20Table" target="_blank" rel="noopener noreferrer" className="border border-black px-8 py-4 rounded-full font-semibold hover:bg-gray-50 transition-colors">
+              VIP Tafels
+            </a>
+          </div>
+        </div>
+      </section>
 
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
-  <div className="container max-w-lg text-center">
-    <p className="mb-3 font-semibold md:mb-4">Ibiza 2026</p>
-    <h1
-     
-      className="mb-5 text-6xl font-bold md:mb-6 md:text-9xl lg:text-10xl"
-    >
-      Officiële Club Tickets
-    </h1>
-    <p className="md:text-md">
-      Verzeker je plek op de grootste en beste feesten ter wereld. Koop gegarandeerd echte tickets voor alle topclubs zonder verborgen kosten.
-    </p>
-    <div
-     
-     
-      className="mt-6 flex items-center justify-center gap-x-4 md:mt-8"
-    >
-      <button
-        className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary bg-background-alternative text-text-alternative px-6 py-3"
-        title="Button"
-      >
-        Alle Feesten</button
-      ><button
-        className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
-        title="Bekijk VIP Tafels"
-       
-      >
-        VIP Tafels
-      </button>
-    </div>
-  </div>
-</section>
+      {/* Clubs Grid */}
+      <section id="clubs" className="px-[5%] py-16 bg-gray-50">
+        <div className="container mx-auto">
+          <div className="mb-12 text-center max-w-2xl mx-auto">
+            <h2 className="mb-4 text-4xl font-serif font-bold md:text-5xl">Ontdek De Beste Clubs</h2>
+            <p className="text-gray-600">Selecteer je favoriete club om de actuele agenda, line-ups en ticketprijzen te bekijken.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {CLUBS.map((club) => (
+              <div key={club.id} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col">
+                <div className="relative h-64 w-full overflow-hidden">
+                  <Image 
+                    src={club.image} 
+                    alt={club.name} 
+                    fill 
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
+                    {club.category}
+                  </div>
+                </div>
+                <div className="p-8 flex flex-col flex-1">
+                  <h3 className="text-2xl font-serif font-bold mb-3">{club.name}</h3>
+                  <p className="text-gray-600 mb-6 flex-1">{club.tagline}</p>
+                  <Link href={`/club-tickets/${club.id}`} className="inline-flex items-center gap-2 text-black font-semibold hover:text-blue-500 transition-colors group/link">
+                    Bekijk Line-up
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover/link:translate-x-1">
+                      <path d="M5 12h14m-7-7 7 7-7 7"/>
+                    </svg>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-<link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-/>
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
-  <div className="container">
-    <div className="mb-12 md:mb-18 lg:mb-20">
-      <div className="mx-auto max-w-lg text-center">
-        <p className="mb-3 font-semibold md:mb-4">Tagline</p>
-        <h2
-         
-          className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
-        >
-          Short heading goes here
-        </h2>
-        <p className="md:text-md">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-      </div>
-    </div>
-    <div
-     
-      className="grid auto-cols-fr grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-4"
-    >
-      <div className="flex flex-col border border-border-primary">
-        <div
-          className="flex w-full flex-col items-center justify-center self-start"
-        >
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-            alt="Relume placeholder image 1"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-6">
-          <div>
-            <p className="mb-2 text-sm font-semibold">Techno</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Hï Ibiza
-            </h3>
-            <p>Beleef de #1 club ter wereld met grensverleggende techno en spectaculaire lichtshows.</p>
+      {/* FAQ Section */}
+      <section className="px-[5%] py-20 bg-white">
+        <div className="container mx-auto max-w-3xl">
+          <div className="text-center mb-12">
+            <p className="text-blue-500 font-semibold tracking-widest uppercase mb-2">Tickets FAQ</p>
+            <h2 className="text-4xl font-serif font-bold mb-4">Veelgestelde Vragen</h2>
+            <p className="text-gray-600">Vind snel antwoord op veelgestelde vragen over het boeken van club tickets.</p>
           </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Bekijk Line-up"
-            >
-              Bekijk Line-up<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
+          
+          <div className="space-y-4">
+            {FAQS.map((faq, idx) => (
+              <div key={idx} className="border border-gray-200 rounded-2xl overflow-hidden">
+                <button 
+                  className="w-full text-left px-6 py-5 font-semibold text-lg flex justify-between items-center bg-gray-50 hover:bg-gray-100 transition-colors"
+                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                >
+                  {faq.question}
+                  <svg className={`w-6 h-6 transform transition-transform ${openFaq === idx ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {openFaq === idx && (
+                  <div className="px-6 py-5 bg-white text-gray-600">
+                    {faq.answer}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
-      </div>
-      <div className="flex flex-col border border-border-primary">
-        <div
-          className="flex w-full flex-col items-center justify-center self-start"
-        >
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-            alt="Relume placeholder image 2"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-6">
-          <div>
-            <p className="mb-2 text-sm font-semibold">House</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Amnesia
-            </h3>
-            <p>De ultieme house en techno ervaring sinds de jaren '70 in deze legendarische tempel.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Bekijk Line-up"
-            >
-              Bekijk Line-up<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col border border-border-primary">
-        <div
-          className="flex w-full flex-col items-center justify-center self-start"
-        >
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-            alt="Relume placeholder image 3"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-6">
-          <div>
-            <p className="mb-2 text-sm font-semibold">Commercial</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Ushuaïa Ibiza
-            </h3>
-            <p>Feest in de buitenlucht met 's werelds beste en grootste DJ's rondom het indrukwekkende zwembad.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Bekijk Line-up"
-            >
-              Bekijk Line-up<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col border border-border-primary">
-        <div
-          className="flex w-full flex-col items-center justify-center self-start"
-        >
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-            alt="Relume placeholder image 4"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-6">
-          <div>
-            <p className="mb-2 text-sm font-semibold">Disco</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Pacha Ibiza
-            </h3>
-            <p>Glamour, house en disco in de meest iconische club met de beroemde kersen.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Bekijk Line-up"
-            >
-              Bekijk Line-up<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
 
-<link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
-/><link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-/>
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
-  <div className="container">
-    <div className="mb-12 md:mb-18 lg:mb-20">
-      <div
-       
-        className="mx-auto flex max-w-lg flex-col items-center text-center"
-      >
-        <div className="rb-5 mb-5 md:mb-6">
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
-            className="size-20"
-            alt="Relume logo"
-          />
-        </div>
-        <p className="mb-3 font-semibold md:mb-4">Blijf Op De Hoogte</p>
-        <h2
-         
-          className="rb-5 mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
-        >
-          Mis Geen Enkel Feest
-        </h2>
-        <p className="md:text-md">
-          Schrijf je in voor onze nieuwsbrief en ontvang als eerste updates over ticket sales, exclusieve line-up onthullingen en de beste VIP deals voor jouw Ibiza trip.
-        </p>
-        <div
-         
-         
-          className="mt-6 flex flex-wrap items-center justify-center gap-4 md:mt-8"
-        >
-          <button
-            className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
-           
-            title="Meld je aan"
-          >
-            Meld je aan</button
-          ><button
-            className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-           
-            title="Agenda"
-          >
-            Bekijk Agenda<svg
-              stroke="currentColor"
-              fill="none"
-              strokeWidth="0"
-              viewBox="0 0 15 15"
-              height="1em"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                fill="currentColor"
-              ></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div>
-      <img
-        src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-        className="size-full object-cover"
-        alt="Relume placeholder image"
-      />
-    </div>
-  </div>
-</section>
-
-<link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-/>
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
-  <div className="container">
-    <div className="mb-12 md:mb-18 lg:mb-20">
-      <div className="mx-auto max-w-lg text-center">
-        <p className="mb-3 font-semibold md:mb-4">Tickets FAQ</p>
-        <h2
-         
-          className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
-        >
-          Veelgestelde Vragen
-        </h2>
-        <p className="md:text-md">
-          Vind snel antwoord op veelgestelde vragen over het boeken van club tickets.
-        </p>
-      </div>
-    </div>
-    <div
-     
-      className="grid auto-cols-fr grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-4"
-    >
-      <div className="flex flex-col border border-border-primary">
-        <div
-          className="flex w-full flex-col items-center justify-center self-start"
-        >
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-            alt="Relume placeholder image 1"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-6">
-          <div>
-            <p className="mb-2 text-sm font-semibold">Levering</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Hoe ontvang ik mijn tickets?
-            </h3>
-            <p>Tickets worden direct na betaling als PDF of mobiele QR-code naar je e-mailadres gestuurd. Bewaar deze goed op je telefoon.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
-            >
-              Button<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col border border-border-primary">
-        <div
-          className="flex w-full flex-col items-center justify-center self-start"
-        >
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-            alt="Relume placeholder image 2"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-6">
-          <div>
-            <p className="mb-2 text-sm font-semibold">Geldigheid</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Zijn de tickets 100% origineel?
-            </h3>
-            <p>Absoluut. Wij zijn officiële partners van alle grote clubs in Ibiza, dus je loopt nooit risico aan de deur.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
-            >
-              Button<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col border border-border-primary">
-        <div
-          className="flex w-full flex-col items-center justify-center self-start"
-        >
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-            alt="Relume placeholder image 3"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-6">
-          <div>
-            <p className="mb-2 text-sm font-semibold">Toegang</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Hoe laat moet ik binnen zijn?
-            </h3>
-            <p>Let op het tijdslot op je ticket. Early-entry tickets vereisen vaak dat je voor een bepaald tijdstip (bijv. 01:00) binnen bent.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
-            >
-              Button<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col border border-border-primary">
-        <div
-          className="flex w-full flex-col items-center justify-center self-start"
-        >
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image-landscape.svg"
-            alt="Relume placeholder image 4"
-          />
-        </div>
-        <div className="flex flex-1 flex-col justify-center p-6">
-          <div>
-            <p className="mb-2 text-sm font-semibold">VIP</p>
-            <h3 className="mb-2 text-lg font-bold leading-[1.4] md:text-2xl">
-              Kan ik ook VIP tafels boeken?
-            </h3>
-            <p>Ja, we bieden VIP-tafels met flessen en persoonlijke service aan voor vrijwel elke club. Neem contact met ons op via WhatsApp voor de prijzen.</p>
-          </div>
-          <div className="mt-5 md:mt-6">
-            <button
-              className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-              title="Button"
-            >
-              Button<svg
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="0"
-                viewBox="0 0 15 15"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-/>
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
-  <div className="container relative">
-    <div
-      className="relative z-10 flex flex-col items-center p-8 md:p-12 lg:p-16"
-    ></div>
-    <div className="absolute inset-0 z-0">
-      <img
-        src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-        className="size-full object-cover"
-        alt="Relume placeholder image"
-      />
-      <div className="absolute inset-0 bg-black/50"></div>
-    </div>
-  </div>
-</section>
-
-<link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/logo-image.svg"
-/>
-<footer id="relume" className="px-[5%] py-12 md:py-18 lg:py-20">
-  <div className="container">
-    <div
-      className="grid grid-cols-1 items-start gap-x-[8vw] gap-y-12 pb-12 md:gap-y-16 md:pb-18 lg:grid-cols-[1fr_0.5fr] lg:gap-y-4 lg:pb-20"
-    >
-      <div
-        className="grid grid-cols-1 items-start gap-x-8 gap-y-10 sm:grid-cols-3 sm:gap-x-6 sm:gap-y-12 md:gap-x-8 lg:grid-cols-4"
-      >
-        <a
-          href="#"
-          className="sm:col-start-1 sm:col-end-4 sm:row-start-1 sm:row-end-2 lg:col-start-auto lg:col-end-auto lg:row-start-auto lg:row-end-auto"
-          ><img
-            src="https://d22po4pjz3o32e.cloudfront.net/logo-image.svg"
-            alt="Logo image"
-        /></a>
-        <div
-         
-          className="flex flex-col items-start justify-start"
-        >
-          <h2 className="mb-3 font-semibold md:mb-4">
-            Column One
-          </h2>
-          <ul>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link One</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Two</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Three</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Four</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Five</a>
-            </li>
-          </ul>
-        </div>
-        <div
-         
-          className="flex flex-col items-start justify-start"
-        >
-          <h2 className="mb-3 font-semibold md:mb-4">
-            Column Two
-          </h2>
-          <ul>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Six</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Seven</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Eight</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Nine</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Ten</a>
-            </li>
-          </ul>
-        </div>
-        <div
-         
-          className="flex flex-col items-start justify-start"
-        >
-          <h2 className="mb-3 font-semibold md:mb-4">
-            Column Three
-          </h2>
-          <ul>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Eleven</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Twelve</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Thirteen</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Fourteen</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Fifteen</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div className="flex flex-col">
-        <h1 className="mb-3 font-semibold md:mb-4">
-          Subscribe
-        </h1>
-        <p className="mb-3 text-sm md:mb-4">
-          Join our newsletter to stay up to date on features and releases.
-        </p>
-        <div className="w-full max-w-md">
-          <form
-            className="mb-3 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-[1fr_max-content] md:gap-y-4"
-          >
-            <div className="relative flex w-full items-center">
-              <input
-                type="email"
-                className="flex size-full min-h-11 border border-border-primary bg-background-primary py-2 align-middle file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 px-3"
-                id="email"
-                placeholder="Enter your email"
-                value=""
-              />
-            </div>
-            <button
-              className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-5 py-2"
-              title="Subscribe"
-            >
-              Subscribe
+      {/* Newsletter / CTA */}
+      <section className="px-[5%] py-20 bg-black text-white">
+        <div className="container mx-auto max-w-4xl text-center">
+          <p className="text-blue-400 font-semibold tracking-widest uppercase mb-4">Blijf Op De Hoogte</p>
+          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">Mis Geen Enkel Feest</h2>
+          <p className="text-gray-300 mb-10 max-w-2xl mx-auto text-lg">
+            Schrijf je in voor onze nieuwsbrief en ontvang als eerste updates over ticket sales, exclusieve line-up onthullingen en de beste VIP deals voor jouw Ibiza trip.
+          </p>
+          
+          <form className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto" onSubmit={(e) => e.preventDefault()}>
+            <input 
+              type="email" 
+              placeholder="Jouw e-mailadres" 
+              className="px-6 py-4 rounded-full text-black w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            <button type="submit" className="bg-blue-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-500 transition-colors shrink-0">
+              Meld je aan
             </button>
           </form>
-          <p className="text-xs">
-            By subscribing you agree to with our Privacy Policy and provide
-            consent to receive updates from our company.
+          <p className="text-sm text-gray-500 mt-4">
+            Door je aan te melden ga je akkoord met onze Privacy Policy.
           </p>
         </div>
-      </div>
-    </div>
-    <div className="h-px w-full bg-black"></div>
-    <div
-      className="flex flex-col-reverse items-start pb-4 pt-6 text-sm md:justify-start md:pb-0 md:pt-8 lg:flex-row lg:items-center lg:justify-between"
-    >
-      <div
-        className="flex flex-col-reverse items-start md:flex-row md:gap-6 lg:items-center"
-      >
-        <div
-         
-          className="grid grid-flow-row grid-cols-[max-content] justify-center gap-y-4 md:grid-flow-col md:justify-center md:gap-x-6 md:gap-y-0 lg:text-left"
-        >
-          <p className="mt-8 md:mt-0">
-            © 2024 Relume. All rights reserved.
-          </p>
-          <p className="underline">
-            <a href="#">Privacy Policy</a>
-          </p>
-          <p className="underline">
-            <a href="#">Terms of Service</a>
-          </p>
-          <p className="underline">
-            <a href="#">Cookies Settings</a>
-          </p>
-        </div>
-      </div>
-      <div
-       
-        className="mb-8 flex items-center justify-center gap-3 lg:mb-0"
-      >
-        <a href="#"
-          ><svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 24 24"
-            className="size-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M12.001 2.002c-5.522 0-9.999 4.477-9.999 9.999 0 4.99 3.656 9.126 8.437 9.879v-6.988h-2.54v-2.891h2.54V9.798c0-2.508 1.493-3.891 3.776-3.891 1.094 0 2.24.195 2.24.195v2.459h-1.264c-1.24 0-1.628.772-1.628 1.563v1.875h2.771l-.443 2.891h-2.328v6.988C18.344 21.129 22 16.992 22 12.001c0-5.522-4.477-9.999-9.999-9.999z"
-            ></path></svg></a
-        ><a href="#"
-          ><svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 24 24"
-            className="size-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M11.999 7.377a4.623 4.623 0 1 0 0 9.248 4.623 4.623 0 0 0 0-9.248zm0 7.627a3.004 3.004 0 1 1 0-6.008 3.004 3.004 0 0 1 0 6.008z"
-            ></path>
-            <circle cx="16.806" cy="7.207" r="1.078"></circle>
-            <path
-              d="M20.533 6.111A4.605 4.605 0 0 0 17.9 3.479a6.606 6.606 0 0 0-2.186-.42c-.963-.042-1.268-.054-3.71-.054s-2.755 0-3.71.054a6.554 6.554 0 0 0-2.184.42 4.6 4.6 0 0 0-2.633 2.632 6.585 6.585 0 0 0-.419 2.186c-.043.962-.056 1.267-.056 3.71 0 2.442 0 2.753.056 3.71.015.748.156 1.486.419 2.187a4.61 4.61 0 0 0 2.634 2.632 6.584 6.584 0 0 0 2.185.45c.963.042 1.268.055 3.71.055s2.755 0 3.71-.055a6.615 6.615 0 0 0 2.186-.419 4.613 4.613 0 0 0 2.633-2.633c.263-.7.404-1.438.419-2.186.043-.962.056-1.267.056-3.71s0-2.753-.056-3.71a6.581 6.581 0 0 0-.421-2.217zm-1.218 9.532a5.043 5.043 0 0 1-.311 1.688 2.987 2.987 0 0 1-1.712 1.711 4.985 4.985 0 0 1-1.67.311c-.95.044-1.218.055-3.654.055-2.438 0-2.687 0-3.655-.055a4.96 4.96 0 0 1-1.669-.311 2.985 2.985 0 0 1-1.719-1.711 5.08 5.08 0 0 1-.311-1.669c-.043-.95-.053-1.218-.053-3.654 0-2.437 0-2.686.053-3.655a5.038 5.038 0 0 1 .311-1.687c.305-.789.93-1.41 1.719-1.712a5.01 5.01 0 0 1 1.669-.311c.951-.043 1.218-.055 3.655-.055s2.687 0 3.654.055a4.96 4.96 0 0 1 1.67.311 2.991 2.991 0 0 1 1.712 1.712 5.08 5.08 0 0 1 .311 1.669c.043.951.054 1.218.054 3.655 0 2.436 0 2.698-.043 3.654h-.011z"
-            ></path></svg></a
-        ><a href="#"
-          ><svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 512 512"
-            className="size-6 p-0.5"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-            ></path></svg></a
-        ><a href="#"
-          ><svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 24 24"
-            className="size-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M20 3H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM8.339 18.337H5.667v-8.59h2.672v8.59zM7.003 8.574a1.548 1.548 0 1 1 0-3.096 1.548 1.548 0 0 1 0 3.096zm11.335 9.763h-2.669V14.16c0-.996-.018-2.277-1.388-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248h-2.667v-8.59h2.56v1.174h.037c.355-.675 1.227-1.387 2.524-1.387 2.704 0 3.203 1.778 3.203 4.092v4.71z"
-            ></path></svg></a
-        ><a href="#"
-          ><svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 24 24"
-            className="size-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21.593 7.203a2.506 2.506 0 0 0-1.762-1.766C18.265 5.007 12 5 12 5s-6.264-.007-7.831.404a2.56 2.56 0 0 0-1.766 1.778c-.413 1.566-.417 4.814-.417 4.814s-.004 3.264.406 4.814c.23.857.905 1.534 1.763 1.765 1.582.43 7.83.437 7.83.437s6.265.007 7.831-.403a2.515 2.515 0 0 0 1.767-1.763c.414-1.565.417-4.812.417-4.812s.02-3.265-.407-4.831zM9.996 15.005l.005-6 5.207 3.005-5.212 2.995z"
-            ></path></svg
-        ></a>
-      </div>
-    </div>
-  </div>
-</footer>
+      </section>
 
-    </>
+    </div>
   );
 }

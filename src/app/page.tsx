@@ -87,14 +87,14 @@ const SVG_SCENE = `
     <text x="-36" y="1.6" font-family="Marcellus, serif" font-size="7.2" letter-spacing="1.6" fill="#2E5A6B">IBIZA MI VIDA</text>
     <text x="-78" y="-30" font-family="Marcellus, serif" font-size="7" fill="#2E5A6B">MV</text>
   </g>
-  <g>
+  <g transform="translate(0, 270)">
     <path d="M0 620 L0 596 C 60 588 130 586 200 592 C 270 598 330 608 380 616 L 400 620 Z" fill="#9FB0B9"/>
     <rect x="86" y="566" width="8" height="30" fill="#8B9DA7"/>
     <rect x="84" y="560" width="12" height="8" rx="2" fill="#8B9DA7"/>
     <circle cx="90" cy="563" r="3" fill="#FFFFFF" class="lhouse"/>
     <text x="40" y="648" font-family="Mulish, sans-serif" font-weight="600" font-size="11" letter-spacing="4" fill="#FFFFFF" opacity=".85">FORMENTERA</text>
   </g>
-  <g>
+  <g transform="translate(0, 270)">
     <path d="M 980 620 C 1030 580 1090 556 1160 552 C 1250 548 1340 562 1440 588 L 1440 620 Z" fill="#93A6B0"/>
     <text x="1352" y="648" font-family="Mulish, sans-serif" font-weight="600" font-size="11" letter-spacing="4" fill="#FFFFFF" opacity=".85">IBIZA</text>
     <polygon class="led" points="1196,492 1186,150 1218,150 1206,492" fill="url(#beamG)"/>
@@ -346,17 +346,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="scene" className="bg-white" aria-label="Branded yacht departing as the Ibiza Mi Vida jet arrives">
-        <div id="sceneSticky" className="bg-white">
-          <div dangerouslySetInnerHTML={{ __html: SVG_SCENE }} style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, backgroundColor: 'white' }} />
+      <section id="scene" className="relative h-[300vh] bg-white w-full" aria-label="Branded yacht departing as the Ibiza Mi Vida jet arrives">
+        <div id="sceneSticky" className="sticky top-0 h-screen w-full overflow-hidden bg-white">
+          <div dangerouslySetInnerHTML={{ __html: SVG_SCENE }} className="absolute inset-0 w-full h-full" />
+          
+          <div className="wave-divider absolute bottom-0 w-full" aria-hidden="true" style={{ marginBottom: '-1px' }}>
+            <svg className="wave-track waveTrack" viewBox="0 0 2880 54" preserveAspectRatio="none" style={{ width: '200%', height: '54px' }}>
+              <path d="M0 30 Q 120 14 240 30 T 480 30 T 720 30 T 960 30 T 1200 30 T 1440 30 T 1680 30 T 1920 30 T 2160 30 T 2400 30 T 2640 30 T 2880 30 V54 H0 Z" fill="#F6F5F1"/>
+            </svg>
+          </div>
         </div>
       </section>
-
-      <div className="wave-divider" aria-hidden="true">
-        <svg className="wave-track waveTrack" viewBox="0 0 2880 54" preserveAspectRatio="none">
-          <path d="M0 30 Q 120 14 240 30 T 480 30 T 720 30 T 960 30 T 1200 30 T 1440 30 T 1680 30 T 1920 30 T 2160 30 T 2400 30 T 2640 30 T 2880 30 V54 H0 Z" fill="#F6F5F1"/>
-        </svg>
-      </div>
 
       <section id="deals" className="section section--paper" style={{ paddingTop: '2rem' } as React.CSSProperties}>
         <div className="container">
