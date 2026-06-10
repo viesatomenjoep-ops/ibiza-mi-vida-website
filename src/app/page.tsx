@@ -91,14 +91,14 @@ const SVG_SCENE = `
     <text x="-36" y="1.6" font-family="Marcellus, serif" font-size="7.2" letter-spacing="1.6" fill="#2E5A6B">IBIZA MI VIDA</text>
     <text x="-78" y="-30" font-family="Marcellus, serif" font-size="7" fill="#2E5A6B">MV</text>
   </g>
-  <g>
+  <g transform="translate(150, 0)">
     <path d="M0 700 L0 596 C 60 588 130 586 200 592 C 270 598 330 608 380 616 L 400 700 Z" fill="#9FB0B9"/>
     <rect x="86" y="566" width="8" height="30" fill="#8B9DA7"/>
     <rect x="84" y="560" width="12" height="8" rx="2" fill="#8B9DA7"/>
     <circle cx="90" cy="563" r="3" fill="#FFFFFF" class="lhouse"/>
     <text x="40" y="648" font-family="Mulish, sans-serif" font-weight="600" font-size="11" letter-spacing="4" fill="#FFFFFF" opacity=".85">FORMENTERA</text>
   </g>
-  <g>
+  <g transform="translate(-200, 0)">
     <path d="M 980 700 L 980 620 C 1030 580 1090 556 1160 552 C 1250 548 1340 562 1440 588 L 1440 700 Z" fill="#93A6B0"/>
     <text x="1352" y="648" font-family="Mulish, sans-serif" font-weight="600" font-size="11" letter-spacing="4" fill="#FFFFFF" opacity=".85">IBIZA</text>
     <polygon class="led" points="1196,492 1186,150 1218,150 1206,492" fill="url(#beamG)"/>
@@ -281,7 +281,8 @@ export default function Home() {
       const time = (now - t0) / 1000;
       // YACHT: Van Formentera (links, x=200) naar Club Ibiza (rechts, x=1100) met een natuurlijke boog
       const yx = lerp(200, 1100, pe);
-      const yy = 615 + Math.sin(pe * Math.PI) * 15 + Math.sin(time * 2) * 5;
+      // Boot iets lager in het water (van 615 naar 635)
+      const yy = 635 + Math.sin(pe * Math.PI) * 15 + Math.sin(time * 2) * 5;
       const ys = 1.0; 
       const roll = (yx - 200) / 900 * 5 + Math.sin(time * 1.5) * 2; // slight tilt forward plus bobbing
       liveYacht.setAttribute('transform', `translate(${yx.toFixed(1)}, ${yy.toFixed(1)}) rotate(${roll.toFixed(2)}) scale(${ys.toFixed(3)})`);
@@ -292,9 +293,9 @@ export default function Home() {
       const trail = document.getElementById('trail');
       if (jet && trail) {
         const jx = lerp(-300, 1600, pe);
-        // JET: Meer naar boven, y=200 zodat hij goed zichtbaar is en over de hele breedte vliegt
-        const jy = 200 + Math.sin(pe * Math.PI) * 40;
-        const js = 1.5; 
+        // JET: Veel meer naar onder (y=380) zodat hij enorm goed zichtbaar is over de oceaan
+        const jy = 380 + Math.sin(pe * Math.PI) * 80;
+        const js = 2.5; 
         
         const dy = Math.cos(pe * Math.PI) * Math.PI * 40;
         const dx = 1900;
@@ -360,7 +361,7 @@ export default function Home() {
             muted 
             playsInline 
             preload="auto"
-            className="absolute inset-0 size-full object-cover mix-blend-overlay opacity-60" 
+            className="absolute inset-0 size-full object-cover mix-blend-overlay opacity-90" 
             src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" 
           />
           <div dangerouslySetInnerHTML={{ __html: SVG_SCENE }} className="absolute inset-0 w-full h-full" />
@@ -436,7 +437,7 @@ export default function Home() {
         Discover the best parties, book exclusive VIP tables, and secure tickets to Ibiza&apos;s most legendary clubs. We organize your unforgettable night.
       </p>
     </div>
-    <div className="flex items-center justify-center gap-4">
+    <div className="flex items-center justify-center gap-4 mb-16 md:mb-24">
       <a href="#clubs" className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary hover:bg-black hover:text-white hover:scale-105 shadow-md hover:shadow-xl px-6 py-3">
         Book Club Tickets
       </a>

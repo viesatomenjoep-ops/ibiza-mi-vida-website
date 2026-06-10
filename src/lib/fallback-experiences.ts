@@ -129,7 +129,7 @@ const CATAMARAN_EXPERIENCES: Experience[] = [
     tagline: '3.5 hours · Open bar · From €120',
     description:
       'Sail into the sunset on our luxury catamaran. Open bar, great music, and the most spectacular sunset views in the Mediterranean — all included.',
-    image_url: 'https://images.unsplash.com/photo-1527004611998-0c6fde22b1ca?w=900&q=85',
+    image_url: '/fotos/sunset-catamaran.png',
     price_from: 120,
     currency: 'EUR',
     duration: '3.5 hours',
@@ -147,7 +147,7 @@ const CATAMARAN_EXPERIENCES: Experience[] = [
     tagline: '8 hours · Lunch included · From €180',
     description:
       'A full day of luxury sailing around Ibiza and Formentera. Gourmet lunch, open bar, multiple swimming stops, and a professional crew looking after your every need.',
-    image_url: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85',
+    image_url: '/fotos/full-day-catamaran.png',
     price_from: 180,
     currency: 'EUR',
     duration: '8 hours',
