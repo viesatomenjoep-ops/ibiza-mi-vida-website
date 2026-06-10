@@ -333,7 +333,7 @@ export default function Home() {
       <div id="top"></div>
       
       <section id="hero-video" className="relative h-screen w-full overflow-hidden bg-black">
-        <video autoPlay loop muted playsInline className="absolute inset-0 size-full object-cover opacity-80 [mask-image:linear-gradient(to_bottom,white_60%,transparent)]" src="/hero-ocean.mp4" />
+        <video autoPlay loop muted playsInline preload="auto" className="absolute inset-0 size-full object-cover opacity-80 [mask-image:linear-gradient(to_bottom,white_60%,transparent)]" src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
           <p className="mb-4 tracking-[0.2em] uppercase text-sm md:text-base font-semibold">IBIZA MI VIDA · SEASON 2026</p>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 drop-shadow-lg">
@@ -359,7 +359,7 @@ export default function Home() {
             playsInline 
             preload="auto"
             className="absolute inset-0 size-full object-cover mix-blend-overlay opacity-60" 
-            src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_90,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" 
+            src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" 
           />
           <div dangerouslySetInnerHTML={{ __html: SVG_SCENE }} className="absolute inset-0 w-full h-full" />
         </div>
