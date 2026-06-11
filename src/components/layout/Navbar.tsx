@@ -75,10 +75,10 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
         
         {/* Top Row: Logo, Cart, Hamburger */}
         <div className="flex items-center justify-between px-4 md:px-8 py-3">
-          {/* Left: Logo */}
-          <div className="flex items-center gap-4">
+          {/* Left: Logo and Name */}
+          <div className="flex items-center gap-2 md:gap-4">
             <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 shrink-0">
-              <div className="relative w-[100px] h-[40px] md:w-[140px] md:h-[50px]">
+              <div className="relative w-[60px] h-[24px] sm:w-[100px] sm:h-[40px] md:w-[140px] md:h-[50px]">
                 <Image 
                   src="/logo-clean.png" 
                   alt="Ibiza mi vida Logo" 
@@ -88,8 +88,8 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
                 />
               </div>
             </Link>
-            <div className="hidden sm:flex items-center justify-center px-5 py-3 rounded-xl border border-gray-200 bg-white shadow-sm text-velvet-obsidian">
-              <span className="font-sans text-[36px] md:text-[46px] tracking-tight font-bold">Ibiza mi vida</span>
+            <div className="flex items-center justify-center px-3 py-1.5 sm:px-5 sm:py-3 rounded-lg sm:rounded-xl border border-gray-200 bg-white shadow-sm text-velvet-obsidian">
+              <span className="font-sans text-[18px] sm:text-[24px] md:text-[32px] lg:text-[46px] tracking-tight font-bold whitespace-nowrap">Ibiza mi vida</span>
             </div>
           </div>
 

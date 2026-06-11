@@ -115,33 +115,27 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
         <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/60 to-transparent z-10" />
 
         {/* Hero Content - Placed over video on both mobile and desktop */}
-        <div className="absolute inset-0 z-20 flex flex-col items-center justify-end md:justify-center text-center px-4 md:px-8 pb-[20vh] md:pb-0 pt-32">
-          <div className="w-full max-w-7xl mx-auto md:absolute md:bottom-24 md:left-0 md:right-0">
-            <div className="container relative z-10 max-w-4xl text-center flex flex-col items-center">
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-end text-center px-4 md:px-8 pb-[10vh] sm:pb-[12vh] md:pb-[15vh] pointer-events-none">
+          <div className="w-full max-w-7xl mx-auto flex flex-col items-center justify-center pointer-events-auto">
+            <div className="container relative z-10 max-w-5xl text-center flex flex-col items-center justify-center">
               
-              <div className="inline-flex items-center justify-center gap-2 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm px-4 py-1.5 font-sans text-xs font-semibold uppercase tracking-widest text-white mb-8 shadow-lg">
-                <Image src="/logo-clean.png" alt="Logo" width={16} height={16} className="object-contain brightness-0 invert opacity-90" />
+              {/* Main heading */}
+              <div className="relative mb-6 sm:mb-8 w-full flex flex-col items-center justify-center">
+                <h1 className="hero-text leading-[0.8] tracking-tight text-center" style={{ fontSize: 'clamp(5rem, 16vw, 14rem)' }}>
+                  <span className="block italic text-transparent stroke-text" style={{ WebkitTextStroke: 'clamp(1px, 0.4vw, 3px) white' }}>Ibiza</span>
+                  <span className="block font-bold text-white relative">mi Vida</span>
+                </h1>
+              </div>
+
+              <div className="inline-flex items-center justify-center gap-2 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm px-4 md:px-5 py-2 md:py-2.5 font-sans text-[10px] md:text-xs lg:text-sm font-semibold uppercase tracking-widest text-white mb-8 sm:mb-10 shadow-lg">
+                <Image src="/logo-clean.png" alt="Logo" width={18} height={18} className="object-contain brightness-0 invert opacity-90 w-4 h-4 md:w-5 md:h-5" />
                 <span className="h-2 w-2 rounded-full bg-rustic-terracotta shadow-[0_0_8px_rgba(206,108,71,0.8)] animate-pulse" />
                 Ibiza mi Vida Season 2026
               </div>
 
-              {/* Main heading */}
-              <div className="relative mb-6">
-                <h1 className="hero-text text-8xl md:text-[10rem] lg:text-[12rem] xl:text-[15rem] leading-[0.8] tracking-tight">
-                  <span className="block italic text-transparent stroke-text" style={{ WebkitTextStroke: '2px white' }}>Ibiza</span>
-                  <span className="block font-bold text-white relative">mi Vida</span>
-                </h1>
-              </div>
-              
-              <div className="inline-block rounded-full border border-white/60 bg-white/10 backdrop-blur-sm px-6 py-3 mb-8 shadow-lg">
-                <h3 className="font-sans text-xl sm:text-2xl md:text-3xl text-white font-light drop-shadow-md">
-                  Experience the real Ibiza.
-                </h3>
-              </div>
-
-              <div className="mt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link href="/club-tickets" className="w-[90%] sm:w-auto px-6 py-4 md:py-4 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 min-w-[200px] shadow-lg">Book Club Tickets</Link>
-                <Link href="/vip-experiences" className="w-[90%] sm:w-auto px-6 py-4 md:py-4 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 min-w-[200px] shadow-lg">View VIP Tables</Link>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-5 w-full max-w-2xl px-2">
+                <Link href="/club-tickets" className="w-full sm:w-1/2 px-6 py-4 md:py-5 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 text-center shadow-lg">Book Club Tickets</Link>
+                <Link href="/vip-experiences" className="w-full sm:w-1/2 px-6 py-4 md:py-5 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 text-center shadow-lg">View VIP Tables</Link>
               </div>
             </div>
           </div>
