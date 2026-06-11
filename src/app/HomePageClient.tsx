@@ -98,52 +98,75 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
       <div id="top"></div>
       
       {/* Hero Section */}
-      <section className="relative w-full flex flex-col bg-velvet-obsidian">
+      <section className="relative w-full h-[85vh] md:h-[90vh] bg-velvet-obsidian overflow-hidden">
         
-        {/* Video Background Container - Full height on desktop, 60vh on mobile */}
-        <div className="relative w-full h-[60vh] md:h-[90vh]">
-          <video 
-            autoPlay 
-            loop 
-            muted 
-            playsInline
-            preload="auto"
-            className="absolute inset-0 w-full h-full object-cover scale-[1.35] opacity-80"
-            src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4"
-          />
-          
-          {/* Gradients for smooth blending */}
-          {/* Top gradient to protect navbar text */}
-          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/80 to-transparent z-10" />
-          
-          {/* Bottom gradient to blend video into the text section on mobile, and the next section on desktop */}
-          <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-velvet-obsidian to-transparent z-10" />
-          <div className="absolute inset-0 bg-black/20 z-0" />
-        </div>
+        {/* Video Background */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover scale-[1.35] opacity-80"
+          src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4"
+        />
+        
+        {/* Gradients for smooth blending */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/80 to-transparent z-10" />
+        <div className="absolute inset-0 bg-black/20 z-0" />
 
-        {/* Hero Content - Placed below video on mobile, placed over video at the bottom on desktop */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col items-center justify-center text-center px-4 md:px-8 pt-8 pb-12 md:absolute md:bottom-24 md:left-0 md:right-0 md:pb-0 md:pt-0">
-          
-          <h2 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.3em] text-white/80 mb-6 drop-shadow-md">
+        {/* Desktop Hero Content - Hidden on mobile */}
+        <div className="hidden md:flex absolute bottom-24 left-0 right-0 z-20 w-full max-w-7xl mx-auto flex-col items-center justify-center text-center px-8">
+          <h2 className="font-sans text-sm font-bold uppercase tracking-[0.3em] text-white/80 mb-6 drop-shadow-md">
             IBIZA MI VIDA &middot; SEASON 2026
           </h2>
           
-          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.9] tracking-tight mb-8 drop-shadow-xl">
+          <h1 className="font-serif text-7xl lg:text-8xl font-bold text-white leading-[0.9] tracking-tight mb-8 drop-shadow-xl">
             Experience the <br/>
             <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/70 font-light">real</span> Ibiza.
           </h1>
           
-          <p className="font-sans text-sm sm:text-base md:text-lg text-white/80 max-w-2xl font-light tracking-wide mb-10 leading-relaxed drop-shadow-md">
+          <p className="font-sans text-lg text-white/80 max-w-2xl font-light tracking-wide mb-10 leading-relaxed drop-shadow-md">
             Club tickets, private charters and boat parties — hand-picked by locals, confirmed within minutes on WhatsApp.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4">
+          <div className="flex flex-row items-center justify-center gap-4 mt-4">
             <Link href="/club-tickets" className="btn btn--primary hover:scale-105 transition-transform duration-300 min-w-[200px]">Book Club Tickets</Link>
             <Link href="/vip-experiences" className="px-6 py-3 rounded-full border border-white/40 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 min-w-[200px]">View VIP Tables</Link>
           </div>
         </div>
       </section>
 
+      {/* Deals of the Day / Live Offers */}
+      <section id="deals" className="section section--paper pt-0 pb-6 md:pb-16">
+        <div className="container">
+          <div className="flex items-center gap-2 mb-8 mt-10 md:mt-0">
+            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+            <h2 className="text-sm font-bold uppercase tracking-widest text-velvet-obsidian/60">Live Offers</h2>
+          </div>
+          {dailyEventsSection}
+        </div>
+      </section>
+
+      {/* Mobile Hero Content - Placed below Deals of the Day on mobile */}
+      <section className="md:hidden w-full bg-ibiza-sand pb-12 px-5 flex flex-col items-center text-center">
+        <h2 className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-velvet-obsidian/50 mb-3">
+          IBIZA MI VIDA &middot; SEASON 2026
+        </h2>
+        <h1 className="font-serif text-4xl font-bold text-velvet-obsidian leading-[1.1] tracking-tight mb-4">
+          Experience the <br/>
+          <span className="italic font-light">real</span> Ibiza.
+        </h1>
+        <p className="font-sans text-sm text-velvet-obsidian/70 font-light tracking-wide mb-6 leading-relaxed">
+          Club tickets, private charters and boat parties — hand-picked by locals, confirmed within minutes on WhatsApp.
+        </p>
+        <div className="flex flex-col w-full gap-3 mt-2">
+          <Link href="/club-tickets" className="w-full py-3.5 rounded-full bg-velvet-obsidian text-white font-bold text-xs uppercase tracking-wider border border-velvet-obsidian">Book Club Tickets</Link>
+          <Link href="/vip-experiences" className="w-full py-3.5 rounded-full border border-velvet-obsidian/20 text-velvet-obsidian font-bold text-xs uppercase tracking-wider bg-white/50">View VIP Tables</Link>
+        </div>
+      </section>
+
+      {/* Club Tickets Slider */}
       <section id="deals" className="section section--paper pt-0">
         <div className="container">
           <div className="section__header reveal pt-16 md:pt-20">

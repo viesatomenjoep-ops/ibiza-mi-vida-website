@@ -68,7 +68,7 @@ export async function DailyEventsSection() {
               <p className="text-rustic-terracotta font-semibold tracking-widest uppercase mb-3 text-sm">Live Lineup</p>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-velvet-obsidian transition-all duration-500">Upcoming Daily Events</h2>
             </div>
-            <Link href="/club-tickets" className="inline-flex items-center gap-2 text-velvet-obsidian font-bold hover:text-rustic-terracotta transition-colors group">
+            <Link href="/club-tickets" className="relative z-20 inline-flex items-center gap-2 px-4 py-2 bg-velvet-obsidian text-white rounded-full font-bold hover:bg-rustic-terracotta transition-colors group cursor-pointer">
               View full calendar
               <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
             </Link>
