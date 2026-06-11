@@ -23,8 +23,8 @@ async function fetchVenueData(slug: string): Promise<CTVenue | null> {
 }
 
 export async function generateStaticParams() {
-  const venues = await getVenues('en');
-  return venues.map((v) => ({ slug: v.slug }));
+  // Return empty array to generate pages on-demand and prevent Vercel build timeouts from API rate limiting
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

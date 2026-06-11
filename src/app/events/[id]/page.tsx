@@ -30,17 +30,8 @@ async function getEvent(id: string): Promise<FeaturedEvent | null> {
 }
 
 export async function generateStaticParams() {
-  try {
-    const supabase = createServerClient()
-    const { data } = await supabase
-      .from('featured_events')
-      .select('id')
-      .eq('active', true)
-    if (data && data.length > 0) return data.map((e) => ({ id: e.id }))
-  } catch {
-    // fall through
-  }
-  return FALLBACK_FEATURED_EVENTS.map((e) => ({ id: e.id }))
+  // Return empty array to generate pages on-demand and prevent Vercel build timeouts from API rate limiting
+  return []
 }
 
 export async function generateMetadata({
