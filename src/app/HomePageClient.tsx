@@ -127,9 +127,19 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
                 </h1>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-5 w-full max-w-2xl px-2">
-                <Link href="/club-tickets" className="w-full sm:w-1/2 px-6 py-4 md:py-5 rounded-full border border-transparent bg-white text-velvet-obsidian font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-gray-100 hover:scale-105 transition-all duration-300 text-center shadow-lg">Book Club Tickets</Link>
-                <Link href="/vip-experiences" className="w-full sm:w-1/2 px-6 py-4 md:py-5 rounded-full border border-transparent bg-white text-velvet-obsidian font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-gray-100 hover:scale-105 transition-all duration-300 text-center shadow-lg">View VIP Tables</Link>
+              <div className="flex flex-col w-full max-w-4xl px-2 gap-3 md:gap-5">
+                {/* First Row: 2 Buttons */}
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-5 w-full">
+                  <Link href="/club-tickets" className="w-full sm:w-[280px] px-6 py-4 md:py-5 rounded-full border border-transparent bg-white text-velvet-obsidian font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-gray-100 hover:scale-105 transition-all duration-300 text-center shadow-lg">Book Club Tickets</Link>
+                  <Link href="/vip-experiences" className="w-full sm:w-[280px] px-6 py-4 md:py-5 rounded-full border border-transparent bg-white text-velvet-obsidian font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-gray-100 hover:scale-105 transition-all duration-300 text-center shadow-lg">View VIP Tables</Link>
+                </div>
+                
+                {/* Second Row: 3 Buttons */}
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-5 w-full">
+                  <Link href="/deals-of-the-day" className="w-full sm:w-[280px] px-4 py-4 md:py-5 rounded-full border border-transparent bg-white text-velvet-obsidian font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-gray-100 hover:scale-105 transition-all duration-300 text-center shadow-lg whitespace-nowrap">Deals of the day</Link>
+                  <Link href="/boat-parties" className="w-full sm:w-[280px] px-4 py-4 md:py-5 rounded-full border border-transparent bg-white text-velvet-obsidian font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-gray-100 hover:scale-105 transition-all duration-300 text-center shadow-lg whitespace-nowrap">Boat Parties</Link>
+                  <Link href="/vip-catamaran" className="w-full sm:w-[280px] px-4 py-4 md:py-5 rounded-full border border-transparent bg-white text-velvet-obsidian font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-gray-100 hover:scale-105 transition-all duration-300 text-center shadow-lg whitespace-nowrap">VIP Catamaran</Link>
+                </div>
               </div>
             </div>
           </div>

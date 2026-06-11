@@ -78,7 +78,7 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
           {/* Left: Logo and Name */}
           <div className="flex items-center gap-2 md:gap-4">
             <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 shrink-0">
-              <div className="relative w-[60px] h-[24px] sm:w-[100px] sm:h-[40px] md:w-[140px] md:h-[50px]">
+              <div className="relative w-[44px] h-[44px] md:w-[56px] md:h-[56px]">
                 <Image 
                   src="/logo-clean.png" 
                   alt="Ibiza mi vida Logo" 
@@ -120,9 +120,9 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
 
         {/* Bottom Row: 4 Icons (Animated on Homepage) */}
         <AnimatePresence>
-          {(!isHome || scrolledPastHero) && (
+          {!isHome && (
             <motion.div 
-              initial={isHome ? { height: 0, opacity: 0 } : false}
+              initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.15, ease: 'easeOut' }}
