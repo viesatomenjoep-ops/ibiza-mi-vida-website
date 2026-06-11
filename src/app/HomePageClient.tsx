@@ -123,7 +123,7 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
           
           <h1 className="font-serif text-7xl lg:text-8xl font-bold text-white leading-[0.9] tracking-tight mb-8 drop-shadow-xl">
             Experience the <br/>
-            <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/70 font-light">real</span> Ibiza.
+            <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/70 font-light pr-2">real</span> Ibiza.
           </h1>
           
           <p className="font-sans text-lg text-white/80 max-w-2xl font-light tracking-wide mb-10 leading-relaxed drop-shadow-md">
@@ -154,8 +154,8 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
           IBIZA MI VIDA &middot; SEASON 2026
         </h2>
         <h1 className="font-serif text-4xl font-bold text-velvet-obsidian leading-[1.1] tracking-tight mb-4">
-          Experience the <br/>
-          <span className="italic font-light">real</span> Ibiza.
+            Experience the <br/>
+            <span className="italic font-light pr-1">real</span> Ibiza.
         </h1>
         <p className="font-sans text-sm text-velvet-obsidian/70 font-light tracking-wide mb-6 leading-relaxed">
           Club tickets, private charters and boat parties — hand-picked by locals, confirmed within minutes on WhatsApp.
