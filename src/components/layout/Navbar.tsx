@@ -37,9 +37,21 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
   const isHome = pathname === '/'
   const accentColor = '#FF4E00' // Ibiza Orange
 
+  const [isScrolled, setIsScrolled] = useState(false)
+
   useEffect(() => {
     setMenuOpen(false)
   }, [pathname])
+
+  // Track scroll for transparent navbar on homepage
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll() // initial check
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // Prevent scroll when menu is open
   useEffect(() => {
@@ -54,9 +66,15 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '31683052875'
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hello! I want to consult on VIP tables and fast club bookings.")}`
 
+  const isTransparent = isHome && !isScrolled
+
   return (
     <>
-      <header className="fixed left-0 right-0 top-0 z-50 bg-[#0A0A0A]/90 backdrop-blur-md border-b border-white/10 pointer-events-auto flex flex-col transition-all duration-500">
+      <header className={`fixed left-0 right-0 top-0 z-50 pointer-events-auto flex flex-col transition-all duration-500 ${
+        isTransparent 
+          ? 'bg-transparent border-transparent' 
+          : 'bg-[#0A0A0A]/90 backdrop-blur-md border-b border-white/10'
+      }`}>
         
         {/* Navbar */}
         <div className="flex items-center justify-between px-4 md:px-8 py-4 lg:py-6">
@@ -78,15 +96,7 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
             </div>
           </Link>
 
-          {/* Center: Desktop Navigation Categories */}
-          <div className="hidden lg:flex gap-5 xl:gap-8 text-[13px] font-bold uppercase tracking-widest text-white">
-            <Link href="/club-tickets" className="hover:text-amber-500 transition-colors cursor-pointer">Clubs</Link>
-            <Link href="/private-boat-charters" className="hover:text-amber-500 transition-colors cursor-pointer">Yachts & Boats</Link>
-            <Link href="/vip-catamaran" className="hover:text-amber-500 transition-colors cursor-pointer">VIP Catamaran</Link>
-            <Link href="/drink-packages" className="hover:text-amber-500 transition-colors cursor-pointer">Drink Packages</Link>
-            <Link href="/car-scooter-rental" className="hover:text-amber-500 transition-colors cursor-pointer">Car & Scooter</Link>
-            <Link href="/guestlist" className="hover:text-white transition-colors cursor-pointer" style={{ color: accentColor }}>Guestlist</Link>
-          </div>
+          {/* Removed Center Navigation to move it to the second bar */}
 
           {/* Right: Actions */}
           <div className="flex items-center gap-3">
@@ -115,15 +125,41 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
               )}
             </button>
 
-            {/* Hamburger Mobile Menu */}
             <button 
               onClick={() => setMenuOpen(!menuOpen)}
-              className="lg:hidden p-2.5 rounded-full border border-white/10 hover:bg-white/5 text-zinc-400 hover:text-white transition-colors flex items-center justify-center"
+              className="p-2.5 rounded-full border border-white/10 hover:bg-white/5 text-zinc-400 hover:text-white transition-colors flex items-center justify-center"
               aria-label="Open menu"
             >
               {menuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
+        </div>
+
+        {/* Secondary Navbar with Icons */}
+        <div className={`hidden lg:flex items-center justify-center gap-10 px-8 py-3 transition-all duration-500 ${
+          isTransparent 
+            ? 'bg-transparent border-t border-white/10' 
+            : 'bg-[#18181b] border-t border-white/5 shadow-inner'
+        }`}>
+          <Link href="/club-tickets" className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white hover:text-amber-500 transition-colors">
+            <Ticket size={14} className="text-zinc-400" /> Clubs
+          </Link>
+          <Link href="/private-boat-charters" className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white hover:text-amber-500 transition-colors">
+            <Anchor size={14} className="text-zinc-400" /> Yachts & Boats
+          </Link>
+          <Link href="/vip-catamaran" className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white hover:text-amber-500 transition-colors">
+            <Navigation size={14} className="text-zinc-400" /> VIP Catamaran
+          </Link>
+          <Link href="/drink-packages" className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white hover:text-amber-500 transition-colors">
+            <GlassWater size={14} className="text-zinc-400" /> Drink Packages
+          </Link>
+          <Link href="/car-scooter-rental" className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white hover:text-amber-500 transition-colors">
+            <Car size={14} className="text-zinc-400" /> Car & Scooter
+          </Link>
+          <div className="h-4 w-px bg-white/10" />
+          <Link href="/guestlist" className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest hover:text-white transition-colors" style={{ color: accentColor }}>
+            <CheckCircle size={14} /> Guestlist
+          </Link>
         </div>
       </header>
 

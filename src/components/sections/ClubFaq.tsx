@@ -37,7 +37,7 @@ export function ClubFaq() {
           {FAQS.map((faq, idx) => (
             <div key={idx} className="border border-gray-200 rounded-2xl overflow-hidden">
               <button 
-                className="w-full text-left px-6 py-5 font-semibold text-lg flex justify-between items-center bg-gray-50 hover:bg-gray-100 transition-colors"
+                className="w-full text-left px-6 py-5 font-semibold text-lg flex justify-between items-center bg-gray-50 text-black hover:bg-gray-100 transition-colors"
                 onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
               >
                 {faq.question}

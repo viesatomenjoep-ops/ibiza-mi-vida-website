@@ -36,7 +36,7 @@ export default function HomePageClient() {
   };
 
   return (
-    <div id="ibiza-root-view" className="min-h-screen bg-[#0A0A0A] text-zinc-100 flex flex-col justify-between selection:bg-orange-600 selection:text-white antialiased pt-20">
+    <div id="ibiza-root-view" className="min-h-screen bg-[#0A0A0A] text-zinc-100 flex flex-col justify-between selection:bg-orange-600 selection:text-white antialiased">
       
       {/* Top Section with Video Background */}
       <div className="relative w-full overflow-hidden">
@@ -59,7 +59,7 @@ export default function HomePageClient() {
         <div className="absolute top-0 left-0 right-0 h-full pointer-events-none z-0 mix-blend-plus-lighter" style={{ backgroundImage: `linear-gradient(to bottom, ${accentColor}15, ${accentColor}02, transparent)` }} />
 
         {/* HERO SECTION */}
-      <header id="main-hero" className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-8 py-10 md:py-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <header id="main-hero" className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-8 pb-10 pt-32 lg:pt-40 md:pb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Left column text details */}
         <div className="lg:col-span-7 space-y-6">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300 font-medium">
