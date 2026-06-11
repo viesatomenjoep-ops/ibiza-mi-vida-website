@@ -125,7 +125,7 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
               initial={isHome ? { height: 0, opacity: 0 } : false}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
               className="flex items-center justify-between px-2 md:px-8 py-2 border-t border-gray-100 bg-white gap-2 overflow-hidden"
             >
               <Link href="/deals-of-the-day" className="flex flex-col items-center gap-1 group w-1/4">

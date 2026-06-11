@@ -127,15 +127,9 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
                 </h1>
               </div>
 
-              <div className="inline-flex items-center justify-center gap-2 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm px-4 md:px-5 py-2 md:py-2.5 font-sans text-[10px] md:text-xs lg:text-sm font-semibold uppercase tracking-widest text-white mb-8 sm:mb-10 shadow-lg">
-                <Image src="/logo-clean.png" alt="Logo" width={18} height={18} className="object-contain brightness-0 invert opacity-90 w-4 h-4 md:w-5 md:h-5" />
-                <span className="h-2 w-2 rounded-full bg-rustic-terracotta shadow-[0_0_8px_rgba(206,108,71,0.8)] animate-pulse" />
-                Ibiza mi Vida Season 2026
-              </div>
-
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-5 w-full max-w-2xl px-2">
-                <Link href="/club-tickets" className="w-full sm:w-1/2 px-6 py-4 md:py-5 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 text-center shadow-lg">Book Club Tickets</Link>
-                <Link href="/vip-experiences" className="w-full sm:w-1/2 px-6 py-4 md:py-5 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 text-center shadow-lg">View VIP Tables</Link>
+                <Link href="/club-tickets" className="w-full sm:w-1/2 px-6 py-4 md:py-5 rounded-full border border-transparent bg-white text-velvet-obsidian font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-gray-100 hover:scale-105 transition-all duration-300 text-center shadow-lg">Book Club Tickets</Link>
+                <Link href="/vip-experiences" className="w-full sm:w-1/2 px-6 py-4 md:py-5 rounded-full border border-transparent bg-white text-velvet-obsidian font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-gray-100 hover:scale-105 transition-all duration-300 text-center shadow-lg">View VIP Tables</Link>
               </div>
             </div>
           </div>
