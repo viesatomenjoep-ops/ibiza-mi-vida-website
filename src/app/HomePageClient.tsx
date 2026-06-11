@@ -107,8 +107,9 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
           muted 
           playsInline
           preload="auto"
+          poster="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30,w_1920/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.jpg"
           className="absolute inset-0 w-full h-full object-cover scale-[1.35] opacity-90"
-          src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4"
+          src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30,w_1920/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4"
         />
         
         {/* Gradients for smooth blending */}
@@ -131,7 +132,7 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
                 {/* First Row: 2 Buttons */}
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-5 w-full">
                   <Link href="/club-tickets" className="w-full sm:w-[280px] px-6 py-4 md:py-5 rounded-full border border-transparent bg-white text-velvet-obsidian font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-gray-100 hover:scale-105 transition-all duration-300 text-center shadow-lg">Book Club Tickets</Link>
-                  <Link href="/vip-experiences" className="w-full sm:w-[280px] px-6 py-4 md:py-5 rounded-full border border-transparent bg-white text-velvet-obsidian font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-gray-100 hover:scale-105 transition-all duration-300 text-center shadow-lg">View VIP Tables</Link>
+                  <Link href="/drink-packages" className="w-full sm:w-[280px] px-6 py-4 md:py-5 rounded-full border border-transparent bg-white text-velvet-obsidian font-bold tracking-widest text-xs md:text-sm uppercase hover:bg-gray-100 hover:scale-105 transition-all duration-300 text-center shadow-lg">View VIP Tables</Link>
                 </div>
                 
                 {/* Second Row: 3 Buttons */}
