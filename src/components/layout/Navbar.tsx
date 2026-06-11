@@ -89,7 +89,7 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
               </div>
             </Link>
             <div className="flex items-center justify-center px-3 py-1.5 sm:px-5 sm:py-3 rounded-lg sm:rounded-xl border border-gray-200 bg-white shadow-sm text-velvet-obsidian">
-              <span className="font-sans text-[18px] sm:text-[24px] md:text-[32px] lg:text-[46px] tracking-tight font-bold whitespace-nowrap">Ibiza mi vida</span>
+              <span className="font-sans text-[18px] sm:text-[24px] md:text-[32px] lg:text-[46px] tracking-tight font-bold whitespace-nowrap">Ibizamivida</span>
             </div>
           </div>
 
@@ -125,7 +125,7 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
               initial={isHome ? { height: 0, opacity: 0 } : false}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="flex items-center justify-between px-2 md:px-8 py-2 border-t border-gray-100 bg-white gap-2 overflow-hidden"
             >
               <Link href="/deals-of-the-day" className="flex flex-col items-center gap-1 group w-1/4">

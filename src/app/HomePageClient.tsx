@@ -115,7 +115,7 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
         <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/60 to-transparent z-10" />
 
         {/* Hero Content - Placed over video on both mobile and desktop */}
-        <div className="absolute inset-0 z-20 flex flex-col items-center justify-end text-center px-4 md:px-8 pb-[10vh] sm:pb-[12vh] md:pb-[15vh] pointer-events-none">
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-start text-center px-4 md:px-8 pt-[140px] sm:pt-[160px] md:pt-[200px] pointer-events-none">
           <div className="w-full max-w-7xl mx-auto flex flex-col items-center justify-center pointer-events-auto">
             <div className="container relative z-10 max-w-5xl text-center flex flex-col items-center justify-center">
               
