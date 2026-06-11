@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { Calendar, Clock, Users, ExternalLink } from 'lucide-react'
-import { useBooking } from '@/context/booking-context'
+import { useCart } from '@/context/cart-context'
 import type { ClubEvent } from '@/types/club'
 
 interface EventCardProps {
@@ -27,19 +27,20 @@ function formatTime(time: string | null): string | null {
 }
 
 export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
-  const { openModal } = useBooking()
+  const { addToCart, openDrawer } = useCart()
   const imageUrl = event.image_url ?? 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&q=80'
   const isPromoterLink = event.booking_type === 'promoter_link'
   const doorsOpen = formatTime(event.doors_open)
 
-  const handleWhatsAppBook = () => {
-    openModal({
-      serviceType: 'club-tickets',
-      serviceName: event.title,
-      clubName,
-      sourcePage: `/club-tickets/${clubSlug}`,
-      arrivalDate: event.event_date,
+  const handleAddToCart = () => {
+    addToCart({
+      serviceId: `event-${event.id}`,
+      title: event.title,
+      price: event.price_from || 0,
+      image: imageUrl,
+      date: event.event_date
     })
+    openDrawer()
   }
 
   return (
@@ -126,12 +127,12 @@ export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
           </a>
         ) : (
           <button
-            onClick={handleWhatsAppBook}
+            onClick={handleAddToCart}
             disabled={event.sold_out}
             className="inline-flex items-center gap-2 rounded-full bg-rustic-terracotta px-5 py-2.5 font-sans text-sm font-semibold text-white transition-colors hover:bg-rustic-terracotta/90 disabled:cursor-not-allowed disabled:opacity-50"
-            aria-label={`Book tickets for ${event.title} via WhatsApp`}
+            aria-label={`Add ${event.title} to cart`}
           >
-            Book via WhatsApp
+            Add to Cart
           </button>
         )}
       </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import { Anchor, ArrowRight } from 'lucide-react'
-import { useBooking } from '@/context/booking-context'
+import { useCart } from '@/context/cart-context'
 
 interface CrossSellBannerProps {
   triggerPage: string
@@ -9,7 +9,7 @@ interface CrossSellBannerProps {
 }
 
 export function CrossSellBanner({ triggerPage, fromPrice = 500 }: CrossSellBannerProps) {
-  const { openModal } = useBooking()
+  const { addToCart, openDrawer } = useCart()
 
   return (
     <section
@@ -52,17 +52,20 @@ export function CrossSellBanner({ triggerPage, fromPrice = 500 }: CrossSellBanne
         {/* CTA */}
         <div className="shrink-0">
           <button
-            onClick={() =>
-              openModal({
-                serviceType: 'private-boat-charter',
-                serviceName: 'Private Boat Charter Ibiza',
-                sourcePage: triggerPage,
-              })
-            }
+            onClick={() => {
+              addToCart({
+                serviceId: 'private-boat-charter',
+                title: 'Private Boat Charter Ibiza',
+                price: fromPrice,
+                image: '/fotos/hero-pattern.jpg',
+                date: undefined
+              });
+              openDrawer();
+            }}
             className="group inline-flex items-center gap-2 rounded-full bg-rustic-terracotta px-7 py-4 font-sans font-semibold text-white transition-all hover:bg-rustic-terracotta/90 hover:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rustic-terracotta focus-visible:ring-offset-2 focus-visible:ring-offset-velvet-obsidian"
-            aria-label="Enquire about a private boat charter"
+            aria-label="Add private boat charter to cart"
           >
-            Enquire Now
+            Add to Cart
             <ArrowRight
               size={16}
               className="transition-transform duration-200 group-hover:translate-x-0.5"

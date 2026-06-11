@@ -2,7 +2,7 @@
 
 import { ExternalLink, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
-import { useBooking } from '@/context/booking-context'
+import { useCart } from '@/context/cart-context'
 import type { FeaturedEvent } from '@/types/featured-event'
 import { CATEGORY_LABELS } from '@/types/featured-event'
 
@@ -11,16 +11,17 @@ interface EventBookingCTAProps {
 }
 
 export function EventBookingCTA({ event }: EventBookingCTAProps) {
-  const { openModal } = useBooking()
+  const { addToCart, openDrawer } = useCart()
 
-  const handleWhatsApp = () => {
-    openModal({
-      serviceType: event.category,
-      serviceName: event.title,
-      clubName: event.venue_name ?? undefined,
-      arrivalDate: event.event_date ?? undefined,
-      sourcePage: `/events/${event.id}`,
+  const handleAddToCart = () => {
+    addToCart({
+      serviceId: `event-${event.id}`,
+      title: event.title,
+      price: event.price_from || 0,
+      image: event.image_url ?? '/fotos/hero-pattern.jpg',
+      date: event.event_date ?? undefined
     })
+    openDrawer()
   }
 
   /* External promoter link */
@@ -37,11 +38,10 @@ export function EventBookingCTA({ event }: EventBookingCTAProps) {
           <ExternalLink size={15} />
         </a>
         <button
-          onClick={handleWhatsApp}
+          onClick={handleAddToCart}
           className="flex w-full items-center justify-center gap-2 rounded-full border border-velvet-obsidian/20 px-6 py-3 font-sans text-sm font-medium text-velvet-obsidian transition-colors hover:border-velvet-obsidian hover:bg-velvet-obsidian hover:text-ibiza-sand"
         >
-          <MessageCircle size={15} />
-          Ask us on WhatsApp
+          Add to Cart
         </button>
       </div>
     )
@@ -51,11 +51,10 @@ export function EventBookingCTA({ event }: EventBookingCTAProps) {
   return (
     <div className="flex flex-col gap-3">
       <button
-        onClick={handleWhatsApp}
+        onClick={handleAddToCart}
         className="flex w-full items-center justify-center gap-2 rounded-full bg-rustic-terracotta px-6 py-3.5 font-sans text-base font-semibold text-white transition-colors hover:bg-rustic-terracotta/90"
       >
-        <MessageCircle size={15} />
-        {event.cta_label}
+        Add to Cart
       </button>
 
       {event.cta_href && (

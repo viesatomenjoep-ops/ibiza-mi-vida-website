@@ -1,7 +1,6 @@
 'use client'
 
-import { MessageCircle } from 'lucide-react'
-import { useBooking } from '@/context/booking-context'
+import { useCart } from '@/context/cart-context'
 import type { Experience } from '@/types/experience'
 
 interface ExperienceBookingCTAProps {
@@ -9,21 +8,23 @@ interface ExperienceBookingCTAProps {
 }
 
 export function ExperienceBookingCTA({ experience }: ExperienceBookingCTAProps) {
-  const { openModal } = useBooking()
+  const { addToCart, openDrawer } = useCart()
 
   return (
     <button
-      onClick={() =>
-        openModal({
-          serviceType: experience.category,
-          serviceName: experience.title,
-          sourcePage: `/experiences/${experience.slug}`,
-        })
-      }
+      onClick={() => {
+        addToCart({
+          serviceId: `experience-${experience.id}`,
+          title: experience.title,
+          price: experience.price_from || 0,
+          image: experience.image_url ?? '/fotos/hero-pattern.jpg',
+          date: undefined
+        });
+        openDrawer();
+      }}
       className="flex w-full items-center justify-center gap-2 rounded-full bg-rustic-terracotta px-6 py-3.5 font-sans text-base font-semibold text-white transition-colors hover:bg-rustic-terracotta/90"
     >
-      <MessageCircle size={15} />
-      Book via WhatsApp
+      Add to Cart
     </button>
   )
 }

@@ -32,12 +32,30 @@ type Artist = {
 
 export function Navbar({ artists = [] }: { artists?: Artist[] }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolledPastHero, setScrolledPastHero] = useState(false)
   const pathname = usePathname()
   const { openDrawer, totalItems } = useCart()
+  
+  const isHome = pathname === '/'
 
   useEffect(() => {
     setMenuOpen(false)
   }, [pathname])
+
+  // Track scroll on homepage to reveal categories
+  useEffect(() => {
+    if (!isHome) return
+    
+    const handleScroll = () => {
+      // Show categories when scrolled 80vh down
+      setScrolledPastHero(window.scrollY > window.innerHeight * 0.8)
+    }
+    
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll() // initial check
+    
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [isHome])
 
   // Prevent scroll when menu is open
   useEffect(() => {
@@ -60,16 +78,14 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
           {/* Left: Logo */}
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 shrink-0">
-              <div className="rounded-full w-[50px] h-[50px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-sm border border-gray-200 bg-gray-50 overflow-hidden transition-colors duration-500">
-                <div className="relative w-full h-full">
-                  <Image 
-                    src="/logo-clean.png" 
-                    alt="Ibiza mi vida Logo" 
-                    fill
-                    className="object-contain p-2 md:p-3 brightness-0"
-                    priority
-                  />
-                </div>
+              <div className="relative w-[100px] h-[40px] md:w-[140px] md:h-[50px]">
+                <Image 
+                  src="/logo-clean.png" 
+                  alt="Ibiza mi vida Logo" 
+                  fill
+                  className="object-contain brightness-0"
+                  priority
+                />
               </div>
             </Link>
             <div className="hidden sm:flex items-center justify-center px-5 py-3 rounded-xl border border-gray-200 bg-white shadow-sm text-velvet-obsidian">
@@ -102,36 +118,46 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
           </div>
         </div>
 
-        {/* Bottom Row: 4 Icons */}
-        <div className="flex items-center justify-between px-2 md:px-8 py-2 border-t border-gray-100 bg-white gap-2">
-          <Link href="/deals-of-the-day" className="flex flex-col items-center gap-1 group w-1/4">
-            <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-gray-50 group-hover:bg-gray-100 transition-colors border border-gray-200 text-velvet-obsidian">
-              <Star size={18} className="md:w-5 md:h-5" />
-            </div>
-            <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider text-velvet-obsidian text-center leading-tight mt-1">Deal of the Day</span>
-          </Link>
-          
-          <Link href="/private-boat-charters" className="flex flex-col items-center gap-1 group w-1/4">
-            <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-gray-50 group-hover:bg-gray-100 transition-colors border border-gray-200 text-velvet-obsidian">
-              <Anchor size={18} className="md:w-5 md:h-5" />
-            </div>
-            <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider text-velvet-obsidian text-center leading-tight mt-1">Private Boats</span>
-          </Link>
-          
-          <Link href="/artists" className="flex flex-col items-center gap-1 group w-1/4">
-            <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-gray-50 group-hover:bg-gray-100 transition-colors border border-gray-200 text-velvet-obsidian">
-              <Disc size={18} className="md:w-5 md:h-5" />
-            </div>
-            <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider text-velvet-obsidian text-center leading-tight mt-1">Artists</span>
-          </Link>
-          
-          <Link href="/club-tickets" className="flex flex-col items-center gap-1 group w-1/4">
-            <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-gray-50 group-hover:bg-gray-100 transition-colors border border-gray-200 text-velvet-obsidian">
-              <Ticket size={18} className="md:w-5 md:h-5" />
-            </div>
-            <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider text-velvet-obsidian text-center leading-tight mt-1">Clubtickets</span>
-          </Link>
-        </div>
+        {/* Bottom Row: 4 Icons (Animated on Homepage) */}
+        <AnimatePresence>
+          {(!isHome || scrolledPastHero) && (
+            <motion.div 
+              initial={isHome ? { height: 0, opacity: 0 } : false}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+              className="flex items-center justify-between px-2 md:px-8 py-2 border-t border-gray-100 bg-white gap-2 overflow-hidden"
+            >
+              <Link href="/deals-of-the-day" className="flex flex-col items-center gap-1 group w-1/4">
+                <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-gray-50 group-hover:bg-gray-100 transition-colors border border-gray-200 text-velvet-obsidian">
+                  <Star size={18} className="md:w-5 md:h-5" />
+                </div>
+                <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider text-velvet-obsidian text-center leading-tight mt-1 whitespace-nowrap">Deal of the Day</span>
+              </Link>
+              
+              <Link href="/private-boat-charters" className="flex flex-col items-center gap-1 group w-1/4">
+                <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-gray-50 group-hover:bg-gray-100 transition-colors border border-gray-200 text-velvet-obsidian">
+                  <Anchor size={18} className="md:w-5 md:h-5" />
+                </div>
+                <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider text-velvet-obsidian text-center leading-tight mt-1 whitespace-nowrap">Private Boats</span>
+              </Link>
+              
+              <Link href="/artists" className="flex flex-col items-center gap-1 group w-1/4">
+                <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-gray-50 group-hover:bg-gray-100 transition-colors border border-gray-200 text-velvet-obsidian">
+                  <Disc size={18} className="md:w-5 md:h-5" />
+                </div>
+                <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider text-velvet-obsidian text-center leading-tight mt-1 whitespace-nowrap">Artists</span>
+              </Link>
+              
+              <Link href="/club-tickets" className="flex flex-col items-center gap-1 group w-1/4">
+                <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-gray-50 group-hover:bg-gray-100 transition-colors border border-gray-200 text-velvet-obsidian">
+                  <Ticket size={18} className="md:w-5 md:h-5" />
+                </div>
+                <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider text-velvet-obsidian text-center leading-tight mt-1 whitespace-nowrap">Clubtickets</span>
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* Fullscreen Hamburger Menu */}

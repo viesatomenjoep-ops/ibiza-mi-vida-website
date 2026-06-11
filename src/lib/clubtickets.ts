@@ -89,11 +89,11 @@ export interface CTEvent {
   };
   type: CTType;
   dates: CTEventDate[];
-  // Enhanced properties
   venueName?: string;
   venueSlug?: string;
   venueCover?: string;
   venueLogo?: string;
+  venueId?: number;
 }
 
 export interface CTArtist {

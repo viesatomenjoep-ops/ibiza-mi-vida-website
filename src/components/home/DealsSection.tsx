@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Calendar, CheckCircle2, Circle, MessageCircle } from 'lucide-react'
 import { DealTimer } from '@/components/ui/DealTimer'
 import { DealDateBanner } from '@/components/ui/DealDateBanner'
-import { useBooking } from '@/context/booking-context'
+import { useCart } from '@/context/cart-context'
 
 interface Deal {
   id: string
@@ -28,7 +28,7 @@ const mockWeeklyDeals: Deal[] = [
 ]
 
 export function DealsSection() {
-  const { openModal } = useBooking()
+  const { addToCart, openDrawer } = useCart()
   const [selectedDailyDeals, setSelectedDailyDeals] = useState<string[]>([])
 
   const toggleDailyDeal = (id: string) => {
@@ -37,14 +37,22 @@ export function DealsSection() {
     )
   }
 
-  const handleWhatsAppCheckout = () => {
+  const handleAddToCart = () => {
     const selected = mockDailyDeals.filter(d => selectedDailyDeals.includes(d.id))
     if (selected.length === 0) return
 
-    const dealNames = selected.map(d => `- ${d.name} (${d.price})`).join('%0A')
-    const message = `Hi! I would like to book the following Deals of the Day:%0A%0A${dealNames}`
-    const whatsappUrl = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '31683052875'}?text=${message}`
-    window.open(whatsappUrl, '_blank')
+    selected.forEach(d => {
+      addToCart({
+        serviceId: 'deal-of-the-day-' + d.id,
+        title: d.name,
+        price: parseInt(d.price.replace('€', '').replace(',', ''), 10) || 0,
+        image: '/fotos/hero-pattern.jpg',
+        date: d.day
+      })
+    })
+    
+    setSelectedDailyDeals([])
+    openDrawer()
   }
 
   return (
@@ -103,12 +111,11 @@ export function DealsSection() {
               {selectedDailyDeals.length} deal{selectedDailyDeals.length !== 1 ? 's' : ''} selected
             </p>
             <button
-              onClick={handleWhatsAppCheckout}
+              onClick={handleAddToCart}
               disabled={selectedDailyDeals.length === 0}
-              className="flex w-full md:w-auto items-center justify-center gap-2 rounded-full bg-[#25D366] px-8 py-3.5 font-sans text-sm font-semibold text-white shadow-lg shadow-green-500/30 transition-all hover:bg-[#20bd5a] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex w-full md:w-auto items-center justify-center gap-2 rounded-full bg-black px-8 py-3.5 font-sans text-sm font-semibold text-white shadow-lg shadow-black/30 transition-all hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <MessageCircle size={18} />
-              Book Selected Deals
+              Add Selected to Cart
             </button>
           </div>
         </div>
@@ -138,11 +145,16 @@ export function DealsSection() {
           {mockWeeklyDeals.map((deal) => (
             <button
               key={deal.id}
-              onClick={() => openModal({
-                serviceType: deal.type,
-                serviceName: deal.name,
-                sourcePage: '/homepage (Deal of the week)'
-              })}
+              onClick={() => {
+                addToCart({
+                  serviceId: 'deal-of-the-week-' + deal.id,
+                  title: deal.name,
+                  price: parseInt(deal.price.replace('€', '').replace(',', ''), 10) || 0,
+                  image: '/fotos/hero-pattern.jpg',
+                  date: deal.day
+                });
+                openDrawer();
+              }}
               className="w-full bg-white rounded-[20px] p-4 flex justify-between items-center transition-all shadow-sm border border-velvet-obsidian/10 hover:border-velvet-obsidian/30 hover:scale-[1.01] hover:shadow-md group"
             >
               <div className="flex items-center gap-4 text-left">

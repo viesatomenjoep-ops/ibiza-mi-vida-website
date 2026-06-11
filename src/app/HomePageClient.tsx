@@ -117,24 +117,32 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
         {/* Hero Content - Placed over video on both mobile and desktop */}
         <div className="absolute inset-0 z-20 flex flex-col items-center justify-end md:justify-center text-center px-4 md:px-8 pb-[20vh] md:pb-0 pt-32">
           <div className="w-full max-w-7xl mx-auto md:absolute md:bottom-24 md:left-0 md:right-0">
-            <h2 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.3em] text-white/90 mb-4 md:mb-6 drop-shadow-md">
-              IBIZA MI VIDA &middot; SEASON 2026
-            </h2>
-            
-            <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.0] md:leading-[0.9] tracking-tight mb-5 md:mb-8 drop-shadow-xl">
-              Experience the <br/>
-              <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/70 font-light pl-2 pr-2">real</span> Ibiza.
-            </h1>
-            
-            <div className="bg-black/40 backdrop-blur-md border border-white/20 rounded-2xl p-5 md:p-8 mb-8 md:mb-10 mx-auto max-w-3xl shadow-2xl">
-              <p className="font-sans text-sm sm:text-base md:text-lg text-white font-medium tracking-wide leading-relaxed drop-shadow-md px-2">
-                Club tickets, private charters and boat parties — hand-picked by locals, confirmed within minutes on WhatsApp.
-              </p>
-            </div>
+            <div className="container relative z-10 max-w-4xl text-center flex flex-col items-center">
+              
+              <div className="inline-flex items-center justify-center gap-2 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm px-4 py-1.5 font-sans text-xs font-semibold uppercase tracking-widest text-white mb-8 shadow-lg">
+                <Image src="/logo-clean.png" alt="Logo" width={16} height={16} className="object-contain brightness-0 invert opacity-90" />
+                <span className="h-2 w-2 rounded-full bg-rustic-terracotta shadow-[0_0_8px_rgba(206,108,71,0.8)] animate-pulse" />
+                Ibiza mi Vida Season 2026
+              </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mt-2">
-              <Link href="/club-tickets" className="w-[90%] sm:w-auto px-6 py-4 md:py-4 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 min-w-[200px]">Book Club Tickets</Link>
-              <Link href="/vip-experiences" className="w-[90%] sm:w-auto px-6 py-4 md:py-4 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 min-w-[200px]">View VIP Tables</Link>
+              {/* Main heading */}
+              <div className="relative mb-6">
+                <h1 className="hero-text text-8xl md:text-[10rem] lg:text-[12rem] xl:text-[15rem] leading-[0.8] tracking-tight">
+                  <span className="block italic text-transparent stroke-text" style={{ WebkitTextStroke: '2px white' }}>Ibiza</span>
+                  <span className="block font-bold text-white relative">mi Vida</span>
+                </h1>
+              </div>
+              
+              <div className="inline-block rounded-full border border-white/60 bg-white/10 backdrop-blur-sm px-6 py-3 mb-8 shadow-lg">
+                <h3 className="font-sans text-xl sm:text-2xl md:text-3xl text-white font-light drop-shadow-md">
+                  Experience the real Ibiza.
+                </h3>
+              </div>
+
+              <div className="mt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link href="/club-tickets" className="w-[90%] sm:w-auto px-6 py-4 md:py-4 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 min-w-[200px] shadow-lg">Book Club Tickets</Link>
+                <Link href="/vip-experiences" className="w-[90%] sm:w-auto px-6 py-4 md:py-4 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 min-w-[200px] shadow-lg">View VIP Tables</Link>
+              </div>
             </div>
           </div>
         </div>
@@ -170,9 +178,19 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
 
           <div className="deal-grid mt-4">
             {DEALS.map((d, i) => {
-              const isSelected = i === 1;
+              const isSelected = items.some(item => item.serviceId === d.id);
               return (
-                <button key={d.id} className="ticket flex flex-col items-center justify-center text-center shrink-0 w-[85vw] md:w-[320px] snap-center snap-always">
+                <button 
+                  key={d.id} 
+                  className="ticket flex flex-col items-center justify-center text-center shrink-0 w-[85vw] md:w-[320px] snap-center snap-always"
+                  onClick={() => {
+                    toggle(d.id, d);
+                    if (!isSelected) {
+                      // Only open drawer if adding to cart
+                      setTimeout(() => document.querySelector<HTMLButtonElement>('[aria-label="Open cart"]')?.click(), 100);
+                    }
+                  }}
+                >
                   <div className="ticket__body">
                     <div className="ticket__image">
                       <Image src={d.image} alt={d.title} fill className="object-cover" />
