@@ -63,8 +63,14 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
           
           {/* Left: Design 2.0 Logo & Brand */}
           <Link href="/" className="flex items-center gap-3 group transition-transform hover:scale-105 shrink-0">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center transition-transform group-hover:rotate-12" style={{ backgroundColor: accentColor }}>
-              <span className="font-extrabold italic text-black tracking-tighter text-base">IMV</span>
+            <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-transform group-hover:rotate-12">
+              <Image 
+                src="/logo-clean.png" 
+                alt="Ibiza mi vida Logo" 
+                fill
+                className="object-contain brightness-0 invert"
+                priority
+              />
             </div>
             <div>
               <span className="font-display text-xl sm:text-2xl font-black tracking-tighter uppercase block text-white">Ibiza Mi Vida</span>
