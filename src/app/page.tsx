@@ -7,9 +7,6 @@ export const revalidate = 3600
 
 export default function Home() {
   return (
-    <HomePageClient 
-      clubTicketsSlider={<ClubTicketsSlider />} 
-      dailyEventsSection={<DailyEventsSection />}
-    />
+    <HomePageClient />
   )
 }

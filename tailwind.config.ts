@@ -27,10 +27,17 @@ const config: Config = {
         'ibiza-sand': 'var(--color-paper)',
         'rustic-terracotta': 'var(--color-sea)',
         'champagne-bronze': 'var(--color-mist)',
+
+        // Design 2.0 Ultra-Modern Dark Theme Palette
+        'ibiza-orange': '#FF4E00',
+        'ibiza-dark': '#0A0A0A',
+        'ibiza-card': '#141414',
       },
       fontFamily: {
-        sans: ['var(--font-body)', ...defaultTheme.fontFamily.sans],
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
         serif: ['var(--font-display)', ...defaultTheme.fontFamily.serif],
+        display: ['Outfit', ...defaultTheme.fontFamily.sans],
+        mono: ['JetBrains Mono', ...defaultTheme.fontFamily.mono],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

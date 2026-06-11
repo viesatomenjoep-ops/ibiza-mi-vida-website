@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Marcellus, Mulish } from 'next/font/google'
+import { Inter, Outfit, JetBrains_Mono } from 'next/font/google'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppFAB } from '@/components/layout/WhatsAppFAB'
@@ -10,16 +10,21 @@ import { CartDrawer } from '@/components/ui/CartDrawer'
 import '@/styles/globals.css'
 import './ibiza-design.css'
 
-const marcellus = Marcellus({
-  weight: '400',
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-marcellus',
+  variable: '--font-body',
   display: 'swap',
 })
 
-const mulish = Mulish({
+const outfit = Outfit({
   subsets: ['latin'],
-  variable: '--font-mulish',
+  variable: '--font-display',
+  display: 'swap',
+})
+
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
   display: 'swap',
 })
 
@@ -82,8 +87,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const artists = Array.from(uniqueArtistsMap.values()).slice(0, 15)
 
   return (
-    <html lang="en" className={`${marcellus.variable} ${mulish.variable}`}>
-      <body className="font-sans antialiased overflow-x-clip w-full max-w-[100vw]">
+    <html lang="en" className={`${inter.variable} ${outfit.variable} ${jetbrains.variable}`}>
+      <body className="font-sans antialiased overflow-x-clip w-full max-w-[100vw] bg-[#0A0A0A] text-[#F4F4F5]">
         <CartProvider>
           <BookingProvider>
             <Navbar artists={artists} />

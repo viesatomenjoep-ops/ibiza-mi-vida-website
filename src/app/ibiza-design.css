@@ -2,21 +2,22 @@
    IBIZA MI VIDA — Main Stylesheet
    v3.0 — Separated build, ready to customise
    ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 /* ---------- Design tokens ---------- */
 :root {
   /* Colours (RGB triplets for Tailwind opacity support) */
-  --color-paper:   246 245 241;  /* #F6F5F1 */
-  --color-card:    255 255 255;  /* #FFFFFF */
-  --color-ink:     30 39 51;     /* #1E2733 */
-  --color-slate:   92 107 122;   /* #5C6B7A */
-  --color-sea:     46 90 107;    /* #2E5A6B */
+  --color-paper:   10 10 10;     /* #0A0A0A */
+  --color-card:    20 20 20;     /* #141414 */
+  --color-ink:     244 244 245;  /* #F4F4F5 */
+  --color-slate:   161 161 170;  /* #a1a1aa */
+  --color-sea:     255 78 0;     /* #FF4E00 */
   --color-mist:    143 166 176;  /* #8FA6B0 */
-  --color-line:    228 225 218;  /* #E4E1DA */
+  --color-line:    39 39 42;     /* #27272a */
 
   /* Typography */
-  --font-display: var(--font-marcellus, 'Marcellus', serif);
-  --font-body:    var(--font-mulish, 'Mulish', sans-serif);
+  --font-display: 'Outfit', sans-serif;
+  --font-body:    'Inter', sans-serif;
 
   /* Spacing */
   --space-xs:  0.5rem;
@@ -36,14 +37,18 @@
 /* ---------- Reset & base ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html  { scroll-behavior: smooth; font-size: 16px; }
-body  { background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+body  { background: #0A0A0A; color: #F4F4F5; font-family: var(--font-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 img, svg { display: block; max-width: 100%; }
 a    { color: inherit; text-decoration: none; }
 button { cursor: pointer; background: none; border: none; font: inherit; }
 :focus-visible { outline: 2px solid var(--color-sea); outline-offset: 3px; border-radius: 6px; }
-::selection { background: rgba(46,90,107,.2); }
-::-webkit-scrollbar { width: 9px; }
-::-webkit-scrollbar-thumb { background: #C9CFC9; border-radius: 9px; }
+::selection { background: rgba(255,78,0,.2); }
+
+/* Custom scrollbars index */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0A0A0A; }
+::-webkit-scrollbar-thumb { background: #FF4E00; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #ff6a24; }
 
 /* ---------- Layout ---------- */
 .container { max-width: 1280px; margin: 0 auto; padding: 0 1.25rem; }
