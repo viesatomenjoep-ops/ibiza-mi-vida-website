@@ -123,7 +123,7 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
             
             <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.0] md:leading-[0.9] tracking-tight mb-5 md:mb-8 drop-shadow-xl">
               Experience the <br/>
-              <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/70 font-light pr-2">real</span> Ibiza.
+              <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/70 font-light pl-2 pr-2">real</span> Ibiza.
             </h1>
             
             <p className="font-sans text-sm sm:text-base md:text-lg text-white/90 max-w-2xl mx-auto font-light tracking-wide mb-8 md:mb-10 leading-relaxed drop-shadow-md px-2">
