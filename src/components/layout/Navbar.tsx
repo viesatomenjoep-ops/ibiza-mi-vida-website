@@ -110,11 +110,11 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
           </Link>
           <Link
             href="/deals-of-the-day"
-            className={`flex sm:hidden items-center gap-2 rounded-full px-5 py-3 shadow-xl transition-all hover:scale-105 border border-black/5 ${
+            className={`flex sm:hidden items-center gap-1.5 rounded-full px-3.5 py-2 shadow-md transition-all hover:scale-105 border border-black/5 ${
               scrolled ? 'bg-gray-100 text-velvet-obsidian hover:bg-gray-200' : 'bg-rustic-terracotta text-white hover:bg-rustic-terracotta/90'
             }`}
           >
-            <span className="font-serif text-[22px] font-semibold tracking-wide whitespace-nowrap">Deals of the Day</span>
+            <span className="font-serif text-[14px] font-semibold tracking-wide whitespace-nowrap">Deals of the Day</span>
           </Link>
 
           <button 
