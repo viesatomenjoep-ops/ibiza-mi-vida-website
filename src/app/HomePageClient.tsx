@@ -38,10 +38,27 @@ export default function HomePageClient() {
   return (
     <div id="ibiza-root-view" className="min-h-screen bg-[#0A0A0A] text-zinc-100 flex flex-col justify-between selection:bg-orange-600 selection:text-white antialiased pt-20">
       
-      {/* Dynamic Visual Gradient Aurora */}
-      <div className="absolute top-0 left-0 right-0 h-[600px] pointer-events-none z-0" style={{ backgroundImage: `linear-gradient(to bottom, ${accentColor}15, ${accentColor}02, transparent)` }} />
+      {/* Top Section with Video Background */}
+      <div className="relative w-full overflow-hidden">
+        {/* Video Background */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          preload="auto"
+          poster="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30,w_1920/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.jpg"
+          className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-screen scale-105 pointer-events-none"
+          src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto:good,f_auto,so_30,du_30,w_1920/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4"
+        />
+        
+        {/* Gradients for smooth blending */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/40 via-[#0A0A0A]/60 to-[#0A0A0A] pointer-events-none z-0" />
+        
+        {/* Dynamic Visual Gradient Aurora */}
+        <div className="absolute top-0 left-0 right-0 h-full pointer-events-none z-0 mix-blend-plus-lighter" style={{ backgroundImage: `linear-gradient(to bottom, ${accentColor}15, ${accentColor}02, transparent)` }} />
 
-      {/* HERO SECTION */}
+        {/* HERO SECTION */}
       <header id="main-hero" className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-8 py-10 md:py-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Left column text details */}
         <div className="lg:col-span-7 space-y-6">
@@ -165,6 +182,7 @@ export default function HomePageClient() {
             <span>100% Secure Checkout</span>
           </div>
         </div>
+      </div>
       </div>
 
       {/* MAIN VIEWPORT BODY & SECTIONS */}
