@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Calendar, MapPin, Music, ExternalLink, ChevronLeft } from 'lucide-react'
-import { getVenues, getEvent, CTEvent } from '@/lib/clubtickets'
+import { getEventBySlugs, CTEvent } from '@/lib/clubtickets'
 
 export const revalidate = 3600
 
@@ -12,13 +12,7 @@ interface Props {
 }
 
 async function fetchEventData(slug: string, eventSlug: string): Promise<CTEvent | null> {
-  const venues = await getVenues('en');
-  const venueRef = venues.find(v => v.slug === slug);
-  if (!venueRef) return null;
-  const eventRef = venueRef.events.find(e => e.slug === eventSlug);
-  if (!eventRef) return null;
-  const eventDetail = await getEvent(venueRef.id, eventRef.id, 'en');
-  return eventDetail;
+  return await getEventBySlugs(slug, eventSlug);
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

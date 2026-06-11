@@ -2,32 +2,12 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Disc } from 'lucide-react'
-import { getVenues, getEvent } from '@/lib/clubtickets'
+import { getArtists } from '@/lib/clubtickets'
 
 export const revalidate = 3600
 
 export default async function ArtistsPage() {
-  const venues = await getVenues('en')
-  
-  const topVenues = venues.filter(v => v.events && v.events.length > 0)
-  
-  const eventPromises: Promise<any>[] = []
-  
-  for (const venue of topVenues) {
-    if (!venue.events) continue
-    for (const eventRef of venue.events) {
-      eventPromises.push(
-        getEvent(venue.id, eventRef.id, 'en').then(full => full ? { ...full, venueName: venue.name } : null)
-      )
-    }
-  }
-  
-  const fetchedEvents = (await Promise.all(eventPromises)).filter(Boolean)
-  
-  // Deduplicate by slug
-  const uniqueArtists = Array.from(new Map(fetchedEvents.map(item => [item.slug, item])).values())
-  // Filter out those without images to make the grid look good
-  const artists = uniqueArtists.filter(a => a.cover || a.logo)
+  const artists = await getArtists()
 
   return (
     <main className="bg-ibiza-sand min-h-screen text-velvet-obsidian pt-32 pb-24">
@@ -50,7 +30,7 @@ export default async function ArtistsPage() {
               className="group relative h-[400px] md:h-[500px] rounded-[2rem] overflow-hidden bg-black shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-black/5"
             >
               <Image 
-                src={artist.cover || artist.logo} 
+                src={artist.image} 
                 alt={artist.name}
                 fill
                 className="object-cover opacity-70 transition-all duration-700 group-hover:scale-110 group-hover:opacity-90"

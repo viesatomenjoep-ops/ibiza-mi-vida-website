@@ -6,7 +6,7 @@ import { CTEventCard } from '@/components/cards/CTEventCard'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { VenueSchema } from '@/components/seo/VenueSchema'
-import { getVenues, getVenue, CTVenue, getEvent } from '@/lib/clubtickets'
+import { getVenues, getVenue, CTVenue, getEvent, getAllDates } from '@/lib/clubtickets'
 
 export const revalidate = 3600
 
@@ -46,20 +46,9 @@ export default async function ClubDetailPage({ params }: Props) {
   const club = await fetchVenueData(params.slug)
   if (!club) notFound()
 
-  const events = club.events || []
-  
-  // Fetch full details for all events to extract their specific dates
-  const fullEventsPromises = events.map(e => getEvent(club.id, e.id, 'en'))
-  const fullEvents = await Promise.all(fullEventsPromises)
-  
-  // Flatten all dates into a single array
-  const allDates = fullEvents.flatMap(e => 
-    e?.dates ? e.dates.map(d => ({
-      ...d, 
-      eventName: e.name, 
-      eventSlug: e.slug
-    })) : []
-  )
+  // Fetch dates directly from cache
+  const allDatesGlobal = await getAllDates()
+  const allDates = allDatesGlobal.filter(d => d.venueSlug === club.slug)
   
   // Sort chronologically
   allDates.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())

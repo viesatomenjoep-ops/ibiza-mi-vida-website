@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+
 export const API_KEY = '80aac9f0b1a44b63060b083f3813271a';
 export const BASE_URL = `https://affiliates.clubtickets.com/api/affiliate/${API_KEY}/get`;
 
@@ -13,7 +16,6 @@ export interface CTVenueEvent {
   slug: string;
   affLink: string;
   apiEndpoint: string;
-  // Included in getVenue but not necessarily getVenues:
   description?: string;
   requirements?: string;
   startAt?: string;
@@ -24,6 +26,7 @@ export interface CTVenueEvent {
   logo?: string;
   cover?: string;
   whitelogo?: string;
+  dates?: CTEventDate[];
 }
 
 export interface CTVenue {
@@ -31,6 +34,7 @@ export interface CTVenue {
   name: string;
   slug: string;
   description: string;
+  cleanDescription?: string;
   picture: string;
   cover: string;
   whitelogo: string;
@@ -49,6 +53,15 @@ export interface CTEventDate {
   lineUp: string;
   prices: string;
   affLink: string;
+  // Enhanced properties added by sync script:
+  eventName?: string;
+  eventSlug?: string;
+  venueName?: string;
+  venueSlug?: string;
+  venueCover?: string;
+  venueLogo?: string;
+  eventId?: number;
+  venueId?: number;
 }
 
 export interface CTEvent {
@@ -76,58 +89,85 @@ export interface CTEvent {
   };
   type: CTType;
   dates: CTEventDate[];
+  // Enhanced properties
+  venueName?: string;
+  venueSlug?: string;
+  venueCover?: string;
+  venueLogo?: string;
 }
 
-interface ApiResponse<T> {
-  locale: string;
-  data: T;
-  error?: number;
-  message?: string;
+export interface CTArtist {
+  id: number;
+  name: string;
+  slug: string;
+  image: string;
+  venueName: string;
+  venueSlug: string;
+  href: string;
 }
 
-const REVALIDATE_TIME = 3600; // 1 hour
+export interface ClubTicketsData {
+  venues: CTVenue[];
+  events: CTEvent[];
+  dates: CTEventDate[];
+  artists: CTArtist[];
+  lastUpdated: string;
+}
+
+let cachedData: ClubTicketsData | null = null;
+
+function loadData(): ClubTicketsData {
+  if (cachedData) return cachedData;
+  try {
+    const filePath = path.join(process.cwd(), 'src', 'data', 'clubtickets.json');
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    cachedData = JSON.parse(fileContents);
+    return cachedData!;
+  } catch (error) {
+    console.error('Failed to load local clubtickets.json data:', error);
+    return { venues: [], events: [], dates: [], artists: [], lastUpdated: '' };
+  }
+}
 
 export async function getVenues(locale = 'en'): Promise<CTVenue[]> {
-  const url = `${BASE_URL}/venues?locale=${locale}`;
-  try {
-    const res = await fetch(url, { next: { revalidate: REVALIDATE_TIME } });
-    if (!res.ok) return [];
-    const json = await res.json() as ApiResponse<CTVenue[]>;
-    if (json.error) {
-      console.error('ClubTickets API Error:', json.message);
-      return [];
-    }
-    return json.data || [];
-  } catch (error) {
-    console.error('Failed to fetch venues:', error);
-    return [];
-  }
+  const data = loadData();
+  return data.venues || [];
 }
 
 export async function getVenue(venueId: number, locale = 'en'): Promise<CTVenue | null> {
-  const url = `${BASE_URL}/venue/${venueId}?locale=${locale}`;
-  try {
-    const res = await fetch(url, { next: { revalidate: REVALIDATE_TIME } });
-    if (!res.ok) return null;
-    const json = await res.json() as ApiResponse<CTVenue>;
-    if (json.error) return null;
-    return json.data || null;
-  } catch (error) {
-    console.error(`Failed to fetch venue ${venueId}:`, error);
-    return null;
-  }
+  const data = loadData();
+  return data.venues.find(v => v.id === venueId) || null;
 }
 
 export async function getEvent(venueId: number, eventId: number, locale = 'en'): Promise<CTEvent | null> {
-  const url = `${BASE_URL}/venue/${venueId}/event/${eventId}?locale=${locale}`;
-  try {
-    const res = await fetch(url, { next: { revalidate: REVALIDATE_TIME } });
-    if (!res.ok) return null;
-    const json = await res.json() as ApiResponse<CTEvent>;
-    if (json.error) return null;
-    return json.data || null;
-  } catch (error) {
-    console.error(`Failed to fetch event ${eventId} for venue ${venueId}:`, error);
-    return null;
+  const data = loadData();
+  return data.events.find(e => e.id === eventId && (e.venueId === venueId || e.venue?.id === venueId)) || null;
+}
+
+export async function getEventBySlugs(venueSlug: string, eventSlug: string): Promise<CTEvent | null> {
+  const data = loadData();
+  return data.events.find(e => (e.venueSlug === venueSlug || e.venue?.slug === venueSlug) && e.slug === eventSlug) || null;
+}
+
+export async function getAllDates(limit?: number): Promise<CTEventDate[]> {
+  const data = loadData();
+  let dates = data.dates || [];
+  
+  // Ensure we only return dates in the future
+  const now = new Date().getTime() - (24 * 60 * 60 * 1000);
+  dates = dates.filter(d => new Date(d.date).getTime() > now);
+  
+  if (limit && limit > 0) {
+    dates = dates.slice(0, limit);
   }
+  return dates;
+}
+
+export async function getArtists(limit?: number): Promise<CTArtist[]> {
+  const data = loadData();
+  let artists = data.artists || [];
+  if (limit && limit > 0) {
+    artists = artists.slice(0, limit);
+  }
+  return artists;
 }

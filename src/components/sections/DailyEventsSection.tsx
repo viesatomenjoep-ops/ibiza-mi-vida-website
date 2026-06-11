@@ -1,64 +1,14 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getVenues, getEvent } from '@/lib/clubtickets'
+import { getAllDates } from '@/lib/clubtickets'
 import { ArrowRight } from 'lucide-react'
 
 export async function DailyEventsSection() {
   try {
-    const venues = await getVenues('en')
+    const upcomingDates = await getAllDates(15)
     
-    // Top clubs that host 90% of the bookable parties
-    const topSlugs = ['hi-ibiza', 'ushuaia-ibiza', 'amnesia-ibiza', 'pacha-ibiza', 'eden-ibiza', 'unvrs-ibiza']
-    const topVenues = venues.filter(v => topSlugs.includes(v.slug))
-    
-    // Collect promises to fetch all events for these top clubs
-    const eventPromises = []
-    for (const venue of topVenues) {
-      if (!venue.events) continue
-      for (const eventRef of venue.events) {
-        eventPromises.push(
-          getEvent(venue.id, eventRef.id, 'en').then(fullEvent => {
-            if (!fullEvent) return null
-            return {
-              ...fullEvent,
-              venueName: venue.name,
-              venueSlug: venue.slug,
-              venueLogo: venue.whitelogo,
-              venueCover: venue.cover || venue.picture
-            }
-          })
-        )
-      }
-    }
-    
-    const fullEvents = await Promise.all(eventPromises)
-    
-    // Extract dates and flatten
-    const allDates = fullEvents.flatMap(e => 
-      e?.dates ? e.dates.map(d => ({
-        ...d,
-        eventName: e.name,
-        eventSlug: e.slug,
-        venueName: e.venueName,
-        venueSlug: e.venueSlug,
-        venueLogo: e.venueLogo,
-        image: e.venueCover || 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1920'
-      })) : []
-    )
-    
-    // Sort chronologically (earliest first)
-    const now = new Date().getTime() - (24 * 60 * 60 * 1000) 
-    let validDates = allDates.filter(d => new Date(d.date).getTime() > now)
-    
-    if (validDates.length === 0 && allDates.length > 0) {
-      validDates = allDates
-    }
-    
-    validDates.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    const upcomingDates = validDates.slice(0, 15) // take top 15 upcoming events
-    
-    if (upcomingDates.length === 0) return null
+    if (!upcomingDates || upcomingDates.length === 0) return null
 
     return (
       <section className="py-16 md:py-24 bg-ibiza-sand w-full overflow-hidden" id="daily-events">
@@ -92,8 +42,8 @@ export async function DailyEventsSection() {
                   className="group relative flex flex-col justify-end snap-center shrink-0 w-[calc(100vw-2rem)] sm:w-[350px] md:w-[400px] h-[500px] md:h-[560px] rounded-3xl overflow-hidden bg-black shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-black/10"
                 >
                   <Image 
-                    src={dateObj.image} 
-                    alt={dateObj.eventName}
+                    src={dateObj.venueCover || 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1920'} 
+                    alt={dateObj.eventName || ''}
                     fill
                     className="object-cover opacity-80 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
                     sizes="(max-width: 768px) 85vw, 400px"
@@ -113,7 +63,7 @@ export async function DailyEventsSection() {
                   {/* Club Logo */}
                   {dateObj.venueLogo && (
                     <div className="absolute top-5 left-5 w-14 h-14 md:w-16 md:h-16 opacity-90 drop-shadow-xl">
-                      <Image src={dateObj.venueLogo} alt={dateObj.venueName} fill className="object-contain" />
+                      <Image src={dateObj.venueLogo} alt={dateObj.venueName || ''} fill className="object-contain" />
                     </div>
                   )}
 
