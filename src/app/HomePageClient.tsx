@@ -126,12 +126,14 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
               <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/70 font-light pl-2 pr-2">real</span> Ibiza.
             </h1>
             
-            <p className="font-sans text-sm sm:text-base md:text-lg text-white/90 max-w-2xl mx-auto font-light tracking-wide mb-8 md:mb-10 leading-relaxed drop-shadow-md px-2">
-              Club tickets, private charters and boat parties — hand-picked by locals, confirmed within minutes on WhatsApp.
-            </p>
+            <div className="bg-black/40 backdrop-blur-md border border-white/20 rounded-2xl p-5 md:p-8 mb-8 md:mb-10 mx-auto max-w-3xl shadow-2xl">
+              <p className="font-sans text-sm sm:text-base md:text-lg text-white font-medium tracking-wide leading-relaxed drop-shadow-md px-2">
+                Club tickets, private charters and boat parties — hand-picked by locals, confirmed within minutes on WhatsApp.
+              </p>
+            </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mt-2">
-              <Link href="/club-tickets" className="btn btn--primary hover:scale-105 transition-transform duration-300 w-[90%] sm:w-auto min-w-[200px] py-4 md:py-4 text-sm md:text-base">Book Club Tickets</Link>
+              <Link href="/club-tickets" className="w-[90%] sm:w-auto px-6 py-4 md:py-4 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 min-w-[200px]">Book Club Tickets</Link>
               <Link href="/vip-experiences" className="w-[90%] sm:w-auto px-6 py-4 md:py-4 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 min-w-[200px]">View VIP Tables</Link>
             </div>
           </div>
@@ -139,22 +141,16 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
       </section>
 
       {/* Deals of the Day / Live Offers */}
-      <section id="deals" className="section section--paper pt-12 md:pt-16 pb-6 md:pb-16 relative z-30">
+      <section id="deals" className="section section--paper pt-12 md:pt-16 pb-4 relative z-30">
         <div className="container">
-          <div className="flex items-center gap-2 mb-8">
+          <div className="flex items-center gap-2 mb-2">
             <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
             <h2 className="text-sm font-bold uppercase tracking-widest text-velvet-obsidian/60">Live Offers</h2>
           </div>
-          {dailyEventsSection}
-        </div>
-      </section>
-
-      {/* Club Tickets Slider */}
-      <section id="deals" className="section section--paper pt-0">
-        <div className="container">
-          <div className="section__header reveal pt-16 md:pt-20">
+          
+          <div className="section__header reveal pt-4 md:pt-6">
             <div>
-              <p className="section__eyebrow">LIVE OFFERS</p>
+              <p className="section__eyebrow">LIMITED TIME</p>
               <h2 className="section__heading">Deals of the day.</h2>
               <p style={{ color: 'var(--color-slate)', marginTop: '.75rem', maxWidth: '30rem', fontSize: '14px' }}>
                 Select the deals you want and book them all at once via WhatsApp — before the timer runs out.
@@ -172,7 +168,7 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
             </div>
           </div>
 
-          <div className="deal-grid">
+          <div className="deal-grid mt-4">
             {DEALS.map((d, i) => {
               const isSelected = i === 1;
               return (
@@ -199,7 +195,11 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
         </div>
       </section>
 
-      {dailyEventsSection}
+      {/* Daily Events Section */}
+      <div className="-mt-8 md:-mt-12 relative z-20">
+        {dailyEventsSection}
+      </div>
+
       {clubTicketsSlider}
 
 <section id="relume" className="px-[5%] py-4 md:py-8 lg:py-12 group">

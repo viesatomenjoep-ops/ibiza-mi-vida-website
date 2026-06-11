@@ -5,7 +5,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Anchor, MessageCircle, Search, Music, Sun, Car, GlassWater, CheckCircle, Navigation, Ticket, Star, Heart, ChevronRight, Disc } from 'lucide-react'
+import { Menu, X, Anchor, MessageCircle, Search, Music, Sun, Car, GlassWater, CheckCircle, Navigation, Ticket, Star, Heart, ChevronRight, Disc, ShoppingCart } from 'lucide-react'
+import { useCart } from '@/context/cart-context'
 
 const allCategories = [
   { label: 'Deals of the Day', href: '/deals-of-the-day', icon: Star, desc: 'Best daily offers & events' },
@@ -31,9 +32,8 @@ type Artist = {
 
 export function Navbar({ artists = [] }: { artists?: Artist[] }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [pastHero, setPastHero] = useState(false)
   const pathname = usePathname()
+  const { openDrawer, totalItems } = useCart()
 
   useEffect(() => {
     setMenuOpen(false)
@@ -49,84 +49,88 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
     return () => { document.body.style.overflow = 'auto' }
   }, [menuOpen])
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40)
-      setPastHero(window.scrollY > (window.innerHeight * 0.6))
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    // Initialize state
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '31683052875'
 
   return (
     <>
-      <header className={[
-        "fixed left-0 right-0 z-50 pointer-events-none flex items-center justify-between transition-all duration-500 px-4 md:px-8",
-        scrolled ? "top-0 py-3 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-200" : "top-4 md:top-6 bg-transparent border-transparent"
-      ].join(' ')}>
+      <header className="fixed left-0 right-0 top-0 z-50 bg-white shadow-sm border-b border-gray-200 pointer-events-auto flex flex-col transition-all duration-500">
         
-        {/* Left: Logo */}
-        <div className="flex items-center gap-4">
-          <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 shrink-0 pointer-events-auto">
-            <div className={`rounded-full w-[60px] h-[60px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-lg border overflow-hidden transition-colors duration-500 ${
-              scrolled 
-                ? 'bg-gray-50 border-gray-200' 
-                : 'bg-transparent border-white/20'
-            }`}>
-              <div className="relative w-full h-full">
-                <Image 
-                  src="/logo-clean.png" 
-                  alt="Ibiza mi vida Logo" 
-                  fill
-                  className={`object-contain p-2 md:p-3 transition-all duration-500 ${scrolled ? 'brightness-0' : 'brightness-0 invert'}`}
-                  priority
-                />
+        {/* Top Row: Logo, Cart, Hamburger */}
+        <div className="flex items-center justify-between px-4 md:px-8 py-3">
+          {/* Left: Logo */}
+          <div className="flex items-center gap-4">
+            <Link href="/" className="flex items-center justify-center transition-transform hover:scale-105 shrink-0">
+              <div className="rounded-full w-[50px] h-[50px] md:w-[70px] md:h-[70px] flex items-center justify-center shadow-sm border border-gray-200 bg-gray-50 overflow-hidden transition-colors duration-500">
+                <div className="relative w-full h-full">
+                  <Image 
+                    src="/logo-clean.png" 
+                    alt="Ibiza mi vida Logo" 
+                    fill
+                    className="object-contain p-2 md:p-3 brightness-0"
+                    priority
+                  />
+                </div>
               </div>
+            </Link>
+            <div className="hidden sm:flex items-center justify-center px-5 py-3 rounded-xl border border-gray-200 bg-white shadow-sm text-velvet-obsidian">
+              <span className="font-sans text-[36px] md:text-[46px] tracking-tight font-bold">Ibiza mi vida</span>
             </div>
-          </Link>
-          <div className={`hidden sm:flex items-center justify-center px-5 py-3 rounded-xl border transition-colors duration-500 pointer-events-auto ${
-            scrolled 
-              ? 'bg-white border-gray-200 text-velvet-obsidian shadow-sm' 
-              : 'bg-transparent border-transparent text-white drop-shadow-md'
-          }`}>
-            <span className="font-sans text-[36px] md:text-[46px] tracking-tight font-bold">Ibiza mi vida</span>
+          </div>
+
+          {/* Right: Cart, Hamburger */}
+          <div className="flex items-center gap-2 md:gap-3">
+            <button
+              onClick={openDrawer}
+              className="relative flex h-[44px] w-[44px] md:h-[56px] md:w-[56px] shrink-0 items-center justify-center rounded-full shadow-md transition-transform hover:scale-105 border border-black/5 bg-gray-100 text-velvet-obsidian hover:bg-gray-200"
+              aria-label="Open cart"
+            >
+              <ShoppingCart size={20} strokeWidth={2.5} className="md:w-[24px] md:h-[24px]" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-rustic-terracotta text-[10px] font-bold text-white shadow-sm">
+                  {totalItems}
+                </span>
+              )}
+            </button>
+
+            <button 
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="flex h-[44px] w-[44px] md:h-[56px] md:w-[56px] shrink-0 items-center justify-center rounded-full shadow-md transition-transform hover:scale-105 border border-black/5 bg-gray-100 text-velvet-obsidian hover:bg-gray-200"
+              aria-label="Open menu"
+            >
+              {menuOpen ? <X size={20} strokeWidth={2.5} className="md:w-[24px] md:h-[24px]" /> : <Menu size={20} strokeWidth={2.5} className="md:w-[24px] md:h-[24px]" />}
+            </button>
           </div>
         </div>
 
-        {/* Right: DOD, Menu */}
-        <div className="pointer-events-auto flex items-center gap-2 md:gap-3">
-
-          <Link
-            href="/deals-of-the-day"
-            className={`hidden sm:flex items-center gap-2 rounded-full px-6 py-3.5 md:px-8 md:py-4 shadow-xl transition-all hover:scale-105 border border-black/5 ${
-              scrolled ? 'bg-gray-100 text-velvet-obsidian hover:bg-gray-200' : 'bg-rustic-terracotta text-white hover:bg-rustic-terracotta/90'
-            }`}
-          >
-            <span className="font-serif text-[28px] md:text-[32px] font-semibold tracking-wide whitespace-nowrap">Deals of the Day</span>
+        {/* Bottom Row: 4 Icons */}
+        <div className="flex items-center justify-between px-2 md:px-8 py-2 border-t border-gray-100 bg-white gap-2">
+          <Link href="/deals-of-the-day" className="flex flex-col items-center gap-1 group w-1/4">
+            <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-gray-50 group-hover:bg-gray-100 transition-colors border border-gray-200 text-velvet-obsidian">
+              <Star size={18} className="md:w-5 md:h-5" />
+            </div>
+            <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider text-velvet-obsidian text-center leading-tight mt-1">Deal of the Day</span>
           </Link>
-          <Link
-            href="/deals-of-the-day"
-            className={`flex sm:hidden items-center gap-1.5 rounded-full px-3.5 py-2 shadow-md transition-all hover:scale-105 border border-black/5 ${
-              scrolled ? 'bg-gray-100 text-velvet-obsidian hover:bg-gray-200' : 'bg-rustic-terracotta text-white hover:bg-rustic-terracotta/90'
-            }`}
-          >
-            <span className="font-serif text-[14px] font-semibold tracking-wide whitespace-nowrap">Deals of the Day</span>
+          
+          <Link href="/private-boat-charters" className="flex flex-col items-center gap-1 group w-1/4">
+            <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-gray-50 group-hover:bg-gray-100 transition-colors border border-gray-200 text-velvet-obsidian">
+              <Anchor size={18} className="md:w-5 md:h-5" />
+            </div>
+            <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider text-velvet-obsidian text-center leading-tight mt-1">Private Boats</span>
           </Link>
-
-          <button 
-            onClick={() => setMenuOpen(!menuOpen)}
-            className={`flex h-[44px] w-[44px] md:h-[56px] md:w-[56px] shrink-0 items-center justify-center rounded-full shadow-xl transition-transform hover:scale-105 border border-black/5 ${
-              scrolled ? 'bg-gray-100 text-velvet-obsidian hover:bg-gray-200' : 'bg-velvet-obsidian text-white hover:bg-velvet-obsidian/90'
-            }`}
-            aria-label="Open menu"
-          >
-            {menuOpen ? <X size={20} strokeWidth={2.5} className="md:w-[24px] md:h-[24px]" /> : <Menu size={20} strokeWidth={2.5} className="md:w-[24px] md:h-[24px]" />}
-          </button>
-
+          
+          <Link href="/artists" className="flex flex-col items-center gap-1 group w-1/4">
+            <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-gray-50 group-hover:bg-gray-100 transition-colors border border-gray-200 text-velvet-obsidian">
+              <Disc size={18} className="md:w-5 md:h-5" />
+            </div>
+            <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider text-velvet-obsidian text-center leading-tight mt-1">Artists</span>
+          </Link>
+          
+          <Link href="/club-tickets" className="flex flex-col items-center gap-1 group w-1/4">
+            <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-gray-50 group-hover:bg-gray-100 transition-colors border border-gray-200 text-velvet-obsidian">
+              <Ticket size={18} className="md:w-5 md:h-5" />
+            </div>
+            <span className="text-[9px] md:text-xs font-bold uppercase tracking-wider text-velvet-obsidian text-center leading-tight mt-1">Clubtickets</span>
+          </Link>
         </div>
       </header>
 
