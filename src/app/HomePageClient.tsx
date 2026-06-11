@@ -115,24 +115,24 @@ export default function HomePageClient({ clubTicketsSlider, dailyEventsSection }
         <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/60 to-transparent z-10" />
 
         {/* Hero Content - Placed over video on both mobile and desktop */}
-        <div className="absolute inset-0 z-20 flex flex-col items-center justify-end md:justify-center text-center px-4 md:px-8 pb-16 md:pb-0 pt-32">
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-end md:justify-center text-center px-4 md:px-8 pb-[20vh] md:pb-0 pt-32">
           <div className="w-full max-w-7xl mx-auto md:absolute md:bottom-24 md:left-0 md:right-0">
-            <h2 className="font-sans text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.3em] text-white/90 mb-4 md:mb-6 drop-shadow-md">
+            <h2 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.3em] text-white/90 mb-4 md:mb-6 drop-shadow-md">
               IBIZA MI VIDA &middot; SEASON 2026
             </h2>
             
-            <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.1] md:leading-[0.9] tracking-tight mb-5 md:mb-8 drop-shadow-xl">
+            <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.0] md:leading-[0.9] tracking-tight mb-5 md:mb-8 drop-shadow-xl">
               Experience the <br/>
-              <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/70 font-light pr-1 md:pr-2">real</span> Ibiza.
+              <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/70 font-light pr-2">real</span> Ibiza.
             </h1>
             
-            <p className="font-sans text-xs sm:text-sm md:text-lg text-white/90 max-w-2xl mx-auto font-light tracking-wide mb-8 md:mb-10 leading-relaxed drop-shadow-md px-2">
+            <p className="font-sans text-sm sm:text-base md:text-lg text-white/90 max-w-2xl mx-auto font-light tracking-wide mb-8 md:mb-10 leading-relaxed drop-shadow-md px-2">
               Club tickets, private charters and boat parties — hand-picked by locals, confirmed within minutes on WhatsApp.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mt-2">
-              <Link href="/club-tickets" className="btn btn--primary hover:scale-105 transition-transform duration-300 w-[90%] sm:w-auto min-w-[200px] py-3.5 md:py-4">Book Club Tickets</Link>
-              <Link href="/vip-experiences" className="w-[90%] sm:w-auto px-6 py-3.5 md:py-4 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-[11px] md:text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 min-w-[200px]">View VIP Tables</Link>
+              <Link href="/club-tickets" className="btn btn--primary hover:scale-105 transition-transform duration-300 w-[90%] sm:w-auto min-w-[200px] py-4 md:py-4 text-sm md:text-base">Book Club Tickets</Link>
+              <Link href="/vip-experiences" className="w-[90%] sm:w-auto px-6 py-4 md:py-4 rounded-full border border-white/60 bg-white/10 backdrop-blur-sm text-white font-bold tracking-widest text-sm uppercase hover:bg-white hover:text-velvet-obsidian transition-colors duration-300 min-w-[200px]">View VIP Tables</Link>
             </div>
           </div>
         </div>

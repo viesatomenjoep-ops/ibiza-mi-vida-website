@@ -56,19 +56,19 @@ export function CategoryHero({
       </div>
 
       {/* Content */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-end md:justify-center text-center px-4 md:px-8 pb-16 md:pb-0 pt-32">
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-end md:justify-center text-center px-4 md:px-8 pb-[20vh] md:pb-0 pt-32">
         <div className="w-full max-w-7xl mx-auto md:absolute md:bottom-24 md:left-0 md:right-0 flex flex-col items-center">
           {eyebrow && (
-            <h2 className="font-sans text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.3em] text-white/90 mb-4 md:mb-6 drop-shadow-md">
+            <h2 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.3em] text-white/90 mb-4 md:mb-6 drop-shadow-md">
               {eyebrow}
             </h2>
           )}
 
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.1] md:leading-[0.9] tracking-tight mb-5 md:mb-8 drop-shadow-xl max-w-5xl text-balance">
+          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.0] md:leading-[0.9] tracking-tight mb-5 md:mb-8 drop-shadow-xl max-w-5xl text-balance">
             {title}
           </h1>
 
-          <p className="font-sans text-xs sm:text-sm md:text-lg text-white/90 max-w-2xl mx-auto font-light tracking-wide mb-8 md:mb-10 leading-relaxed drop-shadow-md px-2">
+          <p className="font-sans text-sm sm:text-base md:text-lg text-white/90 max-w-2xl mx-auto font-light tracking-wide mb-8 md:mb-10 leading-relaxed drop-shadow-md px-2">
             {subtitle}
           </p>
 
