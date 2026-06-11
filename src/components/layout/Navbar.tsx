@@ -79,12 +79,13 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
           </Link>
 
           {/* Center: Desktop Navigation Categories */}
-          <div className="hidden lg:flex gap-8 text-[11px] font-bold uppercase tracking-widest text-[#a1a1aa]">
-            <Link href="/club-tickets" className="hover:text-white transition-colors cursor-pointer">Clubs</Link>
-            <Link href="/private-boat-charters" className="hover:text-white transition-colors cursor-pointer">Yachts & Boats</Link>
-            <Link href="/drink-packages" className="hover:text-white transition-colors cursor-pointer">VIP Drink Packages</Link>
-            <Link href="/car-scooter-rental" className="hover:text-white transition-colors cursor-pointer">Car & Scooter</Link>
-            <Link href="/guestlist" className="hover:text-white transition-colors cursor-pointer text-xs" style={{ color: accentColor }}>Guestlist RSVP</Link>
+          <div className="hidden lg:flex gap-5 xl:gap-8 text-[13px] font-bold uppercase tracking-widest text-white">
+            <Link href="/club-tickets" className="hover:text-amber-500 transition-colors cursor-pointer">Clubs</Link>
+            <Link href="/private-boat-charters" className="hover:text-amber-500 transition-colors cursor-pointer">Yachts & Boats</Link>
+            <Link href="/vip-catamaran" className="hover:text-amber-500 transition-colors cursor-pointer">VIP Catamaran</Link>
+            <Link href="/drink-packages" className="hover:text-amber-500 transition-colors cursor-pointer">Drink Packages</Link>
+            <Link href="/car-scooter-rental" className="hover:text-amber-500 transition-colors cursor-pointer">Car & Scooter</Link>
+            <Link href="/guestlist" className="hover:text-white transition-colors cursor-pointer" style={{ color: accentColor }}>Guestlist</Link>
           </div>
 
           {/* Right: Actions */}

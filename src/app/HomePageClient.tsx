@@ -82,7 +82,7 @@ export default function HomePageClient() {
           </p>
 
           {/* Quick Search & Filters API bar */}
-          <div className="bg-[#141414] border border-white/10 rounded-2xl p-4 max-w-xl flex flex-col sm:flex-row gap-3">
+          <div className="bg-[#18181b] border border-white/10 rounded-2xl p-4 max-w-xl flex flex-col sm:flex-row gap-3">
             <div className="flex-1 flex items-center gap-3 bg-[#0A0A0A] p-2.5 px-4 rounded-xl border border-white/5">
               <Search className="text-zinc-500" size={18} />
               <input 
@@ -112,7 +112,7 @@ export default function HomePageClient() {
 
         {/* Right column highlights & Daily Deals widget */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="bg-[#141414] border border-white/10 rounded-2xl p-5 relative overflow-hidden group">
+          <div className="bg-[#18181b] border border-white/10 rounded-2xl p-5 relative overflow-hidden group">
             <div className="absolute top-0 right-0 text-[9px] font-black uppercase tracking-wider px-3 py-1 rounded-bl-xl border-l border-b border-white/5" style={{ color: accentColor, backgroundColor: `${accentColor}15` }}>
               Deals of the Day #1
             </div>
@@ -149,7 +149,7 @@ export default function HomePageClient() {
           <div className="grid grid-cols-2 gap-4">
             <div 
               onClick={() => { setActiveTab('clubs'); const el = document.getElementById('main-sections'); el?.scrollIntoView({ behavior: 'smooth' }); }}
-              className="bg-[#141414] p-4 rounded-xl border border-white/5 hover:border-[#FF4E00]/30 transition-all group cursor-pointer text-left"
+              className="bg-[#18181b] p-4 rounded-xl border border-white/5 hover:border-[#FF4E00]/30 transition-all group cursor-pointer text-left"
             >
               <div className="font-black italic text-xl uppercase font-display" style={{ color: accentColor }}>Clubs</div>
               <div className="text-xs text-zinc-400 mt-1 group-hover:text-white transition-colors">Buy Passes Instantly</div>
@@ -157,7 +157,7 @@ export default function HomePageClient() {
             
             <div 
               onClick={() => { setActiveTab('boats'); const el = document.getElementById('main-sections'); el?.scrollIntoView({ behavior: 'smooth' }); }}
-              className="bg-[#141414] p-4 rounded-xl border border-white/5 hover:border-[#FF4E00]/30 transition-all group cursor-pointer text-left"
+              className="bg-[#18181b] p-4 rounded-xl border border-white/5 hover:border-[#FF4E00]/30 transition-all group cursor-pointer text-left"
             >
               <div className="font-black italic text-xl uppercase font-display" style={{ color: accentColor }}>Yachts</div>
               <div className="text-xs text-zinc-400 mt-1 group-hover:text-white transition-colors">Private Boat Rentals</div>
@@ -206,7 +206,7 @@ export default function HomePageClient() {
                   className={`flex items-center gap-2 px-4 py-2 sm:py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer active:scale-95 ${
                     isSelected 
                       ? 'text-black shadow-lg shadow-white/5' 
-                      : 'bg-[#141414] hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/5'
+                      : 'bg-[#18181b] hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/5'
                   }`}
                   style={{ backgroundColor: isSelected ? accentColor : undefined }}
                 >
@@ -230,7 +230,7 @@ export default function HomePageClient() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {dealsOfTheDay.map((deal) => (
-                <div key={deal.id} className="bg-[#141414] border border-white/10 rounded-2xl overflow-hidden group hover:border-zinc-700 transition-all flex flex-col justify-between">
+                <div key={deal.id} className="bg-[#18181b] border border-white/10 rounded-2xl overflow-hidden group hover:border-zinc-700 transition-all flex flex-col justify-between">
                   <div>
                     <div className="relative h-44 overflow-hidden">
                       <Image 
@@ -283,7 +283,7 @@ export default function HomePageClient() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {filteredVenues.map((venue) => (
-                <div key={venue.id} className="bg-[#141414] border border-white/10 rounded-2xl overflow-hidden flex flex-col justify-between group">
+                <div key={venue.id} className="bg-[#18181b] border border-white/10 rounded-2xl overflow-hidden flex flex-col justify-between group">
                   <div>
                     <div className="relative h-48 overflow-hidden">
                       <Image 
