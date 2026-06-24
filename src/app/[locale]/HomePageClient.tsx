@@ -108,6 +108,9 @@ export default function HomePageClient({
   
   const [periodMode, setPeriodMode] = useState<PeriodMode>('day');
   const [activeDateStr, setActiveDateStr] = useState<string>(generatedDates[0]?.dateStr || '');
+  const [activeWeek, setActiveWeek] = useState<number>(generatedDates[0]?.weekNum || 1);
+  const [activeMonth, setActiveMonth] = useState<number>(generatedDates[0]?.dateObj.getMonth() || 0);
+  
   const topChoicesRef = React.useRef<HTMLDivElement>(null);
   const artistsRef = React.useRef<HTMLDivElement>(null);
 
