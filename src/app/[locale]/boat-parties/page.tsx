@@ -1,92 +1,88 @@
-import type { Metadata } from 'next'
-import { CategoryHero } from '@/components/hero/CategoryHero'
-import { CategoryCard } from '@/components/cards/CategoryCard'
-import { CategoryGrid } from '@/components/cards/CategoryGrid'
-import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
-import { SectionHeader } from '@/components/ui/SectionHeader'
-import { AnimatedSection } from '@/components/ui/AnimatedSection'
-import { createServerClient } from '@/lib/supabase/server'
-import { getPageContent } from '@/lib/page-content'
-import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences'
-import type { Experience } from '@/types/experience'
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import type { Metadata } from 'next';
+import { getVenues } from '@/lib/clubtickets';
+import { CategoryHero } from '@/components/hero/CategoryHero';
+import { getPageContent } from '@/lib/page-content';
 
-export const revalidate = 60
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Ibiza Boat Party Tickets — Sunset & Party Cruises',
   description:
-    'Book Ibiza boat party tickets with Ibiza mi vida. Sunset cruises, music boat parties, and group celebrations on the Mediterranean. Reserve your spot via WhatsApp.',
+    'Book Ibiza boat party tickets with Ibiza mi vida. Sunset cruises, music boat parties, and group celebrations on the Mediterranean.',
 }
 
-async function getBoatParties(): Promise<Experience[]> {
-  try {
-    const supabase = createServerClient()
-    const { data } = await supabase
-      .from('experiences')
-      .select('*')
-      .eq('category', 'boat-party')
-      .eq('available', true)
-      .order('sort_order')
-    if (data && data.length > 0) return data
-  } catch {
-    // fall through
-  }
-  return FALLBACK_EXPERIENCES['boat-party']
+interface Props {
+  params: {
+    locale: string;
+  };
 }
 
-export default async function BoatPartiesPage() {
-  const [parties, pageContent] = await Promise.all([
-    getBoatParties(),
-    getPageContent('boat-party', {
-      title: "Ibiza Boat Parties",
-      subtitle: "Dance on the open sea. Ibiza's best boat parties — sunset cruises, full-day music events, and private group celebrations.",
-      backgroundImage: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1920&q=85"
-    })
-  ])
+export default async function BoatPartiesPage({ params }: Props) {
+  const allVenues = await getVenues(params.locale);
+  // Only show boat venues
+  const boats = allVenues.filter(v => v.type.slug === 'boat');
+
+  const pageContent = await getPageContent('boat-party', {
+    title: "Ibiza Boat Parties",
+    subtitle: "Dance on the open sea. Ibiza's best boat parties — sunset cruises, full-day music events, and private group celebrations.",
+    backgroundImage: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1920&q=85"
+  });
 
   return (
     <>
-       <div className="min-h-screen text-white pb-20">
-      <CategoryHero
-        title={pageContent.title}
-        subtitle={pageContent.subtitle}
-        colorTheme="rose"
-        eyebrow="Party on the Water"
-        minHeight="min-h-[45vh]"
-      />
+      <div className="min-h-screen text-white pb-20">
+        <CategoryHero
+          title={pageContent.title}
+          subtitle={pageContent.subtitle}
+          backgroundImage={pageContent.backgroundImage}
+          colorTheme="indigo"
+          eyebrow="Ibiza 2026"
+        />
 
-      <section className="mx-auto max-w-7xl px-4 pt-8 pb-16 md:px-8 md:pb-24 mt-8 bg-ibiza-sand/90 backdrop-blur-md rounded-3xl relative z-20 border border-white/50 shadow-xl">
-        
+        <section id="boats" className="mx-auto max-w-7xl px-4 pt-8 pb-16 md:px-8 md:pb-24 mt-8 bg-ibiza-sand/90 backdrop-blur-md rounded-3xl relative z-20 border border-white/50 shadow-xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {boats.map((boat) => (
+              <Link href={`/${params.locale}/boat-parties/${boat.slug}`} key={boat.id} className="bg-white/95 text-velvet-obsidian rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-[380px]">
+                <div className="relative h-full w-full overflow-hidden">
+                  <Image 
+                    src={boat.cover || boat.picture || 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=800&q=80'} 
+                    alt={boat.name} 
+                    fill 
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                  
+                  {boat.type && (
+                    <div className="absolute top-4 right-4 bg-[#00A698]/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-white shadow-sm">
+                      {boat.type.name}
+                    </div>
+                  )}
 
-        <CategoryGrid columns={3}>
-          {parties.map((party) => (
-            <AnimatedSection key={party.id} delay={0.05}>
-              <CategoryCard
-                title={party.title}
-                tagline={party.tagline ?? undefined}
-                imageUrl={
-                  party.image_url ??
-                  'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=900&q=85'
-                }
-                href={`/experiences/${party.slug}`}
-                bookingConfig={{
-                  serviceType: 'boat-party',
-                  serviceName: party.title,
-                  sourcePage: '/boat-parties',
-                }}
-                badge={party.price_from ? `From €${party.price_from}` : undefined}
-              />
-            </AnimatedSection>
-          ))}
-        </CategoryGrid>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24">
-        <AnimatedSection>
-          <CrossSellBanner triggerPage="/boat-parties" fromPrice={500} />
-        </AnimatedSection>
-      </section>
-    </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col items-center text-center transform transition-transform duration-300">
+                    <h3 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4 drop-shadow-md">{boat.name}</h3>
+                    
+                    <span className="w-full flex items-center justify-center gap-2 bg-white/20 hover:bg-[#00A698] text-white backdrop-blur-md px-6 py-3 rounded-full font-semibold transition-all duration-300">
+                      View Event Calendar
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1">
+                        <path d="M5 12h14m-7-7 7 7-7 7"/>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+          
+          {boats.length === 0 && (
+            <div className="text-center py-20 text-velvet-obsidian/60">
+              <p>No boat parties available at the moment. Please check back later.</p>
+            </div>
+          )}
+        </section>
+      </div>
     </>
-  )
+  );
 }

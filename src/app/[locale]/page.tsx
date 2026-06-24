@@ -1,6 +1,6 @@
 import React from 'react'
 import HomePageClient from './HomePageClient'
-import { getAllDates } from '@/lib/clubtickets'
+import { getAllDates, getArtists } from '@/lib/clubtickets'
 
 export const revalidate = 3600
 
@@ -23,9 +23,10 @@ function getDictionary(locale: string) {
 
 export default async function Home({ params }: { params: { locale: string } }) {
   const allEventDates = await getAllDates(params.locale);
+  const artists = await getArtists(params.locale);
   const dict = await getDictionary(params.locale);
   
   return (
-    <HomePageClient allEventDates={allEventDates} dict={dict} locale={params.locale} />
+    <HomePageClient allEventDates={allEventDates} artists={artists} dict={dict} locale={params.locale} />
   )
 }

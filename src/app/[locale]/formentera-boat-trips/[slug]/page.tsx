@@ -11,7 +11,7 @@ interface Props {
 
 async function fetchVenueData(slug: string, locale: string): Promise<CTVenue | null> {
   const venues = await getVenues(locale);
-  const venueRef = venues.find(v => v.slug === slug);
+  const venueRef = venues.find(v => v.slug === slug && v.type.slug === 'formentera-day-trip');
   if (!venueRef) return null;
   const fullVenue = await getVenue(venueRef.id, locale);
   return fullVenue || null;
@@ -23,20 +23,20 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const club = await fetchVenueData(params.slug, params.locale)
-  if (!club) return { title: 'Venue Not Found | Ibiza mi vida' }
+  if (!club) return { title: 'Formentera Trip Not Found | Ibiza mi vida' }
 
   return {
-    title: `${club.name} Ibiza Tickets 2026`,
-    description: club.description ? club.description.replace(/<[^>]+>/g, '').substring(0, 160) : `Buy ${club.name} tickets in Ibiza. Browse upcoming events at ${club.name}.`,
+    title: `${club.name} Formentera Tickets 2026`,
+    description: club.description ? club.description.replace(/<[^>]+>/g, '').substring(0, 160) : `Book ${club.name} Formentera trips. Browse upcoming dates at ${club.name}.`,
     openGraph: {
-      title: `${club.name} Ibiza Tickets 2026 | Ibiza mi vida`,
-      description: `Upcoming events and tickets for ${club.name} Ibiza.`,
+      title: `${club.name} Formentera Tickets 2026 | Ibiza mi vida`,
+      description: `Upcoming trips and tickets for ${club.name}.`,
       images: club.cover ? [{ url: club.cover, width: 1200, height: 630 }] : undefined,
     },
   }
 }
 
-export default async function ClubDetailPage({ params }: Props) {
+export default async function FormenteraDetailPage({ params }: Props) {
   const club = await fetchVenueData(params.slug, params.locale)
   if (!club) notFound()
 
@@ -50,7 +50,7 @@ export default async function ClubDetailPage({ params }: Props) {
       club={club} 
       allDates={allDates} 
       locale={params.locale} 
-      basePath="club-tickets" 
+      basePath="formentera-boat-trips" 
     />
   )
 }

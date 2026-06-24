@@ -94,11 +94,13 @@ export default function HomePageClient({
     tab_week: "Week",
     tab_month: "Maand"
   }, 
-  locale = 'nl' 
+  locale = 'nl',
+  artists = []
 }: { 
   allEventDates?: CTEventDate[], 
   dict?: any, 
-  locale?: string 
+  locale?: string,
+  artists?: any[]
 }) {
   const { addToCart, openDrawer } = useCart();
   
@@ -431,12 +433,39 @@ export default function HomePageClient({
           </div>
         )}
 
+        {/* Top DJs / Artists Section */}
+        {artists && artists.length > 0 && (
+          <div className="mt-16 pt-12 border-t border-white/20 mb-16">
+            <h3 className="text-2xl font-bold text-white mb-6">Top DJ's & Artiesten</h3>
+            <div className="flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory no-scrollbar">
+              {artists.slice(0, 15).map((artist, idx) => (
+                <Link 
+                  key={`${artist.slug}-${idx}`} 
+                  href={`/${locale}/artists/${artist.slug}`} 
+                  className="group relative flex-shrink-0 w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden flex flex-col items-center justify-center p-2 shadow-sm hover:shadow-lg transition-all snap-center border-4 border-transparent hover:border-[#00A698]"
+                >
+                  <Image 
+                    src={artist.image || '/placeholder-artist.jpg'} 
+                    alt={artist.name} 
+                    fill 
+                    className="object-cover group-hover:scale-110 transition-transform duration-700" 
+                  />
+                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
+                  <h4 className="relative z-10 font-black text-white text-center text-sm md:text-lg drop-shadow-md px-2">
+                    {artist.name}
+                  </h4>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Regions/Cities Section */}
-        <div className="mt-20 pt-16 border-t border-white/20 mb-16">
+        <div className="mt-12 pt-12 border-t border-white/20 mb-16">
           <h3 className="text-2xl font-bold text-white mb-6">Ontdek de top locaties in Ibiza</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {locations.map((loc) => (
-              <Link key={loc.id} href={`/locations/${loc.slug}`} className="group relative h-32 rounded-xl overflow-hidden flex flex-col justify-end p-4 shadow-sm hover:shadow-md transition-shadow">
+              <Link key={loc.id} href={`/${locale}/locations/${loc.slug}`} className="group relative h-32 rounded-xl overflow-hidden flex flex-col justify-end p-4 shadow-sm hover:shadow-md transition-shadow">
                 <Image src={loc.imageUrl} alt={loc.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 <h4 className="relative z-10 font-bold text-white text-sm md:text-base">{loc.name}</h4>

@@ -1,93 +1,88 @@
-import type { Metadata } from 'next'
-import { CategoryHero } from '@/components/hero/CategoryHero'
-import { CategoryCard } from '@/components/cards/CategoryCard'
-import { CategoryGrid } from '@/components/cards/CategoryGrid'
-import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
-import { SectionHeader } from '@/components/ui/SectionHeader'
-import { AnimatedSection } from '@/components/ui/AnimatedSection'
-import { ProductSchema } from '@/components/seo/ProductSchema'
-import { createServerClient } from '@/lib/supabase/server'
-import { getPageContent } from '@/lib/page-content'
-import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences'
-import type { Experience } from '@/types/experience'
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import type { Metadata } from 'next';
+import { getVenues } from '@/lib/clubtickets';
+import { CategoryHero } from '@/components/hero/CategoryHero';
+import { getPageContent } from '@/lib/page-content';
 
-export const revalidate = 60
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ibizamivida.com'
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Formentera Boat Trip from Ibiza — Day Trips by Boat',
+  title: 'Formentera Day Trips & Boat Excursions',
   description:
-    'Book a Formentera boat trip from Ibiza with Ibiza mi vida. Pristine beaches, crystal-clear water, and the most beautiful island in the Mediterranean. Book via WhatsApp.',
+    'Book the best day trips and ferry tickets from Ibiza to Formentera.',
 }
 
-async function getTrips(): Promise<Experience[]> {
-  try {
-    const supabase = createServerClient()
-    const { data } = await supabase
-      .from('experiences')
-      .select('*')
-      .eq('category', 'formentera')
-      .eq('available', true)
-      .order('sort_order')
-    if (data && data.length > 0) return data
-  } catch {
-    // fall through
-  }
-  return FALLBACK_EXPERIENCES['formentera']
+interface Props {
+  params: {
+    locale: string;
+  };
 }
 
-export default async function FormenteraBoatTripsPage() {
-  const [trips, pageContent] = await Promise.all([
-    getTrips(),
-    getPageContent('formentera-boat', {
-      title: "Formentera Boat Trips",
-      subtitle: "One of the world's most beautiful islands, just a short boat ride from Ibiza. Pristine beaches, turquoise water, and effortless Mediterranean calm.",
-      backgroundImage: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=85"
-    })
-  ])
+export default async function FormenteraTripsPage({ params }: Props) {
+  const allVenues = await getVenues(params.locale);
+  // Only show formentera day trips
+  const trips = allVenues.filter(v => v.type.slug === 'formentera-day-trip');
+
+  const pageContent = await getPageContent('formentera-boat-trips', {
+    title: "Formentera Day Trips",
+    subtitle: "Explore the Caribbean of the Mediterranean. Book your ferry tickets and guided day trips from Ibiza to Formentera.",
+    backgroundImage: "https://images.unsplash.com/photo-1544211158-b6df3db0f671?w=1920&q=85"
+  });
 
   return (
     <>
-      <ProductSchema
-        name="Formentera Boat Trip from Ibiza"
-        description="Day trips by boat from Ibiza to Formentera. Explore pristine beaches, crystal-clear water, and the Mediterranean's most beautiful island with Ibiza mi vida."
-        priceFrom={80}
-        url={`${siteUrl}/formentera-boat-trips`}
-      />
+      <div className="min-h-screen text-white pb-20">
+        <CategoryHero
+          title={pageContent.title}
+          subtitle={pageContent.subtitle}
+          backgroundImage={pageContent.backgroundImage}
+          colorTheme="indigo"
+          eyebrow="Ibiza 2026"
+        />
 
-       <div className="min-h-screen text-white pb-20">
-      <CategoryHero
-        title={pageContent.title}
-        subtitle={pageContent.subtitle}
-        colorTheme="rustic-terracotta"
-        eyebrow="Day Trips from Ibiza"
-        minHeight="min-h-[45vh]"
-      />
+        <section id="formentera" className="mx-auto max-w-7xl px-4 pt-8 pb-16 md:px-8 md:pb-24 mt-8 bg-ibiza-sand/90 backdrop-blur-md rounded-3xl relative z-20 border border-white/50 shadow-xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {trips.map((trip) => (
+              <Link href={`/${params.locale}/formentera-boat-trips/${trip.slug}`} key={trip.id} className="bg-white/95 text-velvet-obsidian rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-[380px]">
+                <div className="relative h-full w-full overflow-hidden">
+                  <Image 
+                    src={trip.cover || trip.picture || 'https://images.unsplash.com/photo-1544211158-b6df3db0f671?w=800&q=80'} 
+                    alt={trip.name} 
+                    fill 
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                  
+                  {trip.type && (
+                    <div className="absolute top-4 right-4 bg-[#00CED1]/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-white shadow-sm">
+                      {trip.type.name}
+                    </div>
+                  )}
 
-      <section className="mx-auto max-w-7xl px-4 pt-8 pb-16 md:px-8 md:pb-24 mt-8 bg-ibiza-sand/90 backdrop-blur-md rounded-3xl relative z-20 border border-white/50 shadow-xl">
-        
-        <CategoryGrid columns={3}>
-          {trips.map((t: Experience) => (
-            <CategoryCard
-              key={t.id}
-              title={t.title}
-              tagline={t.tagline ?? undefined}
-              imageUrl={t.image_url ?? 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=900&q=85'}
-              href={`/experiences/${t.slug}`}
-              bookingConfig={{ serviceType: 'formentera', serviceName: t.title, sourcePage: '/formentera-boat-trips' }}
-              badge={t.price_from ? `From €${t.price_from}` : undefined}
-            />
-          ))}
-        </CategoryGrid>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24">
-        <AnimatedSection>
-          <CrossSellBanner triggerPage="/formentera-boat-trips" fromPrice={600} />
-        </AnimatedSection>
-      </section>
-    </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col items-center text-center transform transition-transform duration-300">
+                    <h3 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4 drop-shadow-md">{trip.name}</h3>
+                    
+                    <span className="w-full flex items-center justify-center gap-2 bg-white/20 hover:bg-[#00CED1] text-white backdrop-blur-md px-6 py-3 rounded-full font-semibold transition-all duration-300">
+                      View Available Dates
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1">
+                        <path d="M5 12h14m-7-7 7 7-7 7"/>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+          
+          {trips.length === 0 && (
+            <div className="text-center py-20 text-velvet-obsidian/60">
+              <p>No Formentera trips available at the moment. Please check back later.</p>
+            </div>
+          )}
+        </section>
+      </div>
     </>
-  )
+  );
 }

@@ -13,11 +13,11 @@ export async function generateStaticParams() {
   return [];
 }
 
-export default async function ClubEventDetailPage({ params }: Props) {
+export default async function FormenteraEventDetailPage({ params }: Props) {
   const { slug, eventSlug, locale } = params
   
   const venues = await getVenues(locale)
-  const venueRef = venues.find(v => v.slug === slug)
+  const venueRef = venues.find(v => v.slug === slug && v.type.slug === 'formentera-day-trip')
   if (!venueRef) notFound()
   
   const club = await getVenue(venueRef.id, locale)
@@ -36,7 +36,7 @@ export default async function ClubEventDetailPage({ params }: Props) {
       eventDates={eventDates} 
       eventSlug={eventSlug} 
       locale={locale} 
-      basePath="club-tickets" 
+      basePath="formentera-boat-trips" 
     />
   )
 }
