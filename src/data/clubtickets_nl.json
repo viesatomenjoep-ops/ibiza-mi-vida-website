@@ -12330,14 +12330,6 @@
       },
       "dates": [
         {
-          "id": 170071,
-          "date": "2026-06-24",
-          "name": "",
-          "lineUp": "<p>Main Phase</p><p>Hodge</p><p>Carré</p>",
-          "prices": "30 €",
-          "affLink": "https://www.clubtickets.com/nl/clubbing/eden-ibiza/23-degrees/2026-06-24?aff=CT219"
-        },
-        {
           "id": 170072,
           "date": "2026-07-01",
           "name": "",
@@ -29187,14 +29179,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/77?locale=nl"
       },
       "dates": [
-        {
-          "id": 173000,
-          "date": "2026-06-24",
-          "name": "",
-          "lineUp": "",
-          "prices": "5 € - 15 €",
-          "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/aquabus/beach-city-boat-ibiza-figueretas-playa-den-bossa/2026-06-24?aff=CT219"
-        },
         {
           "id": 173001,
           "date": "2026-06-25",
@@ -60062,24 +60046,6 @@
       "venueId": 306
     },
     {
-      "id": 170071,
-      "date": "2026-06-24",
-      "name": "",
-      "lineUp": "<p>Main Phase</p><p>Hodge</p><p>Carré</p>",
-      "prices": "30 €",
-      "affLink": "https://www.clubtickets.com/nl/clubbing/eden-ibiza/23-degrees/2026-06-24?aff=CT219",
-      "eventName": "23 Degrees",
-      "eventSlug": "23-degrees",
-      "venueName": "Eden Ibiza",
-      "venueSlug": "eden-ibiza",
-      "venueCover": "https://ucarecdn.com/a000462c-7413-4565-b6be-9eb1c031cfd0/",
-      "venueLogo": "https://ucarecdn.com/64a47a76-b2e0-4d80-86de-f2a6d201b322/",
-      "eventCover": "https://ucarecdn.com/cd4dd477-f4e2-401b-8c4a-2f2138145d3c/",
-      "eventLogo": "https://ucarecdn.com/6947daf5-793d-4dd4-a7c6-b7bd5d1e687d/",
-      "eventId": 2122,
-      "venueId": 10
-    },
-    {
       "id": 171057,
       "date": "2026-06-24",
       "name": "The Most Beautiful Party",
@@ -60096,24 +60062,6 @@
       "eventLogo": "https://ucarecdn.com/ec27a8e6-545a-4215-af88-e2f156f09190/",
       "eventId": 71,
       "venueId": 20
-    },
-    {
-      "id": 173000,
-      "date": "2026-06-24",
-      "name": "",
-      "lineUp": "",
-      "prices": "5 € - 15 €",
-      "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/aquabus/beach-city-boat-ibiza-figueretas-playa-den-bossa/2026-06-24?aff=CT219",
-      "eventName": "Beach City Boat (Ibiza city - Playa d'en Bossa)",
-      "eventSlug": "beach-city-boat-ibiza-figueretas-playa-den-bossa",
-      "venueName": "Aquabus",
-      "venueSlug": "aquabus",
-      "venueCover": "https://ucarecdn.com/fe6d5ae5-7420-4e7e-af01-0f657a311c3a/",
-      "venueLogo": "",
-      "eventCover": "https://ucarecdn.com/3f9fff1e-1555-4a8e-a628-5de62535560c/",
-      "eventLogo": "https://ucarecdn.com/8df37c9e-af55-48a4-805b-2672e97509b4/",
-      "eventId": 1035,
-      "venueId": 77
     },
     {
       "id": 164470,
@@ -174148,5 +174096,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-06-24T19:18:33.386Z"
+  "lastUpdated": "2026-06-24T20:15:13.502Z"
 }

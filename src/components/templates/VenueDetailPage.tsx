@@ -106,10 +106,10 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                 </div>
 
                 <div className="flex flex-col gap-3 pr-2 rounded-2xl">
-                  {allDates.length > 0 ? (
-                    allDates.map((eventDate, idx) => (
-                      <div key={`${eventDate.id}-${idx}`} className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
-                        <CTEventCard event={eventDate} locale={locale} basePath={basePath} />
+                  {club.events && club.events.length > 0 ? (
+                    club.events.map((ev, idx) => (
+                      <div key={`${ev.slug}-${idx}`} className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
+                        <CTEventCard event={ev} venueSlug={club.slug} basePath={basePath} />
                       </div>
                     ))
                   ) : (

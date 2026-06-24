@@ -8,6 +8,7 @@ import type { CTVenueEvent } from '@/lib/clubtickets'
 interface CTEventCardProps {
   event: CTVenueEvent
   venueSlug: string
+  basePath?: string
 }
 
 function parsePrice(priceStr?: string): number {
@@ -29,7 +30,7 @@ function formatDate(dateStr?: string): string | null {
   })
 }
 
-export function CTEventCard({ event, venueSlug }: CTEventCardProps) {
+export function CTEventCard({ event, venueSlug, basePath = 'club-tickets' }: CTEventCardProps) {
   const imageUrl = event.cover || event.logo || 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&q=80'
   const startDate = formatDate(event.startAt)
 
@@ -65,7 +66,7 @@ export function CTEventCard({ event, venueSlug }: CTEventCardProps) {
       {/* CTA */}
       <div className="flex shrink-0 flex-row items-center gap-3 sm:flex-col sm:justify-center">
         <Link
-          href={`/club-tickets/${venueSlug}/${event.slug}`}
+          href={`/${basePath}/${venueSlug}/${event.slug}`}
           className="inline-flex items-center gap-1.5 rounded-full bg-black px-6 py-3 font-sans text-sm font-semibold text-white transition-colors hover:bg-gray-800"
         >
           View Dates & Tickets
