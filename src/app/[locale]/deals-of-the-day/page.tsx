@@ -46,7 +46,7 @@ export default async function DealsOfTheDayPage({
       />
 
       {/* DASHBOARD TOP */}
-      <section className="bg-ibiza-sand px-4 pt-2 pb-12 md:pt-12 md:pb-12 md:px-8 -mt-8 md:mt-0 relative z-20">
+      <section className="bg-ibiza-sand px-4 pt-2 pb-12 md:pt-12 md:pb-12 md:px-8 -mt-16 md:-mt-24 relative z-20">
         <AnimatedSection>
           <DealsSection />
         </AnimatedSection>

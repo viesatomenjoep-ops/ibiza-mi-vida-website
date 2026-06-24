@@ -257,11 +257,6 @@ export default function HomePageClient({
             {dateFormatted}
           </div>
 
-          {isFeatured && (
-            <div className="absolute top-3 left-3 bg-gradient-to-r from-[#00A698] to-teal-500 text-white text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-lg shadow-md">
-              Top Keuze
-            </div>
-          )}
         </div>
         <div className={`flex-1 flex flex-col ${isCompact ? 'p-3' : 'p-5'}`}>
           <h3 className={`font-bold text-[#1A1A1A] leading-tight mb-1 group-hover:text-[#00A698] transition-colors line-clamp-2 ${isCompact ? 'text-base' : (isFeatured ? 'text-xl' : 'text-lg')}`}>
@@ -408,9 +403,6 @@ export default function HomePageClient({
         {/* Top 30 Section (Moved to be the very first thing after calendar) */}
         {top30Events.length > 0 && selectedEvents.length > 0 && (
           <div className="w-full mb-8 text-left group">
-            <h2 className="text-lg md:text-2xl font-black text-[#1A1A1A] mb-3 md:mb-4 flex items-center gap-2 drop-shadow-md px-4 md:px-0">
-              <Flame className="text-amber-400" fill="currentColor" size={24} /> {dict.top_choice}
-            </h2>
             <div 
               ref={topChoicesRef}
               className="flex overflow-x-auto gap-4 pb-4 px-4 md:px-0 snap-x snap-mandatory no-scrollbar w-full scroll-smooth"
