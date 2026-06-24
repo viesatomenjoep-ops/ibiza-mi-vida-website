@@ -87,7 +87,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
             <div className="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm">
               <h2 className="text-2xl font-bold mb-4">About this Event</h2>
               <div className="prose prose-lg max-w-none text-[#1A1A1A]/70">
-                <p>{fullEvent.description}</p>
+                <div dangerouslySetInnerHTML={{ __html: fullEvent.description.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '') }} />
               </div>
             </div>
           )}
@@ -95,9 +95,10 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
           {fullEvent?.requirements && (
             <div className="bg-red-50 border border-red-100 rounded-3xl p-6 md:p-8 shadow-sm">
               <h2 className="text-xl font-bold text-red-600 mb-2">Important Information</h2>
-              <p className="text-[#1A1A1A]/70 text-sm md:text-base">
-                {fullEvent.requirements}
-              </p>
+              <div 
+                className="text-[#1A1A1A]/70 text-sm md:text-base prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1" 
+                dangerouslySetInnerHTML={{ __html: fullEvent.requirements.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '') }} 
+              />
             </div>
           )}
         </div>

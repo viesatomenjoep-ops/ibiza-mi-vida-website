@@ -126,9 +126,6 @@ function stripHtml(html: string | undefined): string {
   str = str.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
   str = str.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
   
-  // Replace line breaks and paragraphs with dashes for readability
-  str = str.replace(/<\/p>|<br\s*\/?>/gi, ' - ');
-  
   // Strip all remaining HTML tags
   str = str.replace(/<[^>]*>?/gm, '');
   
@@ -148,6 +145,18 @@ function stripHtml(html: string | undefined): string {
   return str;
 }
 
+function cleanHtml(html: string | undefined): string {
+  if (!html) return '';
+  let str = html;
+  
+  // Remove style and script blocks and their content completely
+  str = str.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
+  str = str.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+  str = str.split('.promo-hz')[0];
+  
+  return str.trim();
+}
+
 function loadData(locale: string = 'en'): ClubTicketsData {
   if (cachedData[locale]) return cachedData[locale];
   try {
@@ -158,12 +167,12 @@ function loadData(locale: string = 'en'): ClubTicketsData {
     // Clean HTML from all venues
     if (rawData.venues) {
       rawData.venues.forEach(v => {
-        v.description = stripHtml(v.description);
+        v.description = cleanHtml(v.description);
         v.cleanDescription = v.description;
         if (v.events) {
           v.events.forEach(e => {
-            e.description = stripHtml(e.description);
-            e.requirements = stripHtml(e.requirements);
+            e.description = cleanHtml(e.description);
+            e.requirements = cleanHtml(e.requirements);
             if (e.dates) {
               e.dates.forEach(d => {
                 d.lineUp = stripHtml(d.lineUp);
@@ -177,8 +186,8 @@ function loadData(locale: string = 'en'): ClubTicketsData {
     // Clean HTML from all events
     if (rawData.events) {
       rawData.events.forEach(e => {
-        e.description = stripHtml(e.description);
-        e.requirements = stripHtml(e.requirements);
+        e.description = cleanHtml(e.description);
+        e.requirements = cleanHtml(e.requirements);
         if (e.dates) {
           e.dates.forEach(d => {
             d.lineUp = stripHtml(d.lineUp);

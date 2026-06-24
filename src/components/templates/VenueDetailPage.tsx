@@ -17,15 +17,27 @@ interface VenueDetailPageProps {
 export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetailPageProps) {
   const imageUrl = club.cover || club.picture || 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85'
 
-  // The API returns raw HTML with CSS for their promo banners. Sometimes without even <style> tags! 
-  // We extract just the plain text before the promo garbage starts.
+  // The API now provides clean HTML without <style> blocks.
+  // We extract just the text before the promo garbage starts if necessary.
   const cleanDescription = club.description 
-    ? club.description.split('.promo-hz')[0]
-                      .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
-                      .replace(/<[^>]+>/g, ' ')
-                      .replace(/\s+/g, ' ')
-                      .trim()
+    ? club.description.split('.promo-hz')[0].trim()
     : '';
+
+  // Reconstruct unique events from allDates
+  const uniqueEventsMap = new Map();
+  allDates.forEach(date => {
+    if (!uniqueEventsMap.has(date.eventSlug)) {
+      uniqueEventsMap.set(date.eventSlug, {
+        id: date.eventId,
+        name: date.eventName,
+        slug: date.eventSlug,
+        cover: date.eventCover,
+        logo: date.eventLogo,
+        startAt: date.date
+      });
+    }
+  });
+  const venueEvents = Array.from(uniqueEventsMap.values());
 
   return (
     <>
@@ -33,7 +45,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
       <VenueSchema
         name={club.name}
         slug={club.slug}
-        description={cleanDescription || undefined}
+        description={club.description ? club.description.replace(/<[^>]+>/g, ' ') : undefined}
         image={club.cover ?? undefined}
       />
       <div className="bg-[#FAF9F6] min-h-screen text-[#1A1A1A]">
@@ -88,8 +100,8 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
               {club.description && (
               <AnimatedSection delay={100}>
                 <h2 className="font-serif text-3xl font-bold text-[#1A1A1A] mb-6">About {club.name}</h2>
-                <div className="prose prose-lg max-w-none text-[#1A1A1A]/70">
-                  <p>{cleanDescription}</p>
+                <div className="prose prose-lg max-w-none text-[#1A1A1A]/70 leading-relaxed">
+                  <div dangerouslySetInnerHTML={{ __html: cleanDescription }} />
                 </div>
               </AnimatedSection>
               )}
@@ -106,8 +118,8 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                 </div>
 
                 <div className="flex flex-col gap-3 pr-2 rounded-2xl">
-                  {club.events && club.events.length > 0 ? (
-                    club.events.map((ev, idx) => (
+                  {venueEvents.length > 0 ? (
+                    venueEvents.map((ev, idx) => (
                       <div key={`${ev.slug}-${idx}`} className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
                         <CTEventCard event={ev} venueSlug={club.slug} basePath={basePath} />
                       </div>

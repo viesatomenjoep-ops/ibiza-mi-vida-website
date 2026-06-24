@@ -59,7 +59,7 @@ export function CTEventCard({ event, venueSlug, basePath = 'club-tickets' }: CTE
         )}
         
         {event.description && (
-          <p className="text-sm text-gray-500 line-clamp-2" dangerouslySetInnerHTML={{ __html: event.description }}></p>
+          <div className="text-sm text-gray-500 line-clamp-2 prose prose-sm max-w-none prose-p:my-0 prose-p:leading-snug" dangerouslySetInnerHTML={{ __html: event.description }}></div>
         )}
       </div>
 
