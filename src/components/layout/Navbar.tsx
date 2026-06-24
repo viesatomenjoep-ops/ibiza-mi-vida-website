@@ -4,22 +4,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Anchor, MessageCircle, Search, Music, Sun, Car, GlassWater, CheckCircle, Navigation, Ticket, Star, Heart, ChevronRight, Disc, ShoppingCart, Smartphone, Sliders } from 'lucide-react'
+import { Search, Globe, HelpCircle, User, ShoppingCart, Menu, X } from 'lucide-react'
 import { useCart } from '@/context/cart-context'
-
-const allCategories = [
-  { label: 'Deals of the Day', href: '/deals-of-the-day', icon: Star, desc: 'Best daily offers' },
-  { label: 'Artists', href: '/artists', icon: Disc, desc: 'Top DJs' },
-  { label: 'Club Tickets', href: '/club-tickets', icon: Ticket, desc: 'Pacha, Hi Ibiza' },
-  { label: 'Boats', href: '/private-boat-charters', icon: Anchor, desc: 'Yachts & rentals' },
-  { label: 'Boat Parties', href: '/boat-parties', icon: Music, desc: 'Sunset cruises' },
-  { label: 'VIP Catamaran', href: '/vip-catamaran', icon: Navigation, desc: 'Luxury sailing' },
-  { label: 'Formentera', href: '/formentera-boat-trips', icon: Sun, desc: 'Day trips' },
-  { label: 'Guestlist', href: '/guestlist', icon: CheckCircle, desc: 'Free entry' },
-  { label: 'VIP Tables', href: '/drink-packages', icon: GlassWater, desc: 'Bottle service' },
-  { label: 'Car Rental', href: '/car-scooter-rental', icon: Car, desc: 'Explore' },
-]
 
 type Artist = {
   id: number
@@ -29,240 +15,140 @@ type Artist = {
   href: string
 }
 
+const categories = [
+  { label: 'Club Tickets', href: '/club-tickets' },
+  { label: 'Boottochten', href: '/boat-parties' },
+  { label: 'Privé Boten', href: '/private-boat-charters' },
+  { label: 'Formentera', href: '/formentera-boat-trips' },
+  { label: 'VIP Tafels', href: '/drink-packages' },
+  { label: 'Auto & Scooter', href: '/car-scooter-rental' },
+]
+
 export function Navbar({ artists = [] }: { artists?: Artist[] }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
   const { openDrawer, totalItems } = useCart()
-  
-  const isHome = pathname === '/'
-  const accentColor = '#FF4E00' // Ibiza Orange
-
-  const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
     setMenuOpen(false)
   }, [pathname])
 
-  // Track scroll for transparent navbar on homepage
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll() // initial check
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // Prevent scroll when menu is open
-  useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'auto'
-    }
-    return () => { document.body.style.overflow = 'auto' }
-  }, [menuOpen])
-
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '31683052875'
-  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hello! I want to consult on VIP tables and fast club bookings.")}`
-
-  const isTransparent = isHome && !isScrolled
-
   return (
-    <>
-      <header className={`fixed left-0 right-0 top-0 z-50 pointer-events-auto flex flex-col transition-all duration-500 ${
-        isTransparent 
-          ? 'bg-transparent border-transparent' 
-          : 'bg-[#0A0A0A]/90 backdrop-blur-md border-b border-white/10'
-      }`}>
+    <header className="sticky top-0 z-50 w-full bg-white border-b border-slate-200 shadow-sm">
+      {/* Top Main Bar */}
+      <div className="max-w-7xl mx-auto px-4 h-[72px] flex items-center justify-between gap-4 md:gap-8">
         
-        {/* Navbar */}
-        <div className="flex items-center justify-between px-4 md:px-8 py-4 lg:py-6">
-          
-          {/* Left: Design 2.0 Logo & Brand */}
-          <Link href="/" className="flex items-center gap-3 group transition-transform hover:scale-105 shrink-0">
-            <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-transform group-hover:rotate-12">
-              <Image 
-                src="/logo-clean.png" 
-                alt="Ibiza mi vida Logo" 
-                fill
-                className="object-contain brightness-0 invert"
-                priority
-              />
+        {/* Left: Logo */}
+        <Link href="/" className="flex items-center shrink-0">
+          <div className="relative w-10 h-10 sm:w-12 sm:h-12 mr-2">
+            <Image 
+              src="/logo-clean.png" 
+              alt="Ibiza Mi Vida" 
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+          <span className="font-black text-xl sm:text-2xl tracking-tighter text-[#00A698] hidden sm:block">ibizamivida</span>
+        </Link>
+
+        {/* Center: Search Bar */}
+        <div className="flex-1 max-w-2xl hidden md:flex">
+          <div className="relative w-full">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Search size={20} className="text-slate-400" />
             </div>
-            <div>
-              <span className="font-display text-xl sm:text-2xl font-black tracking-tighter uppercase block text-white">Ibiza Mi Vida</span>
-              <span className="text-[9px] uppercase tracking-[0.25em] text-zinc-500 font-bold block -mt-1">Balearic Agency</span>
-            </div>
-          </Link>
-
-          {/* Removed Center Navigation to move it to the second bar */}
-
-          {/* Right: Actions */}
-          <div className="flex items-center gap-3">
-            
-            {/* Desktop WhatsApp Concierge Button */}
-            <a 
-              href={whatsappLink}
-              target="_blank"
-              rel="noreferrer"
-              className="hidden lg:flex px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider text-black bg-white hover:bg-opacity-90 transition-all items-center gap-1.5 shadow-lg shadow-white/5 active:scale-95"
-            >
-              <Smartphone size={14} /> WhatsApp Concierge
-            </a>
-
-            {/* Cart Icon */}
-            <button
-              onClick={openDrawer}
-              className="relative p-2.5 rounded-full border border-white/10 hover:bg-white/5 text-zinc-400 hover:text-white transition-colors flex items-center justify-center"
-              aria-label="Open cart"
-            >
-              <ShoppingCart size={18} />
-              {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold text-white" style={{ backgroundColor: accentColor }}>
-                  {totalItems}
-                </span>
-              )}
-            </button>
-
-            <button 
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="p-2.5 rounded-full border border-white/10 hover:bg-white/5 text-zinc-400 hover:text-white transition-colors flex items-center justify-center"
-              aria-label="Open menu"
-            >
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+            <input 
+              type="text" 
+              placeholder="Zoek bestemmingen & ervaringen" 
+              className="w-full pl-12 pr-4 py-3 bg-white border border-slate-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#00A698]/20 focus:border-[#00A698] transition-all text-slate-900 placeholder:text-slate-500 shadow-inner"
+            />
           </div>
         </div>
 
-        {/* Secondary Navbar with Icons */}
-        <div className={`hidden lg:flex items-center justify-center gap-10 px-8 py-3 transition-all duration-500 ${
-          isTransparent 
-            ? 'bg-transparent border-t border-white/10' 
-            : 'bg-[#18181b] border-t border-white/5 shadow-inner'
-        }`}>
-          <Link href="/club-tickets" className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white hover:text-amber-500 transition-colors">
-            <Ticket size={14} className="text-zinc-400" /> Clubs
-          </Link>
-          <Link href="/private-boat-charters" className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white hover:text-amber-500 transition-colors">
-            <Anchor size={14} className="text-zinc-400" /> Yachts & Boats
-          </Link>
-          <Link href="/vip-catamaran" className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white hover:text-amber-500 transition-colors">
-            <Navigation size={14} className="text-zinc-400" /> VIP Catamaran
-          </Link>
-          <Link href="/drink-packages" className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white hover:text-amber-500 transition-colors">
-            <GlassWater size={14} className="text-zinc-400" /> Drink Packages
-          </Link>
-          <Link href="/car-scooter-rental" className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white hover:text-amber-500 transition-colors">
-            <Car size={14} className="text-zinc-400" /> Car & Scooter
-          </Link>
-          <div className="h-4 w-px bg-white/10" />
-          <Link href="/guestlist" className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest hover:text-white transition-colors" style={{ color: accentColor }}>
-            <CheckCircle size={14} /> Guestlist
-          </Link>
-        </div>
-      </header>
+        {/* Right: Actions */}
+        <div className="flex items-center gap-2 sm:gap-6 shrink-0">
+          
+          <button className="hidden lg:flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-[#00A698] transition-colors">
+            <Globe size={18} /> NL / EUR
+          </button>
 
-      {/* Fullscreen Mobile Menu - Dark Theme */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            key="fullscreen-menu"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="fixed inset-0 z-[45] flex flex-col bg-[#0A0A0A] px-4 pb-20 pt-20 md:px-8 md:pt-24 overflow-y-auto"
+          <button className="hidden lg:flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-[#00A698] transition-colors">
+            <HelpCircle size={18} /> Help
+          </button>
+
+          <button className="hidden sm:flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-[#00A698] transition-colors">
+            <User size={18} /> Log in
+          </button>
+
+          {/* Mobile Search Toggle */}
+          <button className="md:hidden p-2 text-slate-700 hover:text-[#00A698]">
+            <Search size={20} />
+          </button>
+
+          {/* Cart */}
+          <button
+            onClick={openDrawer}
+            className="relative p-2 text-slate-700 hover:text-[#00A698] transition-colors"
+            aria-label="Open cart"
           >
-            <div className="mx-auto w-full max-w-5xl flex-1 flex flex-col">
-              
-              {/* Grid of Categories */}
-              <div className="grid grid-cols-2 gap-3 mt-4">
-                {allCategories.map((cat, i) => (
-                  <motion.div
-                    key={cat.label}
-                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    transition={{ delay: i * 0.04 }}
-                  >
-                    <Link
-                      href={cat.href}
-                      onClick={() => setMenuOpen(false)}
-                      className="group flex flex-col justify-between w-full h-[100px] rounded-[16px] bg-[#141414] p-4 shadow-sm transition-all hover:border-[#FF4E00]/30 border border-white/5"
-                    >
-                      <div className="flex justify-between items-start">
-                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/5 text-zinc-400 group-hover:text-white transition-colors border border-white/5">
-                          <cat.icon size={16} strokeWidth={1.5} />
-                        </div>
-                        <ChevronRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity text-white" />
-                      </div>
-                      <div className="flex flex-col mt-auto">
-                        <span className="font-display text-[16px] font-bold tracking-tight text-white line-clamp-1 group-hover:text-amber-500 transition-colors uppercase">
-                          {cat.label}
-                        </span>
-                      </div>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
+            <ShoppingCart size={20} />
+            {totalItems > 0 && (
+              <span className="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-[#00A698] text-[10px] font-bold text-white">
+                {totalItems}
+              </span>
+            )}
+          </button>
 
-              {/* Featured Artists Section */}
-              {artists.length > 0 && (
-                <div className="mt-8 mb-4">
-                  <div className="flex items-center justify-between mb-4 px-2">
-                    <h3 className="font-display text-2xl font-black uppercase tracking-tight text-white">Featured Artists</h3>
-                    <Link href="/club-tickets" onClick={() => setMenuOpen(false)} className="text-xs uppercase font-bold text-zinc-400 hover:text-white">
-                      View all
-                    </Link>
-                  </div>
-                  <div className="flex overflow-x-auto gap-4 pb-4 hide-scrollbar px-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                    <style dangerouslySetInnerHTML={{ __html: `.hide-scrollbar::-webkit-scrollbar { display: none; }`}} />
-                    {artists.map((artist, i) => (
-                      <motion.div
-                        key={artist.id}
-                        initial={{ opacity: 0, scale: 0.9, x: 20 }}
-                        animate={{ opacity: 1, scale: 1, x: 0 }}
-                        transition={{ delay: 0.2 + (i * 0.05) }}
-                      >
-                        <Link 
-                          href={artist.href}
-                          onClick={() => setMenuOpen(false)}
-                          className="flex flex-col items-center gap-2 group w-[90px] md:w-[110px]"
-                        >
-                          <div className="w-[80px] h-[80px] md:w-[100px] md:h-[100px] rounded-full overflow-hidden border border-white/10 group-hover:border-[#FF4E00] transition-all shadow-md group-hover:shadow-xl relative">
-                            <Image 
-                              src={artist.image} 
-                              alt={artist.name} 
-                              fill 
-                              className="object-cover transition-transform duration-500 group-hover:scale-110" 
-                            />
-                          </div>
-                          <span className="font-sans text-[12px] md:text-[14px] font-bold text-white text-center leading-tight line-clamp-2 transition-colors">
-                            {artist.name}
-                          </span>
-                        </Link>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              )}
+          {/* Mobile Menu Toggle */}
+          <button 
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="lg:hidden p-2 text-slate-700 hover:text-[#00A698]"
+          >
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </div>
 
-              {/* WhatsApp Contact inside Menu */}
-              <div className="mt-12 pb-12 flex justify-center lg:mt-auto">
-                <a
-                  href={whatsappLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-4 font-sans text-sm font-bold text-black uppercase shadow-lg transition-transform hover:scale-105"
-                >
-                  <MessageCircle size={18} className="text-[#25D366]" />
-                  Chat with us on WhatsApp
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+      {/* Secondary Bar: Categories (Desktop) */}
+      <div className="hidden lg:flex max-w-7xl mx-auto px-4 h-12 items-center gap-8 overflow-x-auto no-scrollbar border-t border-slate-100">
+        {categories.map((cat, idx) => (
+          <Link 
+            key={idx} 
+            href={cat.href}
+            className="text-sm font-semibold text-slate-600 hover:text-[#00A698] whitespace-nowrap transition-colors"
+          >
+            {cat.label}
+          </Link>
+        ))}
+      </div>
+
+      {/* Mobile Menu Dropdown */}
+      {menuOpen && (
+        <div className="lg:hidden absolute top-full left-0 w-full bg-white border-b border-slate-200 shadow-lg flex flex-col py-2">
+          {categories.map((cat, idx) => (
+            <Link 
+              key={idx} 
+              href={cat.href}
+              onClick={() => setMenuOpen(false)}
+              className="px-6 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[#00A698] border-b border-slate-100 last:border-0"
+            >
+              {cat.label}
+            </Link>
+          ))}
+          <div className="px-6 py-4 flex flex-col gap-4 bg-slate-50 mt-2">
+            <button className="flex items-center gap-3 text-sm font-bold text-slate-700 hover:text-[#00A698]">
+              <Globe size={18} /> NL / EUR
+            </button>
+            <button className="flex items-center gap-3 text-sm font-bold text-slate-700 hover:text-[#00A698]">
+              <HelpCircle size={18} /> Help
+            </button>
+            <button className="flex items-center gap-3 text-sm font-bold text-slate-700 hover:text-[#00A698]">
+              <User size={18} /> Log in
+            </button>
+          </div>
+        </div>
+      )}
+    </header>
   )
 }
