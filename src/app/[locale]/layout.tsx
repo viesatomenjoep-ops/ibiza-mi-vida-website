@@ -7,6 +7,7 @@ import { BookingProvider } from '@/context/booking-context'
 import { getVenues } from '@/lib/clubtickets'
 import { CartProvider } from '@/context/cart-context'
 import { CartDrawer } from '@/components/ui/CartDrawer'
+import { getDictionary } from '@/lib/dictionary'
 import '@/styles/globals.css'
 import '../ibiza-design.css'
 
@@ -94,16 +95,18 @@ export default async function RootLayout({
   // Get top 15 artists for the menu
   const artists = Array.from(uniqueArtistsMap.values()).slice(0, 15)
 
+  const dict = getDictionary(locale || 'en')
+
   return (
     <html lang={locale || 'en'} className={`${inter.variable} ${outfit.variable} ${jetbrains.variable}`}>
       <body className="font-sans antialiased overflow-x-clip w-full max-w-[100vw] bg-[#0A0A0A] text-[#F4F4F5]">
         <CartProvider>
           <BookingProvider>
-            <Navbar artists={artists} />
+            <Navbar artists={artists} dict={dict} />
             <main id="main-content">
               {children}
             </main>
-            <Footer />
+            <Footer dict={dict} />
             <WhatsAppFAB />
             <CartDrawer />
           </BookingProvider>

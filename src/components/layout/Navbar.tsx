@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Search, Globe, HelpCircle, User, ShoppingCart, Menu, X } from 'lucide-react'
 import { useCart } from '@/context/cart-context'
+import { SearchBar } from '@/components/ui/SearchBar'
 
 type Artist = {
   id: number
@@ -43,22 +44,25 @@ function LanguageSelector() {
     <div className="relative">
       <button 
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-[#00A698] transition-colors"
+        className="flex items-center gap-1.5 text-base font-bold text-slate-700 hover:text-[#00A698] transition-colors uppercase"
       >
-        <Globe size={18} /> {currentLocale.code.toUpperCase()}
+        <Globe size={20} /> {currentLocale.code}
       </button>
       
       {open && (
-        <div className="absolute top-full right-0 mt-2 w-40 bg-white border border-slate-100 shadow-lg rounded-xl overflow-hidden py-1 z-50">
-          {LOCALES.map(l => (
-            <button 
-              key={l.code}
-              onClick={() => switchLanguage(l.code)}
-              className={`w-full text-left px-4 py-2 text-sm font-semibold hover:bg-slate-50 ${currentLocale.code === l.code ? 'text-[#00A698] bg-[#00A698]/5' : 'text-slate-700'}`}
-            >
-              <span className="mr-2">{l.flag}</span> {l.label}
-            </button>
-          ))}
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => setOpen(false)}>
+          <div className="w-64 bg-white border border-slate-100 shadow-2xl rounded-2xl overflow-hidden py-2 animate-in fade-in zoom-in duration-200" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-center font-bold text-slate-800 py-3 border-b border-slate-100 text-lg">Select Language</h3>
+            {LOCALES.map(l => (
+              <button 
+                key={l.code}
+                onClick={() => switchLanguage(l.code)}
+                className={`w-full text-center px-4 py-4 text-base font-bold hover:bg-slate-50 transition-colors ${currentLocale.code === l.code ? 'text-[#00A698] bg-[#00A698]/5' : 'text-slate-700'}`}
+              >
+                <span className="mr-3 text-xl">{l.flag}</span> {l.label}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </div>
@@ -87,16 +91,19 @@ const mainCategories = [
   { label: 'Private Boat Charters', href: '/private-boat-charters' },
 ]
 
-export function Navbar({ artists = [] }: { artists?: Artist[] }) {
+export function Navbar({ artists = [], dict }: { artists?: Artist[], dict?: any }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
   const pathname = usePathname()
   const { openDrawer, totalItems } = useCart()
 
   useEffect(() => {
     setMenuOpen(false)
+    setMobileSearchOpen(false)
   }, [pathname])
 
   const isHomepage = ['/', '/nl', '/en', '/es'].includes(pathname)
+  const currentLocale = LOCALES.find(l => pathname.startsWith(`/${l.code}/`) || pathname === `/${l.code}`) || LOCALES[0]
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-slate-200 shadow-sm">
@@ -115,38 +122,41 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
             />
           </div>
           <span className="font-black text-2xl sm:text-3xl tracking-tighter text-[#00A698] hidden sm:block">ibizamivida</span>
-          {!isHomepage && (
-            <span className="font-bold text-sm text-slate-700 group-hover:text-[#00A698] transition-colors ml-2">IBZMV</span>
-          )}
         </Link>
 
         {/* Center: Search Bar */}
         <div className="flex-1 max-w-2xl hidden md:flex">
-          <div className="relative w-full">
-            <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-              <Search size={26} className="text-slate-400" />
-            </div>
-            <input 
-              type="text" 
-              placeholder="Zoek bestemmingen & ervaringen" 
-              className="w-full pl-14 pr-5 py-4 bg-white border border-slate-300 rounded-full text-base focus:outline-none focus:ring-2 focus:ring-[#00A698]/20 focus:border-[#00A698] transition-all text-slate-900 placeholder:text-slate-500 shadow-inner"
-            />
-          </div>
+          <SearchBar 
+            placeholder={dict?.search_placeholder || "Zoek bestemmingen & ervaringen"} 
+            locale={currentLocale.code} 
+          />
         </div>
 
         {/* Right: Actions */}
-        <div className="flex items-center gap-3 sm:gap-6 shrink-0">
+        <div className="flex items-center gap-3 md:gap-5">
           
-          <div className="block scale-125 origin-right">
+          {!isHomepage && (
+            <Link href="/" className="font-bold text-base text-slate-700 hover:text-[#00A698] transition-colors mr-1">
+              IBZMV
+            </Link>
+          )}
+
+          <div className="block">
             <LanguageSelector />
           </div>
 
           <button className="hidden sm:flex items-center gap-2 text-base font-bold text-slate-700 hover:text-[#00A698] transition-colors">
-            <User size={24} /> Log in
+            <User size={24} /> {dict?.nav_login || 'Log in'}
           </button>
 
           {/* Mobile Search Toggle */}
-          <button className="md:hidden p-2 text-slate-700 hover:text-[#00A698]">
+          <button 
+            className="md:hidden p-2 text-slate-700 hover:text-[#00A698]"
+            onClick={() => {
+              setMobileSearchOpen(!mobileSearchOpen)
+              setMenuOpen(false)
+            }}
+          >
             <Search size={26} />
           </button>
 
@@ -166,7 +176,10 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
 
           {/* Mobile Menu Toggle */}
           <button 
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={() => {
+              setMenuOpen(!menuOpen)
+              setMobileSearchOpen(false)
+            }}
             className="p-2 text-slate-700 hover:text-[#00A698] z-[60] relative"
           >
             {menuOpen ? <X size={32} /> : <Menu size={32} />}
@@ -176,15 +189,18 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
 
       {/* Secondary Bar: Categories (Desktop) */}
       <div className="hidden lg:flex max-w-7xl mx-auto px-4 h-12 items-center gap-8 overflow-x-auto no-scrollbar border-t border-slate-100">
-        {mainCategories.map((cat, idx) => (
-          <Link 
-            key={idx} 
-            href={cat.href}
-            className="text-sm font-semibold text-slate-600 hover:text-[#00A698] whitespace-nowrap transition-colors"
-          >
-            {cat.label}
-          </Link>
-        ))}
+            {mainCategories.map((cat) => {
+              const label = dict ? dict[`nav_${cat.href.replace('/', '').replace(/-/g, '_')}`] : cat.label;
+              return (
+                <Link 
+                  key={cat.href} 
+                  href={cat.href}
+                  className="px-4 py-2 text-[15px] font-bold text-slate-700 hover:text-[#00A698] hover:bg-slate-50 rounded-full transition-colors whitespace-nowrap"
+                >
+                  {label || cat.label}
+                </Link>
+              )
+            })}
       </div>
 
       {/* Mobile Menu Dropdown (Full Screen) */}
@@ -193,16 +209,18 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
           <div className="px-6 pb-6">
             <h2 className="text-xl font-black text-slate-900 mb-4">Ontdek Ibiza</h2>
             <div className="flex flex-col gap-2">
-              {categories.map((cat, idx) => (
-                <Link 
-                  key={idx} 
-                  href={cat.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="px-4 py-4 text-lg font-bold text-slate-700 hover:bg-slate-50 hover:text-[#00A698] rounded-xl transition-colors border border-slate-100"
-                >
-                  {cat.label}
-                </Link>
-              ))}
+                    {categories.map((cat) => {
+                      const label = dict ? dict[`nav_${cat.href.replace('/', '').replace(/-/g, '_')}`] : cat.label;
+                      return (
+                        <Link 
+                          key={cat.href} 
+                          href={cat.href}
+                          className="px-4 py-3 font-semibold text-slate-700 hover:text-[#00A698] hover:bg-slate-50 rounded-xl transition-colors border border-transparent hover:border-slate-100"
+                        >
+                          {label || cat.label}
+                        </Link>
+                      )
+                    })}
             </div>
           </div>
           
@@ -210,6 +228,27 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
             <button className="flex items-center gap-4 text-lg font-bold text-slate-700 hover:text-[#00A698] w-full py-3">
               <User size={24} /> Log in of account aanmaken
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Search Overlay */}
+      {mobileSearchOpen && (
+        <div className="fixed inset-0 z-40 bg-white flex flex-col pt-24 pb-8 px-4 md:hidden animate-in fade-in slide-in-from-top-2">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-black text-slate-900">Zoeken</h2>
+            <button 
+              onClick={() => setMobileSearchOpen(false)}
+              className="p-2 text-slate-500 hover:text-slate-900 bg-slate-100 rounded-full"
+            >
+              <X size={20} />
+            </button>
+          </div>
+          <div className="w-full relative z-50">
+            <SearchBar 
+              placeholder={dict?.search_placeholder || "Zoek bestemmingen & ervaringen"} 
+              locale={currentLocale.code} 
+            />
           </div>
         </div>
       )}

@@ -213,8 +213,8 @@ export default function HomePageClient({
     const dateFormatted = dateObj.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short' });
     
     return (
-      <div key={`${event.id}-${event.date}`} className={`flex-shrink-0 snap-center flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer ${isFeatured ? 'shadow-md' : 'shadow-sm'} ${isCompact ? 'w-[90vw] md:w-[350px]' : 'w-full'}`} onClick={() => handleBook(event)}>
-        <div className={`relative w-full overflow-hidden bg-slate-100 ${isCompact ? 'h-32' : (isFeatured ? 'h-64' : 'h-48')}`}>
+      <div key={`${event.id}-${event.date}`} className={`flex-shrink-0 snap-center flex flex-col bg-[#141414] border border-white/10 rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-[#00A698]/10 hover:border-[#00A698]/50 transition-all duration-300 group cursor-pointer ${isFeatured ? 'shadow-md' : 'shadow-sm'} ${isCompact ? 'w-[90vw] md:w-[350px]' : 'w-full'}`} onClick={() => handleBook(event)}>
+        <div className={`relative w-full overflow-hidden bg-[#0A0A0A] ${isCompact ? 'h-32' : (isFeatured ? 'h-64' : 'h-48')}`}>
           {(event.eventCover || event.eventLogo || event.venueCover || event.venueLogo) ? (
             <Image 
               src={event.eventCover || event.eventLogo || event.venueCover || event.venueLogo || ''} 
@@ -224,7 +224,7 @@ export default function HomePageClient({
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-slate-300">
+            <div className="w-full h-full flex items-center justify-center text-white/20">
               <Star size={48} />
             </div>
           )}
@@ -242,15 +242,15 @@ export default function HomePageClient({
           )}
         </div>
         <div className={`flex-1 flex flex-col ${isCompact ? 'p-3' : 'p-5'}`}>
-          <h3 className={`font-bold text-slate-900 leading-tight mb-1 group-hover:text-[#00A698] transition-colors line-clamp-2 ${isCompact ? 'text-base' : (isFeatured ? 'text-xl' : 'text-lg')}`}>
+          <h3 className={`font-bold text-white leading-tight mb-1 group-hover:text-[#00A698] transition-colors line-clamp-2 ${isCompact ? 'text-base' : (isFeatured ? 'text-xl' : 'text-lg')}`}>
             {event.eventName || event.name}
           </h3>
-          <p className="text-xs font-semibold text-slate-500 mb-2 flex items-center gap-1">
+          <p className="text-xs font-semibold text-white/50 mb-2 flex items-center gap-1">
             <MapPin size={12} /> {event.venueName || 'Ibiza'}
           </p>
           
           {!isCompact && (
-            <ul className="space-y-1.5 mb-4 text-sm text-slate-600">
+            <ul className="space-y-1.5 mb-4 text-sm text-white/70">
               <li className="flex items-start gap-2">
                 <span className="text-[#00A698] font-bold">✓</span>
                 <span className="line-clamp-1">{formatLineUp(event.lineUp)}</span>
@@ -258,14 +258,14 @@ export default function HomePageClient({
             </ul>
           )}
 
-          <div className={`mt-auto flex justify-between items-end border-slate-100 ${isCompact ? 'pt-2 mt-2 border-t' : 'pt-4 border-t'}`}>
-            <div className="flex items-center gap-1 text-sm font-bold text-slate-700">
+          <div className={`mt-auto flex justify-between items-end border-white/10 ${isCompact ? 'pt-2 mt-2 border-t' : 'pt-4 border-t'}`}>
+            <div className="flex items-center gap-1 text-sm font-bold text-white/80">
               <Star size={12} fill="#F59E0B" className="text-amber-500" />
               <span className="text-xs">4.9</span>
             </div>
             <div className="text-right">
-              <div className="text-[10px] text-slate-500 uppercase tracking-wide">{dict.from || 'Vanaf'}</div>
-              <div className={`font-bold text-slate-900 ${isCompact ? 'text-base' : 'text-xl'}`}>
+              <div className="text-[10px] text-white/50 uppercase tracking-wide">{dict.from || 'Vanaf'}</div>
+              <div className={`font-bold text-white ${isCompact ? 'text-base' : 'text-xl'}`}>
                 € {priceNum > 0 ? priceNum.toFixed(2) : '50.00'}
               </div>
             </div>
@@ -290,42 +290,44 @@ export default function HomePageClient({
         />
         <div className="absolute inset-0 bg-black/50 z-0"></div>
       </div>
-      <div className="relative w-full z-10 pt-16 md:pt-24 px-4 flex flex-col items-center">
+      {/* Interactive Picker Section with Sub-Navbars */}
+      <div className="w-full relative z-20">
         
-        <div className="w-full max-w-7xl mx-auto text-center mb-6 md:mb-8 bg-white/85 backdrop-blur-xl rounded-3xl p-6 shadow-2xl border border-white/50 max-w-[90vw] md:max-w-2xl">
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight mb-2 drop-shadow-sm leading-tight">
-            Ibiza Mi Vida
-          </h1>
-          <p className="text-slate-700 text-sm sm:text-base md:text-lg font-medium max-w-xl mx-auto leading-snug">
-            De beste plek voor alle events, boat parties en many more.
+        {/* Second Navbar: Title Banner */}
+        <div className="w-full bg-[#141414] border-b border-white/10 px-4 py-3 flex items-center justify-center shadow-sm">
+          <p className="text-sm font-bold text-white text-center tracking-tight">
+            {dict.home_top_banner || 'Ibiza Mivida, de beste plek voor alle events, boat parties en veel meer'}
           </p>
         </div>
 
-      {/* Interactive Picker Section */}
-      <div className="w-full sm:max-w-7xl mx-auto relative z-20 mb-4 md:mb-6">
-        <div className="bg-white/95 backdrop-blur-md sm:rounded-2xl shadow-2xl border-y sm:border border-white/20 p-4 md:p-5">
-          
-          {/* Tabs */}
-          <div className="flex bg-slate-100 p-1 rounded-xl mb-4 max-w-sm mx-auto">
+        {/* Third Navbar: Tabs */}
+        <div className="w-full bg-[#0A0A0A] border-b border-white/10 shadow-sm sticky top-[96px] z-40">
+          <div className="max-w-7xl mx-auto flex">
             <button 
               onClick={() => setPeriodMode('day')}
-              className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${periodMode === 'day' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`flex-1 py-4 text-sm font-bold transition-all border-b-2 ${periodMode === 'day' ? 'bg-[#141414] border-[#00A698] text-[#00A698]' : 'border-transparent text-white/50 hover:text-white hover:bg-[#1A1A1A]'}`}
             >
               {dict.tab_day}
             </button>
             <button 
               onClick={() => setPeriodMode('week')}
-              className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${periodMode === 'week' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`flex-1 py-4 text-sm font-bold transition-all border-b-2 border-l border-r border-l-white/10 border-r-white/10 ${periodMode === 'week' ? 'bg-[#141414] border-b-[#00A698] text-[#00A698]' : 'border-b-transparent text-white/50 hover:text-white hover:bg-[#1A1A1A]'}`}
             >
               {dict.tab_week}
             </button>
             <button 
               onClick={() => setPeriodMode('month')}
-              className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${periodMode === 'month' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`flex-1 py-4 text-sm font-bold transition-all border-b-2 ${periodMode === 'month' ? 'bg-[#141414] border-[#00A698] text-[#00A698]' : 'border-transparent text-white/50 hover:text-white hover:bg-[#1A1A1A]'}`}
             >
               {dict.tab_month}
             </button>
           </div>
+        </div>
+
+        {/* Date Sliders container */}
+        <div className="w-full bg-[#0A0A0A]/95 backdrop-blur-md shadow-md border-b border-white/10 p-4 md:p-5 mb-4 md:mb-6">
+          
+
 
           {/* Sliders based on Mode */}
           <div className="flex gap-3 overflow-x-auto pb-4 no-scrollbar scroll-smooth">
@@ -336,12 +338,12 @@ export default function HomePageClient({
                 className={`min-w-[80px] md:min-w-[100px] flex-shrink-0 flex flex-col items-center justify-center p-3 rounded-xl border transition-all ${
                   activeDateStr === d.dateStr 
                     ? 'border-[#00A698] bg-[#00A698] text-white shadow-md scale-105' 
-                    : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50'
+                    : 'border-white/10 bg-[#141414] text-white/70 hover:border-[#00A698]/50 hover:bg-[#1A1A1A]'
                 }`}
               >
-                <span className={`text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1 ${activeDateStr === d.dateStr ? 'text-white/90' : 'text-slate-500'}`}>{d.dayName}</span>
+                <span className={`text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1 ${activeDateStr === d.dateStr ? 'text-white/90' : 'text-white/50'}`}>{d.dayName}</span>
                 <span className="text-xl md:text-2xl font-black">{d.dayNum}</span>
-                <span className={`text-[10px] md:text-xs font-medium mt-1 ${activeDateStr === d.dateStr ? 'text-white/90' : 'text-slate-500'}`}>{d.monthName}</span>
+                <span className={`text-[10px] md:text-xs font-medium mt-1 ${activeDateStr === d.dateStr ? 'text-white/90' : 'text-white/50'}`}>{d.monthName}</span>
               </button>
             ))}
 
@@ -352,11 +354,11 @@ export default function HomePageClient({
                 className={`min-w-[120px] flex-shrink-0 flex flex-col items-center justify-center p-4 rounded-xl border transition-all ${
                   activeWeek === w.weekNum 
                     ? 'border-[#00A698] bg-[#00A698] text-white shadow-md scale-105' 
-                    : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50'
+                    : 'border-white/10 bg-[#141414] text-white/70 hover:border-[#00A698]/50 hover:bg-[#1A1A1A]'
                 }`}
               >
                 <span className="text-sm font-bold">{w.label}</span>
-                <span className={`text-xs mt-1 ${activeWeek === w.weekNum ? 'text-white/80' : 'text-slate-500'}`}>
+                <span className={`text-xs mt-1 ${activeWeek === w.weekNum ? 'text-white/80' : 'text-white/50'}`}>
                   {dict.from || 'Vanaf'} {w.startObj.getDate()} {new Intl.DateTimeFormat(locale, { month: 'short' }).format(w.startObj).toUpperCase()}
                 </span>
               </button>
@@ -369,7 +371,7 @@ export default function HomePageClient({
                 className={`min-w-[140px] flex-shrink-0 flex flex-col items-center justify-center p-4 rounded-xl border transition-all ${
                   activeMonth === m.monthNum 
                     ? 'border-[#00A698] bg-[#00A698] text-white shadow-md scale-105' 
-                    : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50'
+                    : 'border-white/10 bg-[#141414] text-white/70 hover:border-[#00A698]/50 hover:bg-[#1A1A1A]'
                 }`}
               >
                 <span className="text-lg font-bold">{m.label}</span>
@@ -393,15 +395,7 @@ export default function HomePageClient({
           </div>
         )}
 
-        {/* Hero Text Re-positioned */}
-        <div className="text-center mb-6 md:mb-8 px-4">
-          <h2 className="text-2xl sm:text-3xl font-black text-white drop-shadow-lg mb-2">
-            {dict.hero_title}
-          </h2>
-          <p className="text-white/90 text-sm sm:text-base font-medium max-w-2xl mx-auto drop-shadow-md">
-            {dict.hero_subtitle}
-          </p>
-        </div>
+
 
         {/* Results Info */}
         <div className="flex flex-col md:flex-row justify-between items-center bg-black/60 backdrop-blur-sm rounded-xl p-3 md:p-4 mb-4 md:mb-6 border border-white/10 shadow-lg mx-4 md:mx-0">
@@ -436,17 +430,17 @@ export default function HomePageClient({
             })}
           </>
         ) : (
-          <div className="w-full bg-white rounded-2xl shadow-sm border border-slate-100 p-12 text-center mb-16">
-            <Calendar className="mx-auto text-slate-300 mb-4" size={64} />
-            <h3 className="text-xl font-bold text-slate-900 mb-2">Geen events gevonden</h3>
-            <p className="text-slate-500">Er zijn momenteel geen activiteiten beschikbaar in deze specifieke periode. Probeer een andere datum of week.</p>
+          <div className="w-full bg-[#141414] rounded-2xl shadow-sm border border-white/10 p-12 text-center mb-16">
+            <Calendar className="mx-auto text-white/20 mb-4" size={64} />
+            <h3 className="text-xl font-bold text-white mb-2">Geen events gevonden</h3>
+            <p className="text-white/50">Er zijn momenteel geen activiteiten beschikbaar in deze specifieke periode. Probeer een andere datum of week.</p>
           </div>
         )}
 
         {/* Auto-scrolling DJs Marquee */}
         {artists && artists.length > 0 && (
           <div className="mt-16 border-t border-white/20 mb-16 pt-12 overflow-hidden">
-            <h3 className="text-2xl font-bold text-white mb-6 px-4 md:px-0">Top DJ's & Artiesten</h3>
+            <h3 className="text-2xl font-bold text-white mb-6 px-4 md:px-0">{dict.home_top_djs || "Top DJ's & Artiesten"}</h3>
             <div className="relative w-full flex overflow-x-hidden">
               <div className="animate-marquee flex gap-4 md:gap-6 whitespace-nowrap pl-4 md:pl-6 hover:[animation-play-state:paused]">
                 {artists.slice(0, 15).map((artist, idx) => (
@@ -505,7 +499,6 @@ export default function HomePageClient({
           </div>
         </div>
 
-        </div>
       </div>
     </div>
   );

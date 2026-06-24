@@ -54,7 +54,7 @@ export default async function ClubTicketsPage({ params }: Props) {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {clubs.map((club) => (
-            <Link href={`/club-tickets/${club.slug}`} key={club.id} className="bg-white/95 text-velvet-obsidian rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-[380px]">
+            <Link href={`/${params.locale}/club-tickets/${club.slug}`} key={club.id} className="bg-white/95 text-velvet-obsidian rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-[380px]">
               <div className="relative h-full w-full overflow-hidden">
                 <Image 
                   src={club.cover || club.picture || '/hi-ibiza-2026/FB_IMG_1779623220486.jpg'} 

@@ -20,7 +20,7 @@ const guides = [
   { label: 'Free & Discount Ibiza', href: '/free-discount-ibiza' },
 ]
 
-export function Footer() {
+export function Footer({ dict }: { dict?: any }) {
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '31683052875'
 
   return (
@@ -41,7 +41,7 @@ export function Footer() {
                 </span>
               </Link>
               <p className="font-sans text-[14px] leading-relaxed text-white/70 pr-4">
-                Your premium Ibiza events & booking agency. Club tickets, private boat charters, and everything you need for the perfect experience.
+                {dict?.footer_description || 'Your premium Ibiza events & booking agency. Club tickets, private boat charters, and everything you need for the perfect experience.'}
               </p>
             </div>
             
@@ -64,7 +64,7 @@ export function Footer() {
           {/* Column 2: Services */}
           <div>
             <h3 className="mb-6 font-sans text-sm font-semibold uppercase tracking-widest text-champagne-bronze">
-              Services
+              {dict?.footer_services || 'Services'}
             </h3>
             <ul className="flex flex-col gap-3" role="list">
               {services.map(({ label, href }) => (
@@ -83,7 +83,7 @@ export function Footer() {
           {/* Column 3: Guides */}
           <div>
             <h3 className="mb-6 font-sans text-sm font-semibold uppercase tracking-widest text-champagne-bronze">
-              Ibiza Guides
+              {dict?.footer_guides || 'Ibiza Guides'}
             </h3>
             <ul className="flex flex-col gap-3" role="list">
               {guides.map(({ label, href }) => (
@@ -102,10 +102,10 @@ export function Footer() {
           {/* Column 4: Book Now */}
           <div className="flex flex-col gap-6">
             <h3 className="font-sans text-sm font-semibold uppercase tracking-widest text-champagne-bronze">
-              Book Now
+              {dict?.book_button || 'Book Now'}
             </h3>
             <p className="font-sans text-[15px] text-white/70 leading-relaxed">
-              Ready to plan your Ibiza experience? Chat with us on WhatsApp for instant replies.
+              {dict?.footer_ready_plan || 'Ready to plan your Ibiza experience?'} {dict?.footer_chat_instant || 'Chat with us on WhatsApp for instant replies.'}
             </p>
             <div className="flex flex-col gap-3">
               <a
@@ -115,7 +115,7 @@ export function Footer() {
                 className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-rustic-terracotta px-6 py-3.5 font-sans text-sm font-semibold text-white transition-colors hover:bg-rustic-terracotta/90 shadow-sm"
               >
                 <MessageCircle size={18} />
-                Chat on WhatsApp
+                {dict?.footer_chat_btn || 'Chat on WhatsApp'}
               </a>
               <a
                 href="mailto:hello@ibizamivida.com"
@@ -131,14 +131,14 @@ export function Footer() {
         {/* Bottom row */}
         <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 md:flex-row">
           <p className="font-sans text-sm text-white/40">
-            © {new Date().getFullYear()} Ibiza mi vida. All rights reserved.
+            © {new Date().getFullYear()} Ibiza mi vida. {dict?.footer_all_rights || 'All rights reserved.'}
           </p>
           <div className="flex items-center gap-6">
             <Link href="/privacy-policy" className="font-sans text-sm text-white/40 hover:text-white transition-colors">
-              Privacy Policy
+              {dict?.footer_privacy || 'Privacy Policy'}
             </Link>
             <Link href="/cookie-policy" className="font-sans text-sm text-white/40 hover:text-white transition-colors">
-              Cookie Policy
+              {dict?.footer_cookie || 'Cookie Policy'}
             </Link>
           </div>
         </div>
