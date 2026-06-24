@@ -80,6 +80,13 @@ const categories = [
   { label: 'Free & Discount Ibiza', href: '/free-discount-ibiza' },
 ]
 
+const mainCategories = [
+  { label: 'Club Tickets', href: '/club-tickets' },
+  { label: 'Boat Parties', href: '/boat-parties' },
+  { label: 'Deals of the Day', href: '/deals-of-the-day' },
+  { label: 'Private Boat Charters', href: '/private-boat-charters' },
+]
+
 export function Navbar({ artists = [] }: { artists?: Artist[] }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
@@ -155,7 +162,7 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
           {/* Mobile Menu Toggle */}
           <button 
             onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden p-2 text-slate-700 hover:text-[#00A698] z-[60] relative"
+            className="p-2 text-slate-700 hover:text-[#00A698] z-[60] relative"
           >
             {menuOpen ? <X size={32} /> : <Menu size={32} />}
           </button>
@@ -164,7 +171,7 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
 
       {/* Secondary Bar: Categories (Desktop) */}
       <div className="hidden lg:flex max-w-7xl mx-auto px-4 h-12 items-center gap-8 overflow-x-auto no-scrollbar border-t border-slate-100">
-        {categories.map((cat, idx) => (
+        {mainCategories.map((cat, idx) => (
           <Link 
             key={idx} 
             href={cat.href}
@@ -177,7 +184,7 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
 
       {/* Mobile Menu Dropdown (Full Screen) */}
       {menuOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-white flex flex-col pt-24 pb-8 overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-white flex flex-col pt-24 pb-8 overflow-y-auto">
           <div className="px-6 pb-6">
             <h2 className="text-xl font-black text-slate-900 mb-4">Ontdek Ibiza</h2>
             <div className="flex flex-col gap-2">
