@@ -104,7 +104,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-3 max-h-[800px] overflow-y-auto pr-2 rounded-2xl" style={{ scrollbarWidth: 'thin' }}>
+                <div className="flex flex-col gap-3 pr-2 rounded-2xl">
                   {allDates.length > 0 ? (
                     allDates.map((dateObj, idx) => (
                       <div key={`${dateObj.id}-${idx}`} className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 border border-velvet-obsidian/10 rounded-2xl bg-white transition-all hover:border-velvet-obsidian/30 hover:shadow-md">
