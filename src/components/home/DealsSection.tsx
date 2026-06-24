@@ -67,12 +67,12 @@ export function DealsSection() {
             <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor" className="text-velvet-obsidian"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
           </div>
           <div className="z-10 text-center md:text-left flex-1">
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-rustic-terracotta/10 px-3 py-1 font-sans text-xs font-semibold uppercase tracking-wider text-rustic-terracotta border border-rustic-terracotta/20">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-rustic-terracotta/10 px-3 py-1 font-sans text-xs font-semibold uppercase tracking-wider text-black border border-rustic-terracotta/20">
               <span className="h-1.5 w-1.5 rounded-full bg-rustic-terracotta shadow-[0_0_8px_rgba(206,108,71,0.8)] animate-pulse" />
               Live Offers
             </div>
-            <h2 className="text-3xl md:text-5xl font-serif text-velvet-obsidian mb-3">Deal of the Day</h2>
-            <p className="text-velvet-obsidian/70 font-sans text-sm md:text-base max-w-lg">The best hand-picked offers across all categories. Select the deals you want and book via WhatsApp before the timer runs out!</p>
+            <h2 className="text-3xl md:text-5xl font-serif text-black mb-3">Deal of the Day</h2>
+            <p className="text-black font-sans text-sm md:text-base max-w-lg">The best hand-picked offers across all categories. Select the deals you want and book via WhatsApp before the timer runs out!</p>
           </div>
           <div className="z-10 bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 shrink-0 shadow-lg">
             <DealTimer />
@@ -94,20 +94,20 @@ export function DealsSection() {
                     {isSelected ? <CheckCircle2 size={24} className="fill-rustic-terracotta text-white" /> : <Circle size={24} className="text-velvet-obsidian/30" />}
                   </div>
                   <div className="flex flex-col items-start">
-                    <span className="font-sans text-[10px] md:text-xs font-bold uppercase tracking-wider text-rustic-terracotta mb-0.5">{deal.type}</span>
-                    <span className="font-sans text-[16px] md:text-[18px] font-medium text-velvet-obsidian leading-tight">{deal.name}</span>
-                    <span className="font-sans text-[12px] font-medium text-velvet-obsidian/60 mt-1">{deal.day}</span>
+                    <span className="font-sans text-[10px] md:text-xs font-bold uppercase tracking-wider text-black mb-0.5">{deal.type}</span>
+                    <span className="font-sans text-[16px] md:text-[18px] font-medium text-black leading-tight">{deal.name}</span>
+                    <span className="font-sans text-[12px] font-medium text-black mt-1">{deal.day}</span>
                   </div>
                 </div>
                 <div className="flex flex-col items-end shrink-0 pl-2">
-                  <span className="font-sans text-[18px] md:text-[22px] font-bold text-velvet-obsidian">{deal.price}</span>
+                  <span className="font-sans text-[18px] md:text-[22px] font-bold text-black">{deal.price}</span>
                 </div>
               </button>
             )
           })}
           
           <div className="mt-4 pt-6 border-t border-velvet-obsidian/10 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="font-sans text-sm text-velvet-obsidian/60 font-medium text-center md:text-left">
+            <p className="font-sans text-sm text-black font-medium text-center md:text-left">
               {selectedDailyDeals.length} deal{selectedDailyDeals.length !== 1 ? 's' : ''} selected
             </p>
             <button
