@@ -10,6 +10,15 @@ interface CTEventCardProps {
   venueSlug: string
 }
 
+function parsePrice(priceStr?: string): number {
+  if (!priceStr) return 50;
+  const match = priceStr.match(/\d+([.,]\d+)?/);
+  if (match) {
+    return parseFloat(match[0].replace(',', '.'));
+  }
+  return 50;
+}
+
 function formatDate(dateStr?: string): string | null {
   if (!dateStr) return null
   return new Date(dateStr).toLocaleDateString('en-GB', {

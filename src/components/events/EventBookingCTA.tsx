@@ -10,6 +10,15 @@ interface EventBookingCTAProps {
   event: FeaturedEvent
 }
 
+function parsePrice(priceStr?: string): number {
+  if (!priceStr) return 50;
+  const match = priceStr.match(/\d+([.,]\d+)?/);
+  if (match) {
+    return parseFloat(match[0].replace(',', '.'));
+  }
+  return 50;
+}
+
 export function EventBookingCTA({ event }: EventBookingCTAProps) {
   const { addToCart, openDrawer } = useCart()
 

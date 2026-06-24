@@ -24,7 +24,7 @@ export function Footer() {
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '31683052875'
 
   return (
-    <footer className="bg-ibiza-sand text-velvet-obsidian pt-16 pb-8 border-t border-velvet-obsidian/10" aria-label="Site footer">
+    <footer className="bg-ibiza-sand text-black pt-16 pb-8 border-t border-velvet-obsidian/10" aria-label="Site footer">
       <div className="mx-auto max-w-7xl px-4 md:px-8 flex flex-col gap-12">
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
@@ -36,11 +36,11 @@ export function Footer() {
                 <div className="relative h-10 w-10">
                   <Image src="/logo-clean.png" alt="Ibiza mi vida" fill className="object-contain brightness-0" />
                 </div>
-                <span className="font-serif text-xl font-light text-velvet-obsidian">
+                <span className="font-serif text-xl font-light text-black">
                   Ibiza <span className="text-champagne-bronze">mi vida</span>
                 </span>
               </Link>
-              <p className="font-sans text-[14px] leading-relaxed text-velvet-obsidian/70 pr-4">
+              <p className="font-sans text-[14px] leading-relaxed text-black/70 pr-4">
                 Your premium Ibiza events & booking agency. Club tickets, private boat charters, and everything you need for the perfect experience.
               </p>
             </div>
@@ -71,7 +71,7 @@ export function Footer() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="font-sans text-[15px] text-velvet-obsidian/70 transition-colors hover:text-rustic-terracotta"
+                    className="font-sans text-[15px] text-black/70 transition-colors hover:text-rustic-terracotta"
                   >
                     {label}
                   </Link>
@@ -90,7 +90,7 @@ export function Footer() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="font-sans text-[15px] text-velvet-obsidian/70 transition-colors hover:text-rustic-terracotta"
+                    className="font-sans text-[15px] text-black/70 transition-colors hover:text-rustic-terracotta"
                   >
                     {label}
                   </Link>
@@ -104,7 +104,7 @@ export function Footer() {
             <h3 className="font-sans text-sm font-semibold uppercase tracking-widest text-champagne-bronze">
               Book Now
             </h3>
-            <p className="font-sans text-[15px] text-velvet-obsidian/70 leading-relaxed">
+            <p className="font-sans text-[15px] text-black/70 leading-relaxed">
               Ready to plan your Ibiza experience? Chat with us on WhatsApp for instant replies.
             </p>
             <div className="flex flex-col gap-3">
@@ -130,14 +130,14 @@ export function Footer() {
 
         {/* Bottom row */}
         <div className="flex flex-col items-center justify-between gap-4 border-t border-velvet-obsidian/10 pt-6 md:flex-row">
-          <p className="font-sans text-sm text-velvet-obsidian/40">
+          <p className="font-sans text-sm text-black/40">
             © {new Date().getFullYear()} Ibiza mi vida. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy-policy" className="font-sans text-sm text-velvet-obsidian/40 hover:text-velvet-obsidian transition-colors">
+            <Link href="/privacy-policy" className="font-sans text-sm text-black/40 hover:text-black transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/cookie-policy" className="font-sans text-sm text-velvet-obsidian/40 hover:text-velvet-obsidian transition-colors">
+            <Link href="/cookie-policy" className="font-sans text-sm text-black/40 hover:text-black transition-colors">
               Cookie Policy
             </Link>
           </div>

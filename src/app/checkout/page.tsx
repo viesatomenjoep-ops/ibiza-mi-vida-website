@@ -19,7 +19,7 @@ export default function CheckoutPage() {
 
   if (status === 'success') {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 text-black">
         <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl max-w-lg w-full text-center">
           <div className="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <svg width="40" height="40" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -40,7 +40,7 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 pt-32 pb-16 px-4">
+      <div className="min-h-screen bg-gray-50 pt-32 pb-16 px-4 text-black">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl font-serif font-bold mb-4">Your cart is empty</h1>
           <Link href="/" className="inline-block bg-black text-white px-8 py-4 rounded-full font-semibold hover:bg-gray-800 transition-colors">
@@ -52,7 +52,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-32 pb-16 px-4">
+    <div className="min-h-screen bg-gray-50 pt-32 pb-16 px-4 text-black">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
         
         {/* Checkout Form */}
