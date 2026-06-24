@@ -8,7 +8,7 @@ import { getVenues } from '@/lib/clubtickets'
 import { CartProvider } from '@/context/cart-context'
 import { CartDrawer } from '@/components/ui/CartDrawer'
 import '@/styles/globals.css'
-import './ibiza-design.css'
+import '../ibiza-design.css'
 
 const inter = Inter({
   subsets: ['latin'],
