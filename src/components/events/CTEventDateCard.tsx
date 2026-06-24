@@ -48,21 +48,21 @@ export function CTEventDateCard({ date, eventName, venueName, imageUrl }: Props)
   return (
     <div className="border border-gray-100 rounded-xl p-4 bg-gray-50 flex flex-col gap-3 transition-colors hover:border-gray-200">
       <div className="flex items-center justify-between">
-        <span className="font-semibold text-velvet-obsidian flex items-center gap-2">
+        <span className="font-semibold text-black flex items-center gap-2">
           <Calendar size={16} className="text-rustic-terracotta" />
           {formatDate(date.date)}
         </span>
       </div>
       
       {date.lineUp && (
-        <p className="text-sm text-gray-600 line-clamp-2" title={date.lineUp}>
+        <p className="text-sm text-black/80 line-clamp-2" title={date.lineUp}>
           {date.lineUp}
         </p>
       )}
       
       <div className="flex items-center justify-between mt-2 pt-3 border-t border-gray-200">
-        <span className="font-serif font-semibold text-lg text-velvet-obsidian">
-          {date.prices ? `From ${date.prices}` : 'Tickets available'}
+        <span className="font-serif font-semibold text-lg text-black">
+          {date.prices ? `€ ${parsePrice(date.prices)},00` : 'Tickets available'}
         </span>
         <button 
           onClick={handleBook}
