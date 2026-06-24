@@ -220,6 +220,7 @@ export default function HomePageClient({
               src={event.eventCover || event.eventLogo || event.venueCover || event.venueLogo || ''} 
               alt={event.eventName || event.name} 
               fill 
+              priority={isFeatured}
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
