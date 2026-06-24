@@ -112,9 +112,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
             <div className="flex flex-col gap-4 mb-8">
               {/* Standard Ticket Option */}
               <div className="flex flex-col border-2 border-[#00A698] bg-[#00A698]/5 rounded-2xl p-4 cursor-pointer relative overflow-hidden">
-                <div className="absolute top-0 right-0 bg-[#00A698] text-white text-[10px] uppercase font-bold px-2 py-1 rounded-bl-lg">
-                  Best Seller
-                </div>
+
                 <div className="flex justify-between items-start mb-2">
                   <div className="flex flex-col">
                     <span className="font-bold text-lg text-[#1A1A1A]">Standard Entry</span>
