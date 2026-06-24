@@ -27,6 +27,7 @@ function formatDate(dateStr?: string): string | null {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
+    timeZone: 'UTC'
   })
 }
 
@@ -52,14 +53,14 @@ export function CTEventCard({ event, venueSlug, basePath = 'club-tickets' }: CTE
         <h3 className="font-serif text-xl font-bold text-velvet-obsidian leading-tight">{event.name}</h3>
 
         {startDate && (
-          <div className="flex items-center gap-1.5 font-sans text-sm text-velvet-obsidian/50">
+          <div className="flex items-center gap-1.5 font-sans text-sm text-velvet-obsidian/50" suppressHydrationWarning>
             <Calendar size={14} className="text-rustic-terracotta" />
             Season Start: {startDate}
           </div>
         )}
         
         {event.description && (
-          <div className="text-sm text-gray-500 line-clamp-2 prose prose-sm max-w-none prose-p:my-0 prose-p:leading-snug" dangerouslySetInnerHTML={{ __html: event.description }}></div>
+          <div className="text-sm text-gray-500 line-clamp-2 prose prose-sm max-w-none prose-p:my-0 prose-p:leading-snug" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: event.description }}></div>
         )}
       </div>
 

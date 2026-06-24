@@ -126,8 +126,8 @@ function stripHtml(html: string | undefined): string {
   str = str.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
   str = str.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
   
-  // Strip all remaining HTML tags
-  str = str.replace(/<[^>]*>?/gm, '');
+  // Strip all remaining HTML tags rigorously
+  str = str.replace(/<\/?[^>]+(>|$)/g, ' ');
   
   // Clean up whitespace and duplicate dashes
   str = str.replace(/\s*-\s*(-\s*)+/g, ' - ');
@@ -149,10 +149,12 @@ function cleanHtml(html: string | undefined): string {
   if (!html) return '';
   let str = html;
   
+  // Split away the promo garbage first
+  str = str.split('.promo-hz')[0];
+  
   // Remove style and script blocks and their content completely
   str = str.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
   str = str.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
-  str = str.split('.promo-hz')[0];
   
   return str.trim();
 }
@@ -167,14 +169,18 @@ function loadData(locale: string = 'en'): ClubTicketsData {
     // Clean HTML from all venues
     if (rawData.venues) {
       rawData.venues.forEach(v => {
+        v.name = stripHtml(v.name);
         v.description = cleanHtml(v.description);
         v.cleanDescription = v.description;
         if (v.events) {
           v.events.forEach(e => {
+            e.name = stripHtml(e.name);
             e.description = cleanHtml(e.description);
             e.requirements = cleanHtml(e.requirements);
             if (e.dates) {
               e.dates.forEach(d => {
+                d.name = stripHtml(d.name);
+                d.eventName = stripHtml(d.eventName);
                 d.lineUp = stripHtml(d.lineUp);
               });
             }
@@ -186,10 +192,13 @@ function loadData(locale: string = 'en'): ClubTicketsData {
     // Clean HTML from all events
     if (rawData.events) {
       rawData.events.forEach(e => {
+        e.name = stripHtml(e.name);
         e.description = cleanHtml(e.description);
         e.requirements = cleanHtml(e.requirements);
         if (e.dates) {
           e.dates.forEach(d => {
+            d.name = stripHtml(d.name);
+            d.eventName = stripHtml(d.eventName);
             d.lineUp = stripHtml(d.lineUp);
           });
         }
@@ -199,15 +208,26 @@ function loadData(locale: string = 'en'): ClubTicketsData {
     // Clean HTML from all dates directly
     if (rawData.dates) {
       rawData.dates.forEach(d => {
+        d.name = stripHtml(d.name);
+        d.eventName = stripHtml(d.eventName);
+        d.venueName = stripHtml(d.venueName);
         d.lineUp = stripHtml(d.lineUp);
       });
     }
-
+    
+    // Clean HTML from artists
+    if (rawData.artists) {
+      rawData.artists.forEach(a => {
+        a.name = stripHtml(a.name);
+        a.venueName = stripHtml(a.venueName);
+      });
+    }
+    
     cachedData[locale] = rawData;
-    return cachedData[locale];
-  } catch (error) {
-    console.error(`Failed to load local clubtickets_${locale}.json data:`, error);
-    return { venues: [], events: [], dates: [], artists: [], lastUpdated: '' };
+    return rawData;
+  } catch (e) {
+    console.error(`Failed to load data for locale ${locale}:`, e);
+    return { venues: [], events: [], dates: [], artists: [], lastUpdated: new Date().toISOString() };
   }
 }
 

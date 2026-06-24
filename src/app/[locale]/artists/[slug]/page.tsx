@@ -95,7 +95,7 @@ export default async function ArtistDetailPage({ params }: Props) {
             <AnimatedSection delay={100} className="prose prose-velvet max-w-none prose-p:text-velvet-obsidian/70">
               <h2 className="font-serif text-3xl font-bold text-velvet-obsidian">About {artist.name}</h2>
               {artist.description ? (
-                <div dangerouslySetInnerHTML={{ __html: artist.description }} />
+                <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: artist.description }} />
               ) : (
                 <p>Catch {artist.name} live in Ibiza for an unforgettable night of incredible music and atmosphere.</p>
               )}
@@ -112,11 +112,11 @@ export default async function ArtistDetailPage({ params }: Props) {
                         <span className="font-serif text-xl font-bold text-velvet-obsidian group-hover:text-blue-600 transition-colors">
                           {artist.name} @ {artist.venueName}
                         </span>
-                        <span className="text-sm text-velvet-obsidian/60 font-medium mt-1 flex items-center gap-2">
+                        <span className="text-sm text-velvet-obsidian/60 font-medium mt-1 flex items-center gap-2" suppressHydrationWarning>
                           <span className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md text-xs uppercase tracking-wider font-bold">
-                            {new Date(eventObj.date).toLocaleDateString('en-US', { weekday: 'short' })}
+                            {new Date(eventObj.date).toLocaleDateString('en-US', { weekday: 'short', timeZone: 'UTC' })}
                           </span>
-                          {new Date(eventObj.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                          {new Date(eventObj.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}
                         </span>
                       </div>
                       <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-6">

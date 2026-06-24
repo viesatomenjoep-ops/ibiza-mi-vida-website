@@ -101,7 +101,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
               <AnimatedSection delay={100}>
                 <h2 className="font-serif text-3xl font-bold text-[#1A1A1A] mb-6">About {club.name}</h2>
                 <div className="prose prose-lg max-w-none text-[#1A1A1A]/70 leading-relaxed">
-                  <div dangerouslySetInnerHTML={{ __html: cleanDescription }} />
+                  <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: cleanDescription }} />
                 </div>
               </AnimatedSection>
               )}

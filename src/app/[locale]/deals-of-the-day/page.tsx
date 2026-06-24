@@ -69,7 +69,7 @@ export default async function DealsOfTheDayPage({
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {deals.map((deal, i) => {
               const dateObj = new Date(deal.date);
-              const dateFormatted = dateObj.toLocaleDateString(params.locale, { weekday: 'short', day: 'numeric', month: 'short' });
+              const dateFormatted = dateObj.toLocaleDateString(params.locale, { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
               
               // Parse price
               let priceNum = 50;

@@ -235,7 +235,7 @@ export default function HomePageClient({
   const renderEventCard = (event: CTEventDate, isFeatured = false, isCompact = false) => {
     const priceNum = parsePrice(event.prices);
     const dateObj = new Date(event.date);
-    const dateFormatted = dateObj.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short' });
+    const dateFormatted = dateObj.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
     
     return (
       <div key={`${event.id}-${event.date}`} className={`flex-shrink-0 snap-center flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-[#00A698]/10 hover:border-[#00A698]/50 transition-all duration-300 group cursor-pointer ${isFeatured ? 'shadow-md' : 'shadow-sm'} ${isCompact ? 'w-[90vw] md:w-[350px]' : 'w-full'}`} onClick={() => handleBook(event)}>

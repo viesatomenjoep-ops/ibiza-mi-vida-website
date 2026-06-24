@@ -5166,14 +5166,6 @@
       },
       "dates": [
         {
-          "id": 162258,
-          "date": "2026-06-24",
-          "name": "",
-          "lineUp": "<p class=\"tdfocus-1782296695363\">Dimitri Vegas &amp; Like Mike</p><p>Timmy Trumpet</p><p>Yves V</p><p>James Carter</p><p>Semsei</p>",
-          "prices": "85 € - 250 €",
-          "affLink": "https://www.clubtickets.com/es/clubbing/ushuaia-ibiza/tomorrowland-and-dimitri-vegas-like-mike/2026-06-24?aff=CT219"
-        },
-        {
           "id": 162259,
           "date": "2026-07-01",
           "name": "",
@@ -59991,24 +59983,6 @@
       "eventLogo": "https://ucarecdn.com/14e89305-3b61-4736-b595-f3bc4c384117/",
       "eventId": 1907,
       "venueId": 319
-    },
-    {
-      "id": 162258,
-      "date": "2026-06-24",
-      "name": "",
-      "lineUp": "<p class=\"tdfocus-1782296695363\">Dimitri Vegas &amp; Like Mike</p><p>Timmy Trumpet</p><p>Yves V</p><p>James Carter</p><p>Semsei</p>",
-      "prices": "85 € - 250 €",
-      "affLink": "https://www.clubtickets.com/es/clubbing/ushuaia-ibiza/tomorrowland-and-dimitri-vegas-like-mike/2026-06-24?aff=CT219",
-      "eventName": "Tomorrowland and Dimitri Vegas & Like Mike",
-      "eventSlug": "tomorrowland-and-dimitri-vegas-like-mike",
-      "venueName": "Ushuaïa Ibiza",
-      "venueSlug": "ushuaia-ibiza",
-      "venueCover": "https://ucarecdn.com/5496b122-d166-40ad-81eb-9b59b38d3107/",
-      "venueLogo": "https://ucarecdn.com/dcadf125-c566-4cd4-9c6f-8726a139ac01/",
-      "eventCover": "https://ucarecdn.com/0f9c7e98-7e1d-4fc6-8e86-abab3def9278/",
-      "eventLogo": "https://ucarecdn.com/45074eba-1281-4a6b-896f-654ba5d1fe6c/",
-      "eventId": 165,
-      "venueId": 13
     },
     {
       "id": 163024,
@@ -174097,5 +174071,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-06-24T20:50:08.619Z"
+  "lastUpdated": "2026-06-24T21:01:46.150Z"
 }

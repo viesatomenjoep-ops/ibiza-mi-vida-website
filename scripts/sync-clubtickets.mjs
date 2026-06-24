@@ -65,12 +65,12 @@ async function syncLocale(locale) {
     
     if (!venueDetail) continue;
 
-    // Clean up HTML from description
     if (venueDetail.description) {
       venueDetail.cleanDescription = venueDetail.description
         .split('.promo-hz')[0]
         .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
-        .replace(/<[^>]+>/g, ' ')
+        .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+        .replace(/<\/?[^>]+(>|$)/g, ' ')
         .replace(/\s+/g, ' ')
         .trim();
     }
@@ -85,10 +85,13 @@ async function syncLocale(locale) {
         
         if (!eventDetail) continue;
 
+        // Clean names
+        eventDetail.name = eventDetail.name ? eventDetail.name.replace(/<\/?[^>]+(>|$)/g, ' ').replace(/\s+/g, ' ').trim() : '';
+
         // Enhance event with venue info
         const enhancedEvent = {
           ...eventDetail,
-          venueName: v.name,
+          venueName: v.name.replace(/<\/?[^>]+(>|$)/g, ' ').replace(/\s+/g, ' ').trim(),
           venueSlug: v.slug,
           venueCover: v.cover || v.picture,
           venueLogo: v.whitelogo
@@ -99,19 +102,22 @@ async function syncLocale(locale) {
         // Process dates
         if (eventDetail.dates && eventDetail.dates.length > 0) {
           for (const d of eventDetail.dates) {
-            allData.dates.push({
+            const dateObj = {
               ...d,
-              eventName: eventDetail.name,
-              eventSlug: eventDetail.slug,
-              venueName: v.name,
-              venueSlug: v.slug,
-              venueCover: v.cover || v.picture,
-              venueLogo: v.whitelogo,
-              eventCover: eventDetail.cover,
-              eventLogo: eventDetail.logo,
-              eventId: eventDetail.id,
-              venueId: v.id
-            });
+              name: d.name ? d.name.replace(/<\/?[^>]+(>|$)/g, ' ').replace(/\s+/g, ' ').trim() : '',
+              eventName: enhancedEvent.name,
+              eventSlug: enhancedEvent.slug,
+              venueName: enhancedEvent.venueName,
+              venueSlug: enhancedEvent.venueSlug,
+              venueCover: enhancedEvent.venueCover,
+              venueLogo: enhancedEvent.venueLogo,
+              eventCover: enhancedEvent.cover,
+              eventLogo: enhancedEvent.logo,
+              eventId: enhancedEvent.id,
+              venueId: v.id,
+              lineUp: d.lineUp ? d.lineUp.replace(/<\/?[^>]+(>|$)/g, ' ').replace(/\s+/g, ' ').trim() : ''
+            };
+            allData.dates.push(dateObj);
           }
         }
 
