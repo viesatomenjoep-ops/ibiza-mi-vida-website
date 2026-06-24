@@ -437,6 +437,7 @@ export default function HomePageClient({
           </div>
         </div>
 
+        </div>
       </div>
     </div>
   );
