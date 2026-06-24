@@ -77,7 +77,7 @@ export async function GET(request: Request) {
       const exps = FALLBACK_EXPERIENCES[category];
       const matchedExps = exps.filter(ex => 
         ex.title.toLowerCase().includes(q) ||
-        ex.description.toLowerCase().includes(q)
+        (ex.description && ex.description.toLowerCase().includes(q))
       ).slice(0, 3);
 
       matchedExps.forEach(ex => {
