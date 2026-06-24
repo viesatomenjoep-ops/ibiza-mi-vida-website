@@ -60,6 +60,8 @@ export interface CTEventDate {
   venueSlug?: string;
   venueCover?: string;
   venueLogo?: string;
+  eventCover?: string;
+  eventLogo?: string;
   eventId?: number;
   venueId?: number;
 }

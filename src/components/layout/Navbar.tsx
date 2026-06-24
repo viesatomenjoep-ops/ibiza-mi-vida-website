@@ -66,12 +66,18 @@ function LanguageSelector() {
 }
 
 const categories = [
+  { label: 'Deals of the Day', href: '/deals-of-the-day' },
   { label: 'Club Tickets', href: '/club-tickets' },
-  { label: 'Boottochten', href: '/boat-parties' },
-  { label: 'Privé Boten', href: '/private-boat-charters' },
-  { label: 'Formentera', href: '/formentera-boat-trips' },
-  { label: 'VIP Tafels', href: '/drink-packages' },
-  { label: 'Auto & Scooter', href: '/car-scooter-rental' },
+  { label: 'Boat Parties', href: '/boat-parties' },
+  { label: 'Private Boat Charters', href: '/private-boat-charters' },
+  { label: 'Formentera Trips', href: '/formentera-boat-trips' },
+  { label: 'VIP Catamaran', href: '/vip-catamaran' },
+  { label: 'Drink Packages', href: '/drink-packages' },
+  { label: 'Car & Scooter Rental', href: '/car-scooter-rental' },
+  { label: 'Guestlist', href: '/guestlist' },
+  { label: 'Ibiza Tips', href: '/tips' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Free & Discount Ibiza', href: '/free-discount-ibiza' },
 ]
 
 export function Navbar({ artists = [] }: { artists?: Artist[] }) {
@@ -86,11 +92,11 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-slate-200 shadow-sm">
       {/* Top Main Bar */}
-      <div className="max-w-7xl mx-auto px-4 h-[72px] flex items-center justify-between gap-4 md:gap-8">
+      <div className="max-w-7xl mx-auto px-4 h-[96px] flex items-center justify-between gap-4 md:gap-8">
         
         {/* Left: Logo */}
         <Link href="/" className="flex items-center shrink-0">
-          <div className="relative w-10 h-10 sm:w-12 sm:h-12 mr-2">
+          <div className="relative w-14 h-14 sm:w-16 sm:h-16 mr-3">
             <Image 
               src="/logo-clean.png" 
               alt="Ibiza Mi Vida" 
@@ -99,41 +105,37 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
               priority
             />
           </div>
-          <span className="font-black text-xl sm:text-2xl tracking-tighter text-[#00A698] hidden sm:block">ibizamivida</span>
+          <span className="font-black text-2xl sm:text-3xl tracking-tighter text-[#00A698] hidden sm:block">ibizamivida</span>
         </Link>
 
         {/* Center: Search Bar */}
         <div className="flex-1 max-w-2xl hidden md:flex">
           <div className="relative w-full">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search size={20} className="text-slate-400" />
+            <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+              <Search size={26} className="text-slate-400" />
             </div>
             <input 
               type="text" 
               placeholder="Zoek bestemmingen & ervaringen" 
-              className="w-full pl-12 pr-4 py-3 bg-white border border-slate-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#00A698]/20 focus:border-[#00A698] transition-all text-slate-900 placeholder:text-slate-500 shadow-inner"
+              className="w-full pl-14 pr-5 py-4 bg-white border border-slate-300 rounded-full text-base focus:outline-none focus:ring-2 focus:ring-[#00A698]/20 focus:border-[#00A698] transition-all text-slate-900 placeholder:text-slate-500 shadow-inner"
             />
           </div>
         </div>
 
         {/* Right: Actions */}
-        <div className="flex items-center gap-2 sm:gap-6 shrink-0">
+        <div className="flex items-center gap-3 sm:gap-6 shrink-0">
           
-          <div className="hidden lg:block">
+          <div className="block scale-125 origin-right">
             <LanguageSelector />
           </div>
 
-          <button className="hidden lg:flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-[#00A698] transition-colors">
-            <HelpCircle size={18} /> Help
-          </button>
-
-          <button className="hidden sm:flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-[#00A698] transition-colors">
-            <User size={18} /> Log in
+          <button className="hidden sm:flex items-center gap-2 text-base font-bold text-slate-700 hover:text-[#00A698] transition-colors">
+            <User size={24} /> Log in
           </button>
 
           {/* Mobile Search Toggle */}
           <button className="md:hidden p-2 text-slate-700 hover:text-[#00A698]">
-            <Search size={20} />
+            <Search size={26} />
           </button>
 
           {/* Cart */}
@@ -142,9 +144,9 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
             className="relative p-2 text-slate-700 hover:text-[#00A698] transition-colors"
             aria-label="Open cart"
           >
-            <ShoppingCart size={20} />
+            <ShoppingCart size={26} />
             {totalItems > 0 && (
-              <span className="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-[#00A698] text-[10px] font-bold text-white">
+              <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-[#00A698] text-xs font-bold text-white">
                 {totalItems}
               </span>
             )}
@@ -153,9 +155,9 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
           {/* Mobile Menu Toggle */}
           <button 
             onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden p-2 text-slate-700 hover:text-[#00A698]"
+            className="lg:hidden p-2 text-slate-700 hover:text-[#00A698] z-[60] relative"
           >
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+            {menuOpen ? <X size={32} /> : <Menu size={32} />}
           </button>
         </div>
       </div>
@@ -173,28 +175,28 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
         ))}
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu Dropdown (Full Screen) */}
       {menuOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-white border-b border-slate-200 shadow-lg flex flex-col py-2">
-          {categories.map((cat, idx) => (
-            <Link 
-              key={idx} 
-              href={cat.href}
-              onClick={() => setMenuOpen(false)}
-              className="px-6 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[#00A698] border-b border-slate-100 last:border-0"
-            >
-              {cat.label}
-            </Link>
-          ))}
-          <div className="px-6 py-4 flex flex-col gap-4 bg-slate-50 mt-2">
-            <div className="flex items-center gap-3 text-sm font-bold text-slate-700">
-              <LanguageSelector />
+        <div className="lg:hidden fixed inset-0 z-50 bg-white flex flex-col pt-24 pb-8 overflow-y-auto">
+          <div className="px-6 pb-6">
+            <h2 className="text-xl font-black text-slate-900 mb-4">Ontdek Ibiza</h2>
+            <div className="flex flex-col gap-2">
+              {categories.map((cat, idx) => (
+                <Link 
+                  key={idx} 
+                  href={cat.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="px-4 py-4 text-lg font-bold text-slate-700 hover:bg-slate-50 hover:text-[#00A698] rounded-xl transition-colors border border-slate-100"
+                >
+                  {cat.label}
+                </Link>
+              ))}
             </div>
-            <button className="flex items-center gap-3 text-sm font-bold text-slate-700 hover:text-[#00A698]">
-              <HelpCircle size={18} /> Help
-            </button>
-            <button className="flex items-center gap-3 text-sm font-bold text-slate-700 hover:text-[#00A698]">
-              <User size={18} /> Log in
+          </div>
+          
+          <div className="px-6 py-6 bg-slate-50 mt-auto border-t border-slate-200">
+            <button className="flex items-center gap-4 text-lg font-bold text-slate-700 hover:text-[#00A698] w-full py-3">
+              <User size={24} /> Log in of account aanmaken
             </button>
           </div>
         </div>

@@ -197,6 +197,14 @@ export default function HomePageClient({
     window.location.href = `${prefix}/club-tickets/${event.venueSlug}/${event.eventSlug}`;
   };
 
+  const formatLineUp = (lineUp?: string) => {
+    if (!lineUp) return 'Officiële Toegang';
+    let text = lineUp.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    text = text.replace(/(\s*-\s*)+/g, ', ');
+    if (text.startsWith(',')) text = text.substring(1).trim();
+    return text || 'Officiële Toegang';
+  };
+
   const renderEventCard = (event: CTEventDate, isFeatured = false, isCompact = false) => {
     const priceNum = parsePrice(event.prices);
     const dateObj = new Date(event.date);
@@ -205,9 +213,9 @@ export default function HomePageClient({
     return (
       <div key={`${event.id}-${event.date}`} className={`flex-shrink-0 snap-center flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer ${isFeatured ? 'shadow-md' : 'shadow-sm'} ${isCompact ? 'w-[85vw] md:w-auto' : 'w-full'}`} onClick={() => handleBook(event)}>
         <div className={`relative w-full overflow-hidden bg-slate-100 ${isCompact ? 'h-32' : (isFeatured ? 'h-64' : 'h-48')}`}>
-          {(event.venueCover || event.venueLogo) ? (
+          {(event.eventCover || event.eventLogo || event.venueCover || event.venueLogo) ? (
             <Image 
-              src={event.venueCover || event.venueLogo || ''} 
+              src={event.eventCover || event.eventLogo || event.venueCover || event.venueLogo || ''} 
               alt={event.eventName || event.name} 
               fill 
               className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -242,7 +250,7 @@ export default function HomePageClient({
             <ul className="space-y-1.5 mb-4 text-sm text-slate-600">
               <li className="flex items-start gap-2">
                 <span className="text-[#00A698] font-bold">✓</span>
-                <span className="line-clamp-1">{event.lineUp || 'Officiële Toegang'}</span>
+                <span className="line-clamp-1">{formatLineUp(event.lineUp)}</span>
               </li>
             </ul>
           )}
@@ -279,24 +287,24 @@ export default function HomePageClient({
         />
         <div className="absolute inset-0 bg-black/50 z-0"></div>
       </div>
-      <div className="relative w-full z-10 pt-24 md:pt-32 px-4 flex flex-col items-center">
+      <div className="relative w-full z-10 pt-20 md:pt-24 px-4 flex flex-col items-center">
         
-        <div className="w-full max-w-7xl mx-auto text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-white tracking-tight mb-2 md:mb-4 drop-shadow-lg">
+        <div className="w-full max-w-7xl mx-auto text-center mb-4 md:mb-6">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight mb-1.5 md:mb-2 drop-shadow-lg leading-tight">
             {dict.hero_title}
           </h1>
-          <p className="text-white/90 text-sm sm:text-base md:text-xl font-medium max-w-2xl drop-shadow-md">
+          <p className="text-white/90 text-sm sm:text-base md:text-lg font-medium max-w-2xl mx-auto drop-shadow-md leading-snug">
             {dict.hero_subtitle}
           </p>
           
         </div>
 
       {/* Interactive Picker Section (Moved up, against the hero text) */}
-      <div className="max-w-7xl w-full mx-auto relative z-20 mb-8">
-        <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 p-4 md:p-6">
+      <div className="max-w-7xl w-full mx-auto relative z-20 mb-4 md:mb-6">
+        <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 p-3 md:p-5">
           
           {/* Tabs */}
-          <div className="flex bg-slate-100 p-1 rounded-xl mb-6 max-w-sm mx-auto">
+          <div className="flex bg-slate-100 p-1 rounded-xl mb-4 max-w-sm mx-auto">
             <button 
               onClick={() => setPeriodMode('day')}
               className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${periodMode === 'day' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
@@ -372,7 +380,7 @@ export default function HomePageClient({
       <div className="w-full max-w-7xl mx-auto">
         
         {/* Results Info */}
-        <div className="flex justify-between items-center mb-8 border-b border-white/20 pb-4">
+        <div className="flex flex-col md:flex-row justify-between items-center bg-black/60 backdrop-blur-sm rounded-xl p-3 md:p-4 mb-4 md:mb-6 border border-white/10 shadow-lg">
           <div className="text-white/80 flex items-center gap-2">
             <span className="font-black text-2xl text-white">{selectedEvents.length} {dict.all_events}</span> 
             <span className="text-sm font-medium">{dict.events_found}</span>

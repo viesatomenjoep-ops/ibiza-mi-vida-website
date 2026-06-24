@@ -106,6 +106,8 @@ async function sync() {
               venueSlug: v.slug,
               venueCover: v.cover || v.picture,
               venueLogo: v.whitelogo,
+              eventCover: eventDetail.cover,
+              eventLogo: eventDetail.logo,
               eventId: eventDetail.id,
               venueId: v.id
             });
