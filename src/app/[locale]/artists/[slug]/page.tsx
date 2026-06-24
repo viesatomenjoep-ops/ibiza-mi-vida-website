@@ -9,11 +9,11 @@ import { getVenues, getEvent } from '@/lib/clubtickets'
 export const revalidate = 3600
 
 interface Props {
-  params: { slug: string }
+  params: { slug: string; locale: string }
 }
 
-async function fetchArtistData(slug: string) {
-  const venues = await getVenues('en')
+async function fetchArtistData(slug: string, locale: string) {
+  const venues = await getVenues(locale)
   const topVenues = venues.filter(v => v.events && v.events.length > 0)
   
   let targetVenueId = -1
@@ -33,14 +33,14 @@ async function fetchArtistData(slug: string) {
   
   if (targetVenueId === -1) return null
   
-  const fullEvent = await getEvent(targetVenueId, targetEventId, 'en')
+  const fullEvent = await getEvent(targetEventId, locale)
   if (!fullEvent) return null
   
   return { ...fullEvent, venueName }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const artist = await fetchArtistData(params.slug)
+  const artist = await fetchArtistData(params.slug, params.locale)
   if (!artist) return { title: 'Artist Not Found | Ibiza mi vida' }
 
   return {
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ArtistDetailPage({ params }: Props) {
-  const artist = await fetchArtistData(params.slug)
+  const artist = await fetchArtistData(params.slug, params.locale)
   if (!artist) notFound()
 
   const upcomingEvents = artist.dates || []

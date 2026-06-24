@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 
+const LOCALES = ['en', 'nl', 'de', 'es', 'fr'];
 const API_KEY = '80aac9f0b1a44b63060b083f3813271a';
 const BASE_URL = `https://affiliates.clubtickets.com/api/affiliate/${API_KEY}/get`;
-const OUTPUT_FILE = path.resolve(process.cwd(), 'src/data/clubtickets.json');
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -34,8 +34,9 @@ async function fetchWithRetry(url, retries = 3) {
   return null;
 }
 
-async function sync() {
-  console.log('Starting Clubtickets synchronization...');
+async function syncLocale(locale) {
+  console.log(`\n=== Starting Clubtickets synchronization for locale: ${locale} ===\n`);
+  const OUTPUT_FILE = path.resolve(process.cwd(), `src/data/clubtickets_${locale}.json`);
   
   const allData = {
     venues: [],
@@ -47,8 +48,8 @@ async function sync() {
 
   const artistsMap = new Map();
 
-  console.log('Fetching venues list...');
-  const venuesList = await fetchWithRetry(`${BASE_URL}/venues?locale=en`);
+  console.log(`[${locale}] Fetching venues list...`);
+  const venuesList = await fetchWithRetry(`${BASE_URL}/venues?locale=${locale}`);
   
   if (!venuesList) {
     console.error('Failed to fetch venues list. Aborting sync.');
@@ -58,8 +59,8 @@ async function sync() {
   console.log(`Found ${venuesList.length} venues. Fetching details...`);
 
   for (const v of venuesList) {
-    console.log(`Fetching details for venue: ${v.name}`);
-    const venueDetail = await fetchWithRetry(`${BASE_URL}/venue/${v.id}?locale=en`);
+    console.log(`[${locale}] Fetching details for venue: ${v.name}`);
+    const venueDetail = await fetchWithRetry(`${BASE_URL}/venue/${v.id}?locale=${locale}`);
     await delay(200); // polite delay
     
     if (!venueDetail) continue;
@@ -78,8 +79,8 @@ async function sync() {
 
     if (venueDetail.events && venueDetail.events.length > 0) {
       for (const e of venueDetail.events) {
-        console.log(`  Fetching event details: ${e.name}`);
-        const eventDetail = await fetchWithRetry(`${BASE_URL}/venue/${v.id}/event/${e.id}?locale=en`);
+        console.log(`  [${locale}] Fetching event details: ${e.name}`);
+        const eventDetail = await fetchWithRetry(`${BASE_URL}/venue/${v.id}/event/${e.id}?locale=${locale}`);
         await delay(200);
         
         if (!eventDetail) continue;
@@ -148,7 +149,13 @@ async function sync() {
   }
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(allData, null, 2));
-  console.log(`Synchronization complete! Saved ${allData.venues.length} venues, ${allData.events.length} events, ${allData.dates.length} future dates, and ${allData.artists.length} artists to ${OUTPUT_FILE}`);
+  console.log(`[${locale}] Synchronization complete! Saved ${allData.venues.length} venues, ${allData.events.length} events, ${allData.dates.length} future dates, and ${allData.artists.length} artists to ${OUTPUT_FILE}`);
 }
 
-sync().catch(console.error);
+async function runAll() {
+  for (const locale of LOCALES) {
+    await syncLocale(locale);
+  }
+}
+
+runAll().catch(console.error);

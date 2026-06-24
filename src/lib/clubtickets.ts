@@ -116,7 +116,7 @@ export interface ClubTicketsData {
   lastUpdated: string;
 }
 
-let cachedData: ClubTicketsData | null = null;
+let cachedData: Record<string, ClubTicketsData> = {};
 
 function stripHtml(html: string | undefined): string {
   if (!html) return '';
@@ -148,10 +148,10 @@ function stripHtml(html: string | undefined): string {
   return str;
 }
 
-function loadData(): ClubTicketsData {
-  if (cachedData) return cachedData;
+function loadData(locale: string = 'en'): ClubTicketsData {
+  if (cachedData[locale]) return cachedData[locale];
   try {
-    const filePath = path.join(process.cwd(), 'src', 'data', 'clubtickets.json');
+    const filePath = path.join(process.cwd(), 'src', 'data', `clubtickets_${locale}.json`);
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const rawData = JSON.parse(fileContents) as ClubTicketsData;
     
@@ -194,36 +194,41 @@ function loadData(): ClubTicketsData {
       });
     }
 
-    cachedData = rawData;
-    return cachedData;
+    cachedData[locale] = rawData;
+    return cachedData[locale];
   } catch (error) {
-    console.error('Failed to load local clubtickets.json data:', error);
+    console.error(`Failed to load local clubtickets_${locale}.json data:`, error);
     return { venues: [], events: [], dates: [], artists: [], lastUpdated: '' };
   }
 }
 
-export async function getVenues(locale = 'en'): Promise<CTVenue[]> {
-  const data = loadData();
-  return data.venues || [];
+export async function getVenues(locale: string = 'en'): Promise<CTVenue[]> {
+  const data = loadData(locale);
+  return data.venues;
 }
 
-export async function getVenue(venueId: number, locale = 'en'): Promise<CTVenue | null> {
-  const data = loadData();
-  return data.venues.find(v => v.id === venueId) || null;
+export async function getVenue(id: number, locale: string = 'en'): Promise<CTVenue | undefined> {
+  const venues = await getVenues(locale);
+  return venues.find(v => v.id === id);
 }
 
-export async function getEvent(venueId: number, eventId: number, locale = 'en'): Promise<CTEvent | null> {
-  const data = loadData();
-  return data.events.find(e => e.id === eventId && (e.venueId === venueId || e.venue?.id === venueId)) || null;
+export async function getVenueEvents(venueId: number, locale: string = 'en'): Promise<CTVenueEvent[]> {
+  const venue = await getVenue(venueId, locale);
+  return venue?.events || [];
 }
 
-export async function getEventBySlugs(venueSlug: string, eventSlug: string): Promise<CTEvent | null> {
-  const data = loadData();
-  return data.events.find(e => (e.venueSlug === venueSlug || e.venue?.slug === venueSlug) && e.slug === eventSlug) || null;
+export async function getEvent(eventId: number, locale: string = 'en'): Promise<CTEvent | undefined> {
+  const data = loadData(locale);
+  return data.events.find(e => e.id === eventId);
 }
 
-export async function getAllDates(limit?: number): Promise<CTEventDate[]> {
-  const data = loadData();
+export async function getAllEvents(locale: string = 'en'): Promise<CTEvent[]> {
+  const data = loadData(locale);
+  return data.events;
+}
+
+export async function getAllDates(locale: string = 'en', limit?: number): Promise<CTEventDate[]> {
+  const data = loadData(locale);
   let dates = data.dates || [];
   
   // Ensure we only return dates in the future

@@ -2,149 +2,153 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Calendar, MapPin, Music, ExternalLink, ChevronLeft } from 'lucide-react'
-import { getEventBySlugs, CTEvent } from '@/lib/clubtickets'
-import { CTEventDateCard } from '@/components/events/CTEventDateCard'
+import { MapPin, Calendar, ArrowLeft } from 'lucide-react'
+import { AnimatedSection } from '@/components/ui/AnimatedSection'
+import { getVenues, getVenue, getAllDates } from '@/lib/clubtickets'
 
 export const revalidate = 3600
 
 interface Props {
-  params: { slug: string; eventSlug: string }
+  params: { slug: string; eventSlug: string; locale: string }
 }
 
-async function fetchEventData(slug: string, eventSlug: string): Promise<CTEvent | null> {
-  return await getEventBySlugs(slug, eventSlug);
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const event = await fetchEventData(params.slug, params.eventSlug)
-  if (!event) return { title: 'Event Not Found | Ibiza mi vida' }
-
-  return {
-    title: `${event.name} at ${event.venue.name} Ibiza Tickets 2026`,
-    description: event.description?.replace(/<[^>]+>/g, '').substring(0, 160) || `Buy tickets for ${event.name} at ${event.venue.name} in Ibiza.`,
-    openGraph: {
-      title: `${event.name} at ${event.venue.name} Ibiza Tickets 2026 | Ibiza mi vida`,
-      description: `Get official tickets for ${event.name} at ${event.venue.name} Ibiza.`,
-      images: event.cover ? [{ url: event.cover, width: 1200, height: 630 }] : undefined,
-    },
-  }
-}
-
-function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString('en-GB', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })
+export async function generateStaticParams() {
+  return [];
 }
 
 export default async function EventDetailPage({ params }: Props) {
-  const event = await fetchEventData(params.slug, params.eventSlug)
-  if (!event) notFound()
+  const { slug, eventSlug } = params
+  
+  // Find venue
+  const venues = await getVenues(params.locale)
+  const venueRef = venues.find(v => v.slug === slug)
+  if (!venueRef) notFound()
+  
+  const club = await getVenue(venueRef.id, params.locale)
+  if (!club) notFound()
 
-  const imageUrl = event.cover || event.logo || 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85'
+  // Find event dates
+  const allDatesGlobal = await getAllDates(params.locale)
+  const eventDates = allDatesGlobal.filter(d => d.venueSlug === slug && d.eventSlug === eventSlug)
+  
+  if (!eventDates || eventDates.length === 0) notFound()
+
+  // Sort chronologically
+  eventDates.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+
+  // Get event details from the first date object, or from the club's event list
+  const eventDetail = club.events?.find(e => e.slug === eventSlug)
+  
+  const eventName = eventDetail?.name || eventDates[0].eventName || 'Event'
+  const eventCover = eventDetail?.cover || eventDetail?.logo || club.cover || club.picture || ''
+  const description = eventDetail?.description || club.description || ''
+
+  const cleanDescription = description 
+    ? description.split('.promo-hz')[0]
+                      .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+                      .replace(/<[^>]+>/g, ' ')
+                      .replace(/\s+/g, ' ')
+                      .trim()
+    : '';
 
   return (
     <>
-      {/* Event hero */}
-      <section className="relative flex min-h-[65vh] flex-col justify-end overflow-hidden" aria-label={`${event.name} hero`}>
+      {/* Hero */}
+      <section className="relative flex min-h-[50vh] flex-col justify-end overflow-hidden" aria-label={`${eventName} hero`}>
         <Image
-          src={imageUrl}
-          alt={event.name}
+          src={eventCover}
+          alt={eventName}
           fill
           priority
           className="object-cover object-center"
           sizes="100vw"
           quality={85}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian via-velvet-obsidian/50 to-velvet-obsidian/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian via-velvet-obsidian/50 to-transparent" />
+
+        <div className="absolute left-4 top-24 z-10 md:left-8">
+          <Link
+            href={`/club-tickets/${slug}`}
+            className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-sans text-sm text-ibiza-sand backdrop-blur-sm transition-colors hover:bg-white/20"
+          >
+            <ArrowLeft size={14} />
+            Terug naar {club.name}
+          </Link>
+        </div>
 
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-12 pt-32 md:px-8">
-          <div className="mb-8">
-            <Link 
-              href={`/club-tickets/${params.slug}`}
-              className="inline-flex items-center gap-2 text-ibiza-sand/80 hover:text-white transition-colors text-sm font-semibold tracking-wide uppercase"
-            >
-              <ChevronLeft size={16} />
-              Back to {event.venue.name}
-            </Link>
-          </div>
           <div className="flex flex-col gap-4">
-            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-rustic-terracotta/50 bg-rustic-terracotta/10 px-4 py-1 font-sans text-xs font-semibold uppercase tracking-widest text-rustic-terracotta">
-              <Music size={12} />
-              {event.type?.name || 'Clubbing'}
-            </span>
-            <h1 className="font-serif text-5xl font-bold text-ibiza-sand md:text-6xl lg:text-7xl">
-              {event.name}
+            <h1 className="font-serif text-4xl font-bold text-ibiza-sand md:text-5xl lg:text-6xl">
+              {eventName}
             </h1>
-            <div className="flex flex-wrap gap-4 text-ibiza-sand/80 mt-2">
-              <span className="flex items-center gap-1.5 font-sans text-lg font-medium">
-                <MapPin size={18} className="text-rustic-terracotta" />
-                {event.venue.name}, Ibiza
-              </span>
-              {(event.startAt || event.endAt) && (
-                <span className="flex items-center gap-1.5 font-sans text-lg font-medium">
-                  <Calendar size={18} className="text-rustic-terracotta" />
-                  {event.startAt ? new Date(event.startAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : ''}
-                  {event.startAt && event.endAt ? ' - ' : ''}
-                  {event.endAt ? new Date(event.endAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : ''}
-                </span>
-              )}
+            <div className="flex flex-wrap gap-4 text-ibiza-sand/80 font-bold">
+              <Link href={`/club-tickets/${slug}`} className="flex items-center gap-1.5 hover:text-white transition-colors">
+                <MapPin size={16} className="text-[#00A698]" />
+                {club.name}
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Main content */}
-      <main className="bg-background-primary py-16">
-        <div className="mx-auto w-full max-w-7xl px-4 md:px-8">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
-            {/* Left: Description */}
-            <div className="lg:col-span-2 flex flex-col gap-12">
-              {event.description && (
-                <div className="prose prose-velvet max-w-none prose-p:text-velvet-obsidian/70">
-                  <h2 className="font-serif text-3xl font-bold text-velvet-obsidian mb-6">About the Party</h2>
-                  <div dangerouslySetInnerHTML={{ __html: event.description }} />
+      <div className="mx-auto max-w-7xl px-4 py-12 md:px-8">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
+          {/* Main content */}
+          <div className="lg:col-span-2 flex flex-col gap-10">
+            {cleanDescription && (
+              <AnimatedSection delay={100}>
+                <h2 className="font-serif text-3xl font-bold text-velvet-obsidian mb-6">Over {eventName}</h2>
+                <div className="prose prose-lg max-w-none text-velvet-obsidian/70">
+                  <p>{cleanDescription}</p>
                 </div>
-              )}
+              </AnimatedSection>
+            )}
 
-              {event.requirements && (
-                <div className="prose prose-velvet max-w-none prose-p:text-velvet-obsidian/70">
-                  <h2 className="font-serif text-3xl font-bold text-velvet-obsidian mb-6">Important Information & Rules</h2>
-                  <div dangerouslySetInnerHTML={{ __html: event.requirements }} />
-                </div>
-              )}
-            </div>
-
-            {/* Right: Dates & Tickets */}
-            <div className="flex flex-col gap-6">
-              <div className="sticky top-24 rounded-3xl bg-white p-6 shadow-sm border border-gray-100">
-                <h3 className="font-serif text-2xl font-bold text-velvet-obsidian mb-6">Available Dates</h3>
-                
-                <div className="flex flex-col gap-4 max-h-[60vh] overflow-y-auto pr-2" style={{ scrollbarWidth: 'thin' }}>
-                  {event.dates && event.dates.length > 0 ? (
-                    event.dates.map((date) => (
-                      <CTEventDateCard 
-                        key={date.id} 
-                        date={date} 
-                        eventName={event.name} 
-                        venueName={event.venue.name} 
-                        imageUrl={imageUrl} 
-                      />
-                    ))
-                  ) : (
-                    <div className="text-center py-8 text-gray-500">
-                      No upcoming dates announced yet.
-                    </div>
-                  )}
+            {/* Calendar Events List */}
+            <AnimatedSection delay={100} className="flex flex-col gap-6">
+              <div className="flex items-end justify-between">
+                <div>
+                  <h2 className="font-serif text-3xl font-bold text-velvet-obsidian">Selecteer Datum & Boek</h2>
+                  <p className="mt-2 font-sans text-velvet-obsidian/60">
+                    Alle aankomende data voor {eventName} bij {club.name}. Boek veilig via ClubTickets.
+                  </p>
                 </div>
               </div>
-            </div>
+
+              <div className="flex flex-col gap-3">
+                {eventDates.map((dateObj, idx) => (
+                  <div key={`${dateObj.id}-${idx}`} className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 border border-velvet-obsidian/10 rounded-2xl bg-white transition-all hover:border-[#00A698]/30 hover:shadow-md">
+                    <div className="flex flex-col">
+                      <span className="font-serif text-xl font-bold text-velvet-obsidian group-hover:text-[#00A698] transition-colors">
+                        {dateObj.eventName}
+                      </span>
+                      <span className="text-sm text-velvet-obsidian/60 font-medium mt-1 flex items-center gap-2">
+                        <span className="bg-[#00A698]/10 text-[#00A698] px-2 py-0.5 rounded-md text-xs uppercase tracking-wider font-bold">
+                          {new Date(dateObj.date).toLocaleDateString('nl-NL', { weekday: 'short' })}
+                        </span>
+                        {new Date(dateObj.date).toLocaleDateString('nl-NL', { year: 'numeric', month: 'long', day: 'numeric' })}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-6">
+                      <span className="font-bold text-lg text-velvet-obsidian">
+                        {dateObj.prices ? `Vanaf ${dateObj.prices}` : 'Beschikbaar'}
+                      </span>
+                      <a 
+                        href={dateObj.affLink} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="bg-black text-white px-6 py-2.5 rounded-xl font-semibold text-sm transition-all hover:bg-gray-800 hover:scale-105 whitespace-nowrap shadow-sm"
+                      >
+                        Tickets
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </AnimatedSection>
           </div>
         </div>
-      </main>
+      </div>
     </>
   )
 }

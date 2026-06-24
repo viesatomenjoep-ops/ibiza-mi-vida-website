@@ -25,10 +25,16 @@ const FAQS = [
   }
 ];
 
+interface Props {
+  params: {
+    locale: string;
+  };
+}
+
 export const revalidate = 3600;
 
-export default async function ClubTicketsPage() {
-  const allVenues = await getVenues('en');
+export default async function ClubTicketsPage({ params }: Props) {
+  const allVenues = await getVenues(params.locale);
   // Only show clubbing venues for this page
   const clubs = allVenues.filter(v => v.type.slug === 'clubbing');
 

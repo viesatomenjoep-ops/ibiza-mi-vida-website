@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react'
 
 export async function DailyEventsSection() {
   try {
-    const upcomingDates = await getAllDates(15)
+    const upcomingDates = await getAllDates('en', 15)
     
     if (!upcomingDates || upcomingDates.length === 0) return null
 

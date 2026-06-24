@@ -11,15 +11,15 @@ import { getVenues, getVenue, CTVenue, getEvent, getAllDates } from '@/lib/clubt
 export const revalidate = 3600
 
 interface Props {
-  params: { slug: string }
+  params: { slug: string; locale: string }
 }
 
-async function fetchVenueData(slug: string): Promise<CTVenue | null> {
-  const venues = await getVenues('en');
+async function fetchVenueData(slug: string, locale: string): Promise<CTVenue | null> {
+  const venues = await getVenues(locale);
   const venueRef = venues.find(v => v.slug === slug);
   if (!venueRef) return null;
-  const fullVenue = await getVenue(venueRef.id, 'en');
-  return fullVenue;
+  const fullVenue = await getVenue(venueRef.id, locale);
+  return fullVenue || null;
 }
 
 export async function generateStaticParams() {
@@ -28,7 +28,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const club = await fetchVenueData(params.slug)
+  const club = await fetchVenueData(params.slug, params.locale)
   if (!club) return { title: 'Club Not Found | Ibiza mi vida' }
 
   return {
@@ -43,11 +43,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ClubDetailPage({ params }: Props) {
-  const club = await fetchVenueData(params.slug)
+  const club = await fetchVenueData(params.slug, params.locale)
   if (!club) notFound()
 
   // Fetch dates directly from cache
-  const allDatesGlobal = await getAllDates()
+  const allDatesGlobal = await getAllDates(params.locale)
   const allDates = allDatesGlobal.filter(d => d.venueSlug === club.slug)
   
   // Sort chronologically

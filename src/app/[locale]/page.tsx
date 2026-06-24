@@ -22,7 +22,7 @@ function getDictionary(locale: string) {
 }
 
 export default async function Home({ params }: { params: { locale: string } }) {
-  const allEventDates = await getAllDates();
+  const allEventDates = await getAllDates(params.locale);
   const dict = await getDictionary(params.locale);
   
   return (
