@@ -107,14 +107,8 @@ export default async function PrivateBoatChartersPage() {
       </section>
 
       {/* Charter fleet */}
-      <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24" aria-label="Available charters">
-        <AnimatedSection className="mb-12">
-          <SectionHeader
-            eyebrow="Our Fleet"
-            title="Choose your charter"
-            subtitle="Every boat is fully equipped, professionally crewed, and ready for your perfect Ibiza day."
-          />
-        </AnimatedSection>
+      <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24 -mt-16 md:-mt-24 relative z-20" aria-label="Available charters">
+        
 
         <CategoryGrid columns={3}>
           {charters.map((charter: Experience) => (
@@ -156,7 +150,7 @@ export default async function PrivateBoatChartersPage() {
 
       {/* Reviews */}
       {reviews.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24" aria-label="Guest reviews">
+        <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24 -mt-16 md:-mt-24 relative z-20" aria-label="Guest reviews">
           <AnimatedSection className="mb-12">
             <SectionHeader eyebrow="Reviews" title="What our guests say" />
           </AnimatedSection>

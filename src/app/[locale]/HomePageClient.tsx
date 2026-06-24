@@ -8,8 +8,7 @@ import { useCart } from '@/context/cart-context';
 import type { CTEventDate } from '@/lib/clubtickets';
 import { locations } from '@/lib/locations';
 
-const DAYS_NL = ['ZO', 'MA', 'DI', 'WO', 'DO', 'VR', 'ZA'];
-const MONTHS_NL = ['JAN', 'FEB', 'MRT', 'APR', 'MEI', 'JUN', 'JUL', 'AUG', 'SEP', 'OKT', 'NOV', 'DEC'];
+// Translations handled dynamically via Intl.DateTimeFormat
 
 // 1. PRICE PARSER
 function parsePrice(priceStr?: string): number {
@@ -44,9 +43,9 @@ function generateDatesUntilOct31(locale: string, dict: any) {
     dates.push({
       dateObj: new Date(current),
       dateStr: `${yyyy}-${mm}-${dd}`,
-      dayName: isToday ? 'VANDAAG' : DAYS_NL[current.getDay()],
+      dayName: isToday ? (dict.today || 'TODAY') : new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(current).toUpperCase(),
       dayNum: current.getDate(),
-      monthName: MONTHS_NL[current.getMonth()],
+      monthName: new Intl.DateTimeFormat(locale, { month: 'short' }).format(current).toUpperCase(),
       year: current.getFullYear(),
       weekNum: getWeekNumber(current),
     });
@@ -201,7 +200,7 @@ export default function HomePageClient({
   const renderEventCard = (event: CTEventDate, isFeatured = false, isCompact = false) => {
     const priceNum = parsePrice(event.prices);
     const dateObj = new Date(event.date);
-    const dateFormatted = dateObj.toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short' });
+    const dateFormatted = dateObj.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short' });
     
     return (
       <div key={`${event.id}-${event.date}`} className={`flex-shrink-0 snap-center flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer ${isFeatured ? 'shadow-md' : 'shadow-sm'} ${isCompact ? 'w-[85vw] md:w-auto' : 'w-full'}`} onClick={() => handleBook(event)}>
@@ -254,7 +253,7 @@ export default function HomePageClient({
               <span className="text-xs">4.9</span>
             </div>
             <div className="text-right">
-              <div className="text-[10px] text-slate-500 uppercase tracking-wide">Vanaf</div>
+              <div className="text-[10px] text-slate-500 uppercase tracking-wide">{dict.from || 'Vanaf'}</div>
               <div className={`font-bold text-slate-900 ${isCompact ? 'text-base' : 'text-xl'}`}>
                 € {priceNum > 0 ? priceNum.toFixed(2) : '50.00'}
               </div>
@@ -280,9 +279,9 @@ export default function HomePageClient({
         />
         <div className="absolute inset-0 bg-black/50 z-0"></div>
       </div>
-      <div className="relative w-full min-h-[50vh] md:min-h-[70vh] pt-20 md:pt-28 pb-20 md:pb-32 flex flex-col justify-center">
+      <div className="relative w-full z-10 pt-24 md:pt-32 px-4 flex flex-col items-center">
         
-        <div className="relative z-10 w-full h-full flex flex-col items-center justify-center text-center px-4">
+        <div className="w-full max-w-7xl mx-auto text-center mb-8">
           <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-white tracking-tight mb-2 md:mb-4 drop-shadow-lg">
             {dict.hero_title}
           </h1>
@@ -290,22 +289,10 @@ export default function HomePageClient({
             {dict.hero_subtitle}
           </p>
           
-          {/* Top 3 Section moved up */}
-          {top3Events.length > 0 && (
-            <div className="w-full max-w-5xl mx-auto mt-8 text-left">
-              <h2 className="text-lg md:text-2xl font-black text-white mb-3 md:mb-4 flex items-center gap-2 drop-shadow-md">
-                <Star className="text-amber-400" fill="currentColor" size={24} /> {dict.top_choice}
-              </h2>
-              <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-4 pb-4 md:pb-0 snap-x snap-mandatory no-scrollbar">
-                {top3Events.map(e => renderEventCard(e, false, true))}
-              </div>
-            </div>
-          )}
         </div>
-      </div>
 
-      {/* Interactive Picker Section (Overlapping the hero slightly) */}
-      <div className="max-w-7xl mx-auto px-4 -mt-16 md:-mt-12 relative z-20 mb-12">
+      {/* Interactive Picker Section (Moved up, against the hero text) */}
+      <div className="max-w-7xl w-full mx-auto relative z-20 mb-8">
         <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 p-4 md:p-6">
           
           {/* Tabs */}
@@ -360,7 +347,7 @@ export default function HomePageClient({
               >
                 <span className="text-sm font-bold">{w.label}</span>
                 <span className={`text-xs mt-1 ${activeWeek === w.weekNum ? 'text-white/80' : 'text-slate-500'}`}>
-                  Vanaf {w.startObj.getDate()} {MONTHS_NL[w.startObj.getMonth()]}
+                  {dict.from || 'Vanaf'} {w.startObj.getDate()} {new Intl.DateTimeFormat(locale, { month: 'short' }).format(w.startObj).toUpperCase()}
                 </span>
               </button>
             ))}
@@ -382,7 +369,7 @@ export default function HomePageClient({
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="w-full max-w-7xl mx-auto">
         
         {/* Results Info */}
         <div className="flex justify-between items-center mb-8 border-b border-white/20 pb-4">
@@ -391,6 +378,18 @@ export default function HomePageClient({
             <span className="text-sm font-medium">{dict.events_found}</span>
           </div>
         </div>
+
+        {/* Top 3 Section (Moved below calendar and results count) */}
+        {top3Events.length > 0 && selectedEvents.length > 0 && (
+          <div className="w-full mb-12 text-left">
+            <h2 className="text-lg md:text-2xl font-black text-white mb-3 md:mb-4 flex items-center gap-2 drop-shadow-md">
+              <Star className="text-amber-400" fill="currentColor" size={24} /> {dict.top_choice}
+            </h2>
+            <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-4 pb-4 md:pb-0 snap-x snap-mandatory no-scrollbar">
+              {top3Events.map(e => renderEventCard(e, false, true))}
+            </div>
+          </div>
+        )}
 
         {selectedEvents.length > 0 ? (
           <>

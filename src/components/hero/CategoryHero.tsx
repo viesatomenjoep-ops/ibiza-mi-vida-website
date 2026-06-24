@@ -18,7 +18,7 @@ export function CategoryHero({
   subtitle,
   searchComponent,
   eyebrow,
-  minHeight = 'min-h-[30vh]',
+  minHeight = 'min-h-[300px]',
   colorTheme = 'rustic-terracotta',
   backgroundImage = '/fotos/hero-pattern.jpg',
   backgroundOpacity = 0.3,
@@ -39,7 +39,7 @@ export function CategoryHero({
 
   return (
     <section
-      className="relative flex h-[40vh] min-h-[350px] w-full flex-col items-center justify-center text-center pt-20"
+      className={`relative flex ${minHeight} w-full flex-col items-center justify-center text-center pt-24 md:pt-32 pb-16 md:pb-20`}
       aria-label="Category Hero section"
     >
       {/* Background Video for all categories */}

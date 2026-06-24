@@ -43,11 +43,8 @@ export default async function ClubTicketsPage() {
       />
 
       {/* Clubs Grid */}
-      <section id="clubs" className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
-        <div className="mb-12 text-center max-w-2xl mx-auto">
-          <h2 className="mb-4 text-4xl font-serif font-bold md:text-5xl text-white drop-shadow-sm">Discover The Best Clubs</h2>
-          <p className="text-white/80">Select your favorite club to view the current schedule, line-ups, and ticket prices.</p>
-        </div>
+      <section id="clubs" className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24 -mt-16 md:-mt-24 relative z-20">
+        
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {clubs.map((club) => (

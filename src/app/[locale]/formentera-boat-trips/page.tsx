@@ -65,14 +65,8 @@ export default async function FormenteraBoatTripsPage() {
         minHeight="min-h-[45vh]"
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
-        <AnimatedSection className="mb-12">
-          <SectionHeader
-            eyebrow="Formentera Trips"
-            title="Choose your trip"
-            subtitle="Shared excursions or private charter — explore Formentera on your terms."
-          />
-        </AnimatedSection>
+      <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24 -mt-16 md:-mt-24 relative z-20">
+        
         <CategoryGrid columns={3}>
           {trips.map((t: Experience) => (
             <CategoryCard

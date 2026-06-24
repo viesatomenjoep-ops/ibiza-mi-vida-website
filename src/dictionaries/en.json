@@ -10,5 +10,6 @@
   "today": "TODAY",
   "all_events": "events",
   "top_choice": "Top Choice",
-  "filter_all": "All Categories"
+  "filter_all": "All Categories",
+  "from": "From"
 }

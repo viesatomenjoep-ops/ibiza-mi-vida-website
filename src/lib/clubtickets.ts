@@ -116,13 +116,84 @@ export interface ClubTicketsData {
 
 let cachedData: ClubTicketsData | null = null;
 
+function stripHtml(html: string | undefined): string {
+  if (!html) return '';
+  let str = html;
+  
+  // Remove style and script blocks and their content completely
+  str = str.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
+  str = str.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+  
+  // Replace line breaks and paragraphs with dashes for readability
+  str = str.replace(/<\/p>|<br\s*\/?>/gi, ' - ');
+  
+  // Strip all remaining HTML tags
+  str = str.replace(/<[^>]*>?/gm, '');
+  
+  // Clean up whitespace and duplicate dashes
+  str = str.replace(/\s*-\s*(-\s*)+/g, ' - ');
+  str = str.replace(/\s\s+/g, ' ');
+  str = str.replace(/^-|-$/g, '').trim();
+  
+  // Handle HTML entities
+  str = str.replace(/&amp;/g, '&')
+           .replace(/&lt;/g, '<')
+           .replace(/&gt;/g, '>')
+           .replace(/&quot;/g, '"')
+           .replace(/&#39;/g, "'")
+           .replace(/&nbsp;/g, ' ');
+           
+  return str;
+}
+
 function loadData(): ClubTicketsData {
   if (cachedData) return cachedData;
   try {
     const filePath = path.join(process.cwd(), 'src', 'data', 'clubtickets.json');
     const fileContents = fs.readFileSync(filePath, 'utf8');
-    cachedData = JSON.parse(fileContents);
-    return cachedData!;
+    const rawData = JSON.parse(fileContents) as ClubTicketsData;
+    
+    // Clean HTML from all venues
+    if (rawData.venues) {
+      rawData.venues.forEach(v => {
+        v.description = stripHtml(v.description);
+        v.cleanDescription = v.description;
+        if (v.events) {
+          v.events.forEach(e => {
+            e.description = stripHtml(e.description);
+            e.requirements = stripHtml(e.requirements);
+            if (e.dates) {
+              e.dates.forEach(d => {
+                d.lineUp = stripHtml(d.lineUp);
+              });
+            }
+          });
+        }
+      });
+    }
+    
+    // Clean HTML from all events
+    if (rawData.events) {
+      rawData.events.forEach(e => {
+        e.description = stripHtml(e.description);
+        e.requirements = stripHtml(e.requirements);
+        if (e.dates) {
+          e.dates.forEach(d => {
+            d.lineUp = stripHtml(d.lineUp);
+          });
+        }
+      });
+    }
+    
+    // Clean HTML from all dates directly
+    if (rawData.dates) {
+      rawData.dates.forEach(d => {
+        d.lineUp = stripHtml(d.lineUp);
+      });
+    }
+
+    cachedData = rawData;
+    return cachedData;
   } catch (error) {
     console.error('Failed to load local clubtickets.json data:', error);
     return { venues: [], events: [], dates: [], artists: [], lastUpdated: '' };

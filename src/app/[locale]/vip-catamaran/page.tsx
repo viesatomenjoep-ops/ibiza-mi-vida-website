@@ -87,10 +87,8 @@ export default async function VipCatamaranPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
-        <AnimatedSection className="mb-12">
-          <SectionHeader eyebrow="Catamaran Experiences" title="Choose your cruise" subtitle="Half-day, full-day, and sunset options available." />
-        </AnimatedSection>
+      <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24 -mt-16 md:-mt-24 relative z-20">
+        
         <CategoryGrid columns={3}>
           {catamarans.map((c: Experience) => (
             <CategoryCard

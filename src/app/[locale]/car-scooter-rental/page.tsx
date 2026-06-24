@@ -62,14 +62,8 @@ export default async function CarScooterRentalPage() {
         minHeight="min-h-[45vh]"
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
-        <AnimatedSection className="mb-12">
-          <SectionHeader
-            eyebrow="Our Fleet"
-            title="Choose your ride"
-            subtitle="Scooters, city cars, and SUVs available daily or weekly. Delivered to your hotel or villa."
-          />
-        </AnimatedSection>
+      <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24 -mt-16 md:-mt-24 relative z-20">
+        
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {fleet.map(({ type, price, ideal, emoji, href }, i) => (

@@ -27,7 +27,7 @@ export default async function DrinkPackagesPage() {
 
   return (
     <>
-       <div className="bg-white min-h-screen pb-20">
+       <div className="min-h-screen text-white pb-20">
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
@@ -36,10 +36,7 @@ export default async function DrinkPackagesPage() {
         minHeight="min-h-[45vh]"
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
-        <AnimatedSection className="mb-12">
-          <SectionHeader eyebrow="Packages" title="Choose your package" subtitle="Every package is arranged directly with the venue. We handle the details, you enjoy the night." />
-        </AnimatedSection>
+      <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24 -mt-16 md:-mt-24 relative z-20">
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {packages.map(({ title, price, description, tags }, i) => (
