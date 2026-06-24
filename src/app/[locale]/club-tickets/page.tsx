@@ -43,7 +43,7 @@ export default async function ClubTicketsPage() {
       />
 
       {/* Clubs Grid */}
-      <section id="clubs" className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24 -mt-16 md:-mt-24 relative z-20">
+      <section id="clubs" className="mx-auto max-w-7xl px-4 pt-8 pb-16 md:px-8 md:pb-24 mt-8 bg-ibiza-sand/90 backdrop-blur-md rounded-3xl relative z-20 border border-white/50 shadow-xl">
         
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

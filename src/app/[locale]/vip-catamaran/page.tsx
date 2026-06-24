@@ -87,7 +87,7 @@ export default async function VipCatamaranPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24 -mt-16 md:-mt-24 relative z-20">
+      <section className="mx-auto max-w-7xl px-4 pt-8 pb-16 md:px-8 md:pb-24 mt-8 bg-ibiza-sand/90 backdrop-blur-md rounded-3xl relative z-20 border border-white/50 shadow-xl">
         
         <CategoryGrid columns={3}>
           {catamarans.map((c: Experience) => (
