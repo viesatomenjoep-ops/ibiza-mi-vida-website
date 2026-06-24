@@ -20,7 +20,7 @@ export default function LocationPage({ params }: { params: { slug: string } }) {
   return (
     <div className="bg-white min-h-screen pb-20">
       {/* Hero Section */}
-      <section className="relative w-full h-[50vh] min-h-[400px] bg-slate-900 mt-[72px]">
+      <section className="relative w-full h-[50vh] min-h-[400px] bg-slate-900">
         <Image 
           src={location.imageUrl} 
           alt={location.name} 
