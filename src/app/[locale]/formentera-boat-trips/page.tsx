@@ -56,7 +56,7 @@ export default async function FormenteraBoatTripsPage() {
         url={`${siteUrl}/formentera-boat-trips`}
       />
 
-       <div className="bg-white min-h-screen pb-20">
+       <div className="min-h-screen text-white pb-20">
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}

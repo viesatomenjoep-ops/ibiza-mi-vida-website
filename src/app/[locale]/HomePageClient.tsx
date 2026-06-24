@@ -269,7 +269,7 @@ export default function HomePageClient({
         />
         <div className="absolute inset-0 bg-black/50 z-0"></div>
       </div>
-      <div className="relative w-full h-[40vh] md:h-[50vh] min-h-[350px]">
+      <div className="relative w-full min-h-[60vh] md:min-h-[70vh] pt-28 pb-32 flex flex-col justify-center">
         
         <div className="relative z-10 w-full h-full flex flex-col items-center justify-center text-center px-4">
           <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight mb-4 drop-shadow-lg">
@@ -278,11 +278,23 @@ export default function HomePageClient({
           <p className="text-white/90 text-lg md:text-xl font-medium max-w-2xl drop-shadow-md">
             {dict.hero_subtitle}
           </p>
+          
+          {/* Top 3 Section moved up */}
+          {top3Events.length > 0 && (
+            <div className="w-full max-w-5xl mx-auto mt-8 text-left">
+              <h2 className="text-xl md:text-2xl font-black text-white mb-4 flex items-center gap-2 drop-shadow-md">
+                <Star className="text-amber-400" fill="currentColor" size={24} /> {dict.top_choice}
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {top3Events.map(e => renderEventCard(e, false))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Interactive Picker Section (Overlapping the hero slightly) */}
-      <div className="max-w-7xl mx-auto px-4 -mt-24 md:-mt-16 relative z-20 mb-12">
+      <div className="max-w-7xl mx-auto px-4 -mt-16 md:-mt-12 relative z-20 mb-12">
         <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 p-4 md:p-6">
           
           {/* Tabs */}
@@ -371,17 +383,7 @@ export default function HomePageClient({
 
         {selectedEvents.length > 0 ? (
           <>
-            {/* Top 3 Section */}
-            {top3Events.length > 0 && (
-              <div className="mb-16">
-                <h2 className="text-3xl font-black text-white mb-6 flex items-center gap-2">
-                  <Star className="text-amber-400" fill="currentColor" size={28} /> Top 3 Uitgelicht
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {top3Events.map(e => renderEventCard(e, true))}
-                </div>
-              </div>
-            )}
+            
 
             {/* Categorized Remaining Events */}
             {EVENT_CATEGORIES.map(category => {

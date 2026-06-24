@@ -286,3 +286,18 @@ a:hover .kin { background-size: 100% 1px; }
   .reveal { opacity: 1; transform: none; }
   #scene  { height: 100vh; }
 }
+
+/* ============================================================
+   GLOBAL TEXT COLOR FIX FOR LIGHT BACKGROUNDS
+   ============================================================ */
+.bg-white, .bg-gray-50, .bg-slate-50, .bg-gray-100, .bg-slate-100, .bg-gray-200, .bg-slate-200 {
+  color: #111827;
+}
+
+input, textarea, select {
+  color: #111827;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #6b7280;
+}

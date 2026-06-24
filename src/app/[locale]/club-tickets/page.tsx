@@ -34,7 +34,7 @@ export default async function ClubTicketsPage() {
 
   return (
     <>
-       <div className="bg-white min-h-screen pb-20">
+       <div className="min-h-screen text-white pb-20">
       <CategoryHero
         title="Official Club Tickets"
         subtitle="Secure your spot at the biggest and best parties in the world. Buy guaranteed authentic tickets for all top clubs without hidden fees."
@@ -45,13 +45,13 @@ export default async function ClubTicketsPage() {
       {/* Clubs Grid */}
       <section id="clubs" className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
         <div className="mb-12 text-center max-w-2xl mx-auto">
-          <h2 className="mb-4 text-4xl font-serif font-bold md:text-5xl text-velvet-obsidian drop-shadow-sm">Discover The Best Clubs</h2>
-          <p className="text-velvet-obsidian/80">Select your favorite club to view the current schedule, line-ups, and ticket prices.</p>
+          <h2 className="mb-4 text-4xl font-serif font-bold md:text-5xl text-white drop-shadow-sm">Discover The Best Clubs</h2>
+          <p className="text-white/80">Select your favorite club to view the current schedule, line-ups, and ticket prices.</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {clubs.map((club) => (
-            <Link href={`/club-tickets/${club.slug}`} key={club.id} className="bg-white text-velvet-obsidian rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-[380px]">
+            <Link href={`/club-tickets/${club.slug}`} key={club.id} className="bg-white/95 text-velvet-obsidian rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-[380px]">
               <div className="relative h-full w-full overflow-hidden">
                 <Image 
                   src={club.cover || club.picture || '/hi-ibiza-2026/FB_IMG_1779623220486.jpg'} 

@@ -39,11 +39,11 @@ export function CategoryHero({
 
   return (
     <section
-      className="relative flex h-[40vh] min-h-[350px] w-full flex-col items-center justify-center overflow-hidden bg-velvet-obsidian text-center mt-[72px]"
+      className="relative flex h-[40vh] min-h-[350px] w-full flex-col items-center justify-center text-center pt-20"
       aria-label="Category Hero section"
     >
       {/* Background Video for all categories */}
-      <div className="absolute inset-0 z-0 bg-velvet-obsidian">
+      <div className="fixed inset-0 z-[-1] bg-black overflow-hidden">
         {videoUrl ? (
           <video 
             autoPlay 
@@ -51,14 +51,15 @@ export function CategoryHero({
             muted 
             playsInline 
             preload="auto"
-            className="absolute inset-0 size-full object-cover opacity-90 scale-[1.35]" 
+            className="absolute inset-0 w-full h-full object-cover opacity-90 scale-[1.15]" 
             src={videoUrl} 
           />
         ) : (
           <Image src={backgroundImage} alt={title} fill className="object-cover opacity-60" />
         )}
+        <div className="absolute inset-0 bg-black/50 z-0"></div>
         {/* Top gradient to protect navbar text */}
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/60 to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none" />
       </div>
 
       {/* Content */}

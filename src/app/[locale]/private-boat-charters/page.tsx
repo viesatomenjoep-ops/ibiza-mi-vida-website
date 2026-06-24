@@ -80,7 +80,7 @@ export default async function PrivateBoatChartersPage() {
       />
 
       {/* Hero */}
-       <div className="bg-white min-h-screen pb-20">
+       <div className="min-h-screen text-white pb-20">
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
@@ -99,7 +99,7 @@ export default async function PrivateBoatChartersPage() {
                   <Icon size={28} />
                 </div>
                 <h3 className="font-serif text-2xl md:text-3xl font-light text-velvet-obsidian">{title}</h3>
-                <p className="font-sans text-base md:text-lg leading-relaxed text-velvet-obsidian/80">{body}</p>
+                <p className="font-sans text-base md:text-lg leading-relaxed text-white/80">{body}</p>
               </div>
             ))}
           </div>
