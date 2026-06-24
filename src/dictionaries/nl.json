@@ -1,1 +1,14 @@
-{"hero_title": "Ontdek het beste van Ibiza", "hero_subtitle": "Boek de dikste feesten, mooiste boottochten en leukste excursies voor jouw vakantie.", "tab_day": "Dag", "tab_week": "Week", "tab_month": "Maand", "search_placeholder": "Zoek bestemmingen & ervaringen", "book_button": "Boek nu"}
+{
+  "hero_title": "Ontdek het beste van Ibiza",
+  "hero_subtitle": "Boek de dikste feesten, mooiste boottochten en leukste excursies voor jouw vakantie.",
+  "tab_day": "Dag",
+  "tab_week": "Week",
+  "tab_month": "Maand",
+  "search_placeholder": "Zoek bestemmingen & ervaringen",
+  "book_button": "Boek nu",
+  "events_found": "gevonden voor de geselecteerde periode",
+  "today": "VANDAAG",
+  "all_events": "events",
+  "top_choice": "Top Keuze",
+  "filter_all": "Alle Categorieën"
+}

@@ -23,7 +23,7 @@ function parsePrice(priceStr?: string): number {
 }
 
 // 2. DATES GENERATOR
-function generateDatesUntilOct31() {
+function generateDatesUntilOct31(locale: string, dict: any) {
   const dates = [];
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -103,7 +103,7 @@ export default function HomePageClient({
 }) {
   const { addToCart, openDrawer } = useCart();
   
-  const generatedDates = useMemo(() => generateDatesUntilOct31(), []);
+  const generatedDates = useMemo(() => generateDatesUntilOct31(locale, dict), [locale, dict]);
   
   const [periodMode, setPeriodMode] = useState<PeriodMode>('day');
   const [activeDateStr, setActiveDateStr] = useState<string>(generatedDates[0]?.dateStr || '');
@@ -255,19 +255,21 @@ export default function HomePageClient({
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased pb-20">
+    <div className="min-h-screen text-white font-sans antialiased pb-20">
       
       {/* 50vh Video Hero */}
-      <div className="relative w-full h-[40vh] md:h-[50vh] min-h-[350px]">
+      <div className="fixed inset-0 w-full h-[100vh] z-[-1] overflow-hidden bg-black">
         <video 
           autoPlay 
           loop 
           muted 
           playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0"
+          className="absolute inset-0 w-full h-full object-cover scale-[1.15]"
           src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto:good,f_auto,so_30,du_30,w_1920/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-slate-50 z-0"></div>
+        <div className="absolute inset-0 bg-black/50 z-0"></div>
+      </div>
+      <div className="relative w-full h-[40vh] md:h-[50vh] min-h-[350px]">
         
         <div className="relative z-10 w-full h-full flex flex-col items-center justify-center text-center px-4">
           <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight mb-4 drop-shadow-lg">
@@ -281,7 +283,7 @@ export default function HomePageClient({
 
       {/* Interactive Picker Section (Overlapping the hero slightly) */}
       <div className="max-w-7xl mx-auto px-4 -mt-24 md:-mt-16 relative z-20 mb-12">
-        <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-4 md:p-6">
+        <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 p-4 md:p-6">
           
           {/* Tabs */}
           <div className="flex bg-slate-100 p-1 rounded-xl mb-6 max-w-sm mx-auto">
@@ -360,10 +362,10 @@ export default function HomePageClient({
       <div className="max-w-7xl mx-auto px-4">
         
         {/* Results Info */}
-        <div className="flex justify-between items-center mb-8 border-b border-slate-200 pb-4">
-          <div className="text-slate-600 flex items-center gap-2">
-            <span className="font-black text-2xl text-slate-900">{selectedEvents.length} events</span> 
-            <span className="text-sm font-medium">gevonden voor de geselecteerde periode</span>
+        <div className="flex justify-between items-center mb-8 border-b border-white/20 pb-4">
+          <div className="text-white/80 flex items-center gap-2">
+            <span className="font-black text-2xl text-white">{selectedEvents.length} {dict.all_events}</span> 
+            <span className="text-sm font-medium">{dict.events_found}</span>
           </div>
         </div>
 
@@ -372,7 +374,7 @@ export default function HomePageClient({
             {/* Top 3 Section */}
             {top3Events.length > 0 && (
               <div className="mb-16">
-                <h2 className="text-3xl font-black text-slate-900 mb-6 flex items-center gap-2">
+                <h2 className="text-3xl font-black text-white mb-6 flex items-center gap-2">
                   <Star className="text-amber-400" fill="currentColor" size={28} /> Top 3 Uitgelicht
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -389,7 +391,7 @@ export default function HomePageClient({
               return (
                 <div key={category.id} className="mb-12">
                   <div className="flex justify-between items-end mb-6">
-                    <h3 className="text-2xl font-bold text-slate-900">{category.label}</h3>
+                    <h3 className="text-2xl font-bold text-white">{category.label}</h3>
                     <Link href={`/${category.id}`} className="text-sm font-bold text-[#00A698] hover:underline flex items-center gap-1">
                       Bekijk alle <ChevronRight size={16} />
                     </Link>
@@ -410,8 +412,8 @@ export default function HomePageClient({
         )}
 
         {/* Regions/Cities Section */}
-        <div className="mt-20 pt-16 border-t border-slate-200 mb-16">
-          <h3 className="text-2xl font-bold text-slate-900 mb-6">Ontdek de top locaties in Ibiza</h3>
+        <div className="mt-20 pt-16 border-t border-white/20 mb-16">
+          <h3 className="text-2xl font-bold text-white mb-6">Ontdek de top locaties in Ibiza</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {locations.map((loc) => (
               <Link key={loc.id} href={`/locations/${loc.slug}`} className="group relative h-32 rounded-xl overflow-hidden flex flex-col justify-end p-4 shadow-sm hover:shadow-md transition-shadow">

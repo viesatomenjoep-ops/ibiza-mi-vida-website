@@ -24,7 +24,7 @@ export function Footer() {
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '31683052875'
 
   return (
-    <footer className="bg-ibiza-sand text-black pt-16 pb-8 border-t border-velvet-obsidian/10" aria-label="Site footer">
+    <footer className="bg-[#0A0A0A] text-white pt-16 pb-8 border-t border-white/10" aria-label="Site footer">
       <div className="mx-auto max-w-7xl px-4 md:px-8 flex flex-col gap-12">
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
@@ -34,28 +34,28 @@ export function Footer() {
             <div className="flex flex-col gap-4">
               <Link href="/" className="flex items-center gap-2" aria-label="Ibiza mi vida — home">
                 <div className="relative h-10 w-10">
-                  <Image src="/logo-clean.png" alt="Ibiza mi vida" fill className="object-contain brightness-0" />
+                  <Image src="/logo-clean.png" alt="Ibiza mi vida" fill className="object-contain brightness-0 invert" />
                 </div>
-                <span className="font-serif text-xl font-light text-black">
+                <span className="font-serif text-xl font-light text-white">
                   Ibiza <span className="text-champagne-bronze">mi vida</span>
                 </span>
               </Link>
-              <p className="font-sans text-[14px] leading-relaxed text-black/70 pr-4">
+              <p className="font-sans text-[14px] leading-relaxed text-white/70 pr-4">
                 Your premium Ibiza events & booking agency. Club tickets, private boat charters, and everything you need for the perfect experience.
               </p>
             </div>
             
             <div className="flex items-center gap-3">
-              <a href="https://instagram.com/ibizamivida" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:shadow-md text-black shadow-sm border border-black/10" aria-label="Instagram">
+              <a href="https://instagram.com/ibizamivida" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:shadow-md text-white shadow-sm border border-white/10" aria-label="Instagram">
                 <Instagram size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:shadow-md text-black shadow-sm border border-black/10" aria-label="Facebook">
+              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:shadow-md text-white shadow-sm border border-white/10" aria-label="Facebook">
                 <Facebook size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:shadow-md text-black shadow-sm border border-black/10" aria-label="TikTok">
+              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:shadow-md text-white shadow-sm border border-white/10" aria-label="TikTok">
                 <Music2 size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:shadow-md text-black shadow-sm border border-black/10" aria-label="YouTube">
+              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:shadow-md text-white shadow-sm border border-white/10" aria-label="YouTube">
                 <Youtube size={18} />
               </a>
             </div>
@@ -71,7 +71,7 @@ export function Footer() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="font-sans text-[15px] text-black/70 transition-colors hover:text-rustic-terracotta"
+                    className="font-sans text-[15px] text-white/70 transition-colors hover:text-rustic-terracotta"
                   >
                     {label}
                   </Link>
@@ -90,7 +90,7 @@ export function Footer() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="font-sans text-[15px] text-black/70 transition-colors hover:text-rustic-terracotta"
+                    className="font-sans text-[15px] text-white/70 transition-colors hover:text-rustic-terracotta"
                   >
                     {label}
                   </Link>
@@ -104,7 +104,7 @@ export function Footer() {
             <h3 className="font-sans text-sm font-semibold uppercase tracking-widest text-champagne-bronze">
               Book Now
             </h3>
-            <p className="font-sans text-[15px] text-black/70 leading-relaxed">
+            <p className="font-sans text-[15px] text-white/70 leading-relaxed">
               Ready to plan your Ibiza experience? Chat with us on WhatsApp for instant replies.
             </p>
             <div className="flex flex-col gap-3">
@@ -119,7 +119,7 @@ export function Footer() {
               </a>
               <a
                 href="mailto:hello@ibizamivida.com"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-6 py-3.5 font-sans text-sm font-bold text-black transition-all duration-300 hover:bg-gray-100 hover:shadow-md"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/10 bg-white px-6 py-3.5 font-sans text-sm font-bold text-white transition-all duration-300 hover:bg-gray-100 hover:shadow-md"
               >
                 <Mail size={18} />
                 hello@ibizamivida.com
@@ -129,15 +129,15 @@ export function Footer() {
         </div>
 
         {/* Bottom row */}
-        <div className="flex flex-col items-center justify-between gap-4 border-t border-velvet-obsidian/10 pt-6 md:flex-row">
-          <p className="font-sans text-sm text-black/40">
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 md:flex-row">
+          <p className="font-sans text-sm text-white/40">
             © {new Date().getFullYear()} Ibiza mi vida. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy-policy" className="font-sans text-sm text-black/40 hover:text-black transition-colors">
+            <Link href="/privacy-policy" className="font-sans text-sm text-white/40 hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/cookie-policy" className="font-sans text-sm text-black/40 hover:text-black transition-colors">
+            <Link href="/cookie-policy" className="font-sans text-sm text-white/40 hover:text-white transition-colors">
               Cookie Policy
             </Link>
           </div>

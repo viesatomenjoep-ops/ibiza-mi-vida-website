@@ -1,1 +1,14 @@
-{"hero_title": "Découvrez le meilleur d'Ibiza", "hero_subtitle": "Réservez les meilleures fêtes, excursions en bateau et activités pour vos vacances.", "tab_day": "Jour", "tab_week": "Semaine", "tab_month": "Mois", "search_placeholder": "Rechercher des destinations", "book_button": "Réserver"}
+{
+  "hero_title": "Découvrez le meilleur d'Ibiza",
+  "hero_subtitle": "Réservez les meilleures fêtes, excursions en bateau et activités pour vos vacances.",
+  "tab_day": "Jour",
+  "tab_week": "Semaine",
+  "tab_month": "Mois",
+  "search_placeholder": "Rechercher des destinations",
+  "book_button": "Réserver",
+  "events_found": "trouvés pour la période sélectionnée",
+  "today": "AUJOURD'HUI",
+  "all_events": "événements",
+  "top_choice": "Meilleur Choix",
+  "filter_all": "Toutes les Catégories"
+}

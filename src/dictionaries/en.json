@@ -1,1 +1,14 @@
-{"hero_title": "Discover the best of Ibiza", "hero_subtitle": "Book the best parties, beautiful boat trips and excursions for your holiday.", "tab_day": "Day", "tab_week": "Week", "tab_month": "Month", "search_placeholder": "Search destinations & experiences", "book_button": "Book now"}
+{
+  "hero_title": "Discover the best of Ibiza",
+  "hero_subtitle": "Book the best parties, beautiful boat trips and excursions for your holiday.",
+  "tab_day": "Day",
+  "tab_week": "Week",
+  "tab_month": "Month",
+  "search_placeholder": "Search destinations & experiences",
+  "book_button": "Book now",
+  "events_found": "found for the selected period",
+  "today": "TODAY",
+  "all_events": "events",
+  "top_choice": "Top Choice",
+  "filter_all": "All Categories"
+}
