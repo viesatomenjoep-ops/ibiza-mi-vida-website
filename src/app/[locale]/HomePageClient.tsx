@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Star, ChevronRight, Calendar, Info, MapPin } from 'lucide-react';
+import { Star, ChevronRight, Calendar, Info, MapPin, Flame } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import type { CTEventDate } from '@/lib/clubtickets';
 import { locations } from '@/lib/locations';
@@ -213,7 +213,7 @@ export default function HomePageClient({
     const dateFormatted = dateObj.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short' });
     
     return (
-      <div key={`${event.id}-${event.date}`} className={`flex-shrink-0 snap-center flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer ${isFeatured ? 'shadow-md' : 'shadow-sm'} ${isCompact ? 'w-[85vw] md:w-auto' : 'w-full'}`} onClick={() => handleBook(event)}>
+      <div key={`${event.id}-${event.date}`} className={`flex-shrink-0 snap-center flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer ${isFeatured ? 'shadow-md' : 'shadow-sm'} ${isCompact ? 'w-[90vw] md:w-[350px]' : 'w-full'}`} onClick={() => handleBook(event)}>
         <div className={`relative w-full overflow-hidden bg-slate-100 ${isCompact ? 'h-32' : (isFeatured ? 'h-64' : 'h-48')}`}>
           {(event.eventCover || event.eventLogo || event.venueCover || event.venueLogo) ? (
             <Image 
@@ -289,21 +289,20 @@ export default function HomePageClient({
         />
         <div className="absolute inset-0 bg-black/50 z-0"></div>
       </div>
-      <div className="relative w-full z-10 pt-20 md:pt-24 px-4 flex flex-col items-center">
+      <div className="relative w-full z-10 pt-16 md:pt-24 px-4 flex flex-col items-center">
         
-        <div className="w-full max-w-7xl mx-auto text-center mb-4 md:mb-6">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight mb-1.5 md:mb-2 drop-shadow-lg leading-tight">
-            {dict.hero_title}
+        <div className="w-full max-w-7xl mx-auto text-center mb-6 md:mb-8 bg-white/85 backdrop-blur-xl rounded-3xl p-6 shadow-2xl border border-white/50 max-w-[90vw] md:max-w-2xl">
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight mb-2 drop-shadow-sm leading-tight">
+            Ibiza Mi Vida
           </h1>
-          <p className="text-white/90 text-sm sm:text-base md:text-lg font-medium max-w-2xl mx-auto drop-shadow-md leading-snug">
-            {dict.hero_subtitle}
+          <p className="text-slate-700 text-sm sm:text-base md:text-lg font-medium max-w-xl mx-auto leading-snug">
+            De beste plek voor alle events, boat parties en many more.
           </p>
-          
         </div>
 
-      {/* Interactive Picker Section (Moved up, against the hero text) */}
-      <div className="max-w-7xl w-full mx-auto relative z-20 mb-4 md:mb-6">
-        <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 p-3 md:p-5">
+      {/* Interactive Picker Section */}
+      <div className="w-full sm:max-w-7xl mx-auto relative z-20 mb-4 md:mb-6">
+        <div className="bg-white/95 backdrop-blur-md sm:rounded-2xl shadow-2xl border-y sm:border border-white/20 p-4 md:p-5">
           
           {/* Tabs */}
           <div className="flex bg-slate-100 p-1 rounded-xl mb-4 max-w-sm mx-auto">
@@ -381,25 +380,35 @@ export default function HomePageClient({
 
       <div className="w-full max-w-7xl mx-auto">
         
+        {/* Top 3 Section (Moved to be the very first thing after calendar) */}
+        {top3Events.length > 0 && selectedEvents.length > 0 && (
+          <div className="w-full mb-8 text-left">
+            <h2 className="text-lg md:text-2xl font-black text-white mb-3 md:mb-4 flex items-center gap-2 drop-shadow-md px-4 md:px-0">
+              <Flame className="text-amber-400" fill="currentColor" size={24} /> {dict.top_choice}
+            </h2>
+            <div className="flex overflow-x-auto gap-4 pb-4 px-4 md:px-0 snap-x snap-mandatory no-scrollbar w-full">
+              {top3Events.map(e => renderEventCard(e, false, true))}
+            </div>
+          </div>
+        )}
+
+        {/* Hero Text Re-positioned */}
+        <div className="text-center mb-6 md:mb-8 px-4">
+          <h2 className="text-2xl sm:text-3xl font-black text-white drop-shadow-lg mb-2">
+            {dict.hero_title}
+          </h2>
+          <p className="text-white/90 text-sm sm:text-base font-medium max-w-2xl mx-auto drop-shadow-md">
+            {dict.hero_subtitle}
+          </p>
+        </div>
+
         {/* Results Info */}
-        <div className="flex flex-col md:flex-row justify-between items-center bg-black/60 backdrop-blur-sm rounded-xl p-3 md:p-4 mb-4 md:mb-6 border border-white/10 shadow-lg">
+        <div className="flex flex-col md:flex-row justify-between items-center bg-black/60 backdrop-blur-sm rounded-xl p-3 md:p-4 mb-4 md:mb-6 border border-white/10 shadow-lg mx-4 md:mx-0">
           <div className="text-white/80 flex items-center gap-2">
             <span className="font-black text-2xl text-white">{selectedEvents.length} {dict.all_events}</span> 
             <span className="text-sm font-medium">{dict.events_found}</span>
           </div>
         </div>
-
-        {/* Top 3 Section (Moved below calendar and results count) */}
-        {top3Events.length > 0 && selectedEvents.length > 0 && (
-          <div className="w-full mb-12 text-left">
-            <h2 className="text-lg md:text-2xl font-black text-white mb-3 md:mb-4 flex items-center gap-2 drop-shadow-md">
-              <Star className="text-amber-400" fill="currentColor" size={24} /> {dict.top_choice}
-            </h2>
-            <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-4 pb-4 md:pb-0 snap-x snap-mandatory no-scrollbar">
-              {top3Events.map(e => renderEventCard(e, false, true))}
-            </div>
-          </div>
-        )}
 
         {selectedEvents.length > 0 ? (
           <>
@@ -433,29 +442,50 @@ export default function HomePageClient({
           </div>
         )}
 
-        {/* Top DJs / Artists Section */}
+        {/* Auto-scrolling DJs Marquee */}
         {artists && artists.length > 0 && (
-          <div className="mt-16 pt-12 border-t border-white/20 mb-16">
-            <h3 className="text-2xl font-bold text-white mb-6">Top DJ's & Artiesten</h3>
-            <div className="flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory no-scrollbar">
-              {artists.slice(0, 15).map((artist, idx) => (
-                <Link 
-                  key={`${artist.slug}-${idx}`} 
-                  href={`/${locale}/artists/${artist.slug}`} 
-                  className="group relative flex-shrink-0 w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden flex flex-col items-center justify-center p-2 shadow-sm hover:shadow-lg transition-all snap-center border-4 border-transparent hover:border-[#00A698]"
-                >
-                  <Image 
-                    src={artist.image || '/placeholder-artist.jpg'} 
-                    alt={artist.name} 
-                    fill 
-                    className="object-cover group-hover:scale-110 transition-transform duration-700" 
-                  />
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
-                  <h4 className="relative z-10 font-black text-white text-center text-sm md:text-lg drop-shadow-md px-2">
-                    {artist.name}
-                  </h4>
-                </Link>
-              ))}
+          <div className="mt-16 border-t border-white/20 mb-16 pt-12 overflow-hidden">
+            <h3 className="text-2xl font-bold text-white mb-6 px-4 md:px-0">Top DJ's & Artiesten</h3>
+            <div className="relative w-full flex overflow-x-hidden">
+              <div className="animate-marquee flex gap-4 md:gap-6 whitespace-nowrap pl-4 md:pl-6 hover:[animation-play-state:paused]">
+                {artists.slice(0, 15).map((artist, idx) => (
+                  <Link 
+                    key={`artist1-${artist.slug}-${idx}`} 
+                    href={`/${locale}/artists/${artist.slug}`} 
+                    className="group relative flex-shrink-0 w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden flex flex-col items-center justify-center p-2 shadow-sm hover:shadow-lg transition-all border-4 border-transparent hover:border-[#00A698]"
+                  >
+                    <Image 
+                      src={artist.image || '/placeholder-artist.jpg'} 
+                      alt={artist.name} 
+                      fill 
+                      className="object-cover group-hover:scale-110 transition-transform duration-700" 
+                    />
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
+                    <h4 className="relative z-10 font-black text-white text-center text-xs md:text-sm drop-shadow-md px-1 whitespace-normal leading-tight">
+                      {artist.name}
+                    </h4>
+                  </Link>
+                ))}
+                {/* Duplicate for infinite marquee effect */}
+                {artists.slice(0, 15).map((artist, idx) => (
+                  <Link 
+                    key={`artist2-${artist.slug}-${idx}`} 
+                    href={`/${locale}/artists/${artist.slug}`} 
+                    className="group relative flex-shrink-0 w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden flex flex-col items-center justify-center p-2 shadow-sm hover:shadow-lg transition-all border-4 border-transparent hover:border-[#00A698]"
+                  >
+                    <Image 
+                      src={artist.image || '/placeholder-artist.jpg'} 
+                      alt={artist.name} 
+                      fill 
+                      className="object-cover group-hover:scale-110 transition-transform duration-700" 
+                    />
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
+                    <h4 className="relative z-10 font-black text-white text-center text-xs md:text-sm drop-shadow-md px-1 whitespace-normal leading-tight">
+                      {artist.name}
+                    </h4>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         )}
