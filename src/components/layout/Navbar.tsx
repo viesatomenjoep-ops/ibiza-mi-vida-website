@@ -15,6 +15,56 @@ type Artist = {
   href: string
 }
 
+const LOCALES = [
+  { code: 'nl', label: 'Nederlands', flag: '🇳🇱' },
+  { code: 'en', label: 'English', flag: '🇬🇧' },
+  { code: 'es', label: 'Español', flag: '🇪🇸' },
+  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
+  { code: 'fr', label: 'Français', flag: '🇫🇷' },
+]
+
+function LanguageSelector() {
+  const pathname = usePathname()
+  const currentLocale = LOCALES.find(l => pathname.startsWith(`/${l.code}/`) || pathname === `/${l.code}`) || LOCALES[0]
+  const [open, setOpen] = useState(false)
+
+  const switchLanguage = (code: string) => {
+    // Vervang de locale in de URL
+    const segments = pathname.split('/')
+    if (LOCALES.some(l => l.code === segments[1])) {
+      segments[1] = code
+    } else {
+      segments.splice(1, 0, code)
+    }
+    window.location.href = segments.join('/') || '/'
+  }
+
+  return (
+    <div className="relative">
+      <button 
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-[#00A698] transition-colors"
+      >
+        <Globe size={18} /> {currentLocale.code.toUpperCase()}
+      </button>
+      
+      {open && (
+        <div className="absolute top-full right-0 mt-2 w-40 bg-white border border-slate-100 shadow-lg rounded-xl overflow-hidden py-1 z-50">
+          {LOCALES.map(l => (
+            <button 
+              key={l.code}
+              onClick={() => switchLanguage(l.code)}
+              className={`w-full text-left px-4 py-2 text-sm font-semibold hover:bg-slate-50 ${currentLocale.code === l.code ? 'text-[#00A698] bg-[#00A698]/5' : 'text-slate-700'}`}
+            >
+              <span className="mr-2">{l.flag}</span> {l.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 const categories = [
   { label: 'Club Tickets', href: '/club-tickets' },
   { label: 'Boottochten', href: '/boat-parties' },
@@ -69,9 +119,9 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
         {/* Right: Actions */}
         <div className="flex items-center gap-2 sm:gap-6 shrink-0">
           
-          <button className="hidden lg:flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-[#00A698] transition-colors">
-            <Globe size={18} /> NL / EUR
-          </button>
+          <div className="hidden lg:block">
+            <LanguageSelector />
+          </div>
 
           <button className="hidden lg:flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-[#00A698] transition-colors">
             <HelpCircle size={18} /> Help
@@ -137,9 +187,9 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
             </Link>
           ))}
           <div className="px-6 py-4 flex flex-col gap-4 bg-slate-50 mt-2">
-            <button className="flex items-center gap-3 text-sm font-bold text-slate-700 hover:text-[#00A698]">
-              <Globe size={18} /> NL / EUR
-            </button>
+            <div className="flex items-center gap-3 text-sm font-bold text-slate-700">
+              <LanguageSelector />
+            </div>
             <button className="flex items-center gap-3 text-sm font-bold text-slate-700 hover:text-[#00A698]">
               <HelpCircle size={18} /> Help
             </button>

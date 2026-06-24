@@ -60,9 +60,17 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ 
+  children,
+  params
+}: { 
+  children: React.ReactNode,
+  params: { locale: string }
+}) {
+  const { locale } = params;
+
   // Fetch venues and extract a list of unique top artists/events for the menu
-  const venues = await getVenues('en')
+  const venues = await getVenues(locale || 'en')
   
   const allEvents = venues.flatMap(v => v.events ? v.events.map(e => ({
     ...e,
@@ -87,7 +95,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const artists = Array.from(uniqueArtistsMap.values()).slice(0, 15)
 
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable} ${jetbrains.variable}`}>
+    <html lang={locale || 'en'} className={`${inter.variable} ${outfit.variable} ${jetbrains.variable}`}>
       <body className="font-sans antialiased overflow-x-clip w-full max-w-[100vw] bg-[#0A0A0A] text-[#F4F4F5]">
         <CartProvider>
           <BookingProvider>

@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Calendar, MapPin, Music, ExternalLink, ChevronLeft } from 'lucide-react'
 import { getEventBySlugs, CTEvent } from '@/lib/clubtickets'
+import { CTEventDateCard } from '@/components/events/CTEventDateCard'
 
 export const revalidate = 3600
 
@@ -125,35 +126,13 @@ export default async function EventDetailPage({ params }: Props) {
                 <div className="flex flex-col gap-4 max-h-[60vh] overflow-y-auto pr-2" style={{ scrollbarWidth: 'thin' }}>
                   {event.dates && event.dates.length > 0 ? (
                     event.dates.map((date) => (
-                      <div key={date.id} className="border border-gray-100 rounded-xl p-4 bg-gray-50 flex flex-col gap-3 transition-colors hover:border-gray-200">
-                        <div className="flex items-center justify-between">
-                          <span className="font-semibold text-velvet-obsidian flex items-center gap-2">
-                            <Calendar size={16} className="text-rustic-terracotta" />
-                            {formatDate(date.date)}
-                          </span>
-                        </div>
-                        
-                        {date.lineUp && (
-                          <p className="text-sm text-gray-600 line-clamp-2" title={date.lineUp}>
-                            {date.lineUp}
-                          </p>
-                        )}
-                        
-                        <div className="flex items-center justify-between mt-2 pt-3 border-t border-gray-200">
-                          <span className="font-serif font-semibold text-lg text-velvet-obsidian">
-                            {date.prices ? `From ${date.prices}` : 'Tickets available'}
-                          </span>
-                          <a 
-                            href={date.affLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center gap-2 rounded-full bg-black px-5 py-2 text-sm font-semibold text-white transition-all hover:scale-105"
-                          >
-                            Buy Tickets
-                            <ExternalLink size={14} />
-                          </a>
-                        </div>
-                      </div>
+                      <CTEventDateCard 
+                        key={date.id} 
+                        date={date} 
+                        eventName={event.name} 
+                        venueName={event.venue.name} 
+                        imageUrl={imageUrl} 
+                      />
                     ))
                   ) : (
                     <div className="text-center py-8 text-gray-500">

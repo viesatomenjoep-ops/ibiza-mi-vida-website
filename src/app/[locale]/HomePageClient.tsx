@@ -86,7 +86,21 @@ function getCategoryForEvent(event: CTEventDate): string {
 
 type PeriodMode = 'day' | 'week' | 'month';
 
-export default function HomePageClient({ allEventDates = [] }: { allEventDates?: CTEventDate[] }) {
+export default function HomePageClient({ 
+  allEventDates = [], 
+  dict = {
+    hero_title: "Ontdek het beste van Ibiza",
+    hero_subtitle: "Boek de dikste feesten, mooiste boottochten en leukste excursies voor jouw vakantie.",
+    tab_day: "Dag",
+    tab_week: "Week",
+    tab_month: "Maand"
+  }, 
+  locale = 'nl' 
+}: { 
+  allEventDates?: CTEventDate[], 
+  dict?: any, 
+  locale?: string 
+}) {
   const { addToCart, openDrawer } = useCart();
   
   const generatedDates = useMemo(() => generateDatesUntilOct31(), []);
@@ -178,15 +192,10 @@ export default function HomePageClient({ allEventDates = [] }: { allEventDates?:
   }, [selectedEvents, top3Events]);
 
   const handleBook = (event: CTEventDate) => {
-    const priceNum = parsePrice(event.prices);
-    addToCart({
-      serviceId: String(event.id),
-      title: event.eventName || event.name,
-      price: priceNum,
-      image: event.venueCover || event.venueLogo || '/placeholder.png',
-      date: event.date
-    });
-    openDrawer();
+    // Navigeer naar de detail pagina in plaats van direct boeken
+    const locale = typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : '';
+    const prefix = ['en', 'nl', 'de', 'es', 'fr'].includes(locale) ? `/${locale}` : '';
+    window.location.href = `${prefix}/club-tickets/${event.venueSlug}/${event.eventSlug}`;
   };
 
   const renderEventCard = (event: CTEventDate, isFeatured = false) => {
@@ -249,7 +258,7 @@ export default function HomePageClient({ allEventDates = [] }: { allEventDates?:
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased pb-20">
       
       {/* 50vh Video Hero */}
-      <div className="relative w-full h-[50vh] min-h-[400px] mt-[72px]">
+      <div className="relative w-full h-[40vh] md:h-[50vh] min-h-[350px]">
         <video 
           autoPlay 
           loop 
@@ -262,16 +271,16 @@ export default function HomePageClient({ allEventDates = [] }: { allEventDates?:
         
         <div className="relative z-10 w-full h-full flex flex-col items-center justify-center text-center px-4">
           <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight mb-4 drop-shadow-lg">
-            Ontdek het beste van <br/>Ibiza
+            {dict.hero_title}
           </h1>
           <p className="text-white/90 text-lg md:text-xl font-medium max-w-2xl drop-shadow-md">
-            Boek de dikste feesten, mooiste boottochten en leukste excursies voor jouw vakantie.
+            {dict.hero_subtitle}
           </p>
         </div>
       </div>
 
       {/* Interactive Picker Section (Overlapping the hero slightly) */}
-      <div className="max-w-7xl mx-auto px-4 -mt-16 relative z-20 mb-12">
+      <div className="max-w-7xl mx-auto px-4 -mt-24 md:-mt-16 relative z-20 mb-12">
         <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-4 md:p-6">
           
           {/* Tabs */}
@@ -280,19 +289,19 @@ export default function HomePageClient({ allEventDates = [] }: { allEventDates?:
               onClick={() => setPeriodMode('day')}
               className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${periodMode === 'day' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
             >
-              Dag
+              {dict.tab_day}
             </button>
             <button 
               onClick={() => setPeriodMode('week')}
               className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${periodMode === 'week' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
             >
-              Week
+              {dict.tab_week}
             </button>
             <button 
               onClick={() => setPeriodMode('month')}
               className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${periodMode === 'month' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
             >
-              Maand
+              {dict.tab_month}
             </button>
           </div>
 
