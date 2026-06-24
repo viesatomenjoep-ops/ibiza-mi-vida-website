@@ -198,12 +198,14 @@ export default function HomePageClient({
     window.location.href = `${prefix}/club-tickets/${event.venueSlug}/${event.eventSlug}`;
   };
 
-  const renderEventCard = (event: CTEventDate, isFeatured = false) => {
+  const renderEventCard = (event: CTEventDate, isFeatured = false, isCompact = false) => {
     const priceNum = parsePrice(event.prices);
+    const dateObj = new Date(event.date);
+    const dateFormatted = dateObj.toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short' });
     
     return (
-      <div key={event.id} className={`flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer ${isFeatured ? 'shadow-md' : 'shadow-sm'}`} onClick={() => handleBook(event)}>
-        <div className={`relative w-full overflow-hidden bg-slate-100 ${isFeatured ? 'h-64' : 'h-48'}`}>
+      <div key={`${event.id}-${event.date}`} className={`flex-shrink-0 snap-center flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer ${isFeatured ? 'shadow-md' : 'shadow-sm'} ${isCompact ? 'w-[85vw] md:w-auto' : 'w-full'}`} onClick={() => handleBook(event)}>
+        <div className={`relative w-full overflow-hidden bg-slate-100 ${isCompact ? 'h-32' : (isFeatured ? 'h-64' : 'h-48')}`}>
           {(event.venueCover || event.venueLogo) ? (
             <Image 
               src={event.venueCover || event.venueLogo || ''} 
@@ -216,35 +218,44 @@ export default function HomePageClient({
               <Star size={48} />
             </div>
           )}
+          
+          {/* Always show Date badge */}
+          <div className="absolute top-3 right-3 bg-black/80 backdrop-blur-md text-white px-2.5 py-1 rounded-lg text-xs font-bold shadow-md border border-white/10 flex items-center gap-1.5">
+            <Calendar size={12} className="text-teal-400" />
+            {dateFormatted}
+          </div>
+
           {isFeatured && (
-            <div className="absolute top-4 left-4 bg-gradient-to-r from-[#00A698] to-teal-500 text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-md">
+            <div className="absolute top-3 left-3 bg-gradient-to-r from-[#00A698] to-teal-500 text-white text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-lg shadow-md">
               Top Keuze
             </div>
           )}
         </div>
-        <div className="p-5 flex-1 flex flex-col">
-          <h3 className={`font-bold text-slate-900 leading-tight mb-1 group-hover:text-[#00A698] transition-colors line-clamp-2 ${isFeatured ? 'text-xl' : 'text-lg'}`}>
+        <div className={`flex-1 flex flex-col ${isCompact ? 'p-3' : 'p-5'}`}>
+          <h3 className={`font-bold text-slate-900 leading-tight mb-1 group-hover:text-[#00A698] transition-colors line-clamp-2 ${isCompact ? 'text-base' : (isFeatured ? 'text-xl' : 'text-lg')}`}>
             {event.eventName || event.name}
           </h3>
-          <p className="text-sm font-semibold text-slate-500 mb-3 flex items-center gap-1">
-            <MapPin size={14} /> {event.venueName || 'Ibiza'}
+          <p className="text-xs font-semibold text-slate-500 mb-2 flex items-center gap-1">
+            <MapPin size={12} /> {event.venueName || 'Ibiza'}
           </p>
           
-          <ul className="space-y-1.5 mb-4 text-sm text-slate-600">
-            <li className="flex items-start gap-2">
-              <span className="text-[#00A698] font-bold">✓</span>
-              <span className="line-clamp-1">{event.lineUp || 'Officiële Toegang'}</span>
-            </li>
-          </ul>
+          {!isCompact && (
+            <ul className="space-y-1.5 mb-4 text-sm text-slate-600">
+              <li className="flex items-start gap-2">
+                <span className="text-[#00A698] font-bold">✓</span>
+                <span className="line-clamp-1">{event.lineUp || 'Officiële Toegang'}</span>
+              </li>
+            </ul>
+          )}
 
-          <div className="mt-auto flex justify-between items-end pt-4 border-t border-slate-100">
+          <div className={`mt-auto flex justify-between items-end border-slate-100 ${isCompact ? 'pt-2 mt-2 border-t' : 'pt-4 border-t'}`}>
             <div className="flex items-center gap-1 text-sm font-bold text-slate-700">
-              <Star size={14} fill="#F59E0B" className="text-amber-500" />
-              <span>4.9</span>
+              <Star size={12} fill="#F59E0B" className="text-amber-500" />
+              <span className="text-xs">4.9</span>
             </div>
             <div className="text-right">
-              <div className="text-xs text-slate-500">Vanaf</div>
-              <div className="text-xl font-bold text-slate-900">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wide">Vanaf</div>
+              <div className={`font-bold text-slate-900 ${isCompact ? 'text-base' : 'text-xl'}`}>
                 € {priceNum > 0 ? priceNum.toFixed(2) : '50.00'}
               </div>
             </div>
@@ -269,24 +280,24 @@ export default function HomePageClient({
         />
         <div className="absolute inset-0 bg-black/50 z-0"></div>
       </div>
-      <div className="relative w-full min-h-[60vh] md:min-h-[70vh] pt-28 pb-32 flex flex-col justify-center">
+      <div className="relative w-full min-h-[50vh] md:min-h-[70vh] pt-20 md:pt-28 pb-20 md:pb-32 flex flex-col justify-center">
         
         <div className="relative z-10 w-full h-full flex flex-col items-center justify-center text-center px-4">
-          <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight mb-4 drop-shadow-lg">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-white tracking-tight mb-2 md:mb-4 drop-shadow-lg">
             {dict.hero_title}
           </h1>
-          <p className="text-white/90 text-lg md:text-xl font-medium max-w-2xl drop-shadow-md">
+          <p className="text-white/90 text-sm sm:text-base md:text-xl font-medium max-w-2xl drop-shadow-md">
             {dict.hero_subtitle}
           </p>
           
           {/* Top 3 Section moved up */}
           {top3Events.length > 0 && (
             <div className="w-full max-w-5xl mx-auto mt-8 text-left">
-              <h2 className="text-xl md:text-2xl font-black text-white mb-4 flex items-center gap-2 drop-shadow-md">
+              <h2 className="text-lg md:text-2xl font-black text-white mb-3 md:mb-4 flex items-center gap-2 drop-shadow-md">
                 <Star className="text-amber-400" fill="currentColor" size={24} /> {dict.top_choice}
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {top3Events.map(e => renderEventCard(e, false))}
+              <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-4 pb-4 md:pb-0 snap-x snap-mandatory no-scrollbar">
+                {top3Events.map(e => renderEventCard(e, false, true))}
               </div>
             </div>
           )}
