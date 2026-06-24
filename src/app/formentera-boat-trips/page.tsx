@@ -56,6 +56,7 @@ export default async function FormenteraBoatTripsPage() {
         url={`${siteUrl}/formentera-boat-trips`}
       />
 
+       <div className="bg-white min-h-screen pb-20">
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
@@ -92,6 +93,7 @@ export default async function FormenteraBoatTripsPage() {
           <CrossSellBanner triggerPage="/formentera-boat-trips" fromPrice={600} />
         </AnimatedSection>
       </section>
+    </div>
     </>
   )
 }

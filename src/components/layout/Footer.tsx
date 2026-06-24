@@ -46,16 +46,16 @@ export function Footer() {
             </div>
             
             <div className="flex items-center gap-3">
-              <a href="https://instagram.com/ibizamivida" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-transform hover:scale-110 hover:bg-rustic-terracotta hover:text-white text-velvet-obsidian shadow-sm border border-velvet-obsidian/5" aria-label="Instagram">
+              <a href="https://instagram.com/ibizamivida" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:shadow-md text-black shadow-sm border border-black/10" aria-label="Instagram">
                 <Instagram size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-transform hover:scale-110 hover:bg-rustic-terracotta hover:text-white text-velvet-obsidian shadow-sm border border-velvet-obsidian/5" aria-label="Facebook">
+              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:shadow-md text-black shadow-sm border border-black/10" aria-label="Facebook">
                 <Facebook size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-transform hover:scale-110 hover:bg-rustic-terracotta hover:text-white text-velvet-obsidian shadow-sm border border-velvet-obsidian/5" aria-label="TikTok">
+              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:shadow-md text-black shadow-sm border border-black/10" aria-label="TikTok">
                 <Music2 size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-transform hover:scale-110 hover:bg-rustic-terracotta hover:text-white text-velvet-obsidian shadow-sm border border-velvet-obsidian/5" aria-label="YouTube">
+              <a href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:shadow-md text-black shadow-sm border border-black/10" aria-label="YouTube">
                 <Youtube size={18} />
               </a>
             </div>
@@ -119,7 +119,7 @@ export function Footer() {
               </a>
               <a
                 href="mailto:hello@ibizamivida.com"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-velvet-obsidian/10 bg-white px-6 py-3.5 font-sans text-sm font-medium text-velvet-obsidian transition-colors hover:bg-velvet-obsidian hover:text-white"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-6 py-3.5 font-sans text-sm font-bold text-black transition-all duration-300 hover:bg-gray-100 hover:shadow-md"
               >
                 <Mail size={18} />
                 hello@ibizamivida.com

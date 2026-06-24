@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Star } from 'lucide-react'
 import { useCart } from '@/context/cart-context'
 import type { BookingConfig } from '@/types/booking'
 
@@ -29,7 +29,7 @@ export function CategoryCard({
 }: CategoryCardProps) {
   const { addToCart } = useCart()
 
-  const label = ctaLabel ?? (href ? 'Explore' : 'Book Now')
+  const label = ctaLabel ?? (href ? 'Bekijk Details' : 'Book Now')
 
   // Parse price from badge (e.g. "From €120" -> 120) or default to 0
   const parsePrice = (b?: string) => {
@@ -42,49 +42,52 @@ export function CategoryCard({
     addToCart({
       serviceId: bookingConfig.serviceType + '-' + title,
       title: title,
-      price: parsePrice(badge),
+      price: parsePrice(badge) || 50,
       image: imageUrl,
-      date: bookingConfig.arrivalDate
+      date: bookingConfig.arrivalDate || 'Selecteer Datum'
     });
   }
 
   const inner = (
     <>
-      {/* Background image */}
-      <Image
-        src={imageUrl}
-        alt={title}
-        fill
-        className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-      />
-
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 card-gradient" />
-
-      {/* Badge */}
-      {badge && (
-        <div className="absolute right-4 top-4 z-10 rounded-full bg-rustic-terracotta px-3 py-1 font-sans text-[11px] font-semibold uppercase tracking-wide text-white">
-          {badge}
-        </div>
-      )}
-
-      {/* Text content */}
-      <div className="relative z-10 flex flex-col gap-3 p-6">
-        {tagline && (
-          <p className="font-sans text-sm md:text-base font-light text-white/90">{tagline}</p>
+      <div className="relative h-48 md:h-56 w-full overflow-hidden bg-slate-100">
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt={title}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-slate-300">
+            <Star size={48} />
+          </div>
         )}
-        <h3 className="font-serif text-3xl md:text-4xl font-normal leading-tight text-white drop-shadow-sm">{title}</h3>
+      </div>
 
-        {/* CTA pill */}
-        <div className="mt-1 self-start">
-          <span className="inline-flex items-center gap-2 rounded-full bg-rustic-terracotta px-5 py-2.5 font-sans text-sm font-semibold text-white transition-all duration-200 group-hover:bg-rustic-terracotta/90 group-hover:gap-3">
-            {label}
-            <ArrowRight
-              size={15}
-              className="transition-transform duration-200 group-hover:translate-x-0.5"
-            />
+      <div className="p-5 flex-1 flex flex-col bg-white">
+        {tagline && (
+          <span className="inline-block bg-[#00A698]/10 text-[#00A698] text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md mb-3 self-start">
+            {tagline}
           </span>
+        )}
+        <h3 className="text-lg font-bold text-slate-900 leading-tight mb-3 group-hover:text-[#00A698] transition-colors line-clamp-2">
+          {title}
+        </h3>
+
+        <div className="mt-auto pt-4 flex items-center justify-between border-t border-slate-100">
+          <span className="text-sm font-semibold text-[#00A698] flex items-center gap-1 group-hover:underline">
+            {label} <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
+          </span>
+          {badge && (
+             <div className="text-right">
+              <div className="text-[10px] text-slate-500 font-bold uppercase">Vanaf</div>
+              <div className="text-lg font-bold text-slate-900">
+                € {parsePrice(badge).toFixed(2)}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
@@ -95,7 +98,7 @@ export function CategoryCard({
     return (
       <Link
         href={href}
-        className="group relative flex min-h-[500px] flex-col justify-end overflow-hidden rounded-3xl"
+        className="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300"
         aria-label={`View ${title}`}
       >
         {inner}
@@ -106,7 +109,7 @@ export function CategoryCard({
   /* Modal variant — renders as a button-like article */
   return (
     <article
-      className="group relative flex min-h-[500px] cursor-pointer flex-col justify-end overflow-hidden rounded-3xl"
+      className="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
       onClick={handleBook}
       role="button"
       tabIndex={0}

@@ -10,6 +10,7 @@ interface CategoryHeroProps {
   colorTheme?: 'rustic-terracotta' | 'gold' | 'rose' | 'indigo' | 'velvet-obsidian'
   backgroundImage?: string
   backgroundOpacity?: number
+  videoUrl?: string
 }
 
 export function CategoryHero({
@@ -21,6 +22,7 @@ export function CategoryHero({
   colorTheme = 'rustic-terracotta',
   backgroundImage = '/fotos/hero-pattern.jpg',
   backgroundOpacity = 0.3,
+  videoUrl = 'https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4'
 }: CategoryHeroProps) {
   
   // Dynamic color selection for the abstract shapes
@@ -37,34 +39,38 @@ export function CategoryHero({
 
   return (
     <section
-      className="relative flex h-[95vh] md:h-[100vh] w-full flex-col items-center justify-end md:justify-center overflow-hidden bg-velvet-obsidian pb-16 md:pb-0 pt-32 text-center"
+      className="relative flex h-[40vh] min-h-[350px] w-full flex-col items-center justify-center overflow-hidden bg-velvet-obsidian text-center mt-[72px]"
       aria-label="Category Hero section"
     >
       {/* Background Video for all categories */}
       <div className="absolute inset-0 z-0 bg-velvet-obsidian">
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline 
-          preload="auto"
-          className="absolute inset-0 size-full object-cover opacity-90 scale-[1.35]" 
-          src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" 
-        />
+        {videoUrl ? (
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            preload="auto"
+            className="absolute inset-0 size-full object-cover opacity-90 scale-[1.35]" 
+            src={videoUrl} 
+          />
+        ) : (
+          <Image src={backgroundImage} alt={title} fill className="object-cover opacity-60" />
+        )}
         {/* Top gradient to protect navbar text */}
         <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/60 to-transparent z-10 pointer-events-none" />
       </div>
 
       {/* Content */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-end md:justify-center text-center px-4 md:px-8 pb-[20vh] md:pb-0 pt-32">
-        <div className="w-full max-w-7xl mx-auto md:absolute md:bottom-24 md:left-0 md:right-0 flex flex-col items-center">
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 md:px-8">
+        <div className="w-full max-w-5xl mx-auto flex flex-col items-center">
           {eyebrow && (
-            <h2 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.3em] text-white/90 mb-4 md:mb-6 drop-shadow-md">
+            <h2 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.3em] text-white/90 mb-3 md:mb-4 drop-shadow-md">
               {eyebrow}
             </h2>
           )}
 
-          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.0] md:leading-[0.9] tracking-tight mb-5 md:mb-8 drop-shadow-xl max-w-5xl text-balance">
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.1] tracking-tight mb-4 drop-shadow-xl max-w-4xl text-balance">
             {title}
           </h1>
 

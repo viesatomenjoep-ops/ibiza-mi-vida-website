@@ -53,6 +53,7 @@ export default async function CarScooterRentalPage() {
 
   return (
     <>
+       <div className="bg-white min-h-screen pb-20">
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
@@ -100,6 +101,7 @@ export default async function CarScooterRentalPage() {
           <CrossSellBanner triggerPage="/car-scooter-rental" fromPrice={500} />
         </AnimatedSection>
       </section>
+    </div>
     </>
   )
 }

@@ -27,6 +27,7 @@ export default async function DrinkPackagesPage() {
 
   return (
     <>
+       <div className="bg-white min-h-screen pb-20">
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
@@ -70,6 +71,7 @@ export default async function DrinkPackagesPage() {
       <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24">
         <AnimatedSection><CrossSellBanner triggerPage="/drink-packages" fromPrice={500} /></AnimatedSection>
       </section>
+    </div>
     </>
   )
 }

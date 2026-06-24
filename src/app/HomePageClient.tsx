@@ -1,51 +1,48 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Star, ChevronRight, Calendar, Info, ChevronDown } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
-import { boatCharters, boatParties, formenteraTrips } from '@/data/mockData';
+import type { CTEventDate } from '@/lib/clubtickets';
+import { locations } from '@/lib/locations';
 
-// Combine some data into unified activities list to match Tiqets view
-const activities = [
-  ...formenteraTrips.map(t => ({
-    id: t.id,
-    title: t.name,
-    category: 'EXCURSIES',
-    duration: t.duration,
-    features: ['Vandaag beschikbaar', t.frequency],
-    price: parseFloat(t.price) || 46,
-    discountPrice: null,
-    rating: 4.8,
-    reviews: 145,
-    image: t.image
-  })),
-  ...boatParties.map(bp => ({
-    id: bp.id,
-    title: bp.name,
-    category: 'BOOTTOCHTEN',
-    duration: bp.duration,
-    features: ['Vandaag beschikbaar', 'Gids in het Engels, Spaans'],
-    price: parseFloat(bp.price) || 79,
-    discountPrice: (parseFloat(bp.price) || 79) * 0.85,
-    rating: 4.5,
-    reviews: 89,
-    image: bp.image
-  })),
-  ...boatCharters.map(bc => ({
-    id: bc.id,
-    title: bc.name,
-    category: 'PRIVÉ BOTEN',
-    duration: 'Hele dag (8 uur)',
-    features: ['Direct reserveren', `Capaciteit: ${bc.capacity} personen`],
-    price: parseFloat(bc.pricePerDay.replace(/,/g, '')) || 1450,
-    discountPrice: null,
-    rating: 5.0,
-    reviews: 24,
-    image: bc.image
-  }))
-];
+const DAYS_NL = ['ZO', 'MA', 'DI', 'WO', 'DO', 'VR', 'ZA'];
+const MONTHS_NL = ['JAN', 'FEB', 'MRT', 'APR', 'MEI', 'JUN', 'JUL', 'AUG', 'SEP', 'OKT', 'NOV', 'DEC'];
+
+// Helper to generate dates from today until Oct 31
+function generateDatesUntilOct31() {
+  const dates = [];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  let endYear = today.getFullYear();
+  if (today.getMonth() > 9) { // 9 is October
+    endYear++;
+  }
+  const endDate = new Date(endYear, 9, 31); // Oct 31
+
+  const current = new Date(today);
+  while (current <= endDate) {
+    const isToday = current.getTime() === today.getTime();
+    // Use local YYYY-MM-DD
+    const yyyy = current.getFullYear();
+    const mm = String(current.getMonth() + 1).padStart(2, '0');
+    const dd = String(current.getDate()).padStart(2, '0');
+    
+    dates.push({
+      dateObj: new Date(current),
+      dateStr: `${yyyy}-${mm}-${dd}`,
+      dayName: isToday ? 'VANDAAG' : DAYS_NL[current.getDay()],
+      dayNum: current.getDate(),
+      monthName: MONTHS_NL[current.getMonth()],
+      year: current.getFullYear()
+    });
+    current.setDate(current.getDate() + 1);
+  }
+  return dates;
+}
 
 const categories = [
   "Formentera Tours", "Boat Parties", "VIP Catamaran", "Jet Ski Rentals", 
@@ -53,36 +50,110 @@ const categories = [
   "Sunset Cruises", "Scooter Rentals"
 ];
 
-const tags = [
-  "San Antonio", "Ibiza Stad", "Playa d'en Bossa", "Santa Eulalia", 
-  "Formentera", "Cala Jondal", "Es Vedra", "San Juan"
-];
+// Locations are imported from @/lib/locations
 
-export default function HomePageClient() {
+export default function HomePageClient({ allEventDates = [] }: { allEventDates?: CTEventDate[] }) {
   const { addToCart, openDrawer } = useCart();
-  const [activeDate, setActiveDate] = useState<number>(24);
+  
+  const generatedDates = useMemo(() => generateDatesUntilOct31(), []);
+  const [activeDateStr, setActiveDateStr] = useState<string>(generatedDates[0]?.dateStr || '');
 
-  // Generate some dates
-  const dates = [
-    { day: 'MA', date: 23 },
-    { day: 'VANDAAG', date: 24 },
-    { day: 'WO', date: 25 },
-    { day: 'DO', date: 26 },
-    { day: 'VR', date: 27 },
-    { day: 'ZA', date: 28 },
-    { day: 'ZO', date: 29 },
-    { day: 'MA', date: 30 },
-  ];
+  // Extract events for the specifically selected date
+  const selectedDateEvents = useMemo(() => {
+    if (!activeDateStr) return [];
+    return allEventDates.filter(e => e.date === activeDateStr);
+  }, [allEventDates, activeDateStr]);
 
-  const handleBook = (activity: any) => {
+  // Extract events for the next 7 days starting tomorrow
+  const weekEvents = useMemo(() => {
+    if (!activeDateStr) return [];
+    
+    const startDate = new Date(activeDateStr);
+    const endDate = new Date(activeDateStr);
+    endDate.setDate(endDate.getDate() + 7);
+
+    return allEventDates.filter(e => {
+      const eDate = new Date(e.date);
+      // Only include events STRICTLY after the selected date, up to 7 days.
+      return eDate > startDate && eDate <= endDate;
+    }).slice(0, 12); // Limit to 12 for UI performance
+  }, [allEventDates, activeDateStr]);
+
+  const activeDateObj = generatedDates.find(d => d.dateStr === activeDateStr)?.dateObj || new Date();
+  const nextMonthObj = new Date(activeDateObj);
+  nextMonthObj.setMonth(nextMonthObj.getMonth() + 1);
+
+  const activeMonthStr = `${MONTHS_NL[activeDateObj.getMonth()]} ${activeDateObj.getFullYear()}`;
+  const nextMonthStr = `${MONTHS_NL[nextMonthObj.getMonth()]} ${nextMonthObj.getFullYear()}`;
+
+  const handleBook = (event: CTEventDate) => {
+    const priceNum = parseFloat(event.prices?.replace(/[^0-9.]/g, '')) || 50;
     addToCart({
-      serviceId: activity.id,
-      title: activity.title,
-      price: activity.discountPrice || activity.price,
-      image: activity.image,
-      date: `June ${activeDate}, 2026`
+      serviceId: String(event.id),
+      title: event.eventName || event.name,
+      price: priceNum,
+      image: event.venueCover || event.venueLogo || '/placeholder.png',
+      date: event.date
     });
     openDrawer();
+  };
+
+  const renderEventCard = (event: CTEventDate) => {
+    const priceNum = parseFloat(event.prices?.replace(/[^0-9.]/g, '')) || 0;
+    
+    return (
+      <div key={event.id} className="flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer" onClick={() => handleBook(event)}>
+        <div className="relative h-48 md:h-56 w-full overflow-hidden bg-slate-100">
+          {(event.venueCover || event.venueLogo) ? (
+            <Image 
+              src={event.venueCover || event.venueLogo || ''} 
+              alt={event.eventName || event.name} 
+              fill 
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-slate-300">
+              <Star size={48} />
+            </div>
+          )}
+        </div>
+        <div className="p-5 flex-1 flex flex-col">
+          <span className="inline-block bg-[#00A698]/10 text-[#00A698] text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md mb-3 self-start">
+            CLUB TICKET
+          </span>
+          <h3 className="text-lg font-bold text-slate-900 leading-tight mb-2 group-hover:text-[#00A698] transition-colors line-clamp-2">
+            {event.eventName || event.name}
+          </h3>
+          <p className="text-sm font-semibold text-slate-500 mb-3">
+            @ {event.venueName || 'Club'}
+          </p>
+          
+          <ul className="space-y-1.5 mb-4 text-sm text-slate-600">
+            <li className="flex items-start gap-2">
+              <span className="text-slate-900 font-bold">✓</span>
+              <span>Officiële Tickets</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-slate-400">•</span>
+              <span>Line-up: {event.lineUp ? (event.lineUp.length > 30 ? event.lineUp.substring(0, 30) + '...' : event.lineUp) : 'TBA'}</span>
+            </li>
+          </ul>
+
+          <div className="mt-auto flex justify-between items-end pt-4 border-t border-slate-100">
+            <div className="flex items-center gap-1 text-sm font-bold text-slate-700">
+              <Star size={14} fill="#F59E0B" className="text-amber-500" />
+              <span>4.9 <span className="text-slate-400 font-normal">({Math.floor(Math.random() * 200) + 50})</span></span>
+            </div>
+            <div className="text-right">
+              <div className="text-xs text-slate-500">Vanaf</div>
+              <div className="text-xl font-bold text-slate-900">
+                € {priceNum > 0 ? priceNum.toFixed(2) : '50.00'}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -129,107 +200,77 @@ export default function HomePageClient() {
         <div className="mb-8 border-b border-slate-200 pb-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Bekijk beschikbaarheid</h2>
           <div className="flex justify-between items-end text-xs text-slate-500 font-bold mb-2 px-1 uppercase tracking-wider">
-            <span>JUN 2026</span>
-            <span>JUL 2026</span>
+            <span>{activeMonthStr}</span>
+            <span>{nextMonthStr}</span>
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-4 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
-            {dates.map((d, i) => (
+          <div className="flex gap-2 overflow-x-auto pb-4 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 scroll-smooth">
+            {generatedDates.map((d, i) => (
               <button 
                 key={i}
-                onClick={() => setActiveDate(d.date)}
-                className={`min-w-[100px] flex-shrink-0 flex flex-col items-center justify-center p-3 rounded-xl border transition-all ${
-                  activeDate === d.date 
-                    ? 'border-blue-600 bg-blue-50 ring-1 ring-blue-600 text-blue-700' 
+                onClick={() => setActiveDateStr(d.dateStr)}
+                className={`min-w-[100px] flex-shrink-0 flex flex-col items-center justify-center p-3 rounded-xl border transition-all shadow-sm hover:shadow-md ${
+                  activeDateStr === d.dateStr 
+                    ? 'border-[#00A698] bg-[#00A698]/5 ring-1 ring-[#00A698] text-[#00A698]' 
                     : 'border-slate-200 bg-white hover:border-slate-300 text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                <span className={`text-xs font-semibold mb-1 ${activeDate === d.date ? 'text-blue-700' : 'text-slate-500'}`}>{d.day}</span>
-                <span className="text-2xl font-bold">{d.date}</span>
+                <span className={`text-xs font-semibold mb-1 ${activeDateStr === d.dateStr ? 'text-[#00A698]' : 'text-slate-500'}`}>{d.dayName}</span>
+                <span className="text-2xl font-bold">{d.dayNum}</span>
               </button>
             ))}
-            <button className="min-w-[100px] flex-shrink-0 flex flex-col items-center justify-center p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 transition-all">
-              <Calendar size={20} className="mb-1 text-slate-500" />
-              <span className="text-xs font-semibold">Meer data</span>
-            </button>
           </div>
         </div>
 
-        {/* Results Header */}
+        {/* Selected Date Results Header */}
         <div className="flex justify-between items-center mb-6">
           <div className="text-sm text-slate-600 flex items-center gap-1">
-            <span className="font-bold text-slate-900">{activities.length} opties</span> 
+            <span className="font-bold text-slate-900">{selectedDateEvents.length} events</span> 
             <Info size={14} className="text-slate-400" /> 
-            <span>• vanaf € 46,00</span>
+            <span>op {activeDateObj.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
           </div>
-          <button className="text-sm font-semibold text-slate-700 flex items-center gap-1 hover:bg-slate-100 px-3 py-1.5 rounded-lg transition-colors">
+          <button className="text-sm font-semibold text-slate-700 flex items-center gap-1 hover:bg-slate-100 px-3 py-1.5 rounded-lg transition-colors border border-slate-200">
             Sorteer op <ChevronDown size={16} />
           </button>
         </div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {activities.map((activity) => (
-            <div key={activity.id} className="flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer" onClick={() => handleBook(activity)}>
-              <div className="relative h-56 w-full overflow-hidden">
-                <Image 
-                  src={activity.image} 
-                  alt={activity.title} 
-                  fill 
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-5 flex-1 flex flex-col">
-                <span className="inline-block bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md mb-3 self-start">
-                  {activity.category}
-                </span>
-                <h3 className="text-lg font-bold text-slate-900 leading-tight mb-3 group-hover:text-blue-600 transition-colors">
-                  {activity.title}
-                </h3>
-                
-                <ul className="space-y-1.5 mb-4 text-sm text-slate-600">
-                  {activity.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      {idx === 0 ? <span className="text-slate-900 font-bold">✓</span> : <span className="text-slate-400">•</span>}
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                  <li className="flex items-start gap-2">
-                    <span className="text-slate-400">•</span>
-                    <span>Duur: {activity.duration}</span>
-                  </li>
-                </ul>
+        {/* Cards Grid for Selected Date */}
+        {selectedDateEvents.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            {selectedDateEvents.map(renderEventCard)}
+          </div>
+        ) : (
+          <div className="w-full bg-slate-50 rounded-2xl border border-slate-100 p-8 text-center mb-16">
+            <Calendar className="mx-auto text-slate-300 mb-3" size={48} />
+            <h3 className="text-lg font-bold text-slate-700 mb-1">Geen events gevonden</h3>
+            <p className="text-slate-500">Er zijn momenteel geen club tickets beschikbaar voor deze specifieke datum.</p>
+          </div>
+        )}
 
-                <button className="text-sm font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-600 self-start mb-6 flex items-center gap-1">
-                  Toon inbegrepen items <Info size={14} className="text-slate-400 no-underline" />
-                </button>
-
-                <div className="mt-auto flex justify-between items-end pt-4 border-t border-slate-100">
-                  <div className="flex items-center gap-1 text-sm font-bold text-slate-700">
-                    <Star size={14} fill="#F59E0B" className="text-amber-500" />
-                    <span>{activity.rating} <span className="text-slate-400 font-normal">({activity.reviews})</span></span>
-                  </div>
-                  <div className="text-right">
-                    {activity.discountPrice && (
-                      <div className="flex items-center justify-end gap-2 mb-0.5">
-                        <span className="text-xs text-slate-500 line-through">Vanaf € {activity.price.toFixed(2)}</span>
-                        <span className="bg-red-100 text-red-700 text-[10px] font-bold px-1.5 py-0.5 rounded">
-                          -{Math.round((1 - activity.discountPrice / activity.price) * 100)}%
-                        </span>
-                      </div>
-                    )}
-                    <div className="text-xs text-slate-500">Vanaf</div>
-                    <div className="text-xl font-bold text-slate-900">
-                      € {(activity.discountPrice || activity.price).toFixed(2)}
-                    </div>
-                  </div>
-                </div>
+        {/* Events of the Week Section */}
+        {weekEvents.length > 0 && (
+          <div className="mb-16 border-t border-slate-200 pt-10">
+            <div className="flex justify-between items-end mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900 mb-1">Events in die week</h2>
+                <p className="text-slate-500 text-sm">Aankomende feesten in de 7 dagen na de geselecteerde datum.</p>
               </div>
+              <Link href="/club-tickets" className="text-[#00A698] font-bold text-sm hover:underline hidden sm:block">
+                Bekijk alle events
+              </Link>
             </div>
-          ))}
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {weekEvents.map(renderEventCard)}
+            </div>
+            <div className="mt-6 text-center sm:hidden">
+              <Link href="/club-tickets" className="inline-block border border-[#00A698] text-[#00A698] font-bold text-sm px-6 py-3 rounded-full hover:bg-[#00A698]/5">
+                Bekijk alle events
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* Categories Section */}
-        <div className="mb-12">
+        <div className="mb-12 border-t border-slate-200 pt-10">
           <h3 className="text-xl font-bold text-slate-900 mb-4">Leukste activiteiten in Ibiza</h3>
           <div className="flex flex-wrap gap-3">
             {categories.map((cat, i) => (
@@ -238,7 +279,7 @@ export default function HomePageClient() {
               </button>
             ))}
           </div>
-          <button className="mt-4 text-sm font-bold text-slate-900 hover:underline flex items-center gap-1">
+          <button className="mt-4 text-sm font-bold text-[#00A698] hover:underline flex items-center gap-1">
             Ontdek Ibiza <ChevronRight size={16} />
           </button>
         </div>
@@ -247,15 +288,15 @@ export default function HomePageClient() {
         <div className="mb-16">
           <h3 className="text-xl font-bold text-slate-900 mb-4">Top locaties in Ibiza</h3>
           <div className="flex flex-wrap gap-3">
-            {tags.map((tag, i) => (
-              <button key={i} className="px-4 py-2 rounded-lg border border-slate-200 text-sm font-medium text-slate-700 hover:border-slate-400 hover:bg-slate-50 transition-colors">
-                {tag}
-              </button>
+            {locations.map((loc) => (
+              <Link key={loc.id} href={`/locations/${loc.slug}`} className="px-4 py-2 rounded-lg border border-slate-200 text-sm font-medium text-slate-700 hover:border-slate-400 hover:bg-slate-50 transition-colors">
+                {loc.name}
+              </Link>
             ))}
           </div>
-          <button className="mt-4 text-sm font-bold text-slate-900 hover:underline flex items-center gap-1">
+          <Link href="/locations/ibiza-stad" className="mt-4 text-sm font-bold text-[#00A698] hover:underline flex items-center gap-1 w-fit">
             Ontdek Locaties <ChevronRight size={16} />
-          </button>
+          </Link>
         </div>
 
       </div>

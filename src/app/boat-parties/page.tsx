@@ -46,6 +46,7 @@ export default async function BoatPartiesPage() {
 
   return (
     <>
+       <div className="bg-white min-h-screen pb-20">
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
@@ -91,6 +92,7 @@ export default async function BoatPartiesPage() {
           <CrossSellBanner triggerPage="/boat-parties" fromPrice={500} />
         </AnimatedSection>
       </section>
+    </div>
     </>
   )
 }

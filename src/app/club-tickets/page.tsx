@@ -34,6 +34,7 @@ export default async function ClubTicketsPage() {
 
   return (
     <>
+       <div className="bg-white min-h-screen pb-20">
       <CategoryHero
         title="Official Club Tickets"
         subtitle="Secure your spot at the biggest and best parties in the world. Buy guaranteed authentic tickets for all top clubs without hidden fees."
@@ -84,6 +85,7 @@ export default async function ClubTicketsPage() {
 
       <ClubFaq />
       <Newsletter />
+    </div>
     </>
   );
 }

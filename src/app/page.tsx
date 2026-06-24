@@ -1,12 +1,13 @@
 import React from 'react'
 import HomePageClient from './HomePageClient'
-import { ClubTicketsSlider } from '@/components/sections/ClubTicketsSlider'
-import { DailyEventsSection } from '@/components/sections/DailyEventsSection'
+import { getAllDates } from '@/lib/clubtickets'
 
 export const revalidate = 3600
 
-export default function Home() {
+export default async function Home() {
+  const allEventDates = await getAllDates()
+  
   return (
-    <HomePageClient />
+    <HomePageClient allEventDates={allEventDates} />
   )
 }

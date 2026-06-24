@@ -80,6 +80,7 @@ export default async function PrivateBoatChartersPage() {
       />
 
       {/* Hero */}
+       <div className="bg-white min-h-screen pb-20">
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}
@@ -187,6 +188,7 @@ export default async function PrivateBoatChartersPage() {
           Book Your Private Boat
         </a>
       </div>
+    </div>
     </>
   )
 }
