@@ -96,13 +96,15 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
     setMenuOpen(false)
   }, [pathname])
 
+  const isHomepage = ['/', '/nl', '/en', '/es'].includes(pathname)
+
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-slate-200 shadow-sm">
       {/* Top Main Bar */}
       <div className="max-w-7xl mx-auto px-4 h-[96px] flex items-center justify-between gap-4 md:gap-8">
         
         {/* Left: Logo */}
-        <Link href="/" className="flex items-center shrink-0">
+        <Link href="/" className="flex items-center shrink-0 group">
           <div className="relative w-14 h-14 sm:w-16 sm:h-16 mr-3">
             <Image 
               src="/logo-clean.png" 
@@ -113,6 +115,9 @@ export function Navbar({ artists = [] }: { artists?: Artist[] }) {
             />
           </div>
           <span className="font-black text-2xl sm:text-3xl tracking-tighter text-[#00A698] hidden sm:block">ibizamivida</span>
+          {!isHomepage && (
+            <span className="font-bold text-sm text-slate-700 group-hover:text-[#00A698] transition-colors ml-2">IBZMV</span>
+          )}
         </Link>
 
         {/* Center: Search Bar */}
