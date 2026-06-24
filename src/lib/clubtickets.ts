@@ -241,8 +241,8 @@ export async function getAllDates(locale: string = 'en', limit?: number): Promis
   return dates;
 }
 
-export async function getArtists(limit?: number): Promise<CTArtist[]> {
-  const data = loadData();
+export async function getArtists(locale: string = 'en', limit?: number): Promise<CTArtist[]> {
+  const data = loadData(locale);
   let artists = data.artists || [];
   if (limit && limit > 0) {
     artists = artists.slice(0, limit);

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 import { MapPin, Users, Music, ExternalLink, MessageCircle } from 'lucide-react'
 import { CTEventCard } from '@/components/cards/CTEventCard'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
@@ -147,9 +148,9 @@ export default async function ClubDetailPage({ params }: Props) {
                     allDates.map((dateObj, idx) => (
                       <div key={`${dateObj.id}-${idx}`} className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 border border-velvet-obsidian/10 rounded-2xl bg-white transition-all hover:border-velvet-obsidian/30 hover:shadow-md">
                         <div className="flex flex-col">
-                          <span className="font-serif text-xl font-bold text-velvet-obsidian group-hover:text-blue-600 transition-colors">
+                          <Link href={`/${params.locale}/club-tickets/${club.slug}/${dateObj.eventSlug}`} className="font-serif text-xl font-bold text-velvet-obsidian group-hover:text-blue-600 transition-colors">
                             {dateObj.eventName}
-                          </span>
+                          </Link>
                           <span className="text-sm text-velvet-obsidian/60 font-medium mt-1 flex items-center gap-2">
                             <span className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md text-xs uppercase tracking-wider font-bold">
                               {new Date(dateObj.date).toLocaleDateString('en-US', { weekday: 'short' })}
