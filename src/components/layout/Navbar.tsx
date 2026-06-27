@@ -70,6 +70,7 @@ function LanguageSelector() {
 }
 
 const categories = [
+  { label: 'Ibiza Calendar', href: '/calendar' },
   { label: 'Deals of the Day', href: '/deals-of-the-day' },
   { label: 'Club Tickets', href: '/club-tickets' },
   { label: 'Boat Parties', href: '/boat-parties' },
@@ -85,6 +86,7 @@ const categories = [
 ]
 
 const mainCategories = [
+  { label: 'Ibiza Calendar', href: '/calendar' },
   { label: 'Club Tickets', href: '/club-tickets' },
   { label: 'Boat Parties', href: '/boat-parties' },
   { label: 'Deals of the Day', href: '/deals-of-the-day' },

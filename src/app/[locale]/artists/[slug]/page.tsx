@@ -64,24 +64,25 @@ export default async function ArtistDetailPage({ params }: Props) {
   const mainImage = artist.cover || artist.logo || 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1920'
 
   return (
-    <main className="bg-ibiza-sand min-h-screen text-velvet-obsidian">
+    <main className="theme-nightlife bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)]">
       <section className="relative flex min-h-[60vh] flex-col justify-end overflow-hidden" aria-label={`${artist.name} hero`}>
         <Image src={mainImage} alt={artist.name} fill className="object-cover opacity-60" priority />
-        <div className="absolute inset-0 bg-gradient-to-t from-ibiza-sand via-transparent to-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-paper)] via-transparent to-black/50" />
         
         <div className="absolute bottom-0 left-0 w-full p-8 md:p-16 container mx-auto">
           <div className="max-w-4xl">
             <AnimatedSection>
-              <Link href="/artists" className="text-white/70 hover:text-white font-sans text-xs uppercase tracking-widest font-bold mb-6 inline-flex items-center gap-2 transition-colors">
+              <Link href={`/${params.locale}/artists`} className="text-[var(--color-slate)] hover:text-[var(--color-sea)] font-sans text-xs uppercase tracking-widest font-bold mb-6 inline-flex items-center gap-2 transition-colors">
                 ← Back to Artists
               </Link>
               <div className="mb-4">
-                <span className="inline-flex w-fit items-center gap-2 rounded-full border border-rustic-terracotta/50 bg-rustic-terracotta/10 px-4 py-1 font-sans text-xs font-semibold uppercase tracking-widest text-rustic-terracotta">
+                <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--color-line)] bg-[var(--color-card)] px-4 py-1 font-sans text-xs font-semibold uppercase tracking-widest text-[var(--color-sea)] shadow-sm">
+                <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--color-line)] bg-[var(--color-card)] px-4 py-1 font-sans text-xs font-semibold uppercase tracking-widest text-[var(--color-sea)] shadow-sm">
                   <MapPin size={12} />
                   {artist.venueName}
                 </span>
               </div>
-              <h1 className="font-serif text-5xl font-bold text-ibiza-sand md:text-7xl lg:text-8xl">
+              <h1 className="font-serif text-5xl font-bold text-[var(--color-ink)] md:text-7xl lg:text-8xl drop-shadow-md">
                 {artist.name}
               </h1>
             </AnimatedSection>
@@ -92,8 +93,8 @@ export default async function ArtistDetailPage({ params }: Props) {
       <div className="mx-auto max-w-7xl px-4 py-12 md:px-8">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
           <div className="lg:col-span-2 flex flex-col gap-10">
-            <AnimatedSection delay={100} className="prose prose-velvet max-w-none prose-p:text-velvet-obsidian/70">
-              <h2 className="font-serif text-3xl font-bold text-velvet-obsidian">About {artist.name}</h2>
+            <AnimatedSection delay={100} className="prose prose-invert max-w-none prose-p:text-[var(--color-slate)] prose-a:text-[var(--color-sea)]">
+              <h2 className="font-serif text-3xl font-bold text-[var(--color-ink)]">About {artist.name}</h2>
               {artist.description ? (
                 <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: artist.description }} />
               ) : (
@@ -101,33 +102,43 @@ export default async function ArtistDetailPage({ params }: Props) {
               )}
             </AnimatedSection>
 
+            {artist.requirements && (
+              <AnimatedSection delay={150} className="prose prose-invert max-w-none prose-p:text-[var(--color-slate)] p-6 bg-[var(--color-card)] border border-[var(--color-line)] rounded-2xl shadow-sm">
+                <h3 className="font-serif text-xl font-bold text-[var(--color-ink)] mb-4">Important Information</h3>
+                <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: artist.requirements }} />
+              </AnimatedSection>
+            )}
+
             <AnimatedSection delay={200} className="flex flex-col gap-6">
-              <h2 className="font-serif text-3xl font-bold text-velvet-obsidian">Upcoming Shows</h2>
+              <h2 className="font-serif text-3xl font-bold text-[var(--color-ink)]">Upcoming Shows</h2>
               
               <div className="flex flex-col gap-3">
                 {upcomingEvents.length > 0 ? (
                   upcomingEvents.map((eventObj: any, idx: number) => (
-                    <div key={`${eventObj.id}-${idx}`} className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 border border-velvet-obsidian/10 rounded-2xl bg-white transition-all hover:border-velvet-obsidian/30 hover:shadow-md">
+                    <div key={`${eventObj.id}-${idx}`} className="group flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 border border-[var(--color-line)] rounded-2xl bg-[var(--color-card)] transition-all hover:border-[var(--color-sea)] hover:shadow-lg">
                       <div className="flex flex-col">
-                        <span className="font-serif text-xl font-bold text-velvet-obsidian group-hover:text-blue-600 transition-colors">
+                        <span className="font-serif text-xl font-bold text-[var(--color-ink)] group-hover:text-[var(--color-sea)] transition-colors">
                           {artist.name} @ {artist.venueName}
                         </span>
-                        <span className="text-sm text-velvet-obsidian/60 font-medium mt-1 flex items-center gap-2" suppressHydrationWarning>
-                          <span className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md text-xs uppercase tracking-wider font-bold">
-                            {new Date(eventObj.date).toLocaleDateString('en-US', { weekday: 'short', timeZone: 'UTC' })}
+                        <span className="text-sm text-[var(--color-slate)] font-medium mt-2 flex items-center gap-3" suppressHydrationWarning>
+                          <span className="bg-black/20 text-[var(--color-sea)] px-3 py-1 rounded-md text-xs uppercase tracking-wider font-bold border border-[var(--color-line)]">
+                            {new Date(eventObj.date).toLocaleDateString(params.locale, { weekday: 'short', timeZone: 'UTC' })}
                           </span>
-                          {new Date(eventObj.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}
+                          {new Date(eventObj.date).toLocaleDateString(params.locale, { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}
                         </span>
+                        {eventObj.lineUp && (
+                           <div className="mt-3 text-xs text-[var(--color-slate)] max-w-xl" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: eventObj.lineUp }} />
+                        )}
                       </div>
-                      <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-6">
-                        <span className="font-bold text-lg text-velvet-obsidian">
+                      <div className="flex items-center justify-between md:justify-end w-full md:w-auto gap-6 mt-4 md:mt-0">
+                        <span className="font-bold text-lg text-[var(--color-ink)] whitespace-nowrap">
                           {eventObj.prices ? `From ${eventObj.prices}` : 'Available'}
                         </span>
                         <a 
                           href={eventObj.affLink} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="bg-black text-white px-6 py-2.5 rounded-xl font-semibold text-sm transition-all hover:bg-gray-800 hover:scale-105 whitespace-nowrap shadow-sm"
+                          className="bg-[var(--color-ink)] text-[var(--color-paper)] px-6 py-3 rounded-xl font-semibold text-sm transition-all hover:bg-[var(--color-sea)] hover:scale-105 whitespace-nowrap shadow-md text-center"
                         >
                           Buy Tickets
                         </a>
@@ -135,8 +146,8 @@ export default async function ArtistDetailPage({ params }: Props) {
                     </div>
                   ))
                 ) : (
-                  <div className="rounded-2xl border border-dashed border-velvet-obsidian/20 bg-velvet-obsidian/5 p-8 text-center">
-                    <p className="font-sans text-velvet-obsidian/60">
+                  <div className="rounded-2xl border border-dashed border-[var(--color-line)] bg-[var(--color-card)] p-8 text-center">
+                    <p className="font-sans text-[var(--color-slate)]">
                       No upcoming shows found for this artist right now. Check back soon!
                     </p>
                   </div>

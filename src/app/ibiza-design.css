@@ -77,8 +77,6 @@ a:hover .kin { background-size: 100% 1px; }
 
 /* ============================================================
    HERO / SCROLL SCENE
-/* ============================================================
-   HERO / SCROLL SCENE
    ============================================================ */
 #scene { height: 150vh; }
 #sceneSticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
@@ -288,16 +286,51 @@ a:hover .kin { background-size: 100% 1px; }
 }
 
 /* ============================================================
-   GLOBAL TEXT COLOR FIX FOR LIGHT BACKGROUNDS
+   THEME PALETTES (From Prototype)
    ============================================================ */
-.bg-white, .bg-gray-50, .bg-slate-50, .bg-gray-100, .bg-slate-100, .bg-gray-200, .bg-slate-200 {
-  color: #111827;
+
+/* 1. Nightlife (Aubergine) */
+.theme-nightlife {
+  --color-paper: 19 8 24;      /* #130818 */
+  --color-card: 37 16 53;      /* #251035 */
+  --color-ink: 244 236 248;    /* #f4ecf8 */
+  --color-sea: 200 90 138;     /* #c85a8a */
+  --color-slate: 168 120 188;  /* #a878bc */
+  --color-line: 200 90 138;
+  --wave-fill: #1a0b24;
 }
 
-input, textarea, select {
-  color: #111827;
+/* 2. Water / Boats (Marine) */
+.theme-water {
+  /* Using Dark Blue background so text-white looks good! */
+  --color-paper: 5 21 37;      /* #051525 */
+  --color-card: 14 44 82;      /* #0e2c52 */
+  --color-ink: 255 255 255;    /* #e8f4fc */
+  /* User requested the light blue #c5dcfa and teal #4ba296 */
+  --color-sea: 197 220 250;    /* #c5dcfa Light Blue */
+  --color-slate: 75 162 150;   /* #4ba296 Teal / Emerald */
+  --color-line: 197 220 250;
+  --wave-fill: #061d35;
 }
 
-input::placeholder, textarea::placeholder {
-  color: #6b7280;
+/* 3. Services (Or / Sand) */
+.theme-services {
+  --color-paper: 250 244 230;  /* #faf4e6 */
+  --color-card: 255 255 255;   /* #ffffff */
+  --color-ink: 30 22 9;        /* #1e1609 */
+  --color-sea: 200 151 58;     /* #c8973a */
+  --color-slate: 138 116 64;   /* #8a7440 */
+  --color-line: 200 151 58;
+  --wave-fill: #f0e8d0;
+}
+
+/* 4. Info (Emerald) */
+.theme-info {
+  --color-paper: 5 26 14;      /* #051a0e */
+  --color-card: 14 48 32;      /* #0e3020 */
+  --color-ink: 232 248 240;    /* #e8f8f0 */
+  --color-sea: 75 162 150;     /* #4ba296 Teal */
+  --color-slate: 106 184 152;  /* #6ab898 */
+  --color-line: 58 184 122;
+  --wave-fill: #071c10;
 }

@@ -40,7 +40,7 @@ export default async function ClubTicketsPage({ params }: Props) {
 
   return (
     <>
-       <div className="min-h-screen text-white pb-20">
+       <div className="theme-nightlife bg-[var(--color-paper)] min-h-screen text-white pb-20">
       <CategoryHero
         title="Official Club Tickets"
         subtitle="Secure your spot at the biggest and best parties in the world. Buy guaranteed authentic tickets for all top clubs without hidden fees."

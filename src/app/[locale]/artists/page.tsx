@@ -10,14 +10,14 @@ export default async function ArtistsPage() {
   const artists = await getArtists()
 
   return (
-    <main className="bg-ibiza-sand min-h-screen text-velvet-obsidian pt-32 pb-24">
+    <main className="theme-nightlife bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pt-32 pb-24">
       <div className="container mx-auto px-[5%]">
         <div className="mb-16 max-w-3xl">
-          <p className="text-rustic-terracotta font-sans text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
+          <p className="text-[var(--color-sea)] font-sans text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
             <Disc size={16} /> Featured Headliners & Parties
           </p>
           <h1 className="font-serif text-5xl md:text-7xl font-bold mb-6">Ibiza Artists</h1>
-          <p className="font-sans text-lg text-velvet-obsidian/70">
+          <p className="font-sans text-lg text-[var(--color-slate)]">
             Discover where the world's biggest DJs are playing. From underground tech-house to mainstage EDM, find your favorite artist and secure your tickets immediately.
           </p>
         </div>
@@ -38,18 +38,18 @@ export default async function ArtistsPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
               
               <div className="absolute bottom-0 left-0 w-full p-8 flex flex-col justify-end">
-                <span className="text-rustic-terracotta font-sans text-[10px] font-bold uppercase tracking-widest mb-2">
+                <span className="text-[var(--color-sea)] font-sans text-[10px] font-bold uppercase tracking-widest mb-2">
                   {artist.venueName}
                 </span>
-                <h2 className="font-serif text-4xl text-white font-bold group-hover:text-rustic-terracotta transition-colors">
+                <h2 className="font-serif text-4xl text-white font-bold group-hover:text-[var(--color-sea)] transition-colors">
                   {artist.name}
                 </h2>
                 
                 <div className="mt-6 flex items-center gap-3 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
-                  <span className="text-white font-sans text-sm font-bold uppercase tracking-widest">
+                  <span className="text-[var(--color-ink)] font-sans text-sm font-bold uppercase tracking-widest">
                     View Events
                   </span>
-                  <div className="w-8 h-8 rounded-full bg-rustic-terracotta flex items-center justify-center text-white">
+                  <div className="w-8 h-8 rounded-full bg-[var(--color-sea)] flex items-center justify-center text-[var(--color-paper)]">
                     →
                   </div>
                 </div>

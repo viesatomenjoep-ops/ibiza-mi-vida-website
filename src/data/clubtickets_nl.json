@@ -30850,14 +30850,6 @@
       },
       "dates": [
         {
-          "id": 163494,
-          "date": "2026-06-27",
-          "name": "",
-          "lineUp": "",
-          "prices": "23 € - 45 €",
-          "affLink": "https://www.clubtickets.com/nl/boat/capitan-nemo/excursion-es-vedra/2026-06-27?aff=CT219"
-        },
-        {
           "id": 163495,
           "date": "2026-06-30",
           "name": "",
@@ -33693,14 +33685,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/61?locale=nl"
       },
       "dates": [
-        {
-          "id": 164013,
-          "date": "2026-06-29",
-          "name": "",
-          "lineUp": "",
-          "prices": "195 € - 360 €",
-          "affLink": "https://www.clubtickets.com/nl/activities/emove-ibiza/buggy-tour/2026-06-29?aff=CT219"
-        },
         {
           "id": 164014,
           "date": "2026-06-30",
@@ -47961,14 +47945,6 @@
       },
       "dates": [
         {
-          "id": 173274,
-          "date": "2026-06-27",
-          "name": "",
-          "lineUp": "",
-          "prices": "9 € - 34 €",
-          "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/santa-eularia-ferry/shuttle-ferry-ibiza-es-canar/2026-06-27?aff=CT219"
-        },
-        {
           "id": 173275,
           "date": "2026-06-28",
           "name": "",
@@ -59298,24 +59274,6 @@
       "venueId": 289
     },
     {
-      "id": 163494,
-      "date": "2026-06-27",
-      "name": "",
-      "lineUp": "",
-      "prices": "23 € - 45 €",
-      "affLink": "https://www.clubtickets.com/nl/boat/capitan-nemo/excursion-es-vedra/2026-06-27?aff=CT219",
-      "eventName": "San Antonio to Es Vedrà Boat Trip - Sunset",
-      "eventSlug": "excursion-es-vedra",
-      "venueName": "Capitan Nemo",
-      "venueSlug": "capitan-nemo",
-      "venueCover": "https://ucarecdn.com/48eacaee-81ba-4a83-9578-a04af92c87ee/",
-      "venueLogo": "",
-      "eventCover": "https://ucarecdn.com/70d9fcc3-5832-45a1-b873-57d0c0dda5f1/",
-      "eventLogo": "https://ucarecdn.com/c3cd83e4-7034-44c8-97a0-819c91df09c6/",
-      "eventId": 527,
-      "venueId": 109
-    },
-    {
       "id": 161826,
       "date": "2026-06-27",
       "name": "",
@@ -59350,24 +59308,6 @@
       "eventLogo": "https://ucarecdn.com/9acfdef0-6f33-4787-bfe3-81c43c5ecfa9/",
       "eventId": 2094,
       "venueId": 61
-    },
-    {
-      "id": 173274,
-      "date": "2026-06-27",
-      "name": "",
-      "lineUp": "",
-      "prices": "9 € - 34 €",
-      "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/santa-eularia-ferry/shuttle-ferry-ibiza-es-canar/2026-06-27?aff=CT219",
-      "eventName": "Shuttle Ferry Ibiza - Santa Eularia - Es Canar",
-      "eventSlug": "shuttle-ferry-ibiza-es-canar",
-      "venueName": "Santa Eularia Ferry",
-      "venueSlug": "santa-eularia-ferry",
-      "venueCover": "https://ucarecdn.com/acd422f8-d406-4272-80e5-c6a63bc75908/",
-      "venueLogo": "",
-      "eventCover": "https://ucarecdn.com/2808f99d-982e-4653-9a7d-53575c8d115e/",
-      "eventLogo": "https://ucarecdn.com/0eeb52e4-d3f4-4090-9ca6-adb1119b7419/",
-      "eventId": 2022,
-      "venueId": 326
     },
     {
       "id": 170150,
@@ -60484,24 +60424,6 @@
       "eventLogo": "https://ucarecdn.com/bff01adc-3ab5-4d0a-b680-74b49d806d9b/",
       "eventId": 155,
       "venueId": 33
-    },
-    {
-      "id": 164013,
-      "date": "2026-06-29",
-      "name": "",
-      "lineUp": "",
-      "prices": "195 € - 360 €",
-      "affLink": "https://www.clubtickets.com/nl/activities/emove-ibiza/buggy-tour/2026-06-29?aff=CT219",
-      "eventName": "Big Buggy Tour",
-      "eventSlug": "buggy-tour",
-      "venueName": "Emove Ibiza",
-      "venueSlug": "emove-ibiza",
-      "venueCover": "https://ucarecdn.com/9c0d4515-7211-455f-aeeb-093fb5dbfb45/",
-      "venueLogo": "",
-      "eventCover": "https://ucarecdn.com/021ad7c1-8692-4b65-b372-e6d4a06386f9/",
-      "eventLogo": "https://ucarecdn.com/efae8fc9-e4aa-42c6-b820-59fd753560d9/",
-      "eventId": 223,
-      "venueId": 61
     },
     {
       "id": 163803,
@@ -170855,5 +170777,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-06-27T14:04:04.209Z"
+  "lastUpdated": "2026-06-27T14:42:40.326Z"
 }
