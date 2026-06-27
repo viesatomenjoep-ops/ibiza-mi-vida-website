@@ -72,7 +72,7 @@ export default async function BoatPartiesPage({ params }: Props) {
   // Fetch all calendar dates for ALL boats
   const allDatesGlobal = await getAllDates(params.locale);
   const boatSlugs = new Set(boats.map(b => b.slug));
-  const boatDates = allDatesGlobal.filter(d => boatSlugs.has(d.venueSlug));
+  const boatDates = allDatesGlobal.filter(d => d.venueSlug && boatSlugs.has(d.venueSlug));
   boatDates.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   return (
