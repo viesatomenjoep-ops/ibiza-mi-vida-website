@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Outfit, JetBrains_Mono } from 'next/font/google'
+import { Titillium_Web } from 'next/font/google'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppFAB } from '@/components/layout/WhatsAppFAB'
@@ -11,19 +11,22 @@ import { getDictionary } from '@/lib/dictionary'
 import '@/styles/globals.css'
 import '../ibiza-design.css'
 
-const inter = Inter({
+const titilliumBody = Titillium_Web({
+  weight: ['200', '300', '400', '600', '700', '900'],
   subsets: ['latin'],
   variable: '--font-body',
   display: 'swap',
 })
 
-const outfit = Outfit({
+const titilliumDisplay = Titillium_Web({
+  weight: ['200', '300', '400', '600', '700', '900'],
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
 })
 
-const jetbrains = JetBrains_Mono({
+const titilliumMono = Titillium_Web({
+  weight: ['200', '300', '400', '600', '700', '900'],
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
@@ -98,7 +101,7 @@ export default async function RootLayout({
   const dict = getDictionary(locale || 'en')
 
   return (
-    <html lang={locale || 'en'} className={`${inter.variable} ${outfit.variable} ${jetbrains.variable}`}>
+    <html lang={locale || 'en'} className={`${titilliumBody.variable} ${titilliumDisplay.variable} ${titilliumMono.variable}`}>
       <body className="font-sans antialiased overflow-x-clip w-full max-w-[100vw] bg-[#0A0A0A] text-[#F4F4F5]">
         <CartProvider>
           <BookingProvider>
