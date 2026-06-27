@@ -77,7 +77,6 @@ export default async function ArtistDetailPage({ params }: Props) {
               </Link>
               <div className="mb-4">
                 <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--color-line)] bg-[var(--color-card)] px-4 py-1 font-sans text-xs font-semibold uppercase tracking-widest text-[var(--color-sea)] shadow-sm">
-                <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--color-line)] bg-[var(--color-card)] px-4 py-1 font-sans text-xs font-semibold uppercase tracking-widest text-[var(--color-sea)] shadow-sm">
                   <MapPin size={12} />
                   {artist.venueName}
                 </span>
