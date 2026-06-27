@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Star, ChevronRight, Calendar, Info, MapPin, Flame } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
-import type { CTEventDate } from '@/lib/clubtickets';
+import type { CTEventDate, CTVenue } from '@/lib/clubtickets';
 import { locations } from '@/lib/locations';
 
 // Translations handled dynamically via Intl.DateTimeFormat
@@ -64,23 +64,30 @@ function getWeekNumber(d: Date) {
 
 // 3. CATEGORY LOGIC
 const EVENT_CATEGORIES = [
-  { id: 'boat-parties', label: 'Boat Parties & Excursions', keywords: ['boat', 'cruise', 'catamaran', 'sail', 'yacht', 'float', 'ferry', 'island'] },
-  { id: 'club-tickets', label: 'Club Tickets', keywords: ['unvrs', 'ushuaïa', 'hï', 'pacha', 'amnesia', 'eden', 'chinois', 'swag', 'es paradis', 'lí', 'teatro'] },
-  { id: 'pool-parties', label: 'Day Clubs & Pool Parties', keywords: ['beach', 'bambuku', 'rocks', 'soleil'] },
-  { id: 'activities', label: 'Activities & Excursions', keywords: ['jet ski', 'buggy', 'sup', 'tour'] }
+  { id: 'boat-parties', label: 'Boat Parties & Excursions' },
+  { id: 'club-tickets', label: 'Club Tickets' },
+  { id: 'pool-parties', label: 'Day Clubs & Pool Parties' },
+  { id: 'activities', label: 'Activities & Excursions' }
 ];
 
-function getCategoryForEvent(event: CTEventDate): string {
-  const name = (event.eventName || event.name || '').toLowerCase();
-  const venue = (event.venueName || '').toLowerCase();
-  const searchStr = name + ' ' + venue;
+function getCategoryForEvent(event: CTEventDate, venues: CTVenue[]): string {
+  if (!venues || venues.length === 0) return 'club-tickets';
+  
+  const venue = venues.find(v => v.slug === event.venueSlug);
+  if (!venue) return 'club-tickets';
 
-  for (const cat of EVENT_CATEGORIES) {
-    if (cat.keywords.some(kw => searchStr.includes(kw))) {
-      return cat.id;
-    }
+  const typeSlug = venue.type?.slug;
+  if (typeSlug === 'boat' || typeSlug === 'formentera-day-trip') {
+    return 'boat-parties';
   }
-  return 'club-tickets'; // Default fallback
+  if (typeSlug === 'activities') {
+    return 'activities';
+  }
+  if (venue.isDayClub) {
+    return 'pool-parties';
+  }
+  
+  return 'club-tickets'; // Default for clubbing or unknown
 }
 
 type PeriodMode = 'day' | 'week' | 'month';
@@ -95,12 +102,14 @@ export default function HomePageClient({
     tab_month: "Maand"
   }, 
   locale = 'nl',
-  artists = []
+  artists = [],
+  venues = []
 }: { 
   allEventDates?: CTEventDate[], 
   dict?: any, 
   locale?: string,
-  artists?: any[]
+  artists?: any[],
+  venues?: CTVenue[]
 }) {
   const { addToCart, openDrawer } = useCart();
   
@@ -185,7 +194,7 @@ export default function HomePageClient({
     
     for (const e of selectedEvents) {
       if (top30.length >= 30) break;
-      const cat = getCategoryForEvent(e);
+      const cat = getCategoryForEvent(e, venues);
       if (!uniqueCategories.has(cat)) {
         uniqueCategories.add(cat);
         top30.push(e);
@@ -209,7 +218,7 @@ export default function HomePageClient({
     const remainingEvents = selectedEvents.filter(e => !top30Events.includes(e));
     
     remainingEvents.forEach(e => {
-      const cat = getCategoryForEvent(e);
+      const cat = getCategoryForEvent(e, venues);
       if (grouped[cat]) {
         grouped[cat].push(e);
       }

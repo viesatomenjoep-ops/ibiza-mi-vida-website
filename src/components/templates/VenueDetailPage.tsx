@@ -122,10 +122,10 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
               </div>
               
               {/* Club Logo */}
-              {(club.whitelogo || club.logo) && (
+              {club.whitelogo && (
                 <div className="relative w-32 h-32 md:w-40 md:h-40 shrink-0">
                   <Image 
-                    src={(club.whitelogo || club.logo) as string} 
+                    src={club.whitelogo as string} 
                     alt={`${club.name} logo`}
                     fill
                     className="object-contain filter drop-shadow-lg"

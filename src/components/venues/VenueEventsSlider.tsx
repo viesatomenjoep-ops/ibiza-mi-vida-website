@@ -90,9 +90,11 @@ export function VenueEventsSlider({ title, events, venueSlug, basePath, theme = 
           className="hide-scrollbar flex gap-4 md:gap-6 px-4 md:px-8 overflow-x-auto snap-x snap-mandatory py-2 pb-6 w-full"
           style={{ WebkitOverflowScrolling: 'touch' }}
         >
-          {events.map((event, i) => (
+          {events.map((event, i) => {
+            const linkHref = venueSlug ? `/${basePath}/${venueSlug}/${event.slug}` : `/${basePath}/${event.slug}`;
+            return (
             <Link 
-              href={`/${basePath}/${venueSlug}/${event.slug}`} 
+              href={linkHref} 
               key={`${event.id}-${i}`}
               className={`block snap-start shrink-0 w-[240px] md:w-[320px] rounded-[24px] ${cardBg} shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group`}
             >
@@ -130,7 +132,8 @@ export function VenueEventsSlider({ title, events, venueSlug, basePath, theme = 
                 </div>
               </div>
             </Link>
-          ))}
+            );
+          })}
           <div className="shrink-0 w-4 md:w-8" />
         </div>
       </div>
