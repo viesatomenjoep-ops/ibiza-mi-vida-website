@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${artist.name} in Ibiza 2026 | Tickets & Lineup`,
-    description: artist.description ? artist.description.replace(/<[^>]+>/g, '').substring(0, 160) : `Buy official tickets for ${artist.name} at ${artist.venueName} in Ibiza.`,
+    description: artist.description ? artist.description.replace(new RegExp('<[^>]+>', 'g'), '').substring(0, 160) : `Buy official tickets for ${artist.name} at ${artist.venueName} in Ibiza.`,
     openGraph: {
       title: `${artist.name} Ibiza 2026 | Ibiza mi vida`,
       description: `Get official tickets for ${artist.name} in Ibiza.`,
