@@ -53,7 +53,7 @@ export default async function CarScooterRentalPage() {
 
   return (
     <>
-       <div className="theme-services bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pb-20">
+       <div className="theme-monaco-sand bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pb-20">
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}

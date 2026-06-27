@@ -80,7 +80,7 @@ export default async function PrivateBoatChartersPage() {
       />
 
       {/* Hero */}
-       <div className="theme-water bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pb-20">
+       <div className="theme-monaco-water bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pb-20">
       <CategoryHero
         title={pageContent.title}
         subtitle={pageContent.subtitle}

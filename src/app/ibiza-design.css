@@ -36,7 +36,7 @@
 
 /* ---------- Reset & base ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html  { scroll-behavior: smooth; font-size: 16px; }
+html  { scroll-behavior: smooth; font-size: 16px; scroll-snap-type: y proximity; }
 body  { background: #0A0A0A; color: #F4F4F5; font-family: var(--font-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 img, svg { display: block; max-width: 100%; }
 a    { color: inherit; text-decoration: none; }
@@ -289,48 +289,46 @@ a:hover .kin { background-size: 100% 1px; }
    THEME PALETTES (From Prototype)
    ============================================================ */
 
-/* 1. Nightlife (Aubergine) */
-.theme-nightlife {
-  --color-paper: 19 8 24;      /* #130818 */
-  --color-card: 37 16 53;      /* #251035 */
-  --color-ink: 244 236 248;    /* #f4ecf8 */
-  --color-sea: 200 90 138;     /* #c85a8a */
-  --color-slate: 168 120 188;  /* #a878bc */
-  --color-line: 200 90 138;
-  --wave-fill: #1a0b24;
+/* 1. Monaco VIP (Dark & Gold) */
+.theme-monaco-vip {
+  --color-paper: 15 15 15;      /* Almost black */
+  --color-card: 25 25 25;       /* Dark card */
+  --color-ink: 251 250 246;     /* Cream text */
+  --color-sea: 198 160 82;      /* Elegant Gold accents */
+  --color-slate: 174 185 196;   /* Light blue for secondary */
+  --color-line: 198 160 82;     /* Gold borders */
+  --wave-fill: #0F0F0F;
 }
 
-/* 2. Water / Boats (Marine) */
-.theme-water {
-  /* Using Dark Blue background so text-white looks good! */
-  --color-paper: 5 21 37;      /* #051525 */
-  --color-card: 14 44 82;      /* #0e2c52 */
-  --color-ink: 255 255 255;    /* #e8f4fc */
-  /* User requested the light blue #c5dcfa and teal #4ba296 */
-  --color-sea: 197 220 250;    /* #c5dcfa Light Blue */
-  --color-slate: 75 162 150;   /* #4ba296 Teal / Emerald */
-  --color-line: 197 220 250;
-  --wave-fill: #061d35;
+/* 2. Monaco Water (Deep Soft Blue) */
+.theme-monaco-water {
+  --color-paper: 110 140 168;   /* #6E8CA8 Deep Soft Blue */
+  --color-card: 130 156 182;    /* Lighter blue card */
+  --color-ink: 251 250 246;     /* Cream text */
+  --color-sea: 198 160 82;      /* Elegant Gold */
+  --color-slate: 232 222 201;   /* Beige */
+  --color-line: 174 185 196;
+  --wave-fill: #6E8CA8;
 }
 
-/* 3. Services (Or / Sand) */
-.theme-services {
-  --color-paper: 250 244 230;  /* #faf4e6 */
-  --color-card: 255 255 255;   /* #ffffff */
-  --color-ink: 30 22 9;        /* #1e1609 */
-  --color-sea: 200 151 58;     /* #c8973a */
-  --color-slate: 138 116 64;   /* #8a7440 */
-  --color-line: 200 151 58;
-  --wave-fill: #f0e8d0;
+/* 3. Monaco Sand (Warm Beige) */
+.theme-monaco-sand {
+  --color-paper: 232 222 201;   /* #E8DEC9 Warm Beige */
+  --color-card: 251 250 246;    /* Cream card */
+  --color-ink: 15 15 15;        /* Dark text */
+  --color-sea: 198 160 82;      /* Elegant Gold */
+  --color-slate: 110 140 168;   /* Deep Blue */
+  --color-line: 198 160 82;
+  --wave-fill: #E8DEC9;
 }
 
-/* 4. Info (Emerald) */
-.theme-info {
-  --color-paper: 5 26 14;      /* #051a0e */
-  --color-card: 14 48 32;      /* #0e3020 */
-  --color-ink: 232 248 240;    /* #e8f8f0 */
-  --color-sea: 75 162 150;     /* #4ba296 Teal */
-  --color-slate: 106 184 152;  /* #6ab898 */
-  --color-line: 58 184 122;
-  --wave-fill: #071c10;
+/* 4. Monaco Breeze (Light Muted Blue) */
+.theme-monaco-breeze {
+  --color-paper: 174 185 196;   /* #AEB9C4 Light Muted Blue */
+  --color-card: 251 250 246;    /* Cream card */
+  --color-ink: 15 15 15;        /* Dark text */
+  --color-sea: 110 140 168;     /* Deep Soft Blue */
+  --color-slate: 15 15 15;
+  --color-line: 110 140 168;
+  --wave-fill: #AEB9C4;
 }

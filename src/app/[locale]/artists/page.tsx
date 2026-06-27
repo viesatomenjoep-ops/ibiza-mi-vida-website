@@ -10,7 +10,7 @@ export default async function ArtistsPage() {
   const artists = await getArtists()
 
   return (
-    <main className="theme-nightlife bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pt-32 pb-24">
+    <main className="theme-monaco-vip bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pt-32 pb-24">
       <div className="container mx-auto px-[5%]">
         <div className="mb-16 max-w-3xl">
           <p className="text-[var(--color-sea)] font-sans text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">

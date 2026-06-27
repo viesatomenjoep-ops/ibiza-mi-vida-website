@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Star, ChevronRight, Calendar, MapPin } from 'lucide-react';
+import { Star, ChevronRight, Calendar, MapPin, Flame, Ticket, Headphones, Ship, Anchor, Map, Sailboat, Wine, Car, ClipboardList, Lightbulb, Newspaper, Tag } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import type { CTEventDate, CTVenue } from '@/lib/clubtickets';
 import { locations } from '@/lib/locations';
@@ -62,40 +62,43 @@ function getWeekNumber(d: Date) {
 
 // 3. 12 CATEGORIES DEFINITION WITH THEMES
 const ALL_CATEGORIES = [
-  { id: 'deals', slug: 'deals-of-the-day', label: 'Deals of the Day', theme: 'theme-nightlife', emoji: '🔥', wave: 'var(--wave-fill)', 
+  { id: 'deals', slug: 'deals-of-the-day', label: 'Deals of the Day', theme: 'theme-monaco-breeze', icon: <Flame />, wave: 'var(--wave-fill)', 
     imageUrl: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=1920',
     desc: 'Ontdek de scherpste aanbiedingen en last-minute kortingen voor de heetste events van vandaag.' },
-  { id: 'clubtickets', slug: 'club-tickets', label: 'Club Tickets', theme: 'theme-nightlife', emoji: '🎟️', wave: 'var(--wave-fill)',
+  { id: 'clubtickets', slug: 'club-tickets', label: 'Club Tickets', theme: 'theme-monaco-vip', icon: <Ticket />, wave: 'var(--wave-fill)',
     imageUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1920',
     desc: 'Beleef de beste clubavonden op Ibiza. Koop je tickets veilig en snel en sla de wachtrijen over.' },
-  { id: 'boatparties', slug: 'boat-parties', label: 'Bootfeesten', theme: 'theme-water', emoji: '⚓', wave: 'var(--wave-fill)',
+  { id: 'artiesten', slug: 'artists', label: 'Artiesten', theme: 'theme-monaco-vip', icon: <Headphones />, wave: 'var(--wave-fill)',
+    imageUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1920',
+    desc: 'Ontdek welke wereldberoemde DJ\'s deze zomer op Ibiza draaien. Bekijk hun line-ups en boek direct je tickets.' },
+  { id: 'boatparties', slug: 'boat-parties', label: 'Bootfeesten', theme: 'theme-monaco-water', icon: <Ship />, wave: 'var(--wave-fill)',
     imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1920',
     desc: 'Dans op de golven met de beste dj\'s tijdens een onvergetelijke zonsondergang op de Middellandse Zee.' },
-  { id: 'privateboat', slug: 'private-boat-charters', label: 'Private Boat Charters', theme: 'theme-water', emoji: '🛥️', wave: 'var(--wave-fill)',
+  { id: 'privateboat', slug: 'private-boat-charters', label: 'Private Boat Charters', theme: 'theme-monaco-water', icon: <Anchor />, wave: 'var(--wave-fill)',
     imageUrl: 'https://images.unsplash.com/photo-1567606403063-832128ce3a00?q=80&w=1920',
     desc: 'Huur je eigen privéjacht voor een exclusieve ervaring op zee. Perfect voor vriendengroepen en speciale gelegenheden.' },
-  { id: 'formentera', slug: 'formentera-boat-trips', label: 'Formentera Trips', theme: 'theme-water', emoji: '🏝️', wave: 'var(--wave-fill)',
+  { id: 'formentera', slug: 'formentera-boat-trips', label: 'Formentera Trips', theme: 'theme-monaco-water', icon: <Map />, wave: 'var(--wave-fill)',
     imageUrl: 'https://images.unsplash.com/photo-1601004146039-49339e723cc5?q=80&w=1920',
     desc: 'Ontdek het adembenemende zustereiland Formentera. Helderblauw water en witte zandstranden wachten op je.' },
-  { id: 'vipcatamaran', slug: 'vip-catamaran', label: 'VIP Catamaran', theme: 'theme-water', emoji: '⛵', wave: 'var(--wave-fill)',
+  { id: 'vipcatamaran', slug: 'vip-catamaran', label: 'VIP Catamaran', theme: 'theme-monaco-water', icon: <Sailboat />, wave: 'var(--wave-fill)',
     imageUrl: 'https://images.unsplash.com/photo-1540946485063-a40da27545f8?q=80&w=1920',
     desc: 'Ervaar ultieme luxe op een spectaculaire catamaran, compleet met VIP-service, drankjes en entertainment.' },
-  { id: 'drankpakketten', slug: 'drink-packages', label: 'Drankpakketten', theme: 'theme-services', emoji: '🍾', wave: 'var(--wave-fill)',
+  { id: 'drankpakketten', slug: 'drink-packages', label: 'Drankpakketten', theme: 'theme-monaco-sand', icon: <Wine />, wave: 'var(--wave-fill)',
     imageUrl: 'https://images.unsplash.com/photo-1574096079513-d8259312b78a?q=80&w=1920',
     desc: 'Maak je clubavond compleet met onze premium drankpakketten en exclusieve flessenservice.' },
-  { id: 'carrental', slug: 'car-scooter-rental', label: 'Car & Scooter Rental', theme: 'theme-services', emoji: '🚗', wave: 'var(--wave-fill)',
+  { id: 'carrental', slug: 'car-scooter-rental', label: 'Car & Scooter Rental', theme: 'theme-monaco-sand', icon: <Car />, wave: 'var(--wave-fill)',
     imageUrl: 'https://images.unsplash.com/photo-1582046830509-0d2875b2b005?q=80&w=1920',
     desc: 'Verken het eiland in je eigen tempo. Huur betrouwbaar en snel een auto of scooter zonder gedoe.' },
-  { id: 'gastenlijst', slug: 'guestlist', label: 'Gastenlijst', theme: 'theme-nightlife', emoji: '📝', wave: 'var(--wave-fill)',
+  { id: 'gastenlijst', slug: 'guestlist', label: 'Gastenlijst', theme: 'theme-monaco-vip', icon: <ClipboardList />, wave: 'var(--wave-fill)',
     imageUrl: 'https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=1920',
     desc: 'Meld je aan voor de exclusieve gastenlijsten van de beste feesten en profiteer van VIP-voordelen.' },
-  { id: 'ibizatips', slug: 'tips', label: 'Ibiza Tips', theme: 'theme-info', emoji: '💡', wave: 'var(--wave-fill)',
+  { id: 'ibizatips', slug: 'tips', label: 'Ibiza Tips', theme: 'theme-monaco-breeze', icon: <Lightbulb />, wave: 'var(--wave-fill)',
     imageUrl: 'https://images.unsplash.com/photo-1563298723-dcfebaa392e3?q=80&w=1920',
     desc: 'Onze insider tips en hotspots. Ontdek de verborgen parels, beste restaurants en mooiste stranden.' },
-  { id: 'blog', slug: 'blog', label: 'Blog', theme: 'theme-info', emoji: '📰', wave: 'var(--wave-fill)',
+  { id: 'blog', slug: 'blog', label: 'Blog', theme: 'theme-monaco-breeze', icon: <Newspaper />, wave: 'var(--wave-fill)',
     imageUrl: 'https://images.unsplash.com/photo-1510444589-9807fa7de323?q=80&w=1920',
     desc: 'Lees de laatste nieuwtjes, trends en verhalen over het partyleven en de cultuur op Ibiza.' },
-  { id: 'freediscount', slug: 'free-discount-ibiza', label: 'Free & Discount Ibiza', theme: 'theme-info', emoji: '🏷️', wave: 'var(--wave-fill)',
+  { id: 'freediscount', slug: 'free-discount-ibiza', label: 'Free & Discount Ibiza', theme: 'theme-monaco-breeze', icon: <Tag />, wave: 'var(--wave-fill)',
     imageUrl: 'https://images.unsplash.com/photo-1558522195-e1201b090344?q=80&w=1920',
     desc: 'Bespaar op je vakantie met onze gratis toegangen, kortingscodes en speciale aanbiedingen.' }
 ];
@@ -301,10 +304,28 @@ export default function HomePageClient({
   return (
     <div className="min-h-screen font-sans antialiased pb-20">
       
-      {/* Hero */}
-      <div className="fixed inset-0 w-full h-[100vh] z-[-1] overflow-hidden bg-black">
-        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover scale-[1.15]" src="https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto:good,f_auto,so_30,du_30,w_1920/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4" />
-        <div className="absolute inset-0 bg-black/40 z-0"></div>
+      {/* Hero (Monaco Soft Theme) */}
+      <div className="relative w-full h-[60vh] md:h-[70vh] theme-monaco-water bg-[var(--color-paper)] flex items-center justify-center overflow-hidden snap-start">
+        {/* Background elements */}
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1920')] bg-cover bg-center opacity-20 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-paper)] via-transparent to-transparent" />
+        
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto pt-16">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-[var(--color-ink)] font-display mb-6 drop-shadow-lg leading-tight">
+            {dict.hero_title || 'Ontdek het beste van Ibiza'}
+          </h1>
+          <p className="text-lg md:text-2xl text-[var(--color-ink)]/90 font-medium mb-10 max-w-2xl mx-auto drop-shadow-md">
+            {dict.hero_subtitle || 'Boek de dikste feesten, mooiste boottochten en leukste excursies voor jouw vakantie.'}
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <button onClick={() => scrollToCategory('clubtickets')} className="bg-[var(--color-sea)] text-[var(--color-paper)] px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-all shadow-xl">
+              Ontdek Club Tickets
+            </button>
+            <button onClick={() => scrollToCategory('boatparties')} className="bg-[var(--color-card)] text-[var(--color-ink)] px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-all shadow-xl">
+              Bekijk Bootfeesten
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="w-full relative z-20">
@@ -314,7 +335,7 @@ export default function HomePageClient({
           <div className="max-w-7xl mx-auto flex items-center p-2 gap-2">
             {ALL_CATEGORIES.map(cat => (
               <button key={cat.id} onClick={() => scrollToCategory(cat.id)} className="px-4 py-2 text-xs md:text-sm font-semibold rounded-full border border-slate-200 hover:border-[#4ba296] hover:text-[#4ba296] transition-all bg-white shadow-sm flex items-center gap-2">
-                <span>{cat.emoji}</span> {cat.label}
+                <span className="w-4 h-4 flex items-center justify-center">{cat.icon}</span> {cat.label}
               </button>
             ))}
           </div>
@@ -345,7 +366,7 @@ export default function HomePageClient({
           const nextCat = ALL_CATEGORIES[index + 1];
 
           return (
-            <section key={cat.id} id={cat.id} className={`${cat.theme} bg-[var(--color-paper)] relative`}>
+            <section key={cat.id} id={cat.id} className={`${cat.theme} bg-[var(--color-paper)] relative snap-start`}>
               {/* If first section, give some padding */}
               {index === 0 && <div className="pt-8"></div>}
               
@@ -364,8 +385,8 @@ export default function HomePageClient({
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
                       
                       <div className="absolute inset-0 p-8 md:p-10 flex flex-col justify-end">
-                        <div className="bg-white/20 backdrop-blur-md w-14 h-14 rounded-full flex items-center justify-center text-2xl mb-5 border border-white/30 shadow-lg">
-                          {cat.emoji}
+                        <div className="bg-white/20 backdrop-blur-md w-14 h-14 rounded-full flex items-center justify-center text-white mb-5 border border-white/30 shadow-lg">
+                          {cat.icon}
                         </div>
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white font-display mb-4 leading-tight drop-shadow-md">
                           {cat.label}
@@ -380,21 +401,46 @@ export default function HomePageClient({
                     </div>
                   </div>
 
-                  {/* Right Column: Events Grid */}
-                  {hasEvents && (
+                  {/* Right Column: Events Grid OR Artists Slider */}
+                  {(hasEvents || cat.id === 'artiesten') && (
                     <div className="w-full lg:w-2/3 flex flex-col justify-center">
-                      <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-2xl font-bold text-[var(--color-ink)] font-display">Uitgelicht</h3>
-                        <Link href={`/${locale}/${cat.slug}`} className="text-[var(--color-sea)] font-bold hover:brightness-125 transition-colors hidden sm:flex items-center gap-1">
-                          Bekijk alles <ChevronRight size={16} />
-                        </Link>
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
-                        {events.slice(0, 4).map(e => renderEventCard(e, false))}
-                      </div>
-                      <Link href={`/${locale}/${cat.slug}`} className="mt-6 text-[var(--color-sea)] font-bold hover:brightness-125 transition-colors sm:hidden flex items-center gap-1 justify-center">
-                        Bekijk alles <ChevronRight size={16} />
-                      </Link>
+                      
+                      {cat.id === 'artiesten' ? (
+                        <div className="w-full">
+                          <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-2xl font-bold text-[var(--color-ink)] font-display">Top Artiesten</h3>
+                            <Link href={`/${locale}/${cat.slug}`} className="text-[var(--color-sea)] font-bold hover:brightness-125 transition-colors hidden sm:flex items-center gap-1">
+                              Bekijk alle artiesten <ChevronRight size={16} />
+                            </Link>
+                          </div>
+                          <div className="flex overflow-x-auto gap-6 pb-6 snap-x snap-mandatory scrollbar-hide">
+                            {artists && artists.slice(0, 10).map(artist => (
+                              <Link key={artist.id} href={`/${locale}/artists/${artist.slug}`} className="snap-center flex-shrink-0 w-40 md:w-48 group flex flex-col items-center">
+                                <div className="w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden relative mb-4 border-4 border-[var(--color-card)] shadow-lg group-hover:border-[var(--color-sea)] transition-all duration-300 group-hover:scale-105">
+                                  <Image src={artist.cover || artist.logo || 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1920'} alt={artist.name} fill className="object-cover" />
+                                </div>
+                                <h4 className="text-center font-bold text-lg text-[var(--color-ink)] group-hover:text-[var(--color-sea)] transition-colors">{artist.name}</h4>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-2xl font-bold text-[var(--color-ink)] font-display">Uitgelicht</h3>
+                            <Link href={`/${locale}/${cat.slug}`} className="text-[var(--color-sea)] font-bold hover:brightness-125 transition-colors hidden sm:flex items-center gap-1">
+                              Bekijk alles <ChevronRight size={16} />
+                            </Link>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+                            {events.slice(0, 4).map(e => renderEventCard(e, false))}
+                          </div>
+                          <Link href={`/${locale}/${cat.slug}`} className="mt-6 text-[var(--color-sea)] font-bold hover:brightness-125 transition-colors sm:hidden flex items-center gap-1 justify-center">
+                            Bekijk alles <ChevronRight size={16} />
+                          </Link>
+                        </>
+                      )}
+
                     </div>
                   )}
 
@@ -408,7 +454,7 @@ export default function HomePageClient({
         })}
 
         {/* Regions/Cities Section (Using info theme) */}
-        <section className="theme-info bg-[var(--color-paper)] py-16">
+        <section className="theme-monaco-breeze bg-[var(--color-paper)] py-16 snap-start">
           <div className="max-w-7xl mx-auto px-4 md:px-8">
             <h3 className="text-3xl md:text-5xl font-black text-[var(--color-ink)] mb-8 font-display">Ontdek de top locaties</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">

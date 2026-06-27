@@ -18,7 +18,7 @@ export default async function CalendarPage({
   const allDates = await getAllDates(params.locale)
 
   return (
-    <main className="theme-nightlife bg-[#f2f1fc] min-h-screen text-[var(--color-ink)] pt-32 pb-24">
+    <main className="theme-monaco-vip bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pt-32 pb-24">
       <div className="container mx-auto px-4 md:px-8">
         <h1 className="font-serif text-5xl md:text-6xl text-white drop-shadow-md mb-12">
           Ibiza party calendar

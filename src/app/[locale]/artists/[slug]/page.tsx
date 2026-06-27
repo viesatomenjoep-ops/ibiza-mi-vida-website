@@ -64,7 +64,7 @@ export default async function ArtistDetailPage({ params }: Props) {
   const mainImage = artist.cover || artist.logo || 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1920'
 
   return (
-    <main className="theme-nightlife bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)]">
+    <main className="theme-monaco-vip bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)]">
       <section className="relative flex min-h-[60vh] flex-col justify-end overflow-hidden" aria-label={`${artist.name} hero`}>
         <Image src={mainImage} alt={artist.name} fill className="object-cover opacity-60" priority />
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-paper)] via-transparent to-black/50" />

@@ -13,9 +13,9 @@ interface Props {
 }
 
 const CATEGORIES = [
-  { id: 'clubbing', name: 'Ibiza party calendar', typeId: 1, bgColor: 'bg-black text-[#a6f0c4]', inactiveColor: 'bg-black/5 text-black hover:bg-black/10' },
-  { id: 'boat', name: 'Ibiza boat calendar', typeId: 2, bgColor: 'bg-[#d2eaff] text-black', inactiveColor: 'bg-[#d2eaff]/50 text-black hover:bg-[#d2eaff]' },
-  { id: 'activities', name: 'Ibiza activities calendar', typeId: 3, bgColor: 'bg-[#a6f0c4] text-black', inactiveColor: 'bg-[#a6f0c4]/50 text-black hover:bg-[#a6f0c4]' },
+  { id: 'clubbing', name: 'Ibiza party calendar', typeId: 1, bgColor: 'bg-[var(--color-sea)] text-[var(--color-paper)]', inactiveColor: 'bg-[var(--color-card)] text-[var(--color-ink)] hover:bg-[var(--color-line)]', themeClass: 'theme-monaco-vip' },
+  { id: 'boat', name: 'Ibiza boat calendar', typeId: 2, bgColor: 'bg-[var(--color-sea)] text-[var(--color-paper)]', inactiveColor: 'bg-[var(--color-card)] text-[var(--color-ink)] hover:bg-[var(--color-line)]', themeClass: 'theme-monaco-water' },
+  { id: 'activities', name: 'Ibiza activities calendar', typeId: 3, bgColor: 'bg-[var(--color-sea)] text-[var(--color-paper)]', inactiveColor: 'bg-[var(--color-card)] text-[var(--color-ink)] hover:bg-[var(--color-line)]', themeClass: 'theme-monaco-sand' },
 ]
 
 export default function IbizaCalendarClient({ venues, allDates, locale }: Props) {
@@ -124,10 +124,10 @@ export default function IbizaCalendarClient({ venues, allDates, locale }: Props)
   }, [weekEvents, venues])
 
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className={`flex flex-col items-center w-full ${activeCategory.themeClass} min-h-screen bg-[var(--color-paper)] p-4 md:p-8 rounded-[32px] transition-colors duration-500`}>
       
       {/* Category Pills */}
-      <div className="flex flex-wrap justify-center gap-4 mb-8 bg-[#f8f8fb] p-6 rounded-3xl w-full max-w-4xl shadow-sm border border-black/5">
+      <div className="flex flex-wrap justify-center gap-4 mb-8 bg-[var(--color-card)] p-4 md:p-6 rounded-3xl w-full max-w-4xl shadow-lg border border-[var(--color-line)]">
         {CATEGORIES.map(cat => {
           const isActive = activeCategory.id === cat.id
           return (
@@ -147,10 +147,10 @@ export default function IbizaCalendarClient({ venues, allDates, locale }: Props)
         <div className="flex flex-wrap justify-center gap-3 mb-6">
           {availableMonths.map(month => {
             const isActive = activeMonth === month
-            // Use screenshot colors: light green for inactive, black for active
-            const baseClass = "px-6 py-2 rounded-full font-bold text-sm transition-colors cursor-pointer"
-            const activeClass = "bg-black text-[#a6f0c4]"
-            const inactiveClass = "bg-[#c1efcf] text-black hover:bg-[#a6f0c4]"
+              // Use theme colors
+              const baseClass = "px-6 py-2 rounded-full font-bold text-sm transition-colors cursor-pointer shadow-sm border border-[var(--color-line)]"
+              const activeClass = "bg-[var(--color-sea)] text-[var(--color-paper)]"
+              const inactiveClass = "bg-[var(--color-card)] text-[var(--color-ink)] hover:brightness-95"
             
             return (
               <button
@@ -170,9 +170,9 @@ export default function IbizaCalendarClient({ venues, allDates, locale }: Props)
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           {availableWeeks.map((week, idx) => {
             const isActive = activeWeekIndex === idx
-            const baseClass = "px-6 py-3 rounded-full font-bold text-sm transition-all cursor-pointer shadow-sm border border-black/5"
-            const activeClass = "bg-black text-white"
-            const inactiveClass = "bg-white text-black hover:bg-gray-100"
+            const baseClass = "px-6 py-3 rounded-full font-bold text-sm transition-all cursor-pointer shadow-sm border border-[var(--color-line)]"
+            const activeClass = "bg-[var(--color-sea)] text-[var(--color-paper)]"
+            const inactiveClass = "bg-[var(--color-card)] text-[var(--color-ink)] hover:brightness-95"
             
             return (
               <button
