@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Star, ChevronRight, Calendar, MapPin, Flame, Ticket, Headphones, Ship, Anchor, Map, Sailboat, Wine, Car, ClipboardList, Lightbulb, Newspaper, Tag } from 'lucide-react';
+import { Star, ChevronRight, Calendar, MapPin, Flame, Ticket, Headphones, Ship, Anchor, Map as MapIcon, Sailboat, Wine, Car, ClipboardList, Lightbulb, Newspaper, Tag } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import type { CTEventDate, CTVenue } from '@/lib/clubtickets';
 import { locations } from '@/lib/locations';
@@ -77,7 +77,7 @@ const ALL_CATEGORIES = [
   { id: 'privateboat', slug: 'private-boat-charters', dictTitleKey: 'cat_privateboat_title', dictDescKey: 'cat_privateboat_desc', label: 'Private Boat Charters', theme: 'theme-monaco-water', icon: <Anchor />, wave: 'var(--wave-fill)',
     imageUrl: 'https://images.unsplash.com/photo-1567606403063-832128ce3a00?q=80&w=1920',
     desc: 'Huur je eigen privéjacht voor een exclusieve ervaring op zee. Perfect voor vriendengroepen en speciale gelegenheden.' },
-  { id: 'formentera', slug: 'formentera-boat-trips', dictTitleKey: 'cat_formentera_title', dictDescKey: 'cat_formentera_desc', label: 'Formentera Trips', theme: 'theme-monaco-water', icon: <Map />, wave: 'var(--wave-fill)',
+  { id: 'formentera', slug: 'formentera-boat-trips', dictTitleKey: 'cat_formentera_title', dictDescKey: 'cat_formentera_desc', label: 'Formentera Trips', theme: 'theme-monaco-water', icon: <MapIcon />, wave: 'var(--wave-fill)',
     imageUrl: 'https://images.unsplash.com/photo-1601004146039-49339e723cc5?q=80&w=1920',
     desc: 'Ontdek het adembenemende zustereiland Formentera. Helderblauw water en witte zandstranden wachten op je.' },
   { id: 'vipcatamaran', slug: 'vip-catamaran', dictTitleKey: 'cat_vipcatamaran_title', dictDescKey: 'cat_vipcatamaran_desc', label: 'VIP Catamaran', theme: 'theme-monaco-water', icon: <Sailboat />, wave: 'var(--wave-fill)',
