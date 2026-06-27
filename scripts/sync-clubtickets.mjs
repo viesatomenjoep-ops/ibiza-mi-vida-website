@@ -23,15 +23,31 @@ function deepCleanHtml(html) {
     // CSS rules
     if (l.startsWith(':root{') || l.startsWith(':root {') || l.startsWith('}')) return false;
     if (l.startsWith('--')) return false;
-    if (l.match(/^[\.#a-zA-Z0-9_\-:\s,]+{/)) return false;
+    if (l.match(/^[\.#a-zA-Z0-9_\-:\s,\[\]\>\*]+(?:,|{)$/)) return false;
     if (l.match(/^[a-zA-Z\-]+:\s*[^;]+;/)) return false;
     if (l.startsWith('/*') && l.endsWith('*/')) return false;
     if (l.startsWith('@media') || l.startsWith('@keyframes')) return false;
-    if (l.match(/^[0-9]+% {/)) return false; // keyframes percentages
+    if (l.match(/^[0-9]+% {/)) return false;
     if (l.includes('from{') || l.includes('to{')) return false;
-    if (l.includes('outline:none!important;')) return false;
-    if (l.includes('box-shadow:none!important;')) return false;
-    if (l.includes('-webkit-')) return false;
+    
+    // Hardcoded aggressive CSS stripping for Clubtickets injected garbage
+    if (
+      l.includes('details[open]') || 
+      l.includes('.detalles') || 
+      l.includes('.itinerary-block') || 
+      l.includes('.pill::after') ||
+      l.includes('.pill{') ||
+      l.includes('.included-row{') ||
+      l.includes('.chip{') ||
+      l.includes('.icon{') ||
+      l.includes('box-sizing:border-box') ||
+      l.includes('content:"–"') ||
+      l.includes('outline:none!important;') ||
+      l.includes('box-shadow:none!important;') ||
+      l.includes('-webkit-')
+    ) {
+      return false;
+    }
     
     // JS lines
     if (
@@ -52,7 +68,8 @@ function deepCleanHtml(html) {
       l.includes('document.querySelectorAll') ||
       l.includes('const listEl =') ||
       l.includes('if(listEl) new MutationObserver') ||
-      l.includes('})();')
+      l.includes('})();') ||
+      l.includes('d.addEventListener')
     ) {
       return false;
     }

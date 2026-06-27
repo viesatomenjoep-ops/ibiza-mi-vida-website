@@ -166,7 +166,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                 <h2 className="font-serif text-[32px] md:text-[42px] font-bold text-[#1A1A1A] mb-8">
                   {club.name} information
                 </h2>
-                <div className="prose prose-lg mx-auto text-[#1A1A1A]/70 leading-relaxed font-sans prose-p:mb-6">
+                <div className="prose prose-lg mx-auto text-[#1A1A1A] leading-relaxed font-sans prose-p:mb-6">
                   <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: cleanDescription }} />
                 </div>
               </AnimatedSection>

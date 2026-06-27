@@ -83,7 +83,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
             {cleanDescription && (
               <AnimatedSection delay={100}>
                 <h2 className="font-serif text-3xl font-bold text-velvet-obsidian mb-6">About {eventName}</h2>
-                <div className="prose prose-lg max-w-none text-velvet-obsidian/70">
+                <div className="prose prose-lg max-w-none text-velvet-obsidian">
                   <p>{cleanDescription}</p>
                 </div>
               </AnimatedSection>
