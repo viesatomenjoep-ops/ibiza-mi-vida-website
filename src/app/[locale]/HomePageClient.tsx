@@ -62,18 +62,42 @@ function getWeekNumber(d: Date) {
 
 // 3. 12 CATEGORIES DEFINITION WITH THEMES
 const ALL_CATEGORIES = [
-  { id: 'deals', slug: 'deals-of-the-day', label: 'Deals of the Day', theme: 'theme-nightlife', emoji: '🔥', wave: 'var(--wave-fill)' },
-  { id: 'clubtickets', slug: 'club-tickets', label: 'Club Tickets', theme: 'theme-nightlife', emoji: '🎟️', wave: 'var(--wave-fill)' },
-  { id: 'boatparties', slug: 'boat-parties', label: 'Bootfeesten', theme: 'theme-water', emoji: '⚓', wave: 'var(--wave-fill)' },
-  { id: 'privateboat', slug: 'private-boat-charters', label: 'Private Boat Charters', theme: 'theme-water', emoji: '🛥️', wave: 'var(--wave-fill)' },
-  { id: 'formentera', slug: 'formentera-boat-trips', label: 'Formentera Trips', theme: 'theme-water', emoji: '🏝️', wave: 'var(--wave-fill)' },
-  { id: 'vipcatamaran', slug: 'vip-catamaran', label: 'VIP Catamaran', theme: 'theme-water', emoji: '⛵', wave: 'var(--wave-fill)' },
-  { id: 'drankpakketten', slug: 'drink-packages', label: 'Drankpakketten', theme: 'theme-services', emoji: '🍾', wave: 'var(--wave-fill)' },
-  { id: 'carrental', slug: 'car-scooter-rental', label: 'Car & Scooter Rental', theme: 'theme-services', emoji: '🚗', wave: 'var(--wave-fill)' },
-  { id: 'gastenlijst', slug: 'guestlist', label: 'Gastenlijst', theme: 'theme-nightlife', emoji: '📝', wave: 'var(--wave-fill)' },
-  { id: 'ibizatips', slug: 'tips', label: 'Ibiza Tips', theme: 'theme-info', emoji: '💡', wave: 'var(--wave-fill)' },
-  { id: 'blog', slug: 'blog', label: 'Blog', theme: 'theme-info', emoji: '📰', wave: 'var(--wave-fill)' },
-  { id: 'freediscount', slug: 'free-discount-ibiza', label: 'Free & Discount Ibiza', theme: 'theme-info', emoji: '🏷️', wave: 'var(--wave-fill)' }
+  { id: 'deals', slug: 'deals-of-the-day', label: 'Deals of the Day', theme: 'theme-nightlife', emoji: '🔥', wave: 'var(--wave-fill)', 
+    imageUrl: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=1920',
+    desc: 'Ontdek de scherpste aanbiedingen en last-minute kortingen voor de heetste events van vandaag.' },
+  { id: 'clubtickets', slug: 'club-tickets', label: 'Club Tickets', theme: 'theme-nightlife', emoji: '🎟️', wave: 'var(--wave-fill)',
+    imageUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1920',
+    desc: 'Beleef de beste clubavonden op Ibiza. Koop je tickets veilig en snel en sla de wachtrijen over.' },
+  { id: 'boatparties', slug: 'boat-parties', label: 'Bootfeesten', theme: 'theme-water', emoji: '⚓', wave: 'var(--wave-fill)',
+    imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1920',
+    desc: 'Dans op de golven met de beste dj\'s tijdens een onvergetelijke zonsondergang op de Middellandse Zee.' },
+  { id: 'privateboat', slug: 'private-boat-charters', label: 'Private Boat Charters', theme: 'theme-water', emoji: '🛥️', wave: 'var(--wave-fill)',
+    imageUrl: 'https://images.unsplash.com/photo-1567606403063-832128ce3a00?q=80&w=1920',
+    desc: 'Huur je eigen privéjacht voor een exclusieve ervaring op zee. Perfect voor vriendengroepen en speciale gelegenheden.' },
+  { id: 'formentera', slug: 'formentera-boat-trips', label: 'Formentera Trips', theme: 'theme-water', emoji: '🏝️', wave: 'var(--wave-fill)',
+    imageUrl: 'https://images.unsplash.com/photo-1601004146039-49339e723cc5?q=80&w=1920',
+    desc: 'Ontdek het adembenemende zustereiland Formentera. Helderblauw water en witte zandstranden wachten op je.' },
+  { id: 'vipcatamaran', slug: 'vip-catamaran', label: 'VIP Catamaran', theme: 'theme-water', emoji: '⛵', wave: 'var(--wave-fill)',
+    imageUrl: 'https://images.unsplash.com/photo-1540946485063-a40da27545f8?q=80&w=1920',
+    desc: 'Ervaar ultieme luxe op een spectaculaire catamaran, compleet met VIP-service, drankjes en entertainment.' },
+  { id: 'drankpakketten', slug: 'drink-packages', label: 'Drankpakketten', theme: 'theme-services', emoji: '🍾', wave: 'var(--wave-fill)',
+    imageUrl: 'https://images.unsplash.com/photo-1574096079513-d8259312b78a?q=80&w=1920',
+    desc: 'Maak je clubavond compleet met onze premium drankpakketten en exclusieve flessenservice.' },
+  { id: 'carrental', slug: 'car-scooter-rental', label: 'Car & Scooter Rental', theme: 'theme-services', emoji: '🚗', wave: 'var(--wave-fill)',
+    imageUrl: 'https://images.unsplash.com/photo-1582046830509-0d2875b2b005?q=80&w=1920',
+    desc: 'Verken het eiland in je eigen tempo. Huur betrouwbaar en snel een auto of scooter zonder gedoe.' },
+  { id: 'gastenlijst', slug: 'guestlist', label: 'Gastenlijst', theme: 'theme-nightlife', emoji: '📝', wave: 'var(--wave-fill)',
+    imageUrl: 'https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=1920',
+    desc: 'Meld je aan voor de exclusieve gastenlijsten van de beste feesten en profiteer van VIP-voordelen.' },
+  { id: 'ibizatips', slug: 'tips', label: 'Ibiza Tips', theme: 'theme-info', emoji: '💡', wave: 'var(--wave-fill)',
+    imageUrl: 'https://images.unsplash.com/photo-1563298723-dcfebaa392e3?q=80&w=1920',
+    desc: 'Onze insider tips en hotspots. Ontdek de verborgen parels, beste restaurants en mooiste stranden.' },
+  { id: 'blog', slug: 'blog', label: 'Blog', theme: 'theme-info', emoji: '📰', wave: 'var(--wave-fill)',
+    imageUrl: 'https://images.unsplash.com/photo-1510444589-9807fa7de323?q=80&w=1920',
+    desc: 'Lees de laatste nieuwtjes, trends en verhalen over het partyleven en de cultuur op Ibiza.' },
+  { id: 'freediscount', slug: 'free-discount-ibiza', label: 'Free & Discount Ibiza', theme: 'theme-info', emoji: '🏷️', wave: 'var(--wave-fill)',
+    imageUrl: 'https://images.unsplash.com/photo-1558522195-e1201b090344?q=80&w=1920',
+    desc: 'Bespaar op je vakantie met onze gratis toegangen, kortingscodes en speciale aanbiedingen.' }
 ];
 
 function getCategoryForEvent(event: CTEventDate, venues: CTVenue[]): string {
@@ -325,33 +349,56 @@ export default function HomePageClient({
               {/* If first section, give some padding */}
               {index === 0 && <div className="pt-8"></div>}
               
-              <div className="max-w-7xl mx-auto px-4 md:px-8 py-16">
-                <div className="flex items-center gap-3 mb-8">
-                  <span className="text-3xl">{cat.emoji}</span>
-                  <h2 className="text-3xl md:text-5xl font-black text-[var(--color-ink)] font-display">{cat.label}</h2>
+              <div className="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24">
+                <div className={`flex flex-col ${hasEvents ? 'lg:flex-row' : 'md:flex-row items-center justify-center'} gap-8 lg:gap-12`}>
+                  
+                  {/* Left Column: Visual Hero Block */}
+                  <div className={`w-full ${hasEvents ? 'lg:w-1/3' : 'md:w-1/2 max-w-2xl'} flex flex-col`}>
+                    <div className="relative w-full h-[400px] md:h-[480px] rounded-[32px] overflow-hidden shadow-2xl group">
+                      <Image 
+                        src={cat.imageUrl} 
+                        alt={cat.label} 
+                        fill 
+                        className="object-cover group-hover:scale-105 transition-transform duration-700" 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+                      
+                      <div className="absolute inset-0 p-8 md:p-10 flex flex-col justify-end">
+                        <div className="bg-white/20 backdrop-blur-md w-14 h-14 rounded-full flex items-center justify-center text-2xl mb-5 border border-white/30 shadow-lg">
+                          {cat.emoji}
+                        </div>
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white font-display mb-4 leading-tight drop-shadow-md">
+                          {cat.label}
+                        </h2>
+                        <p className="text-white/90 text-base md:text-lg font-medium mb-8 leading-relaxed">
+                          {cat.desc}
+                        </p>
+                        <Link href={`/${locale}/${cat.slug}`} className="bg-white text-black px-8 py-3.5 rounded-full font-bold hover:scale-105 transition-all text-sm md:text-base w-fit flex items-center gap-2 shadow-xl">
+                          Ontdekken <ChevronRight size={18} />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Events Grid */}
+                  {hasEvents && (
+                    <div className="w-full lg:w-2/3 flex flex-col justify-center">
+                      <div className="flex items-center justify-between mb-6">
+                        <h3 className="text-2xl font-bold text-[var(--color-ink)] font-display">Uitgelicht</h3>
+                        <Link href={`/${locale}/${cat.slug}`} className="text-[var(--color-sea)] font-bold hover:brightness-125 transition-colors hidden sm:flex items-center gap-1">
+                          Bekijk alles <ChevronRight size={16} />
+                        </Link>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+                        {events.slice(0, 4).map(e => renderEventCard(e, false))}
+                      </div>
+                      <Link href={`/${locale}/${cat.slug}`} className="mt-6 text-[var(--color-sea)] font-bold hover:brightness-125 transition-colors sm:hidden flex items-center gap-1 justify-center">
+                        Bekijk alles <ChevronRight size={16} />
+                      </Link>
+                    </div>
+                  )}
+
                 </div>
-                
-                {hasEvents ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                    {events.slice(0, 8).map(e => renderEventCard(e, false))}
-                  </div>
-                ) : (
-                  <div className="bg-[var(--color-card)] rounded-2xl p-8 border border-[var(--color-line)] flex flex-col items-center justify-center text-center">
-                    <h3 className="text-xl font-bold text-[var(--color-ink)] mb-4">Ontdek {cat.label}</h3>
-                    <p className="text-[var(--color-slate)] mb-6 max-w-md">Bekijk alle informatie en mogelijkheden voor {cat.label} op onze speciale pagina.</p>
-                    <Link href={`/${locale}/${cat.slug}`} className="bg-[var(--color-sea)] text-white px-6 py-3 rounded-full font-bold hover:brightness-110 transition-all flex items-center gap-2">
-                      Bekijken <ChevronRight size={18} />
-                    </Link>
-                  </div>
-                )}
-                
-                {hasEvents && (
-                  <div className="mt-8 text-center">
-                    <Link href={`/${locale}/${cat.slug}`} className="inline-flex items-center gap-2 font-bold text-[var(--color-sea)] hover:brightness-125 transition-all">
-                      Bekijk alle {cat.label} <ChevronRight size={16} />
-                    </Link>
-                  </div>
-                )}
               </div>
               
               {/* Wave transition to next section */}
