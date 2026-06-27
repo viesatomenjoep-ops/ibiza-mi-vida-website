@@ -147,14 +147,60 @@ function stripHtml(html: string | undefined): string {
 
 function cleanHtml(html: string | undefined): string {
   if (!html) return '';
-  let str = html;
   
-  // Split away the promo garbage first
-  str = str.split('.promo-hz')[0];
-  
-  // Remove style and script blocks and their content completely
+  // 1. Remove promo garbage and standard script/style tags
+  let str = html.split('.promo-hz')[0];
   str = str.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
   str = str.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+
+  // 2. Remove raw pseudo-CSS and JS using line-by-line heuristics
+  const lines = str.split('\n');
+  const cleanedLines = lines.filter(line => {
+    const l = line.replace(/<br \/>/g, '').trim();
+    
+    // CSS rules
+    if (l.startsWith(':root{') || l.startsWith(':root {') || l.startsWith('}')) return false;
+    if (l.startsWith('--')) return false;
+    if (l.match(/^[\.#a-zA-Z0-9_\-:\s,]+{/)) return false;
+    if (l.match(/^[a-zA-Z\-]+:\s*[^;]+;/)) return false;
+    if (l.startsWith('/*') && l.endsWith('*/')) return false;
+    if (l.startsWith('@media') || l.startsWith('@keyframes')) return false;
+    if (l.match(/^[0-9]+% {/)) return false; // keyframes percentages
+    if (l.includes('from{') || l.includes('to{')) return false;
+    if (l.includes('outline:none!important;')) return false;
+    if (l.includes('box-shadow:none!important;')) return false;
+    if (l.includes('-webkit-')) return false;
+    
+    // JS lines
+    if (
+      l.includes('(function(){') || 
+      l.includes('function recalc(){') || 
+      l.includes('const list = document.getElementById') || 
+      l.includes('const line = document.getElementById') ||
+      l.includes('if(!list || !line) return;') ||
+      l.includes('const icons = list.querySelectorAll') ||
+      l.includes('if(icons.length') ||
+      l.includes('const first = icons') ||
+      l.includes('const last = icons') ||
+      l.includes('const box = list') ||
+      l.includes('const y1 =') ||
+      l.includes('const y2 =') ||
+      l.includes('line.style.') || 
+      l.includes('window.addEventListener') || 
+      l.includes('document.querySelectorAll') ||
+      l.includes('const listEl =') ||
+      l.includes('if(listEl) new MutationObserver') ||
+      l.includes('})();')
+    ) {
+      return false;
+    }
+    return true;
+  });
+  
+  str = cleanedLines.join('\n');
+  
+  // 3. Clean empty <br /> chains left behind
+  str = str.replace(/(?:<br \/>\s*){3,}/g, '<br /><br />');
   
   return str.trim();
 }
