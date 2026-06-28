@@ -138,7 +138,7 @@ async function syncLocale(locale) {
   for (const v of venuesList) {
     console.log(`[${locale}] Fetching details for venue: ${v.name}`);
     const venueDetail = await fetchWithRetry(`${BASE_URL}/venue/${v.id}?locale=${locale}`);
-    await delay(200); // polite delay
+    await delay(50); // polite delay
     
     if (!venueDetail) continue;
 
@@ -152,7 +152,7 @@ async function syncLocale(locale) {
       for (const e of venueDetail.events) {
         console.log(`  [${locale}] Fetching event details: ${e.name}`);
         const eventDetail = await fetchWithRetry(`${BASE_URL}/venue/${v.id}/event/${e.id}?locale=${locale}`);
-        await delay(200);
+        await delay(50);
         
         if (!eventDetail) continue;
 
@@ -235,9 +235,8 @@ async function syncLocale(locale) {
 }
 
 async function runAll() {
-  for (const locale of LOCALES) {
-    await syncLocale(locale);
-  }
+  // Run all locales in parallel to speed up the build time 5x
+  await Promise.all(LOCALES.map(locale => syncLocale(locale)));
 }
 
 runAll().catch(console.error);
