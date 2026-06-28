@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { CTEventDate, CTVenue } from '@/lib/clubtickets';
+import '@/styles/home.css';
 
 // --- SVGs ---
 const SearchIcon = () => <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>;

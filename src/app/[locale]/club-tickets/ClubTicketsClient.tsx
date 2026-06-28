@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Search, MapPin, ChevronRight, Star, Heart, Calendar } from 'lucide-react';
 import type { CTEventDate } from '@/lib/clubtickets';
+import '@/styles/club-tickets.css';
 
 function parsePrice(priceStr?: string): number {
   if (!priceStr) return 50;
