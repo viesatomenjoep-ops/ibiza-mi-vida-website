@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { Search, Globe, HelpCircle, User, ShoppingCart, Menu, X } from 'lucide-react'
+import { Search, Globe, Menu, X, Calendar, Ticket, Ship, ShoppingCart, User } from 'lucide-react'
 import { useCart } from '@/context/cart-context'
 import { SearchBar } from '@/components/ui/SearchBar'
 
@@ -30,7 +30,6 @@ function LanguageSelector() {
   const [open, setOpen] = useState(false)
 
   const switchLanguage = (code: string) => {
-    // Vervang de locale in de URL
     const segments = pathname.split('/')
     if (LOCALES.some(l => l.code === segments[1])) {
       segments[1] = code
@@ -44,9 +43,10 @@ function LanguageSelector() {
     <div className="relative">
       <button 
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 text-base font-bold text-slate-700 hover:text-[#00A698] transition-colors uppercase"
+        className="icon-btn"
+        aria-label="Select language"
       >
-        <Globe size={20} /> {currentLocale.code}
+        <Globe size={21} className="text-[var(--sage)]" />
       </button>
       
       {open && (
@@ -70,190 +70,157 @@ function LanguageSelector() {
 }
 
 const categories = [
-  { label: 'Ibiza Calendar', href: '/calendar' },
-  { label: 'Deals of the Day', href: '/deals-of-the-day' },
-  { label: 'Club Tickets', href: '/club-tickets' },
-  { label: 'Boat Parties', href: '/boat-parties' },
-  { label: 'Private Boat Charters', href: '/private-boat-charters' },
-  { label: 'Formentera Trips', href: '/formentera-boat-trips' },
-  { label: 'VIP Catamaran', href: '/vip-catamaran' },
-  { label: 'Drink Packages', href: '/drink-packages' },
-  { label: 'Car & Scooter Rental', href: '/car-scooter-rental' },
-  { label: 'Guestlist', href: '/guestlist' },
-  { label: 'Ibiza Tips', href: '/tips' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Free & Discount Ibiza', href: '/free-discount-ibiza' },
-]
-
-const mainCategories = [
-  { label: 'Ibiza Calendar', href: '/calendar' },
-  { label: 'Club Tickets', href: '/club-tickets' },
-  { label: 'Boat Parties', href: '/boat-parties' },
-  { label: 'Deals of the Day', href: '/deals-of-the-day' },
-  { label: 'Private Boat Charters', href: '/private-boat-charters' },
+  { label: 'Ibiza Calendar', href: '/calendar', icon: Calendar },
+  { label: 'Club Tickets', href: '/club-tickets', icon: Ticket },
+  { label: 'Boat Parties', href: '/boat-parties', icon: Ship },
+  { label: 'Deals of the Day', href: '/deals-of-the-day', icon: Ticket },
+  { label: 'Private Boat Charters', href: '/private-boat-charters', icon: Ship },
+  { label: 'Formentera Trips', href: '/formentera-boat-trips', icon: Ship },
+  { label: 'VIP Catamaran', href: '/vip-catamaran', icon: Ship },
+  { label: 'Drink Packages', href: '/drink-packages', icon: Ticket },
+  { label: 'Car & Scooter Rental', href: '/car-scooter-rental', icon: Ticket },
+  { label: 'Guestlist', href: '/guestlist', icon: Ticket },
+  { label: 'Ibiza Tips', href: '/tips', icon: Ticket },
+  { label: 'Blog', href: '/blog', icon: Ticket },
+  { label: 'Free & Discount Ibiza', href: '/free-discount-ibiza', icon: Ticket },
 ]
 
 export function Navbar({ artists = [], dict }: { artists?: Artist[], dict?: any }) {
+  const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   const pathname = usePathname()
   const { openDrawer, totalItems } = useCart()
 
   useEffect(() => {
     setMenuOpen(false)
-    setMobileSearchOpen(false)
+    setSearchOpen(false)
   }, [pathname])
 
-  const isHomepage = ['/', '/nl', '/en', '/es'].includes(pathname)
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   const currentLocale = LOCALES.find(l => pathname.startsWith(`/${l.code}/`) || pathname === `/${l.code}`) || LOCALES[0]
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white border-b border-slate-200 shadow-sm">
-      {/* Top Main Bar */}
-      <div className="max-w-7xl mx-auto px-4 h-[96px] flex items-center justify-between gap-4 md:gap-8">
-        
-        {/* Left: Logo */}
-        <Link href="/" className="flex items-center shrink-0 group">
-          <div className="relative w-14 h-14 sm:w-16 sm:h-16 mr-3">
-            <Image 
-              src="/logo-clean.png" 
-              alt="Ibiza Mi Vida" 
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
-          <span className="font-black text-2xl sm:text-3xl tracking-tighter text-[#00A698] hidden sm:block">ibizamivida</span>
-        </Link>
-
-        {/* Center: Search Bar */}
-        <div className="flex-1 max-w-2xl hidden md:flex">
-          <SearchBar 
-            placeholder={dict?.search_placeholder || "Zoek bestemmingen & ervaringen"} 
-            locale={currentLocale.code} 
-          />
-        </div>
-
-        {/* Right: Actions */}
-        <div className="flex items-center gap-3 md:gap-5">
+    <>
+      <header id="header" className={scrolled ? 'scrolled' : ''}>
+        <div className="wrap nav">
+          <Link href={`/${currentLocale.code}`} className="brand">
+            <span className="mark">
+              <img src="/logo-clean.png" alt="Ibiza mi Vida" className="w-[30px] h-[30px] object-contain invert brightness-0" />
+            </span>
+            <b>Ibiza mi <span>Vida</span></b>
+          </Link>
           
-          {!isHomepage && (
-            <Link href="/" className="font-bold text-base text-slate-700 hover:text-[#00A698] transition-colors mr-1">
-              IBZMV
+          <nav className="nav-center">
+            <Link href={`/${currentLocale.code}/calendar`} className={pathname.includes('/calendar') ? 'active' : ''}>
+              <Calendar className="ic" /> Calendar
             </Link>
-          )}
-
-          <div className="block">
-            <LanguageSelector />
-          </div>
-
-          <button className="hidden sm:flex items-center gap-2 text-base font-bold text-slate-700 hover:text-[#00A698] transition-colors">
-            <User size={24} /> {dict?.nav_login || 'Log in'}
-          </button>
-
-          {/* Mobile Search Toggle */}
-          <button 
-            className="md:hidden p-2 text-slate-700 hover:text-[#00A698]"
-            onClick={() => {
-              setMobileSearchOpen(!mobileSearchOpen)
-              setMenuOpen(false)
-            }}
-          >
-            <Search size={26} />
-          </button>
-
-          {/* Cart */}
-          <button
-            onClick={openDrawer}
-            className="relative p-2 text-slate-700 hover:text-[#00A698] transition-colors"
-            aria-label="Open cart"
-          >
-            <ShoppingCart size={26} />
-            {totalItems > 0 && (
-              <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-[#00A698] text-xs font-bold text-white">
-                {totalItems}
-              </span>
-            )}
-          </button>
-
-          {/* Mobile Menu Toggle */}
-          <button 
-            onClick={() => {
-              setMenuOpen(!menuOpen)
-              setMobileSearchOpen(false)
-            }}
-            className="p-2 text-slate-700 hover:text-[#00A698] z-[60] relative"
-          >
-            {menuOpen ? <X size={32} /> : <Menu size={32} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Secondary Bar: Categories (Desktop) */}
-      <div className="hidden lg:flex max-w-7xl mx-auto px-4 h-12 items-center gap-8 overflow-x-auto no-scrollbar border-t border-slate-100">
-            {mainCategories.map((cat) => {
-              const label = dict ? dict[`nav_${cat.href.replace('/', '').replace(/-/g, '_')}`] : cat.label;
-              return (
-                <Link 
-                  key={cat.href} 
-                  href={cat.href}
-                  className="px-4 py-2 text-[15px] font-bold text-slate-700 hover:text-[#00A698] hover:bg-slate-50 rounded-full transition-colors whitespace-nowrap"
-                >
-                  {label || cat.label}
-                </Link>
-              )
-            })}
-      </div>
-
-      {/* Mobile Menu Dropdown (Full Screen) */}
-      {menuOpen && (
-        <div className="fixed inset-0 z-50 bg-white flex flex-col pt-24 pb-8 overflow-y-auto">
-          <div className="px-6 pb-6">
-            <h2 className="text-xl font-black text-slate-900 mb-4">Ontdek Ibiza</h2>
-            <div className="flex flex-col gap-2">
-                    {categories.map((cat) => {
-                      const label = dict ? dict[`nav_${cat.href.replace('/', '').replace(/-/g, '_')}`] : cat.label;
-                      return (
-                        <Link 
-                          key={cat.href} 
-                          href={cat.href}
-                          className="px-4 py-3 font-semibold text-slate-700 hover:text-[#00A698] hover:bg-slate-50 rounded-xl transition-colors border border-transparent hover:border-slate-100"
-                        >
-                          {label || cat.label}
-                        </Link>
-                      )
-                    })}
-            </div>
-          </div>
+            <Link href={`/${currentLocale.code}/club-tickets`} className={pathname.includes('/club-tickets') ? 'active' : ''}>
+              <Ticket className="ic" /> Club Tickets
+            </Link>
+            <Link href={`/${currentLocale.code}/boat-parties`} className={pathname.includes('/boat-parties') ? 'active' : ''}>
+              <Ship className="ic" /> Boat Parties
+            </Link>
+          </nav>
           
-          <div className="px-6 py-6 bg-slate-50 mt-auto border-t border-slate-200">
-            <button className="flex items-center gap-4 text-lg font-bold text-slate-700 hover:text-[#00A698] w-full py-3">
-              <User size={24} /> Log in of account aanmaken
+          <div className="nav-right">
+            <LanguageSelector />
+            
+            <button className="icon-btn relative" onClick={openDrawer}>
+              <ShoppingCart size={21} />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-[var(--green)] text-xs font-bold text-[var(--sage)] border-2 border-white">
+                  {totalItems}
+                </span>
+              )}
+            </button>
+            
+            <button className="icon-btn hidden md:flex" onClick={() => setSearchOpen(true)}>
+              <Search size={21} />
+            </button>
+            
+            <button className="icon-btn burger" onClick={() => setMenuOpen(true)}>
+              <Menu size={21} className="stroke-[var(--sage)]" />
             </button>
           </div>
         </div>
-      )}
+      </header>
 
-      {/* Mobile Search Overlay */}
-      {mobileSearchOpen && (
-        <div className="fixed inset-0 z-40 bg-white flex flex-col pt-24 pb-8 px-4 md:hidden animate-in fade-in slide-in-from-top-2">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-black text-slate-900">Zoeken</h2>
-            <button 
-              onClick={() => setMobileSearchOpen(false)}
-              className="p-2 text-slate-500 hover:text-slate-900 bg-slate-100 rounded-full"
-            >
-              <X size={20} />
+      {/* SEARCH OVERLAY */}
+      <div className={`search-overlay ${searchOpen ? 'open' : ''}`}>
+        <div className="search-panel">
+          <div className="search-bar">
+            <Search size={22} className="stroke-[var(--sage-55)]" />
+            <input type="text" placeholder={dict?.search_placeholder || "Search destinations & clubs..."} autoFocus={searchOpen} />
+            <button className="icon-btn" onClick={() => setSearchOpen(false)}>
+              <X size={21} />
             </button>
           </div>
-          <div className="w-full relative z-50">
-            <SearchBar 
-              placeholder={dict?.search_placeholder || "Zoek bestemmingen & ervaringen"} 
-              locale={currentLocale.code} 
-            />
+          <div className="search-results">
+             <div className="search-empty">
+               Start typing to search clubs, tickets, and more...
+             </div>
+          </div>
+          <div className="search-hint">
+             <kbd>ESC</kbd> to close
           </div>
         </div>
-      )}
-    </header>
+      </div>
+      
+      {/* MENU DRAWER */}
+      <div className={`drawer-scrim ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(false)}></div>
+      <div className={`drawer ${menuOpen ? 'open' : ''}`}>
+        <div className="drawer-head">
+          <div className="brand">
+            <b>Ibiza mi <span>Vida</span></b>
+          </div>
+          <button className="icon-btn" onClick={() => setMenuOpen(false)}>
+            <X size={21} />
+          </button>
+        </div>
+        
+        <div className="drawer-search">
+           <Search size={19} />
+           <input type="text" placeholder="Search menu..." />
+        </div>
+        
+        <div className="drawer-nav">
+          <div className="drawer-sec">
+             <h4>Explore</h4>
+             {categories.slice(0, 7).map((cat, i) => (
+                <Link key={i} href={`/${currentLocale.code}${cat.href}`} className="drawer-link" onClick={() => setMenuOpen(false)}>
+                  <div className="di"><cat.icon size={20} /></div>
+                  {cat.label}
+                  <svg className="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </Link>
+             ))}
+          </div>
+          <div className="drawer-sec">
+             <h4>More</h4>
+             {categories.slice(7).map((cat, i) => (
+                <Link key={i} href={`/${currentLocale.code}${cat.href}`} className="drawer-link" onClick={() => setMenuOpen(false)}>
+                  <div className="di"><cat.icon size={20} /></div>
+                  {cat.label}
+                  <svg className="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </Link>
+             ))}
+          </div>
+        </div>
+        
+        <div className="drawer-foot">
+           <a href="https://wa.me/31612345678" className="wa" target="_blank" rel="noreferrer">
+             <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+             WhatsApp Support
+           </a>
+        </div>
+      </div>
+    </>
   )
 }
