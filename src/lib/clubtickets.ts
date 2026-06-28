@@ -341,3 +341,18 @@ export async function getArtists(locale: string = 'en', limit?: number): Promise
   }
   return artists;
 }
+
+export async function getArtist(slug: string, locale: string = 'en'): Promise<CTArtist | undefined> {
+  const data = loadData(locale);
+  return data.artists?.find(a => a.slug === slug);
+}
+
+export async function getArtistDates(artistName: string, locale: string = 'en'): Promise<CTEventDate[]> {
+  const dates = await getAllDates(locale);
+  return dates.filter(d => {
+    if (!d.lineUp) return false;
+    // Simple substring match for artist name in the lineup string
+    // e.g. lineup "David Guetta, MORTEN"
+    return d.lineUp.toLowerCase().includes(artistName.toLowerCase());
+  });
+}

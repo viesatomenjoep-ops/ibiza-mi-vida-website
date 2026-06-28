@@ -195,7 +195,7 @@ export function Navbar({ artists = [], dict }: { artists?: Artist[], dict?: any 
           <div className="drawer-sec">
              <h4>Explore</h4>
              {categories.slice(0, 7).map((cat, i) => (
-                <Link key={i} href={`/${currentLocale.code}${cat.href}`} className="drawer-link" onClick={() => setMenuOpen(false)}>
+                <Link key={i} href={`/${currentLocale.code}${cat.href}`} className="drawer-link" style={{ transitionDelay: `${0.1 + i * 0.04}s` }} onClick={() => setMenuOpen(false)}>
                   <div className="di"><cat.icon size={20} /></div>
                   {cat.label}
                   <svg className="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -205,7 +205,7 @@ export function Navbar({ artists = [], dict }: { artists?: Artist[], dict?: any 
           <div className="drawer-sec">
              <h4>More</h4>
              {categories.slice(7).map((cat, i) => (
-                <Link key={i} href={`/${currentLocale.code}${cat.href}`} className="drawer-link" onClick={() => setMenuOpen(false)}>
+                <Link key={i} href={`/${currentLocale.code}${cat.href}`} className="drawer-link" style={{ transitionDelay: `${0.1 + (i + 7) * 0.04}s` }} onClick={() => setMenuOpen(false)}>
                   <div className="di"><cat.icon size={20} /></div>
                   {cat.label}
                   <svg className="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/></svg>

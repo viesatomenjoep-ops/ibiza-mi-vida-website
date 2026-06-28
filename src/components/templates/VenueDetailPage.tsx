@@ -1,12 +1,9 @@
+'use client'
+
+import React, { useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { MapPin, Music, ExternalLink, MessageCircle } from 'lucide-react'
-import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
-import { AnimatedSection } from '@/components/ui/AnimatedSection'
-import { VenueSchema } from '@/components/seo/VenueSchema'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
-import { VenueEventsSlider, VenueSliderEvent } from '@/components/venues/VenueEventsSlider'
-import { VenueCalendarList } from '@/components/venues/VenueCalendarList'
 
 interface VenueDetailPageProps {
   club: CTVenue;
@@ -16,17 +13,17 @@ interface VenueDetailPageProps {
 }
 
 export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetailPageProps) {
-  const imageUrl = club.cover || club.picture || 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=1920&q=85'
+  const imageUrl = club.cover || club.picture || '/hi-ibiza-2026/FB_IMG_1779623220486.jpg';
 
   const cleanDescription = club.description 
     ? club.description.split('.promo-hz')[0].trim()
-    : '';
+    : 'Informatie over deze club.';
 
   // Process unique events and determine if they are "Weekly" or "More"
   const eventStats = new Map<string, { count: number, days: Set<string>, firstEvent: any }>();
   
   allDates.forEach(date => {
-    const dayOfWeek = new Date(date.date).toLocaleDateString('en-US', { weekday: 'long', timeZone: 'UTC' }).toUpperCase();
+    const dayOfWeek = new Date(date.date).toLocaleDateString(locale === 'nl' ? 'nl-NL' : 'en-US', { weekday: 'long', timeZone: 'UTC' }).toUpperCase();
     if (!eventStats.has(date.eventSlug || '')) {
       eventStats.set(date.eventSlug || '', { 
         count: 0, 
@@ -46,8 +43,8 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
     stat.days.add(dayOfWeek);
   });
 
-  const weeklyParties: VenueSliderEvent[] = [];
-  const moreParties: VenueSliderEvent[] = [];
+  const weeklyParties: any[] = [];
+  const moreParties: any[] = [];
 
   Array.from(eventStats.values()).forEach(stat => {
     // If it happens on mostly 1 or 2 specific days of the week, and happens multiple times, it's a Weekly Party
@@ -66,164 +63,246 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
   });
 
   // Sort weekly parties by day of week
-  const daysOrder = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
+  const daysOrder = locale === 'nl' 
+    ? ['MAANDAG', 'DINSDAG', 'WOENSDAG', 'DONDERDAG', 'VRIJDAG', 'ZATERDAG', 'ZONDAG']
+    : ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
+    
   weeklyParties.sort((a, b) => {
     return daysOrder.indexOf(a.dayOfWeek || '') - daysOrder.indexOf(b.dayOfWeek || '');
   });
 
+  // Refs for sliders
+  const weeklyRef = useRef<HTMLDivElement>(null);
+  const moreRef = useRef<HTMLDivElement>(null);
+
+  const scrollRail = (ref: React.RefObject<HTMLDivElement>, dir: number) => {
+    if (ref.current) {
+      ref.current.scrollBy({ left: dir * 300, behavior: 'smooth' });
+    }
+  };
+
+  // Faq state
+  const faqs = [
+    {
+      q: `Welke avonden is ${club.name} open in 2026?`,
+      a: `De weekly parties en exacte dagen komen live uit de ClubTickets API en zie je hierboven bij "Weekly parties 2026". Het programma kan per maand verschillen.`
+    },
+    {
+      q: 'Wat kost een ticket?',
+      a: 'Prijzen verschillen per party en line-up en worden live getoond. Vroeg boeken is meestal voordeliger.'
+    },
+    {
+      q: 'Is er een dresscode?',
+      a: 'De meeste Ibiza-clubs hanteren een nette-casual dresscode. Specifieke regels per party tonen we bij de ticketinformatie.'
+    },
+    {
+      q: 'Hoe kom ik bij de club?',
+      a: 'Adres en route staan in het info-blok. Vanuit Ibiza-stad en Playa den Bossa rijden \'s nachts shuttles en taxi\'s.'
+    }
+  ];
+
   return (
-    <>
-      <VenueSchema
-        name={club.name}
-        slug={club.slug}
-        description={club.description ? club.description.replace(/<[^>]+>/g, ' ') : undefined}
-        image={club.cover ?? undefined}
-      />
-      <div className="bg-[#FAF9F6] min-h-screen text-[#1A1A1A]">
-
-        {/* Club hero */}
-        <section className="relative flex min-h-[60vh] flex-col justify-end overflow-hidden" aria-label={`${club.name} hero`}>
-          <Image
-            src={imageUrl}
-            alt={club.name}
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="100vw"
-            quality={85}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-
-          <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-12 pt-32 md:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-              <div className="flex flex-col gap-4">
-                <div className="flex gap-2">
-                  {club.type && (
-                    <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/30 bg-white/10 backdrop-blur-md px-4 py-1.5 font-sans text-xs font-bold uppercase tracking-widest text-white shadow-sm">
-                      <Music size={12} />
-                      {club.type.name}
-                    </span>
-                  )}
-                  {club.isDayClub !== undefined && (
-                    <span className="inline-flex w-fit items-center gap-2 rounded-full border border-blue-400/30 bg-blue-500/20 backdrop-blur-md px-4 py-1.5 font-sans text-xs font-bold uppercase tracking-widest text-white shadow-sm">
-                      {club.isDayClub ? 'Daytime' : 'Night'}
-                    </span>
-                  )}
-                </div>
-                <h1 className="font-serif text-5xl font-bold text-white md:text-7xl lg:text-8xl drop-shadow-md">
-                  {club.name}
-                </h1>
-                <div className="flex flex-wrap gap-4 text-white/80">
-                  <span className="flex items-center gap-1.5 font-sans text-sm font-medium">
-                    <MapPin size={16} className="text-white" />
-                    Ibiza, Spain
-                  </span>
-                </div>
-              </div>
-              
-              {/* Club Logo */}
-              {club.whitelogo && (
-                <div className="relative w-32 h-32 md:w-40 md:h-40 shrink-0">
-                  <Image 
-                    src={club.whitelogo as string} 
-                    alt={`${club.name} logo`}
-                    fill
-                    className="object-contain filter drop-shadow-lg"
-                  />
-                </div>
+    <div className="theme-monaco-vip bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pb-20 pt-20">
+      
+      {/* Hero Section */}
+      <section className="relative h-[340px] md:h-[400px] rounded-b-[36px] overflow-hidden bg-gradient-to-br from-[#1a2e29] to-[#2C4A42] flex items-end">
+        <Image
+          src={imageUrl}
+          alt={club.name}
+          fill
+          priority
+          className="object-cover object-center mix-blend-overlay opacity-60"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#14221E]/90 via-transparent to-transparent z-10" />
+        
+        <div className="relative z-20 w-full max-w-7xl mx-auto px-4 pb-8 flex items-end gap-5 text-white">
+          <div className="w-[88px] h-[88px] rounded-[22px] bg-white/95 shrink-0 flex items-center justify-center p-2 text-velvet-obsidian text-center text-xs font-bold shadow-lg">
+            {club.whitelogo ? (
+              <Image src={club.whitelogo} alt={`${club.name} logo`} width={72} height={72} className="object-contain filter invert" />
+            ) : (
+              <span>{club.name}</span>
+            )}
+          </div>
+          <div>
+            <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-tight mb-2 drop-shadow-md">
+              {club.name}
+            </h1>
+            <div className="flex gap-2 flex-wrap">
+              {club.type && (
+                <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold">
+                  {club.type.name}
+                </span>
+              )}
+              {club.isDayClub !== undefined && (
+                <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold">
+                  {club.isDayClub ? 'Daytime' : 'Night'}
+                </span>
               )}
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Weekly Parties Slider */}
-        {weeklyParties.length > 0 && (
-          <VenueEventsSlider 
-            title={`${club.name} weekly parties 2026`}
-            events={weeklyParties}
-            venueSlug={club.slug}
-            basePath={basePath}
-            theme="light"
-          />
-        )}
-
-        {/* More Parties Slider */}
-        {moreParties.length > 0 && (
-          <VenueEventsSlider 
-            title={`${club.name} more parties 2026`}
-            events={moreParties}
-            venueSlug={club.slug}
-            basePath={basePath}
-            theme="blue"
-          />
-        )}
-
-        {/* About Section */}
-        {club.description && (
-          <section className="py-16 md:py-24 bg-white border-y border-[#1A1A1A]/10">
-            <div className="mx-auto max-w-4xl px-4 md:px-8 text-center">
-              <AnimatedSection delay={100}>
-                <h2 className="font-serif text-[32px] md:text-[42px] font-bold text-[#1A1A1A] mb-8">
-                  {club.name} information
-                </h2>
-                <div className="prose prose-lg mx-auto text-[#1A1A1A] leading-relaxed font-sans prose-p:mb-6">
-                  <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: cleanDescription }} />
-                </div>
-              </AnimatedSection>
-            </div>
-          </section>
-        )}
-
-        {/* Full Interactive Calendar List */}
-        <VenueCalendarList 
-          dates={allDates} 
-          venueName={club.name} 
-          locale={locale} 
-          basePath={basePath} 
-        />
-
-        {/* VIP / Group Booking Promo */}
-        <section className="py-12 bg-[#FAF9F6]">
-          <div className="mx-auto max-w-5xl px-4 md:px-8">
-            <AnimatedSection className="rounded-[32px] bg-gradient-to-br from-[#1A1A1A] to-[#333] p-8 md:p-12 shadow-xl overflow-hidden relative">
-              <div className="absolute top-0 right-0 p-8 opacity-5">
-                <Music size={200} className="text-white transform rotate-12" />
-              </div>
-              <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-                <div className="flex-1">
-                  <h3 className="font-serif text-3xl md:text-4xl font-bold text-white mb-4">
-                    VIP Tables & Drink Packages
-                  </h3>
-                  <p className="font-sans text-white/80 max-w-xl text-lg">
-                    Elevate your {club.name} experience. Contact our concierge on WhatsApp for exclusive VIP tables, drink packages, and group discounts.
-                  </p>
-                </div>
-                <div className="shrink-0 w-full md:w-auto">
-                  <a
-                    href={`https://wa.me/31612345678?text=Hi, I want to book a VIP experience at ${club.name}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex w-full md:w-auto items-center justify-center gap-3 rounded-2xl bg-[#25D366] px-8 py-5 font-sans text-lg font-bold text-white shadow-lg transition-all hover:bg-[#20bd5a] hover:-translate-y-1 hover:shadow-xl hover:shadow-[#25D366]/20 whitespace-nowrap"
-                  >
-                    <MessageCircle size={24} />
-                    Chat on WhatsApp
-                  </a>
-                </div>
-              </div>
-            </AnimatedSection>
-          </div>
-        </section>
-
-        {/* Cross-sell */}
-        <section className="py-12 bg-white">
-          <div className="mx-auto max-w-7xl px-4 md:px-8">
-            <AnimatedSection>
-              <CrossSellBanner triggerPage={`/${basePath}/${club.slug}`} fromPrice={500} />
-            </AnimatedSection>
-          </div>
-        </section>
-
+      {/* Quick bar */}
+      <div className="flex gap-2 flex-wrap -mt-[26px] relative z-30 px-4 max-w-7xl mx-auto">
+        <div className="inline-flex items-center gap-2 bg-white shadow-md rounded-full px-5 py-3 font-bold text-sm cursor-pointer hover:bg-ibiza-mint transition-colors text-velvet-obsidian">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/></svg>
+          Ibiza, Spain
+        </div>
       </div>
-    </>
+
+      {/* Weekly Parties */}
+      {weeklyParties.length > 0 && (
+        <section className="py-12">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex items-end justify-between mb-6 gap-5">
+              <div>
+                <div className="text-xs font-bold tracking-widest uppercase text-ibiza-blue mb-2">Weekly parties 2026</div>
+                <h2 className="text-3xl md:text-4xl font-serif font-bold">Vaste avonden in {club.name}</h2>
+              </div>
+              <div className="flex gap-2 shrink-0 hidden md:flex">
+                <button onClick={() => scrollRail(weeklyRef, -1)} className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center hover:bg-ibiza-green transition-colors">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <button onClick={() => scrollRail(weeklyRef, 1)} className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center hover:bg-ibiza-green transition-colors">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div ref={weeklyRef} className="flex gap-4 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory">
+              {weeklyParties.map((party, i) => (
+                <Link href={`/${locale}/${basePath}/${club.slug}/${party.slug}`} key={i} className="flex-none w-[260px] md:w-[280px] bg-white rounded-3xl overflow-hidden border border-black/5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group snap-start">
+                  <div className="h-[230px] relative bg-gradient-to-br from-ibiza-mint to-ibiza-blue overflow-hidden">
+                    {party.cover ? (
+                      <Image src={party.cover} alt={party.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    ) : (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center text-velvet-obsidian/40 text-xs font-semibold text-center p-4">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="mb-1"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 15l5-5 4 4 3-3 6 6"/></svg>
+                        Poster uit API
+                      </div>
+                    )}
+                    <span className="absolute top-3 left-3 bg-white/90 px-3 py-1 rounded-full text-[10px] font-bold z-10">{club.name}</span>
+                    <span className="absolute top-3 right-3 bg-ibiza-green px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase z-10">{party.dayOfWeek}</span>
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-lg font-bold leading-tight mb-2 truncate">{party.name}</h3>
+                    <div className="flex justify-between items-center mt-3">
+                      <div className="text-xs text-velvet-obsidian/60 font-semibold uppercase tracking-wider">TICKETS</div>
+                      <button className="bg-ibiza-mint hover:bg-ibiza-green text-velvet-obsidian font-bold text-xs px-4 py-2 rounded-full transition-colors">Tickets</button>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Event List (All Events) */}
+      <section className="py-12 bg-white/50">
+        <div className="max-w-7xl mx-auto px-4">
+           <div className="flex items-end justify-between mb-6 gap-5">
+              <div>
+                <div className="text-xs font-bold tracking-widest uppercase text-ibiza-blue mb-2">Alle events</div>
+                <h2 className="text-3xl md:text-4xl font-serif font-bold">Agenda {club.name}</h2>
+              </div>
+           </div>
+           
+           <div className="flex flex-col gap-3">
+             {allDates.slice(0, 10).map((date, i) => (
+                <Link href={`/${locale}/${basePath}/${club.slug}/${date.eventSlug}`} key={i} className="bg-white rounded-2xl p-3 md:p-4 border border-black/5 flex items-center gap-4 hover:shadow-md transition-shadow group">
+                   <div className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-xl overflow-hidden bg-ibiza-mint relative">
+                     {date.eventCover && <Image src={date.eventCover} alt={date.eventName || 'Event'} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />}
+                   </div>
+                   <div className="flex-1 min-w-0">
+                      <div className="text-ibiza-blue text-xs font-bold tracking-wider uppercase mb-1">
+                         {new Date(date.date).toLocaleDateString(locale === 'nl' ? 'nl-NL' : 'en-US', { weekday: 'short', day: 'numeric', month: 'short' })}
+                      </div>
+                      <h3 className="text-lg md:text-xl font-bold truncate text-velvet-obsidian">{date.eventName || date.name}</h3>
+                   </div>
+                   <div className="shrink-0 hidden md:block">
+                      <button className="bg-ibiza-green text-velvet-obsidian font-bold text-sm px-5 py-2.5 rounded-full hover:brightness-95 transition-all">
+                        Buy Tickets
+                      </button>
+                   </div>
+                </Link>
+             ))}
+           </div>
+        </div>
+      </section>
+
+      {/* Info Grid */}
+      <section className="py-12">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-8 items-start">
+            <div className="text-velvet-obsidian/80 text-lg leading-relaxed">
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-velvet-obsidian tracking-tight mb-4">Over {club.name}</h2>
+              <div dangerouslySetInnerHTML={{ __html: cleanDescription }} className="prose prose-lg mb-6" />
+              
+              <a href="https://wa.me/31612345678" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-ibiza-green text-velvet-obsidian font-bold text-sm px-6 py-3 rounded-full hover:brightness-95 transition-all">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2z"/></svg>
+                Gastenlijst & VIP via WhatsApp
+              </a>
+            </div>
+            
+            <div className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm">
+              <h3 className="text-xl font-bold mb-4">Praktische info</h3>
+              
+              <div className="flex items-center gap-3 py-3 border-b border-black/5 text-sm">
+                <div className="w-9 h-9 rounded-xl bg-ibiza-mint flex items-center justify-center shrink-0">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/></svg>
+                </div>
+                <span>Locatie</span>
+                <span className="font-bold ml-auto text-velvet-obsidian">Ibiza, Spain</span>
+              </div>
+              
+              <div className="flex items-center gap-3 py-3 border-b border-black/5 text-sm">
+                <div className="w-9 h-9 rounded-xl bg-ibiza-mint flex items-center justify-center shrink-0">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+                </div>
+                <span>Openingstijden</span>
+                <span className="font-bold ml-auto text-velvet-obsidian">{club.isDayClub ? 'Daytime' : 'Night'}</span>
+              </div>
+              
+              <div className="flex items-center gap-3 py-3 text-sm">
+                <div className="w-9 h-9 rounded-xl bg-ibiza-mint flex items-center justify-center shrink-0">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/></svg>
+                </div>
+                <span>Genre</span>
+                <span className="font-bold ml-auto text-velvet-obsidian">{club.type?.name || 'Electronic'}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ section */}
+      <section className="py-12 bg-ibiza-sand/30">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="mb-8">
+            <div className="text-xs font-bold tracking-widest uppercase text-ibiza-blue mb-2">Veelgestelde vragen</div>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold">Over {club.name}</h2>
+          </div>
+          
+          <div className="flex flex-col gap-3">
+            {faqs.map((faq, i) => (
+              <details key={i} className="group bg-white border border-black/5 rounded-2xl overflow-hidden transition-all open:shadow-sm" open={i === 0}>
+                <summary className="flex items-center justify-between gap-4 p-5 font-bold cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                  {faq.q}
+                  <div className="w-7 h-7 rounded-full bg-ibiza-mint shrink-0 flex items-center justify-center transition-transform group-open:rotate-45 group-open:bg-ibiza-green">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><path d="M12 5v14M5 12h14"/></svg>
+                  </div>
+                </summary>
+                <div className="px-5 pb-5 text-velvet-obsidian/80 text-sm leading-relaxed">
+                  {faq.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+    </div>
   )
 }

@@ -1,10 +1,9 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
-import { CalendarGrid } from './CalendarGrid'
 
 interface Props {
   venues: CTVenue[]
@@ -13,190 +12,271 @@ interface Props {
 }
 
 const CATEGORIES = [
-  { id: 'clubbing', name: 'Ibiza party calendar', typeId: 1, bgColor: 'bg-[var(--color-sea)] text-[var(--color-paper)]', inactiveColor: 'bg-[var(--color-card)] text-[var(--color-ink)] hover:bg-[var(--color-line)]', themeClass: 'theme-monaco-vip' },
-  { id: 'boat', name: 'Ibiza boat calendar', typeId: 2, bgColor: 'bg-[var(--color-sea)] text-[var(--color-paper)]', inactiveColor: 'bg-[var(--color-card)] text-[var(--color-ink)] hover:bg-[var(--color-line)]', themeClass: 'theme-monaco-water' },
-  { id: 'activities', name: 'Ibiza activities calendar', typeId: 3, bgColor: 'bg-[var(--color-sea)] text-[var(--color-paper)]', inactiveColor: 'bg-[var(--color-card)] text-[var(--color-ink)] hover:bg-[var(--color-line)]', themeClass: 'theme-monaco-sand' },
+  { id: '*', name: 'Alle', icon: 'M4 6h16M4 12h16M4 18h16' },
+  { id: '1', name: 'Clubbing', icon: 'M3 21h18M5 21V7l8-4 8 4v14' },
+  { id: '2', name: 'Boat party', icon: 'M3 14l9-4 9 4-2 6H5z' },
+  { id: '3', name: 'Activities', icon: 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z' },
+  { id: '4', name: 'Tours', icon: 'M9 20l-5-5 9-9 5 5z' }
 ]
 
 export default function IbizaCalendarClient({ venues, allDates, locale }: Props) {
-  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0])
+  const [activeCat, setActiveCat] = useState('*')
   
-  // 1. Filter dates by category
-  // A venue has a `type.id`. A date belongs to a venue.
-  // We need a quick lookup to know a date's venue type.
+  const today = new Date()
+  const [viewDate, setViewDate] = useState(new Date(today.getFullYear(), today.getMonth(), 1))
+  const [selDate, setSelDate] = useState<Date | null>(today)
+
+  // Quick lookup for venue type id
   const venueTypeMap = useMemo(() => {
     const map = new Map<number, number>()
     venues.forEach(v => map.set(v.id, v.type.id))
     return map
   }, [venues])
 
-  const categoryDates = useMemo(() => {
+  // Get dates matching current category
+  const filteredDates = useMemo(() => {
+    if (activeCat === '*') return allDates;
+    const catIdNum = parseInt(activeCat, 10);
     return allDates.filter(d => {
-      // Find the venue ID for this date
-      const venueId = d.venueId
-      if (!venueId) return false
-      const typeId = venueTypeMap.get(venueId)
-      // Clubbing typeId is 1, Boat is 2, etc. If category is 'clubbing', match typeId 1.
-      return typeId === activeCategory.typeId
+      if (!d.venueId) return false;
+      return venueTypeMap.get(d.venueId) === catIdNum;
     })
-  }, [allDates, activeCategory, venueTypeMap])
+  }, [allDates, activeCat, venueTypeMap])
 
-  // 2. Extract available Months from the filtered dates
-  const availableMonths = useMemo(() => {
-    const months = new Set<string>()
-    categoryDates.forEach(d => {
-      const dateObj = new Date(d.date)
-      // Format: "Jun 26"
-      const monthYear = dateObj.toLocaleDateString('en-US', { month: 'short', year: '2-digit', timeZone: 'UTC' })
-      months.add(monthYear)
-    })
-    // Sort chronologically
-    return Array.from(months).sort((a, b) => {
-      const dateA = new Date(`1 ${a}`)
-      const dateB = new Date(`1 ${b}`)
-      return dateA.getTime() - dateB.getTime()
-    })
-  }, [categoryDates])
-
-  const [activeMonth, setActiveMonth] = useState(availableMonths[0] || '')
-
-  // 3. Extract available Weeks for the active month
-  const availableWeeks = useMemo(() => {
-    if (!activeMonth) return []
-    const weeks = new Map<string, Date[]>()
-    
-    categoryDates.forEach(d => {
-      const dateObj = new Date(d.date)
-      const monthYear = dateObj.toLocaleDateString('en-US', { month: 'short', year: '2-digit', timeZone: 'UTC' })
-      if (monthYear === activeMonth) {
-        // Calculate start of week (Monday)
-        const day = dateObj.getUTCDay()
-        const diff = dateObj.getUTCDate() - day + (day === 0 ? -6 : 1) // adjust when day is sunday
-        const startOfWeek = new Date(dateObj.setUTCDate(diff))
-        
-        const endOfWeek = new Date(startOfWeek)
-        endOfWeek.setUTCDate(startOfWeek.getUTCDate() + 6)
-        
-        const weekLabel = `${startOfWeek.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' })} – ${endOfWeek.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' })}`
-        
-        if (!weeks.has(weekLabel)) {
-          // Generate array of 7 days
-          const days = []
-          for (let i = 0; i < 7; i++) {
-            const current = new Date(startOfWeek)
-            current.setUTCDate(startOfWeek.getUTCDate() + i)
-            days.push(current)
-          }
-          weeks.set(weekLabel, days)
-        }
-      }
-    })
-    
-    return Array.from(weeks.entries()).map(([label, days]) => ({ label, days }))
-  }, [categoryDates, activeMonth])
-
-  // Select the first week by default when month changes
-  const [activeWeekIndex, setActiveWeekIndex] = useState(0)
+  // Get days in current month
+  const viewY = viewDate.getFullYear()
+  const viewM = viewDate.getMonth()
   
-  // Reset week index when month changes
-  React.useEffect(() => {
-    setActiveWeekIndex(0)
-  }, [activeMonth])
-
-  const activeWeek = availableWeeks[activeWeekIndex]
-
-  // 4. Get events for the active week
-  const weekEvents = useMemo(() => {
-    if (!activeWeek) return []
-    const start = activeWeek.days[0].getTime()
-    const end = activeWeek.days[6].getTime() + (24 * 60 * 60 * 1000) // End of Sunday
+  const firstDay = new Date(viewY, viewM, 1)
+  const lastDay = new Date(viewY, viewM + 1, 0)
+  const daysInMonth = lastDay.getDate()
+  
+  // Adjust day of week so Monday is 0
+  const startOffset = (firstDay.getDay() + 6) % 7
+  
+  // Create calendar cells
+  const calCells = useMemo(() => {
+    const cells = []
     
-    return categoryDates.filter(d => {
-      const t = new Date(d.date).getTime()
-      return t >= start && t < end
-    })
-  }, [categoryDates, activeWeek])
+    // Empty cells before start of month
+    for (let i = 0; i < startOffset; i++) {
+      cells.push({ empty: true, day: 0 })
+    }
+    
+    // Days in month
+    for (let d = 1; d <= daysInMonth; d++) {
+      const cellDateStr = new Date(Date.UTC(viewY, viewM, d)).toISOString().split('T')[0]
+      // Count events on this day
+      const evCount = filteredDates.filter(ev => {
+        const evDateStr = new Date(ev.date).toISOString().split('T')[0]
+        return evDateStr === cellDateStr
+      }).length
+      
+      cells.push({ empty: false, day: d, count: evCount })
+    }
+    return cells
+  }, [viewY, viewM, daysInMonth, startOffset, filteredDates])
 
-  // 5. Group by Venue for the Grid
-  const venuesInWeek = useMemo(() => {
-    const venueIds = new Set(weekEvents.map(e => e.venueId))
-    return venues.filter(v => venueIds.has(v.id))
-  }, [weekEvents, venues])
+  const nextMonth = () => {
+    setViewDate(new Date(viewY, viewM + 1, 1))
+  }
+  
+  const prevMonth = () => {
+    setViewDate(new Date(viewY, viewM - 1, 1))
+  }
+
+  // Events for selected day
+  const selEvents = useMemo(() => {
+    if (!selDate) return []
+    // Treat selDate as UTC so it matches API date string
+    const targetDateStr = new Date(Date.UTC(selDate.getFullYear(), selDate.getMonth(), selDate.getDate())).toISOString().split('T')[0]
+    
+    return filteredDates.filter(ev => {
+      const evDateStr = new Date(ev.date).toISOString().split('T')[0]
+      return evDateStr === targetDateStr
+    })
+  }, [selDate, filteredDates])
+
+  // Formatting helpers
+  const DOW = locale === 'nl' ? ['Ma','Di','Wo','Do','Vr','Za','Zo'] : ['Mo','Tu','We','Th','Fr','Sa','Su']
+  const monthName = viewDate.toLocaleDateString(locale === 'nl' ? 'nl-NL' : 'en-US', { month: 'long', year: 'numeric' })
+  
+  let dayTitle = 'Selecteer een dag'
+  if (selDate) {
+    dayTitle = selDate.toLocaleDateString(locale === 'nl' ? 'nl-NL' : 'en-US', { weekday: 'long', day: 'numeric', month: 'long' })
+  }
 
   return (
-    <div className={`flex flex-col items-center w-full ${activeCategory.themeClass} min-h-screen bg-[var(--color-paper)] p-4 md:p-8 rounded-[32px] transition-colors duration-500`}>
-      
-      {/* Category Pills */}
-      <div className="flex flex-wrap justify-center gap-4 mb-8 bg-[var(--color-card)] p-4 md:p-6 rounded-3xl w-full max-w-4xl shadow-lg border border-[var(--color-line)]">
-        {CATEGORIES.map(cat => {
-          const isActive = activeCategory.id === cat.id
-          return (
-            <button
-              key={cat.id}
-              onClick={() => { setActiveCategory(cat); setActiveMonth('') }}
-              className={`px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 ${isActive ? cat.bgColor + ' shadow-md scale-105' : cat.inactiveColor}`}
-            >
-              {cat.name}
-            </button>
-          )
-        })}
-      </div>
-
-      {/* Month Pills */}
-      {availableMonths.length > 0 && (
-        <div className="flex flex-wrap justify-center gap-3 mb-6">
-          {availableMonths.map(month => {
-            const isActive = activeMonth === month
-              // Use theme colors
-              const baseClass = "px-6 py-2 rounded-full font-bold text-sm transition-colors cursor-pointer shadow-sm border border-[var(--color-line)]"
-              const activeClass = "bg-[var(--color-sea)] text-[var(--color-paper)]"
-              const inactiveClass = "bg-[var(--color-card)] text-[var(--color-ink)] hover:brightness-95"
-            
-            return (
-              <button
-                key={month}
-                onClick={() => setActiveMonth(month)}
-                className={`${baseClass} ${isActive ? activeClass : inactiveClass}`}
-              >
-                {month}
-              </button>
-            )
-          })}
+    <>
+      <section className="subhero">
+        <div className="subhero-bg"></div>
+        <div className="max-w-7xl mx-auto px-5">
+          <span className="kicker">Alles wat er speelt</span>
+          <h1>De volledige <span className="text-ibiza-blue">Ibiza kalender</span></h1>
+          <p className="lead mt-4 text-velvet-obsidian/80 text-lg max-w-2xl">
+            Kies een dag en zie precies welke clubs, boat parties en activiteiten er die avond zijn. Navigeer per maand en boek direct.
+          </p>
         </div>
-      )}
+      </section>
 
-      {/* Week Pills */}
-      {availableWeeks.length > 0 && (
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {availableWeeks.map((week, idx) => {
-            const isActive = activeWeekIndex === idx
-            const baseClass = "px-6 py-3 rounded-full font-bold text-sm transition-all cursor-pointer shadow-sm border border-[var(--color-line)]"
-            const activeClass = "bg-[var(--color-sea)] text-[var(--color-paper)]"
-            const inactiveClass = "bg-[var(--color-card)] text-[var(--color-ink)] hover:brightness-95"
-            
-            return (
+      <section className="py-8">
+        <div className="max-w-7xl mx-auto px-5">
+          {/* Category Filter */}
+          <div className="flex gap-2.5 overflow-x-auto pb-2 mb-6 hide-scrollbar">
+            {CATEGORIES.map(cat => (
               <button
-                key={week.label}
-                onClick={() => setActiveWeekIndex(idx)}
-                className={`${baseClass} ${isActive ? activeClass : inactiveClass}`}
+                key={cat.id}
+                className={`flex-none inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-[1.5px] font-semibold text-sm transition-colors cursor-pointer whitespace-nowrap
+                  ${activeCat === cat.id 
+                    ? 'bg-velvet-obsidian text-white border-velvet-obsidian' 
+                    : 'bg-white border-black/10 hover:bg-ibiza-mint text-velvet-obsidian'}`}
+                onClick={() => setActiveCat(cat.id)}
               >
-                {week.label}
+                <svg viewBox="0 0 24 24" className="w-4 h-4 stroke-current fill-none stroke-[1.8]"><path d={cat.icon} /></svg>
+                {cat.name}
               </button>
-            )
-          })}
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-7 items-start">
+            
+            {/* Calendar Panel */}
+            <div className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm">
+              <div className="flex items-center justify-between mb-5">
+                <div className="text-2xl font-black tracking-tight capitalize">{monthName}</div>
+                <div className="flex gap-2">
+                  <button onClick={prevMonth} className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center hover:bg-ibiza-green transition-colors cursor-pointer" aria-label="Vorige maand">
+                    <svg viewBox="0 0 24 24" className="w-5 h-5 stroke-velvet-obsidian fill-none stroke-2"><path d="M15 18l-6-6 6-6"/></svg>
+                  </button>
+                  <button onClick={nextMonth} className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center hover:bg-ibiza-green transition-colors cursor-pointer" aria-label="Volgende maand">
+                    <svg viewBox="0 0 24 24" className="w-5 h-5 stroke-velvet-obsidian fill-none stroke-2"><path d="M9 18l6-6-6-6"/></svg>
+                  </button>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-7 gap-1.5 mb-1.5">
+                {DOW.map(d => <div key={d} className="text-center text-[11.5px] font-bold text-velvet-obsidian/55 uppercase py-1.5">{d}</div>)}
+              </div>
+              
+              <div className="grid grid-cols-7 gap-1.5">
+                {calCells.map((cell, i) => {
+                  if (cell.empty) {
+                    return <div key={`empty-${i}`} className="aspect-square bg-transparent"></div>
+                  }
+                  
+                  const isToday = cell.day === today.getDate() && viewM === today.getMonth() && viewY === today.getFullYear()
+                  const isSel = selDate?.getDate() === cell.day && selDate?.getMonth() === viewM && selDate?.getFullYear() === viewY
+                  
+                  let cellClass = "aspect-square rounded-2xl border border-transparent bg-ibiza-sand/30 cursor-pointer flex flex-col items-center justify-center gap-1 transition-colors relative font-bold text-[15px]"
+                  let dotClass = "w-1.5 h-1.5 rounded-full bg-ibiza-green"
+                  
+                  if (isToday) {
+                    cellClass += " bg-velvet-obsidian text-white"
+                    dotClass = "w-1.5 h-1.5 rounded-full bg-white"
+                  } else if (isSel) {
+                    cellClass += " bg-ibiza-blue text-white border-ibiza-blue"
+                    dotClass = "w-1.5 h-1.5 rounded-full bg-white"
+                  } else {
+                    cellClass += " hover:bg-white hover:border-ibiza-blue text-velvet-obsidian"
+                  }
+                  
+                  if (cell.count === 0) {
+                    cellClass += " !bg-transparent border-none text-velvet-obsidian/40"
+                  }
+
+                  // Up to 3 dots
+                  const dots = Array.from({ length: Math.min(cell.count, 3) })
+
+                  return (
+                    <div 
+                      key={`day-${cell.day}`} 
+                      className={cellClass}
+                      onClick={() => setSelDate(new Date(viewY, viewM, cell.day))}
+                    >
+                      <span>{cell.day}</span>
+                      {cell.count > 0 && (
+                        <span className="flex gap-[3px] h-1.5">
+                          {dots.map((_, idx) => <span key={idx} className={dotClass}></span>)}
+                        </span>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+              
+              <div className="flex gap-4 flex-wrap mt-5 text-[12.5px] text-velvet-obsidian/60 font-semibold">
+                <span className="inline-flex items-center gap-1.5"><i className="w-3 h-3 rounded-[4px] bg-velvet-obsidian inline-block"></i>Vandaag</span>
+                <span className="inline-flex items-center gap-1.5"><i className="w-3 h-3 rounded-[4px] bg-ibiza-blue inline-block"></i>Geselecteerd</span>
+                <span className="inline-flex items-center gap-1.5"><i className="w-3 h-3 rounded-full bg-ibiza-green inline-block"></i>Events op deze dag</span>
+              </div>
+            </div>
+
+            {/* Day Panel */}
+            <div className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm">
+              <div className="flex items-baseline justify-between mb-4">
+                <b className="text-xl font-black capitalize">{dayTitle}</b>
+                <small className="text-[13px] text-velvet-obsidian/55 font-semibold">
+                  {selEvents.length ? `${selEvents.length} event${selEvents.length > 1 ? 's' : ''}` : 'Geen events'}
+                </small>
+              </div>
+              
+              <div>
+                {!selEvents.length ? (
+                  <div className="p-5 text-center text-velvet-obsidian/55 font-semibold">
+                    Geen events op deze dag.<br/>Kies een andere datum.
+                  </div>
+                ) : (
+                  selEvents.map((ev, i) => (
+                    <Link href={`/${locale}/club-tickets/${ev.venueSlug}/${ev.eventSlug}`} key={ev.id || i} className="flex gap-3.5 p-3.5 rounded-[18px] bg-ibiza-sand/30 mb-3 cursor-pointer hover:bg-ibiza-mint transition-colors group">
+                      <div className="w-[62px] h-[62px] rounded-xl shrink-0 bg-gradient-to-br from-ibiza-mint to-ibiza-blue overflow-hidden relative border border-black/5">
+                        {(ev.eventCover || ev.eventLogo) ? (
+                          <Image src={ev.eventCover || ev.eventLogo as string} alt={ev.eventName || 'Event'} fill className="object-cover" />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center text-velvet-obsidian/40">
+                            <svg viewBox="0 0 24 24" className="w-5 h-5 stroke-current fill-none stroke-[1.5]"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 15l5-5 4 4 3-3 6 6"/></svg>
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="flex-1 min-w-0">
+                        <b className="text-[14.5px] font-bold block leading-tight truncate text-velvet-obsidian group-hover:text-ibiza-blue transition-colors">
+                          {ev.eventName || ev.name}
+                        </b>
+                        <div className="flex items-center gap-1.5 text-velvet-obsidian/55 text-xs mt-1">
+                          <svg viewBox="0 0 24 24" className="w-3 h-3 stroke-current fill-none stroke-[1.8]"><path d="M3 21h18M5 21V7l8-4 8 4v14"/></svg>
+                          {ev.venueName}
+                        </div>
+                        {ev.lineUp && (
+                          <div className="text-xs text-velvet-obsidian/50 mt-0.5 truncate">
+                            {ev.lineUp.replace(/<[^>]*>?/gm, '')}
+                          </div>
+                        )}
+                        <span className="inline-block bg-ibiza-green text-velvet-obsidian text-[9.5px] font-bold px-2 py-0.5 rounded-full uppercase mt-1.5">
+                          Tickets
+                        </span>
+                      </div>
+                      
+                      <div className="text-right shrink-0">
+                        <small className="text-[10px] text-velvet-obsidian/55 block">Vanaf</small>
+                        <b className="text-[15px] font-black text-velvet-obsidian">{ev.prices ? ev.prices : '€50.00'}</b>
+                      </div>
+                    </Link>
+                  ))
+                )}
+              </div>
+            </div>
+
+          </div>
         </div>
-      )}
+      </section>
 
-      {/* Calendar Grid */}
-      {activeWeek && (
-        <CalendarGrid 
-          days={activeWeek.days} 
-          venues={venuesInWeek} 
-          events={weekEvents} 
-          locale={locale} 
-        />
-      )}
-
-    </div>
+      <section className="py-8 bg-ibiza-sand/50 mt-12">
+        <div className="max-w-3xl mx-auto px-5 intro-seo text-velvet-obsidian/80 text-[15.5px] leading-relaxed">
+          <h2 className="text-velvet-obsidian text-2xl font-black tracking-tight mb-3">De complete agenda van Ibiza 2026</h2>
+          <p className="mb-3">Of je nu een weekend komt of het hele seizoen blijft — met de Ibiza mi Vida kalender plan je elke avond. Bekijk per dag welke dj's draaien, welke boat parties uitvaren en welke activiteiten je overdag kunt doen.</p>
+          <p>De kalender wordt live gevoed door de ClubTickets API, dus prijzen en beschikbaarheid kloppen altijd. Klik op een event om door te gaan naar de tickets.</p>
+        </div>
+      </section>
+    </>
   )
 }
