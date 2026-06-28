@@ -39,10 +39,10 @@ export default function CalendarClient({ allEventDates, venues, artists, dict, l
       const isCorrectDate = isSameDay(new Date(e.date), selectedDate);
       if (!isCorrectDate) return false;
       
-      const venue = venues.find(v => v.id === e.venue_id);
-      if (activeFilter === 'clubbing') return venue?.type === 'club';
-      if (activeFilter === 'boat') return venue?.type === 'boat';
-      if (activeFilter === 'day') return venue?.type === 'beach_club';
+      const venue = venues.find(v => v.slug === e.venueSlug);
+      if (activeFilter === 'clubbing') return venue?.type?.slug === 'club';
+      if (activeFilter === 'boat') return venue?.type?.slug === 'boat';
+      if (activeFilter === 'day') return venue?.type?.slug === 'beach_club';
       return true;
     });
   }, [allEventDates, selectedDate, activeFilter, venues]);
@@ -63,10 +63,10 @@ export default function CalendarClient({ allEventDates, venues, artists, dict, l
     return allEventDates.some(e => {
       const isCorrectDate = isSameDay(new Date(e.date), day);
       if (!isCorrectDate) return false;
-      const venue = venues.find(v => v.id === e.venue_id);
-      if (filter === 'clubbing') return venue?.type === 'club';
-      if (filter === 'boat') return venue?.type === 'boat';
-      if (filter === 'day') return venue?.type === 'beach_club';
+      const venue = venues.find(v => v.slug === e.venueSlug);
+      if (filter === 'clubbing') return venue?.type?.slug === 'club';
+      if (filter === 'boat') return venue?.type?.slug === 'boat';
+      if (filter === 'day') return venue?.type?.slug === 'beach_club';
       return true;
     });
   };
@@ -168,15 +168,11 @@ export default function CalendarClient({ allEventDates, venues, artists, dict, l
               ) : (
                 <div style={{ maxHeight: '600px', overflowY: 'auto', paddingRight: '10px' }}>
                   {filteredEvents.map(event => {
-                    const venue = venues.find(v => v.id === event.venue_id);
+                    const venue = venues.find(v => v.slug === event.venueSlug);
                     return (
-                      <Link href={`/${locale}/club-tickets/${venue?.slug || ''}/${event.id}`} key={event.id} className="devt">
+                      <Link href={`/${locale}/club-tickets/${venue?.slug || ''}/${event.eventSlug}`} key={event.id} className="devt">
                         <div className="thumb">
-                          {event.image ? (
-                            <img src={event.image} alt={event.name} />
-                          ) : (
-                            <Music />
-                          )}
+                          <Music />
                         </div>
                         <div className="di">
                           <b>{event.name}</b>
@@ -184,12 +180,12 @@ export default function CalendarClient({ allEventDates, venues, artists, dict, l
                             <MapPin /> {venue?.name || 'Onbekende Locatie'}
                           </div>
                           {venue?.type && (
-                            <span className="tag">{venue.type.replace('_', ' ')}</span>
+                            <span className="tag">{venue.type.name}</span>
                           )}
                         </div>
                         <div className="pr">
                           <small>vanaf</small>
-                          <b>€{event.price || ' TBA'}</b>
+                          <b>€{event.prices || ' TBA'}</b>
                         </div>
                       </Link>
                     );

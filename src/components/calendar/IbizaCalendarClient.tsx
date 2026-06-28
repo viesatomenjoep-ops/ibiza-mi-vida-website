@@ -185,7 +185,7 @@ export default function IbizaCalendarClient({ venues, allDates, locale }: Props)
                   }
 
                   // Up to 3 dots
-                  const dots = Array.from({ length: Math.min(cell.count, 3) })
+                  const dots = Array.from({ length: Math.min(cell.count || 0, 3) })
 
                   return (
                     <div 
@@ -194,7 +194,7 @@ export default function IbizaCalendarClient({ venues, allDates, locale }: Props)
                       onClick={() => setSelDate(new Date(viewY, viewM, cell.day))}
                     >
                       <span>{cell.day}</span>
-                      {cell.count > 0 && (
+                      {(cell.count || 0) > 0 && (
                         <span className="flex gap-[3px] h-1.5">
                           {dots.map((_, idx) => <span key={idx} className={dotClass}></span>)}
                         </span>

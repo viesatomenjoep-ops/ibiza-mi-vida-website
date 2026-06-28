@@ -6,15 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { CTEventDate, CTVenue } from '@/lib/clubtickets';
 import '@/styles/home.css';
-
-// --- SVGs ---
-const SearchIcon = () => <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>;
-const ChevronRight = ({ className }: { className?: string }) => <svg className={className} viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>;
-const MapPin = () => <svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2"/></svg>;
-const CalendarIcon = () => <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>;
-const ClockIcon = () => <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>;
-const ImagePlaceholderIcon = () => <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="9" cy="9" r="1.5"/></svg>;
-const ArrowRight = () => <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>;
+import { Search as SearchIcon, ChevronRight, MapPin, Calendar as CalendarIcon, Clock as ClockIcon, Image as ImagePlaceholderIcon, ArrowRight } from 'lucide-react';
 
 // --- Helper Functions ---
 function parsePrice(priceStr?: string): number {
@@ -386,7 +378,7 @@ export default function HomePageClient({
             
             <div className="deal-grid" style={{ flex: 1.5, position: 'relative', zIndex: 2, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
               {dealEvents.length > 0 ? (
-                dealEvents.map(e => renderDealCard(e))
+                dealEvents.map(e => renderEventCard(e))
               ) : (
                 <div style={{ color: 'var(--sage-55)' }}>Geen deals momenteel.</div>
               )}

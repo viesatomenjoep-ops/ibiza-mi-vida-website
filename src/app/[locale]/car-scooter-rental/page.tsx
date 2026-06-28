@@ -1,4 +1,4 @@
-import { getDictionary } from '@/dictionaries'
+import { getDictionary } from '@/lib/dictionary'
 import CarScooterRentalClient from './CarScooterRentalClient'
 
 export default async function CarScooterRentalPage({ params: { locale } }: { params: { locale: string } }) {

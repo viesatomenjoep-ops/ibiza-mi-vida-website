@@ -1,4 +1,4 @@
-import { getDictionary } from '@/dictionaries'
+import { getDictionary } from '@/lib/dictionary'
 import FerryFormenteraClient from './FerryFormenteraClient'
 
 export default async function FerryFormenteraPage({ params: { locale } }: { params: { locale: string } }) {

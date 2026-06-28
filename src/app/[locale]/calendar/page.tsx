@@ -1,11 +1,11 @@
-import { getEventDates, getVenues, getArtists } from '@/lib/clubtickets';
+import { getAllDates, getVenues, getArtists } from '@/lib/clubtickets';
 import { getDictionary } from '@/lib/dictionary';
 import CalendarClient from './CalendarClient';
 
 export default async function CalendarPage({ params }: { params: { locale: string } }) {
   const [dict, eventDates, venues, artists] = await Promise.all([
     getDictionary(params.locale as any),
-    getEventDates(),
+    getAllDates(),
     getVenues(),
     getArtists()
   ]);

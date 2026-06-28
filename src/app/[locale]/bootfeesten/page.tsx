@@ -1,4 +1,4 @@
-import { getDictionary } from '@/dictionaries'
+import { getDictionary } from '@/lib/dictionary'
 import BootfeestenClient from './BootfeestenClient'
 
 export default async function BootfeestenPage({ params: { locale } }: { params: { locale: string } }) {

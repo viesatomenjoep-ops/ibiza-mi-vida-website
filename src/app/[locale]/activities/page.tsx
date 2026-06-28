@@ -1,4 +1,4 @@
-import { getDictionary } from '@/dictionaries'
+import { getDictionary } from '@/lib/dictionary'
 import ActivitiesClient from './ActivitiesClient'
 
 export default async function ActivitiesPage({ params: { locale } }: { params: { locale: string } }) {

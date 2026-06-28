@@ -1,4 +1,4 @@
-import { getDictionary } from '@/dictionaries'
+import { getDictionary } from '@/lib/dictionary'
 import BoatChartersClient from './BoatChartersClient'
 
 export default async function BoatChartersPage({ params: { locale } }: { params: { locale: string } }) {

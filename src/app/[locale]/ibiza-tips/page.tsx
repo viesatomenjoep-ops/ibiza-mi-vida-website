@@ -1,4 +1,4 @@
-import { getDictionary } from '@/dictionaries'
+import { getDictionary } from '@/lib/dictionary'
 import IbizaTipsClient from './IbizaTipsClient'
 
 export default async function IbizaTipsPage({ params: { locale } }: { params: { locale: string } }) {

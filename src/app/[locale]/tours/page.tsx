@@ -1,4 +1,4 @@
-import { getDictionary } from '@/dictionaries'
+import { getDictionary } from '@/lib/dictionary'
 import ToursClient from './ToursClient'
 
 export default async function ToursPage({ params: { locale } }: { params: { locale: string } }) {

@@ -1,4 +1,4 @@
-import { getDictionary } from '@/dictionaries'
+import { getDictionary } from '@/lib/dictionary'
 import GuestlistClient from './GuestlistClient'
 
 export default async function GuestlistPage({ params: { locale } }: { params: { locale: string } }) {

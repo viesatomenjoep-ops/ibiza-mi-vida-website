@@ -1,4 +1,4 @@
-import { getDictionary } from '@/dictionaries'
+import { getDictionary } from '@/lib/dictionary'
 import ShuttleFerryClient from './ShuttleFerryClient'
 
 export default async function ShuttleFerryPage({ params: { locale } }: { params: { locale: string } }) {

@@ -1,4 +1,4 @@
-import { getDictionary } from '@/dictionaries'
+import { getDictionary } from '@/lib/dictionary'
 import WaterSportsClient from './WaterSportsClient'
 
 export default async function WaterSportsPage({ params: { locale } }: { params: { locale: string } }) {
