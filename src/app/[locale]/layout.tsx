@@ -9,7 +9,6 @@ import { CartProvider } from '@/context/cart-context'
 import { CartDrawer } from '@/components/ui/CartDrawer'
 import { getDictionary } from '@/lib/dictionary'
 import '@/styles/globals.css'
-import '../ibiza-design.css'
 
 const titilliumBody = Titillium_Web({
   weight: ['200', '300', '400', '600', '700', '900'],
