@@ -61,9 +61,9 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </div>
 
         <div className="relative z-20 pt-[100px] md:pt-[120px] pb-12 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 mt-auto mb-auto">
-          <h1 className="text-white text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold font-serif uppercase tracking-tight drop-shadow-lg leading-none">
+          <h1 className="text-white text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-bold font-serif uppercase tracking-tight drop-shadow-lg leading-none">
             {translations.home_hero_title}
-            <span className="block font-serif font-bold text-2xl sm:text-3xl md:text-5xl lg:text-6xl mt-2 tracking-tight leading-none">{translations.home_hero_subtitle}</span>
+            <span className="block font-serif font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-3 tracking-tight leading-none text-white/90">{translations.home_hero_subtitle}</span>
           </h1>
           
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-8 w-full px-4 max-w-2xl">
