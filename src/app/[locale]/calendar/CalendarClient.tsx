@@ -144,12 +144,12 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
         </div>
       )}
 
-      <div className="ck-header relative z-10 pt-[120px] md:pt-[140px] flex flex-col items-center text-center">
+      <div className="ck-header relative z-10 pt-[80px] md:pt-[100px] flex flex-col items-center text-center">
         <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">EVENTS</h1>
       </div>
 
         {/* Combined Selector Dropdown */}
-        <div className="w-full max-w-7xl mx-auto px-4 mt-6 mb-4 flex justify-center relative">
+        <div className="w-full max-w-7xl mx-auto px-4 mt-2 mb-2 flex justify-center relative">
           <div className="relative w-full max-w-xs md:max-w-sm">
             <select
               className="w-full appearance-none bg-white border-2 border-black/10 hover:border-black rounded-full px-6 py-3.5 text-black font-bold uppercase tracking-widest text-xs md:text-sm shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-black cursor-pointer text-center"
@@ -185,16 +185,16 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
         </div>
 
         {/* Venue Selector Row */}
-        <div className="w-full max-w-7xl mx-auto px-4 mb-10 overflow-hidden relative">
-          <div className="flex overflow-x-auto gap-4 md:gap-6 pb-6 pt-4 px-2 snap-x hide-scrollbar mask-edges">
+        <div className="w-full max-w-7xl mx-auto px-4 mb-2 overflow-hidden relative">
+          <div className="flex overflow-x-auto gap-4 md:gap-6 pb-4 pt-4 px-2 snap-x hide-scrollbar mask-edges">
             <button
               className={`snap-start shrink-0 flex flex-col items-center gap-3 group w-20 md:w-24`}
               onClick={() => setSelectedVenue(null)}
             >
-              <div className={`w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-full transition-all duration-300 ${!selectedVenue ? 'bg-ibiza-green text-black border-2 border-ibiza-green shadow-[0_0_20px_rgba(20,255,0,0.5)] scale-110' : 'bg-white text-neutral-400 border-2 border-neutral-200 group-hover:border-black group-hover:text-black group-hover:scale-105'}`}>
-                <MapPin size={24} className="md:w-8 md:h-8" strokeWidth={2.5} />
+              <div className={`w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-full transition-all duration-300 ${!selectedVenue ? 'bg-black text-white border-2 border-black scale-110 shadow-lg' : 'bg-white text-black border-2 border-black/20 group-hover:border-black group-hover:bg-black/5 group-hover:scale-105'}`}>
+                <MapPin size={18} strokeWidth={3} />
               </div>
-              <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest text-center line-clamp-2 ${!selectedVenue ? 'text-ibiza-green' : 'text-neutral-500 group-hover:text-black'}`}>
+              <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest text-center line-clamp-2 ${!selectedVenue ? 'text-black' : 'text-black/60 group-hover:text-black'}`}>
                 Alle {categoryFilter === 'all' ? 'Venues' : categoryFilter === 'clubbing' ? 'Clubs' : 'Boats'}
               </span>
             </button>
@@ -207,14 +207,14 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
                   className={`snap-start shrink-0 flex flex-col items-center gap-3 group w-20 md:w-24`}
                   onClick={() => setSelectedVenue(v.slug)}
                 >
-                  <div className={`w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-full overflow-hidden bg-white border-2 transition-all duration-300 ${isActive ? 'border-ibiza-green shadow-[0_0_20px_rgba(20,255,0,0.5)] scale-110' : 'border-neutral-200 group-hover:border-black group-hover:scale-105'}`}>
+                  <div className={`w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-full overflow-hidden bg-white border-2 transition-all duration-300 ${isActive ? 'border-ibiza-green shadow-[0_0_15px_rgba(20,255,0,0.3)] scale-110' : 'border-black/10 group-hover:border-black/30 group-hover:scale-105'}`}>
                     {vImg ? (
                       <img src={vImg} alt={v.name} className={`w-full h-full object-contain p-2`} />
                     ) : (
-                      <span className={`text-2xl font-black ${isActive ? 'text-black' : 'text-neutral-400 group-hover:text-black'}`}>{v.name.slice(0,2)}</span>
+                      <span className={`text-2xl font-black ${isActive ? 'text-black' : 'text-black/40 group-hover:text-black'}`}>{v.name.slice(0,2)}</span>
                     )}
                   </div>
-                  <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest text-center line-clamp-2 ${isActive ? 'text-ibiza-green' : 'text-neutral-900 group-hover:text-black'}`}>
+                  <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest text-center line-clamp-2 ${isActive ? 'text-ibiza-green' : 'text-black/60 group-hover:text-black'}`}>
                     {v.name}
                   </span>
                 </button>
