@@ -4159,7 +4159,7 @@
           "date": "2026-07-22",
           "name": "",
           "lineUp": "<p><b>Main Room</b></p><p>Jamie Jones B2B Franky Rizardo</p><p>Sosa</p><p>Alisha</p><p>Julian Fijma</p><p><br></p><p><b>Wild Comet</b></p><p>Job de Jong</p><p>Dimmish</p><p>Pirate Copy</p><p>Vanee</p><p><br></p><p><b>The Bunker</b></p><p>Artists TBA</p>",
-          "prices": "90 € - 200 €",
+          "prices": "100 € - 200 €",
           "affLink": "https://www.clubtickets.com/nl/clubbing/unvrs-ibiza/jamie-jones-paradise/2026-07-22?aff=CT219"
         },
         {
@@ -4175,7 +4175,7 @@
           "date": "2026-08-05",
           "name": "",
           "lineUp": "<p><b>Main Room</b></p><p>Jamie Jones B2B Chris Stussy</p><p>Archie Hamilton</p><p>Fleur Shore</p><p>Joe Rolet</p><p><br></p><p><b>Wild Comet</b></p><p>Seb Zito</p><p>Manda Moor</p><p>Late Replies</p><p>Marian</p><p><br></p><p><b>The Bunker</b></p><p>Artists TBA</p>",
-          "prices": "90 € - 200 €",
+          "prices": "100 € - 200 €",
           "affLink": "https://www.clubtickets.com/nl/clubbing/unvrs-ibiza/jamie-jones-paradise/2026-08-05?aff=CT219"
         },
         {
@@ -23288,14 +23288,6 @@
       },
       "dates": [
         {
-          "id": 166859,
-          "date": "2026-07-03",
-          "name": "",
-          "lineUp": "",
-          "prices": "80 €",
-          "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/barco-a-formentera-ulises-cat/aftersun/2026-07-03?aff=CT219"
-        },
-        {
           "id": 166860,
           "date": "2026-07-04",
           "name": "",
@@ -31039,14 +31031,6 @@
       },
       "dates": [
         {
-          "id": 161832,
-          "date": "2026-07-03",
-          "name": "",
-          "lineUp": "",
-          "prices": "9 € - 15 €",
-          "affLink": "https://www.clubtickets.com/nl/activities/cova-de-can-marca/cova-de-can-marca/2026-07-03?aff=CT219"
-        },
-        {
           "id": 161833,
           "date": "2026-07-04",
           "name": "",
@@ -35710,14 +35694,6 @@
       },
       "dates": [
         {
-          "id": 162941,
-          "date": "2026-07-04",
-          "name": "",
-          "lineUp": "",
-          "prices": "35 € - 70 €",
-          "affLink": "https://www.clubtickets.com/nl/activities/excursiones/ibiza-bus-tour/2026-07-04?aff=CT219"
-        },
-        {
           "id": 162942,
           "date": "2026-07-08",
           "name": "",
@@ -36323,14 +36299,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/55?locale=nl"
       },
       "dates": [
-        {
-          "id": 162803,
-          "date": "2026-07-06",
-          "name": "",
-          "lineUp": "",
-          "prices": "99 € - 115 €",
-          "affLink": "https://www.clubtickets.com/nl/activities/excursiones/jeep-safari-north-tour/2026-07-06?aff=CT219"
-        },
         {
           "id": 162804,
           "date": "2026-07-07",
@@ -38975,14 +38943,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/137?locale=nl"
       },
       "dates": [
-        {
-          "id": 169022,
-          "date": "2026-07-05",
-          "name": "",
-          "lineUp": "",
-          "prices": "45 € - 80 €",
-          "affLink": "https://www.clubtickets.com/nl/boat/salvador/salvador-boat-sunset-trip/2026-07-05?aff=CT219"
-        },
         {
           "id": 169023,
           "date": "2026-07-06",
@@ -43886,14 +43846,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/325?locale=nl"
       },
       "dates": [
-        {
-          "id": 171989,
-          "date": "2026-07-04",
-          "name": "",
-          "lineUp": "",
-          "prices": "120 € - 299 €",
-          "affLink": "https://www.clubtickets.com/nl/activities/blue-coral-ibiza/jetski-tours-with-blue-coral/2026-07-04?aff=CT219"
-        },
         {
           "id": 171990,
           "date": "2026-07-05",
@@ -52952,14 +52904,6 @@
       },
       "dates": [
         {
-          "id": 165047,
-          "date": "2026-07-04",
-          "name": "",
-          "lineUp": "",
-          "prices": "65 € - 175 €",
-          "affLink": "https://www.clubtickets.com/nl/activities/enjoy-water-sports-jetski/enjoy-water-sports-jet-ski-tour/2026-07-04?aff=CT219"
-        },
-        {
           "id": 165048,
           "date": "2026-07-05",
           "name": "",
@@ -56572,24 +56516,6 @@
       "venueId": 324
     },
     {
-      "id": 166859,
-      "date": "2026-07-03",
-      "name": "",
-      "lineUp": "",
-      "prices": "80 €",
-      "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/barco-a-formentera-ulises-cat/aftersun/2026-07-03?aff=CT219",
-      "eventName": "Sunset boat excursion with DJ",
-      "eventSlug": "aftersun",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/9a4a0927-b212-4c9e-a0ae-f99e3f7f9f39.png",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/e2abb19c-582e-4ab7-8eca-689de09a47ca.png",
-      "eventId": 1779,
-      "venueId": 27
-    },
-    {
       "id": 173009,
       "date": "2026-07-03",
       "name": "",
@@ -56624,24 +56550,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/14f31c3b-0b11-4bb5-a1a5-51d0c82aaae6.jpg",
       "eventId": 1641,
       "venueId": 289
-    },
-    {
-      "id": 161832,
-      "date": "2026-07-03",
-      "name": "",
-      "lineUp": "",
-      "prices": "9 € - 15 €",
-      "affLink": "https://www.clubtickets.com/nl/activities/cova-de-can-marca/cova-de-can-marca/2026-07-03?aff=CT219",
-      "eventName": "Can Marçà Cave Tour",
-      "eventSlug": "cova-de-can-marca",
-      "venueName": "Cova de Can Marça",
-      "venueSlug": "cova-de-can-marca",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/bb53d716-08ef-44ed-8dcb-4b0a12e1a32e.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/d50c7416-bda1-4f1f-83c4-5049c9752b37.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/bff01adc-3ab5-4d0a-b680-74b49d806d9b.png",
-      "eventId": 155,
-      "venueId": 33
     },
     {
       "id": 164478,
@@ -57310,24 +57218,6 @@
       "venueId": 61
     },
     {
-      "id": 162941,
-      "date": "2026-07-04",
-      "name": "",
-      "lineUp": "",
-      "prices": "35 € - 70 €",
-      "affLink": "https://www.clubtickets.com/nl/activities/excursiones/ibiza-bus-tour/2026-07-04?aff=CT219",
-      "eventName": "Ibiza Island tour by bus + Hippy Market visit",
-      "eventSlug": "ibiza-bus-tour",
-      "venueName": "Excursiones Al Sabini",
-      "venueSlug": "excursiones",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/b98392d7-323d-483e-aed6-a3f3f20832e5.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/811ef712-df0c-4eb2-b1e8-c36d9e6661aa.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/ccff0cb4-4483-473b-a057-bc33b2ab2235.jpg",
-      "eventId": 201,
-      "venueId": 55
-    },
-    {
       "id": 170458,
       "date": "2026-07-04",
       "name": "",
@@ -57344,24 +57234,6 @@
       "eventLogo": "https://admin.clubtickets.com/images/event/5ae70c69c99aa.jpg",
       "eventId": 183,
       "venueId": 43
-    },
-    {
-      "id": 171989,
-      "date": "2026-07-04",
-      "name": "",
-      "lineUp": "",
-      "prices": "120 € - 299 €",
-      "affLink": "https://www.clubtickets.com/nl/activities/blue-coral-ibiza/jetski-tours-with-blue-coral/2026-07-04?aff=CT219",
-      "eventName": "Jet Ski Tours with Blue Coral",
-      "eventSlug": "jetski-tours-with-blue-coral",
-      "venueName": "Blue Coral Ibiza - Jetski",
-      "venueSlug": "blue-coral-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/4d0bcd10-7f62-4198-9a15-b9af51df50af.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/bec0fa0f-b74a-49b9-9667-89cb69eff686.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/35661a56-d8ca-48b7-b034-06334c8c69c8.png",
-      "eventId": 2012,
-      "venueId": 325
     },
     {
       "id": 168232,
@@ -57434,24 +57306,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/5291266d-f6d6-493f-ab93-7f427cc55748.png",
       "eventId": 1724,
       "venueId": 299
-    },
-    {
-      "id": 165047,
-      "date": "2026-07-04",
-      "name": "",
-      "lineUp": "",
-      "prices": "65 € - 175 €",
-      "affLink": "https://www.clubtickets.com/nl/activities/enjoy-water-sports-jetski/enjoy-water-sports-jet-ski-tour/2026-07-04?aff=CT219",
-      "eventName": "Jet Ski - Playa d'en Bossa",
-      "eventSlug": "enjoy-water-sports-jet-ski-tour",
-      "venueName": "Enjoy Water Sports - JetSki",
-      "venueSlug": "enjoy-water-sports-jetski",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/cf530551-a6b4-4972-a291-667f0a100cef.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/a8396945-e836-4cb9-877e-f9299c3a5272.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/1f05098d-c697-4f8f-967b-86c31d7c5ce1.jpg",
-      "eventId": 1455,
-      "venueId": 267
     },
     {
       "id": 162334,
@@ -57992,24 +57846,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/d2e7e634-c16e-44ff-987b-759a7df2f5c0.jpg",
       "eventId": 1365,
       "venueId": 55
-    },
-    {
-      "id": 169022,
-      "date": "2026-07-05",
-      "name": "",
-      "lineUp": "",
-      "prices": "45 € - 80 €",
-      "affLink": "https://www.clubtickets.com/nl/boat/salvador/salvador-boat-sunset-trip/2026-07-05?aff=CT219",
-      "eventName": "Salvador Sunset Trip",
-      "eventSlug": "salvador-boat-sunset-trip",
-      "venueName": "Salvador",
-      "venueSlug": "salvador",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/4842ed0e-0c11-4ee2-8ba6-b12541789a6f.webp",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/b165c6ff-ca98-43e1-86fb-d41950a3c914.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/99a8e1da-74eb-4bd2-b17d-4da0b4a31a82.png",
-      "eventId": 1347,
-      "venueId": 137
     },
     {
       "id": 167316,
@@ -58766,24 +58602,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/9acfdef0-6f33-4787-bfe3-81c43c5ecfa9.png",
       "eventId": 2094,
       "venueId": 61
-    },
-    {
-      "id": 162803,
-      "date": "2026-07-06",
-      "name": "",
-      "lineUp": "",
-      "prices": "99 € - 115 €",
-      "affLink": "https://www.clubtickets.com/nl/activities/excursiones/jeep-safari-north-tour/2026-07-06?aff=CT219",
-      "eventName": "Jeep Safari North Tour",
-      "eventSlug": "jeep-safari-north-tour",
-      "venueName": "Excursiones Al Sabini",
-      "venueSlug": "excursiones",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/b98392d7-323d-483e-aed6-a3f3f20832e5.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/702e3022-8060-4eaa-8610-8136d98be9d4.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/9020a225-7649-4f6b-88b6-4da9d7e5d105.jpg",
-      "eventId": 1457,
-      "venueId": 55
     },
     {
       "id": 170459,
@@ -74144,7 +73962,7 @@
       "date": "2026-07-22",
       "name": "",
       "lineUp": "Main Room Jamie Jones B2B Franky Rizardo Sosa Alisha Julian Fijma Wild Comet Job de Jong Dimmish Pirate Copy Vanee The Bunker Artists TBA",
-      "prices": "90 € - 200 €",
+      "prices": "100 € - 200 €",
       "affLink": "https://www.clubtickets.com/nl/clubbing/unvrs-ibiza/jamie-jones-paradise/2026-07-22?aff=CT219",
       "eventName": "Jamie Jones presents Paradise: Starship Eden",
       "eventSlug": "jamie-jones-paradise",
@@ -88004,7 +87822,7 @@
       "date": "2026-08-05",
       "name": "",
       "lineUp": "Main Room Jamie Jones B2B Chris Stussy Archie Hamilton Fleur Shore Joe Rolet Wild Comet Seb Zito Manda Moor Late Replies Marian The Bunker Artists TBA",
-      "prices": "90 € - 200 €",
+      "prices": "100 € - 200 €",
       "affLink": "https://www.clubtickets.com/nl/clubbing/unvrs-ibiza/jamie-jones-paradise/2026-08-05?aff=CT219",
       "eventName": "Jamie Jones presents Paradise: Starship Eden",
       "eventSlug": "jamie-jones-paradise",
@@ -162396,5 +162214,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-07-03T14:57:19.844Z"
+  "lastUpdated": "2026-07-03T15:48:01.716Z"
 }
