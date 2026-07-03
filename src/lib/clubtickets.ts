@@ -136,7 +136,9 @@ function loadData(locale: string = 'en'): ClubTicketsData {
   const normLocale = LOCALE_DATA[locale] ? locale : 'en';
   if (cachedData[normLocale]) return cachedData[normLocale];
   try {
-    const rawData = JSON.parse(JSON.stringify(LOCALE_DATA[normLocale])) as ClubTicketsData;
+    // OPTIMIZATION: Do not deep clone the 8.5MB JSON data. 
+    // Mutate the LOCALE_DATA directly since it's only done once per Node process.
+    const rawData = LOCALE_DATA[normLocale] as ClubTicketsData;
     
     // Clean HTML from all venues
     if (rawData.venues) {

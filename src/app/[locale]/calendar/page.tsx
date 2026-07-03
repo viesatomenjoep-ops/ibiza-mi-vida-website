@@ -47,11 +47,16 @@ export default async function CalendarPage({
     };
   });
 
+  const lightVenues = venues.map(v => ({
+    name: v.name,
+    slug: v.slug
+  }));
+
   return (
     <CalendarClient 
       events={mappedEvents} 
-      allVenues={venues}
-      allArtists={artists}
+      allVenues={lightVenues}
+      allArtists={[]} // Not used in CalendarClient
       dict={dict} 
       locale={params.locale}
       initialMonth={targetMonthStr}

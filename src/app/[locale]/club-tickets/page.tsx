@@ -15,12 +15,22 @@ export default async function ClubTicketsPage({ params }: Props) {
   const allEvents = await getAllDates(params.locale);
   const venues = await getVenues(params.locale);
 
-  // You might want to fetch translations here if you have a dictionary system
+  // Strip huge HTML descriptions from venues to keep RSC payload small
+  const lightVenues = venues.map(v => ({
+    id: v.id,
+    name: v.name,
+    slug: v.slug,
+    whitelogo: v.whitelogo,
+    isDayClub: v.isDayClub,
+    type: v.type,
+    // Only pass necessary string fields, ignore heavy ones like cleanDescription
+  }));
+
   const dict = {}; 
 
   return (
     <div>
-      <ClubTicketsClient initialEvents={allEvents} venues={venues} locale={params.locale} dict={dict} />
+      <ClubTicketsClient initialEvents={allEvents} venues={lightVenues} locale={params.locale} dict={dict} />
     </div>
   );
 }
