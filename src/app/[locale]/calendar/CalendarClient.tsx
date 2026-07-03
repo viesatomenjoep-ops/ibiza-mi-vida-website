@@ -1,19 +1,20 @@
 'use client';
 
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { format, isSameDay, isSameMonth, startOfMonth, endOfMonth, eachDayOfInterval, startOfWeek, endOfWeek, addDays, parse } from 'date-fns';
+import Image from 'next/image';
+import { format, isSameDay, startOfMonth, endOfMonth, eachDayOfInterval, startOfWeek, endOfWeek } from 'date-fns';
 import { nl, enUS, de, es } from 'date-fns/locale';
 import '@/styles/calendar.css';
-import { Calendar, ChevronRight, Music, Sunrise, MapPin, Heart, Search, Check, X, Grid, List } from 'lucide-react';
+import { Calendar, ChevronRight, Search, X, Grid, List, Ticket } from 'lucide-react';
 
 interface CalendarClientProps {
-  events: any[]; 
+  events: any[];
   allVenues: any[];
   allArtists: any[];
   dict: any;
   locale: string;
-  initialMonth: string; 
+  initialMonth: string;
 }
 
 const getLocaleObj = (locale: string) => {
@@ -25,15 +26,15 @@ const getLocaleObj = (locale: string) => {
   }
 };
 
-export default function CalendarClient({ 
-  events, 
-  allVenues, 
-  allArtists, 
-  dict, 
-  locale, 
-  initialMonth 
+export default function CalendarClient({
+  events,
+  allVenues,
+  allArtists,
+  dict,
+  locale,
+  initialMonth,
 }: CalendarClientProps) {
-  const [activeMonth, setActiveMonth] = useState<string>('all'); // format: 'YYYY-MM'
+  const [activeMonth, setActiveMonth] = useState<string>('all');
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedVenue, setSelectedVenue] = useState<string | null>(null);
   const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
@@ -41,7 +42,10 @@ export default function CalendarClient({
   const [layoutMode, setLayoutMode] = useState<'list' | 'grid'>('list');
   const [favorites, setFavorites] = useState<string[]>([]);
 
-  // Modal / Dropdown visibility
+  // Hover preview state
+  const [previewEvent, setPreviewEvent] = useState<any | null>(null);
+
+  // Modal / Dropdown
   const [venuesModalOpen, setVenuesModalOpen] = useState(false);
   const [artistsModalOpen, setArtistsModalOpen] = useState(false);
   const [datepickerOpen, setDatepickerOpen] = useState(false);
@@ -50,12 +54,11 @@ export default function CalendarClient({
   const localeObj = getLocaleObj(locale);
   const today = new Date();
 
-  // Load favorites
   useEffect(() => {
     try {
       const favs = JSON.parse(localStorage.getItem('ibizaFavorites') || '[]');
       setFavorites(favs);
-    } catch(e) {}
+    } catch (e) {}
   }, []);
 
   const toggleFavorite = (eventId: string, e: React.MouseEvent) => {
@@ -68,74 +71,38 @@ export default function CalendarClient({
     });
   };
 
-  // Determine unique months with events to build the tabs row
   const uniqueMonths = useMemo(() => {
     const months = new Set<string>();
-    events.forEach(e => {
-      if (e.date) {
-        months.add(e.date.substring(0, 7)); // 'YYYY-MM'
-      }
-    });
+    events.forEach(e => { if (e.date) months.add(e.date.substring(0, 7)); });
     return Array.from(months).sort();
   }, [events]);
 
-  // If initialMonth matches a month in uniqueMonths, default to it
   useEffect(() => {
     if (uniqueMonths.includes(initialMonth)) {
       setActiveMonth(initialMonth);
     } else if (uniqueMonths.length > 0) {
-      // Find current month or default to first month in dates
       const currentMonthStr = format(new Date(), 'yyyy-MM');
-      if (uniqueMonths.includes(currentMonthStr)) {
-        setActiveMonth(currentMonthStr);
-      } else {
-        setActiveMonth(uniqueMonths[0]);
-      }
+      setActiveMonth(uniqueMonths.includes(currentMonthStr) ? currentMonthStr : uniqueMonths[0]);
     }
   }, [uniqueMonths, initialMonth]);
 
-  // Main client filter logic
   const filteredEvents = useMemo(() => {
     return events.filter(e => {
-      // 1. Month Filter
-      if (activeMonth !== 'all') {
-        const eMonth = e.date.substring(0, 7);
-        if (eMonth !== activeMonth) return false;
-      }
-      
-      // 2. Venue Filter
-      if (selectedVenue && e.ct_venues?.slug !== selectedVenue) {
-        return false;
-      }
-      
-      // 3. Artist Filter
+      if (activeMonth !== 'all' && e.date.substring(0, 7) !== activeMonth) return false;
+      if (selectedVenue && e.ct_venues?.slug !== selectedVenue) return false;
       if (selectedArtist) {
-        const searchArtist = selectedArtist.toLowerCase();
-        const inLineup = e.lineUp?.toLowerCase().includes(searchArtist);
-        const inEventName = e.ct_events?.name?.toLowerCase().includes(searchArtist);
-        if (!inLineup && !inEventName) return false;
+        const q = selectedArtist.toLowerCase();
+        if (!e.lineUp?.toLowerCase().includes(q) && !e.ct_events?.name?.toLowerCase().includes(q)) return false;
       }
-      
-      // 4. Category Filter
-      if (selectedCategory === 'favorites') {
-        return favorites.includes(e.id);
-      }
+      if (selectedCategory === 'favorites') return favorites.includes(e.id);
       const venue = e.ct_venues;
-      if (selectedCategory === 'nightclubs') {
-        return venue?.type_slug === 'clubbing' && !venue?.is_day_club;
-      }
-      if (selectedCategory === 'boat') {
-        return venue?.type_slug === 'boat';
-      }
-      if (selectedCategory === 'day') {
-        return venue?.type_slug === 'clubbing' && venue?.is_day_club === true;
-      }
-      
+      if (selectedCategory === 'nightclubs') return venue?.type_slug === 'clubbing' && !venue?.is_day_club;
+      if (selectedCategory === 'boat') return venue?.type_slug === 'boat';
+      if (selectedCategory === 'day') return venue?.type_slug === 'clubbing' && venue?.is_day_club === true;
       return true;
     });
   }, [events, activeMonth, selectedVenue, selectedArtist, selectedCategory, favorites]);
 
-  // Group events by date
   const eventsByDate = useMemo(() => {
     const groups: Record<string, any[]> = {};
     filteredEvents.forEach(e => {
@@ -146,36 +113,29 @@ export default function CalendarClient({
     return Object.keys(groups).sort().map(d => ({
       dateStr: d,
       dateObj: new Date(d + 'T00:00:00Z'),
-      events: groups[d]
+      events: groups[d],
     }));
   }, [filteredEvents]);
 
-  // Datepicker navigation grid based on activeMonth
+  // Datepicker grid
   const datepickerDays = useMemo(() => {
     if (activeMonth === 'all') return [];
     try {
-      const parts = activeMonth.split('-');
-      const year = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1;
-      const monthStart = startOfMonth(new Date(year, month, 1));
-      const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });
-      const endDate = endOfWeek(endOfMonth(monthStart), { weekStartsOn: 1 });
-      return eachDayOfInterval({ start: startDate, end: endDate });
-    } catch(err) {
-      return [];
-    }
+      const [y, m] = activeMonth.split('-').map(Number);
+      const monthStart = startOfMonth(new Date(y, m - 1, 1));
+      return eachDayOfInterval({
+        start: startOfWeek(monthStart, { weekStartsOn: 1 }),
+        end: endOfWeek(endOfMonth(monthStart), { weekStartsOn: 1 }),
+      });
+    } catch { return []; }
   }, [activeMonth]);
 
   const activeMonthLabel = useMemo(() => {
     if (activeMonth === 'all') return '';
     try {
-      const parts = activeMonth.split('-');
-      const year = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1;
-      return format(new Date(year, month, 1), 'MMMM yyyy', { locale: localeObj });
-    } catch(e) {
-      return '';
-    }
+      const [y, m] = activeMonth.split('-').map(Number);
+      return format(new Date(y, m - 1, 1), 'MMMM yyyy', { locale: localeObj });
+    } catch { return ''; }
   }, [activeMonth, localeObj]);
 
   const dayHasEvents = (day: Date) => {
@@ -184,365 +144,285 @@ export default function CalendarClient({
   };
 
   const handleDateClick = (day: Date) => {
-    const dateStr = format(day, 'yyyy-MM-dd');
     setSelectedDate(day);
     setDatepickerOpen(false);
-
-    // Scroll smoothly to this date group in the list
-    const el = document.getElementById(`date-group-${dateStr}`);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    const dateStr = format(day, 'yyyy-MM-dd');
+    document.getElementById(`date-group-${dateStr}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
-  // Filtered artists for the list
   const filteredArtists = useMemo(() => {
-    const query = artistSearchQuery.toLowerCase().trim();
-    if (!query) return allArtists;
-    return allArtists.filter(a => a.name.toLowerCase().includes(query));
+    const q = artistSearchQuery.toLowerCase().trim();
+    return q ? allArtists.filter(a => a.name.toLowerCase().includes(q)) : allArtists;
   }, [allArtists, artistSearchQuery]);
 
+  // Set initial preview to first upcoming event with an image
+  useEffect(() => {
+    if (!previewEvent && filteredEvents.length > 0) {
+      const withImg = filteredEvents.find(e => e.ct_events?.cover || e.ct_events?.logo);
+      setPreviewEvent(withImg || filteredEvents[0]);
+    }
+  }, [filteredEvents]);
+
+  const previewImg = previewEvent?.ct_events?.cover || previewEvent?.ct_events?.logo || null;
+  const previewName = previewEvent?.name || previewEvent?.ct_events?.name || '';
+  const previewVenue = previewEvent?.ct_venues?.name || '';
+  const previewDate = previewEvent?.date
+    ? format(new Date(previewEvent.date + 'T00:00:00Z'), 'EEEE d MMM', { locale: localeObj })
+    : '';
+  const previewPrice = previewEvent?.prices;
+  const previewSlug = previewEvent
+    ? `/${locale}/club-tickets/${previewEvent.ct_venues?.slug || 'club'}/${previewEvent.ct_events?.slug || 'event'}`
+    : '#';
+
   return (
-    <>
-      {/* Hero Header */}
-      <section className="subhero">
-        <div className="subhero-bg"></div>
-        <div className="wrap">
-          <div className="crumb">
-            <Link href={`/${locale}`}><Calendar className="w-4 h-4" /> Home</Link>
-            <ChevronRight className="w-3 h-3" />
-            <b>Kalender</b>
-          </div>
-          <h1>Ibiza <span className="accent">Kalender</span></h1>
-          <p className="lead">Ontdek alle evenementen, club nights en boat parties. Plan je Ibiza trip en scoor je tickets in één overzicht.</p>
+    <div className="cal-shell">
+      {/* ─── TOP BAR ─── */}
+      <div className="cal-topbar">
+        <div className="cal-topbar-left">
+          <Link href={`/${locale}`} className="cal-breadcrumb">
+            <Calendar size={14} /> Home
+          </Link>
+          <ChevronRight size={12} className="cal-breadcrumb-sep" />
+          <span className="cal-breadcrumb-active">Kalender</span>
         </div>
-      </section>
 
-      <section className="block">
-        <div className="wrap">
-
-          {/* Month selector Tabs */}
-          <div className="month-tabs-container">
-            <div className="month-tabs">
-              <button 
-                className={`month-tab ${activeMonth === 'all' ? 'active' : ''}`}
-                onClick={() => {
-                  setActiveMonth('all');
-                  setDatepickerOpen(false);
-                }}
+        {/* Month tabs */}
+        <div className="cal-month-tabs">
+          <button
+            className={`cal-mtab ${activeMonth === 'all' ? 'active' : ''}`}
+            onClick={() => { setActiveMonth('all'); setDatepickerOpen(false); }}
+          >
+            ALL
+          </button>
+          {uniqueMonths.map(m => {
+            let label = m;
+            try {
+              const [y, mo] = m.split('-').map(Number);
+              label = format(new Date(y, mo - 1, 1), 'MMM', { locale: localeObj }).toUpperCase();
+            } catch {}
+            return (
+              <button
+                key={m}
+                className={`cal-mtab ${activeMonth === m ? 'active' : ''}`}
+                onClick={() => { setActiveMonth(m); setDatepickerOpen(false); }}
               >
-                Alles
+                {label}
               </button>
-              {uniqueMonths.map(m => {
-                const isSelected = activeMonth === m;
-                let label = m;
-                try {
-                  const parts = m.split('-');
-                  const date = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, 2);
-                  label = format(date, 'MMM yyyy', { locale: localeObj });
-                } catch(e) {}
-                return (
-                  <button 
-                    key={m} 
-                    className={`month-tab ${isSelected ? 'active' : ''}`}
-                    onClick={() => {
-                      setActiveMonth(m);
-                      setDatepickerOpen(false);
-                    }}
-                  >
-                    {label}
-                  </button>
-                )
-              })}
-            </div>
+            );
+          })}
+        </div>
+
+        {/* Layout toggle */}
+        <div className="cal-topbar-right">
+          <button className={`cal-layout-btn ${layoutMode === 'grid' ? 'active' : ''}`} onClick={() => setLayoutMode('grid')}><Grid size={15} /></button>
+          <button className={`cal-layout-btn ${layoutMode === 'list' ? 'active' : ''}`} onClick={() => setLayoutMode('list')}><List size={15} /></button>
+        </div>
+      </div>
+
+      {/* ─── FILTER BAR ─── */}
+      <div className="cal-filterbar">
+        <button
+          className={`cal-filter-btn ${selectedVenue ? 'on' : ''}`}
+          onClick={() => { setVenuesModalOpen(v => !v); setArtistsModalOpen(false); setDatepickerOpen(false); }}
+        >
+          VENUES {selectedVenue ? `· ${selectedVenue}` : ''} ▾
+        </button>
+
+        {activeMonth !== 'all' && (
+          <button
+            className={`cal-filter-btn ${datepickerOpen ? 'on' : ''}`}
+            onClick={() => { setDatepickerOpen(v => !v); setVenuesModalOpen(false); setArtistsModalOpen(false); }}
+          >
+            DATE ▾
+          </button>
+        )}
+
+        <button
+          className={`cal-filter-btn ${selectedArtist ? 'on' : ''}`}
+          onClick={() => { setArtistsModalOpen(v => !v); setVenuesModalOpen(false); setDatepickerOpen(false); }}
+        >
+          ARTISTS {selectedArtist ? `· ${selectedArtist}` : ''} ▾
+        </button>
+
+        {/* Category pills */}
+        {['all', 'nightclubs', 'day', 'boat', 'favorites'].map(cat => (
+          <button
+            key={cat}
+            className={`cal-cat-pill ${selectedCategory === cat ? 'on' : ''}`}
+            onClick={() => setSelectedCategory(cat)}
+          >
+            {cat === 'all' ? 'Alle' : cat === 'nightclubs' ? 'Clubs' : cat === 'day' ? 'Day' : cat === 'boat' ? 'Boats' : '♥'}
+          </button>
+        ))}
+
+        <div className="cal-stats">{filteredEvents.length} events · {eventsByDate.length} days</div>
+      </div>
+
+      {/* ─── FILTER DROPDOWNS ─── */}
+      {venuesModalOpen && (
+        <div className="cal-board">
+          <div className="cal-board-hd">
+            <span>Kies een Club</span>
+            <X size={16} onClick={() => setVenuesModalOpen(false)} style={{ cursor: 'pointer' }} />
           </div>
-
-          {/* Filter Bar Controls */}
-          <div className="filter-bar">
-            <button 
-              className={`filter-btn ${selectedVenue ? 'active' : ''}`}
-              onClick={() => {
-                setVenuesModalOpen(!venuesModalOpen);
-                setArtistsModalOpen(false);
-                setDatepickerOpen(false);
-              }}
-            >
-              Clubs {selectedVenue ? `(${selectedVenue})` : ''} ▾
-            </button>
-
-            {activeMonth !== 'all' && (
-              <button 
-                className={`filter-btn ${datepickerOpen ? 'active' : ''}`}
-                onClick={() => {
-                  setDatepickerOpen(!datepickerOpen);
-                  setVenuesModalOpen(false);
-                  setArtistsModalOpen(false);
-                }}
-              >
-                Datum grid ▾
-              </button>
-            )}
-
-            <button 
-              className={`filter-btn ${selectedArtist ? 'active' : ''}`}
-              onClick={() => {
-                setArtistsModalOpen(!artistsModalOpen);
-                setVenuesModalOpen(false);
-                setDatepickerOpen(false);
-              }}
-            >
-              Artiest {selectedArtist ? `(${selectedArtist})` : ''} ▾
-            </button>
-
-            {/* Total event stats label */}
-            <div className="filter-stats">
-              {filteredEvents.length} events • {eventsByDate.length} dagen
-            </div>
-
-            {/* Grid vs List layout togglers */}
-            <div style={{ display: 'flex', gap: '6px' }}>
-              <button 
-                aria-label="Lijstweergave"
-                className={`layout-toggle-btn ${layoutMode === 'list' ? 'active' : ''}`}
-                onClick={() => setLayoutMode('list')}
-              >
-                <List size={16} />
-              </button>
-              <button 
-                aria-label="Gridweergave"
-                className={`layout-toggle-btn ${layoutMode === 'grid' ? 'active' : ''}`}
-                onClick={() => setLayoutMode('grid')}
-              >
-                <Grid size={16} />
-              </button>
-            </div>
+          <div className="cal-venue-grid">
+            <button className={`cal-venue-tag ${!selectedVenue ? 'on' : ''}`} onClick={() => { setSelectedVenue(null); setVenuesModalOpen(false); }}>Alle clubs</button>
+            {allVenues.map(v => (
+              <button key={v.slug} className={`cal-venue-tag ${selectedVenue === v.slug ? 'on' : ''}`} onClick={() => { setSelectedVenue(v.slug); setVenuesModalOpen(false); }}>{v.name}</button>
+            ))}
           </div>
+        </div>
+      )}
 
-          {/* Venues filter board */}
-          {venuesModalOpen && (
-            <div className="filter-board">
-              <div className="filter-board-header">
-                <span className="filter-board-title">Kies een Club</span>
-                <X className="filter-board-close w-4 h-4" onClick={() => setVenuesModalOpen(false)} />
+      {artistsModalOpen && (
+        <div className="cal-board">
+          <div className="cal-board-hd">
+            <span>Zoek Artiest</span>
+            <X size={16} onClick={() => setArtistsModalOpen(false)} style={{ cursor: 'pointer' }} />
+          </div>
+          <div className="cal-artist-search">
+            <Search size={14} />
+            <input type="text" placeholder="Typ naam..." value={artistSearchQuery} onChange={e => setArtistSearchQuery(e.target.value)} />
+          </div>
+          <div className="cal-artist-list">
+            <div className={`cal-artist-item ${!selectedArtist ? 'on' : ''}`} onClick={() => { setSelectedArtist(null); setArtistsModalOpen(false); }}>Geen selectie</div>
+            {filteredArtists.map(a => (
+              <div key={a.slug} className={`cal-artist-item ${selectedArtist === a.name ? 'on' : ''}`} onClick={() => { setSelectedArtist(a.name); setArtistsModalOpen(false); }}>
+                <span>{a.name}</span>
+                {a.venueName && <span className="cal-artist-venue">{a.venueName}</span>}
               </div>
-              <div className="venues-filter-grid">
-                <button 
-                  className={`venue-filter-tag ${!selectedVenue ? 'active' : ''}`}
-                  onClick={() => {
-                    setSelectedVenue(null);
-                    setVenuesModalOpen(false);
-                  }}
-                >
-                  Alle clubs
-                </button>
-                {allVenues.map(v => (
-                  <button 
-                    key={v.slug} 
-                    className={`venue-filter-tag ${selectedVenue === v.slug ? 'active' : ''}`}
-                    onClick={() => {
-                      setSelectedVenue(v.slug);
-                      setVenuesModalOpen(false);
-                    }}
-                  >
-                    {v.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
+            ))}
+          </div>
+        </div>
+      )}
 
-          {/* Artists filter board */}
-          {artistsModalOpen && (
-            <div className="filter-board">
-              <div className="filter-board-header">
-                <span className="filter-board-title">Zoek op Artiest</span>
-                <X className="filter-board-close w-4 h-4" onClick={() => setArtistsModalOpen(false)} />
-              </div>
-              <div className="artist-search-box">
-                <Search size={16} />
-                <input 
-                  type="text" 
-                  placeholder="Typ naam..." 
-                  value={artistSearchQuery} 
-                  onChange={(e) => setArtistSearchQuery(e.target.value)} 
-                />
-              </div>
-              <div className="artists-scroll-list">
-                <div 
-                  className={`artist-list-item ${!selectedArtist ? 'active' : ''}`}
-                  onClick={() => {
-                    setSelectedArtist(null);
-                    setArtistsModalOpen(false);
-                  }}
-                >
-                  <span>Geen selectie</span>
+      {datepickerOpen && activeMonth !== 'all' && (
+        <div className="cal-board cal-datepicker-board">
+          <div className="cal-board-hd" style={{ marginBottom: 12 }}>
+            <span>{activeMonthLabel}</span>
+            <X size={16} onClick={() => setDatepickerOpen(false)} style={{ cursor: 'pointer' }} />
+          </div>
+          <div className="datepicker-grid">
+            {['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'].map(d => <div key={d} className="datepicker-dow">{d}</div>)}
+            {datepickerDays.map((day, idx) => {
+              const dayMonthStr = format(day, 'yyyy-MM');
+              if (dayMonthStr !== activeMonth) return <div key={idx} className="datepicker-cell empty" />;
+              const isSelected = isSameDay(day, selectedDate);
+              const isToday = isSameDay(day, today);
+              const hasEvents = dayHasEvents(day);
+              return (
+                <div key={idx} className={`datepicker-cell ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${!hasEvents ? 'none' : ''}`} onClick={() => handleDateClick(day)}>
+                  {format(day, 'd')}
+                  <div className="datepicker-cell-dot" />
                 </div>
-                {filteredArtists.map(a => (
-                  <div 
-                    key={a.slug} 
-                    className={`artist-list-item ${selectedArtist === a.name ? 'active' : ''}`}
-                    onClick={() => {
-                      setSelectedArtist(a.name);
-                      setArtistsModalOpen(false);
-                    }}
-                  >
-                    <span>{a.name}</span>
-                    {a.venueName && <span className="artist-item-club-tag">{a.venueName}</span>}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Compact Calendar Datepicker Grid */}
-          {datepickerOpen && activeMonth !== 'all' && (
-            <div className="filter-board inline-datepicker-board">
-              <div className="filter-board-header" style={{ marginBottom: '12px' }}>
-                <span className="filter-board-title">{activeMonthLabel}</span>
-                <X className="filter-board-close w-4 h-4" onClick={() => setDatepickerOpen(false)} />
-              </div>
-              <div className="datepicker-grid">
-                {['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'].map(dow => (
-                  <div key={dow} className="datepicker-dow">{dow}</div>
-                ))}
-                {datepickerDays.map((day, idx) => {
-                  const dayMonthStr = format(day, 'yyyy-MM');
-                  const isCurrentMonth = dayMonthStr === activeMonth;
-                  const isSelected = isSameDay(day, selectedDate);
-                  const isTodayObj = isSameDay(day, today);
-                  const hasEvents = dayHasEvents(day);
-
-                  if (!isCurrentMonth) {
-                    return <div key={idx} className="datepicker-cell empty"></div>;
-                  }
-
-                  return (
-                    <div 
-                      key={idx}
-                      className={`datepicker-cell ${isSelected ? 'selected' : ''} ${isTodayObj ? 'today' : ''} ${!hasEvents ? 'none' : ''}`}
-                      onClick={() => handleDateClick(day)}
-                    >
-                      {format(day, 'd')}
-                      <div className="datepicker-cell-dot"></div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Category filter tabs */}
-          <div className="category-pills">
-            <button 
-              className={`category-pill ${selectedCategory === 'all' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('all')}
-            >
-              Alle Vibes
-            </button>
-            <button 
-              className={`category-pill ${selectedCategory === 'nightclubs' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('nightclubs')}
-            >
-              Nightclubs
-            </button>
-            <button 
-              className={`category-pill ${selectedCategory === 'day' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('day')}
-            >
-              Day Clubs
-            </button>
-            <button 
-              className={`category-pill ${selectedCategory === 'boat' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('boat')}
-            >
-              Boats
-            </button>
-            <button 
-              className={`category-pill ${selectedCategory === 'favorites' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('favorites')}
-            >
-              Mijn Favorieten ({favorites.length})
-            </button>
+              );
+            })}
           </div>
+        </div>
+      )}
 
-          {/* Unified Compact Events Stream */}
+      {/* ─── MAIN 2-COLUMN BODY ─── */}
+      <div className="cal-body">
+        {/* LEFT: Event list */}
+        <div className="cal-list-col">
           {eventsByDate.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '60px 20px', color: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.02)', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.08)' }}>
-              <Calendar className="w-12 h-12 mx-auto mb-4 opacity-30" />
-              <p style={{ fontFamily: 'var(--display), sans-serif', textTransform: 'uppercase', letterSpacing: '.1em', fontSize: '12px', fontWeight: 'bold' }}>Geen feesten gevonden voor deze selectie.</p>
+            <div className="cal-empty">
+              <Calendar size={40} />
+              <p>Geen feesten gevonden voor deze selectie.</p>
             </div>
           ) : (
-            <div className={`calendar-stream ${layoutMode === 'grid' ? 'grid-view' : ''}`}>
+            <div className={layoutMode === 'grid' ? 'cal-stream grid-view' : 'cal-stream'}>
               {eventsByDate.map(group => {
                 const isTodayGroup = isSameDay(group.dateObj, today);
                 return (
-                  <div key={group.dateStr} id={`date-group-${group.dateStr}`} className="date-group">
-                    {/* Date banner */}
-                    <div className={`date-stream-header ${isTodayGroup ? 'today' : ''}`}>
-                      <span>{format(group.dateObj, 'EEEE d MMMM yyyy', { locale: localeObj })}</span>
-                      {isTodayGroup && <span className="date-stream-today-badge">Vandaag</span>}
+                  <div key={group.dateStr} id={`date-group-${group.dateStr}`} className="cal-date-group">
+                    <div className={`cal-date-hd ${isTodayGroup ? 'today' : ''}`}>
+                      <span>{format(group.dateObj, 'EEEE d MMMM', { locale: localeObj })}</span>
+                      {isTodayGroup && <span className="cal-today-badge">● TODAY</span>}
                     </div>
 
-                    {/* Events listed under this date */}
-                    {group.events.map(dateObj => {
-                      const evt = dateObj.ct_events;
-                      const venue = dateObj.ct_venues;
-                      const isFav = favorites.includes(dateObj.id);
-                      
+                    {group.events.map(ev => {
+                      const evt = ev.ct_events;
+                      const venue = ev.ct_venues;
+                      const isActive = previewEvent?.id === ev.id;
+
                       return (
-                        <Link 
-                          href={`/${locale}/club-tickets/${venue?.slug || 'club'}/${evt?.slug || 'event'}`} 
-                          key={dateObj.id} 
-                          className="event-compact-row"
+                        <Link
+                          key={ev.id}
+                          href={`/${locale}/club-tickets/${venue?.slug || 'club'}/${evt?.slug || 'event'}`}
+                          className={`cal-row ${isActive ? 'active' : ''}`}
+                          onMouseEnter={() => setPreviewEvent(ev)}
+                          onFocus={() => setPreviewEvent(ev)}
                         >
-                          {/* Club Badge (Black block, white text) */}
-                          <div className="event-club-badge">
-                            {venue?.name || 'Ibiza'}
+                          {/* Venue badge */}
+                          <div className="cal-row-venue">
+                            {venue?.whitelogo ? (
+                              <img src={venue.whitelogo} alt={venue.name} className="cal-row-venue-logo" />
+                            ) : (
+                              <span className="cal-row-venue-name">{venue?.name || '—'}</span>
+                            )}
                           </div>
 
-                          {/* Event info (Artist/Event details) */}
-                          <div className="event-compact-info">
-                            <span className="event-compact-name">{dateObj.name}</span>
-                            <span className="event-compact-subtitle">
-                              {evt?.name ? `${evt.name}` : 'Ibiza Residency'}
-                            </span>
+                          {/* Event name + subtitle */}
+                          <div className="cal-row-info">
+                            <span className="cal-row-name">{ev.name}</span>
+                            {evt?.name && <span className="cal-row-sub">{evt.name}</span>}
                           </div>
 
-                          {/* Price representation */}
-                          <div className="event-compact-price">
-                            <small>Vanaf</small>
-                            <b>€{dateObj.prices || '0.00'}</b>
+                          {/* Tickets CTA */}
+                          <div className="cal-row-cta">
+                            <Ticket size={13} />
+                            TICKETS
                           </div>
-
-                          {/* Tickets button */}
-                          <button 
-                            className="event-tickets-btn"
-                            aria-label={`Koop tickets voor ${dateObj.name}`}
-                          >
-                            Tickets ↗
-                          </button>
                         </Link>
-                      )
+                      );
                     })}
                   </div>
-                )
+                );
               })}
             </div>
           )}
-
         </div>
-      </section>
 
-      {/* SEO Introduction block */}
-      <section className="block alt" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-        <div className="wrap">
-          <div className="intro-seo">
-            <h2>De ultieme Ibiza kalender 2026</h2>
-            <p>Op zoek naar het perfecte feest tijdens jouw vakantie? Onze Ibiza kalender biedt een compleet overzicht van alle club nights, boat parties en day clubs. Filter eenvoudig op jouw favoriete vibe of check direct wat er vanavond te doen is.</p>
-            <p>Boek je tickets ruim van tevoren via Ibiza mi Vida. Wij werken direct samen met ClubTickets, de officiële ticketing partner van het eiland. 100% veilig, gegarandeerde toegang en geen verborgen kosten aan de deur.</p>
+        {/* RIGHT: Sticky preview panel */}
+        <div className="cal-preview-col">
+          <div className="cal-preview-panel">
+            {previewImg ? (
+              <div className="cal-preview-img-wrap">
+                <Image
+                  src={previewImg}
+                  alt={previewName}
+                  fill
+                  className="cal-preview-img"
+                  sizes="(max-width:1200px) 0px, 380px"
+                  priority={false}
+                />
+                {/* Gradient overlay */}
+                <div className="cal-preview-overlay" />
+              </div>
+            ) : (
+              <div className="cal-preview-placeholder">
+                <Calendar size={48} />
+              </div>
+            )}
+
+            {/* Info bar at bottom of preview */}
+            {previewEvent && (
+              <div className="cal-preview-info">
+                <div className="cal-preview-venue">{previewVenue}</div>
+                <div className="cal-preview-title">{previewName}</div>
+                <div className="cal-preview-meta">
+                  <span>{previewDate}</span>
+                  {previewPrice && <span>· v.a. €{previewPrice}</span>}
+                </div>
+                <Link href={previewSlug} className="cal-preview-btn">
+                  <Ticket size={14} /> Koop Tickets
+                </Link>
+              </div>
+            )}
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </div>
   );
 }

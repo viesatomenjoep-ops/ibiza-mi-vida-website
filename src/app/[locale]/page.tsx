@@ -48,7 +48,8 @@ export default async function Home({ params }: { params: { locale: string } }) {
         slug: v.slug,
         name: v.name,
         picture: v.picture,
-        whitelogo: v.whitelogo
+        whitelogo: v.whitelogo,
+        typeSlug: (v as any).type?.slug || ''
       }))}
     />
   )

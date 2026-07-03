@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -10,78 +10,39 @@ interface HomePageProps {
   locale?: string;
   featuredClubs?: any[];
   upcomingDates?: any[];
-  allVenues?: any[];
+  allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
 }
 
 export default function HomePageClient({ locale = 'nl', featuredClubs = [], upcomingDates = [], allVenues = [] }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
-  // State for the finder widget
   const [selectedCategory, setSelectedCategory] = useState('club-tickets');
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
-  const [floatingElements, setFloatingElements] = useState<{
-    id: number;
-    logo: string;
-    style: React.CSSProperties;
-  }[]>([]);
 
   const months = ['JAN', 'FEB', 'MRT', 'APR', 'MEI', 'JUN', 'JUL', 'AUG', 'SEP', 'OKT', 'NOV', 'DEC'];
 
-  // 1. Extract unique club logos from featuredClubs and upcomingDates
-  const uniqueClubLogos = useMemo(() => {
-    const logos = new Map<string, string>();
-    
-    // Add default major silhouettes as fallbacks
-    logos.set('hi-ibiza', 'https://media.clubtickets.com/migrated/venue/0fa16bfa-51a4-4f22-8069-326d43a57f40.png');
-    logos.set('ushuaia-ibiza', 'https://media.clubtickets.com/migrated/venue/b1c671d7-4d79-46a1-88ef-c28dd3a49eb7.png');
-    logos.set('eden-ibiza', 'https://media.clubtickets.com/migrated/venue/5c451614-22cb-4e1b-9903-06a6aa8760a3.png');
-    logos.set('playa-soleil', 'https://media.clubtickets.com/migrated/venue/cd579d60-cd2e-4948-bf6b-f6b8aa6156de.png');
 
-    featuredClubs.forEach(c => {
-      if (c.slug && c.whitelogo) {
-        logos.set(c.slug, c.whitelogo);
-      }
-    });
-    upcomingDates.forEach(d => {
-      const v = d.ct_venues;
-      if (v?.slug && v?.whitelogo) {
-        logos.set(v.slug, v.whitelogo);
-      }
-    });
-    return Array.from(logos.entries()).map(([slug, logo]) => ({ slug, logo }));
-  }, [featuredClubs, upcomingDates]);
+  // 1. All club logos from allVenues (only type=clubbing, not boats)
+  const clubLogos = useMemo(() => {
+    const clubs = allVenues.filter(v => v.typeSlug === 'clubbing');
+    // Shuffle deterministically so columns look varied
+    return clubs.length > 0 ? clubs : allVenues;
+  }, [allVenues]);
 
-  // 2. Generate 14 floating logo watermarks spread across the hero viewport
-  useEffect(() => {
-    if (uniqueClubLogos.length === 0) return;
-    const elements = [];
-    for (let i = 0; i < 14; i++) {
-      const club = uniqueClubLogos[i % uniqueClubLogos.length];
-      const size = Math.floor(Math.random() * 70) + 70; // 70px to 140px size
-      const left = Math.floor(Math.random() * 88); // 0% to 88% width
-      const top = Math.floor(Math.random() * 80); // 0% to 80% height (confined inside hero area)
-      const duration = Math.floor(Math.random() * 45) + 45; // 45s to 90s drift duration
-      const delay = Math.floor(Math.random() * -30); // Random offset delay to start immediately
-
-      elements.push({
-        id: i,
-        logo: club.logo,
-        style: {
-          position: 'absolute' as const,
-          left: `${left}%`,
-          top: `${top}%`,
-          width: `${size}px`,
-          height: `${size}px`,
-          opacity: 0.038, // Subtle luxury opacity matching mockup
-          filter: !['o-beach-ibiza', 'playa-soleil', 'bambuku-ibiza'].includes(club.slug) ? 'none' : 'brightness(0) invert(1)',
-          animation: `floatDrift ${duration}s ease-in-out ${delay}s infinite`,
-          pointerEvents: 'none' as const,
-        }
-      });
-    }
-    setFloatingElements(elements);
-  }, [uniqueClubLogos]);
+  // Column config: 10 columns, alternating speeds and directions
+  const LIFT_COLS = 10;
+  const liftCols = useMemo(() => {
+    return Array.from({ length: LIFT_COLS }, (_, i) => ({
+      id: i,
+      // speeds: 25s to 55s, staggered
+      duration: 28 + i * 3,
+      // odd columns go up, even go down
+      reverse: i % 2 === 1,
+      // stagger start so columns are offset
+      delay: -(i * 4.5),
+    }));
+  }, []);
 
   const handleSearch = () => {
     let query = '';
@@ -101,49 +62,49 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
       {/* HERO with left + right vertical logo strips */}
 <header className="hero relative overflow-hidden" id="top">
         
-        {/* 10 symmetrical vertical columns with logos floating up and down */}
-        <div className="absolute inset-0 pointer-events-none z-0 select-none overflow-hidden">
-          {/* Vertical grid lines */}
-          <div className="absolute inset-0 flex justify-between px-4">
-            {Array.from({ length: 11 }).map((_, i) => (
-              <div key={i} className="w-px bg-black/[0.04] h-full" />
-            ))}
-          </div>
-          {/* Logo columns: 10 columns, each with stacked logos floating up then down */}
-          <div className="absolute inset-0 flex items-stretch">
-            {Array.from({ length: 10 }).map((_, colIdx) => {
-              const logos = uniqueClubLogos;
-              if (!logos.length) return null;
-              const logo = logos[colIdx % logos.length];
-              // Alternate odd/even columns: odd go down-up, even go up-down
-              const even = colIdx % 2 === 0;
-              const duration = 6 + colIdx * 0.4; // stagger durations per column
-              const delay = colIdx * 0.3;
-              return (
-                <div
-                  key={colIdx}
-                  className="flex-1 flex justify-center items-center"
-                  style={{ animationDelay: `${delay}s` }}
-                >
-                  <div
-                    className="flex justify-center items-center"
-                    style={{
-                      animation: `${even ? 'colFloatDown' : 'colFloatUp'} ${duration}s ease-in-out ${delay}s infinite`,
-                      opacity: 0.07,
-                    }}
-                  >
-                    <img
-                      src={logo.logo}
-                      alt=""
-                      className="w-12 h-12 object-contain"
-                      style={{ filter: 'brightness(0)' }}
-                    />
+        {/* ── LIFT ELEVATOR: 10 columns, all 15+ club logos scrolling ── */}
+        {clubLogos.length > 0 && (
+          <div className="lift-bg" aria-hidden="true">
+            {/* Subtle vertical grid lines */}
+            <div className="lift-grid-lines">
+              {Array.from({ length: 11 }).map((_, i) => <div key={i} className="lift-line" />)}
+            </div>
+
+            {/* 10 elevator columns */}
+            <div className="lift-cols">
+              {liftCols.map(col => {
+                // Each column gets a different starting logo to look varied
+                const offset = (col.id * 3) % clubLogos.length;
+                const rotated = [...clubLogos.slice(offset), ...clubLogos.slice(0, offset)];
+                // Duplicate for seamless loop
+                const items = [...rotated, ...rotated];
+
+                return (
+                  <div key={col.id} className="lift-col">
+                    <div
+                      className="lift-track"
+                      style={{
+                        animationDuration: `${col.duration}s`,
+                        animationDirection: col.reverse ? 'reverse' : 'normal',
+                        animationDelay: `${col.delay}s`,
+                      }}
+                    >
+                      {items.map((club, idx) => (
+                        <div key={`${club.slug}-${idx}`} className="lift-item">
+                          <img
+                            src={club.picture || club.whitelogo}
+                            alt={club.name}
+                            className="lift-logo"
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="wrap hero-inner relative z-10">
           <h1>

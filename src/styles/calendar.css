@@ -11,7 +11,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: 
+  background:
     radial-gradient(70% 90% at 0% 0%, rgba(255, 42, 95, 0.1), transparent 55%),
     radial-gradient(70% 90% at 100% 0%, rgba(0, 230, 115, 0.05), transparent 50%),
     #08080a;
@@ -224,8 +224,15 @@
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .filter-board-header {
@@ -675,31 +682,38 @@
     padding: 12px 14px;
     gap: 8px;
   }
+
   .event-club-badge {
     order: 1;
     width: auto;
     font-size: 10px;
     padding: 4px 8px;
   }
+
   .event-compact-info {
     order: 3;
     flex: 0 0 100%;
     margin-top: 4px;
   }
+
   .event-compact-name {
     font-size: 13px;
   }
+
   .event-compact-subtitle {
     font-size: 10px;
   }
+
   .event-compact-price {
     order: 2;
     margin-left: auto;
     margin-right: 0;
   }
+
   .event-compact-price b {
     font-size: 15px;
   }
+
   .event-tickets-btn {
     order: 4;
     width: 100%;
