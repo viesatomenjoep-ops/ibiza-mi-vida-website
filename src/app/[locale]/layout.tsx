@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Oswald } from 'next/font/google'
+import { Inter, Oswald, Outfit } from 'next/font/google'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppFAB } from '@/components/layout/WhatsAppFAB'
@@ -16,6 +16,13 @@ const oswald = Oswald({
   subsets: ['latin'],
   variable: '--font-oswald',
   weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+})
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
   display: 'swap',
 })
 
@@ -42,7 +49,7 @@ export default function RootLayout({
   const { locale } = params;
 
   return (
-    <html lang={locale || 'en'} className={`${inter.variable} ${oswald.variable}`}>
+    <html lang={locale || 'en'} className={`${inter.variable} ${oswald.variable} ${outfit.variable}`}>
       <body>
         <CartProvider>
           <Navbar />

@@ -33,20 +33,14 @@ export default function ClubsClient({ venues, translations }: ClubsClientProps) 
   }, [venues, filter, search]);
 
   return (
-    <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen pt-8 pb-24">
+    <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen pt-4 pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-bold tracking-widest uppercase text-ibiza-green bg-ibiza-green/10 px-3 py-1.5 rounded-full mb-4 inline-block">
-            Ibiza Nightlife
-          </span>
-          <h1 className="text-4xl md:text-6xl font-serif font-bold text-white leading-tight tracking-tight mt-2 mb-6">
+        <div className="text-center max-w-3xl mx-auto mb-6">
+          <h1 className="text-xl md:text-2xl font-bold tracking-widest uppercase text-[var(--color-ink)] mt-2">
             {translations.title}
           </h1>
-          <p className="text-lg text-white/70 leading-relaxed">
-            {translations.description}
-          </p>
         </div>
 
         {/* Filter and Search Bar */}

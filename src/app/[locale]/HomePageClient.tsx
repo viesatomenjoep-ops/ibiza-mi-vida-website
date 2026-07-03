@@ -117,18 +117,47 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
       {/* HERO */}
       <header className="hero relative overflow-hidden" id="top">
         
-        {/* Symmetrical logo grid watermark background */}
-        <div className="absolute inset-0 pointer-events-none z-0 select-none flex items-center justify-center overflow-hidden opacity-[0.05]">
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-x-12 gap-y-10 items-center justify-items-center w-full max-w-5xl px-6">
-            {uniqueClubLogos.slice(0, 12).map((club, idx) => (
-              <img 
-                key={club.slug || idx} 
-                src={club.logo} 
-                alt="" 
-                className="w-14 h-14 md:w-20 md:h-20 object-contain" 
-                style={{ filter: 'brightness(0)' }}
-              />
+        {/* 10 symmetrical vertical columns with logos floating up and down */}
+        <div className="absolute inset-0 pointer-events-none z-0 select-none overflow-hidden">
+          {/* Vertical grid lines */}
+          <div className="absolute inset-0 flex justify-between px-4">
+            {Array.from({ length: 11 }).map((_, i) => (
+              <div key={i} className="w-px bg-black/[0.04] h-full" />
             ))}
+          </div>
+          {/* Logo columns: 10 columns, each with stacked logos floating up then down */}
+          <div className="absolute inset-0 flex items-stretch">
+            {Array.from({ length: 10 }).map((_, colIdx) => {
+              const logos = uniqueClubLogos;
+              if (!logos.length) return null;
+              const logo = logos[colIdx % logos.length];
+              // Alternate odd/even columns: odd go down-up, even go up-down
+              const even = colIdx % 2 === 0;
+              const duration = 6 + colIdx * 0.4; // stagger durations per column
+              const delay = colIdx * 0.3;
+              return (
+                <div
+                  key={colIdx}
+                  className="flex-1 flex justify-center items-center"
+                  style={{ animationDelay: `${delay}s` }}
+                >
+                  <div
+                    className="flex justify-center items-center"
+                    style={{
+                      animation: `${even ? 'colFloatDown' : 'colFloatUp'} ${duration}s ease-in-out ${delay}s infinite`,
+                      opacity: 0.07,
+                    }}
+                  >
+                    <img
+                      src={logo.logo}
+                      alt=""
+                      className="w-12 h-12 object-contain"
+                      style={{ filter: 'brightness(0)' }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
