@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Oswald, Outfit } from 'next/font/google'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
-import { WhatsAppFAB } from '@/components/layout/WhatsAppFAB'
+
 import '@/styles/globals.css'
 
 const inter = Inter({
@@ -57,7 +57,6 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
-          <WhatsAppFAB />
           <CartDrawer />
         </CartProvider>
       </body>
