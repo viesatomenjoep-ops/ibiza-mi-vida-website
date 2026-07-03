@@ -185,30 +185,25 @@ export default function ClubTicketsClient({
 
   return (
     <>
-      <section className="subhero pt-8 pb-10">
-        <div className="subhero-bg"></div>
+      <section className="subhero pt-4 pb-4">
         <div className="wrap">
-          <div className="crumb">
-            <Link href={`/${locale}`}>Home</Link>
-            <ChevronRight size={13}/>
-            <b>Club Tickets</b>
+          <div className="text-[0.78rem] font-bold tracking-[0.26em] uppercase text-white/90 mb-1">
+            Alle Club Tickets
           </div>
-          <span className="eyebrow" style={{marginTop: '20px'}}><span className="dot"></span>Ibiza {new Date().getFullYear()}</span>
-          <h1>Alle <span className="accent">Clubtickets</span></h1>
-          <p className="lead">Eén plek voor alle clubtickets en activiteiten op het eiland. Filter op club, datum of categorie en vergelijk direct.</p>
+          <p className="text-xs text-white/60">Een plek voor alle Club Tickets en activiteiten op het eiland.</p>
         </div>
       </section>
 
-      <section className="block">
+      <section className="block pt-2">
         <div className="wrap">
           
           {/* Category Tabs */}
-          <div className="flex gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none border-b border-white/5">
+          <div className="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-none border-b border-white/5">
             {CATEGORIES.map(cat => (
               <button
                 key={cat.id}
                 onClick={() => handleCategoryChange(cat.id as any)}
-                className={`flex items-center gap-2 px-5 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 shrink-0 ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all duration-300 shrink-0 ${
                   activeCategory === cat.id
                     ? 'bg-ibiza-green text-velvet-obsidian shadow-[0_0_15px_rgba(0,166,152,0.3)] scale-[1.02]'
                     : 'bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10'
@@ -221,8 +216,8 @@ export default function ClubTicketsClient({
           </div>
 
           {/* Slider of Round Club Tiles */}
-          <div className="mb-12 relative group/slider">
-            <div className="text-xs font-bold tracking-widest uppercase text-white/50 mb-6">
+          <div className="mb-4 relative group/slider">
+            <div className="text-[10px] font-bold tracking-widest uppercase text-white/40 mb-3">
               {locale === 'nl' ? 'Kies een Locatie / Partner' : 'Choose a Location / Partner'}
             </div>
             
@@ -230,7 +225,7 @@ export default function ClubTicketsClient({
               {/* Prev Button */}
               <button 
                 onClick={() => scrollSlider(-1)}
-                className="absolute -left-4 z-40 bg-black/80 hover:bg-ibiza-green hover:text-velvet-obsidian text-white border border-white/10 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
+                className="absolute -left-4 z-40 bg-black/80 hover:bg-ibiza-green hover:text-velvet-obsidian text-white border border-white/10 w-8 h-8 rounded-full flex items-center justify-center shadow-lg transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
                 aria-label="Previous"
               >
                 &larr;
@@ -238,21 +233,21 @@ export default function ClubTicketsClient({
 
               <div 
                 ref={sliderRef}
-                className="flex gap-8 md:gap-12 overflow-x-auto scroll-smooth hide-scrollbar py-6 px-8 items-center w-full"
+                className="flex gap-4 md:gap-6 overflow-x-auto scroll-smooth hide-scrollbar py-3 px-2 items-center w-full"
               >
                 {/* "Alle" Tile */}
                 <div className="flex flex-col items-center justify-center shrink-0">
                   <button 
                     onClick={() => setFilter('all')}
-                    className={`w-20 h-20 md:w-24 md:h-24 rounded-full border-4 flex items-center justify-center transition-all duration-300 relative ${
+                    className={`w-14 h-14 md:w-16 md:h-16 rounded-full border-4 flex items-center justify-center transition-all duration-300 relative ${
                       filter === 'all' 
-                        ? 'border-ibiza-green bg-ibiza-green text-velvet-obsidian shadow-[0_0_20px_rgba(0,166,152,0.4)] scale-[1.3] z-30 font-bold' 
+                        ? 'border-ibiza-green bg-ibiza-green text-velvet-obsidian shadow-[0_0_15px_rgba(0,166,152,0.3)] scale-[1.12] z-30 font-bold' 
                         : 'border-white/10 bg-white/5 text-ibiza-green hover:border-ibiza-green/50 hover:bg-white/10 hover:scale-105'
                     }`}
                   >
-                    <Music size={24} className={filter === 'all' ? 'text-velvet-obsidian' : 'text-ibiza-green'} />
+                    <Music size={18} className={filter === 'all' ? 'text-velvet-obsidian' : 'text-ibiza-green'} />
                   </button>
-                  <span className={`text-[10px] uppercase font-bold tracking-widest text-center mt-3 max-w-[90px] truncate ${filter === 'all' ? 'text-ibiza-green' : 'text-white/60'}`}>
+                  <span className={`text-[9px] uppercase font-bold tracking-wider text-center mt-2 max-w-[70px] truncate ${filter === 'all' ? 'text-ibiza-green' : 'text-white/60'}`}>
                     {locale === 'nl' ? 'Alles' : 'All'}
                   </span>
                 </div>
@@ -264,13 +259,13 @@ export default function ClubTicketsClient({
                     <div key={v.slug} className="flex flex-col items-center justify-center shrink-0">
                       <button 
                         onClick={() => setFilter(v.slug)}
-                        className={`w-20 h-20 md:w-24 md:h-24 rounded-full border-4 p-3.5 flex items-center justify-center transition-all duration-300 relative ${
+                        className={`w-14 h-14 md:w-16 md:h-16 rounded-full border-4 p-2 flex items-center justify-center transition-all duration-300 relative ${
                           activeCategory !== 'music'
                             ? (isActive 
-                                ? 'bg-white border-ibiza-green shadow-[0_0_25px_rgba(0,166,152,0.6)] scale-[1.3] z-30' 
+                                ? 'bg-white border-ibiza-green shadow-[0_0_15px_rgba(0,166,152,0.3)] scale-[1.12] z-30' 
                                 : 'border-white/10 bg-white hover:border-ibiza-green/50 hover:scale-105')
                             : (isActive 
-                                ? 'bg-white/10 border-ibiza-green shadow-[0_0_25px_rgba(0,166,152,0.6)] scale-[1.3] z-30' 
+                                ? 'bg-white/10 border-ibiza-green shadow-[0_0_15px_rgba(0,166,152,0.3)] scale-[1.12] z-30' 
                                 : 'border-white/10 bg-white/5 hover:border-ibiza-green/50 hover:bg-white/10 hover:scale-105')
                         }`}
                       >
@@ -283,12 +278,12 @@ export default function ClubTicketsClient({
                             }`}
                           />
                         ) : (
-                          <span className={`font-bold text-xs ${isActive ? 'text-ibiza-green' : 'text-white/80'}`}>
+                          <span className={`font-bold text-[10px] ${isActive ? 'text-ibiza-green' : 'text-white/80'}`}>
                             {v.name.substring(0, 3).toUpperCase()}
                           </span>
                         )}
                       </button>
-                      <span className={`text-[10px] uppercase font-bold tracking-widest text-center mt-3 max-w-[95px] truncate ${isActive ? 'text-ibiza-green font-black' : 'text-white/60'}`}>
+                      <span className={`text-[9px] uppercase font-bold tracking-wider text-center mt-2 max-w-[80px] truncate ${isActive ? 'text-ibiza-green font-black' : 'text-white/60'}`}>
                         {v.name}
                       </span>
                     </div>

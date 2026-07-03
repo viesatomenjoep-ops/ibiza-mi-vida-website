@@ -88,6 +88,10 @@ section.alt { background: var(--panel2); }
 .intro-seo p { margin-bottom: 14px; }
 
 @media(max-width: 560px) {
+  .subhero { padding: 14px 0 10px; }
+  section.block { padding: 10px 0; }
+  .mb-8 { margin-bottom: 8px !important; }
+  .mb-12 { margin-bottom: 8px !important; }
   .wa-band { flex-direction: column; align-items: flex-start; padding: 30px; }
   .wa-big { min-height: 52px; }
   .searchmini { width: 100%; }
