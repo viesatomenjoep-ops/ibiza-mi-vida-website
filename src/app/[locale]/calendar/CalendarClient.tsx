@@ -142,7 +142,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
         </div>
       )}
 
-      <div className="ck-header relative z-10 pt-[240px] md:pt-[280px] flex flex-col items-center text-center mb-8">
+      <div className="ck-header relative z-10 pt-[120px] md:pt-[140px] flex flex-col items-center text-center mb-8">
         <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">EVENTS</h1>
         <p className="mt-4 md:mt-6 max-w-xl mx-auto text-sm md:text-base lg:text-lg font-medium text-black/70 px-4 leading-relaxed tracking-wide drop-shadow-sm">
           {dict.calendar_subtitle || "Vind de beste feesten en events op Ibiza. Selecteer een datum of club en plan je perfecte avond."}
@@ -226,11 +226,11 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
                   className={`snap-start shrink-0 flex flex-col items-center gap-3 group w-20 md:w-24`}
                   onClick={() => setSelectedVenue(v.slug)}
                 >
-                  <div className={`w-16 h-16 md:w-20 md:h-20 flex items-center justify-center transition-all duration-300 p-1 ${isActive ? 'scale-110 drop-shadow-[0_0_15px_rgba(20,255,0,0.5)]' : 'group-hover:scale-105'}`}>
+                  <div className={`w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-full overflow-hidden bg-white border-2 transition-all duration-300 ${isActive ? 'border-ibiza-green shadow-[0_0_20px_rgba(20,255,0,0.5)] scale-110' : 'border-neutral-200 group-hover:border-black group-hover:scale-105'}`}>
                     {vImg ? (
-                      <img src={vImg} alt={v.name} className={`w-full h-full object-contain ${isActive ? 'brightness-0' : 'brightness-0 opacity-60 group-hover:opacity-100'}`} />
+                      <img src={vImg} alt={v.name} className={`w-full h-full object-contain p-2`} />
                     ) : (
-                      <span className={`text-2xl font-black ${isActive ? 'text-ibiza-green' : 'text-black opacity-60 group-hover:opacity-100'}`}>{v.name.slice(0,2)}</span>
+                      <span className={`text-2xl font-black ${isActive ? 'text-black' : 'text-neutral-400 group-hover:text-black'}`}>{v.name.slice(0,2)}</span>
                     )}
                   </div>
                   <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest text-center line-clamp-2 ${isActive ? 'text-ibiza-green' : 'text-neutral-900 group-hover:text-black'}`}>
