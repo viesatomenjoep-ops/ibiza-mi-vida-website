@@ -10,9 +10,10 @@ interface HomePageProps {
   locale?: string;
   featuredClubs?: any[];
   upcomingDates?: any[];
+  allVenues?: any[];
 }
 
-export default function HomePageClient({ locale = 'nl', featuredClubs = [], upcomingDates = [] }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', featuredClubs = [], upcomingDates = [], allVenues = [] }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -96,6 +97,23 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
 
   return (
     <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen">
+      {/* INFINITE MARQUEE LOGO SLIDER */}
+      {allVenues && allVenues.length > 0 && (
+        <div className="logo-slider">
+          <div className="logo-slider-track">
+            {[...allVenues, ...allVenues, ...allVenues].map((v, idx) => (
+              <div key={`${v.slug}-${idx}`} className="logo-slider-item">
+                <img 
+                  src={v.picture || v.whitelogo} 
+                  alt={v.name} 
+                  className="h-8 md:h-9 w-auto object-contain shrink-0 max-w-[120px]" 
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* HERO */}
       <header className="hero relative overflow-hidden" id="top">
         

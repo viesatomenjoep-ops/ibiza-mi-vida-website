@@ -44,6 +44,12 @@ export default async function Home({ params }: { params: { locale: string } }) {
       locale={params.locale} 
       featuredClubs={featuredClubs}
       upcomingDates={upcomingDates}
+      allVenues={allVenues.map(v => ({
+        slug: v.slug,
+        name: v.name,
+        picture: v.picture,
+        whitelogo: v.whitelogo
+      }))}
     />
   )
 }

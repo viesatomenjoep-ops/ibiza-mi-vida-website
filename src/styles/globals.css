@@ -105,6 +105,11 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .mp:hover{color:#000000;border-color:#000000}
 .mp.on{background:#000000;color:#ffffff;border-color:#000000}
 
+.logo-slider{background:#ffffff;border-bottom:1px solid rgba(0,0,0,0.06);padding:14px 0;overflow:hidden;position:relative;width:100%}
+.logo-slider-track{display:flex;gap:56px;width:max-content;animation:logoScroll 28s linear infinite;align-items:center}
+.logo-slider-item{display:flex;align-items:center;justify-content:center;shrink-0}
+@keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-33.33%)}}
+
 /* marquee */
 .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:var(--panel);padding:13px 0}
 .marquee-track{display:flex;gap:56px;white-space:nowrap;animation:slide 28s linear infinite;font-family:var(--display);text-transform:uppercase;letter-spacing:.34em;font-size:.72rem;color:var(--grey)}
