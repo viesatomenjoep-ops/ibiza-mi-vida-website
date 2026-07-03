@@ -1608,7 +1608,6 @@
   min-height:100vh;
   background:#fff;
   color:#111;
-  padding-top:72px;
   font-family:var(--sans,system-ui,sans-serif);
   display:flex;
   flex-direction:column;
@@ -1619,6 +1618,7 @@
   background:#0a0a0a;
   color:#fff;
   padding:0;
+  padding-top:72px; /* space for navbar so background is black */
   position:sticky;
   top:0;
   z-index:40;
