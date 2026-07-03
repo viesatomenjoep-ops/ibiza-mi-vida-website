@@ -17,5 +17,5 @@ export async function generateMetadata({ params: { locale } }: { params: { local
 export default async function PrivateBoatChartersPage({ params: { locale } }: { params: { locale: string } }) {
   const dict = await getDictionary(locale as any)
 
-  return <PrivateBoatChartersClient dict={dict} locale={locale} />
+  return <PrivateBoatChartersClient locale={locale} />
 }
