@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getVenues, getAllDates } from '@/lib/clubtickets';
+
+export const dynamic = 'force-dynamic';
 import { locations } from '@/lib/locations';
 import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences';
 
