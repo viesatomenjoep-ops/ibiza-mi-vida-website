@@ -48,12 +48,12 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
             muted 
             loop 
             playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-80"
+            className="absolute inset-0 w-full h-full object-cover"
           >
             <source src="https://res.cloudinary.com/duznx2eim/video/upload/v1720025987/Achtergrond_homepage_lckwgw.mp4" type="video/mp4" />
           </video>
-          {/* Dark gradient overlay so white text is readable everywhere */}
-          <div className="absolute inset-0 bg-black/40"></div>
+          {/* Subtle dark gradient overlay so white text remains readable, but video stays visible */}
+          <div className="absolute inset-0 bg-black/10"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
         </div>
 
@@ -76,17 +76,19 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
             <strong id="todayDate">{new Date().toLocaleDateString(locale === 'nl' ? 'nl-NL' : locale === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'long' })}</strong>
           </div>
         </div>
+      </header>
 
-        {/* ── HORIZONTAL LOGO MARQUEE (BELOW VIDEO TEXT) ── */}
-        {clubLogos.length > 0 && (
-          <div className="absolute bottom-0 left-0 w-full overflow-hidden whitespace-nowrap py-4 z-10" style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+      {/* ── HORIZONTAL LOGO MARQUEE BAR ── */}
+      {clubLogos.length > 0 && (
+        <section className="bg-black py-4 border-b border-white/10 overflow-hidden relative">
+          <div className="w-full overflow-hidden whitespace-nowrap" style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
             <div className="inline-block animate-marquee hover:[animation-play-state:paused]">
               {[...clubLogos, ...clubLogos, ...clubLogos].map((club, idx) => (
-                <div key={`${club.slug}-${idx}`} className="inline-flex items-center justify-center w-24 mx-8 opacity-60 hover:opacity-100 transition-opacity">
+                <div key={`${club.slug}-${idx}`} className="inline-flex items-center justify-center mx-6 opacity-70 hover:opacity-100 transition-opacity">
                   <img
                     src={club.whitelogo || club.picture}
                     alt=""
-                    className="w-full h-auto object-contain filter invert drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                    className="h-8 w-auto object-contain filter invert"
                     loading="lazy"
                     decoding="async"
                   />
@@ -94,8 +96,8 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
               ))}
             </div>
           </div>
-        )}
-      </header>
+        </section>
+      )}
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (

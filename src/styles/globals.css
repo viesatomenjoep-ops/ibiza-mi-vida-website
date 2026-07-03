@@ -975,13 +975,13 @@ footer .logo img{filter:brightness(0)}
 /* ===== decoratieve terugkerende patronen (echo van het golven-logo) ===== */
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;
  background:
-  repeating-radial-gradient(circle at 88% 12%, transparent 0 66px, rgba(225,77,104,.10) 66px 68px, transparent 68px 134px),
-  repeating-radial-gradient(circle at 6% 92%, transparent 0 54px, rgba(143,190,232,.08) 54px 56px, transparent 56px 112px)}
+  repeating-radial-gradient(circle at 88% 12%, transparent 0 66px, rgba(225,77,104,.02) 66px 68px, transparent 68px 134px),
+  repeating-radial-gradient(circle at 6% 92%, transparent 0 54px, rgba(143,190,232,.02) 54px 56px, transparent 56px 112px)}
 .deco{position:absolute;border-radius:50%;pointer-events:none;z-index:0}
-.deco.ring{border:1px solid rgba(225,77,104,.16)}
-.deco.ring.ice{border-color:rgba(143,190,232,.14)}
-.deco.rings{background:repeating-radial-gradient(circle, transparent 0 30px, rgba(250,243,245,.05) 30px 31px, transparent 31px 62px)}
-.deco.halo{background:radial-gradient(circle, rgba(225,77,104,.12), transparent 65%)}
+.deco.ring{border:1px solid rgba(225,77,104,.03)}
+.deco.ring.ice{border-color:rgba(143,190,232,.03)}
+.deco.rings{background:repeating-radial-gradient(circle, transparent 0 30px, rgba(250,243,245,.02) 30px 31px, transparent 31px 62px)}
+.deco.halo{background:radial-gradient(circle, rgba(225,77,104,.03), transparent 65%)}
 .section > .wrap{position:relative;z-index:1}
 .marquee{position:relative}
 .marquee::before,.marquee::after{content:"";position:absolute;top:0;bottom:0;width:90px;z-index:1;pointer-events:none}
@@ -989,7 +989,7 @@ footer .logo img{filter:brightness(0)}
 .marquee::after{right:0;background:linear-gradient(270deg,var(--black),transparent)}
 footer{position:relative;overflow:hidden}
 footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420px;height:420px;border-radius:50%;pointer-events:none;
- background:repeating-radial-gradient(circle, transparent 0 40px, rgba(225,77,104,.10) 40px 41px, transparent 41px 82px)}
+ background:repeating-radial-gradient(circle, transparent 0 40px, rgba(225,77,104,.02) 40px 41px, transparent 41px 82px)}
 
 
 :focus-visible{outline:2px solid var(--spring);outline-offset:2px}
