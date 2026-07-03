@@ -7,9 +7,10 @@ interface ClubLogoSliderProps {
   clubLogos: Array<{ slug: string; name: string; whitelogo?: string; picture?: string; }>;
   base: string;
   className?: string;
+  basePath?: string;
 }
 
-export function ClubLogoSlider({ clubLogos, base, className = "w-full relative z-20 bg-black/80 py-4 border-t border-white/10 border-b" }: ClubLogoSliderProps) {
+export function ClubLogoSlider({ clubLogos, base, className = "w-full relative z-20 bg-black/80 py-4 border-t border-white/10 border-b", basePath = "club-tickets" }: ClubLogoSliderProps) {
   const sliderRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
@@ -82,7 +83,7 @@ export function ClubLogoSlider({ clubLogos, base, className = "w-full relative z
             .filter(club => club.whitelogo || club.picture)
             .map((club, idx) => (
             <Link 
-              href={`${base}/club-tickets/${club.slug}`}
+              href={`${base}/${basePath}/${club.slug}`}
               key={`${club.slug}-${idx}`} 
               className="inline-flex items-center justify-center px-8 opacity-80 hover:opacity-100 transition-opacity"
               draggable={false}

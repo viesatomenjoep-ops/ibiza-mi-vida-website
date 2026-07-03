@@ -45,7 +45,7 @@ export default function CategoryClient({ venues, translations, locale, basePath 
         </div>
       </section>
 
-      <ClubLogoSlider clubLogos={venues} base={`/${locale}`} />
+      <ClubLogoSlider clubLogos={venues} base={`/${locale}`} basePath={basePath} />
 
       <section className="relative z-10 pb-24 mt-8">
         <div className="wrap">
