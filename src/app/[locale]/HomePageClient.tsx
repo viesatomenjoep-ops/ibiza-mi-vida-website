@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Calendar, MapPin, Music } from 'lucide-react';
+import { Calendar, MapPin, Music, Ship } from 'lucide-react';
 import { HomeDateFinder } from '@/components/home/HomeDateFinder';
 
 interface HomePageProps {
@@ -83,15 +83,19 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
           <div className="w-full overflow-hidden whitespace-nowrap" style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
             <div className="inline-block animate-marquee hover:[animation-play-state:paused]">
               {[...clubLogos, ...clubLogos, ...clubLogos].map((club, idx) => (
-                <div key={`${club.slug}-${idx}`} className="inline-flex items-center justify-center mx-6 opacity-70 hover:opacity-100 transition-opacity">
+                <Link 
+                  href={`${base}/club-tickets/${club.slug}`}
+                  key={`${club.slug}-${idx}`} 
+                  className="inline-flex items-center justify-center mx-6 opacity-70 hover:opacity-100 transition-opacity"
+                >
                   <img
                     src={club.whitelogo || club.picture}
-                    alt=""
-                    className="h-8 w-auto object-contain filter invert"
+                    alt={club.name}
+                    className="h-8 w-auto object-contain brightness-0 invert"
                     loading="lazy"
                     decoding="async"
                   />
-                </div>
+                </Link>
               ))}
             </div>
           </div>
