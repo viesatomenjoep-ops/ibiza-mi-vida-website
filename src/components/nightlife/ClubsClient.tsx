@@ -178,8 +178,8 @@ export default function ClubsClient({ venues, translations }: ClubsClientProps) 
             </p>
           </div>
         )}
-
-      </div>
+        </div>
+      </section>
     </div>
   );
 }

@@ -81,8 +81,9 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           {/* Main content */}
           <div className="lg:col-span-2 flex flex-col gap-10">
             {/* Calendar Events List */}
-            <AnimatedSection delay={100} className="flex flex-col gap-6" id="tickets">
-              <div className="flex items-end justify-between">
+            <div id="tickets">
+              <AnimatedSection delay={100} className="flex flex-col gap-6">
+                <div className="flex items-end justify-between">
                 <div>
                   <h2 className="font-serif text-3xl font-bold text-velvet-obsidian">Select Date & Book</h2>
                   <p className="mt-2 font-sans text-velvet-obsidian/60">
@@ -131,6 +132,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                 ))}
               </div>
             </AnimatedSection>
+            </div>
 
             {cleanDescription && (
               <AnimatedSection delay={200}>

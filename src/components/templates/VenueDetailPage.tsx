@@ -105,9 +105,10 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
   ];
 
   return (
-    <div className="theme-monaco-vip bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pb-20 pt-0">
-      
-      {/* Hero Section */}
+    <>
+      <div className="theme-monaco-vip bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pb-20 pt-0">
+        
+        {/* Hero Section */}
       <section className="relative h-[340px] md:h-[400px] rounded-b-[36px] overflow-hidden bg-gradient-to-br from-[#1a2e29] to-[#2C4A42] flex items-end">
         <Image
           src={imageUrl}
@@ -305,6 +306,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
           </div>
         </div>
       </section>
+      </div>
 
       {/* Sticky Bottom Bar */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-black/10 z-50 flex items-center justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
