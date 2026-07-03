@@ -144,30 +144,12 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
         </div>
       )}
 
-      <div className="ck-header relative z-10 pt-[220px] md:pt-[240px] flex flex-col items-center text-center mb-6">
+      <div className="ck-header relative z-10 pt-[220px] md:pt-[240px] flex flex-col items-center text-center">
         <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">EVENTS</h1>
       </div>
 
-      <div className="ck-header-top w-full max-w-7xl mx-auto flex flex-col items-center gap-6 px-4">
-        <div className="relative w-full max-w-xl">
-            <Search size={20} strokeWidth={2.5} className="absolute left-4 top-1/2 -translate-y-1/2 text-black" />
-            <input
-              type="text"
-              placeholder="Zoek event, artiest of club..."
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              className="w-full bg-white border-2 border-black/10 rounded-full py-3.5 md:py-4 pl-12 pr-10 text-black placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-black transition-all shadow-md font-bold text-sm md:text-base"
-            />
-            {searchQuery && (
-              <button onClick={() => setSearchQuery('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-black transition-colors">
-                <X size={20} strokeWidth={2.5} />
-              </button>
-            )}
-          </div>
-        </div>
-
         {/* Combined Selector Dropdown */}
-        <div className="w-full max-w-7xl mx-auto px-4 mt-8 mb-4 flex justify-center relative">
+        <div className="w-full max-w-7xl mx-auto px-4 mt-6 mb-4 flex justify-center relative">
           <div className="relative w-full max-w-xs md:max-w-sm">
             <select
               className="w-full appearance-none bg-white border-2 border-black/10 hover:border-black rounded-full px-6 py-3.5 text-black font-bold uppercase tracking-widest text-xs md:text-sm shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-black cursor-pointer text-center"

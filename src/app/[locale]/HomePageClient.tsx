@@ -75,7 +75,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <div className="flex-1 w-full" />
 
         {/* Buttons & Badge at the bottom */}
-        <div className="relative z-20 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 pb-6">
+        <div className="relative z-20 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 pb-2">
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full px-4 max-w-2xl">
             <Link className="bg-ibiza-green text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:bg-white hover:text-black active:bg-white active:text-black transition-colors text-center shadow-lg hover:scale-105" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
             <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:bg-white hover:text-black active:bg-white active:text-black transition-colors text-center shadow-lg hover:scale-105" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
@@ -91,7 +91,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <ClubLogoSlider 
           clubLogos={clubLogos} 
           base={base} 
-          className="w-full relative z-20 bg-transparent pt-4 pb-2 border-t border-white/10"
+          className="w-full relative z-20 bg-transparent pt-2 pb-2 border-t border-white/10"
         />
       </header>
 
