@@ -6795,7 +6795,7 @@
           "date": "2026-07-07",
           "name": "",
           "lineUp": "<p><b>THEATRE</b></p><p>East End Dubs</p><p>Franky Rizardo</p><p>Gaskin</p><p>Ellia Jaya</p><p><br></p><p><b>CLUB ROOM</b></p><p>Paco Osuna</p><p>Rendher</p><p>More TBA</p>",
-          "prices": "65 € - 200 €",
+          "prices": "75 € - 200 €",
           "affLink": "https://www.clubtickets.com/es/clubbing/hi-ibiza/eastenderz/2026-07-07?aff=CT219"
         },
         {
@@ -6803,7 +6803,7 @@
           "date": "2026-07-14",
           "name": "",
           "lineUp": "<p><b>THEATRE</b></p><p>East End Dubs</p><p>Archie Hamilton</p><p>Jazzy</p><p>More Artists TBA<br></p><p><br></p><p><b>CLUB ROOM</b></p><p>Paco Osuna</p><p>Franky Rizardo</p><p>Sante Sansone</p>",
-          "prices": "55 € - 150 €",
+          "prices": "60 € - 150 €",
           "affLink": "https://www.clubtickets.com/es/clubbing/hi-ibiza/eastenderz/2026-07-14?aff=CT219"
         },
         {
@@ -6827,7 +6827,7 @@
           "date": "2026-08-04",
           "name": "",
           "lineUp": "<p><b>THEATRE</b></p><p>East End Dubs B2B Franky Rizardo</p><p>Obskür B2B Artist TBA</p><p>Ale De Tuglie</p><p><br></p><p><b>CLUB ROOM</b></p><p>Paco Osuna</p><p>Melanie Ribbe</p><p>Chris Di Perri</p>",
-          "prices": "55 € - 150 €",
+          "prices": "65 € - 150 €",
           "affLink": "https://www.clubtickets.com/es/clubbing/hi-ibiza/eastenderz/2026-08-04?aff=CT219"
         },
         {
@@ -22646,14 +22646,6 @@
       },
       "dates": [
         {
-          "id": 166590,
-          "date": "2026-07-03",
-          "name": "",
-          "lineUp": "",
-          "prices": "100 €",
-          "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/brunch-on-the-boat/2026-07-03?aff=CT219"
-        },
-        {
           "id": 166591,
           "date": "2026-07-04",
           "name": "",
@@ -24966,14 +24958,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/69?locale=es"
       },
       "dates": [
-        {
-          "id": 161099,
-          "date": "2026-07-03",
-          "name": "",
-          "lineUp": "",
-          "prices": "25 € - 69 €",
-          "affLink": "https://www.clubtickets.com/es/boat/float-your-boat/beach-cruise-sunset/2026-07-03?aff=CT219"
-        },
         {
           "id": 161100,
           "date": "2026-07-04",
@@ -41962,14 +41946,6 @@
       },
       "dates": [
         {
-          "id": 168417,
-          "date": "2026-07-05",
-          "name": "",
-          "lineUp": "",
-          "prices": "30 € - 80 €",
-          "affLink": "https://www.clubtickets.com/es/boat/lady-virginia-boat/lady-virginia-boat-trip/2026-07-05?aff=CT219"
-        },
-        {
           "id": 168418,
           "date": "2026-07-06",
           "name": "",
@@ -56683,24 +56659,6 @@
       "venueId": 27
     },
     {
-      "id": 166590,
-      "date": "2026-07-03",
-      "name": "",
-      "lineUp": "",
-      "prices": "100 €",
-      "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/brunch-on-the-boat/2026-07-03?aff=CT219",
-      "eventName": "Brunch on the boat",
-      "eventSlug": "brunch-on-the-boat",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/03bd838b-6728-4daa-9a63-9bd4fcb16ce8.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/4b915ffc-a061-4d5b-8fe6-8bef75ba96e1.jpg",
-      "eventId": 1577,
-      "venueId": 27
-    },
-    {
       "id": 166859,
       "date": "2026-07-03",
       "name": "",
@@ -56717,24 +56675,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/e2abb19c-582e-4ab7-8eca-689de09a47ca.png",
       "eventId": 1779,
       "venueId": 27
-    },
-    {
-      "id": 161099,
-      "date": "2026-07-03",
-      "name": "",
-      "lineUp": "",
-      "prices": "25 € - 69 €",
-      "affLink": "https://www.clubtickets.com/es/boat/float-your-boat/beach-cruise-sunset/2026-07-03?aff=CT219",
-      "eventName": "FYB Beach Cruise Sunset",
-      "eventSlug": "beach-cruise-sunset",
-      "venueName": "Float Your Boat",
-      "venueSlug": "float-your-boat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/1b0b64f2-f8d9-4182-a8b3-b1095ff02a4c.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/d2c5b9d9-bf01-45b2-9634-1e0b1888f873.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/1fb2cc37-3696-42b1-bf74-208c733537b9.jpg",
-      "eventId": 857,
-      "venueId": 69
     },
     {
       "id": 173009,
@@ -58195,24 +58135,6 @@
       "venueId": 31
     },
     {
-      "id": 168417,
-      "date": "2026-07-05",
-      "name": "",
-      "lineUp": "",
-      "prices": "30 € - 80 €",
-      "affLink": "https://www.clubtickets.com/es/boat/lady-virginia-boat/lady-virginia-boat-trip/2026-07-05?aff=CT219",
-      "eventName": "Lady Virginia Boat Trip",
-      "eventSlug": "lady-virginia-boat-trip",
-      "venueName": "Lady Virginia Boat",
-      "venueSlug": "lady-virginia-boat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/b9e3521a-bdb4-43a4-b2aa-192aa6905a5e.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/fd3e112d-b0f7-44e7-9ea6-bf0f5e72552c.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d3053fa2-825a-400a-adbf-03777b03ea21.png",
-      "eventId": 2058,
-      "venueId": 330
-    },
-    {
       "id": 168628,
       "date": "2026-07-05",
       "name": "",
@@ -59369,7 +59291,7 @@
       "date": "2026-07-07",
       "name": "",
       "lineUp": "THEATRE East End Dubs Franky Rizardo Gaskin Ellia Jaya CLUB ROOM Paco Osuna Rendher More TBA",
-      "prices": "65 € - 200 €",
+      "prices": "75 € - 200 €",
       "affLink": "https://www.clubtickets.com/es/clubbing/hi-ibiza/eastenderz/2026-07-07?aff=CT219",
       "eventName": "Eastenderz",
       "eventSlug": "eastenderz",
@@ -66371,7 +66293,7 @@
       "date": "2026-07-14",
       "name": "",
       "lineUp": "THEATRE East End Dubs Archie Hamilton Jazzy More Artists TBA CLUB ROOM Paco Osuna Franky Rizardo Sante Sansone",
-      "prices": "55 € - 150 €",
+      "prices": "60 € - 150 €",
       "affLink": "https://www.clubtickets.com/es/clubbing/hi-ibiza/eastenderz/2026-07-14?aff=CT219",
       "eventName": "Eastenderz",
       "eventSlug": "eastenderz",
@@ -87215,7 +87137,7 @@
       "date": "2026-08-04",
       "name": "",
       "lineUp": "THEATRE East End Dubs B2B Franky Rizardo Obskür B2B Artist TBA Ale De Tuglie CLUB ROOM Paco Osuna Melanie Ribbe Chris Di Perri",
-      "prices": "55 € - 150 €",
+      "prices": "65 € - 150 €",
       "affLink": "https://www.clubtickets.com/es/clubbing/hi-ibiza/eastenderz/2026-08-04?aff=CT219",
       "eventName": "Eastenderz",
       "eventSlug": "eastenderz",
@@ -162579,5 +162501,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-07-03T10:42:26.475Z"
+  "lastUpdated": "2026-07-03T11:57:34.053Z"
 }

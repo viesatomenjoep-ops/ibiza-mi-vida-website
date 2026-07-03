@@ -130,8 +130,17 @@ export default function ClubTicketsClient({
     });
   }, [initialEvents, venues, activeCategory]);
 
+  // Pre-parse prices and dates once to avoid massive CPU overhead in the filter/sort loop
+  const parsedEvents = useMemo(() => {
+    return initialEvents.map(e => ({
+      ...e,
+      priceNum: parsePrice(e.prices),
+      timeNum: new Date(e.date).getTime()
+    }));
+  }, [initialEvents]);
+
   const filteredEvents = useMemo(() => {
-    let result = initialEvents;
+    let result = parsedEvents;
 
     // Filter by active category
     result = result.filter(e => {
@@ -164,13 +173,13 @@ export default function ClubTicketsClient({
     }
 
     result = [...result].sort((a, b) => {
-      if (sort === 'price_asc') return parsePrice(a.prices) - parsePrice(b.prices);
-      if (sort === 'price_desc') return parsePrice(b.prices) - parsePrice(a.prices);
-      return new Date(a.date).getTime() - new Date(b.date).getTime();
+      if (sort === 'price_asc') return a.priceNum - b.priceNum;
+      if (sort === 'price_desc') return b.priceNum - a.priceNum;
+      return a.timeNum - b.timeNum;
     });
 
     return result;
-  }, [initialEvents, filter, timeFilter, search, sort, uniqueVenues, activeCategory]);
+  }, [parsedEvents, filter, timeFilter, search, sort, uniqueVenues, activeCategory]);
 
   const displayedEvents = filteredEvents.slice(0, visibleCount);
 
