@@ -174,26 +174,35 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
       {upcomingDates.length > 0 && (
         <section className="py-16 md:py-24 bg-ibiza-sand/20 text-white">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="flex items-start justify-between mb-10">
-              <div>
-                <div className="text-xs font-bold tracking-widest uppercase text-white/60 mb-2">Live vanuit de kalender</div>
-                <h2 className="text-4xl md:text-5xl font-serif font-bold text-white tracking-tight mb-4">Eerstvolgende Feesten</h2>
-                <Link href={`${base}/calendar`} style={{
+            <div className="mb-10">
+              <div className="text-xs font-bold tracking-widest uppercase text-white/60 mb-2">Live vanuit de kalender</div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white tracking-tight mb-4">Eerstvolgende Feesten</h2>
+              {/* Small calendar widget button — fixed width, never stretches */}
+              <Link
+                href={`${base}/calendar`}
+                style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
+                  width: 'fit-content',
+                  maxWidth: '220px',
                   fontSize: '11px',
                   fontWeight: 800,
                   letterSpacing: '.1em',
                   textTransform: 'uppercase',
-                  color: 'rgba(255,255,255,0.7)',
+                  color: 'rgba(255,255,255,0.75)',
                   border: '1.5px solid rgba(255,255,255,0.2)',
-                  borderRadius: '6px',
-                  padding: '7px 14px',
+                  borderRadius: '8px',
+                  padding: '8px 16px',
                   textDecoration: 'none',
-                  transition: 'all .15s',
-                }}>Volledige Kalender →</Link>
-              </div>
+                  background: 'rgba(255,255,255,0.06)',
+                  backdropFilter: 'blur(6px)',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                Volledige Kalender
+              </Link>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">

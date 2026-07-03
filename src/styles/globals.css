@@ -450,26 +450,30 @@ footer .logo img{filter:brightness(0)}
 .wa-fab{
   position:fixed;
   right:20px;
-  bottom:86px;
-  z-index:56;
+  bottom:28px;
+  z-index:9999;          /* floats above everything */
   width:60px;
   height:60px;
   border-radius:50%;
   border:none;
   background:#25D366;
-  box-shadow:0 4px 16px rgba(37,211,102,.45), 0 2px 8px rgba(0,0,0,.2);
+  box-shadow:0 4px 20px rgba(37,211,102,.5), 0 2px 8px rgba(0,0,0,.25);
   display:grid;
   place-items:center;
-  transition:transform .2s, box-shadow .2s;
+  transition:transform .2s cubic-bezier(.22,.68,0,1.2), box-shadow .2s;
   cursor:pointer;
 }
 .wa-fab:hover{
-  transform:scale(1.08);
-  box-shadow:0 8px 28px rgba(37,211,102,.55), 0 4px 12px rgba(0,0,0,.2);
+  transform:scale(1.1);
+  box-shadow:0 8px 32px rgba(37,211,102,.6), 0 4px 14px rgba(0,0,0,.25);
 }
 .wa-fab svg { display:block; }
+@keyframes waPulse {
+  0%,100%{ box-shadow:0 4px 20px rgba(37,211,102,.5), 0 0 0 0 rgba(37,211,102,.4); }
+  50%{ box-shadow:0 4px 20px rgba(37,211,102,.5), 0 0 0 10px rgba(37,211,102,0); }
+}
 @media(max-width:768px){
-  .wa-fab { bottom: 24px; width: 56px; height: 56px; right: 16px; }
+  .wa-fab { bottom:24px; width:56px; height:56px; right:16px; animation:waPulse 2.5s infinite; }
 }
 
 
