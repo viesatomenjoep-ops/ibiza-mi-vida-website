@@ -39,8 +39,26 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
   const [clientToday, setClientToday] = useState('');
   const [selectedDate, setSelectedDate] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState<'all' | 'music' | 'boats'>('all');
+  const [floatingElements, setFloatingElements] = useState<{
+    id: number;
+    logo: string;
+    style: React.CSSProperties;
+  }[]>([]);
 
-  // 1. Initialize client-side today date in YYYY-MM-DD
+  // 1. Extract unique club logos from events data
+  const uniqueClubLogos = useMemo(() => {
+    const logos = new Map<string, string>();
+    initialEvents.forEach(e => {
+      const slug = e.ct_venues?.slug;
+      const logo = e.ct_venues?.whitelogo;
+      if (slug && logo && !logos.has(slug)) {
+        logos.set(slug, logo);
+      }
+    });
+    return Array.from(logos.entries()).map(([slug, logo]) => ({ slug, logo }));
+  }, [initialEvents]);
+
+  // 2. Initialize client-side today date and generate background elements
   useEffect(() => {
     const today = new Date();
     const year = today.getFullYear();
@@ -49,7 +67,36 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
     const formatted = `${year}-${month}-${day}`;
     setClientToday(formatted);
     setSelectedDate(formatted); // Default to today's date
-  }, []);
+
+    if (uniqueClubLogos.length === 0) return;
+    const elements = [];
+    // Generate 18 floating logo watermarks spread across the viewport
+    for (let i = 0; i < 18; i++) {
+      const club = uniqueClubLogos[i % uniqueClubLogos.length];
+      const size = Math.floor(Math.random() * 80) + 70; // 70px to 150px size
+      const left = Math.floor(Math.random() * 92); // 0% to 92% width
+      const top = Math.floor(Math.random() * 92); // 0% to 92% height
+      const duration = Math.floor(Math.random() * 50) + 50; // 50s to 100s drift duration
+      const delay = Math.floor(Math.random() * -40); // Random offset delay to start immediately
+
+      elements.push({
+        id: i,
+        logo: club.logo,
+        style: {
+          position: 'absolute' as const,
+          left: `${left}%`,
+          top: `${top}%`,
+          width: `${size}px`,
+          height: `${size}px`,
+          opacity: 0.035, // Subtle luxury opacity
+          filter: !['o-beach-ibiza', 'playa-soleil', 'bambuku-ibiza'].includes(club.slug) ? 'none' : 'brightness(0) invert(1)',
+          animation: `floatDrift ${duration}s ease-in-out ${delay}s infinite`,
+          pointerEvents: 'none' as const,
+        }
+      });
+    }
+    setFloatingElements(elements);
+  }, [uniqueClubLogos]);
 
   // 2. Generate date pills for the next 10 days starting from client's today
   const datePills = useMemo(() => {
@@ -120,8 +167,43 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
   }, [initialEvents, selectedDate, categoryFilter, clientToday]);
 
   return (
-    <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen pt-8 pb-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen pt-8 pb-24 relative overflow-hidden">
+      
+      {/* Inline styles for drifting keyframes animation */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes floatDrift {
+          0% {
+            transform: translate(0, 0) rotate(0deg) scale(1);
+          }
+          25% {
+            transform: translate(30px, -45px) rotate(90deg) scale(1.04);
+          }
+          50% {
+            transform: translate(60px, 15px) rotate(180deg) scale(0.96);
+          }
+          75% {
+            transform: translate(-20px, 50px) rotate(270deg) scale(1.02);
+          }
+          100% {
+            transform: translate(0, 0) rotate(360deg) scale(1);
+          }
+        }
+      `}} />
+
+      {/* Floating watermark branding background */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 select-none">
+        {floatingElements.map(el => (
+          <img 
+            key={el.id} 
+            src={el.logo} 
+            alt="" 
+            style={el.style}
+            className="object-contain"
+          />
+        ))}
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Breadcrumb */}
         <div className="crumb mb-6 flex items-center gap-1.5 text-xs text-white/50">
