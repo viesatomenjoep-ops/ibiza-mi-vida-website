@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Calendar, MapPin, Music } from 'lucide-react';
+import { HomeDateFinder } from '@/components/home/HomeDateFinder';
 
 interface HomePageProps {
   locale?: string;
@@ -18,12 +19,7 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
   const router = useRouter();
 
   const [selectedCategory, setSelectedCategory] = useState('club-tickets');
-  const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
 
-  const months = ['JAN', 'FEB', 'MRT', 'APR', 'MEI', 'JUN', 'JUL', 'AUG', 'SEP', 'OKT', 'NOV', 'DEC'];
-
-
-  // 1. All club logos from allVenues (only type=clubbing, not boats)
   const clubLogos = useMemo(() => {
     const clubs = allVenues.filter(v => v.typeSlug === 'clubbing');
     // Shuffle deterministically so columns look varied
@@ -40,18 +36,6 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
       delay: -(i * 6),
     }));
   }, []);
-
-  const handleSearch = () => {
-    let query = '';
-    if (selectedMonth) {
-      const monthIndex = months.indexOf(selectedMonth) + 1;
-      const formattedMonth = monthIndex.toString().padStart(2, '0');
-      query = `?month=2026-${formattedMonth}`;
-      router.push(`${base}/calendar${query}`);
-    } else {
-      router.push(`${base}/calendar`);
-    }
-  };
 
   return (
     <div className="theme-monaco-vip bg-white text-[var(--color-ink)] min-h-screen">
@@ -122,45 +106,31 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
             <Link className="btn" href={`${base}/club-tickets`}>Clubs & Venues</Link>
           </div>
           
+          {/* Category chips */}
           <div className="finder">
             <div className="chips">
-              <button 
+              <button
                 className={`chip ${selectedCategory === 'club-tickets' ? 'on' : ''}`}
-                onClick={() => setSelectedCategory('club-tickets')}
+                onClick={() => { setSelectedCategory('club-tickets'); router.push(`${base}/club-tickets`); }}
               >Clubbing</button>
-              <button 
+              <button
                 className={`chip ${selectedCategory === 'boat-parties' ? 'on' : ''}`}
-                onClick={() => setSelectedCategory('boat-parties')}
-              >Ibiza Boat</button>
-              <button 
+                onClick={() => { setSelectedCategory('boat-parties'); router.push(`${base}/bootfeesten`); }}
+              >Ibiza Boot</button>
+              <button
                 className={`chip ${selectedCategory === 'private-boat-charters' ? 'on' : ''}`}
-                onClick={() => setSelectedCategory('private-boat-charters')}
+                onClick={() => { setSelectedCategory('private-boat-charters'); router.push(`${base}/private-boat-charters`); }}
               >Private Boats</button>
+              <button
+                className={`chip ${selectedCategory === 'artists' ? 'on' : ''}`}
+                onClick={() => { setSelectedCategory('artists'); router.push(`${base}/artists`); }}
+              >Artiesten</button>
             </div>
-            
-            <div className="row">
-              <button 
-                className="date-fake" 
-                onClick={() => alert('Kies hieronder een maand')}
-                style={{ textAlign: 'left', cursor: 'pointer' }}
-              >
-                {selectedMonth ? `Geselecteerd: ${selectedMonth} 2026` : 'Wanneer ben je op Ibiza?'}
-              </button>
-              <button className="btn fill" onClick={handleSearch}>Zoek Feesten</button>
-            </div>
-            
-            <div className="month-pills">
-              {months.map(month => (
-                <button 
-                  key={month}
-                  className={`mp ${selectedMonth === month ? 'on' : ''}`}
-                  onClick={() => setSelectedMonth(month === selectedMonth ? null : month)}
-                >
-                  {month}
-                </button>
-              ))}
-            </div>
+
+            {/* ── NEW: Professional date finder ── */}
+            <HomeDateFinder locale={locale} base={base} />
           </div>
+
           
           <div className="today-badge">
             <small>Vandaag op het eiland</small>
