@@ -75,17 +75,17 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 }
 .nav .logo-img {
   height: auto;
-  width: 130px;
+  width: 40px;
   transition: all 0.3s ease;
 }
 .nav--scrolled .logo-img {
-  width: 90px;
+  width: 32px;
 }
 .nav-links{display:flex;gap:28px;align-items:center}
 .nav-links a{font-family:var(--display);text-transform:uppercase;letter-spacing:.26em;font-size:.78rem;font-weight:700;padding:6px 0;border-bottom:1px solid transparent;transition: all 0.3s ease;}
 .nav-links a:hover{border-bottom-color:var(--spring);color:var(--spring)}
 .logo{display:flex;flex-direction:row;align-items:center;gap:12px;text-align:left}
-.logo-img{width:68px;height:68px;object-fit:contain;background:transparent;border:none;flex-shrink:0}
+.logo-img{width:36px;height:36px;object-fit:contain;background:transparent;border:none;flex-shrink:0}
 .logo strong{font-family:var(--font-display), sans-serif;text-transform:uppercase;letter-spacing:-0.01em;font-size:1.25rem;font-weight:800;color:#fff;white-space:nowrap}
 .nav-actions{display:flex;gap:12px;align-items:center}
 .search-trigger-btn{width:68px;height:68px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;cursor:pointer}
