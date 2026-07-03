@@ -10,15 +10,12 @@ export default async function ArtistsPage({ params }: { params: { locale: string
   const artists = await getArtists(params.locale)
 
   return (
-    <main className="theme-monaco-vip bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pt-20 pb-24">
+    <main className="theme-monaco-vip bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pt-[72px] pb-24">
       <div className="container mx-auto px-[5%]">
-        <div className="mb-16 max-w-3xl">
-          <p className="text-[var(--color-sea)] font-sans text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
-            <Disc size={16} /> Featured Headliners & Parties
-          </p>
+        <div className="mb-16 max-w-3xl pt-12">
           <h1 className="font-serif text-5xl md:text-7xl font-bold mb-6">Ibiza Artists</h1>
           <p className="font-sans text-lg text-[var(--color-slate)]">
-            Discover where the world's biggest DJs are playing. From underground tech-house to mainstage EDM, find your favorite artist and secure your tickets immediately.
+            Discover where the world’s biggest DJs are playing. From underground tech-house to mainstage EDM, find your favorite artist and secure your tickets immediately.
           </p>
         </div>
 
