@@ -185,12 +185,20 @@ export default function ClubTicketsClient({
 
   return (
     <>
-      <section className="subhero pt-4 pb-4">
+      <section className="pt-8 pb-4">
         <div className="wrap">
-          <div className="text-[0.78rem] font-bold tracking-[0.26em] uppercase text-white/90 mb-1">
-            Alle Club Tickets
+          <div className="crumb mb-6 flex items-center gap-1.5 text-xs text-white/50">
+            <Link href={`/${locale}`} className="hover:text-white transition-colors">Home</Link>
+            <ChevronRight size={12} className="opacity-50" />
+            <span className="text-white font-semibold">Clubs & Tickets</span>
           </div>
-          <p className="text-xs text-white/60">Een plek voor alle Club Tickets en activiteiten op het eiland.</p>
+
+          <div className="mb-8 flex flex-col gap-2">
+            <h1 className="text-4xl md:text-6xl font-black font-serif text-white leading-tight drop-shadow-md uppercase">
+              Alle Club Tickets
+            </h1>
+            <p className="text-sm text-white/60 max-w-xl">Een plek voor alle Club Tickets en activiteiten op het eiland.</p>
+          </div>
         </div>
       </section>
 

@@ -49,9 +49,8 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
             loop 
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
-          >
-            <source src="https://res.cloudinary.com/duznx2eim/video/upload/v1720025987/Achtergrond_homepage_lckwgw.mp4" type="video/mp4" />
-          </video>
+            src="https://res.cloudinary.com/daj1lyfgk/video/upload/v1783098563/zna3zmwypuqpikuatbqy.mp4"
+          />
           {/* Subtle dark gradient overlay so white text remains readable, but video stays visible */}
           <div className="absolute inset-0 bg-black/10"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
