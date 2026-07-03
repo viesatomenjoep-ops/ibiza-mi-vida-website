@@ -140,6 +140,34 @@ async function fetchArtist(slug: string, locale: string) {
     };
   }
 
+  // Fallback to ClubTickets API JSON data
+  const ctArtist = await getArtist(slug, locale);
+  if (ctArtist) {
+    const dates = await getArtistDates(ctArtist.name, locale, ctArtist.slug);
+    return {
+      artist: {
+        id: ctArtist.id || 0,
+        name: ctArtist.name,
+        slug: ctArtist.slug,
+        image: ctArtist.image || '',
+        venueName: ctArtist.venueName || '',
+        venueSlug: '',
+        href: ''
+      },
+      dates: dates.map((d: any) => ({
+        id: d.id,
+        name: d.name,
+        date: d.date,
+        eventName: d.eventName,
+        eventSlug: d.eventSlug,
+        venueName: d.venueName,
+        venueSlug: d.venueSlug,
+        eventCover: d.image || '',
+        venueCover: ''
+      }))
+    };
+  }
+
   return null;
 }
 
