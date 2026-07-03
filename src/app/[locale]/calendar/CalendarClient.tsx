@@ -7,7 +7,6 @@ import { format, addDays, isToday, isTomorrow, startOfWeek, endOfWeek, parseISO 
 import { nl, enUS, de, es } from 'date-fns/locale';
 import '@/styles/calendar.css';
 import { Search, X, Calendar, MapPin, ChevronRight } from 'lucide-react';
-import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 
 interface CalEvent {
   id: string;
@@ -143,14 +142,12 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
         </div>
       )}
 
-      <div className="ck-header relative z-10 pt-[160px] md:pt-[180px] flex flex-col items-center text-center mb-8">
+      <div className="ck-header relative z-10 pt-[240px] md:pt-[280px] flex flex-col items-center text-center mb-8">
         <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">EVENTS</h1>
         <p className="mt-4 md:mt-6 max-w-xl mx-auto text-sm md:text-base lg:text-lg font-medium text-black/70 px-4 leading-relaxed tracking-wide drop-shadow-sm">
           {dict.calendar_subtitle || "Vind de beste feesten en events op Ibiza. Selecteer een datum of club en plan je perfecte avond."}
         </p>
       </div>
-
-      <ClubLogoSlider clubLogos={allVenues} base={`/${locale}`} />
 
       <div className="ck-header-top w-full max-w-7xl mx-auto flex flex-col items-center gap-6 px-4 mt-8">
         <div className="relative w-full max-w-xl mt-6">
