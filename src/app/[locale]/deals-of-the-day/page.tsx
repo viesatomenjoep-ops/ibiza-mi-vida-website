@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { supabase } from '@/lib/supabase/client'
+import { getVenues, getAllDates } from '@/lib/clubtickets'
 import DealsOfTheDayClient from './DealsOfTheDayClient'
 
 export const revalidate = 3600
@@ -15,25 +15,40 @@ export default async function DealsPage({ params }: { params: { locale: string }
   yesterday.setDate(yesterday.getDate() - 1);
   const dateThreshold = yesterday.toISOString().split('T')[0];
 
-  const { data: dbEvents } = await supabase
-    .from('ct_dates')
-    .select('*, ct_events(name, slug, logo, cover), ct_venues(name, slug, logo, whitelogo, cover)')
-    .gte('date', dateThreshold)
-    .order('date', { ascending: true })
-    .limit(150);
+  // Fetch dates and venues statically from JSON
+  const allDates = await getAllDates(params.locale);
+  const venues = await getVenues(params.locale);
+  const venuesMap = new Map(venues.map(v => [v.slug, v]));
 
-  const formattedEvents = (dbEvents || []).map(d => ({
-    id: d.id,
-    provider_id: d.provider_id,
-    name: d.name,
-    date: d.date,
-    prices: d.prices ? Number(d.prices) : null,
-    aff_link: d.aff_link,
-    ct_events: d.ct_events,
-    ct_venues: d.ct_venues
-  }));
+  const formattedEvents = allDates
+    .filter(d => d.date >= dateThreshold)
+    .slice(0, 300) // Increase limits to render more options in memory
+    .map(d => {
+      const venueObj = d.venueSlug ? venuesMap.get(d.venueSlug) : undefined;
+      return {
+        id: String(d.id),
+        provider_id: String(d.eventId || ''),
+        name: d.name,
+        date: d.date,
+        prices: d.prices ? Number(parseFloat(d.prices.replace(/[^\d.,]/g, '').replace(',', '.'))) || 40 : 40,
+        aff_link: d.affLink || null,
+        ct_events: {
+          name: d.eventName || '',
+          slug: d.eventSlug || '',
+          logo: d.eventLogo || '',
+          cover: d.eventCover || ''
+        },
+        ct_venues: {
+          name: d.venueName || '',
+          slug: d.venueSlug || '',
+          logo: venueObj?.picture || '',
+          whitelogo: venueObj?.whitelogo || '',
+          cover: venueObj?.cover || ''
+        }
+      };
+    });
 
   return (
-    <DealsOfTheDayClient initialEvents={formattedEvents} locale={params.locale} />
+    <DealsOfTheDayClient initialEvents={formattedEvents as any} locale={params.locale} />
   );
 }

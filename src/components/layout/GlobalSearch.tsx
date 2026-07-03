@@ -95,11 +95,12 @@ export function GlobalSearch({ locale }: { locale: string }) {
       {isOpen && (
         <div className="absolute right-0 top-12 w-[300px] md:w-[400px] bg-white rounded-2xl shadow-2xl border border-black/5 overflow-hidden z-50">
           <div className="p-4 border-b border-black/5 flex items-center gap-2">
-            <Search size={18} className="text-velvet-obsidian/40" />
+            <Search size={18} className="text-neutral-500" />
             <input 
               type="text" 
               placeholder="Zoek DJ's, clubs of feesten..." 
-              className="flex-1 outline-none text-velvet-obsidian font-semibold"
+              className="flex-1 outline-none text-black placeholder-neutral-500 font-semibold"
+              style={{ color: '#000' }}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               autoFocus
@@ -113,7 +114,7 @@ export function GlobalSearch({ locale }: { locale: string }) {
 
           <div className="max-h-[60vh] overflow-y-auto">
             {isSearching ? (
-              <div className="p-6 text-center text-velvet-obsidian/40 font-semibold text-sm">
+              <div className="p-6 text-center text-black font-semibold text-sm" style={{ color: '#000' }}>
                 Aan het zoeken...
               </div>
             ) : results.length > 0 ? (
@@ -136,10 +137,10 @@ export function GlobalSearch({ locale }: { locale: string }) {
                       )}
                     </div>
                     <div>
-                      <div className="text-xs font-bold uppercase tracking-wider text-ibiza-blue mb-0.5">
+                      <div className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-0.5">
                         {res.type === 'venue' ? 'Club' : res.type === 'artist' ? 'Artiest' : 'Event'}
                       </div>
-                      <div className="text-sm font-bold text-velvet-obsidian truncate">
+                      <div className="text-sm font-bold text-black truncate" style={{ color: '#000' }}>
                         {res.item.name}
                       </div>
                     </div>
@@ -147,11 +148,11 @@ export function GlobalSearch({ locale }: { locale: string }) {
                 ))}
               </div>
             ) : query.length > 1 ? (
-              <div className="p-6 text-center text-velvet-obsidian/40 font-semibold text-sm">
+              <div className="p-6 text-center text-black font-semibold text-sm" style={{ color: '#000' }}>
                 Geen resultaten gevonden voor "{query}".
               </div>
             ) : (
-              <div className="p-6 text-center text-velvet-obsidian/40 font-semibold text-sm bg-ibiza-sand/20">
+              <div className="p-6 text-center text-black font-semibold text-sm bg-ibiza-sand/20" style={{ color: '#000' }}>
                 Type een naam om te zoeken.
               </div>
             )}
