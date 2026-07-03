@@ -24,9 +24,9 @@ export function ClubLogoSlider({ clubLogos, base, className = "w-full relative z
 
     const play = () => {
       if (!isDragging.current && slider) {
-        slider.scrollLeft += speed;
-        if (slider.scrollLeft >= slider.scrollWidth / 2) {
-          slider.scrollLeft = 0;
+        slider.scrollLeft -= speed;
+        if (slider.scrollLeft <= 0) {
+          slider.scrollLeft = slider.scrollWidth / 2;
         }
       }
       animationId = requestAnimationFrame(play);

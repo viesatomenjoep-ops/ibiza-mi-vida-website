@@ -7,22 +7,10 @@
   - Environments: .env.local
 
  ✓ Starting...
- ✓ Ready in 814ms
- ✓ Compiled /src/middleware in 117ms (72 modules)
+ ✓ Ready in 899ms
+ ✓ Compiled /src/middleware in 122ms (72 modules)
  ○ Compiling /[locale]/artists/[slug] ...
- ✓ Compiled /[locale]/artists/[slug] in 1616ms (1342 modules)
- ✓ Compiled in 121ms (351 modules)
- ⨯ Error: Event handlers cannot be passed to Client Component props.
-  <button onClick={function onClick} className=... children=...>
-                  ^^^^^^^^^^^^^^^^^^
-If you need interactivity, consider converting part of this to a Client Component.
-    at stringify (<anonymous>)
-digest: "2573841577"
- ⨯ Error: Event handlers cannot be passed to Client Component props.
-  <button onClick={function onClick} className=... children=...>
-                  ^^^^^^^^^^^^^^^^^^
-If you need interactivity, consider converting part of this to a Client Component.
-    at stringify (<anonymous>)
-digest: "2573841577"
- GET /nl/artists/carl-cox 500 in 1896ms
+ ✓ Compiled /[locale]/artists/[slug] in 1672ms (1342 modules)
+ ✓ Compiled in 123ms (351 modules)
+ GET /nl/artists/david-guetta 200 in 2080ms
 [?25h

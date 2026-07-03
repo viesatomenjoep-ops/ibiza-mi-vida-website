@@ -82,7 +82,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <ClubLogoSlider 
           clubLogos={clubLogos} 
           base={base} 
-          className="w-full relative z-20 mt-auto mb-16 md:mb-24 bg-transparent py-4 border-t border-white/10 border-b"
+          className="w-full relative z-20 mt-auto bg-transparent py-4 border-t border-white/10"
         />
       </header>
 
