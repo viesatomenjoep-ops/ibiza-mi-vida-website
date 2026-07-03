@@ -74,8 +74,15 @@ const getLocaleObj = (locale: string) => {
 
 const parseLocalDate = (dateStr: string) => {
   if (!dateStr) return new Date();
-  const [year, month, day] = dateStr.split('-').map(Number);
-  return new Date(year, month - 1, day);
+  try {
+    const onlyDate = dateStr.split('T')[0];
+    const [year, month, day] = onlyDate.split('-').map(Number);
+    const d = new Date(year, month - 1, day);
+    if (isNaN(d.getTime())) return new Date();
+    return d;
+  } catch (e) {
+    return new Date();
+  }
 };
 
 interface Props {
