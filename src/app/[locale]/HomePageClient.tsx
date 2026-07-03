@@ -30,17 +30,14 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
     return clubs.length > 0 ? clubs : allVenues;
   }, [allVenues]);
 
-  // Column config: 10 columns, alternating speeds and directions
-  const LIFT_COLS = 10;
+  // Column config: 4 columns (was 10 — reduces image requests from 300→~60)
+  const LIFT_COLS = 4;
   const liftCols = useMemo(() => {
     return Array.from({ length: LIFT_COLS }, (_, i) => ({
       id: i,
-      // speeds: 25s to 55s, staggered
-      duration: 28 + i * 3,
-      // odd columns go up, even go down
+      duration: 32 + i * 5,
       reverse: i % 2 === 1,
-      // stagger start so columns are offset
-      delay: -(i * 4.5),
+      delay: -(i * 6),
     }));
   }, []);
 
@@ -92,9 +89,11 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
                       {items.map((club, idx) => (
                         <div key={`${club.slug}-${idx}`} className="lift-item">
                           <img
-                            src={club.picture || club.whitelogo}
-                            alt={club.name}
+                            src={club.whitelogo || club.picture}
+                            alt=""
                             className="lift-logo"
+                            loading="lazy"
+                            decoding="async"
                           />
                         </div>
                       ))}
@@ -175,12 +174,26 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
       {upcomingDates.length > 0 && (
         <section className="py-16 md:py-24 bg-ibiza-sand/20 text-white">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="flex items-end justify-between mb-10">
+            <div className="flex items-start justify-between mb-10">
               <div>
                 <div className="text-xs font-bold tracking-widest uppercase text-white/60 mb-2">Live vanuit de kalender</div>
-                <h2 className="text-4xl md:text-5xl font-serif font-bold text-white tracking-tight">Eerstvolgende Feesten</h2>
+                <h2 className="text-4xl md:text-5xl font-serif font-bold text-white tracking-tight mb-4">Eerstvolgende Feesten</h2>
+                <Link href={`${base}/calendar`} style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  letterSpacing: '.1em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.7)',
+                  border: '1.5px solid rgba(255,255,255,0.2)',
+                  borderRadius: '6px',
+                  padding: '7px 14px',
+                  textDecoration: 'none',
+                  transition: 'all .15s',
+                }}>Volledige Kalender →</Link>
               </div>
-              <Link href={`${base}/calendar`} className="btn fill hidden md:flex">Volledige Kalender</Link>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
@@ -240,38 +253,112 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
         </section>
       )}
 
-      {/* FEATURED CLUBS — now below Eerstvolgende Feesten */}
+      {/* FEATURED CLUBS — premium card grid */}
       {featuredClubs.length > 0 && (
-        <section className="py-16 md:py-24 bg-white/50">
+        <section className="py-16 md:py-24" style={{ background: '#0a0a0a' }}>
           <div className="max-w-7xl mx-auto px-4">
+
+            {/* Section header */}
             <div className="flex items-end justify-between mb-10">
               <div>
-                <div className="text-xs font-bold tracking-widest uppercase text-ibiza-blue mb-2">Ibiza's Finest</div>
-                <h2 className="text-4xl md:text-5xl font-serif font-bold text-velvet-obsidian tracking-tight">Populaire Clubs</h2>
+                <div style={{
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  letterSpacing: '.14em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.4)',
+                  marginBottom: '8px',
+                }}>Ibiza's Finest</div>
+                <h2 style={{
+                  fontSize: 'clamp(28px, 5vw, 48px)',
+                  fontWeight: 900,
+                  color: '#fff',
+                  letterSpacing: '-0.02em',
+                  fontFamily: 'var(--display, sans-serif)',
+                  margin: 0,
+                }}>Populaire Clubs</h2>
               </div>
-              <Link href={`${base}/club-tickets`} className="hidden md:inline-flex items-center gap-2 font-bold text-sm hover:text-ibiza-green transition-colors">
-                Alle Clubs Bekijken &rarr;
+              <Link
+                href={`${base}/club-tickets`}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontSize: '12px',
+                  fontWeight: 800,
+                  letterSpacing: '.1em',
+                  textTransform: 'uppercase',
+                  color: '#fff',
+                  border: '1.5px solid rgba(255,255,255,0.25)',
+                  borderRadius: '6px',
+                  padding: '10px 18px',
+                  textDecoration: 'none',
+                  transition: 'border-color .2s, background .2s',
+                }}
+                className="club-all-btn"
+              >
+                Alle Clubs &rarr;
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              {featuredClubs.map(club => (
-                <Link href={`${base}/club-tickets/${club.slug}`} key={club.slug} className="group relative h-48 md:h-64 rounded-3xl overflow-hidden bg-ibiza-mint block shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
-                  {club.cover && (
-                    <Image src={club.cover} alt={club.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+            {/* Card grid */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: '12px',
+            }} className="clubs-grid-md">
+              {featuredClubs.map((club, idx) => (
+                <Link
+                  href={`${base}/club-tickets/${club.slug}`}
+                  key={club.slug}
+                  className="club-card-premium"
+                  style={{ '--idx': idx } as React.CSSProperties}
+                >
+                  {/* Background image */}
+                  {(club.cover || club.picture) && (
+                    <Image
+                      src={club.cover || club.picture}
+                      alt={club.name}
+                      fill
+                      className="club-card-img"
+                      sizes="(max-width:768px) 50vw, 25vw"
+                      priority={idx < 2}
+                    />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+
+                  {/* Always-on dark gradient at bottom */}
+                  <div className="club-card-base-grad" />
+
+                  {/* Hover slide-up panel */}
+                  <div className="club-card-hover-panel">
+                    <div className="club-card-hover-inner">
+                      {club.whitelogo && (
+                        <div className="club-card-logo-wrap">
+                          <img src={club.whitelogo} alt={club.name} className="club-card-logo" />
+                        </div>
+                      )}
+                      <div className="club-card-name">{club.name}</div>
+                      <div className="club-card-cta">Bekijk Events →</div>
+                    </div>
+                  </div>
+
+                  {/* Default bottom logo (visible when not hovering) */}
+                  <div className="club-card-bottom">
                     {club.whitelogo ? (
-                      <div className="w-16 h-8 relative">
-                        <Image src={club.whitelogo} alt={club.name} fill className="object-contain filter invert drop-shadow-md" />
-                      </div>
+                      <img src={club.whitelogo} alt={club.name} className="club-card-bottom-logo" />
                     ) : (
-                      <span className="font-bold text-white text-lg">{club.name}</span>
+                      <span className="club-card-bottom-name">{club.name}</span>
                     )}
                   </div>
                 </Link>
               ))}
+            </div>
+
+            {/* Mobile: all clubs link */}
+            <div className="mt-8 text-center md:hidden">
+              <Link href={`${base}/club-tickets`} className="btn fill w-full justify-center">
+                Alle Clubs Bekijken
+              </Link>
             </div>
           </div>
         </section>

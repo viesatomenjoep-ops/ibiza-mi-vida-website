@@ -19,7 +19,7 @@
   --max:1220px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:hidden}
 body{font-family:var(--body);background:var(--black);color:var(--white);line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased;
   background-image:radial-gradient(rgba(250,243,245,.045) 1px,transparent 1.4px);background-size:28px 28px;
   overflow-x:hidden;
@@ -136,6 +136,148 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
   0%{transform:translateY(0)}
   100%{transform:translateY(-50%)}
 }
+
+/* ─── PREMIUM CLUB CARDS ─── */
+@media(min-width:768px){
+  .clubs-grid-md{grid-template-columns:repeat(4,1fr)!important}
+}
+
+.club-card-premium{
+  position:relative;
+  display:block;
+  border-radius:20px;
+  overflow:hidden;
+  aspect-ratio:3/4;
+  background:#1a1a1a;
+  text-decoration:none;
+  cursor:pointer;
+  box-shadow:0 4px 24px rgba(0,0,0,.4);
+  transition:transform .35s cubic-bezier(.22,.68,0,1.2), box-shadow .35s ease;
+}
+.club-card-premium:hover{
+  transform:translateY(-6px) scale(1.01);
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+
+.club-card-img{
+  object-fit:cover;
+  object-position:center top;
+  transition:transform .7s cubic-bezier(.22,.68,0,1.2);
+}
+.club-card-premium:hover .club-card-img{
+  transform:scale(1.1);
+}
+
+/* Always-on bottom gradient */
+.club-card-base-grad{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,.15) 45%, transparent 70%);
+  z-index:1;
+  transition:opacity .35s;
+}
+.club-card-premium:hover .club-card-base-grad{
+  opacity:0;
+}
+
+/* Slide-up hover panel */
+.club-card-hover-panel{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.6) 60%, rgba(0,0,0,.1) 100%);
+  z-index:2;
+  display:flex;
+  align-items:flex-end;
+  transform:translateY(100%);
+  transition:transform .4s cubic-bezier(.22,.68,0,1.2);
+}
+.club-card-premium:hover .club-card-hover-panel{
+  transform:translateY(0);
+}
+.club-card-hover-inner{
+  padding:24px 20px;
+  width:100%;
+}
+.club-card-logo-wrap{
+  margin-bottom:10px;
+}
+.club-card-logo{
+  height:28px;
+  width:auto;
+  object-fit:contain;
+  max-width:120px;
+  filter:brightness(0) invert(1);
+  opacity:.9;
+}
+.club-card-name{
+  font-size:clamp(16px,2.5vw,20px);
+  font-weight:900;
+  color:#fff;
+  letter-spacing:-.01em;
+  font-family:var(--display,sans-serif);
+  text-transform:uppercase;
+  margin-bottom:10px;
+  line-height:1.1;
+}
+.club-card-cta{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:#fff;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.3);
+  padding:7px 14px;
+  border-radius:5px;
+  backdrop-filter:blur(4px);
+  transition:background .2s;
+}
+.club-card-premium:hover .club-card-cta{
+  background:rgba(232,0,60,.85);
+  border-color:transparent;
+}
+
+/* Default bottom info (shown when not hovering) */
+.club-card-bottom{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  padding:16px 18px 20px;
+  z-index:3;
+  transition:opacity .25s, transform .35s;
+}
+.club-card-premium:hover .club-card-bottom{
+  opacity:0;
+  transform:translateY(8px);
+  pointer-events:none;
+}
+.club-card-bottom-logo{
+  height:22px;
+  width:auto;
+  max-width:100px;
+  object-fit:contain;
+  filter:brightness(0) invert(1);
+  opacity:.85;
+  display:block;
+}
+.club-card-bottom-name{
+  font-size:13px;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+
+/* All clubs button hover */
+.club-all-btn:hover{
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.5)!important;
+}
+
 
 /* marquee */
 .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:var(--panel);padding:13px 0}
@@ -305,10 +447,29 @@ footer .logo img{filter:brightness(0)}
 .poll-banner{display:none;background:var(--spring);color:var(--black);font-family:var(--display);text-transform:uppercase;letter-spacing:.14em;font-size:.74rem;font-weight:500;text-align:center;padding:11px 18px}
 .poll-banner.show{display:block}
 
-.wa-fab{position:fixed;right:20px;bottom:86px;z-index:56;width:58px;height:58px;border:1px solid var(--spring);background:var(--black);display:grid;place-items:center;font-size:1.4rem;transition:background .2s}
-.wa-fab:hover{background:var(--spring)}
-@media (max-width:620px){
-  .wa-fab { bottom: 130px; width: 50px; height: 50px; font-size: 1.2rem; right: 16px; }
+.wa-fab{
+  position:fixed;
+  right:20px;
+  bottom:86px;
+  z-index:56;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  border:none;
+  background:#25D366;
+  box-shadow:0 4px 16px rgba(37,211,102,.45), 0 2px 8px rgba(0,0,0,.2);
+  display:grid;
+  place-items:center;
+  transition:transform .2s, box-shadow .2s;
+  cursor:pointer;
+}
+.wa-fab:hover{
+  transform:scale(1.08);
+  box-shadow:0 8px 28px rgba(37,211,102,.55), 0 4px 12px rgba(0,0,0,.2);
+}
+.wa-fab svg { display:block; }
+@media(max-width:768px){
+  .wa-fab { bottom: 24px; width: 56px; height: 56px; right: 16px; }
 }
 
 

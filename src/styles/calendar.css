@@ -1,4 +1,881 @@
+/* =========================================================
+   CALV2 — Full calendar redesign (Ibiza mi Vida 2026)
+   ========================================================= */
+
+/* Shell */
+.calv2-shell {
+  min-height: 100vh;
+  background: #fff;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  padding-top: 72px; /* navbar */
+  font-family: var(--sans, system-ui, sans-serif);
+}
+
+/* ── FULL-BLEED HEADER ── */
+.calv2-header {
+  background: #0a0a0a;
+  color: #fff;
+  width: 100%;
+}
+.calv2-header-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 32px 32px 16px;
+  flex-wrap: wrap;
+}
+.calv2-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+  margin-bottom: 6px;
+}
+.calv2-title {
+  font-size: clamp(36px, 7vw, 72px);
+  font-weight: 900;
+  letter-spacing: -.04em;
+  line-height: .9;
+  text-transform: uppercase;
+  font-family: var(--display, sans-serif);
+  color: #fff;
+  margin: 0 0 10px;
+}
+.calv2-subtitle {
+  font-size: 12px;
+  color: rgba(255,255,255,.35);
+  font-weight: 600;
+  letter-spacing: .04em;
+  margin: 0;
+}
+
+/* Tonight strip in header */
+.calv2-tonight {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+.calv2-tonight-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #e8003c;
+}
+.calv2-tonight-clubs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.calv2-tonight-club {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+.calv2-tonight-logo {
+  height: 18px;
+  width: auto;
+  max-width: 60px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: .8;
+}
+.calv2-tonight-count {
+  font-size: 10px;
+  font-weight: 800;
+  color: rgba(255,255,255,.5);
+  background: rgba(255,255,255,.08);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+/* ── VIEW NAV (tabs + month jump + filters) ── */
+.calv2-viewnav {
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding: 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.calv2-viewtabs {
+  display: flex;
+  gap: 0;
+  padding: 12px 0 0;
+}
+.calv2-vtab {
+  padding: 8px 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+}
+.calv2-vtab:hover { color: rgba(255,255,255,.7); }
+.calv2-vtab.active { color: #fff; border-bottom-color: #e8003c; }
+
+.calv2-monthjump {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 8px 0;
+}
+.calv2-monthjump::-webkit-scrollbar { display: none; }
+.calv2-mjtab {
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  color: rgba(255,255,255,.35);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .15s;
+}
+.calv2-mjtab:hover { background: rgba(255,255,255,.08); color: #fff; }
+.calv2-mjtab.active { background: rgba(232,0,60,.8); color: #fff; }
+
+.calv2-filterrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0 12px;
+  flex-wrap: wrap;
+}
+.calv2-filterbtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1.5px solid rgba(255,255,255,.2);
+  background: transparent;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  color: rgba(255,255,255,.6);
+  cursor: pointer;
+  transition: all .15s;
+}
+.calv2-filterbtn:hover, .calv2-filterbtn.active { background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.4); }
+
+.calv2-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: rgba(232,0,60,.2);
+  border: 1px solid rgba(232,0,60,.4);
+  color: #ff6080;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.calv2-catpill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255,255,255,.15);
+  background: transparent;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: rgba(255,255,255,.45);
+  cursor: pointer;
+  transition: all .15s;
+}
+.calv2-catpill:hover { border-color: rgba(255,255,255,.4); color: #fff; }
+.calv2-catpill.active { background: #e8003c; color: #fff; border-color: #e8003c; }
+
+.calv2-count {
+  margin-left: auto;
+  font-size: 10px;
+  color: rgba(255,255,255,.3);
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+
+/* ── FILTER PANEL ── */
+.calv2-filterpanel {
+  background: #111;
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding: 20px 32px;
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.calv2-fp-section { flex: 1; min-width: 200px; }
+.calv2-fp-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+  margin-bottom: 10px;
+}
+.calv2-fp-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.calv2-fp-chip {
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: transparent;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,.5);
+  cursor: pointer;
+  transition: all .12s;
+}
+.calv2-fp-chip:hover { border-color: rgba(255,255,255,.3); color: #fff; }
+.calv2-fp-chip.active { background: #e8003c; color: #fff; border-color: #e8003c; }
+.calv2-fp-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 6px;
+  padding: 7px 10px;
+  margin-bottom: 8px;
+  color: rgba(255,255,255,.4);
+}
+.calv2-fp-search input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 12px;
+  color: #fff;
+  flex: 1;
+}
+.calv2-fp-artists { display: flex; flex-wrap: wrap; gap: 4px; max-height: 120px; overflow-y: auto; }
+
+/* ── MAIN BODY ── */
+.calv2-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Left col */
+.calv2-list {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  border-right: 1px solid #ebebeb;
+}
+
+/* Right preview */
+.calv2-preview {
+  width: 360px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 72px;
+  height: calc(100vh - 72px);
+  overflow: hidden;
+}
+@media (max-width: 1024px) {
+  .calv2-preview { display: none; }
+  .calv2-list { border-right: none; }
+}
+.calv2-preview-panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #111;
+  overflow: hidden;
+}
+.calv2-preview-img-wrap {
+  position: absolute;
+  inset: 0;
+}
+.calv2-preview-img {
+  object-fit: cover;
+  object-position: top center;
+  transition: opacity .4s ease;
+}
+.calv2-preview-grad {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.2) 55%, transparent 100%);
+}
+.calv2-preview-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 32px 28px;
+  z-index: 2;
+}
+.calv2-pi-venue {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.45);
+  margin-bottom: 6px;
+}
+.calv2-pi-name {
+  font-size: clamp(20px, 2.5vw, 26px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 8px;
+  font-family: var(--display, sans-serif);
+}
+.calv2-pi-meta {
+  font-size: 12px;
+  color: rgba(255,255,255,.45);
+  font-weight: 600;
+  margin-bottom: 18px;
+  letter-spacing: .03em;
+}
+.calv2-pi-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #fff;
+  color: #111;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background .15s, color .15s;
+}
+.calv2-pi-btn:hover { background: #e8003c; color: #fff; }
+.calv2-preview-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── EVENT ROW ── */
+.cal-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 24px;
+  border-bottom: 1px solid #f4f4f4;
+  text-decoration: none;
+  color: #111;
+  transition: background .1s;
+  cursor: pointer;
+}
+.cal-row:hover, .cal-row.active { background: #f7f7f7; }
+.cal-row.compact { padding: 8px 24px; }
+
+.cal-row-venue {
+  flex-shrink: 0;
+  width: 72px;
+  height: 32px;
+  background: #111;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.cal-row-venue-logo {
+  height: 18px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  max-width: 60px;
+}
+.cal-row-venue-name {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #fff;
+  text-align: center;
+  padding: 0 4px;
+}
+
+.cal-row-info { flex: 1; min-width: 0; }
+.cal-row-name {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+.cal-row-sub {
+  font-size: 11px;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.cal-row-price {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  color: #555;
+  white-space: nowrap;
+}
+
+.cal-row-fav {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  opacity: .5;
+  transition: opacity .15s;
+}
+.cal-row:hover .cal-row-fav { opacity: 1; }
+
+.cal-row-cta {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #888;
+  border: 1.5px solid #ddd;
+  border-radius: 4px;
+  padding: 4px 8px;
+  transition: all .12s;
+  white-space: nowrap;
+}
+.cal-row:hover .cal-row-cta, .cal-row.active .cal-row-cta {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+/* ── SECTION HEADERS ── */
+.calv2-section { border-bottom: 1px solid #f0f0f0; }
+.calv2-section-hd {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 24px 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #999;
+  background: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.calv2-section-hd.today { color: #e8003c; background: #fff5f7; }
+
+/* ── TODAY VIEW ── */
+.calv2-today-view { }
+.calv2-today-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.calv2-today-date {
+  font-size: clamp(18px, 3vw, 28px);
+  font-weight: 900;
+  letter-spacing: -.02em;
+  text-transform: capitalize;
+  color: #111;
+}
+.calv2-live-dot {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  color: #e8003c;
+  background: rgba(232,0,60,.08);
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+/* Tonight card strip */
+.calv2-tonightstrip {
+  display: flex;
+  gap: 10px;
+  padding: 16px 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid #f0f0f0;
+}
+.calv2-tonightstrip::-webkit-scrollbar { display: none; }
+.calv2-tonightcard {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 18px;
+  background: #111;
+  border-radius: 14px;
+  text-decoration: none;
+  transition: transform .2s, box-shadow .2s;
+  min-width: 90px;
+}
+.calv2-tonightcard:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+.calv2-tc-logo {
+  width: 48px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.calv2-tc-logo img {
+  max-width: 48px;
+  max-height: 30px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: .8;
+}
+.calv2-tc-name {
+  font-size: 10px;
+  font-weight: 800;
+  color: rgba(255,255,255,.55);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  text-align: center;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.calv2-tc-count {
+  font-size: 9px;
+  font-weight: 700;
+  color: #e8003c;
+  background: rgba(232,0,60,.15);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* Upcoming week strip */
+.calv2-weekstrip {
+  display: flex;
+  gap: 6px;
+  padding: 12px 24px 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.calv2-weekstrip::-webkit-scrollbar { display: none; }
+.calv2-weekday-chip {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 14px;
+  background: #f5f5f5;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .15s;
+  min-width: 54px;
+}
+.calv2-weekday-chip:hover { background: #111; border-color: #111; }
+.calv2-weekday-chip:hover .calv2-wdc-day,
+.calv2-weekday-chip:hover .calv2-wdc-num,
+.calv2-weekday-chip:hover .calv2-wdc-count { color: #fff; background: rgba(255,255,255,.15); }
+.calv2-wdc-day { font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #888; }
+.calv2-wdc-num { font-size: 18px; font-weight: 900; color: #111; line-height: 1; }
+.calv2-wdc-count { font-size: 9px; font-weight: 700; color: #e8003c; background: rgba(232,0,60,.08); padding: 2px 5px; border-radius: 3px; }
+
+.calv2-empty-today {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  gap: 12px;
+  text-align: center;
+}
+.calv2-empty-icon { font-size: 48px; }
+.calv2-empty-text { font-size: 14px; font-weight: 600; color: #aaa; }
+.calv2-empty-btn {
+  padding: 8px 18px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s;
+}
+.calv2-empty-btn:hover { background: #e8003c; }
+
+.calv2-more-btn {
+  display: block;
+  margin: 8px 24px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #888;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: background .15s, color .15s;
+}
+.calv2-more-btn:hover { background: #111; color: #fff; }
+
+/* ── WEEK VIEW ── */
+.calv2-week-view { }
+.calv2-week-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  border-bottom: 1px solid #ebebeb;
+  background: #fafafa;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+.calv2-wk-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1.5px solid #ddd;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #555;
+  flex-shrink: 0;
+  transition: all .12s;
+}
+.calv2-wk-btn:hover { background: #111; color: #fff; border-color: #111; }
+.calv2-wk-label {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: capitalize;
+  color: #111;
+}
+.calv2-wk-today {
+  padding: 5px 12px;
+  border-radius: 5px;
+  border: 1.5px solid #ddd;
+  background: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: #555;
+  transition: all .12s;
+}
+.calv2-wk-today:hover { background: #111; color: #fff; border-color: #111; }
+
+.calv2-week-cols {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  min-height: 400px;
+  overflow-x: auto;
+}
+@media (max-width: 768px) {
+  .calv2-week-cols { grid-template-columns: repeat(7, minmax(120px, 1fr)); }
+}
+.calv2-wkcol {
+  border-right: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+}
+.calv2-wkcol:last-child { border-right: none; }
+.calv2-wkcol.today { background: #fffbfc; }
+.calv2-wkcol-hd {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 6px 8px;
+  border-bottom: 1px solid #ebebeb;
+  background: #fafafa;
+  position: sticky;
+  top: 53px;
+  z-index: 2;
+}
+.calv2-wkcol.today .calv2-wkcol-hd { background: #fff5f7; }
+.calv2-wkcol-dow { font-size: 9px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #bbb; }
+.calv2-wkcol-num {
+  font-size: 20px;
+  font-weight: 900;
+  color: #111;
+  line-height: 1;
+}
+.calv2-wkcol-num.today {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e8003c;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+.calv2-wkcol-count { font-size: 9px; font-weight: 700; color: #e8003c; background: rgba(232,0,60,.1); padding: 1px 5px; border-radius: 3px; }
+.calv2-wkcol-events { flex: 1; padding: 8px 4px; display: flex; flex-direction: column; gap: 4px; }
+.calv2-wkcol-empty { padding: 12px 6px; text-align: center; color: #ddd; font-size: 16px; }
+.calv2-wk-event {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 8px;
+  background: #f7f7f7;
+  border-radius: 8px;
+  border-left: 3px solid #e8e8e8;
+  text-decoration: none;
+  color: #111;
+  cursor: pointer;
+  transition: background .12s, border-color .12s;
+}
+.calv2-wk-event:hover { background: #111; border-left-color: #e8003c; }
+.calv2-wk-event:hover .calv2-wk-ev-venue,
+.calv2-wk-event:hover .calv2-wk-ev-name,
+.calv2-wk-event:hover .calv2-wk-ev-price { color: rgba(255,255,255,.7); }
+.calv2-wk-ev-venue { font-size: 8px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #aaa; }
+.calv2-wk-ev-name { font-size: 10px; font-weight: 700; color: #111; text-transform: uppercase; letter-spacing: .03em; line-height: 1.2; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.calv2-wk-ev-price { font-size: 9px; font-weight: 700; color: #aaa; margin-top: 2px; }
+
+/* ── MONTH VIEW ── */
+.calv2-month-view { }
+.calv2-month-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  border-bottom: 1px solid #ebebeb;
+  background: #fafafa;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+.calv2-month-label {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 800;
+  text-transform: capitalize;
+  color: #111;
+  letter-spacing: -.01em;
+}
+.calv2-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-bottom: 1px solid #ebebeb;
+}
+.calv2-cal-dow {
+  padding: 8px 4px;
+  text-align: center;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #bbb;
+  border-bottom: 1px solid #ebebeb;
+  background: #fafafa;
+}
+.calv2-cal-cell {
+  border: none;
+  border-right: 1px solid #f4f4f4;
+  border-bottom: 1px solid #f4f4f4;
+  padding: 8px 6px 6px;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  min-height: 64px;
+  transition: background .1s;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.calv2-cal-cell:hover { background: #f7f7f7; }
+.calv2-cal-cell.out { opacity: .3; pointer-events: none; }
+.calv2-cal-cell.today { background: #fff5f7; }
+.calv2-cal-cell.selected { background: #f0f0f0; box-shadow: inset 0 0 0 2px #111; }
+.calv2-cal-cell.has-events { cursor: pointer; }
+.calv2-cal-num {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+.calv2-cal-cell.today .calv2-cal-num {
+  background: #e8003c;
+  color: #fff;
+}
+.calv2-cal-dots { }
+.calv2-cal-dot-row { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+.calv2-dot { width: 5px; height: 5px; border-radius: 50%; background: #e8003c; flex-shrink: 0; }
+.calv2-dot-more { font-size: 8px; font-weight: 800; color: #e8003c; }
+
+.calv2-cal-dayevents {
+  border-top: 2px solid #111;
+  animation: slideDown .2s ease;
+}
+@keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+.calv2-cal-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.calv2-month-stream { }
+
+/* =========================================================
+   LEGACY styles below
+   ========================================================= */
+
 /* IBIZA CALENDAR MODERNE PREMIUME STYLES */
+
+
 
 .subhero {
   position: relative;

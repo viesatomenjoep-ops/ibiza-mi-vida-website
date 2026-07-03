@@ -8,7 +8,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
   // Fetch top featured clubs from local compiled JSON
   const allVenues = await getVenues(params.locale);
   const featuredClubs = allVenues
-    .filter(v => ['hi-ibiza', 'ushuaia-ibiza', 'pacha-ibiza', 'amnesia-ibiza'].includes(v.slug))
+    .filter(v => ['hi-ibiza', 'ushuaia-ibiza', 'eden-ibiza', 'es-paradis'].includes(v.slug))
     .map(v => ({
       name: v.name,
       slug: v.slug,
