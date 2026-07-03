@@ -241,12 +241,14 @@ details[open] summary::after{transform:rotate(45deg)}
 details p{margin-top:14px;color:var(--grey);font-size:.92rem}
 
 /* ===== footer + sticky datumbalk ===== */
-footer{border-top:1px solid var(--line);padding:70px 0 120px;background:var(--panel)}
+footer{border-top:1px solid rgba(0,0,0,0.08);padding:70px 0 120px;background:#ffffff;color:#000000}
 .foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px}
-footer h4{font-size:.72rem;letter-spacing:.38em;color:var(--spring);font-weight:400;margin-bottom:16px}
-footer a{display:block;color:var(--grey);padding:4px 0;font-size:.88rem}
-footer a:hover{color:var(--white)}
-.foot-bottom{margin-top:50px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.78rem;color:var(--grey);letter-spacing:.06em}
+footer h4{font-size:.72rem;letter-spacing:.38em;color:#000000;font-weight:700;margin-bottom:16px;font-family:var(--font-display), sans-serif;text-transform:uppercase}
+footer a{display:block;color:#555555;padding:4px 0;font-size:.88rem}
+footer a:hover{color:#000000}
+footer .logo strong{color:#000000;font-family:var(--font-display), sans-serif}
+footer .logo img{filter:brightness(0)}
+.foot-bottom{margin-top:50px;padding-top:24px;border-top:1px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.78rem;color:#666666;letter-spacing:.06em}
 .datebar{position:fixed;left:0;right:0;bottom:0;z-index:55;background:rgba(13,5,9,.92);backdrop-filter:blur(10px);border-top:1px solid var(--line-strong);padding:12px 0}
 .datebar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
 .datebar strong{font-family:var(--display);text-transform:uppercase;letter-spacing:.18em;font-weight:500;font-size:.85rem}
@@ -294,8 +296,6 @@ footer a:hover{color:var(--white)}
 .marquee::before{left:0;background:linear-gradient(90deg,var(--black),transparent)}
 .marquee::after{right:0;background:linear-gradient(270deg,var(--black),transparent)}
 footer{position:relative;overflow:hidden}
-footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420px;height:420px;border-radius:50%;pointer-events:none;
- background:repeating-radial-gradient(circle, transparent 0 40px, rgba(225,77,104,.10) 40px 41px, transparent 41px 82px)}
 
 
 :focus-visible{outline:2px solid var(--spring);outline-offset:2px}

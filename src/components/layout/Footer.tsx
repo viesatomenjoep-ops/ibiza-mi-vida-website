@@ -25,11 +25,8 @@ export function Footer() {
               </span>
               <strong>Ibiza mi Vida</strong>
             </Link>
-            <p style={{ marginTop: '16px', fontSize: '.86rem', color: 'var(--grey)', maxWidth: '280px' }}>
+            <p style={{ marginTop: '16px', fontSize: '.86rem', color: '#555555', maxWidth: '280px' }}>
               Het startpunt van jouw Ibiza-zomer. Events, tickets, boot & tips — allemaal op één eiland, allemaal op één site.
-            </p>
-            <p style={{ marginTop: '14px', fontFamily: 'var(--display)', letterSpacing: '.28em', fontSize: '.66rem', color: 'var(--grey)', textTransform: 'uppercase' }}>
-              38° 54.51' N · 1° 26.32' E
             </p>
           </div>
           
