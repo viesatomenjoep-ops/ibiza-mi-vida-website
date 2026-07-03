@@ -67,14 +67,196 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .burger-lines span{display:block;width:100%;height:2px;background-color:#fff;border-radius:2px;transition:0.2s}
 .burger:hover .burger-lines span{background-color:var(--spring)}
 
-/* mobiel menu */
-.sheet{position:fixed;inset:0;z-index:80;display:none}
-.sheet.open{display:block}
-.sheet-bg{position:absolute;inset:0;background:rgba(0,0,0,.7)}
-.sheet-panel{position:absolute;top:0;right:0;bottom:0;width:min(380px,90vw);background:var(--panel);border-left:1px solid var(--line);padding:28px 26px;overflow:auto}
-.sheet-panel h3{font-size:.72rem;letter-spacing:.38em;color:var(--spring);margin:26px 0 10px;font-weight:400}
-.sheet-panel a{display:block;padding:9px 0;border-bottom:1px solid var(--line);font-family:var(--display);text-transform:uppercase;letter-spacing:.14em;font-size:.92rem}
-.sheet-panel a:hover{color:var(--spring);padding-left:8px;transition:padding .15s,color .15s}
+/* ── old sheet (kept for safety, overridden below) ── */
+.sheet{display:none}
+
+/* ═══════════════════════════════════════════════
+   FULLSCREEN MENU — Ibiza mi Vida
+   ═══════════════════════════════════════════════ */
+
+/* Backdrop */
+.fs-backdrop{
+  position:fixed;inset:0;z-index:89;background:rgba(0,0,0,.4);
+  backdrop-filter:blur(4px);
+}
+
+/* Overlay panel */
+.fs-menu{
+  position:fixed;inset:0;z-index:90;
+  background:#0a0a0a;
+  display:flex;flex-direction:column;
+  padding:0;
+  overflow:hidden;
+  /* Entry animation */
+  transform:translateX(100%);
+  transition:transform .55s cubic-bezier(.76,0,.24,1);
+  will-change:transform;
+}
+.fs-menu--open{transform:translateX(0);}
+
+/* Close button */
+.fs-close{
+  position:absolute;top:24px;right:24px;
+  width:52px;height:52px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.15);
+  background:transparent;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:#fff;
+  transition:border-color .2s,background .2s,transform .2s;
+  z-index:2;
+}
+.fs-close:hover{
+  border-color:rgba(255,255,255,.5);
+  background:rgba(255,255,255,.06);
+  transform:rotate(90deg);
+}
+
+/* Logo row */
+.fs-logo{
+  display:flex;align-items:center;gap:12px;
+  padding:28px 40px 24px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  flex-shrink:0;
+}
+.fs-logo img{width:40px;height:40px;object-fit:contain;}
+.fs-logo span{
+  font-family:var(--font-display),sans-serif;
+  font-weight:900;font-size:1.1rem;
+  letter-spacing:-.02em;text-transform:uppercase;color:#fff;
+}
+
+/* Scrollable nav */
+.fs-nav{
+  flex:1;overflow-y:auto;padding:16px 0 24px;
+  scrollbar-width:none;
+}
+.fs-nav::-webkit-scrollbar{display:none;}
+
+/* Category block */
+.fs-cat{
+  border-bottom:1px solid rgba(255,255,255,.06);
+  /* Stagger entry */
+  opacity:0;transform:translateY(24px);
+  transition:opacity .45s cubic-bezier(.22,.68,0,1.2),transform .45s cubic-bezier(.22,.68,0,1.2);
+  transition-delay:calc(var(--ci,0) * 80ms + 120ms);
+}
+.fs-menu--open .fs-cat{opacity:1;transform:translateY(0);}
+
+/* Category trigger button */
+.fs-cat-btn{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:22px 40px;
+  background:transparent;border:none;cursor:pointer;
+  text-align:left;
+}
+.fs-cat-label{
+  font-family:var(--font-display),sans-serif;
+  font-size:clamp(1.4rem,4vw,2rem);
+  font-weight:900;
+  letter-spacing:-.03em;
+  text-transform:uppercase;
+  color:#e8003c;  /* same pink as Bekijk Kalender / Zoek Feesten */
+  line-height:1;
+  transition:color .15s;
+}
+.fs-cat-btn:hover .fs-cat-label{ color:#ff2255; }
+
+/* Arrow indicator */
+.fs-cat-arrow{
+  color:rgba(255,255,255,.25);
+  transition:transform .3s cubic-bezier(.22,.68,0,1.2),color .15s;
+  flex-shrink:0;
+}
+.fs-cat--open .fs-cat-arrow{
+  transform:rotate(180deg);
+  color:#e8003c;
+}
+
+/* Sub-items container — smooth accordion */
+.fs-items{
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows .38s cubic-bezier(.22,.68,0,1.2);
+  overflow:hidden;
+}
+.fs-cat--open .fs-items{grid-template-rows:1fr;}
+.fs-items > *{min-height:0;}  /* needed for grid trick */
+.fs-items-inner{overflow:hidden;padding-bottom:8px;}
+
+/* Individual link */
+.fs-item{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 40px 14px 48px;
+  font-family:var(--font-display),sans-serif;
+  font-size:clamp(1rem,3vw,1.35rem);
+  font-weight:700;
+  letter-spacing:-.01em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.75);
+  text-decoration:none;
+  border-left:2px solid transparent;
+  transition:color .15s,border-color .15s,padding-left .15s;
+  /* Stagger */
+  opacity:0;
+  transform:translateX(-12px);
+  transition:opacity .3s,transform .3s,color .15s,border-color .15s,padding-left .2s;
+  transition-delay:calc(var(--ii,0) * 45ms + 40ms);
+}
+.fs-cat--open .fs-item{opacity:1;transform:translateX(0);}
+.fs-item:hover{
+  color:#fff;
+  border-left-color:#e8003c;
+  padding-left:56px;
+}
+
+/* Decorative left line */
+.fs-item-line{display:none;}
+
+/* Arrow on hover */
+.fs-item-arrow{
+  margin-left:auto;flex-shrink:0;
+  color:rgba(255,255,255,.2);
+  opacity:0;transform:translateX(-6px);
+  transition:opacity .15s,transform .15s,color .15s;
+}
+.fs-item:hover .fs-item-arrow{opacity:1;transform:translateX(0);color:#e8003c;}
+
+/* Footer row */
+.fs-footer{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:20px 40px;
+  border-top:1px solid rgba(255,255,255,.06);
+  flex-shrink:0;
+}
+.fs-lang{
+  width:40px;height:40px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.15);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;letter-spacing:.08em;
+  color:rgba(255,255,255,.5);text-decoration:none;
+  transition:all .15s;
+}
+.fs-lang:hover,.fs-lang.active{
+  border-color:#e8003c;color:#fff;background:rgba(232,0,60,.15);
+}
+.fs-wa-btn{
+  margin-left:auto;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 20px;
+  background:#25D366;color:#fff;border-radius:999px;
+  font-size:12px;font-weight:800;letter-spacing:.06em;
+  text-decoration:none;transition:background .15s;
+}
+.fs-wa-btn:hover{background:#1fb759;}
+
+/* Mobile: tighter padding */
+@media(max-width:600px){
+  .fs-logo{padding:20px 20px 16px;}
+  .fs-cat-btn{padding:18px 20px;}
+  .fs-cat-label{font-size:1.5rem;}
+  .fs-item{padding:12px 20px 12px 28px;font-size:1rem;}
+  .fs-item:hover{padding-left:34px;}
+  .fs-footer{padding:16px 20px;}
+}
 
 /* ===== hero ===== */
 .hero{position:relative;min-height:auto;padding:20px 0 28px;display:flex;align-items:flex-start;overflow:hidden;background:#ffffff}

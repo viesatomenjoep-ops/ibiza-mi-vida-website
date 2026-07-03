@@ -11,24 +11,75 @@ const LOCALES = [
   { code: 'es', label: 'ES' },
 ]
 
+const NAV_CATEGORIES = [
+  {
+    id: 'events',
+    label: 'Events & Tickets',
+    items: [
+      { label: 'Ibiza Calendar', href: '/calendar' },
+      { label: 'Deals of the Day', href: '/deals-of-the-day' },
+      { label: 'Artiesten', href: '/artists' },
+      { label: 'Club Tickets', href: '/club-tickets' },
+      { label: 'Clubs Ibiza', href: '/clubs' },
+    ],
+  },
+  {
+    id: 'water',
+    label: 'Op het Water',
+    items: [
+      { label: 'Bootfeesten', href: '/bootfeesten' },
+      { label: 'Private Boat Charters', href: '/private-boat-charters' },
+      { label: 'Ibiza Boat Party', href: '/boat-parties' },
+      { label: 'Shuttle Ferry', href: '/shuttle-ferry' },
+      { label: 'Ferry Ibiza – Formentera', href: '/ferry-formentera' },
+    ],
+  },
+  {
+    id: 'island',
+    label: 'Beleef het Eiland',
+    items: [
+      { label: 'Activities', href: '/activities' },
+      { label: 'Tours', href: '/tours' },
+      { label: 'Water Sports', href: '/water-sports' },
+      { label: 'Drankpakketten', href: '/drink-packages' },
+      { label: 'Car & Scooter Rental', href: '/car-scooter-rental' },
+    ],
+  },
+  {
+    id: 'insider',
+    label: 'Insider',
+    items: [
+      { label: 'Gastenlijst', href: '/guestlist' },
+      { label: 'Ibiza Tips', href: '/tips' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Free & Discount Ibiza', href: '/free-discount-ibiza' },
+    ],
+  },
+]
+
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [openCat, setOpenCat] = useState<string | null>('events') // default open
   const pathname = usePathname()
   const currentLocale = LOCALES.find(l => pathname.startsWith(`/${l.code}/`) || pathname === `/${l.code}`) || LOCALES[0]
   const base = `/${currentLocale.code}`
 
-  // Ensure menu closes on navigation
+  useEffect(() => { setMenuOpen(false) }, [pathname])
+
+  // Lock scroll when menu open
   useEffect(() => {
-    setMenuOpen(false)
-  }, [pathname])
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
+
+  const toggleCat = (id: string) => setOpenCat(prev => prev === id ? null : id)
 
   return (
     <>
       <div className="topbar">
-        Insider deals & gastenlijst — <Link href={`${base}/guestlist`}>meld je aan via WhatsApp</Link>
+        Insider deals &amp; gastenlijst — <Link href={`${base}/guestlist`}>meld je aan via WhatsApp</Link>
       </div>
 
-      {/* NAV: logo links, links midden, acties rechts */}
       <nav className="nav">
         <div className="wrap nav-inner">
           <Link className="logo" href={base}>
@@ -43,51 +94,122 @@ export function Navbar() {
           </div>
           <div className="nav-actions">
             <GlobalSearch locale={currentLocale.code} />
-            <button className="burger" aria-label="Menu" onClick={() => setMenuOpen(true)}>
+            <button
+              className="burger"
+              aria-label="Menu openen"
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen(true)}
+            >
               <div className="burger-lines">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span /><span /><span />
               </div>
             </button>
           </div>
         </div>
       </nav>
 
-      {/* MOBIEL MENU / ALLE 20 PAGINA'S */}
-      <div className={`sheet ${menuOpen ? 'open' : ''}`} id="sheet">
-        <div className="sheet-bg" onClick={() => setMenuOpen(false)}></div>
-        <div className="sheet-panel">
-          <button className="burger" style={{ marginLeft: 'auto' }} aria-label="Sluiten" onClick={() => setMenuOpen(false)}>✕</button>
-          
-          <h3>Events & Tickets</h3>
-          <Link href={`${base}/calendar`}>Ibiza Calendar</Link>
-          <Link href={`${base}/deals-of-the-day`}>Deals of the Day</Link>
-          <Link href={`${base}/artists`}>Artiesten</Link>
-          <Link href={`${base}/club-tickets`}>Club Tickets</Link>
-          <Link href={`${base}/clubs`}>Clubs Ibiza</Link>
-          
-          <h3>Op het water</h3>
-          <Link href={`${base}/boat-parties`}>Bootfeesten</Link>
-          <Link href={`${base}/private-boat-charters`}>Private Boat Charters</Link>
-          <Link href={`${base}/boat-parties`}>Ibiza Boat Party</Link>
-          <Link href={`${base}/formentera-boat-trips`}>Shuttle Ferry</Link>
-          <Link href={`${base}/formentera-boat-trips`}>Ferry Ibiza – Formentera</Link>
-          
-          <h3>Beleef het eiland</h3>
-          <Link href={`${base}/activities`}>Activities</Link>
-          <Link href={`${base}/activities`}>Tours</Link>
-          <Link href={`${base}/water-sports`}>Water Sports</Link>
-          <Link href={`${base}/drink-packages`}>Drankpakketten</Link>
-          <Link href={`${base}/car-scooter-rental`}>Car & Scooter Rental</Link>
-          
-          <h3>Insider</h3>
-          <Link href={`${base}/guestlist`}>Gastenlijst</Link>
-          <Link href={`${base}/tips`}>Ibiza Tips</Link>
-          <Link href={`${base}/blog`}>Blog</Link>
-          <Link href={`${base}/free-discount-ibiza`}>Free & Discount Ibiza</Link>
+      {/* ── FULLSCREEN MENU OVERLAY ── */}
+      <div
+        className={`fs-menu${menuOpen ? ' fs-menu--open' : ''}`}
+        aria-hidden={!menuOpen}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigatiemenu"
+      >
+        {/* Close button */}
+        <button
+          className="fs-close"
+          aria-label="Menu sluiten"
+          onClick={() => setMenuOpen(false)}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
+
+        {/* Logo in overlay */}
+        <div className="fs-logo">
+          <img src="/logo-white.png" alt="Ibiza mi Vida" />
+          <span>Ibiza mi Vida</span>
+        </div>
+
+        {/* Categories */}
+        <nav className="fs-nav" aria-label="Hoofdnavigatie">
+          {NAV_CATEGORIES.map((cat, ci) => (
+            <div
+              key={cat.id}
+              className={`fs-cat${openCat === cat.id ? ' fs-cat--open' : ''}`}
+              style={{ '--ci': ci } as React.CSSProperties}
+            >
+              {/* Category header — accordion trigger */}
+              <button
+                className="fs-cat-btn"
+                onClick={() => toggleCat(cat.id)}
+                aria-expanded={openCat === cat.id}
+              >
+                <span className="fs-cat-label">{cat.label}</span>
+                <span className="fs-cat-arrow" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </span>
+              </button>
+
+              {/* Sub-items */}
+              <div className="fs-items" aria-hidden={openCat !== cat.id}>
+                <div className="fs-items-inner">
+                  {cat.items.map((item, ii) => (
+                    <Link
+                      key={item.href}
+                      href={`${base}${item.href}`}
+                      className="fs-item"
+                      style={{ '--ii': ii } as React.CSSProperties}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {item.label}
+                      <svg className="fs-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </nav>
+
+        {/* Footer row */}
+        <div className="fs-footer">
+          {LOCALES.map(l => (
+            <Link
+              key={l.code}
+              href={pathname.replace(/^\/[a-z]{2}/, `/${l.code}`)}
+              className={`fs-lang${currentLocale.code === l.code ? ' active' : ''}`}
+              onClick={() => setMenuOpen(false)}
+            >
+              {l.label}
+            </Link>
+          ))}
+          <a
+            href="https://wa.me/31612345678"
+            target="_blank"
+            rel="noreferrer"
+            className="fs-wa-btn"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Chat met ons
+          </a>
         </div>
       </div>
+
+      {/* Backdrop */}
+      {menuOpen && (
+        <div
+          className="fs-backdrop"
+          onClick={() => setMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
     </>
   )
 }
