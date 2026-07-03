@@ -265,9 +265,13 @@ export default function ClubTicketsClient({
                       <button 
                         onClick={() => setFilter(v.slug)}
                         className={`w-20 h-20 md:w-24 md:h-24 rounded-full border-4 p-3.5 flex items-center justify-center transition-all duration-300 relative ${
-                          isActive 
-                            ? 'bg-white/10 border-ibiza-green shadow-[0_0_25px_rgba(0,166,152,0.6)] scale-[1.3] z-30' 
-                            : 'border-white/10 bg-white/5 hover:border-ibiza-green/50 hover:bg-white/10 hover:scale-105'
+                          activeCategory !== 'music'
+                            ? (isActive 
+                                ? 'bg-white border-ibiza-green shadow-[0_0_25px_rgba(0,166,152,0.6)] scale-[1.3] z-30' 
+                                : 'border-white/10 bg-white hover:border-ibiza-green/50 hover:scale-105')
+                            : (isActive 
+                                ? 'bg-white/10 border-ibiza-green shadow-[0_0_25px_rgba(0,166,152,0.6)] scale-[1.3] z-30' 
+                                : 'border-white/10 bg-white/5 hover:border-ibiza-green/50 hover:bg-white/10 hover:scale-105')
                         }`}
                       >
                         {v.logo ? (
@@ -275,7 +279,7 @@ export default function ClubTicketsClient({
                             src={v.logo} 
                             alt={v.name} 
                             className={`w-full h-full object-contain transition-all duration-300 ${
-                              isActive ? 'scale-110 opacity-100' : 'scale-100 opacity-70 hover:opacity-100'
+                              isActive ? 'scale-110 opacity-100' : 'scale-100 ' + (activeCategory !== 'music' ? 'opacity-95' : 'opacity-70 hover:opacity-100')
                             }`}
                           />
                         ) : (

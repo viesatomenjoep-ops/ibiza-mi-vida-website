@@ -86,7 +86,7 @@ export function GlobalSearch({ locale }: { locale: string }) {
     <div className="relative" ref={searchRef}>
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
+        className="search-trigger-btn flex items-center justify-center rounded-full transition-colors"
         aria-label="Search"
       >
         <Search size={20} className="text-white" />

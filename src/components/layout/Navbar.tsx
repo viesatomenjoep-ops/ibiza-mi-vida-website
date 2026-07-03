@@ -28,25 +28,29 @@ export function Navbar() {
         Insider deals & gastenlijst — <Link href={`${base}/guestlist`}>meld je aan via WhatsApp</Link>
       </div>
 
-      {/* NAV: gesplitst, logo gecentreerd */}
+      {/* NAV: logo links, links midden, acties rechts */}
       <nav className="nav">
         <div className="wrap nav-inner">
+          <Link className="logo" href={base}>
+            <img src="/logo-white.png" alt="Ibiza mi Vida logo" className="logo-img" />
+            <strong>Ibiza mi Vida</strong>
+          </Link>
           <div className="nav-links">
             <Link href={`${base}/calendar`}>Events</Link>
             <Link href={`${base}/deals-of-the-day`}>Deals</Link>
             <Link href={`${base}/clubs`}>Clubs</Link>
-          </div>
-          <Link className="logo" href={base}>
-            <span className="mark">
-              <img src="/logo-white.png" alt="Ibiza mi Vida logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-            </span>
-            <strong>Ibiza mi Vida</strong>
-          </Link>
-          <div className="nav-links right" style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
             <Link href={`${base}/boat-parties`}>Boat</Link>
-            <GlobalSearch locale={currentLocale.code} />
           </div>
-          <button className="burger" aria-label="Menu" onClick={() => setMenuOpen(true)}>☰</button>
+          <div className="nav-actions">
+            <GlobalSearch locale={currentLocale.code} />
+            <button className="burger" aria-label="Menu" onClick={() => setMenuOpen(true)}>
+              <div className="burger-lines">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </button>
+          </div>
         </div>
       </nav>
 
