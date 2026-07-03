@@ -4,12 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { GlobalSearch } from './GlobalSearch'
-
-const LOCALES = [
-  { code: 'nl', label: 'NL' },
-  { code: 'en', label: 'EN' },
-  { code: 'es', label: 'ES' },
-]
+import { LanguageSelector, LOCALES } from './LanguageSelector'
 
 const NAV_CATEGORIES = [
   {
@@ -99,6 +94,7 @@ export function Navbar() {
             <Link href={`${base}/boat-parties`}>Boat</Link>
           </div>
           <div className="nav-actions">
+            <LanguageSelector />
             <GlobalSearch locale={currentLocale.code} />
             <button
               className="burger"

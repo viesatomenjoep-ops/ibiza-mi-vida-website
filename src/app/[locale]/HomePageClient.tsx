@@ -9,12 +9,13 @@ import { HomeDateFinder } from '@/components/home/HomeDateFinder';
 
 interface HomePageProps {
   locale?: string;
+  translations?: any;
   featuredClubs?: any[];
   upcomingDates?: any[];
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
 }
 
-export default function HomePageClient({ locale = 'nl', featuredClubs = [], upcomingDates = [], allVenues = [] }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], allVenues = [] }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -56,22 +57,22 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
         </div>
 
-        <div className="wrap hero-inner relative z-10 pt-[240px]">
+        <div className="wrap hero-inner relative z-10 pt-[140px]">
           <h1>
-            Ibiza mi Vida
-            <span className="thin">Entertainment · Boat · Nightlife — Reimagined</span>
+            {translations.home_hero_title}
+            <span className="thin">{translations.home_hero_subtitle}</span>
           </h1>
 
           {/* Spacer — pushes CTA to bottom on mobile fullscreen hero */}
           <div className="hero-spacer" aria-hidden="true" />
           
           <div className="cta-row">
-            <Link className="btn fill" href={`${base}/calendar`}>Bekijk de Kalender</Link>
-            <Link className="btn" href={`${base}/club-tickets`}>Clubs & Venues</Link>
+            <Link className="btn fill" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
+            <Link className="btn" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
           </div>
           
           <div className="today-badge">
-            <small>Vandaag op het eiland</small>
+            <small>{translations.home_today_island}</small>
             <strong id="todayDate">{new Date().toLocaleDateString(locale === 'nl' ? 'nl-NL' : locale === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'long' })}</strong>
           </div>
         </div>
@@ -107,8 +108,8 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
         <section className="py-12 md:py-16 bg-white text-neutral-900 border-t border-black/5">
           <div className="max-w-7xl mx-auto px-4">
             <div className="mb-10">
-              <div className="text-xs font-bold tracking-widest uppercase text-neutral-400 mb-2">Live vanuit de kalender</div>
-              <h2 className="text-4xl md:text-5xl font-serif font-bold text-neutral-900 tracking-tight mb-4">Eerstvolgende Feesten</h2>
+              <div className="text-xs font-bold tracking-widest uppercase text-neutral-400 mb-2">{translations.home_live_from_calendar}</div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-neutral-900 tracking-tight mb-4">{translations.home_upcoming_parties}</h2>
               {/* Small calendar widget button — fixed width, never stretches */}
               <Link
                 href={`${base}/calendar`}
@@ -132,7 +133,7 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
                 }}
               >
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                Volledige Kalender
+                {translations.home_full_calendar}
               </Link>
             </div>
 

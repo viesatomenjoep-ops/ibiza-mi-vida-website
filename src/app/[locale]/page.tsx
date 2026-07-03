@@ -1,10 +1,13 @@
 import React from 'react'
 import { getVenues, getAllDates } from '@/lib/clubtickets'
+import { getDictionary } from '@/lib/dictionary'
 import HomePageClient from './HomePageClient'
 
 export const revalidate = 3600
 
 export default async function Home({ params }: { params: { locale: string } }) {
+  const dict = getDictionary(params.locale)
+
   // Fetch top featured clubs from local compiled JSON
   const allVenues = await getVenues(params.locale);
   const featuredClubs = allVenues
@@ -42,6 +45,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
   return (
     <HomePageClient 
       locale={params.locale} 
+      translations={dict}
       featuredClubs={featuredClubs}
       upcomingDates={upcomingDates}
       allVenues={allVenues.map(v => ({

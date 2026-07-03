@@ -145,5 +145,14 @@
   "cat_view": "View",
   "cat_view_all": "View all",
   "cat_top_artists": "Top Artists",
-  "cat_featured": "Featured"
+  "cat_featured": "Featured",
+  "home_live_from_calendar": "Live from the calendar",
+  "home_upcoming_parties": "Upcoming Parties",
+  "home_full_calendar": "Full Calendar",
+  "home_popular_clubs": "Popular Clubs",
+  "home_today_island": "Today on the island",
+  "home_no_upcoming": "No events found.",
+  "home_hero_title": "Ibiza mi Vida",
+  "home_hero_subtitle": "Entertainment · Boat · Nightlife — Reimagined",
+  "home_clubs_venues": "Clubs & Venues"
 }
