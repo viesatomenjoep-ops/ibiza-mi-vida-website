@@ -20,7 +20,7 @@ export default async function BoatPartiesPage({ params }: { params: { locale: st
     .order('name');
 
   return (
-    <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen pt-32 pb-24">
+    <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen pt-20 pb-24">
       <div className="max-w-6xl mx-auto px-4">
         
         <div className="text-center mb-16">

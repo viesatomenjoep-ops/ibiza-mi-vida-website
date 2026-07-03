@@ -97,37 +97,9 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
 
   return (
     <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen">
-      {/* INFINITE MARQUEE LOGO SLIDER */}
-      {allVenues && allVenues.length > 0 && (
-        <div className="logo-slider">
-          <div className="logo-slider-track">
-            {[...allVenues, ...allVenues, ...allVenues].map((v, idx) => (
-              <Link
-                key={`${v.slug}-${idx}`}
-                href={`/${locale}/clubs/${v.slug}`}
-                className="logo-slider-item"
-                title={v.name}
-              >
-                <img 
-                  src={v.picture || v.whitelogo} 
-                  alt={v.name} 
-                  className="h-8 md:h-9 w-auto object-contain max-w-[120px]" 
-                />
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
 
-      {/* TRUST MARQUEE — right below the logo slider */}
-      <div className="marquee" aria-hidden="true">
-        <div className="marquee-track" id="marquee">
-          <span>Ibiza mi Vida <em>●</em> 100% Veilig <em>●</em> Official Partner <em>●</em> Best Prices <em>●</em> Instant Tickets <em>●</em> Guestlist Access <em>●</em> VIP Tables <em>●</em> Boat Parties <em>●</em> </span>
-          <span>Ibiza mi Vida <em>●</em> 100% Veilig <em>●</em> Official Partner <em>●</em> Best Prices <em>●</em> Instant Tickets <em>●</em> Guestlist Access <em>●</em> VIP Tables <em>●</em> Boat Parties <em>●</em> </span>
-        </div>
-      </div>
-
-      <header className="hero relative overflow-hidden" id="top">
+      {/* HERO with left + right vertical logo strips */}
+<header className="hero relative overflow-hidden" id="top">
         
         {/* 10 symmetrical vertical columns with logos floating up and down */}
         <div className="absolute inset-0 pointer-events-none z-0 select-none overflow-hidden">
