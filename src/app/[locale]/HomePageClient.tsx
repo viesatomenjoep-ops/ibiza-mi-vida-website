@@ -119,7 +119,14 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
         </div>
       )}
 
-      {/* HERO */}
+      {/* TRUST MARQUEE — right below the logo slider */}
+      <div className="marquee" aria-hidden="true">
+        <div className="marquee-track" id="marquee">
+          <span>Ibiza mi Vida <em>●</em> 100% Veilig <em>●</em> Official Partner <em>●</em> Best Prices <em>●</em> Instant Tickets <em>●</em> Guestlist Access <em>●</em> VIP Tables <em>●</em> Boat Parties <em>●</em> </span>
+          <span>Ibiza mi Vida <em>●</em> 100% Veilig <em>●</em> Official Partner <em>●</em> Best Prices <em>●</em> Instant Tickets <em>●</em> Guestlist Access <em>●</em> VIP Tables <em>●</em> Boat Parties <em>●</em> </span>
+        </div>
+      </div>
+
       <header className="hero relative overflow-hidden" id="top">
         
         {/* 10 symmetrical vertical columns with logos floating up and down */}
@@ -230,13 +237,6 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
         </div>
       </header>
 
-      {/* MARQUEE */}
-      <div className="marquee" aria-hidden="true">
-        <div className="marquee-track" id="marquee">
-          <span>Official Partner <em>●</em> Best Prices <em>●</em> Instant Tickets <em>●</em> Guestlist Access <em>●</em> VIP Tables <em>●</em> Boat Parties <em>●</em> </span>
-          <span>Official Partner <em>●</em> Best Prices <em>●</em> Instant Tickets <em>●</em> Guestlist Access <em>●</em> VIP Tables <em>●</em> Boat Parties <em>●</em> </span>
-        </div>
-      </div>
 
       {/* FEATURED CLUBS */}
       {featuredClubs.length > 0 && (
