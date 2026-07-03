@@ -2,9 +2,8 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
-import { EventsBackground } from '@/components/layout/EventsBackground';
 import Image from 'next/image';
-import { Calendar, MapPin, Tag, ChevronRight, Music, Ticket, ExternalLink } from 'lucide-react';
+import { Calendar, MapPin, Tag, ChevronRight, Music, Ticket, ExternalLink, Zap } from 'lucide-react';
 import { CSSClock } from '@/components/ui/CSSClock';
 
 interface DatabaseDate {
@@ -103,33 +102,22 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
   }, [initialEvents, selectedDate, categoryFilter, clientToday]);
 
   return (
-    <div className="theme-monaco-vip bg-transparent text-[var(--color-ink)] min-h-screen pt-8 pb-24 relative overflow-hidden">
-      <EventsBackground />
-      
-      {/* Inline styles for drifting keyframes animation */}
-
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-[140px]">
-        
-        {/* Breadcrumb */}
-        
-
-        {/* Hero Title + Clock inline */}
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <h1 className="text-4xl md:text-6xl font-black font-serif text-black leading-tight drop-shadow-md uppercase">
-            Deals of the Day
-          </h1>
-
-          {/* Clock — compact, inline with title */}
-          <div className="flex items-center gap-3 bg-black/5 border border-black/10 px-4 py-3 rounded-2xl backdrop-blur-md shrink-0">
-            <CSSClock />
-            <div className="leading-none">
-              <small className="text-[9px] font-black uppercase tracking-widest text-ibiza-green block mb-1">Ibiza Local Time</small>
-              <span className="text-xs font-bold text-black/60 uppercase tracking-wide block">Europe / Madrid</span>
-            </div>
+    <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-hidden">
+      <section className="pt-[160px] md:pt-[180px] pb-12 relative z-10 flex flex-col items-center text-center px-4">
+        <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
+          <div className="flex flex-col gap-2 text-center mb-4">
+            <span className="text-sm font-bold tracking-widest text-neutral-500 uppercase mb-4">Ibiza's Finest</span>
+            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm flex items-center justify-center gap-4">
+              Deals of the Day <Zap className="text-amber-500 animate-pulse hidden md:block" size={48} />
+            </h1>
+            <p className="font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-6">
+              Ontdek exclusieve kortingen en deals die vandaag geldig zijn op Ibiza!
+            </p>
           </div>
         </div>
+      </section>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-24">
         {/* Removed filter and date selector per user request */}
 
         {/* Dynamic header showing active filter state */}

@@ -2,8 +2,7 @@
 
 import React, { useState, useMemo, useRef } from 'react';
 import Link from 'next/link';
-import { EventsBackground } from '@/components/layout/EventsBackground';
-import { Search, MapPin, ChevronRight, Star, Heart, Calendar, Music, MessageCircle } from 'lucide-react';
+import { Search, MapPin, ChevronRight, Star, Heart, Calendar, Music, MessageCircle, ArrowRight, Ticket } from 'lucide-react';
 import type { CTEventDate } from '@/lib/clubtickets';
 import '@/styles/club-tickets.css';
 
@@ -185,15 +184,17 @@ export default function ClubTicketsClient({
   const displayedEvents = filteredEvents.slice(0, visibleCount);
 
   return (
-    <div className="theme-monaco-vip bg-transparent text-[var(--color-ink)] min-h-screen relative overflow-hidden">
-      <EventsBackground />
-      <section className="pt-[140px] pb-4 relative z-10">
-        <div className="wrap">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-4xl md:text-6xl font-black font-serif text-black leading-tight drop-shadow-md uppercase">
+    <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-hidden">
+      <section className="pt-[160px] md:pt-[180px] pb-12 relative z-10 flex flex-col items-center text-center px-4">
+        <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
+          <div className="flex flex-col gap-2 text-center mb-4">
+            <span className="text-sm font-bold tracking-widest text-neutral-500 uppercase mb-4">Ibiza's Finest</span>
+            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
               Alle Club Tickets
             </h1>
-            <p className="text-sm text-black/60 max-w-xl">Een plek voor alle Club Tickets en activiteiten op het eiland.</p>
+            <p className="font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-6">
+              Een plek voor alle Club Tickets en activiteiten op het eiland.
+            </p>
           </div>
         </div>
       </section>

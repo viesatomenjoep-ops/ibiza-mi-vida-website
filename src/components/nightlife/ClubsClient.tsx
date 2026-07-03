@@ -4,9 +4,6 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, ArrowRight, Sun, Moon } from 'lucide-react';
-
-import { EventsBackground } from '@/components/layout/EventsBackground';
-
 interface ClubsClientProps {
   venues: any[];
   translations: {
@@ -35,14 +32,17 @@ export default function ClubsClient({ venues, translations }: ClubsClientProps) 
   }, [venues, filter, search]);
 
   return (
-    <div className="theme-monaco-vip min-h-screen bg-transparent relative">
-      <EventsBackground />
-      <section className="pt-[140px] pb-4 relative z-10 flex flex-col items-center text-center">
+    <div className="theme-monaco-vip min-h-screen bg-neutral-50 relative">
+      <section className="pt-[160px] md:pt-[180px] pb-12 relative z-10 flex flex-col items-center text-center px-4">
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
-          <div className="flex flex-col gap-2 text-center mb-8">
-            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight">
+          <div className="flex flex-col gap-2 text-center mb-4">
+            <span className="text-sm font-bold tracking-widest text-neutral-500 uppercase mb-4">Ibiza's Finest</span>
+            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
               {translations.title}
             </h1>
+            <p className="font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-6">
+              {translations.description}
+            </p>
           </div>
         </div>
       </section>

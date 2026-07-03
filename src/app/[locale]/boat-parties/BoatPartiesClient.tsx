@@ -53,12 +53,14 @@ export default function BoatPartiesClient({
   return (
     <div className="ct-shell">
       {/* ── HEADER ── */}
-      <section className="pt-[140px] pb-8 relative z-10 flex flex-col items-center text-center">
-        <div className="w-full max-w-4xl mx-auto px-4 flex flex-col items-center gap-6">
-          <div className="flex flex-col gap-2 text-center mb-8">
-            <span className="text-sm font-bold tracking-widest text-neutral-500 uppercase mb-2">Op het Water</span>
-            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight">Bootfeesten & Ferries</h1>
-            <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto mt-4">
+      <section className="pt-[160px] md:pt-[180px] pb-12 relative z-10 flex flex-col items-center text-center px-4">
+        <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
+          <div className="flex flex-col gap-2 text-center mb-4">
+            <span className="text-sm font-bold tracking-widest text-neutral-500 uppercase mb-4">Op het Water</span>
+            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
+              Bootfeesten & Ferries
+            </h1>
+            <p className="font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-6">
               Van wilde boat parties tot rustige Formentera-ferries. Boek officieel via Clubtickets.
             </p>
           </div>
