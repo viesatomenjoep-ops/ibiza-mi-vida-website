@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAllDates } from '@/lib/clubtickets';
+import { getAllDates, getVenues } from '@/lib/clubtickets';
 import ClubTicketsClient from './ClubTicketsClient';
 
 interface Props {
@@ -11,15 +11,16 @@ interface Props {
 export const revalidate = 3600;
 
 export default async function ClubTicketsPage({ params }: Props) {
-  // Fetch all events/dates for the listing
+  // Fetch all events/dates and venues for the listing
   const allEvents = await getAllDates(params.locale);
+  const venues = await getVenues(params.locale);
 
   // You might want to fetch translations here if you have a dictionary system
   const dict = {}; 
 
   return (
-    <div className="pt-20"> {/* Add some padding top since we have a fixed transparent navbar */}
-      <ClubTicketsClient initialEvents={allEvents} locale={params.locale} dict={dict} />
+    <div>
+      <ClubTicketsClient initialEvents={allEvents} venues={venues} locale={params.locale} dict={dict} />
     </div>
   );
 }

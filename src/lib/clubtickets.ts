@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { stripHtml, cleanHtml } from './html-utils';
 
 export const API_KEY = '80aac9f0b1a44b63060b083f3813271a';
 export const BASE_URL = `https://affiliates.clubtickets.com/api/affiliate/${API_KEY}/get`;
@@ -118,109 +119,7 @@ export interface ClubTicketsData {
 
 let cachedData: Record<string, ClubTicketsData> = {};
 
-function stripHtml(html: string | undefined): string {
-  if (!html) return '';
-  let str = html;
-  
-  // Remove style and script blocks and their content completely
-  str = str.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
-  str = str.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
-  
-  // Strip all remaining HTML tags rigorously
-  str = str.replace(/<\/?[^>]+(>|$)/g, ' ');
-  
-  // Clean up whitespace and duplicate dashes
-  str = str.replace(/\s*-\s*(-\s*)+/g, ' - ');
-  str = str.replace(/\s\s+/g, ' ');
-  str = str.replace(/^-|-$/g, '').trim();
-  
-  // Handle HTML entities
-  str = str.replace(/&amp;/g, '&')
-           .replace(/&lt;/g, '<')
-           .replace(/&gt;/g, '>')
-           .replace(/&quot;/g, '"')
-           .replace(/&#39;/g, "'")
-           .replace(/&nbsp;/g, ' ');
-           
-  return str;
-}
 
-function cleanHtml(html: string | undefined): string {
-  if (!html) return '';
-  
-  // 1. Remove promo garbage and standard script/style tags
-  let str = html.split('.promo-hz')[0];
-  str = str.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
-  str = str.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
-
-  // 2. Remove raw pseudo-CSS and JS using line-by-line heuristics
-  const lines = str.split('\n');
-  const cleanedLines = lines.filter(line => {
-    const l = line.replace(/<br \/>/g, '').trim();
-    
-    // CSS rules
-    if (l.startsWith(':root{') || l.startsWith(':root {') || l.startsWith('}')) return false;
-    if (l.startsWith('--')) return false;
-    if (l.match(/^[\.#a-zA-Z0-9_\-:\s,\[\]\>\*]+(?:,|{)$/)) return false;
-    if (l.match(/^[a-zA-Z\-]+:\s*[^;]+;/)) return false;
-    if (l.startsWith('/*') && l.endsWith('*/')) return false;
-    if (l.startsWith('@media') || l.startsWith('@keyframes')) return false;
-    if (l.match(/^[0-9]+% {/)) return false;
-    if (l.includes('from{') || l.includes('to{')) return false;
-    
-    // Hardcoded aggressive CSS stripping for Clubtickets injected garbage
-    if (
-      l.includes('details[open]') || 
-      l.includes('.detalles') || 
-      l.includes('.itinerary-block') || 
-      l.includes('.pill::after') ||
-      l.includes('.pill{') ||
-      l.includes('.included-row{') ||
-      l.includes('.chip{') ||
-      l.includes('.icon{') ||
-      l.includes('box-sizing:border-box') ||
-      l.includes('content:"–"') ||
-      l.includes('outline:none!important;') ||
-      l.includes('box-shadow:none!important;') ||
-      l.includes('-webkit-')
-    ) {
-      return false;
-    }
-    
-    // JS lines
-    if (
-      l.includes('(function(){') || 
-      l.includes('function recalc(){') || 
-      l.includes('const list = document.getElementById') || 
-      l.includes('const line = document.getElementById') ||
-      l.includes('if(!list || !line) return;') ||
-      l.includes('const icons = list.querySelectorAll') ||
-      l.includes('if(icons.length') ||
-      l.includes('const first = icons') ||
-      l.includes('const last = icons') ||
-      l.includes('const box = list') ||
-      l.includes('const y1 =') ||
-      l.includes('const y2 =') ||
-      l.includes('line.style.') || 
-      l.includes('window.addEventListener') || 
-      l.includes('document.querySelectorAll') ||
-      l.includes('const listEl =') ||
-      l.includes('if(listEl) new MutationObserver') ||
-      l.includes('})();') ||
-      l.includes('d.addEventListener')
-    ) {
-      return false;
-    }
-    return true;
-  });
-  
-  str = cleanedLines.join('\n');
-  
-  // 3. Clean empty <br /> chains left behind
-  str = str.replace(/(?:<br \/>\s*){3,}/g, '<br /><br />');
-  
-  return str.trim();
-}
 
 function loadData(locale: string = 'en'): ClubTicketsData {
   if (cachedData[locale]) return cachedData[locale];
@@ -347,12 +246,27 @@ export async function getArtist(slug: string, locale: string = 'en'): Promise<CT
   return data.artists?.find(a => a.slug === slug);
 }
 
-export async function getArtistDates(artistName: string, locale: string = 'en'): Promise<CTEventDate[]> {
+export async function getArtistDates(artistName: string, locale: string = 'en', artistSlug?: string): Promise<CTEventDate[]> {
   const dates = await getAllDates(locale);
+  const searchName = artistName.toLowerCase();
+  
+  const mainName = searchName
+    .replace(/\s+presents.*$/i, '')
+    .replace(/\s+at\s+ushuaïa.*$/i, '')
+    .replace(/\s+at\s+hï\s+ibiza.*$/i, '')
+    .replace(/\s+at\s+club.*$/i, '')
+    .trim();
+
   return dates.filter(d => {
-    if (!d.lineUp) return false;
-    // Simple substring match for artist name in the lineup string
-    // e.g. lineup "David Guetta, MORTEN"
-    return d.lineUp.toLowerCase().includes(artistName.toLowerCase());
+    if (d.lineUp && d.lineUp.toLowerCase().includes(mainName)) {
+      return true;
+    }
+    if (artistSlug && d.eventSlug === artistSlug) {
+      return true;
+    }
+    if (d.eventName && d.eventName.toLowerCase().includes(mainName)) {
+      return true;
+    }
+    return false;
   });
 }

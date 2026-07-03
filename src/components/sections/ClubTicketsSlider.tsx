@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getVenues } from '@/lib/clubtickets'
 import { Music, ArrowRight } from 'lucide-react'
+import { cleanHtml } from '@/lib/html-utils'
 
 export async function ClubTicketsSlider() {
   const venues = await getVenues('en')
@@ -59,7 +60,7 @@ export async function ClubTicketsSlider() {
 
               <div className="relative z-10 p-6 md:p-8 flex flex-col w-full mt-auto">
                 <h3 className="text-3xl md:text-4xl font-bold text-white drop-shadow-md mb-3">{venue.name}</h3>
-                <p className="text-white/80 text-sm md:text-base line-clamp-2 mb-6 font-sans leading-relaxed" dangerouslySetInnerHTML={{ __html: venue.description || 'Experience the ultimate party.' }}></p>
+                <p className="text-white/80 text-sm md:text-base line-clamp-2 mb-6 font-sans leading-relaxed" dangerouslySetInnerHTML={{ __html: cleanHtml(venue.description) || 'Experience the ultimate party.' }}></p>
                 
                 <div className="flex items-center justify-between border-t border-white/20 pt-5">
                   <span className="text-xs md:text-sm font-semibold text-white/70 uppercase tracking-widest">

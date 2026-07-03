@@ -64,16 +64,16 @@ export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
       </div>
 
       {/* Details */}
-      <div className="flex flex-1 flex-col gap-2">
-        <h3 className="font-serif text-xl font-light text-velvet-obsidian leading-tight">{event.title}</h3>
+      <div className="flex flex-1 flex-col gap-2 text-neutral-900">
+        <h3 className="font-serif text-xl font-light text-neutral-900 leading-tight">{event.title}</h3>
 
         <div className="flex flex-wrap gap-x-4 gap-y-1">
-          <span className="flex items-center gap-1.5 font-sans text-xs text-velvet-obsidian/50">
+          <span className="flex items-center gap-1.5 font-sans text-xs text-neutral-500">
             <Calendar size={12} className="text-rustic-terracotta" />
             {formatDate(event.event_date)}
           </span>
           {doorsOpen && (
-            <span className="flex items-center gap-1.5 font-sans text-xs text-velvet-obsidian/50">
+            <span className="flex items-center gap-1.5 font-sans text-xs text-neutral-500">
               <Clock size={12} className="text-rustic-terracotta" />
               Doors {doorsOpen}
             </span>
@@ -82,7 +82,7 @@ export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
 
         {/* Lineup */}
         {event.lineup && event.lineup.length > 0 && (
-          <p className="font-sans text-sm text-velvet-obsidian/70">
+          <p className="font-sans text-sm text-neutral-600">
             {event.lineup.slice(0, 3).join(' · ')}
             {event.lineup.length > 3 && ` + ${event.lineup.length - 3} more`}
           </p>
@@ -94,7 +94,7 @@ export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
             {event.genre_tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-champagne-bronze/40 px-2.5 py-0.5 font-sans text-[11px] text-champagne-bronze"
+                className="rounded-full border border-neutral-300 px-2.5 py-0.5 font-sans text-[11px] text-neutral-600"
               >
                 {tag}
               </span>
@@ -106,9 +106,9 @@ export function EventCard({ event, clubName, clubSlug }: EventCardProps) {
       {/* Price + CTA */}
       <div className="flex shrink-0 flex-row items-center gap-3 sm:flex-col sm:items-end sm:justify-between">
         {event.price_from !== null && (
-          <div className="text-right">
-            <p className="font-sans text-[10px] uppercase tracking-wide text-velvet-obsidian/40">From</p>
-            <p className="font-serif text-2xl font-light text-velvet-obsidian">
+          <div className="text-right text-neutral-900">
+            <p className="font-sans text-[10px] uppercase tracking-wide text-neutral-400">From</p>
+            <p className="font-serif text-2xl font-light text-neutral-900">
               €{event.price_from.toFixed(0)}
             </p>
           </div>

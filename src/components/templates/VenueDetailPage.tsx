@@ -3,11 +3,11 @@
 import React, { useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { CTVenue, CTEventDate } from '@/lib/clubtickets'
+import { cleanHtml } from '@/lib/html-utils'
 
 interface VenueDetailPageProps {
-  club: CTVenue;
-  allDates: CTEventDate[];
+  club: any;
+  allDates: any[];
   locale: string;
   basePath: string;
 }
@@ -16,29 +16,32 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
   const imageUrl = club.cover || club.picture || '/hi-ibiza-2026/FB_IMG_1779623220486.jpg';
 
   const cleanDescription = club.description 
-    ? club.description.split('.promo-hz')[0].trim()
+    ? cleanHtml(club.description)
     : 'Informatie over deze club.';
 
   // Process unique events and determine if they are "Weekly" or "More"
   const eventStats = new Map<string, { count: number, days: Set<string>, firstEvent: any }>();
   
-  allDates.forEach(date => {
-    const dayOfWeek = new Date(date.date).toLocaleDateString(locale === 'nl' ? 'nl-NL' : 'en-US', { weekday: 'long', timeZone: 'UTC' }).toUpperCase();
-    if (!eventStats.has(date.eventSlug || '')) {
-      eventStats.set(date.eventSlug || '', { 
+  allDates.forEach(dateObj => {
+    const dayOfWeek = new Date(dateObj.date).toLocaleDateString(locale === 'nl' ? 'nl-NL' : 'en-US', { weekday: 'long', timeZone: 'UTC' }).toUpperCase();
+    const eventGrp = dateObj.ct_events;
+    if (!eventGrp) return;
+    
+    if (!eventStats.has(eventGrp.slug)) {
+      eventStats.set(eventGrp.slug, { 
         count: 0, 
         days: new Set(), 
         firstEvent: {
-          id: date.eventId,
-          name: date.eventName || date.name,
-          slug: date.eventSlug,
-          cover: date.eventCover,
-          logo: date.eventLogo,
-          venueName: date.venueName
+          id: eventGrp.id,
+          name: eventGrp.name,
+          slug: eventGrp.slug,
+          cover: eventGrp.cover || eventGrp.logo,
+          logo: eventGrp.whitelogo || eventGrp.logo,
+          venueName: club.name
         } 
       });
     }
-    const stat = eventStats.get(date.eventSlug || '')!;
+    const stat = eventStats.get(eventGrp.slug)!;
     stat.count++;
     stat.days.add(dayOfWeek);
   });
@@ -128,14 +131,14 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
               {club.name}
             </h1>
             <div className="flex gap-2 flex-wrap">
-              {club.type && (
+              {club.type_name && (
                 <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold">
-                  {club.type.name}
+                  {club.type_name}
                 </span>
               )}
-              {club.isDayClub !== undefined && (
+              {club.is_day_club !== undefined && (
                 <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold">
-                  {club.isDayClub ? 'Daytime' : 'Night'}
+                  {club.is_day_club ? 'Daytime' : 'Night'}
                 </span>
               )}
             </div>
@@ -145,7 +148,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
 
       {/* Quick bar */}
       <div className="flex gap-2 flex-wrap -mt-[26px] relative z-30 px-4 max-w-7xl mx-auto">
-        <div className="inline-flex items-center gap-2 bg-white shadow-md rounded-full px-5 py-3 font-bold text-sm cursor-pointer hover:bg-ibiza-mint transition-colors text-velvet-obsidian">
+        <div className="inline-flex items-center gap-2 bg-white shadow-md rounded-full px-5 py-3 font-bold text-sm cursor-pointer hover:bg-ibiza-mint transition-colors text-neutral-900">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/></svg>
           Ibiza, Spain
         </div>
@@ -157,14 +160,14 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex items-end justify-between mb-6 gap-5">
               <div>
-                <div className="text-xs font-bold tracking-widest uppercase text-ibiza-blue mb-2">Weekly parties 2026</div>
+                <div className="text-xs font-bold tracking-widest uppercase text-neutral-400 mb-2">Weekly parties 2026</div>
                 <h2 className="text-3xl md:text-4xl font-serif font-bold">Vaste avonden in {club.name}</h2>
               </div>
               <div className="flex gap-2 shrink-0 hidden md:flex">
-                <button onClick={() => scrollRail(weeklyRef, -1)} className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center hover:bg-ibiza-green transition-colors">
+                <button onClick={() => scrollRail(weeklyRef, -1)} className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center hover:bg-ibiza-green transition-colors text-neutral-900">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
                 </button>
-                <button onClick={() => scrollRail(weeklyRef, 1)} className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center hover:bg-ibiza-green transition-colors">
+                <button onClick={() => scrollRail(weeklyRef, 1)} className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center hover:bg-ibiza-green transition-colors text-neutral-900">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
                 </button>
               </div>
@@ -177,19 +180,19 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                     {party.cover ? (
                       <Image src={party.cover} alt={party.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center text-velvet-obsidian/40 text-xs font-semibold text-center p-4">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center text-neutral-500 text-xs font-semibold text-center p-4">
                         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="mb-1"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 15l5-5 4 4 3-3 6 6"/></svg>
                         Poster uit API
                       </div>
                     )}
-                    <span className="absolute top-3 left-3 bg-white/90 px-3 py-1 rounded-full text-[10px] font-bold z-10">{club.name}</span>
-                    <span className="absolute top-3 right-3 bg-ibiza-green px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase z-10">{party.dayOfWeek}</span>
+                    <span className="absolute top-3 left-3 bg-white/90 px-3 py-1 rounded-full text-[10px] font-bold z-10 text-neutral-900">{club.name}</span>
+                    <span className="absolute top-3 right-3 bg-ibiza-green px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase z-10 text-neutral-900">{party.dayOfWeek}</span>
                   </div>
-                  <div className="p-4">
-                    <h3 className="text-lg font-bold leading-tight mb-2 truncate">{party.name}</h3>
+                  <div className="p-4 text-neutral-900">
+                    <h3 className="text-lg font-bold leading-tight mb-2 truncate text-neutral-900">{party.name}</h3>
                     <div className="flex justify-between items-center mt-3">
-                      <div className="text-xs text-velvet-obsidian/60 font-semibold uppercase tracking-wider">TICKETS</div>
-                      <button className="bg-ibiza-mint hover:bg-ibiza-green text-velvet-obsidian font-bold text-xs px-4 py-2 rounded-full transition-colors">Tickets</button>
+                      <div className="text-xs text-neutral-500 font-semibold uppercase tracking-wider">TICKETS</div>
+                      <button className="bg-ibiza-mint hover:bg-ibiza-green text-neutral-900 font-bold text-xs px-4 py-2 rounded-full transition-colors">Tickets</button>
                     </div>
                   </div>
                 </Link>
@@ -200,29 +203,29 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
       )}
 
       {/* Event List (All Events) */}
-      <section className="py-12 bg-white/50">
+      <section className="py-12 bg-white/50 text-neutral-900">
         <div className="max-w-7xl mx-auto px-4">
            <div className="flex items-end justify-between mb-6 gap-5">
               <div>
-                <div className="text-xs font-bold tracking-widest uppercase text-ibiza-blue mb-2">Alle events</div>
-                <h2 className="text-3xl md:text-4xl font-serif font-bold">Agenda {club.name}</h2>
+                <div className="text-xs font-bold tracking-widest uppercase text-neutral-500 mb-2">Alle events</div>
+                <h2 className="text-3xl md:text-4xl font-serif font-bold text-neutral-900">Agenda {club.name}</h2>
               </div>
            </div>
            
            <div className="flex flex-col gap-3">
              {allDates.slice(0, 10).map((date, i) => (
-                <Link href={`/${locale}/${basePath}/${club.slug}/${date.eventSlug}`} key={i} className="bg-white rounded-2xl p-3 md:p-4 border border-black/5 flex items-center gap-4 hover:shadow-md transition-shadow group">
+                <Link href={`/${locale}/${basePath}/${club.slug}/${date.ct_events?.slug || 'event'}`} key={i} className="bg-white rounded-2xl p-3 md:p-4 border border-black/5 flex items-center gap-4 hover:shadow-md transition-shadow group">
                    <div className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-xl overflow-hidden bg-ibiza-mint relative">
-                     {date.eventCover && <Image src={date.eventCover} alt={date.eventName || 'Event'} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />}
+                     {date.ct_events?.cover && <Image src={date.ct_events.cover} alt={date.name || 'Event'} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />}
                    </div>
                    <div className="flex-1 min-w-0">
-                      <div className="text-ibiza-blue text-xs font-bold tracking-wider uppercase mb-1">
+                      <div className="text-neutral-500 text-xs font-bold tracking-wider uppercase mb-1">
                          {new Date(date.date).toLocaleDateString(locale === 'nl' ? 'nl-NL' : 'en-US', { weekday: 'short', day: 'numeric', month: 'short' })}
                       </div>
-                      <h3 className="text-lg md:text-xl font-bold truncate text-velvet-obsidian">{date.eventName || date.name}</h3>
+                      <h3 className="text-lg md:text-xl font-bold truncate text-neutral-900">{date.name}</h3>
                    </div>
                    <div className="shrink-0 hidden md:block">
-                      <button className="bg-ibiza-green text-velvet-obsidian font-bold text-sm px-5 py-2.5 rounded-full hover:brightness-95 transition-all">
+                      <button className="bg-ibiza-green text-neutral-900 font-bold text-sm px-5 py-2.5 rounded-full hover:brightness-95 transition-all">
                         Buy Tickets
                       </button>
                    </div>
@@ -262,7 +265,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
                 </div>
                 <span>Openingstijden</span>
-                <span className="font-bold ml-auto text-velvet-obsidian">{club.isDayClub ? 'Daytime' : 'Night'}</span>
+                <span className="font-bold ml-auto text-velvet-obsidian">{club.is_day_club ? 'Daytime' : 'Night'}</span>
               </div>
               
               <div className="flex items-center gap-3 py-3 text-sm">
@@ -270,7 +273,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/></svg>
                 </div>
                 <span>Genre</span>
-                <span className="font-bold ml-auto text-velvet-obsidian">{club.type?.name || 'Electronic'}</span>
+                <span className="font-bold ml-auto text-velvet-obsidian">{club.type_name || 'Electronic'}</span>
               </div>
             </div>
           </div>
@@ -288,13 +291,13 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
           <div className="flex flex-col gap-3">
             {faqs.map((faq, i) => (
               <details key={i} className="group bg-white border border-black/5 rounded-2xl overflow-hidden transition-all open:shadow-sm" open={i === 0}>
-                <summary className="flex items-center justify-between gap-4 p-5 font-bold cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                <summary className="flex items-center justify-between gap-4 p-5 font-bold cursor-pointer list-none [&::-webkit-details-marker]:hidden text-neutral-950">
                   {faq.q}
                   <div className="w-7 h-7 rounded-full bg-ibiza-mint shrink-0 flex items-center justify-center transition-transform group-open:rotate-45 group-open:bg-ibiza-green">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><path d="M12 5v14M5 12h14"/></svg>
                   </div>
                 </summary>
-                <div className="px-5 pb-5 text-velvet-obsidian/80 text-sm leading-relaxed">
+                <div className="px-5 pb-5 text-neutral-600 text-sm leading-relaxed">
                   {faq.a}
                 </div>
               </details>

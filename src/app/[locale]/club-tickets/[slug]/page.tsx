@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getVenues, getVenue, getAllDates, CTVenue } from '@/lib/clubtickets'
+import { supabase } from '@/lib/supabase/client'
 import { VenueDetailPage } from '@/components/templates/VenueDetailPage'
 
 export const revalidate = 3600
@@ -9,12 +9,13 @@ interface Props {
   params: { slug: string; locale: string }
 }
 
-async function fetchVenueData(slug: string, locale: string): Promise<CTVenue | null> {
-  const venues = await getVenues(locale);
-  const venueRef = venues.find(v => v.slug === slug);
-  if (!venueRef) return null;
-  const fullVenue = await getVenue(venueRef.id, locale);
-  return fullVenue || null;
+async function fetchVenueData(slug: string) {
+  const { data: club } = await supabase
+    .from('ct_venues')
+    .select('*')
+    .eq('slug', slug)
+    .single();
+  return club;
 }
 
 export async function generateStaticParams() {
@@ -22,7 +23,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const club = await fetchVenueData(params.slug, params.locale)
+  const club = await fetchVenueData(params.slug)
   if (!club) return { title: 'Venue Not Found | Ibiza mi vida' }
 
   return {
@@ -37,18 +38,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ClubDetailPage({ params }: Props) {
-  const club = await fetchVenueData(params.slug, params.locale)
+  const club = await fetchVenueData(params.slug)
   if (!club) notFound()
 
-  const allDatesGlobal = await getAllDates(params.locale)
-  const allDates = allDatesGlobal.filter(d => d.venueSlug === club.slug)
-  
-  allDates.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  // Fetch all upcoming dates for this club
+  const { data: dates } = await supabase
+    .from('ct_dates')
+    .select('*, ct_events(*)')
+    .eq('venue_id', club.id)
+    .gte('date', new Date().toISOString().split('T')[0]) // Today onwards
+    .order('date', { ascending: true })
 
   return (
     <VenueDetailPage 
       club={club} 
-      allDates={allDates} 
+      allDates={dates || []} 
       locale={params.locale} 
       basePath="club-tickets" 
     />

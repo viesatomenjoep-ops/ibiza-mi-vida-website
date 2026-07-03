@@ -1,18 +1,15 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 const LOCALES = [
   { code: 'nl' },
   { code: 'en' },
   { code: 'es' },
-  { code: 'de' },
-  { code: 'fr' },
 ]
 
-export function Footer({ dict }: { dict?: any }) {
+export function Footer() {
   const pathname = usePathname()
   const currentLocale = LOCALES.find(l => pathname.startsWith(`/${l.code}/`) || pathname === `/${l.code}`) || LOCALES[0]
   const base = `/${currentLocale.code}`
@@ -20,55 +17,58 @@ export function Footer({ dict }: { dict?: any }) {
   return (
     <footer>
       <div className="wrap">
-        <div className="fgrid">
-          
+        <div className="foot-grid">
           <div>
-            <Link href={base} className="brand">
+            <Link className="logo" href={base} style={{ alignItems: 'flex-start' }}>
               <span className="mark">
-                <img src="/logo-clean.png" alt="Ibiza mi Vida" className="w-[30px] h-[30px] object-contain invert brightness-0" />
+                <img src="/logo-white.png" alt="Ibiza mi Vida logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
               </span>
-              <b>Ibiza mi <span>Vida</span></b>
+              <strong>Ibiza mi Vida</strong>
             </Link>
-            <p className="tag">
-              {dict?.footer_description || 'Jouw tickets, boten en tips voor het perfecte Ibiza. Eén connectie naar het hele eiland.'}
+            <p style={{ marginTop: '16px', fontSize: '.86rem', color: 'var(--grey)', maxWidth: '280px' }}>
+              Het startpunt van jouw Ibiza-zomer. Events, tickets, boot & tips — allemaal op één eiland, allemaal op één site.
+            </p>
+            <p style={{ marginTop: '14px', fontFamily: 'var(--display)', letterSpacing: '.28em', fontSize: '.66rem', color: 'var(--grey)', textTransform: 'uppercase' }}>
+              38° 54.51' N · 1° 26.32' E
             </p>
           </div>
           
-          <div className="fcol">
-            <h4>{dict?.footer_discover || 'Ontdek'}</h4>
-            <Link href={`${base}/calendar`}>{dict?.nav_calendar || 'Kalender'}</Link>
-            <Link href={`${base}/deals-of-the-day`}>{dict?.nav_deals_of_the_day || 'Deals of the Day'}</Link>
-            <Link href={`${base}/clubs`}>{dict?.nav_clubs || 'Clubs Ibiza'}</Link>
-            <Link href={`${base}/artists`}>{dict?.nav_artists || 'Artiesten'}</Link>
-            <Link href={`${base}/club-tickets`}>{dict?.nav_club_tickets || 'Club Tickets'}</Link>
+          <div>
+            <h4>Events & Tickets</h4>
+            <Link href={`${base}/calendar`}>Ibiza Calendar</Link>
+            <Link href={`${base}/deals-of-the-day`}>Deals of the Day</Link>
+            <Link href={`${base}/artists`}>Artiesten</Link>
+            <Link href={`${base}/club-tickets`}>Club Tickets</Link>
+            <Link href={`${base}/clubs`}>Clubs Ibiza</Link>
           </div>
           
-          <div className="fcol">
-            <h4>{dict?.footer_on_water || 'Op het water'}</h4>
-            <Link href={`${base}/boat-parties`}>{dict?.nav_boat_parties || 'Bootfeesten'}</Link>
-            <Link href={`${base}/private-boat-charters`}>{dict?.nav_private_boat_charters || 'Private Boat Charters'}</Link>
-            <Link href={`${base}/vip-catamaran`}>{dict?.nav_vip_catamaran || 'VIP Catamaran'}</Link>
-            <Link href={`${base}/formentera-boat-trips`}>{dict?.nav_formentera_boat_trips || 'Ferry Formentera'}</Link>
+          <div>
+            <h4>Op het water</h4>
+            <Link href={`${base}/boat-parties`}>Bootfeesten</Link>
+            <Link href={`${base}/private-boat-charters`}>Private Boat Charters</Link>
+            <Link href={`${base}/boat-parties`}>Ibiza Boat Party</Link>
+            <Link href={`${base}/formentera-boat-trips`}>Shuttle Ferry</Link>
+            <Link href={`${base}/formentera-boat-trips`}>Ferry Ibiza – Formentera</Link>
           </div>
           
-          <div className="fcol">
-            <h4>{dict?.footer_more || 'Meer'}</h4>
-            <Link href={`${base}/drink-packages`}>{dict?.nav_drink_packages || 'Drink Packages'}</Link>
-            <Link href={`${base}/car-scooter-rental`}>{dict?.nav_car_scooter_rental || 'Car & Scooter Rental'}</Link>
-            <Link href={`${base}/guestlist`}>{dict?.nav_guestlist || 'Guestlist'}</Link>
-            <Link href={`${base}/tips`}>{dict?.nav_tips || 'Ibiza Tips'}</Link>
-            <Link href={`${base}/blog`}>{dict?.nav_blog || 'Blog'}</Link>
-            <Link href={`${base}/free-discount-ibiza`}>{dict?.nav_free_discount_ibiza || 'Free & Discount'}</Link>
+          <div>
+            <h4>Beleef & Insider</h4>
+            <Link href={`${base}/activities`}>Activities</Link>
+            <Link href={`${base}/water-sports`}>Water Sports</Link>
+            <Link href={`${base}/drink-packages`}>Drankpakketten</Link>
+            <Link href={`${base}/car-scooter-rental`}>Car & Scooter Rental</Link>
+            <Link href={`${base}/guestlist`}>Gastenlijst</Link>
+            <Link href={`${base}/tips`}>Ibiza Tips</Link>
+            <Link href={`${base}/blog`}>Blog</Link>
           </div>
-          
         </div>
         
-        <div className="fbot">
-          <span>© {new Date().getFullYear()} Ibiza mi Vida — Powered by ClubTickets API</span>
+        <div className="foot-bottom">
+          <span>© {new Date().getFullYear()} Ibiza mi Vida · Officiële Clubtickets-partner</span>
           <span>
-            <Link href={`${base}/privacy-policy`}>{dict?.footer_privacy || 'Privacy'}</Link> · 
-            <Link href={`${base}/terms-and-conditions`}> {dict?.footer_terms || 'Voorwaarden'}</Link> · 
-            <Link href={`${base}/cookie-policy`}> {dict?.footer_cookie || 'Cookies'}</Link>
+            <Link href={`${base}/privacy-policy`}>Privacy</Link> ·{' '}
+            <Link href={`${base}/cookie-policy`}>Cookies</Link> ·{' '}
+            <Link href={`${base}/terms-and-conditions`}>Voorwaarden</Link>
           </span>
         </div>
       </div>

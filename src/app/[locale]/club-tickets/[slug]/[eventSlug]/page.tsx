@@ -1,56 +1,102 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getAllDates, getEvent } from '@/lib/clubtickets'
+import { supabase } from '@/lib/supabase/client'
 import { EventCheckoutClient } from './EventCheckoutClient'
 
 export const revalidate = 3600
 
 interface Props {
   params: { slug: string; eventSlug: string; locale: string }
-  searchParams: { date?: string }
 }
 
-export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
-  const allDates = await getAllDates(params.locale)
-  const dateObj = allDates.find(d => 
-    d.venueSlug === params.slug && 
-    d.eventSlug === params.eventSlug && 
-    (!searchParams.date || d.date === searchParams.date)
-  )
+async function fetchEventData(eventSlug: string) {
+  // Try to find it in ct_events first
+  const { data: eventGrp } = await supabase
+    .from('ct_events')
+    .select('*, ct_venues(*)')
+    .eq('slug', eventSlug)
+    .single();
+    
+  if (eventGrp) return eventGrp;
+
+  // Sometimes the slug might be the old combination slug, so we fallback to ct_events
+  return null;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const event = await fetchEventData(params.eventSlug)
   
-  if (!dateObj) return { title: 'Event Not Found | Ibiza mi vida' }
+  if (!event) return { title: 'Event Not Found | Ibiza mi vida' }
 
   return {
-    title: `${dateObj.eventName} Tickets | Ibiza mi vida`,
-    description: `Buy tickets for ${dateObj.eventName} at ${dateObj.venueName}. Official partner for Ibiza tickets.`,
+    title: `${event.name} at ${event.ct_venues?.name} Tickets | Ibiza mi vida`,
+    description: `Buy tickets for ${event.name} at ${event.ct_venues?.name}. Official partner for Ibiza tickets.`,
   }
 }
 
-export default async function EventPage({ params, searchParams }: Props) {
-  const allDates = await getAllDates(params.locale)
+export default async function EventPage({ params }: Props) {
+  const eventGrp = await fetchEventData(params.eventSlug)
+  if (!eventGrp) notFound()
+
+  // Fetch all upcoming dates for this event group
+  const { data: allDatesData } = await supabase
+    .from('ct_dates')
+    .select('*')
+    .eq('event_id', eventGrp.id)
+    .gte('date', new Date().toISOString().split('T')[0])
+    .order('date', { ascending: true })
+    
+  const allDates = allDatesData || [];
   
-  // Find all dates for this event slug
-  const eventDates = allDates.filter(d => 
-    d.venueSlug === params.slug && 
-    d.eventSlug === params.eventSlug
-  )
-  
-  if (eventDates.length === 0) {
-    notFound()
+  if (allDates.length === 0) {
+    notFound(); // No upcoming dates
   }
 
-  // Find the specific date clicked, or default to the first upcoming date
-  const targetDateStr = searchParams.date || eventDates[0].date
-  const selectedDateObj = eventDates.find(d => d.date === targetDateStr) || eventDates[0]
+  // Choose the first upcoming date as the selected date
+  const selectedDateRow = allDates[0];
 
-  // Get full event details to get description/requirements
-  const fullEvent = selectedDateObj.eventId ? await getEvent(selectedDateObj.eventId, params.locale) : undefined
+  const mappedSelectedDate = {
+    id: selectedDateRow.id,
+    eventId: eventGrp.id,
+    venueId: eventGrp.venue_id,
+    venueSlug: eventGrp.ct_venues?.slug,
+    venueName: eventGrp.ct_venues?.name,
+    eventName: eventGrp.name,
+    eventSlug: eventGrp.slug,
+    date: selectedDateRow.date,
+    prices: selectedDateRow.prices,
+    lineUp: selectedDateRow.raw_lineup,
+    affLink: selectedDateRow.aff_link,
+    image: eventGrp.cover || eventGrp.logo
+  };
+
+  const mappedAllDates = allDates.map(d => ({
+    id: d.id,
+    eventId: eventGrp.id,
+    venueId: eventGrp.venue_id,
+    venueSlug: eventGrp.ct_venues?.slug,
+    venueName: eventGrp.ct_venues?.name,
+    eventName: eventGrp.name,
+    eventSlug: eventGrp.slug,
+    date: d.date,
+    prices: d.prices,
+    lineUp: d.raw_lineup,
+    affLink: d.aff_link,
+    image: eventGrp.cover || eventGrp.logo
+  }));
+
+  const fullEvent = {
+    description: eventGrp.description,
+    requirements: eventGrp.requirements,
+    startAt: eventGrp.start_at,
+    logo: eventGrp.logo || eventGrp.whitelogo
+  };
 
   return (
     <EventCheckoutClient 
-      selectedDateObj={selectedDateObj}
-      allEventDates={eventDates}
-      fullEvent={fullEvent}
+      selectedDateObj={mappedSelectedDate as any}
+      allEventDates={mappedAllDates as any}
+      fullEvent={fullEvent as any}
       locale={params.locale}
     />
   )

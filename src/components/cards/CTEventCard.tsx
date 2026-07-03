@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Calendar, ExternalLink } from 'lucide-react'
 import type { CTVenueEvent } from '@/lib/clubtickets'
+import { cleanHtml } from '@/lib/html-utils'
 
 interface CTEventCardProps {
   event: CTVenueEvent
@@ -50,17 +51,17 @@ export function CTEventCard({ event, venueSlug, basePath = 'club-tickets' }: CTE
 
       {/* Details */}
       <div className="flex flex-1 flex-col justify-center gap-2">
-        <h3 className="font-serif text-xl font-bold text-velvet-obsidian leading-tight">{event.name}</h3>
+        <h3 className="font-serif text-xl font-bold text-neutral-900 leading-tight">{event.name}</h3>
 
         {startDate && (
-          <div className="flex items-center gap-1.5 font-sans text-sm text-velvet-obsidian/50" suppressHydrationWarning>
+          <div className="flex items-center gap-1.5 font-sans text-sm text-neutral-500" suppressHydrationWarning>
             <Calendar size={14} className="text-rustic-terracotta" />
             Season Start: {startDate}
           </div>
         )}
         
         {event.description && (
-          <div className="text-sm text-gray-500 line-clamp-2 prose prose-sm max-w-none prose-p:my-0 prose-p:leading-snug" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: event.description }}></div>
+          <div className="text-sm text-gray-500 line-clamp-2 prose prose-sm max-w-none prose-p:my-0 prose-p:leading-snug" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: cleanHtml(event.description) }}></div>
         )}
       </div>
 

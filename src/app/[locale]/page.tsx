@@ -1,17 +1,30 @@
 import React from 'react'
+import { supabase } from '@/lib/supabase/client'
 import HomePageClient from './HomePageClient'
-import { getAllDates, getArtists, getVenues } from '@/lib/clubtickets'
-import { getDictionary } from '@/lib/dictionary'
 
 export const revalidate = 3600
 
 export default async function Home({ params }: { params: { locale: string } }) {
-  const allEventDates = await getAllDates(params.locale);
-  const artists = await getArtists(params.locale);
-  const venues = await getVenues(params.locale);
-  const dict = await getDictionary(params.locale);
-  
+  // Fetch top featured clubs (let's pick some big ones or just 4 active ones)
+  const { data: featuredClubs } = await supabase
+    .from('ct_venues')
+    .select('name, slug, whitelogo, cover')
+    .in('slug', ['hi-ibiza', 'ushuaia-ibiza', 'pacha-ibiza', 'amnesia-ibiza'])
+    .limit(4);
+
+  // Fetch upcoming dates
+  const { data: upcomingDates } = await supabase
+    .from('ct_dates')
+    .select('*, ct_events(name, slug, logo, cover), ct_venues(name, slug)')
+    .gte('date', new Date().toISOString().split('T')[0])
+    .order('date', { ascending: true })
+    .limit(10);
+
   return (
-    <HomePageClient allEventDates={allEventDates} artists={artists} venues={venues} dict={dict} locale={params.locale} />
+    <HomePageClient 
+      locale={params.locale} 
+      featuredClubs={featuredClubs || []}
+      upcomingDates={upcomingDates || []}
+    />
   )
 }

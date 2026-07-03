@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getVenues } from '@/lib/clubtickets'
+import { supabase } from '@/lib/supabase/client'
 import ClubsClient from '@/components/nightlife/ClubsClient'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 
@@ -15,21 +15,27 @@ export default async function NightlifePage({
 }: {
   params: { locale: string }
 }) {
-  const venues = await getVenues(params.locale)
+  // Query all active venues that are clubs from Supabase
+  const { data: venues } = await supabase
+    .from('ct_venues')
+    .select('*')
+    .eq('type_slug', 'clubbing')
+    .eq('active', true)
+    .order('name');
 
   const translations = {
     title: 'Clubs Ibiza',
-    description: 'Ontdek het legendarische nachtleven van Ibiza. Van wereldberoemde superclubs tot intieme underground venues. Vind jouw favoriete feest en boek officiële tickets.',
+    description: 'Ontdek het legendarische nachtleven van Ibiza. Van wereldberoemde superclubs tot intieme day clubs en legendarische discotheken. Vind jouw favoriete venue en boek officiële tickets.',
     allClubs: 'Alle clubs',
     searchPlaceholder: 'Zoek een club...',
   }
 
   return (
     <>
-      <ClubsClient venues={venues} translations={translations} />
+      <ClubsClient venues={venues || []} translations={translations} />
 
       <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24 pt-8">
-        <CrossSellBanner triggerPage="/nightlife" fromPrice={500} />
+        <CrossSellBanner triggerPage="/clubs" fromPrice={500} />
       </section>
     </>
   )

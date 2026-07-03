@@ -6,8 +6,8 @@ import { getArtists } from '@/lib/clubtickets'
 
 export const revalidate = 3600
 
-export default async function ArtistsPage() {
-  const artists = await getArtists()
+export default async function ArtistsPage({ params }: { params: { locale: string } }) {
+  const artists = await getArtists(params.locale)
 
   return (
     <main className="theme-monaco-vip bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pt-32 pb-24">
@@ -26,7 +26,7 @@ export default async function ArtistsPage() {
           {artists.map((artist) => (
             <Link 
               key={artist.slug}
-              href={`/artists/${artist.slug}`}
+              href={`/${params.locale}/artists/${artist.slug}`}
               className="group relative h-[400px] md:h-[500px] rounded-[2rem] overflow-hidden bg-black shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-black/5"
             >
               <Image 

@@ -1,61 +1,300 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getArtist, getArtistDates, getArtists } from '@/lib/clubtickets'
-import ArtistClient from '@/components/nightlife/ArtistClient'
+import Link from 'next/link'
+import Image from 'next/image'
+import { Calendar, MapPin, Music } from 'lucide-react'
+import { format } from 'date-fns'
+import { nl, enUS, de, es } from 'date-fns/locale'
+import { getArtist, getArtistDates } from '@/lib/clubtickets'
+import { supabase } from '@/lib/supabase/client'
 
 export const revalidate = 3600
+
+function getSpotifyEmbedDetails(slug: string) {
+  const normalized = slug.toLowerCase().trim();
+  
+  if (normalized.includes('david-guetta') || normalized.includes('future-rave')) {
+    return { type: 'artist', id: '1Cs0zKBU1kc0i8ypK3B9ai' };
+  }
+  if (normalized.includes('carl-cox')) {
+    return { type: 'artist', id: '19SmlbABtI4bXz864MLqOS' };
+  }
+  if (normalized.includes('fisher')) {
+    return { type: 'artist', id: '7oxj2wIMrWtw6FNaMrfbe3' };
+  }
+  if (normalized.includes('martin-garrix')) {
+    return { type: 'artist', id: '60d24wfXmWzDZfLVUQ3Yex' };
+  }
+  if (normalized.includes('calvin-harris')) {
+    return { type: 'artist', id: '7CajNmpbOovFoOoasH2HaY' };
+  }
+  if (normalized.includes('armin-van-buuren') || normalized.includes('state-of-trance')) {
+    return { type: 'artist', id: '0d8t2a5sWzi0rkcVq6Qa5S' };
+  }
+  if (normalized.includes('tiesto')) {
+    return { type: 'artist', id: '2o5jDhtHVPhrJdv3cEQ99Z' };
+  }
+  if (normalized.includes('black-coffee')) {
+    return { type: 'artist', id: '5j778Tq0J5yV5oPpyt5g5k' };
+  }
+  if (normalized.includes('swedish-house-mafia')) {
+    return { type: 'artist', id: '1h0ceXBpq1d58XwVPRJPg3' };
+  }
+  if (normalized.includes('anyma')) {
+    return { type: 'artist', id: '4u1C6C5VbK3161c5LzK17e' };
+  }
+  if (normalized.includes('john-summit') || normalized.includes('experts-only')) {
+    return { type: 'artist', id: '6871h1zD1qS9N6Hq6Y2D8H' };
+  }
+  if (normalized.includes('dimitri-vegas') || normalized.includes('like-mike') || normalized.includes('tomorrowland')) {
+    return { type: 'artist', id: '2052Y92GZz593zF85p8o6c' };
+  }
+  if (normalized.includes('peggy-gou')) {
+    return { type: 'artist', id: '2S6tMv8628G3p681F0qQy2' };
+  }
+  if (normalized.includes('charlotte-de-witte')) {
+    return { type: 'artist', id: '2T753C4h6D9YjE31B29o6q' };
+  }
+  if (normalized.includes('amelie-lens')) {
+    return { type: 'artist', id: '7z51l3Qn3rG0sYq6Qj1q05' };
+  }
+  
+  // Default working Spotify Playlist: Ibiza Deep House (37i9dQZF1DXbK717SV5PL9)
+  return { type: 'playlist', id: '37i9dQZF1DXbK717SV5PL9' };
+}
+
+const getLocaleObj = (locale: string) => {
+  switch (locale) {
+    case 'nl': return nl;
+    case 'de': return de;
+    case 'es': return es;
+    default: return enUS;
+  }
+};
+
+const parseLocalDate = (dateStr: string) => {
+  if (!dateStr) return new Date();
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return new Date(year, month - 1, day);
+};
 
 interface Props {
   params: { slug: string; locale: string }
 }
 
+async function fetchArtist(slug: string, locale: string) {
+  // 1. Try JSON cache first
+  const localArtist = await getArtist(slug, locale);
+  if (localArtist) {
+    const dates = await getArtistDates(localArtist.name, locale, localArtist.slug);
+    return {
+      artist: {
+        id: localArtist.id.toString(),
+        name: localArtist.name,
+        slug: localArtist.slug,
+        image: localArtist.image || '',
+        venueName: localArtist.venueName || '',
+        venueSlug: localArtist.venueSlug || '',
+        href: localArtist.href || ''
+      },
+      dates: dates.map(d => ({
+        id: d.id,
+        name: d.name,
+        date: d.date,
+        eventName: d.eventName || d.name,
+        eventSlug: d.eventSlug,
+        venueName: d.venueName,
+        venueSlug: d.venueSlug,
+        eventCover: d.eventCover || d.eventLogo,
+        venueCover: d.venueCover
+      }))
+    };
+  }
+
+  // 2. Fallback to Supabase Database
+  const { data: dbArtist } = await supabase
+    .from('ct_artists')
+    .select('*')
+    .eq('slug', slug)
+    .single();
+
+  if (dbArtist) {
+    const artistObj = {
+      id: dbArtist.id,
+      name: dbArtist.name,
+      slug: dbArtist.slug,
+      image: dbArtist.image || '',
+      venueName: dbArtist.venue_name || '',
+      venueSlug: dbArtist.venue_slug || '',
+      href: ''
+    };
+
+    const { data: dateArtists } = await supabase
+      .from('ct_date_artists')
+      .select(`
+        ct_dates (*, 
+          ct_events(name, slug, logo, cover), 
+          ct_venues(name, slug)
+        )
+      `)
+      .eq('artist_id', dbArtist.id);
+
+    const dates = dateArtists
+      ?.map(da => da.ct_dates as any)
+      .flat()
+      .filter(d => d && d.date)
+      .map(d => ({
+        id: d.id,
+        name: d.name,
+        date: d.date,
+        eventName: d.ct_events?.name || d.name,
+        eventSlug: d.ct_events?.slug,
+        venueName: d.ct_venues?.name,
+        venueSlug: d.ct_venues?.slug,
+        eventCover: d.ct_events?.cover || d.ct_events?.logo,
+        venueCover: d.ct_venues?.cover
+      })) || [];
+
+    return {
+      artist: artistObj,
+      dates
+    };
+  }
+
+  return null;
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const artist = await getArtist(params.slug, params.locale)
-  if (!artist) return { title: 'Artist Not Found | Ibiza mi Vida' }
+  const result = await fetchArtist(params.slug, params.locale)
+  if (!result) return { title: 'Artist Not Found | Ibiza mi vida' }
 
   return {
-    title: `${artist.name} in Ibiza 2026 | Tickets & Lineup`,
-    description: `Bekijk waar ${artist.name} dit seizoen op Ibiza draait. Speeldata, eigen verhaal en tickets, live uit ClubTickets.`,
-    openGraph: {
-      title: `${artist.name} Ibiza 2026 | Ibiza mi vida`,
-      description: `Koop officiële tickets voor ${artist.name} op Ibiza.`,
-      images: artist.image ? [{ url: artist.image, width: 1200, height: 630 }] : undefined,
-    },
+    title: `${result.artist.name} Ibiza 2026 Dates & Tickets`,
+    description: `Buy tickets to see ${result.artist.name} in Ibiza. Official partner for Ibiza tickets.`,
   }
 }
 
-export default async function ArtistDetailPage({ params }: Props) {
-  const artist = await getArtist(params.slug, params.locale)
-  if (!artist) notFound()
+export default async function ArtistPage({ params }: Props) {
+  const result = await fetchArtist(params.slug, params.locale)
+  if (!result) notFound()
 
-  // Get artist's upcoming dates
-  const dates = await getArtistDates(artist.name, params.locale)
-  dates.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  const { artist, dates } = result;
 
-  // Get similar artists (random for now, or based on venue)
-  const allArtists = await getArtists(params.locale)
-  const similarArtists = allArtists
-    .filter(a => a.id !== artist.id && a.venueSlug === artist.venueSlug)
-    .slice(0, 10)
+  // Filter for future dates
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  const futureDates = dates
+    .filter(d => d && d.date && parseLocalDate(d.date) >= today)
+    .sort((a, b) => parseLocalDate(a.date).getTime() - parseLocalDate(b.date).getTime());
 
-  const translations = {
-    dates: 'Speeldata',
-    story: 'Eigen verhaal',
-    noDates: 'Geen speeldata gevonden voor deze artiest.',
-    buyTickets: 'Koop tickets',
-    from: 'Vanaf',
-    biographyTitle: 'Het verhaal achter de beats',
-    biographyIntro: `Ervaar de unieke sound van ${artist.name} op Ibiza.`,
-    biographyContent: `Bekend om hun energieke sets en onvergetelijke momenten op de dansvloer. Mis het niet wanneer ze dit seizoen Ibiza overnemen!`,
-    similarArtistsTitle: 'Zelfde vibe'
-  }
+  const localeObj = getLocaleObj(params.locale);
+  const headerImage = futureDates[0]?.eventCover || futureDates[0]?.venueCover || artist.image || '/hi-ibiza-2026/FB_IMG_1779623220486.jpg';
+  const spotifyDetails = getSpotifyEmbedDetails(artist.slug);
 
   return (
-    <ArtistClient 
-      artist={artist} 
-      dates={dates} 
-      similarArtists={similarArtists}
-      translations={translations}
-    />
+    <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen pb-24">
+      
+      {/* Hero Section */}
+      <section className="relative h-[360px] md:h-[440px] overflow-hidden flex items-center justify-center text-center px-4 rounded-b-[36px] bg-black">
+        <Image
+          src={headerImage}
+          alt={artist.name}
+          fill
+          priority
+          className="object-cover object-center opacity-60"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-paper)] via-[var(--color-paper)]/75 to-[var(--color-paper)]/30 z-10" />
+        
+        <div className="relative z-20 max-w-3xl mx-auto text-white mt-12">
+          {artist.venueName ? (
+            <Link 
+              href={`/${params.locale}/club-tickets/${artist.venueSlug}`}
+              className="inline-block bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-ibiza-green hover:bg-white/20 transition-all mb-3 hover:scale-[1.02]"
+            >
+              Resident @ {artist.venueName}
+            </Link>
+          ) : (
+            <span className="inline-block bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-ibiza-green mb-3">
+              Artist
+            </span>
+          )}
+          <h1 className="text-4xl md:text-7xl font-serif font-black tracking-tight mb-4 drop-shadow-md uppercase text-white">
+            {artist.name}
+          </h1>
+          <p className="text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
+            Bekijk alle Ibiza boekingen en evenementen waar <span className="font-bold text-white">{artist.name}</span> op de line-up staat voor 2026.
+          </p>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 mt-12 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          
+          {/* Left Column: Events list */}
+          <div className="lg:col-span-2 flex flex-col gap-4">
+            {futureDates.length === 0 ? (
+              <div className="text-center py-12 text-velvet-obsidian/60 bg-white rounded-3xl border border-black/5 shadow-sm">
+                <Calendar className="w-12 h-12 mx-auto mb-4 opacity-30" />
+                <p>Geen geplande events gevonden voor deze artiest in Ibiza.</p>
+              </div>
+            ) : (
+              futureDates.map((date, i) => (
+                <Link 
+                  href={`/${params.locale}/club-tickets/${date.venueSlug || 'club'}/${date.eventSlug || 'event'}`} 
+                  key={i} 
+                  className="bg-white rounded-2xl p-4 border border-black/5 flex items-center gap-4 hover:shadow-md transition-shadow group"
+                >
+                  <div className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-xl overflow-hidden bg-ibiza-mint relative flex items-center justify-center">
+                    {date.eventCover || date.eventLogo ? (
+                      <Image src={date.eventCover || date.eventLogo || ''} alt={date.name || 'Event'} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                    ) : (
+                      <Music className="text-ibiza-green opacity-50" size={32} />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-black text-xs font-bold tracking-wider uppercase mb-1" suppressHydrationWarning>
+                      {format(parseLocalDate(date.date), 'EEE d MMM', { locale: localeObj })}
+                    </div>
+                    <h3 className="text-lg md:text-xl font-bold truncate text-black mb-1">{date.eventName || date.name}</h3>
+                    <div className="text-sm font-bold text-neutral-800 flex items-center gap-1">
+                      <MapPin size={14} className="text-neutral-500" /> {date.venueName}
+                    </div>
+                  </div>
+                  <div className="shrink-0 hidden md:block">
+                    <div className="bg-ibiza-green text-velvet-obsidian font-bold text-sm px-5 py-2.5 rounded-full hover:brightness-95 transition-all inline-block">
+                      Tickets
+                    </div>
+                  </div>
+                </Link>
+              ))
+            )}
+          </div>
+
+          {/* Right Column: Sticky Spotify Player */}
+          <div className="lg:col-span-1 lg:sticky lg:top-32 bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg backdrop-blur-md flex flex-col gap-4">
+            <div>
+              <h3 className="font-serif text-2xl font-bold text-white mb-1">
+                Listen to {artist.name}
+              </h3>
+              <p className="text-xs text-white/60">
+                Warm up for the night with {artist.name}'s latest tracks and party anthems.
+              </p>
+            </div>
+            <iframe 
+              src={`https://open.spotify.com/embed/${spotifyDetails.type}/${spotifyDetails.id}?utm_source=generator&theme=0`} 
+              width="100%" 
+              height="380" 
+              frameBorder="0" 
+              allowFullScreen={true}
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+              loading="lazy"
+              className="rounded-2xl"
+            ></iframe>
+          </div>
+
+        </div>
+      </div>
+    </div>
   )
 }
