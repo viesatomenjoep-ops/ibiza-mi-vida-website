@@ -4,8 +4,11 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, ArrowRight, Sun, Moon } from 'lucide-react';
+import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
+
 interface ClubsClientProps {
   venues: any[];
+  locale: string;
   translations: {
     title: string;
     description: string;
@@ -14,7 +17,7 @@ interface ClubsClientProps {
   };
 }
 
-export default function ClubsClient({ venues, translations }: ClubsClientProps) {
+export default function ClubsClient({ venues, translations, locale }: ClubsClientProps) {
   const [filter, setFilter] = useState<'all' | 'day' | 'night'>('all');
   const [search, setSearch] = useState('');
 
@@ -33,7 +36,7 @@ export default function ClubsClient({ venues, translations }: ClubsClientProps) 
 
   return (
     <div className="theme-monaco-vip min-h-screen bg-neutral-50 relative">
-      <section className="pt-[120px] md:pt-[140px] pb-12 relative z-10 flex flex-col items-center text-center px-4">
+      <section className="pt-[160px] md:pt-[180px] pb-8 relative z-10 flex flex-col items-center text-center px-4">
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
           <div className="flex flex-col gap-2 text-center mb-4">
             <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
@@ -46,7 +49,9 @@ export default function ClubsClient({ venues, translations }: ClubsClientProps) 
         </div>
       </section>
 
-      <section className="relative z-10 pb-24">
+      <ClubLogoSlider clubLogos={venues} base={`/${locale}`} />
+
+      <section className="relative z-10 pb-24 mt-8">
         <div className="wrap">
           
         {/* Filters and Search Bar */}

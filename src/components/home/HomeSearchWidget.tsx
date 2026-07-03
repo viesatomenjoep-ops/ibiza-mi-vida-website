@@ -7,8 +7,7 @@ import { Calendar, Search, ChevronLeft, ChevronRight } from 'lucide-react'
 const allCategories = [
   { label: 'Deals of the Day', href: '/deals-of-the-day' },
   { label: 'Private Boat Charters', href: '/private-boat-charters' },
-  { label: 'Club Tickets', href: '/club-tickets' },
-  { label: 'Boat Parties', href: '/boat-parties' },
+  { label: 'Calendar', href: '/calendar' },
   { label: 'VIP Catamaran', href: '/vip-catamaran' },
   { label: 'Formentera Trips', href: '/formentera-boat-trips' },
   { label: 'Guestlist', href: '/guestlist' },

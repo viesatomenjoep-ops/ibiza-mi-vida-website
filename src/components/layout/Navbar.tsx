@@ -38,9 +38,7 @@ export function Navbar() {
       id: 'water',
       label: t.nav_on_the_water || 'Op het Water',
       items: [
-        { label: t.nav_boatparties || 'Bootfeesten', href: '/bootfeesten' },
         { label: t.nav_private_charters || 'Private Boat Charters', href: '/private-boat-charters' },
-        { label: t.nav_ibiza_boat_party || 'Ibiza Boat Party', href: '/boat-parties' },
         { label: t.nav_shuttle_ferry || 'Shuttle Ferry', href: '/shuttle-ferry' },
         { label: t.nav_ferry_formentera || 'Ferry Ibiza – Formentera', href: '/ferry-formentera' },
       ],
@@ -100,7 +98,6 @@ export function Navbar() {
             <Link href={`${base}/calendar`}>Events</Link>
             <Link href={`${base}/deals-of-the-day`}>Deals</Link>
             <Link href={`${base}/clubs`}>Clubs</Link>
-            <Link href={`${base}/boat-parties`}>Boat</Link>
           </div>
           <div className="nav-actions">
             <LanguageSelector />

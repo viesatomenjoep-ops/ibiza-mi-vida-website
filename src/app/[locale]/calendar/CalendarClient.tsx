@@ -7,6 +7,7 @@ import { format, addDays, isToday, isTomorrow, startOfWeek, endOfWeek, parseISO 
 import { nl, enUS, de, es } from 'date-fns/locale';
 import '@/styles/calendar.css';
 import { Search, X, Calendar, MapPin, ChevronRight } from 'lucide-react';
+import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 
 interface CalEvent {
   id: string;
@@ -15,7 +16,7 @@ interface CalEvent {
   prices: string;
   lineUp: string;
   ct_events: { name?: string; slug?: string; logo?: string; cover?: string };
-  ct_venues: { name?: string; slug?: string; whitelogo?: string; logo?: string; type_slug?: string; image?: string };
+  ct_venues: { name?: string; slug?: string; whitelogo?: string; logo?: string; type_slug?: string; image?: string; picture?: string };
 }
 
 interface CalendarClientProps {
@@ -47,6 +48,8 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
   const weekStart = format(startOfWeek(today, { weekStartsOn: 1 }), 'yyyy-MM-dd');
   const weekEnd = format(endOfWeek(today, { weekStartsOn: 1 }), 'yyyy-MM-dd');
   const tomorrowStr = format(addDays(today, 1), 'yyyy-MM-dd');
+
+  const venuesMap = useMemo(() => new Map(allVenues.map(v => [v.slug, v])), [allVenues]);
 
   // Venues with events
   const activeVenues = useMemo(() => {
@@ -129,13 +132,28 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
 
   return (
     <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-hidden">
-      <div className="ck-header relative z-10 pt-[120px] md:pt-[140px] flex flex-col items-center text-center">
-        <div className="ck-header-top w-full max-w-7xl mx-auto flex flex-col items-center gap-6 px-4">
-          <div className="flex flex-col gap-2 text-center mb-4">
-            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">EVENTS</h1>
-          </div>
+      {selectedVenue && (
+        <div className="absolute top-0 left-0 w-full h-[50vh] z-0 overflow-hidden opacity-30 pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-transparent z-10" />
+          <img 
+            src={venuesMap.get(selectedVenue)?.whitelogo || venuesMap.get(selectedVenue)?.picture} 
+            alt="Venue background" 
+            className="w-full h-full object-cover blur-sm scale-110"
+          />
+        </div>
+      )}
 
-          <div className="relative w-full max-w-xl mt-6">
+      <div className="ck-header relative z-10 pt-[160px] md:pt-[180px] flex flex-col items-center text-center mb-8">
+        <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">EVENTS</h1>
+        <p className="mt-4 md:mt-6 max-w-xl mx-auto text-sm md:text-base lg:text-lg font-medium text-black/70 px-4 leading-relaxed tracking-wide drop-shadow-sm">
+          {dict.calendar_subtitle || "Vind de beste feesten en events op Ibiza. Selecteer een datum of club en plan je perfecte avond."}
+        </p>
+      </div>
+
+      <ClubLogoSlider clubLogos={allVenues} base={`/${locale}`} />
+
+      <div className="ck-header-top w-full max-w-7xl mx-auto flex flex-col items-center gap-6 px-4 mt-8">
+        <div className="relative w-full max-w-xl mt-6">
             <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
             <input
               type="text"

@@ -49,7 +49,9 @@ export default async function CalendarPage({
 
   const lightVenues = venues.map(v => ({
     name: v.name,
-    slug: v.slug
+    slug: v.slug,
+    whitelogo: v.whitelogo || '',
+    picture: v.picture || ''
   }));
 
   return (

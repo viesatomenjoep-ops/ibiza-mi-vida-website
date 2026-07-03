@@ -52,9 +52,7 @@ export function Footer() {
           
           <div>
             <h4>{t.nav_on_the_water || 'Op het water'}</h4>
-            <Link href={`${base}/boat-parties`}>{t.nav_boatparties || 'Bootfeesten'}</Link>
             <Link href={`${base}/private-boat-charters`}>{t.nav_private_charters || 'Private Boat Charters'}</Link>
-            <Link href={`${base}/boat-parties`}>{t.nav_ibiza_boat_party || 'Ibiza Boat Party'}</Link>
             <Link href={`${base}/formentera-boat-trips`}>{t.nav_shuttle_ferry || 'Shuttle Ferry'}</Link>
             <Link href={`${base}/formentera-boat-trips`}>{t.nav_ferry_formentera || 'Ferry Ibiza – Formentera'}</Link>
           </div>

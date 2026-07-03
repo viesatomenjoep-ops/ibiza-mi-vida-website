@@ -7,7 +7,6 @@ const staticRoutes: MetadataRoute.Sitemap = [
   { url: siteUrl, changeFrequency: 'daily', priority: 1 },
   { url: `${siteUrl}/private-boat-charters`, changeFrequency: 'daily', priority: 0.9 },
   { url: `${siteUrl}/club-tickets`, changeFrequency: 'daily', priority: 0.8 },
-  { url: `${siteUrl}/boat-parties`, changeFrequency: 'daily', priority: 0.8 },
   { url: `${siteUrl}/vip-catamaran`, changeFrequency: 'weekly', priority: 0.7 },
   { url: `${siteUrl}/formentera-boat-trips`, changeFrequency: 'weekly', priority: 0.7 },
   { url: `${siteUrl}/guestlist`, changeFrequency: 'weekly', priority: 0.6 },

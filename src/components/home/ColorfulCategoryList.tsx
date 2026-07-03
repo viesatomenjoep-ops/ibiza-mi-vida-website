@@ -25,7 +25,6 @@ const allCategories = [
   { label: 'Bam Bu Ku', href: '/club-tickets/bam-bu-ku', icon: Ticket, desc: 'San Antonio', color: 'bg-champagne-bronze', group: 'Clubs' },
   { label: 'Chinois', href: '/club-tickets/chinois', icon: Ticket, desc: 'Ibiza Marina', color: 'bg-rustic-terracotta', group: 'Clubs' },
   
-  { label: 'Boat Parties', href: '/boat-parties', icon: Music, desc: 'Sunset cruises', color: 'bg-velvet-obsidian', group: 'Boats' },
   { label: 'VIP Catamaran', href: '/vip-catamaran', icon: Navigation, desc: 'Luxury sailing', color: 'bg-champagne-bronze', group: 'VIP' },
   { label: 'Formentera Trips', href: '/formentera-boat-trips', icon: Sun, desc: 'Day trips', color: 'bg-rustic-terracotta', group: 'Boats' },
   { label: 'Guestlist', href: '/guestlist', icon: CheckCircle, desc: 'Free entry', color: 'bg-champagne-bronze', group: 'Clubs' },

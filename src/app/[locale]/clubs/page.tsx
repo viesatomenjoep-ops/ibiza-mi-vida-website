@@ -32,7 +32,7 @@ export default async function NightlifePage({
 
   return (
     <>
-      <ClubsClient venues={venues || []} translations={translations} />
+      <ClubsClient venues={venues || []} translations={translations} locale={params.locale} />
 
       <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24 pt-8">
         <CrossSellBanner triggerPage="/clubs" fromPrice={500} />
