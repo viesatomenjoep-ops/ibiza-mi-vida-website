@@ -60,50 +60,50 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 to-transparent z-10 pointer-events-none"></div>
         </div>
 
-        <div className="relative z-20 pt-[100px] md:pt-[120px] pb-12 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 mt-auto mb-auto">
+        <div className="relative z-20 pt-[80px] md:pt-[100px] pb-8 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 mt-auto mb-auto">
           <h1 className="text-white text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-bold font-serif uppercase tracking-tight drop-shadow-lg leading-none">
             {translations.home_hero_title}
             <span className="block font-serif font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-3 tracking-tight leading-none text-white/90">{translations.home_hero_subtitle}</span>
           </h1>
           
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-8 w-full px-4 max-w-2xl">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-6 w-full px-4 max-w-2xl">
             <Link className="bg-ibiza-green text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:bg-white hover:text-black active:bg-white active:text-black transition-colors text-center shadow-lg hover:scale-105" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
             <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:bg-white hover:text-black active:bg-white active:text-black transition-colors text-center shadow-lg hover:scale-105" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
           </div>
           
-          <div className="mt-8 bg-black/50 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 text-white shadow-xl">
+          <div className="mt-6 bg-black/50 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 text-white shadow-xl">
             <small className="text-xs font-bold uppercase tracking-widest text-neutral-300 mr-2">{translations.home_today_island}</small>
             <strong className="text-sm font-black text-ibiza-green" id="todayDate">{new Date().toLocaleDateString(locale === 'nl' ? 'nl-NL' : locale === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'long' })}</strong>
           </div>
         </div>
-      </header>
 
-      {/* ── HORIZONTAL LOGO MARQUEE BAR ── */}
-      {clubLogos.length > 0 && (
-        <section className="bg-black py-4 border-b border-white/10 overflow-hidden relative">
-          <div className="w-full overflow-hidden whitespace-nowrap" style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
-            <div className="inline-block animate-marquee hover:[animation-play-state:paused]">
-              {[...clubLogos, ...clubLogos, ...clubLogos]
-                .filter(club => club.whitelogo || club.picture)
-                .map((club, idx) => (
-                <Link 
-                  href={`${base}/club-tickets/${club.slug}`}
-                  key={`${club.slug}-${idx}`} 
-                  className="inline-flex items-center justify-center mx-6 opacity-70 hover:opacity-100 transition-opacity"
-                >
-                  <img
-                    src={club.whitelogo || club.picture}
-                    alt={club.name}
-                    className="h-8 w-auto object-contain brightness-0 invert"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </Link>
-              ))}
+        {/* ── HORIZONTAL LOGO MARQUEE BAR ── */}
+        {clubLogos.length > 0 && (
+          <div className="w-full relative z-20 mt-auto border-t border-white/10 bg-black/30 backdrop-blur-sm py-4">
+            <div className="w-full overflow-hidden whitespace-nowrap" style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
+              <div className="inline-block animate-marquee hover:[animation-play-state:paused]">
+                {[...clubLogos, ...clubLogos, ...clubLogos]
+                  .filter(club => club.whitelogo || club.picture)
+                  .map((club, idx) => (
+                  <Link 
+                    href={`${base}/club-tickets/${club.slug}`}
+                    key={`${club.slug}-${idx}`} 
+                    className="inline-flex items-center justify-center mx-6 opacity-80 hover:opacity-100 transition-opacity"
+                  >
+                    <img
+                      src={club.whitelogo || club.picture}
+                      alt={club.name}
+                      className="h-8 md:h-10 w-auto object-contain brightness-0 invert drop-shadow-md"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
-        </section>
-      )}
+        )}
+      </header>
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (
