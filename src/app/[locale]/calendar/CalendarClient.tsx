@@ -144,7 +144,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
         </div>
       )}
 
-      <div className="ck-header relative z-10 pt-[220px] md:pt-[240px] flex flex-col items-center text-center">
+      <div className="ck-header relative z-10 pt-[120px] md:pt-[140px] flex flex-col items-center text-center">
         <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">EVENTS</h1>
       </div>
 

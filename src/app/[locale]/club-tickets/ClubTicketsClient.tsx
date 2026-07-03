@@ -370,7 +370,6 @@ export default function ClubTicketsClient({
                 <option value="price_desc" className="bg-white text-black">Prijs: Hoog - Laag</option>
               </select>
             </div>
-          </div>
 
           
           <div className="listing" id="listingGrid">
