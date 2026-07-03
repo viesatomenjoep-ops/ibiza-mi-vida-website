@@ -110,43 +110,6 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
         </div>
       </header>
 
-      {/* ── FINDER SECTION — below the hero, visible on scroll ── */}
-      <section className="hero-finder-section">
-        <div className="wrap">
-          {/* Category chips */}
-          <div className="finder">
-            <div className="chips">
-              <button
-                className={`chip ${selectedCategory === 'club-tickets' ? 'on' : ''}`}
-                onClick={() => { setSelectedCategory('club-tickets'); router.push(`${base}/club-tickets`); }}
-              >Clubbing</button>
-              <button
-                className={`chip ${selectedCategory === 'boat-parties' ? 'on' : ''}`}
-                onClick={() => { setSelectedCategory('boat-parties'); router.push(`${base}/boat-parties`); }}
-              >Ibiza Boot</button>
-              <button
-                className={`chip ${selectedCategory === 'private-boat-charters' ? 'on' : ''}`}
-                onClick={() => { setSelectedCategory('private-boat-charters'); router.push(`${base}/private-boat-charters`); }}
-              >Private Boats</button>
-              <button
-                className={`chip ${selectedCategory === 'artists' ? 'on' : ''}`}
-                onClick={() => { setSelectedCategory('artists'); router.push(`${base}/artists`); }}
-              >Artiesten</button>
-            </div>
-
-            {/* ── NEW: Professional date finder ── */}
-            <HomeDateFinder locale={locale} base={base} />
-
-            {/* Lead text — below the finder, white fade-in */}
-            <p className="hero-lead-below">
-              {locale === 'nl'
-                ? 'Alle clubs, boat parties, artiesten en deals van het eiland op één plek. Officiële tickets via Clubtickets, 100% veilig.'
-                : 'All clubs, boat parties, artists and deals on the island in one place. Official tickets via Clubtickets, 100% safe.'}
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (
         <section className="py-12 md:py-16 bg-white text-neutral-900 border-t border-black/5">

@@ -84,7 +84,6 @@ export function Navbar() {
         <div className="wrap nav-inner">
           <Link className="logo" href={base}>
             <img src="/logo-white.png" alt="Ibiza mi Vida logo" className="logo-img" />
-            <strong>Ibiza mi Vida</strong>
           </Link>
           <div className="nav-links">
             <Link href={`${base}/calendar`}>Events</Link>
