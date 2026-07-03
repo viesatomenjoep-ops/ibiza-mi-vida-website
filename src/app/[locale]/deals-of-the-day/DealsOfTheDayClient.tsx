@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Music, MapPin, ExternalLink, CalendarDays, Search, X, Flame, Calendar, Tag, ChevronRight, Zap } from 'lucide-react';
-import { EventTicketSelector } from '../templates/EventTicketSelector';
+import { EventTicketSelector } from '@/components/templates/EventTicketSelector';
 import { CSSClock } from '@/components/ui/CSSClock';
 
 interface DatabaseDate {
