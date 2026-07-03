@@ -171,44 +171,7 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
       </header>
 
 
-      {/* FEATURED CLUBS */}
-      {featuredClubs.length > 0 && (
-        <section className="py-16 md:py-24 bg-white/50">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex items-end justify-between mb-10">
-              <div>
-                <div className="text-xs font-bold tracking-widest uppercase text-ibiza-blue mb-2">Ibiza's Finest</div>
-                <h2 className="text-4xl md:text-5xl font-serif font-bold text-velvet-obsidian tracking-tight">Populaire Clubs</h2>
-              </div>
-              <Link href={`${base}/club-tickets`} className="hidden md:inline-flex items-center gap-2 font-bold text-sm hover:text-ibiza-green transition-colors">
-                Alle Clubs Bekijken &rarr;
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              {featuredClubs.map(club => (
-                <Link href={`${base}/club-tickets/${club.slug}`} key={club.slug} className="group relative h-48 md:h-64 rounded-3xl overflow-hidden bg-ibiza-mint block shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
-                  {club.cover && (
-                    <Image src={club.cover} alt={club.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                    {club.whitelogo ? (
-                      <div className="w-16 h-8 relative">
-                        <Image src={club.whitelogo} alt={club.name} fill className="object-contain filter invert drop-shadow-md" />
-                      </div>
-                    ) : (
-                      <span className="font-bold text-white text-lg">{club.name}</span>
-                    )}
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* UPCOMING EVENTS */}
+      {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (
         <section className="py-16 md:py-24 bg-ibiza-sand/20 text-white">
           <div className="max-w-7xl mx-auto px-4">
@@ -272,6 +235,43 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
             
             <div className="mt-8 text-center md:hidden">
               <Link href={`${base}/calendar`} className="btn fill w-full justify-center">Volledige Kalender</Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* FEATURED CLUBS — now below Eerstvolgende Feesten */}
+      {featuredClubs.length > 0 && (
+        <section className="py-16 md:py-24 bg-white/50">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <div className="text-xs font-bold tracking-widest uppercase text-ibiza-blue mb-2">Ibiza's Finest</div>
+                <h2 className="text-4xl md:text-5xl font-serif font-bold text-velvet-obsidian tracking-tight">Populaire Clubs</h2>
+              </div>
+              <Link href={`${base}/club-tickets`} className="hidden md:inline-flex items-center gap-2 font-bold text-sm hover:text-ibiza-green transition-colors">
+                Alle Clubs Bekijken &rarr;
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              {featuredClubs.map(club => (
+                <Link href={`${base}/club-tickets/${club.slug}`} key={club.slug} className="group relative h-48 md:h-64 rounded-3xl overflow-hidden bg-ibiza-mint block shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
+                  {club.cover && (
+                    <Image src={club.cover} alt={club.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian/80 via-transparent to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                    {club.whitelogo ? (
+                      <div className="w-16 h-8 relative">
+                        <Image src={club.whitelogo} alt={club.name} fill className="object-contain filter invert drop-shadow-md" />
+                      </div>
+                    ) : (
+                      <span className="font-bold text-white text-lg">{club.name}</span>
+                    )}
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
