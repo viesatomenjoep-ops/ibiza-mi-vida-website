@@ -26,6 +26,7 @@ interface DatabaseDate {
     slug: string;
     logo: string;
     whitelogo: string;
+    cover?: string;
   } | null;
 }
 
@@ -298,8 +299,11 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
                     {image ? (
                       <img src={image} alt={deal.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center bg-white/5">
-                        <Music className="w-12 h-12 text-white/20" />
+                      <div className="absolute inset-0 bg-gradient-to-tr from-purple-950 via-[#0D0509] to-neutral-900 flex flex-col items-center justify-center p-6 text-center group-hover:scale-105 transition-transform duration-500">
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(57,255,20,0.08)_0%,transparent_70%)]" />
+                        <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-2 shadow-inner">
+                          <Music className="w-5 h-5 text-ibiza-green/70 animate-pulse" />
+                        </div>
                       </div>
                     )}
                     

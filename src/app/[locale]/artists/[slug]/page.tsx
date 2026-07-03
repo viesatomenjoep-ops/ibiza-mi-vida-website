@@ -246,8 +246,8 @@ export default async function ArtistPage({ params }: Props) {
                   className="bg-white rounded-2xl p-4 border border-black/5 flex items-center gap-4 hover:shadow-md transition-shadow group"
                 >
                   <div className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-xl overflow-hidden bg-ibiza-mint relative flex items-center justify-center">
-                    {date.eventCover || date.eventLogo ? (
-                      <Image src={date.eventCover || date.eventLogo || ''} alt={date.name || 'Event'} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                    {date.eventCover ? (
+                      <Image src={date.eventCover || ''} alt={date.name || 'Event'} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
                     ) : (
                       <Music className="text-ibiza-green opacity-50" size={32} />
                     )}

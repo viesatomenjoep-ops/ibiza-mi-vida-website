@@ -15,10 +15,9 @@ export default async function DealsPage({ params }: { params: { locale: string }
   yesterday.setDate(yesterday.getDate() - 1);
   const dateThreshold = yesterday.toISOString().split('T')[0];
 
-  // Fetch upcoming dates from threshold onwards to allow rich client selection
   const { data: dbEvents } = await supabase
     .from('ct_dates')
-    .select('*, ct_events(name, slug, logo, cover), ct_venues(name, slug, logo, whitelogo)')
+    .select('*, ct_events(name, slug, logo, cover), ct_venues(name, slug, logo, whitelogo, cover)')
     .gte('date', dateThreshold)
     .order('date', { ascending: true })
     .limit(150);
