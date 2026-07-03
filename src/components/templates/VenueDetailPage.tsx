@@ -105,7 +105,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
   ];
 
   return (
-    <div className="theme-monaco-vip bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pb-20 pt-20">
+    <div className="theme-monaco-vip bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pb-20 pt-0">
       
       {/* Hero Section */}
       <section className="relative h-[340px] md:h-[400px] rounded-b-[36px] overflow-hidden bg-gradient-to-br from-[#1a2e29] to-[#2C4A42] flex items-end">
