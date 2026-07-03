@@ -16,13 +16,20 @@ interface Props {
 export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent, locale }: Props) {
   const [ticketCount, setTicketCount] = useState(1)
 
-  const dateFormatted = new Date(selectedDateObj.date).toLocaleDateString(locale, { 
-    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' 
-  })
+  let dateFormatted = '';
+  try {
+    if (selectedDateObj?.date) {
+      dateFormatted = new Date(selectedDateObj.date).toLocaleDateString(locale || 'nl', { 
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' 
+      });
+    }
+  } catch (err) {
+    console.error('Invalid date format:', selectedDateObj?.date, err);
+  }
 
   // Parse price
   let priceNum = 50;
-  if (selectedDateObj.prices !== null && selectedDateObj.prices !== undefined) {
+  if (selectedDateObj?.prices !== null && selectedDateObj?.prices !== undefined) {
     if (typeof selectedDateObj.prices === 'number') {
       priceNum = selectedDateObj.prices;
     } else if (typeof selectedDateObj.prices === 'string') {
@@ -31,7 +38,8 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
     }
   }
 
-  const imageUrl = (selectedDateObj as any).image || (selectedDateObj as any).eventCover || '/hi-ibiza-2026/FB_IMG_1779623220486.jpg'
+  const rawImg = (selectedDateObj as any)?.image || (selectedDateObj as any)?.eventCover;
+  const imageUrl = rawImg && rawImg.trim() ? rawImg : '/hi-ibiza-2026/FB_IMG_1779623220486.jpg';
 
   const handleCheckout = () => {
     // We send them to ClubTickets where they can finalize their basket
