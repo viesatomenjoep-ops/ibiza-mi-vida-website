@@ -99,26 +99,20 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
       {/* HERO */}
       <header className="hero relative overflow-hidden" id="top">
         
-        {/* Inline styles for hero drifting keyframes animation */}
-        <style dangerouslySetInnerHTML={{ __html: `
-          @keyframes floatDrift {
-            0% {
-              transform: translate(0, 0) rotate(0deg) scale(1);
-            }
-            25% {
-              transform: translate(25px, -35px) rotate(90deg) scale(1.03);
-            }
-            50% {
-              transform: translate(50px, 10px) rotate(180deg) scale(0.97);
-            }
-            75% {
-              transform: translate(-15px, 40px) rotate(270deg) scale(1.01);
-            }
-            100% {
-              transform: translate(0, 0) rotate(360deg) scale(1);
-            }
-          }
-        `}} />
+        {/* Symmetrical logo grid watermark background */}
+        <div className="absolute inset-0 pointer-events-none z-0 select-none flex items-center justify-center overflow-hidden opacity-[0.05]">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-x-12 gap-y-10 items-center justify-items-center w-full max-w-5xl px-6">
+            {uniqueClubLogos.slice(0, 12).map((club, idx) => (
+              <img 
+                key={club.slug || idx} 
+                src={club.logo} 
+                alt="" 
+                className="w-14 h-14 md:w-20 md:h-20 object-contain" 
+                style={{ filter: 'brightness(0)' }}
+              />
+            ))}
+          </div>
+        </div>
 
         <div className="wrap hero-inner relative z-10">
           <h1>
