@@ -1,6 +1,6 @@
 import { getDictionary } from '@/lib/dictionary';
 import CalendarClient from './CalendarClient';
-import { supabase } from '@/lib/supabase/client';
+import { getVenues, getAllDates, getArtists } from '@/lib/clubtickets';
 
 export default async function CalendarPage({ 
   params,
@@ -15,26 +15,43 @@ export default async function CalendarPage({
   const today = new Date();
   const currentMonth = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}`;
   const targetMonthStr = searchParams.month || currentMonth;
-  const targetDate = new Date(`${targetMonthStr}-01T00:00:00Z`);
-  const year = targetDate.getFullYear();
-  const month = targetDate.getMonth() + 1;
-  const startOfMonthStr = `${year}-${month.toString().padStart(2, '0')}-01`;
-  
-  // Calculate end of month
-  const endDate = new Date(year, month, 0);
-  const endOfMonthStr = `${year}-${month.toString().padStart(2, '0')}-${endDate.getDate()}`;
 
-  // Fetch dates for this month
-  const { data: events } = await supabase
-    .from('ct_dates')
-    .select('*, ct_events(name, slug, logo, cover), ct_venues(name, slug, whitelogo, is_day_club, type_slug)')
-    .gte('date', startOfMonthStr)
-    .lte('date', endOfMonthStr)
-    .order('date', { ascending: true });
+  // Fetch dates and venues statically from JSON
+  const allDates = await getAllDates(params.locale);
+  const venues = await getVenues(params.locale);
+  const artists = await getArtists(params.locale);
+  const venuesMap = new Map(venues.map(v => [v.slug, v]));
+
+  // Map dates to the format expected by the client
+  const mappedEvents = allDates.map(d => {
+    const venueObj = d.venueSlug ? venuesMap.get(d.venueSlug) : undefined;
+    return {
+      id: String(d.id),
+      name: d.name,
+      date: d.date,
+      prices: d.prices,
+      lineUp: d.lineUp,
+      ct_events: {
+        name: d.eventName,
+        slug: d.eventSlug,
+        logo: d.eventLogo,
+        cover: d.eventCover
+      },
+      ct_venues: {
+        name: d.venueName,
+        slug: d.venueSlug,
+        whitelogo: venueObj?.whitelogo || '',
+        is_day_club: venueObj?.isDayClub || false,
+        type_slug: venueObj?.type?.slug || ''
+      }
+    };
+  });
 
   return (
     <CalendarClient 
-      events={events || []} 
+      events={mappedEvents} 
+      allVenues={venues}
+      allArtists={artists}
       dict={dict} 
       locale={params.locale}
       initialMonth={targetMonthStr}

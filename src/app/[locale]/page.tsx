@@ -1,30 +1,49 @@
 import React from 'react'
-import { supabase } from '@/lib/supabase/client'
+import { getVenues, getAllDates } from '@/lib/clubtickets'
 import HomePageClient from './HomePageClient'
 
 export const revalidate = 3600
 
 export default async function Home({ params }: { params: { locale: string } }) {
-  // Fetch top featured clubs (let's pick some big ones or just 4 active ones)
-  const { data: featuredClubs } = await supabase
-    .from('ct_venues')
-    .select('name, slug, whitelogo, cover')
-    .in('slug', ['hi-ibiza', 'ushuaia-ibiza', 'pacha-ibiza', 'amnesia-ibiza'])
-    .limit(4);
+  // Fetch top featured clubs from local compiled JSON
+  const allVenues = await getVenues(params.locale);
+  const featuredClubs = allVenues
+    .filter(v => ['hi-ibiza', 'ushuaia-ibiza', 'pacha-ibiza', 'amnesia-ibiza'].includes(v.slug))
+    .map(v => ({
+      name: v.name,
+      slug: v.slug,
+      whitelogo: v.whitelogo,
+      cover: v.cover
+    }));
 
-  // Fetch upcoming dates
-  const { data: upcomingDates } = await supabase
-    .from('ct_dates')
-    .select('*, ct_events(name, slug, logo, cover), ct_venues(name, slug)')
-    .gte('date', new Date().toISOString().split('T')[0])
-    .order('date', { ascending: true })
-    .limit(10);
+  // Fetch upcoming dates from local compiled JSON
+  const allDates = await getAllDates(params.locale);
+  const todayStr = new Date().toISOString().split('T')[0];
+  const upcomingDates = allDates
+    .filter(d => d.date >= todayStr)
+    .slice(0, 10)
+    .map(d => ({
+      id: d.id,
+      name: d.name,
+      date: d.date,
+      prices: d.prices,
+      ct_events: {
+        name: d.eventName,
+        slug: d.eventSlug,
+        logo: d.eventLogo,
+        cover: d.eventCover
+      },
+      ct_venues: {
+        name: d.venueName,
+        slug: d.venueSlug
+      }
+    }));
 
   return (
     <HomePageClient 
       locale={params.locale} 
-      featuredClubs={featuredClubs || []}
-      upcomingDates={upcomingDates || []}
+      featuredClubs={featuredClubs}
+      upcomingDates={upcomingDates}
     />
   )
 }
