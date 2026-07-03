@@ -207,7 +207,7 @@ export default async function ArtistPage({ params }: Props) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-paper)] via-[var(--color-paper)]/75 to-[var(--color-paper)]/30 z-10" />
         
-        <div className="relative z-20 max-w-3xl mx-auto text-white mt-12">
+        <div className="relative z-20 max-w-3xl mx-auto text-white pt-32">
           {artist.venueName ? (
             <Link 
               href={`/${params.locale}/club-tickets/${artist.venueSlug}`}

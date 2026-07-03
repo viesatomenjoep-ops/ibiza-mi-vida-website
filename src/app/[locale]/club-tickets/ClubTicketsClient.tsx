@@ -187,10 +187,8 @@ export default function ClubTicketsClient({
   return (
     <div className="theme-monaco-vip bg-transparent text-[var(--color-ink)] min-h-screen relative overflow-hidden">
       <EventsBackground />
-      <section className="pt-0 pb-4 relative z-10">
+      <section className="pt-[140px] pb-4 relative z-10">
         <div className="wrap">
-          
-
           <div className="flex flex-col gap-2">
             <h1 className="text-4xl md:text-6xl font-black font-serif text-black leading-tight drop-shadow-md uppercase">
               Alle Club Tickets
@@ -200,19 +198,19 @@ export default function ClubTicketsClient({
         </div>
       </section>
 
-      <section className="block pt-2">
+      <section className="block pt-2 relative z-10">
         <div className="wrap">
           
           {/* Category Tabs */}
-          <div className="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-none border-b border-white/5">
+          <div className="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-none border-b border-black/10">
             {CATEGORIES.map(cat => (
               <button
                 key={cat.id}
                 onClick={() => handleCategoryChange(cat.id as any)}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all duration-300 shrink-0 ${
                   activeCategory === cat.id
-                    ? 'bg-ibiza-green text-velvet-obsidian shadow-[0_0_15px_rgba(0,166,152,0.3)] scale-[1.02]'
-                    : 'bg-transparent hover:bg-black/5 text-black/70 hover:text-black border border-black/10'
+                    ? 'bg-black text-white shadow-md scale-[1.02]'
+                    : 'bg-white text-black/70 hover:text-black border border-black/10 hover:bg-black/5'
                 }`}
               >
                 <span>{cat.icon}</span>
@@ -231,7 +229,7 @@ export default function ClubTicketsClient({
               {/* Prev Button */}
               <button 
                 onClick={() => scrollSlider(-1)}
-                className="absolute -left-4 z-40 bg-white hover:bg-ibiza-green hover:text-velvet-obsidian text-black border border-black/10 w-8 h-8 rounded-full flex items-center justify-center shadow-md transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
+                className="absolute -left-4 z-40 bg-white hover:bg-black hover:text-white text-black border border-black/10 w-8 h-8 rounded-full flex items-center justify-center shadow-md transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
                 aria-label="Previous"
               >
                 &larr;
@@ -247,13 +245,13 @@ export default function ClubTicketsClient({
                     onClick={() => setFilter('all')}
                     className={`w-14 h-14 md:w-16 md:h-16 rounded-full border-[3px] flex items-center justify-center transition-all duration-300 relative ${
                       filter === 'all' 
-                        ? 'border-ibiza-green bg-ibiza-green text-velvet-obsidian shadow-[0_0_15px_rgba(0,166,152,0.3)] scale-[1.12] z-30 font-bold' 
+                        ? 'border-black bg-black text-white shadow-lg scale-[1.12] z-30 font-bold' 
                         : 'border-black/10 bg-transparent text-black font-semibold hover:border-black/20 hover:bg-black/5 hover:scale-105'
                     }`}
                   >
-                    <Music size={18} className={filter === 'all' ? 'text-velvet-obsidian' : 'text-ibiza-green'} />
+                    <Music size={18} className={filter === 'all' ? 'text-white' : 'text-black/60'} />
                   </button>
-                  <span className={`text-[9px] uppercase font-bold tracking-wider text-center mt-2 max-w-[70px] truncate ${filter === 'all' ? 'text-ibiza-green' : 'text-black/60'}`}>
+                  <span className={`text-[9px] uppercase font-bold tracking-wider text-center mt-2 max-w-[70px] truncate ${filter === 'all' ? 'text-black' : 'text-black/60'}`}>
                     {locale === 'nl' ? 'Alles' : 'All'}
                   </span>
                 </div>

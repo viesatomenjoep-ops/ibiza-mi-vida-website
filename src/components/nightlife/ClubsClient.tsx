@@ -35,38 +35,41 @@ export default function ClubsClient({ venues, translations }: ClubsClientProps) 
   }, [venues, filter, search]);
 
   return (
-    <div className="theme-monaco-vip bg-transparent text-[var(--color-ink)] min-h-screen pt-4 pb-24 relative overflow-hidden">
+    <div className="theme-monaco-vip min-h-screen bg-transparent relative">
       <EventsBackground />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-6">
-          <h1 className="text-xl md:text-2xl font-bold tracking-widest uppercase text-black mt-2">
-            {translations.title}
-          </h1>
+      <section className="pt-[140px] pb-4 relative z-10">
+        <div className="wrap">
+          <div className="flex flex-col gap-2 text-center mb-8">
+            <h1 className="text-4xl md:text-6xl font-black font-serif text-black leading-tight drop-shadow-md uppercase tracking-tight">
+              {translations.title}
+            </h1>
+          </div>
         </div>
+      </section>
 
-        {/* Filter and Search Bar */}
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-12 bg-black/5 backdrop-blur-md p-4 rounded-3xl border border-black/10 shadow-lg">
+      <section className="relative z-10 pb-24">
+        <div className="wrap">
           
-          {/* Filters */}
-          <div className="flex items-center gap-2 w-full md:w-auto">
+        {/* Filters and Search Bar */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12 bg-black/5 p-4 rounded-3xl backdrop-blur-sm border border-black/10">
+          
+          <div className="flex flex-wrap justify-center gap-3">
             <button
               onClick={() => setFilter('all')}
-              className={`flex-1 md:flex-none px-6 py-3 rounded-full font-serif text-sm font-semibold transition-all ${
+              className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
                 filter === 'all'
-                  ? 'bg-ibiza-green text-velvet-obsidian shadow-md'
-                  : 'bg-white/5 hover:bg-white/10 text-white'
+                  ? 'bg-black text-white shadow-lg'
+                  : 'bg-white hover:bg-black/5 text-black/70 hover:text-black border border-black/10'
               }`}
             >
               {translations.allClubs}
             </button>
             <button
               onClick={() => setFilter('day')}
-              className={`flex-1 md:flex-none px-6 py-3 rounded-full font-serif text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+              className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
                 filter === 'day'
-                  ? 'bg-ibiza-green text-velvet-obsidian shadow-md'
-                  : 'bg-white/5 hover:bg-white/10 text-white'
+                  ? 'bg-black text-white shadow-lg'
+                  : 'bg-white hover:bg-black/5 text-black/70 hover:text-black border border-black/10'
               }`}
             >
               <Sun size={15} />
@@ -74,10 +77,10 @@ export default function ClubsClient({ venues, translations }: ClubsClientProps) 
             </button>
             <button
               onClick={() => setFilter('night')}
-              className={`flex-1 md:flex-none px-6 py-3 rounded-full font-serif text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+              className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
                 filter === 'night'
-                  ? 'bg-ibiza-green text-velvet-obsidian shadow-md'
-                  : 'bg-white/5 hover:bg-white/10 text-white'
+                  ? 'bg-black text-white shadow-lg'
+                  : 'bg-white hover:bg-black/5 text-black/70 hover:text-black border border-black/10'
               }`}
             >
               <Moon size={15} />
@@ -87,13 +90,13 @@ export default function ClubsClient({ venues, translations }: ClubsClientProps) 
 
           {/* Search Box */}
           <div className="relative w-full md:w-72 lg:w-96">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={18} />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/40" size={18} />
             <input
               type="text"
               placeholder={translations.searchPlaceholder}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-full py-3.5 pl-12 pr-4 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-ibiza-green focus:border-transparent transition-all"
+              className="w-full bg-white border border-black/10 rounded-full py-3.5 pl-12 pr-4 text-sm text-black placeholder-black/40 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all shadow-sm"
             />
           </div>
         </div>

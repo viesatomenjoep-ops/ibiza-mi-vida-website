@@ -155,7 +155,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
       {/* ══════════════════════════════════════
           HEADER
           ══════════════════════════════════════ */}
-      <div className="ck-header">
+      <div className="ck-header pt-[140px]">
         <div className="ck-header-top">
           <div className="flex flex-col gap-2">
             

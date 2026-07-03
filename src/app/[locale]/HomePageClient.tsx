@@ -56,7 +56,7 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
         </div>
 
-        <div className="wrap hero-inner relative z-10 pt-32">
+        <div className="wrap hero-inner relative z-10 pt-[240px]">
           <h1>
             Ibiza mi Vida
             <span className="thin">Entertainment · Boat · Nightlife — Reimagined</span>

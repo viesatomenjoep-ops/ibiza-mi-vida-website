@@ -109,7 +109,7 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
       {/* Inline styles for drifting keyframes animation */}
 
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-[140px]">
         
         {/* Breadcrumb */}
         

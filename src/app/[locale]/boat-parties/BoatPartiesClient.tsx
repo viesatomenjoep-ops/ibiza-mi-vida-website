@@ -53,7 +53,7 @@ export default function BoatPartiesClient({
   return (
     <div className="ct-shell">
       {/* ── HEADER ── */}
-      <div className="ct-header">
+      <div className="ct-header pt-[140px]">
         <div className="ct-header-inner">
           <nav className="ct-breadcrumb">
             <Link href={`/${locale}`}>Home</Link>
