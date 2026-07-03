@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -19,8 +19,68 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
   // State for the finder widget
   const [selectedCategory, setSelectedCategory] = useState('club-tickets');
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
+  const [floatingElements, setFloatingElements] = useState<{
+    id: number;
+    logo: string;
+    style: React.CSSProperties;
+  }[]>([]);
 
   const months = ['JAN', 'FEB', 'MRT', 'APR', 'MEI', 'JUN', 'JUL', 'AUG', 'SEP', 'OKT', 'NOV', 'DEC'];
+
+  // 1. Extract unique club logos from featuredClubs and upcomingDates
+  const uniqueClubLogos = useMemo(() => {
+    const logos = new Map<string, string>();
+    
+    // Add default major silhouettes as fallbacks
+    logos.set('hi-ibiza', 'https://media.clubtickets.com/migrated/venue/0fa16bfa-51a4-4f22-8069-326d43a57f40.png');
+    logos.set('ushuaia-ibiza', 'https://media.clubtickets.com/migrated/venue/b1c671d7-4d79-46a1-88ef-c28dd3a49eb7.png');
+    logos.set('eden-ibiza', 'https://media.clubtickets.com/migrated/venue/5c451614-22cb-4e1b-9903-06a6aa8760a3.png');
+    logos.set('playa-soleil', 'https://media.clubtickets.com/migrated/venue/cd579d60-cd2e-4948-bf6b-f6b8aa6156de.png');
+
+    featuredClubs.forEach(c => {
+      if (c.slug && c.whitelogo) {
+        logos.set(c.slug, c.whitelogo);
+      }
+    });
+    upcomingDates.forEach(d => {
+      const v = d.ct_venues;
+      if (v?.slug && v?.whitelogo) {
+        logos.set(v.slug, v.whitelogo);
+      }
+    });
+    return Array.from(logos.entries()).map(([slug, logo]) => ({ slug, logo }));
+  }, [featuredClubs, upcomingDates]);
+
+  // 2. Generate 14 floating logo watermarks spread across the hero viewport
+  useEffect(() => {
+    if (uniqueClubLogos.length === 0) return;
+    const elements = [];
+    for (let i = 0; i < 14; i++) {
+      const club = uniqueClubLogos[i % uniqueClubLogos.length];
+      const size = Math.floor(Math.random() * 70) + 70; // 70px to 140px size
+      const left = Math.floor(Math.random() * 88); // 0% to 88% width
+      const top = Math.floor(Math.random() * 80); // 0% to 80% height (confined inside hero area)
+      const duration = Math.floor(Math.random() * 45) + 45; // 45s to 90s drift duration
+      const delay = Math.floor(Math.random() * -30); // Random offset delay to start immediately
+
+      elements.push({
+        id: i,
+        logo: club.logo,
+        style: {
+          position: 'absolute' as const,
+          left: `${left}%`,
+          top: `${top}%`,
+          width: `${size}px`,
+          height: `${size}px`,
+          opacity: 0.038, // Subtle luxury opacity matching mockup
+          filter: !['o-beach-ibiza', 'playa-soleil', 'bambuku-ibiza'].includes(club.slug) ? 'none' : 'brightness(0) invert(1)',
+          animation: `floatDrift ${duration}s ease-in-out ${delay}s infinite`,
+          pointerEvents: 'none' as const,
+        }
+      });
+    }
+    setFloatingElements(elements);
+  }, [uniqueClubLogos]);
 
   const handleSearch = () => {
     let query = '';
@@ -37,8 +97,43 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
   return (
     <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen">
       {/* HERO */}
-      <header className="hero" id="top">
-        <div className="wrap hero-inner">
+      <header className="hero relative overflow-hidden" id="top">
+        
+        {/* Inline styles for hero drifting keyframes animation */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          @keyframes floatDrift {
+            0% {
+              transform: translate(0, 0) rotate(0deg) scale(1);
+            }
+            25% {
+              transform: translate(25px, -35px) rotate(90deg) scale(1.03);
+            }
+            50% {
+              transform: translate(50px, 10px) rotate(180deg) scale(0.97);
+            }
+            75% {
+              transform: translate(-15px, 40px) rotate(270deg) scale(1.01);
+            }
+            100% {
+              transform: translate(0, 0) rotate(360deg) scale(1);
+            }
+          }
+        `}} />
+
+        {/* Floating watermark branding background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 select-none">
+          {floatingElements.map(el => (
+            <img 
+              key={el.id} 
+              src={el.logo} 
+              alt="" 
+              style={el.style}
+              className="object-contain"
+            />
+          ))}
+        </div>
+
+        <div className="wrap hero-inner relative z-10">
           <div className="coords">
             <span>38° 54.51' N</span>
             <span>1° 26.32' E</span>
