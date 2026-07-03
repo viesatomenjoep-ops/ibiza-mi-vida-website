@@ -58,6 +58,42 @@ function getSpotifyEmbedDetails(slug: string) {
   if (normalized.includes('amelie-lens')) {
     return { type: 'artist', id: '7z51l3Qn3rG0sYq6Qj1q05' };
   }
+  if (normalized.includes('jamie-jones') || normalized.includes('paradise')) {
+    return { type: 'artist', id: '7r50RzR317W8c6zU5oJ6T3' };
+  }
+  if (normalized.includes('no-art') || normalized.includes('anotr')) {
+    return { type: 'artist', id: '4X9i0mU0g91g57qT5n8c9h' };
+  }
+  if (normalized.includes('adriatique')) {
+    return { type: 'artist', id: '3o9ZNDJ6Yx5Xq1Xp9mX0L5' };
+  }
+  if (normalized.includes('indira-paganotto') || normalized.includes('artcore')) {
+    return { type: 'artist', id: '7r5k1E8T0Wl4y1t3hO5a8C' };
+  }
+  if (normalized.includes('meduza')) {
+    return { type: 'artist', id: '0xRXCcSX89eobfrshSVdyu' };
+  }
+  if (normalized.includes('james-hype')) {
+    return { type: 'artist', id: '3B3n1a87K365gL47t52G4q' };
+  }
+  if (normalized.includes('dom-dolla')) {
+    return { type: 'artist', id: '205i7E8fNVfojowcQSfK9m' };
+  }
+  if (normalized.includes('mestiza')) {
+    return { type: 'artist', id: '4LnJKzcbJ83JNh2zEe4Dmy' };
+  }
+  if (normalized.includes('hugel')) {
+    return { type: 'artist', id: '6S118F3hNq0O0c0FwK4PqZ' };
+  }
+  if (normalized.includes('francis-mercier')) {
+    return { type: 'artist', id: '7zH6m3N2j6K83x4rB2w1cI' };
+  }
+  if (normalized.includes('elrow')) {
+    return { type: 'playlist', id: '37i9dQZF1DXbK717SV5PL9' };
+  }
+  if (normalized.includes('ants')) {
+    return { type: 'playlist', id: '37i9dQZF1DXbK717SV5PL9' };
+  }
   
   // Default working Spotify Playlist: Ibiza Deep House (37i9dQZF1DXbK717SV5PL9)
   return { type: 'playlist', id: '37i9dQZF1DXbK717SV5PL9' };
