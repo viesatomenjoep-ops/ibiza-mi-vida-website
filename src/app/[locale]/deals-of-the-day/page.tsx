@@ -134,7 +134,7 @@ export default async function DealsPage({ params }: { params: { locale: string }
                 const venue = deal.ct_venues;
                 const event = deal.ct_events;
                 const image = event?.cover || event?.logo || venue?.cover;
-                const logoSrc = event?.logo || venue?.whitelogo || venue?.logo;
+                const logoSrc = venue?.whitelogo;
 
                 return (
                   <Link 
@@ -164,7 +164,12 @@ export default async function DealsPage({ params }: { params: { locale: string }
                       {/* Unified Logo Overlay Badge */}
                       {logoSrc && (
                         <div className="absolute bottom-3 left-3 w-12 h-12 rounded-2xl bg-white border border-white/20 p-1.5 flex items-center justify-center shadow-lg z-10">
-                          <img src={logoSrc} alt="" className="object-contain max-w-full max-h-full" />
+                          <img 
+                            src={logoSrc} 
+                            alt="" 
+                            style={{ filter: !['o-beach-ibiza', 'playa-soleil', 'bambuku-ibiza'].includes(venue?.slug || '') ? 'brightness(0)' : 'none' }}
+                            className="object-contain max-w-full max-h-full" 
+                          />
                         </div>
                       )}
                     </div>
@@ -205,7 +210,7 @@ export default async function DealsPage({ params }: { params: { locale: string }
               const venue = deal.ct_venues;
               const event = deal.ct_events;
               const image = event?.cover || event?.logo || venue?.cover;
-              const logoSrc = event?.logo || venue?.whitelogo || venue?.logo;
+              const logoSrc = venue?.whitelogo;
 
               return (
                 <Link 
@@ -230,7 +235,12 @@ export default async function DealsPage({ params }: { params: { locale: string }
                     {/* Unified Logo Overlay Badge */}
                     {logoSrc && (
                       <div className="absolute bottom-3 left-3 w-12 h-12 rounded-2xl bg-white border border-white/20 p-1.5 flex items-center justify-center shadow-lg z-10">
-                        <img src={logoSrc} alt="" className="object-contain max-w-full max-h-full" />
+                        <img 
+                          src={logoSrc} 
+                          alt="" 
+                          style={{ filter: !['o-beach-ibiza', 'playa-soleil', 'bambuku-ibiza'].includes(venue?.slug || '') ? 'brightness(0)' : 'none' }}
+                          className="object-contain max-w-full max-h-full" 
+                        />
                       </div>
                     )}
                   </div>

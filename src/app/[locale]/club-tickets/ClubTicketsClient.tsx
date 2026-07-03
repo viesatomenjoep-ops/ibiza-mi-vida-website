@@ -387,8 +387,8 @@ export default function ClubTicketsClient({
           <div className="listing" id="listingGrid">
             {displayedEvents.map((event, i) => {
               const price = parsePrice(event.prices);
-              const matchingVenue = uniqueVenues.find(v => v.slug === event.venueSlug);
-              const cardLogo = event.eventLogo || matchingVenue?.logo;
+              const matchingVenue = venues.find(v => v.slug === event.venueSlug);
+              const cardLogo = event.venueLogo || matchingVenue?.whitelogo;
 
               return (
                 <Link key={`${event.id}-${i}`} href={`/${locale}/club-tickets/${event.venueSlug}/${event.eventSlug}`} className="lcard in group">
@@ -405,7 +405,12 @@ export default function ClubTicketsClient({
                     {/* Unified Logo Overlay Badge */}
                     {cardLogo && (
                       <div className="absolute bottom-3 left-3 w-12 h-12 rounded-2xl bg-white border border-white/20 p-1.5 flex items-center justify-center shadow-lg z-10">
-                        <img src={cardLogo} alt="" className="object-contain max-w-full max-h-full" />
+                        <img 
+                          src={cardLogo} 
+                          alt="" 
+                          style={{ filter: !['o-beach-ibiza', 'playa-soleil', 'bambuku-ibiza'].includes(event.venueSlug || '') ? 'brightness(0)' : 'none' }}
+                          className="object-contain max-w-full max-h-full" 
+                        />
                       </div>
                     )}
                   </div>
