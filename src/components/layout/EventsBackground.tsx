@@ -25,17 +25,26 @@ export function EventsBackground() {
       />
       
       {/* Vertical Scrolling Logos */}
-      <div className="absolute top-0 right-8 bottom-0 w-32 overflow-hidden opacity-10">
-        <div className="flex flex-col gap-12 animate-marquee-vertical">
-          {[1,2,3,4,5,6].map((i) => (
-            <React.Fragment key={i}>
-              <img src="/logos/amnesia.png" alt="" className="w-full object-contain filter invert" />
-              <img src="/logos/pacha.png" alt="" className="w-full object-contain filter invert" />
-              <img src="/logos/hi.png" alt="" className="w-full object-contain filter invert" />
-              <img src="/logos/ushuaia.png" alt="" className="w-full object-contain filter invert" />
-            </React.Fragment>
-          ))}
-        </div>
+      <div className="absolute inset-0 flex justify-evenly overflow-hidden opacity-10">
+        {[0, 1, 2, 3, 4, 5].map((colIndex) => (
+          <div 
+            key={colIndex} 
+            className="w-24 md:w-32 flex flex-col gap-12"
+            style={{
+              animation: `marquee-vertical ${30 + colIndex * 5}s linear infinite ${colIndex % 2 === 1 ? 'reverse' : 'normal'}`,
+              animationDelay: `-${colIndex * 6}s`
+            }}
+          >
+            {[1,2,3,4,5,6].map((i) => (
+              <React.Fragment key={`${colIndex}-${i}`}>
+                <img src="/logos/amnesia.png" alt="" className="w-full object-contain filter invert" />
+                <img src="/logos/pacha.png" alt="" className="w-full object-contain filter invert" />
+                <img src="/logos/hi.png" alt="" className="w-full object-contain filter invert" />
+                <img src="/logos/ushuaia.png" alt="" className="w-full object-contain filter invert" />
+              </React.Fragment>
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   )

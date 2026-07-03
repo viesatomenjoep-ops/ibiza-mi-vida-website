@@ -212,7 +212,7 @@ export default function ClubTicketsClient({
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all duration-300 shrink-0 ${
                   activeCategory === cat.id
                     ? 'bg-ibiza-green text-velvet-obsidian shadow-[0_0_15px_rgba(0,166,152,0.3)] scale-[1.02]'
-                    : 'bg-white/5 hover:bg-white/10 text-black/70 hover:text-black border border-white/10'
+                    : 'bg-transparent hover:bg-black/5 text-black/70 hover:text-black border border-black/10'
                 }`}
               >
                 <span>{cat.icon}</span>
@@ -231,7 +231,7 @@ export default function ClubTicketsClient({
               {/* Prev Button */}
               <button 
                 onClick={() => scrollSlider(-1)}
-                className="absolute -left-4 z-40 bg-black/80 hover:bg-ibiza-green hover:text-velvet-obsidian text-black border border-white/10 w-8 h-8 rounded-full flex items-center justify-center shadow-lg transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
+                className="absolute -left-4 z-40 bg-white hover:bg-ibiza-green hover:text-velvet-obsidian text-black border border-black/10 w-8 h-8 rounded-full flex items-center justify-center shadow-md transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
                 aria-label="Previous"
               >
                 &larr;
@@ -245,10 +245,10 @@ export default function ClubTicketsClient({
                 <div className="flex flex-col items-center justify-center shrink-0">
                   <button 
                     onClick={() => setFilter('all')}
-                    className={`w-14 h-14 md:w-16 md:h-16 rounded-full border-4 flex items-center justify-center transition-all duration-300 relative ${
+                    className={`w-14 h-14 md:w-16 md:h-16 rounded-full border-[3px] flex items-center justify-center transition-all duration-300 relative ${
                       filter === 'all' 
                         ? 'border-ibiza-green bg-ibiza-green text-velvet-obsidian shadow-[0_0_15px_rgba(0,166,152,0.3)] scale-[1.12] z-30 font-bold' 
-                        : 'border-white/10 bg-white/5 text-ibiza-green hover:border-ibiza-green/50 hover:bg-white/10 hover:scale-105'
+                        : 'border-black/10 bg-transparent text-black font-semibold hover:border-black/20 hover:bg-black/5 hover:scale-105'
                     }`}
                   >
                     <Music size={18} className={filter === 'all' ? 'text-velvet-obsidian' : 'text-ibiza-green'} />
@@ -265,23 +265,18 @@ export default function ClubTicketsClient({
                     <div key={v.slug} className="flex flex-col items-center justify-center shrink-0">
                       <button 
                         onClick={() => setFilter(v.slug)}
-                        className={`w-14 h-14 md:w-16 md:h-16 rounded-full border-4 p-2 flex items-center justify-center transition-all duration-300 relative ${
-                          activeCategory !== 'music'
-                            ? (isActive 
-                                ? 'bg-white border-ibiza-green shadow-[0_0_15px_rgba(0,166,152,0.3)] scale-[1.12] z-30' 
-                                : 'border-white/10 bg-white hover:border-ibiza-green/50 hover:scale-105')
-                            : (isActive 
-                                ? 'bg-white/10 border-ibiza-green shadow-[0_0_15px_rgba(0,166,152,0.3)] scale-[1.12] z-30' 
-                                : 'border-white/10 bg-white/5 hover:border-ibiza-green/50 hover:bg-white/10 hover:scale-105')
+                        className={`w-14 h-14 md:w-16 md:h-16 rounded-full border-[3px] p-2 flex items-center justify-center transition-all duration-300 relative ${
+                          isActive 
+                            ? 'bg-white border-ibiza-green shadow-[0_0_15px_rgba(0,166,152,0.3)] scale-[1.12] z-30' 
+                            : 'border-black/10 bg-transparent hover:border-black/20 hover:bg-black/5 hover:scale-105'
                         }`}
                       >
                         {v.logo ? (
                           <img 
                             src={v.logo} 
                             alt={v.name} 
-                            className={`w-full h-full object-contain transition-all duration-300 ${
-                              isActive ? 'scale-110 opacity-100' : 'scale-100 ' + (activeCategory !== 'music' ? 'opacity-95' : 'opacity-70 hover:opacity-100')
-                            }`}
+                            className="w-full h-full object-contain filter brightness-0" 
+                            onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML = '<span class="text-[9px] font-bold text-black uppercase truncate">Logo</span>' }}
                           />
                         ) : (
                           <span className={`font-bold text-[10px] ${isActive ? 'text-ibiza-green' : 'text-black/80'}`}>
@@ -300,7 +295,7 @@ export default function ClubTicketsClient({
               {/* Next Button */}
               <button 
                 onClick={() => scrollSlider(1)}
-                className="absolute -right-4 z-40 bg-black/80 hover:bg-ibiza-green hover:text-velvet-obsidian text-black border border-white/10 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
+                className="absolute -right-4 z-40 bg-white hover:bg-ibiza-green hover:text-velvet-obsidian text-black border border-black/10 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
                 aria-label="Next"
               >
                 &rarr;
@@ -310,11 +305,11 @@ export default function ClubTicketsClient({
 
           {/* Club Info Redirect Banner */}
           {filter !== 'all' && (
-            <div className="mb-8 p-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="mb-8 p-4 bg-transparent backdrop-blur-md rounded-2xl border border-black/10 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center p-1.5 shrink-0">
+                <div className="w-12 h-12 bg-transparent border border-black/10 rounded-xl flex items-center justify-center p-1.5 shrink-0">
                   {uniqueVenues.find(v => v.slug === filter)?.logo ? (
-                    <img src={uniqueVenues.find(v => v.slug === filter)?.logo} alt="" className="object-contain max-w-full max-h-full filter invert" />
+                    <img src={uniqueVenues.find(v => v.slug === filter)?.logo} alt="" className="object-contain max-w-full max-h-full filter brightness-0" />
                   ) : (
                     <Music className="text-ibiza-green" size={24} />
                   )}
@@ -334,7 +329,7 @@ export default function ClubTicketsClient({
           )}
 
           {/* Filter Toolbar: Search, Day/Night Filter, Sort */}
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between p-4 bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 shadow-lg mb-8">
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-between p-4 bg-transparent rounded-3xl border border-black/10 shadow-sm mb-8">
             <div className="relative w-full md:w-auto md:flex-1 max-w-md">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/40" size={18} />
               <input 
@@ -342,7 +337,7 @@ export default function ClubTicketsClient({
                 placeholder="Zoeken op feest, club of DJ..." 
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-full py-3.5 pl-12 pr-4 text-sm text-black placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-ibiza-green focus:border-transparent transition-all"
+                className="w-full bg-transparent border border-black/20 rounded-full py-3.5 pl-12 pr-4 text-sm text-black placeholder-black/40 focus:outline-none focus:ring-2 focus:ring-ibiza-green focus:border-transparent transition-all"
               />
             </div>
             
@@ -385,11 +380,11 @@ export default function ClubTicketsClient({
               <select
                 value={sort}
                 onChange={e => setSort(e.target.value as any)}
-                className="bg-white/5 border border-white/10 text-black rounded-full px-5 py-2.5 text-xs font-semibold uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-ibiza-green transition-all cursor-pointer"
+                className="bg-transparent border border-black/20 text-black rounded-full px-5 py-2.5 text-xs font-semibold uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-ibiza-green transition-all cursor-pointer"
               >
-                <option value="date" className="bg-[#0D0509] text-black">Sorteer: Datum</option>
-                <option value="price_asc" className="bg-[#0D0509] text-black">Prijs: Laag - Hoog</option>
-                <option value="price_desc" className="bg-[#0D0509] text-black">Prijs: Hoog - Laag</option>
+                <option value="date" className="bg-white text-black">Sorteer: Datum</option>
+                <option value="price_asc" className="bg-white text-black">Prijs: Laag - Hoog</option>
+                <option value="price_desc" className="bg-white text-black">Prijs: Hoog - Laag</option>
               </select>
             </div>
           </div>
