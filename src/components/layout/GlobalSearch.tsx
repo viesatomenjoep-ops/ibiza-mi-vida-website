@@ -26,7 +26,7 @@ export function GlobalSearch({ locale }: { locale: string }) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (query.trim().length > 1) {
+      if (query.trim().length > 0) {
         performSearch(query.trim())
       } else {
         setResults([])
@@ -104,7 +104,7 @@ export function GlobalSearch({ locale }: { locale: string }) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-14 w-[90vw] max-w-[340px] md:max-w-[450px] bg-white rounded-3xl shadow-2xl border border-black/10 overflow-hidden z-[100] transform transition-all origin-top-right">
+        <div className="absolute right-0 top-[60px] md:top-[70px] w-[90vw] max-w-[340px] md:max-w-[450px] bg-white rounded-3xl shadow-2xl border border-black/10 overflow-hidden z-[100] transform transition-all origin-top-right mt-2">
           <div className="p-3 md:p-4 border-b border-black/10 flex items-center gap-3">
             <Search size={18} strokeWidth={2.5} className="text-neutral-400" />
             <input 
@@ -123,7 +123,7 @@ export function GlobalSearch({ locale }: { locale: string }) {
             )}
           </div>
 
-          <div className="max-h-[70vh] overflow-y-auto hide-scrollbar">
+          <div className="max-h-[85vh] overflow-y-auto hide-scrollbar">
             {isSearching ? (
               <div className="p-8 text-center text-neutral-400 font-bold text-sm">
                 Aan het zoeken...
