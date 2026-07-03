@@ -60,18 +60,18 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 to-transparent z-10 pointer-events-none"></div>
         </div>
 
-        <div className="relative z-20 pt-[160px] md:pt-[200px] pb-16 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 mt-auto mb-auto">
-          <h1 className="text-white text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold font-serif uppercase tracking-tight drop-shadow-lg">
+        <div className="relative z-20 pt-[100px] md:pt-[120px] pb-12 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 mt-auto mb-auto">
+          <h1 className="text-white text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold font-serif uppercase tracking-tight drop-shadow-lg leading-none">
             {translations.home_hero_title}
-            <span className="block font-serif font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-4 tracking-tight">{translations.home_hero_subtitle}</span>
+            <span className="block font-serif font-bold text-2xl sm:text-3xl md:text-5xl lg:text-6xl mt-2 tracking-tight leading-none">{translations.home_hero_subtitle}</span>
           </h1>
           
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-12 w-full px-4 max-w-2xl">
-            <Link className="bg-ibiza-green text-black font-black uppercase tracking-widest px-8 py-4 rounded-full w-full md:w-auto hover:bg-white transition-colors text-center shadow-lg hover:scale-105" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
-            <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-4 rounded-full w-full md:w-auto hover:bg-white hover:text-black transition-colors text-center shadow-lg hover:scale-105" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-8 w-full px-4 max-w-2xl">
+            <Link className="bg-ibiza-green text-black font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:bg-white transition-colors text-center shadow-lg hover:scale-105" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
+            <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:bg-white hover:text-black transition-colors text-center shadow-lg hover:scale-105" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
           </div>
           
-          <div className="mt-12 bg-black/50 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 text-white shadow-xl">
+          <div className="mt-8 bg-black/50 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 text-white shadow-xl">
             <small className="text-xs font-bold uppercase tracking-widest text-neutral-300 mr-2">{translations.home_today_island}</small>
             <strong className="text-sm font-black text-ibiza-green" id="todayDate">{new Date().toLocaleDateString(locale === 'nl' ? 'nl-NL' : locale === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'long' })}</strong>
           </div>
