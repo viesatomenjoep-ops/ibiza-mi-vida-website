@@ -135,10 +135,12 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
   const dateLabel = (ds: string) => {
     try {
       const d = parseISO(ds);
-      if (isToday(d)) return `Vandaag · ${format(d, 'd MMM', { locale: loc })}`;
-      if (isTomorrow(d)) return `Morgen · ${format(d, 'd MMM', { locale: loc })}`;
+      if (isToday(d)) return `${dict.cal_today || 'Vandaag'} · ${format(d, 'd MMM', { locale: loc })}`;
+      if (isTomorrow(d)) return `${dict.cal_tomorrow || 'Morgen'} · ${format(d, 'd MMM', { locale: loc })}`;
       return format(d, 'EEEE d MMMM', { locale: loc });
-    } catch { return ds; }
+    } catch {
+      return ds;
+    }
   };
 
   const isDateToday = (ds: string) => ds === todayStr;
@@ -155,11 +157,10 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
       {/* ══════════════════════════════════════
           HEADER
           ══════════════════════════════════════ */}
-      <div className="ck-header pt-[140px]">
-        <div className="ck-header-top">
+      <div className="ck-header pt-[140px] flex flex-col items-center text-center">
+        <div className="ck-header-top w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
           <div className="flex flex-col gap-2">
-            
-            <h1 className="text-4xl md:text-6xl font-black font-serif text-black leading-tight drop-shadow-md uppercase m-0">Evenementen</h1>
+            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight">KALENDER</h1>
           </div>
 
           {/* Search bar */}
@@ -184,10 +185,10 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
         <div className="ck-quick-bar">
           <div className="ck-quick-tabs">
             {([
-              ['today', `Vandaag`, todayCount],
-              ['tomorrow', `Morgen`, tomorrowCount],
-              ['week', `Deze week`, weekCount],
-              ['all', `Alle`, null],
+              ['today', dict.cal_today || `Vandaag`, todayCount],
+              ['tomorrow', dict.cal_tomorrow || `Morgen`, tomorrowCount],
+              ['week', dict.cal_this_week || `Deze week`, weekCount],
+              ['all', dict.cal_all || `Alle`, null],
             ] as [QuickFilter, string, number | null][]).map(([key, label, count]) => (
               <button
                 key={key}
@@ -264,176 +265,71 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
       </div>
 
       {/* ══════════════════════════════════════
-          BODY — Left list + Right preview
+          BODY — Large Event Cards
           ══════════════════════════════════════ */}
-      <div className="ck-body">
-
-        {/* LEFT: event stream */}
-        <div className="ck-stream">
-          {sortedDates.length === 0 ? (
-            <div className="ck-empty">
-              <Calendar size={40} style={{ color: '#ddd', marginBottom: 16 }} />
-              <p>Geen events gevonden</p>
-              {quickFilter !== 'all' && (
-                <button className="ck-empty-action" onClick={() => setQuickFilter('all')}>
-                  Bekijk alle events →
-                </button>
-              )}
+      <div className="max-w-4xl mx-auto px-4 pb-24">
+        {sortedDates.length === 0 ? (
+            <div className="text-center py-20 bg-neutral-50 rounded-3xl border border-neutral-200 mt-8">
+              <Calendar size={40} className="mx-auto text-neutral-300 mb-4" />
+              <p className="text-neutral-500 font-medium">Geen events gevonden</p>
             </div>
-          ) : sortedDates.map(ds => (
-            <div key={ds} className="ck-date-group">
-
+        ) : sortedDates.map(ds => (
+            <div key={ds} className="mt-12">
               {/* Date heading */}
-              <div className={`ck-date-hd ${isDateToday(ds) ? 'today' : ''}`}>
-                <span className="ck-date-label">{dateLabel(ds)}</span>
-                {isDateToday(ds) && <span className="ck-live-pill">● LIVE</span>}
-                <span className="ck-date-count">{grouped[ds].length} events</span>
+              <div className="flex items-center gap-4 mb-6 pb-2 border-b-2 border-black/10">
+                <h3 className="text-2xl md:text-3xl font-serif font-bold text-black tracking-tight">{dateLabel(ds)}</h3>
+                {isDateToday(ds) && <span className="bg-red-500 text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded">Live</span>}
               </div>
 
               {/* Event rows */}
-              {grouped[ds].map(ev => {
-                const isFav = favorites.has(ev.id);
-                const isActive = previewEvent?.id === ev.id;
-                const eventTitle = ev.ct_events?.name || ev.name || '—';
-                const venueLogoUrl = ev.ct_venues?.whitelogo;
-                const venueName = ev.ct_venues?.name || '—';
-
-                return (
-                  <div
-                    key={ev.id}
-                    className={`ck-row ${isActive ? 'active' : ''}`}
-                    onMouseEnter={() => { setPreviewEvent(ev); setHoveredId(ev.id); }}
-                    onMouseLeave={() => setHoveredId(null)}
-                  >
-                    {/* Venue badge */}
-                    <div className="ck-row-venue">
-                      {venueLogoUrl ? (
-                        <img
-                          src={venueLogoUrl}
-                          alt={venueName}
-                          className="ck-venue-logo"
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      ) : (
-                        <span className="ck-venue-abbr">
-                          {venueName.slice(0, 4).toUpperCase()}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Info */}
-                    <div className="ck-row-info">
-                      <div className="ck-row-title">{eventTitle}</div>
-                      <div className="ck-row-meta">
-                        <span className="ck-row-club">{venueName}</span>
-                        {ev.prices && <span className="ck-row-price">v.a. €{ev.prices.split('-')[0].trim().replace('€','').trim()}</span>}
+              <div className="flex flex-col gap-6">
+                {grouped[ds].map(ev => {
+                  const eventTitle = ev.ct_events?.name || ev.name || '—';
+                  const venueName = ev.ct_venues?.name || '—';
+                  const image = ev.ct_events?.cover || ev.ct_events?.logo || ev.ct_venues?.whitelogo;
+                  
+                  return (
+                    <div key={ev.id} className="group bg-white rounded-[32px] border border-neutral-200 shadow-sm hover:shadow-xl hover:border-black/20 transition-all overflow-hidden flex flex-col md:flex-row">
+                      
+                      {/* Image / Artist */}
+                      <div className="w-full md:w-72 h-72 md:h-auto shrink-0 relative p-6 bg-neutral-50 flex items-center justify-center border-b md:border-b-0 md:border-r border-neutral-100">
+                        {image ? (
+                           <div className="relative w-full h-full rounded-full overflow-hidden shadow-inner border-[6px] border-white">
+                             <img src={image} alt={eventTitle} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                           </div>
+                        ) : (
+                           <div className="w-full h-full rounded-full bg-neutral-200 flex items-center justify-center text-neutral-400 font-bold border-[6px] border-white text-3xl">
+                             {venueName.slice(0,2)}
+                           </div>
+                        )}
                       </div>
-                    </div>
 
-                    {/* Actions */}
-                    <div className="ck-row-actions">
-                      <button
-                        className={`ck-fav-btn ${isFav ? 'active' : ''}`}
-                        onClick={e => toggleFav(ev.id, e)}
-                        aria-label="Favoriet"
-                        title={isFav ? 'Verwijder uit favorieten' : 'Voeg toe aan favorieten'}
-                      >
-                        <Heart size={14} fill={isFav ? 'currentColor' : 'none'} />
-                      </button>
-                      <Link
-                        href={`/${locale}/club-tickets/${ev.ct_venues?.slug || 'club'}/${ev.ct_events?.slug || 'event'}`}
-                        className="ck-ticket-btn"
-                        onClick={e => e.stopPropagation()}
-                      >
-                        <Ticket size={12} />
-                        <span>Tickets</span>
-                      </Link>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
+                      {/* Content */}
+                      <div className="p-6 md:p-8 flex-1 flex flex-col justify-center bg-white">
+                        <div className="text-sm font-bold tracking-widest text-neutral-400 uppercase mb-2">{venueName}</div>
+                        <h4 className="text-2xl md:text-4xl font-serif font-bold text-black leading-tight mb-4">{eventTitle}</h4>
+                        {ev.lineUp && (
+                          <p className="text-neutral-500 text-sm leading-relaxed mb-8 line-clamp-2">
+                            {ev.lineUp.replace(/MAIN ROOM|THE BUNKER|ROOM [A-Z]/g, '·').replace(/^·\s*/, '')}
+                          </p>
+                        )}
+                        <div className="mt-auto flex flex-col sm:flex-row sm:items-center gap-4 pt-6 border-t border-neutral-100">
+                          {ev.prices && <div className="text-2xl font-bold text-black">{dict.event_from_price || 'v.a.'} €{ev.prices.split('-')[0].trim().replace('€','').trim()}</div>}
+                          <Link
+                            href={`/${locale}/club-tickets/${ev.ct_venues?.slug || 'club'}/${ev.ct_events?.slug || 'event'}`}
+                            className="bg-black hover:bg-neutral-800 text-white font-bold tracking-widest text-xs uppercase px-8 py-4 rounded-full transition-colors w-full sm:w-auto sm:ml-auto text-center"
+                          >
+                            {dict.event_buy_tickets || 'Koop Tickets'}
+                          </Link>
+                        </div>
+                      </div>
 
-        {/* RIGHT: sticky preview panel */}
-        <div className="ck-preview-col">
-          <div className="ck-preview-wrap">
-            {previewEvent ? (
-              <>
-                {/* Image */}
-                <div className="ck-preview-img-box">
-                  {previewImg ? (
-                    <Image
-                      key={previewImg}
-                      src={previewImg}
-                      alt={previewEvent.ct_events?.name || previewEvent.name || ''}
-                      fill
-                      className="ck-preview-img"
-                      sizes="360px"
-                      priority={false}
-                    />
-                  ) : (
-                    <div className="ck-preview-no-img">
-                      <Calendar size={48} style={{ color: 'rgba(255,255,255,.15)' }} />
                     </div>
-                  )}
-                  <div className="ck-preview-gradient" />
-                </div>
-
-                {/* Info */}
-                <div className="ck-preview-info">
-                  <div className="ck-pi-venue">{previewEvent.ct_venues?.name}</div>
-                  <div className="ck-pi-title">
-                    {previewEvent.ct_events?.name || previewEvent.name}
-                  </div>
-                  <div className="ck-pi-meta">
-                    <span>
-                      <Calendar size={11} style={{ display: 'inline', marginRight: 4, verticalAlign: 'middle' }} />
-                      {dateLabel(previewEvent.date)}
-                    </span>
-                    {previewEvent.prices && (
-                      <span>· v.a. €{previewEvent.prices.split('-')[0].trim().replace('€','').trim()}</span>
-                    )}
-                  </div>
-                  {previewEvent.lineUp && (
-                    <div className="ck-pi-lineup">
-                      {previewEvent.lineUp.replace(/MAIN ROOM|THE BUNKER|ROOM [A-Z]/g, '·').replace(/^·\s*/, '').slice(0, 100)}
-                    </div>
-                  )}
-                  <Link href={previewLink} className="ck-pi-cta">
-                    <Ticket size={13} /> Koop Tickets
-                  </Link>
-                  <button
-                    className={`ck-pi-fav ${favorites.has(previewEvent.id) ? 'active' : ''}`}
-                    onClick={e => toggleFav(previewEvent.id, e)}
-                  >
-                    <Heart size={13} fill={favorites.has(previewEvent.id) ? 'currentColor' : 'none'} />
-                    {favorites.has(previewEvent.id) ? 'Opgeslagen' : 'Favoriet'}
-                  </button>
-                </div>
-
-                {/* Venue logo at bottom */}
-                {previewEvent.ct_venues?.whitelogo && (
-                  <div className="ck-pi-venue-logo">
-                    <img
-                      src={previewEvent.ct_venues.whitelogo}
-                      alt={previewEvent.ct_venues.name}
-                      className="ck-pi-vlogo-img"
-                    />
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="ck-preview-empty">
-                <Calendar size={36} />
-                <span>Hover over een event om een preview te zien</span>
+                  );
+                })}
               </div>
-            )}
-          </div>
-        </div>
-
+            </div>
+        ))}
       </div>
     </div>
   );

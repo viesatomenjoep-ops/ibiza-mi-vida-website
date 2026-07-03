@@ -3,16 +3,27 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+import en from '@/dictionaries/en.json'
+import nl from '@/dictionaries/nl.json'
+import es from '@/dictionaries/es.json'
+import de from '@/dictionaries/de.json'
+import fr from '@/dictionaries/fr.json'
+
+const dicts: Record<string, any> = { en, nl, es, de, fr }
+
 const LOCALES = [
   { code: 'nl' },
   { code: 'en' },
   { code: 'es' },
+  { code: 'de' },
+  { code: 'fr' },
 ]
 
 export function Footer() {
   const pathname = usePathname()
   const currentLocale = LOCALES.find(l => pathname.startsWith(`/${l.code}/`) || pathname === `/${l.code}`) || LOCALES[0]
   const base = `/${currentLocale.code}`
+  const t = dicts[currentLocale.code] || dicts['en']
 
   return (
     <footer>
@@ -26,37 +37,37 @@ export function Footer() {
               <strong>Ibiza mi Vida</strong>
             </Link>
             <p style={{ marginTop: '16px', fontSize: '.86rem', color: '#555555', maxWidth: '280px' }}>
-              Het startpunt van jouw Ibiza-zomer. Events, tickets, boot & tips — allemaal op één eiland, allemaal op één site.
+              {t.footer_slogan || "Het startpunt van jouw Ibiza-zomer. Events, tickets, boot & tips — allemaal op één eiland, allemaal op één site."}
             </p>
           </div>
           
           <div>
-            <h4>Events & Tickets</h4>
-            <Link href={`${base}/calendar`}>Ibiza Calendar</Link>
-            <Link href={`${base}/deals-of-the-day`}>Deals of the Day</Link>
-            <Link href={`${base}/artists`}>Artiesten</Link>
-            <Link href={`${base}/club-tickets`}>Club Tickets</Link>
-            <Link href={`${base}/clubs`}>Clubs Ibiza</Link>
+            <h4>{t.nav_events_tickets || 'Events & Tickets'}</h4>
+            <Link href={`${base}/calendar`}>{t.nav_ibiza_calendar || 'Ibiza Calendar'}</Link>
+            <Link href={`${base}/deals-of-the-day`}>{t.nav_deals || 'Deals of the Day'}</Link>
+            <Link href={`${base}/artists`}>{t.nav_artists || 'Artiesten'}</Link>
+            <Link href={`${base}/club-tickets`}>{t.nav_club_tickets || 'Club Tickets'}</Link>
+            <Link href={`${base}/clubs`}>{t.nav_clubs_ibiza || 'Clubs Ibiza'}</Link>
           </div>
           
           <div>
-            <h4>Op het water</h4>
-            <Link href={`${base}/boat-parties`}>Bootfeesten</Link>
-            <Link href={`${base}/private-boat-charters`}>Private Boat Charters</Link>
-            <Link href={`${base}/boat-parties`}>Ibiza Boat Party</Link>
-            <Link href={`${base}/formentera-boat-trips`}>Shuttle Ferry</Link>
-            <Link href={`${base}/formentera-boat-trips`}>Ferry Ibiza – Formentera</Link>
+            <h4>{t.nav_on_the_water || 'Op het water'}</h4>
+            <Link href={`${base}/boat-parties`}>{t.nav_boatparties || 'Bootfeesten'}</Link>
+            <Link href={`${base}/private-boat-charters`}>{t.nav_private_charters || 'Private Boat Charters'}</Link>
+            <Link href={`${base}/boat-parties`}>{t.nav_ibiza_boat_party || 'Ibiza Boat Party'}</Link>
+            <Link href={`${base}/formentera-boat-trips`}>{t.nav_shuttle_ferry || 'Shuttle Ferry'}</Link>
+            <Link href={`${base}/formentera-boat-trips`}>{t.nav_ferry_formentera || 'Ferry Ibiza – Formentera'}</Link>
           </div>
           
           <div>
-            <h4>Beleef & Insider</h4>
-            <Link href={`${base}/activities`}>Activities</Link>
-            <Link href={`${base}/water-sports`}>Water Sports</Link>
-            <Link href={`${base}/drink-packages`}>Drankpakketten</Link>
-            <Link href={`${base}/car-scooter-rental`}>Car & Scooter Rental</Link>
-            <Link href={`${base}/guestlist`}>Gastenlijst</Link>
-            <Link href={`${base}/tips`}>Ibiza Tips</Link>
-            <Link href={`${base}/blog`}>Blog</Link>
+            <h4>{t.nav_experience_island || 'Beleef & Insider'}</h4>
+            <Link href={`${base}/activities`}>{t.nav_activities || 'Activities'}</Link>
+            <Link href={`${base}/water-sports`}>{t.nav_water_sports || 'Water Sports'}</Link>
+            <Link href={`${base}/drink-packages`}>{t.nav_drink_packages || 'Drankpakketten'}</Link>
+            <Link href={`${base}/car-scooter-rental`}>{t.nav_car_scooter || 'Car & Scooter Rental'}</Link>
+            <Link href={`${base}/guestlist`}>{t.nav_guestlist || 'Gastenlijst'}</Link>
+            <Link href={`${base}/tips`}>{t.nav_tips || 'Ibiza Tips'}</Link>
+            <Link href={`${base}/blog`}>{t.nav_blog || 'Blog'}</Link>
           </div>
         </div>
         

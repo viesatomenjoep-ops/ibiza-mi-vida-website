@@ -86,12 +86,17 @@ export default function DealsClient({ dates, translations }: DealsClientProps) {
 
   return (
     <>
-      <section className="subhero">
-        <div className="subhero-bg"></div>
-        <div className="wrap">
-          <span className="eyebrow"><span className="dot"></span>Deals of the Day</span>
-          <h1>Deals of the <span className="accent">Day</span></h1>
-          <p className="lead">{translations.description}</p>
+      <section className="pt-[140px] pb-4 relative z-10 flex flex-col items-center text-center">
+        <div className="w-full max-w-4xl mx-auto px-4 flex flex-col items-center gap-6">
+          <div className="flex flex-col gap-2 text-center mb-8">
+            <span className="text-sm font-bold tracking-widest text-neutral-500 uppercase mb-2">Deals of the Day</span>
+            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight">
+              Deals of the <span className="text-red-500">Day</span>
+            </h1>
+            <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto mt-4">
+              {translations.description}
+            </p>
+          </div>
         </div>
       </section>
 

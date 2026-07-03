@@ -4,6 +4,14 @@ import { MapPin, Calendar, ArrowLeft } from 'lucide-react'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
 
+import en from '@/dictionaries/en.json'
+import nl from '@/dictionaries/nl.json'
+import es from '@/dictionaries/es.json'
+import de from '@/dictionaries/de.json'
+import fr from '@/dictionaries/fr.json'
+
+const dicts: Record<string, any> = { en, nl, es, de, fr }
+
 interface EventDetailPageProps {
   club: CTVenue;
   eventDates: CTEventDate[];
@@ -15,6 +23,7 @@ interface EventDetailPageProps {
 export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath }: EventDetailPageProps) {
   // Get event details from the first date object, or from the club's event list
   const eventDetail = club.events?.find(e => e.slug === eventSlug)
+  const t = dicts[locale] || dicts['en']
   
   const eventName = eventDetail?.name || eventDates[0]?.eventName || 'Event'
   const eventCover = eventDetail?.cover || eventDetail?.logo || club.cover || club.picture || ''
@@ -57,7 +66,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
             className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-sans text-sm text-ibiza-sand backdrop-blur-sm transition-colors hover:bg-white/20"
           >
             <ArrowLeft size={14} />
-            Back to {club.name}
+            {t.event_back_to || 'Back to'} {club.name}
           </Link>
         </div>
 
@@ -85,9 +94,9 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
               <AnimatedSection delay={100} className="flex flex-col gap-6">
                 <div className="flex items-end justify-between">
                 <div>
-                  <h2 className="font-serif text-3xl font-bold text-velvet-obsidian">Select Date & Book</h2>
+                  <h2 className="font-serif text-3xl font-bold text-velvet-obsidian">{t.event_select_date_book || 'Select Date & Book'}</h2>
                   <p className="mt-2 font-sans text-velvet-obsidian/60">
-                    All upcoming dates for {eventName} at {club.name}. Book securely via ClubTickets.
+                    {t.event_all_dates_for || 'All upcoming dates for'} {eventName} {t.event_at || 'at'} {club.name}. {t.event_book_securely || 'Book securely via ClubTickets.'}
                   </p>
                 </div>
               </div>
@@ -114,9 +123,9 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                     </div>
                     <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-4 sm:gap-6 mt-4 sm:mt-0 shrink-0">
                       <div className="flex flex-col items-end">
-                        <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Price</span>
+                        <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider">{t.event_price || 'Price'}</span>
                         <span className="font-bold text-lg text-velvet-obsidian">
-                          {dateObj.prices ? dateObj.prices : 'Available'}
+                          {dateObj.prices ? dateObj.prices : (t.event_available || 'Available')}
                         </span>
                       </div>
                       <a 
@@ -125,7 +134,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                         rel="noopener noreferrer"
                         className="bg-black text-white px-6 py-2.5 rounded-xl font-semibold text-sm transition-all hover:bg-gray-800 hover:scale-105 whitespace-nowrap shadow-sm"
                       >
-                        Buy Tickets
+                        {t.event_buy_tickets || 'Buy Tickets'}
                       </a>
                     </div>
                   </div>
@@ -136,7 +145,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
 
             {cleanDescription && (
               <AnimatedSection delay={200}>
-                <h2 className="font-serif text-3xl font-bold text-velvet-obsidian mb-6">About {eventName}</h2>
+                <h2 className="font-serif text-3xl font-bold text-velvet-obsidian mb-6">{t.event_about || 'About'} {eventName}</h2>
                 <div className="prose prose-lg max-w-none text-velvet-obsidian">
                   <p>{cleanDescription}</p>
                 </div>
@@ -149,7 +158,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
       {/* Floating Checkout Bar */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-black/10 z-50 flex items-center justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
         <div className="flex flex-col">
-          <span className="text-xs font-bold uppercase tracking-wider text-black/50">Vanaf</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-black/50">{t.event_from_price || 'Vanaf'}</span>
           <span className="font-black text-xl text-black">{eventDates[0]?.prices || '€30'}</span>
         </div>
         <button 
@@ -161,7 +170,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           }}
           className="bg-ibiza-green text-black font-black uppercase tracking-wider px-8 py-3.5 rounded-full hover:brightness-95 transition-all shadow-lg active:scale-95"
         >
-          Select Tickets
+          {t.event_select_tickets || 'Select Tickets'}
         </button>
       </div>
     </>

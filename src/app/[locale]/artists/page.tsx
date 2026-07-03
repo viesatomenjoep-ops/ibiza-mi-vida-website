@@ -11,15 +11,20 @@ export default async function ArtistsPage({ params }: { params: { locale: string
   const artists = await getArtists(params.locale)
 
   return (
-    <main className="theme-monaco-vip bg-transparent min-h-screen text-[var(--color-ink)] pt-[140px] pb-24 relative overflow-hidden">
+    <main className="theme-monaco-vip bg-transparent min-h-screen text-[var(--color-ink)] pb-24 relative overflow-hidden">
       <EventsBackground />
-      <div className="container mx-auto px-[5%] relative z-10">
-        <div className="mb-16 max-w-3xl pt-4">
-          <h1 className="font-serif text-5xl md:text-7xl font-bold mb-6">Ibiza Artists</h1>
-          <p className="font-sans text-lg text-[var(--color-slate)]">
-            Discover where the world’s biggest DJs are playing. From underground tech-house to mainstage EDM, find your favorite artist and secure your tickets immediately.
-          </p>
+      <section className="pt-[140px] pb-4 relative z-10 flex flex-col items-center text-center">
+        <div className="w-full max-w-4xl mx-auto px-4 flex flex-col items-center gap-6">
+          <div className="flex flex-col gap-2 text-center mb-8">
+            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight">Ibiza Artists</h1>
+            <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto mt-4">
+              Discover where the world’s biggest DJs are playing. From underground tech-house to mainstage EDM, find your favorite artist and secure your tickets immediately.
+            </p>
+          </div>
         </div>
+      </section>
+
+      <div className="container mx-auto px-[5%] relative z-10">
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {artists.map((artist) => (

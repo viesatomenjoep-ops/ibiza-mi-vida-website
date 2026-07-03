@@ -53,20 +53,20 @@ export default function BoatPartiesClient({
   return (
     <div className="ct-shell">
       {/* ── HEADER ── */}
-      <div className="ct-header pt-[140px]">
-        <div className="ct-header-inner">
-          <nav className="ct-breadcrumb">
-            <Link href={`/${locale}`}>Home</Link>
-            <ChevronRight size={12} />
-            <span>Op het Water</span>
-          </nav>
-          <div className="ct-header-title">
-            <span className="ct-eyebrow"><Ship size={14} /> Op het Water</span>
-            <h1 className="ct-title">Bootfeesten & Ferries</h1>
-            <p className="ct-subtitle">
+      <section className="pt-[140px] pb-8 relative z-10 flex flex-col items-center text-center">
+        <div className="w-full max-w-4xl mx-auto px-4 flex flex-col items-center gap-6">
+          <div className="flex flex-col gap-2 text-center mb-8">
+            <span className="text-sm font-bold tracking-widest text-neutral-500 uppercase mb-2">Op het Water</span>
+            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight">Bootfeesten & Ferries</h1>
+            <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto mt-4">
               Van wilde boat parties tot rustige Formentera-ferries. Boek officieel via Clubtickets.
             </p>
           </div>
+        </div>
+      </section>
+
+      <div className="ct-header">
+        <div className="ct-header-inner">
           <div className="ct-search-wrap">
             <Search size={16} className="ct-search-icon" />
             <input

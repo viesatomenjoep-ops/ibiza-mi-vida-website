@@ -6,51 +6,13 @@ import { usePathname } from 'next/navigation'
 import { GlobalSearch } from './GlobalSearch'
 import { LanguageSelector, LOCALES } from './LanguageSelector'
 
-const NAV_CATEGORIES = [
-  {
-    id: 'events',
-    label: 'Events & Tickets',
-    items: [
-      { label: 'Ibiza Calendar', href: '/calendar' },
-      { label: 'Deals of the Day', href: '/deals-of-the-day' },
-      { label: 'Artiesten', href: '/artists' },
-      { label: 'Club Tickets', href: '/club-tickets' },
-      { label: 'Clubs Ibiza', href: '/clubs' },
-    ],
-  },
-  {
-    id: 'water',
-    label: 'Op het Water',
-    items: [
-      { label: 'Bootfeesten', href: '/bootfeesten' },
-      { label: 'Private Boat Charters', href: '/private-boat-charters' },
-      { label: 'Ibiza Boat Party', href: '/boat-parties' },
-      { label: 'Shuttle Ferry', href: '/shuttle-ferry' },
-      { label: 'Ferry Ibiza – Formentera', href: '/ferry-formentera' },
-    ],
-  },
-  {
-    id: 'island',
-    label: 'Beleef het Eiland',
-    items: [
-      { label: 'Activities', href: '/activities' },
-      { label: 'Tours', href: '/tours' },
-      { label: 'Water Sports', href: '/water-sports' },
-      { label: 'Drankpakketten', href: '/drink-packages' },
-      { label: 'Car & Scooter Rental', href: '/car-scooter-rental' },
-    ],
-  },
-  {
-    id: 'insider',
-    label: 'Insider',
-    items: [
-      { label: 'Gastenlijst', href: '/guestlist' },
-      { label: 'Ibiza Tips', href: '/tips' },
-      { label: 'Blog', href: '/blog' },
-      { label: 'Free & Discount Ibiza', href: '/free-discount-ibiza' },
-    ],
-  },
-]
+import en from '@/dictionaries/en.json'
+import nl from '@/dictionaries/nl.json'
+import es from '@/dictionaries/es.json'
+import de from '@/dictionaries/de.json'
+import fr from '@/dictionaries/fr.json'
+
+const dicts: Record<string, any> = { en, nl, es, de, fr }
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -58,6 +20,53 @@ export function Navbar() {
   const pathname = usePathname()
   const currentLocale = LOCALES.find(l => pathname.startsWith(`/${l.code}/`) || pathname === `/${l.code}`) || LOCALES[0]
   const base = `/${currentLocale.code}`
+  const t = dicts[currentLocale.code] || dicts['en']
+
+  const NAV_CATEGORIES = [
+    {
+      id: 'events',
+      label: t.nav_events_tickets || 'Events & Tickets',
+      items: [
+        { label: t.nav_ibiza_calendar || 'Ibiza Calendar', href: '/calendar' },
+        { label: t.nav_deals || 'Deals of the Day', href: '/deals-of-the-day' },
+        { label: t.nav_artists || 'Artiesten', href: '/artists' },
+        { label: t.nav_club_tickets || 'Club Tickets', href: '/club-tickets' },
+        { label: t.nav_clubs_ibiza || 'Clubs Ibiza', href: '/clubs' },
+      ],
+    },
+    {
+      id: 'water',
+      label: t.nav_on_the_water || 'Op het Water',
+      items: [
+        { label: t.nav_boatparties || 'Bootfeesten', href: '/bootfeesten' },
+        { label: t.nav_private_charters || 'Private Boat Charters', href: '/private-boat-charters' },
+        { label: t.nav_ibiza_boat_party || 'Ibiza Boat Party', href: '/boat-parties' },
+        { label: t.nav_shuttle_ferry || 'Shuttle Ferry', href: '/shuttle-ferry' },
+        { label: t.nav_ferry_formentera || 'Ferry Ibiza – Formentera', href: '/ferry-formentera' },
+      ],
+    },
+    {
+      id: 'island',
+      label: t.nav_experience_island || 'Beleef het Eiland',
+      items: [
+        { label: t.nav_activities || 'Activities', href: '/activities' },
+        { label: t.nav_tours || 'Tours', href: '/tours' },
+        { label: t.nav_water_sports || 'Water Sports', href: '/water-sports' },
+        { label: t.nav_drink_packages || 'Drankpakketten', href: '/drink-packages' },
+        { label: t.nav_car_scooter || 'Car & Scooter Rental', href: '/car-scooter-rental' },
+      ],
+    },
+    {
+      id: 'insider',
+      label: t.nav_insider || 'Insider',
+      items: [
+        { label: t.nav_guestlist || 'Gastenlijst', href: '/guestlist' },
+        { label: t.nav_tips || 'Ibiza Tips', href: '/tips' },
+        { label: t.nav_blog || 'Blog', href: '/blog' },
+        { label: t.nav_free_discount || 'Free & Discount Ibiza', href: '/free-discount-ibiza' },
+      ],
+    },
+  ]
 
   const [isScrolled, setIsScrolled] = useState(false)
   
@@ -84,8 +93,8 @@ export function Navbar() {
     <>
       <nav className={`nav ${isScrolled ? 'nav--scrolled' : ''}`}>
         <div className="wrap nav-inner">
-          <Link className="logo" href={base}>
-            <img src="/logo-white.png" alt="Ibiza mi Vida logo" className="logo-img" />
+          <Link className="nav-logo-btn" href={base}>
+            <img src="/logo-white.png" alt="Ibiza mi Vida logo" />
           </Link>
           <div className="nav-links">
             <Link href={`${base}/calendar`}>Events</Link>

@@ -86,7 +86,7 @@ async function fetchArtist(slug: string, locale: string) {
   // 1. Try JSON cache first
   const localArtist = await getArtist(slug, locale);
   if (localArtist) {
-    const dates = await getArtistDates(localArtist.name, locale, localArtist.slug);
+    const dates = await getArtistDates(localArtist.name || '', locale, localArtist.slug);
     return {
       artist: {
         id: localArtist.id.toString(),
@@ -139,8 +139,8 @@ async function fetchArtist(slug: string, locale: string) {
       `)
       .eq('artist_id', dbArtist.id);
 
-    const dates = dateArtists
-      ?.map(da => da.ct_dates as any)
+    const dates = (dateArtists || [])
+      .map(da => da.ct_dates as any)
       .flat()
       .filter(d => d && d.date)
       .map(d => ({
@@ -153,7 +153,7 @@ async function fetchArtist(slug: string, locale: string) {
         venueSlug: d.ct_venues?.slug,
         eventCover: d.ct_events?.cover || d.ct_events?.logo,
         venueCover: d.ct_venues?.cover
-      })) || [];
+      }));
 
     return {
       artist: artistObj,

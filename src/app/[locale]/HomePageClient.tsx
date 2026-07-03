@@ -42,22 +42,65 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
     <div className="theme-monaco-vip is-home bg-white text-[var(--color-ink)] min-h-screen">
 
       <header className="hero bg-black">
-        {/* ── BACKGROUND VIDEO ── */}
-        <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
-          <video 
-            autoPlay 
-            muted 
-            loop 
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-            src="https://res.cloudinary.com/daj1lyfgk/video/upload/v1783098563/zna3zmwypuqpikuatbqy.mp4"
-          />
-          {/* Subtle dark gradient overlay so white text remains readable, but video stays visible */}
-          <div className="absolute inset-0 bg-black/10"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+        {/* ── VERTICAL EVENT LIFT BACKGROUND ── */}
+        <div className="lift-bg opacity-30">
+          <div className="lift-grid-lines">
+            <div className="lift-line"></div>
+            <div className="lift-line"></div>
+            <div className="lift-line"></div>
+            <div className="lift-line"></div>
+            <div className="lift-line"></div>
+          </div>
+          <div className="lift-cols">
+            {liftCols.map((col) => {
+              // Get events for this column, shift to create variety
+              const colEvents = [...upcomingDates].sort(() => Math.random() - 0.5);
+              
+              // We need enough items to scroll smoothly, so we repeat the array
+              const repeatedEvents = [...colEvents, ...colEvents, ...colEvents, ...colEvents];
+
+              return (
+                <div key={col.id} className="lift-col">
+                  <div 
+                    className="lift-track"
+                    style={{
+                      animationDuration: `${col.duration}s`,
+                      animationDirection: col.reverse ? 'reverse' : 'normal',
+                      animationDelay: `${col.delay}s`,
+                    }}
+                  >
+                    {repeatedEvents.map((evt, idx) => (
+                      <div key={`${col.id}-${idx}`} className="lift-item p-2">
+                        {evt.ct_events?.cover ? (
+                          <div className="relative w-full aspect-square rounded-xl overflow-hidden shadow-lg border border-white/10">
+                            <img 
+                              src={evt.ct_events.cover} 
+                              alt={evt.name}
+                              className="absolute inset-0 w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-3">
+                              <span className="text-white font-bold text-xs leading-tight mb-1">{evt.ct_events.name}</span>
+                              <span className="text-white/70 text-[10px] uppercase tracking-wider">{evt.ct_venues?.name}</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="w-full aspect-square bg-white/5 rounded-xl border border-white/10 flex items-center justify-center p-4">
+                            <span className="text-white/50 text-xs font-bold text-center">{evt.name}</span>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {/* Gradients to fade out the top and bottom of the lift */}
+          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black to-transparent z-10"></div>
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black to-transparent z-10"></div>
         </div>
 
-        <div className="wrap hero-inner relative z-10 pt-[140px]">
+        <div className="wrap hero-inner relative z-20 pt-[140px]">
           <h1>
             {translations.home_hero_title}
             <span className="thin">{translations.home_hero_subtitle}</span>
@@ -83,7 +126,9 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <section className="bg-black py-4 border-b border-white/10 overflow-hidden relative">
           <div className="w-full overflow-hidden whitespace-nowrap" style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
             <div className="inline-block animate-marquee hover:[animation-play-state:paused]">
-              {[...clubLogos, ...clubLogos, ...clubLogos].map((club, idx) => (
+              {[...clubLogos, ...clubLogos, ...clubLogos]
+                .filter(club => club.whitelogo || club.picture)
+                .map((club, idx) => (
                 <Link 
                   href={`${base}/club-tickets/${club.slug}`}
                   key={`${club.slug}-${idx}`} 

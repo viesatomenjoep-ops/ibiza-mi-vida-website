@@ -37,10 +37,10 @@ export default function ClubsClient({ venues, translations }: ClubsClientProps) 
   return (
     <div className="theme-monaco-vip min-h-screen bg-transparent relative">
       <EventsBackground />
-      <section className="pt-[140px] pb-4 relative z-10">
-        <div className="wrap">
+      <section className="pt-[140px] pb-4 relative z-10 flex flex-col items-center text-center">
+        <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
           <div className="flex flex-col gap-2 text-center mb-8">
-            <h1 className="text-4xl md:text-6xl font-black font-serif text-black leading-tight drop-shadow-md uppercase tracking-tight">
+            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight">
               {translations.title}
             </h1>
           </div>
