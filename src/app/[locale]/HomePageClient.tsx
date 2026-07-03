@@ -95,11 +95,6 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
             <span className="thin">Entertainment · Boat · Nightlife — Reimagined</span>
           </h1>
           
-          <p className="lead">
-            Alle clubs, boat parties, artiesten en deals van het eiland op één plek. 
-            Vind direct je tickets en plan je perfecte vakantie.
-            Officiële tickets via Clubtickets, 100% veilig.
-          </p>
           
           <div className="cta-row">
             <Link className="btn fill" href={`${base}/calendar`}>Bekijk de Kalender</Link>
@@ -129,6 +124,13 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
 
             {/* ── NEW: Professional date finder ── */}
             <HomeDateFinder locale={locale} base={base} />
+
+            {/* Lead text — below the finder, white fade-in */}
+            <p className="hero-lead-below">
+              {locale === 'nl'
+                ? 'Alle clubs, boat parties, artiesten en deals van het eiland op één plek. Officiële tickets via Clubtickets, 100% veilig.'
+                : 'All clubs, boat parties, artists and deals on the island in one place. Official tickets via Clubtickets, 100% safe.'}
+            </p>
           </div>
 
           
