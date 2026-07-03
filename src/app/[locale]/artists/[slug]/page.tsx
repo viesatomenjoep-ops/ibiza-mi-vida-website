@@ -233,7 +233,7 @@ export default async function ArtistPage({ params }: Props) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           
           {/* Left Column: Events list */}
-          <div className="lg:col-span-2 flex flex-col gap-4">
+          <div className="lg:col-span-2 flex flex-col gap-4" id="tickets">
             {futureDates.length === 0 ? (
               <div className="text-center py-12 text-velvet-obsidian/60 bg-white rounded-3xl border border-black/5 shadow-sm">
                 <Calendar className="w-12 h-12 mx-auto mb-4 opacity-30" />
@@ -296,6 +296,26 @@ export default async function ArtistPage({ params }: Props) {
 
         </div>
       </div>
+      {/* Floating Bottom Bar for mobile/desktop checkout */}
+      {futureDates.length > 0 && (
+        <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-black/10 z-50 flex items-center justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+          <div className="flex flex-col">
+            <span className="text-xs font-bold uppercase tracking-wider text-black/50">Events</span>
+            <span className="font-black text-xl text-black">{futureDates.length} Beschikbaar</span>
+          </div>
+          <button 
+            onClick={() => {
+              const el = document.getElementById('tickets');
+              if (el) {
+                window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' });
+              }
+            }}
+            className="bg-ibiza-green text-black font-black uppercase tracking-wider px-8 py-3.5 rounded-full hover:brightness-95 transition-all shadow-lg active:scale-95"
+          >
+            Bekijk Tickets
+          </button>
+        </div>
+      )}
     </div>
-  )
+  );
 }

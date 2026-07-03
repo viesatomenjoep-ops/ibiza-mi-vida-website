@@ -80,17 +80,8 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
           {/* Main content */}
           <div className="lg:col-span-2 flex flex-col gap-10">
-            {cleanDescription && (
-              <AnimatedSection delay={100}>
-                <h2 className="font-serif text-3xl font-bold text-velvet-obsidian mb-6">About {eventName}</h2>
-                <div className="prose prose-lg max-w-none text-velvet-obsidian">
-                  <p>{cleanDescription}</p>
-                </div>
-              </AnimatedSection>
-            )}
-
             {/* Calendar Events List */}
-            <AnimatedSection delay={100} className="flex flex-col gap-6">
+            <AnimatedSection delay={100} className="flex flex-col gap-6" id="tickets">
               <div className="flex items-end justify-between">
                 <div>
                   <h2 className="font-serif text-3xl font-bold text-velvet-obsidian">Select Date & Book</h2>
@@ -140,8 +131,36 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                 ))}
               </div>
             </AnimatedSection>
+
+            {cleanDescription && (
+              <AnimatedSection delay={200}>
+                <h2 className="font-serif text-3xl font-bold text-velvet-obsidian mb-6">About {eventName}</h2>
+                <div className="prose prose-lg max-w-none text-velvet-obsidian">
+                  <p>{cleanDescription}</p>
+                </div>
+              </AnimatedSection>
+            )}
           </div>
         </div>
+      </div>
+
+      {/* Floating Checkout Bar */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-black/10 z-50 flex items-center justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+        <div className="flex flex-col">
+          <span className="text-xs font-bold uppercase tracking-wider text-black/50">Vanaf</span>
+          <span className="font-black text-xl text-black">{eventDates[0]?.prices || '€30'}</span>
+        </div>
+        <button 
+          onClick={() => {
+            const el = document.getElementById('tickets');
+            if (el) {
+              window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' });
+            }
+          }}
+          className="bg-ibiza-green text-black font-black uppercase tracking-wider px-8 py-3.5 rounded-full hover:brightness-95 transition-all shadow-lg active:scale-95"
+        >
+          Select Tickets
+        </button>
       </div>
     </>
   )

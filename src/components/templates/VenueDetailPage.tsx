@@ -203,7 +203,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
       )}
 
       {/* Event List (All Events) */}
-      <section className="py-12 bg-white/50 text-neutral-900">
+      <section className="py-12 bg-white/50 text-neutral-900" id="tickets">
         <div className="max-w-7xl mx-auto px-4">
            <div className="flex items-end justify-between mb-6 gap-5">
               <div>
@@ -306,6 +306,24 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
         </div>
       </section>
 
-    </div>
+      {/* Sticky Bottom Bar */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-black/10 z-50 flex items-center justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+        <div className="flex flex-col">
+          <span className="text-xs font-bold uppercase tracking-wider text-black/50">Agenda</span>
+          <span className="font-black text-xl text-black">{allDates.length} Events</span>
+        </div>
+        <button 
+          onClick={() => {
+            const el = document.getElementById('tickets');
+            if (el) {
+              window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' });
+            }
+          }}
+          className="bg-ibiza-green text-black font-black uppercase tracking-wider px-8 py-3.5 rounded-full hover:brightness-95 transition-all shadow-lg active:scale-95"
+        >
+          Bekijk Tickets
+        </button>
+      </div>
+    </>
   )
 }
