@@ -129,7 +129,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
 
   return (
     <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-hidden">
-      <div className="ck-header relative z-10 pt-6 md:pt-10 flex flex-col items-center text-center">
+      <div className="ck-header relative z-10 pt-[120px] md:pt-[140px] flex flex-col items-center text-center">
         <div className="ck-header-top w-full max-w-7xl mx-auto flex flex-col items-center gap-6 px-4">
           <div className="flex flex-col gap-2 text-center mb-4">
             <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">EVENTS</h1>
