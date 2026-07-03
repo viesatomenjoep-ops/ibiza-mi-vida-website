@@ -321,8 +321,8 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
               <strong>Clubs & Venues</strong>
               <span className="arrow">→</span>
             </Link>
-            <Link href={`${base}/calendar?filter=boat`} className="cat">
-              <span className="num">03</span>
+            <Link href={`${base}/boat-parties`} className="cat">
+              <span className="icon"><Ship size={24} /></span>
               <strong>Boat Parties</strong>
               <span className="arrow">→</span>
             </Link>
