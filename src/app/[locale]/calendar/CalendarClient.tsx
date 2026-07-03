@@ -14,8 +14,8 @@ interface CalEvent {
   date: string;
   prices: string;
   lineUp: string;
-  ct_events: { name: string; slug: string; logo: string; cover: string };
-  ct_venues: { name: string; slug: string; whitelogo: string; type_slug: string };
+  ct_events: { name?: string; slug?: string; logo?: string; cover?: string };
+  ct_venues: { name?: string; slug?: string; whitelogo?: string; type_slug?: string };
 }
 
 interface CalendarClientProps {
@@ -59,7 +59,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
     setFavorites(prev => {
       const next = new Set(prev);
       next.has(id) ? next.delete(id) : next.add(id);
-      localStorage.setItem('cal_favs', JSON.stringify([...next]));
+      localStorage.setItem('cal_favs', JSON.stringify(Array.from(next)));
       return next;
     });
   }, []);
@@ -115,7 +115,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
   const months = useMemo(() => {
     const s = new Set<string>();
     events.forEach(e => { if (e.date) s.add(e.date.slice(0, 7)); });
-    return [...s].sort();
+    return Array.from(s).sort();
   }, [events]);
 
   // Venues with events (for filter)
