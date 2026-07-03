@@ -38,7 +38,7 @@ interface Props {
 export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
   const [clientToday, setClientToday] = useState('');
   const [selectedDate, setSelectedDate] = useState('all');
-  const [categoryFilter, setCategoryFilter] = useState<'all' | 'music' | 'boats'>('all');
+  const [categoryFilter, setCategoryFilter] = useState<'all' | 'music' | 'events' | 'boats' | 'active'>('all');
   const [floatingElements, setFloatingElements] = useState<{
     id: number;
     logo: string;
@@ -141,27 +141,19 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
   // 4. Filtering logic
   const filteredEvents = useMemo(() => {
     return initialEvents.filter(deal => {
-      // Date filter
-      if (selectedDate !== 'all' && deal.date !== selectedDate) {
-        return false;
-      }
-      // If selectedDate is 'all', show all future/today events
-      if (selectedDate === 'all' && clientToday && deal.date < clientToday) {
-        return false;
-      }
-      // Category filter
+      if (selectedDate !== 'all' && deal.date !== selectedDate) return false;
+      if (selectedDate === 'all' && clientToday && deal.date < clientToday) return false;
+
       const eventName = deal.ct_events?.name?.toLowerCase() || '';
       const venueName = deal.ct_venues?.name?.toLowerCase() || '';
       const combined = `${eventName} ${venueName}`;
-      
-      if (categoryFilter === 'boats') {
-        const isBoat = combined.includes('boat') || combined.includes('boot') || combined.includes('cruise') || combined.includes('ferry');
-        if (!isBoat) return false;
-      }
-      if (categoryFilter === 'music') {
-        const isBoat = combined.includes('boat') || combined.includes('boot') || combined.includes('cruise') || combined.includes('ferry');
-        if (isBoat) return false;
-      }
+      const isBoat = combined.includes('boat') || combined.includes('boot') || combined.includes('cruise') || combined.includes('ferry');
+      const isActive = combined.includes('activ') || combined.includes('sport') || combined.includes('water') || combined.includes('rental');
+
+      if (categoryFilter === 'boats') return isBoat;
+      if (categoryFilter === 'active') return isActive;
+      if (categoryFilter === 'music') return !isBoat && !isActive && (combined.includes('dj') || combined.includes('music') || combined.includes('concert') || combined.includes('muziek') || combined.includes('night') || combined.includes('club'));
+      if (categoryFilter === 'events') return !isBoat && !isActive;
       return true;
     });
   }, [initialEvents, selectedDate, categoryFilter, clientToday]);
@@ -212,29 +204,18 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
           <span className="text-white font-semibold">Deals of the Day</span>
         </div>
 
-        {/* Hero Title */}
-        <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <h1 className="text-4xl md:text-6xl font-black font-serif text-white leading-tight drop-shadow-md mb-3 uppercase">
-              Deals of the Day
-            </h1>
-            <p className="text-base md:text-lg text-white/60 max-w-2xl">
-              {locale === 'nl' 
-                ? 'Kies je dag, claim je deals. Directe tickets en exclusieve prijzen voor alle top feesten en bootparty\'s op Ibiza.' 
-                : 'Select your day, claim your deals. Instant ticket access and exclusive pricing for all top club nights and boat parties on Ibiza.'}
-            </p>
-          </div>
+        {/* Hero Title + Clock inline */}
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+          <h1 className="text-4xl md:text-6xl font-black font-serif text-white leading-tight drop-shadow-md uppercase">
+            Deals of the Day
+          </h1>
 
-          {/* Real-time Clock Banner */}
-          <div className="flex items-center gap-4 bg-white/5 border border-white/10 p-4.5 rounded-3xl backdrop-blur-md shrink-0">
+          {/* Clock — compact, inline with title */}
+          <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-3 rounded-2xl backdrop-blur-md shrink-0">
             <CSSClock />
-            <div>
-              <small className="text-[9px] font-black uppercase tracking-widest text-ibiza-green block mb-0.5">
-                {locale === 'nl' ? 'Live Tijd' : 'Live Time'}
-              </small>
-              <span className="text-sm font-bold text-white uppercase tracking-wider block">
-                Ibiza Local Time
-              </span>
+            <div className="leading-none">
+              <small className="text-[9px] font-black uppercase tracking-widest text-ibiza-green block mb-1">Ibiza Local Time</small>
+              <span className="text-xs font-bold text-white/60 uppercase tracking-wide block">Europe / Madrid</span>
             </div>
           </div>
         </div>
@@ -243,39 +224,29 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
         <div className="mb-12">
           <div className="flex flex-col gap-6 bg-white/5 p-6 rounded-3xl border border-white/10 shadow-lg backdrop-blur-md">
             
-            {/* Category selection */}
-            <div className="flex items-center gap-3 border-b border-white/10 pb-5 flex-wrap">
-              <span className="text-xs font-bold text-white/40 uppercase tracking-widest mr-2">Filter:</span>
-              <button 
-                onClick={() => setCategoryFilter('all')}
-                className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${
-                  categoryFilter === 'all' 
-                    ? 'bg-ibiza-green text-velvet-obsidian shadow-md' 
-                    : 'bg-white/5 text-white hover:bg-white/10 border border-white/10'
-                }`}
-              >
-                {locale === 'nl' ? 'Alle deals' : 'All Deals'}
-              </button>
-              <button 
-                onClick={() => setCategoryFilter('music')}
-                className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${
-                  categoryFilter === 'music' 
-                    ? 'bg-ibiza-green text-velvet-obsidian shadow-md' 
-                    : 'bg-white/5 text-white hover:bg-white/10 border border-white/10'
-                }`}
-              >
-                {locale === 'nl' ? 'Muziekevents' : 'Music Events'}
-              </button>
-              <button 
-                onClick={() => setCategoryFilter('boats')}
-                className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${
-                  categoryFilter === 'boats' 
-                    ? 'bg-ibiza-green text-velvet-obsidian shadow-md' 
-                    : 'bg-white/5 text-white hover:bg-white/10 border border-white/10'
-                }`}
-              >
-                {locale === 'nl' ? 'Bootfeesten & Active' : 'Boats & Active'}
-              </button>
+            {/* Category selection — 5 compact pills */}
+            <div className="flex items-center gap-2 border-b border-white/10 pb-4 flex-wrap">
+              {(
+                [
+                  { id: 'all',    label: locale === 'nl' ? 'Alle Deals' : 'All Deals' },
+                  { id: 'music',  label: 'Muziek' },
+                  { id: 'events', label: 'Events' },
+                  { id: 'boats',  label: 'Boottochten' },
+                  { id: 'active', label: 'Active' },
+                ] as const
+              ).map(f => (
+                <button
+                  key={f.id}
+                  onClick={() => setCategoryFilter(f.id)}
+                  className={`px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all ${
+                    categoryFilter === f.id
+                      ? 'bg-ibiza-green text-velvet-obsidian shadow-md'
+                      : 'bg-white/5 text-white/70 hover:bg-white/10 border border-white/10'
+                  }`}
+                >
+                  {f.label}
+                </button>
+              ))}
             </div>
 
             {/* Horizontal Date Pills */}
