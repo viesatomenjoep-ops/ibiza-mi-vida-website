@@ -104,9 +104,12 @@ export function GlobalSearch({ locale }: { locale: string }) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-[60px] md:top-[70px] w-[90vw] max-w-[340px] md:max-w-[450px] bg-white rounded-3xl shadow-2xl border border-black/10 overflow-hidden z-[100] transform transition-all origin-top-right mt-2">
-          <div className="p-3 md:p-4 border-b border-black/10 flex items-center gap-3">
-            <Search size={18} strokeWidth={2.5} className="text-neutral-400" />
+        <>
+          {/* Mobile backdrop to close when clicking outside */}
+          <div className="fixed inset-0 z-[90] md:hidden" onClick={() => setIsOpen(false)} />
+          <div className="fixed md:absolute left-4 right-4 md:left-auto md:right-0 top-[80px] md:top-[70px] w-auto md:w-[90vw] md:max-w-[450px] bg-white rounded-3xl shadow-2xl border border-black/10 overflow-hidden z-[100] transform transition-all mt-2 md:mt-0 flex flex-col max-h-[80vh] md:max-h-[85vh]">
+            <div className="p-3 md:p-4 border-b border-black/10 flex items-center gap-3 shrink-0">
+              <Search size={18} strokeWidth={2.5} className="text-neutral-400" />
             <input 
               type="text" 
               placeholder="Zoek DJ's, clubs of feesten..." 
@@ -123,7 +126,7 @@ export function GlobalSearch({ locale }: { locale: string }) {
             )}
           </div>
 
-          <div className="max-h-[85vh] overflow-y-auto hide-scrollbar">
+          <div className="flex-1 overflow-y-auto hide-scrollbar">
             {isSearching ? (
               <div className="p-8 text-center text-neutral-400 font-bold text-sm">
                 Aan het zoeken...
@@ -160,7 +163,7 @@ export function GlobalSearch({ locale }: { locale: string }) {
                   </button>
                 ))}
               </div>
-            ) : query.length > 1 ? (
+            ) : query.length > 0 ? (
               <div className="p-8 text-center text-neutral-400 font-bold text-sm">
                 Geen resultaten gevonden voor "{query}".
               </div>
@@ -171,6 +174,7 @@ export function GlobalSearch({ locale }: { locale: string }) {
             )}
           </div>
         </div>
+        </>
       )}
     </div>
   )
