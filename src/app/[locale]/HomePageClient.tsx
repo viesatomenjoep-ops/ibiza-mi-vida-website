@@ -110,7 +110,7 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
               >Clubbing</button>
               <button
                 className={`chip ${selectedCategory === 'boat-parties' ? 'on' : ''}`}
-                onClick={() => { setSelectedCategory('boat-parties'); router.push(`${base}/bootfeesten`); }}
+                onClick={() => { setSelectedCategory('boat-parties'); router.push(`${base}/boat-parties`); }}
               >Ibiza Boot</button>
               <button
                 className={`chip ${selectedCategory === 'private-boat-charters' ? 'on' : ''}`}
