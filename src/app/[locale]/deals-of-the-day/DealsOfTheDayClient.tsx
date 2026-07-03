@@ -3,8 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Music, MapPin, ExternalLink, CalendarDays, Search, X, Flame, Calendar, Tag, ChevronRight, Zap } from 'lucide-react';
-import { EventTicketSelector } from '@/components/templates/EventTicketSelector';
+import { Music, MapPin, Calendar, Zap } from 'lucide-react';
 import { CSSClock } from '@/components/ui/CSSClock';
 
 interface DatabaseDate {
@@ -158,8 +157,10 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
               const price = deal.prices;
 
               return (
-                <div 
+                <Link 
                   key={deal.id}
+                  href={deal.aff_link || `/${locale}/club-tickets/${venue?.slug || 'club'}/${event?.slug || deal.id}`}
+                  target={deal.aff_link ? "_blank" : "_self"}
                   className="bg-black/5 hover:bg-white/10 rounded-3xl overflow-hidden shadow-lg hover:shadow-xl border border-black/10 hover:border-ibiza-green/60 transition-all duration-300 group flex flex-col hover:scale-[1.02]"
                 >
                   <div className="h-48 relative bg-[#0D0509] overflow-hidden shrink-0">
@@ -206,19 +207,16 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
                     <div className="text-xs font-semibold text-black/50 flex items-center gap-1.5 mb-5 mt-auto pt-3">
                       <MapPin size={14} className="text-black/40" /> {venue?.name || 'Ibiza'}
                     </div>
-                    {/* Dynamic dual booking check out buttons */}
-                    <div className="pt-4 border-t border-black/10 w-full">
-                      <EventTicketSelector 
-                        id={deal.id.toString()}
-                        title={deal.name || event?.name || 'Deal Ticket'}
-                        date={deal.date}
-                        priceStr={price?.toString() || '40'}
-                        image={image}
-                        affLink={deal.aff_link || undefined}
-                      />
+                    <div className="pt-4 border-t border-black/10 w-full mt-auto flex justify-between items-center">
+                      <span className="text-xs font-bold text-black/60 uppercase tracking-widest">
+                        Tickets
+                      </span>
+                      <span className="bg-ibiza-green text-velvet-obsidian text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider group-hover:brightness-95 transition-all">
+                        {locale === 'nl' ? 'Bekijk' : 'View'}
+                      </span>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })
           )}
