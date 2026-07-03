@@ -210,10 +210,10 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
               className={`snap-start shrink-0 flex flex-col items-center gap-3 group w-20 md:w-24`}
               onClick={() => setSelectedVenue(null)}
             >
-              <div className={`w-16 h-16 md:w-20 md:h-20 flex items-center justify-center transition-all duration-300 ${!selectedVenue ? 'scale-110 text-ibiza-green drop-shadow-[0_0_15px_rgba(20,255,0,0.4)]' : 'text-neutral-400 group-hover:scale-105 group-hover:text-black'}`}>
-                <Calendar size={40} strokeWidth={2.5} />
+              <div className={`w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-full transition-all duration-300 ${!selectedVenue ? 'bg-ibiza-green text-black border-2 border-ibiza-green shadow-[0_0_20px_rgba(20,255,0,0.5)] scale-110' : 'bg-white text-neutral-400 border-2 border-neutral-200 group-hover:border-black group-hover:text-black group-hover:scale-105'}`}>
+                <MapPin size={24} className="md:w-8 md:h-8" strokeWidth={2.5} />
               </div>
-              <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest text-center line-clamp-2 ${!selectedVenue ? 'text-ibiza-green' : 'text-neutral-900 group-hover:text-black'}`}>
+              <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest text-center line-clamp-2 ${!selectedVenue ? 'text-ibiza-green' : 'text-neutral-500 group-hover:text-black'}`}>
                 Alle {categoryFilter === 'all' ? 'Venues' : categoryFilter === 'clubbing' ? 'Clubs' : 'Boats'}
               </span>
             </button>
