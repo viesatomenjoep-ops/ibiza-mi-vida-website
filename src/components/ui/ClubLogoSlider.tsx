@@ -6,9 +6,10 @@ import Link from 'next/link';
 interface ClubLogoSliderProps {
   clubLogos: Array<{ slug: string; name: string; whitelogo?: string; picture?: string; }>;
   base: string;
+  className?: string;
 }
 
-export function ClubLogoSlider({ clubLogos, base }: ClubLogoSliderProps) {
+export function ClubLogoSlider({ clubLogos, base, className = "w-full relative z-20 bg-black/80 py-4 border-t border-white/10 border-b" }: ClubLogoSliderProps) {
   const sliderRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
@@ -16,7 +17,7 @@ export function ClubLogoSlider({ clubLogos, base }: ClubLogoSliderProps) {
 
   useEffect(() => {
     const slider = sliderRef.current;
-    if (!slider) return;
+    if (!slider || clubLogos.length === 0) return;
 
     let animationId: number;
     const speed = 0.5;
@@ -33,7 +34,7 @@ export function ClubLogoSlider({ clubLogos, base }: ClubLogoSliderProps) {
 
     play();
     return () => cancelAnimationFrame(animationId);
-  }, []);
+  }, [clubLogos]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true;
@@ -66,7 +67,7 @@ export function ClubLogoSlider({ clubLogos, base }: ClubLogoSliderProps) {
   if (!clubLogos || clubLogos.length === 0) return null;
 
   return (
-    <div className="w-full relative z-20 bg-black/80 py-4 border-t border-white/10 border-b">
+    <div className={className}>
       <div 
         className="w-full overflow-x-auto hide-scrollbar cursor-grab active:cursor-grabbing" 
         style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)' }}

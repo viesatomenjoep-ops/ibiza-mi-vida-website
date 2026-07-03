@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Calendar, MapPin, Music } from 'lucide-react';
 import { HomeDateFinder } from '@/components/home/HomeDateFinder';
+import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 
 interface HomePageProps {
   locale?: string;
@@ -18,68 +19,6 @@ interface HomePageProps {
 export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], allVenues = [] }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
-
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false);
-  const startX = useRef(0);
-  const scrollLeft = useRef(0);
-
-  // Auto-scroll logic for slider
-  useEffect(() => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-
-    let animationId: number;
-    const speed = 0.5; // pixels per frame
-
-    const play = () => {
-      if (!isDragging.current && slider) {
-        slider.scrollLeft += speed;
-        // Reset scroll when reaching the end of the duplicated blocks
-        if (slider.scrollLeft >= slider.scrollWidth / 2) {
-          slider.scrollLeft = 0;
-        }
-      }
-      animationId = requestAnimationFrame(play);
-    };
-
-    play();
-    return () => cancelAnimationFrame(animationId);
-  }, []);
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    isDragging.current = true;
-    startX.current = e.pageX - (sliderRef.current?.offsetLeft || 0);
-    scrollLeft.current = sliderRef.current?.scrollLeft || 0;
-  };
-  const handleMouseLeave = () => {
-    isDragging.current = false;
-  };
-  const handleMouseUp = () => {
-    isDragging.current = false;
-  };
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current) return;
-    e.preventDefault();
-    const x = e.pageX - (sliderRef.current?.offsetLeft || 0);
-    const walk = (x - startX.current) * 2;
-    if (sliderRef.current) sliderRef.current.scrollLeft = scrollLeft.current - walk;
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    isDragging.current = true;
-    startX.current = e.touches[0].pageX - (sliderRef.current?.offsetLeft || 0);
-    scrollLeft.current = sliderRef.current?.scrollLeft || 0;
-  };
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging.current) return;
-    const x = e.touches[0].pageX - (sliderRef.current?.offsetLeft || 0);
-    const walk = (x - startX.current) * 2;
-    if (sliderRef.current) sliderRef.current.scrollLeft = scrollLeft.current - walk;
-  };
-  const handleTouchEnd = () => {
-    isDragging.current = false;
-  };
 
   const [selectedCategory, setSelectedCategory] = useState('club-tickets');
 
@@ -140,43 +79,11 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </div>
 
         {/* ── HORIZONTAL LOGO MARQUEE BAR ── */}
-        {clubLogos.length > 0 && (
-          <div className="w-full relative z-20 mt-auto mb-8 bg-transparent py-4 border-t border-white/10 border-b">
-            <div 
-              className="w-full overflow-x-auto hide-scrollbar cursor-grab active:cursor-grabbing" 
-              style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)' }}
-              ref={sliderRef}
-              onMouseDown={handleMouseDown}
-              onMouseLeave={handleMouseLeave}
-              onMouseUp={handleMouseUp}
-              onMouseMove={handleMouseMove}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-            >
-              <div className="flex items-center w-max">
-                {[...clubLogos, ...clubLogos, ...clubLogos, ...clubLogos]
-                  .filter(club => club.whitelogo || club.picture)
-                  .map((club, idx) => (
-                  <Link 
-                    href={`${base}/club-tickets/${club.slug}`}
-                    key={`${club.slug}-${idx}`} 
-                    className="inline-flex items-center justify-center px-8 opacity-80 hover:opacity-100 transition-opacity"
-                    draggable={false}
-                  >
-                    <img
-                      src={club.whitelogo || club.picture}
-                      alt={club.name}
-                      className="h-8 md:h-10 w-auto object-contain brightness-0 invert drop-shadow-md pointer-events-none"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
+        <ClubLogoSlider 
+          clubLogos={clubLogos} 
+          base={base} 
+          className="w-full relative z-20 mt-auto mb-8 bg-transparent py-4 border-t border-white/10 border-b"
+        />
       </header>
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}

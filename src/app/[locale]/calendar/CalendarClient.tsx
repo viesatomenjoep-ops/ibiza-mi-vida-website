@@ -265,7 +265,6 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
             })}
           </div>
         )}
-      </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 pb-24">
         {sortedDates.length === 0 ? (
