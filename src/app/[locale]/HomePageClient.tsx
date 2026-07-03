@@ -61,8 +61,8 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 to-transparent z-10 pointer-events-none"></div>
         </div>
 
-        {/* Spacer Top */}
-        <div className="flex-1 w-full" />
+        {/* Spacer Top (Fixed to push text up) */}
+        <div className="h-[100px] md:h-[140px] w-full shrink-0" />
 
         <div className="relative z-20 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4">
           <h1 className="text-white text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-bold font-serif uppercase tracking-tight drop-shadow-lg leading-none">
