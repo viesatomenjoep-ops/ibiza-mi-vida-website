@@ -326,20 +326,8 @@ export default function ClubTicketsClient({
             </div>
           )}
 
-          {/* Filter Toolbar: Search, Day/Night Filter, Sort */}
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between p-4 bg-transparent rounded-3xl border border-black/10 shadow-sm mb-8">
-            <div className="relative w-full md:w-auto md:flex-1 max-w-md">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/40" size={18} />
-              <input 
-                type="text" 
-                placeholder="Zoeken op feest, club of DJ..." 
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                className="w-full bg-transparent border border-black/20 rounded-full py-3.5 pl-12 pr-4 text-sm text-black placeholder-black/40 focus:outline-none focus:ring-2 focus:ring-ibiza-green focus:border-transparent transition-all"
-              />
-            </div>
-            
-            <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">
+          {/* Filter Toolbar: Day/Night Filter, Sort */}
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-end p-4 bg-transparent rounded-3xl border border-black/10 shadow-sm mb-8">
               {activeCategory === 'music' && (
                 <div className="flex bg-white/5 border border-white/10 rounded-full p-1">
                   <button 
@@ -386,10 +374,7 @@ export default function ClubTicketsClient({
               </select>
             </div>
           </div>
-          
-          <div className="results-meta mb-6 text-black">
-            <span>{filteredEvents.length}</span> resultaten · live uit ClubTickets API
-          </div>
+
           
           <div className="listing" id="listingGrid">
             {displayedEvents.map((event, i) => {

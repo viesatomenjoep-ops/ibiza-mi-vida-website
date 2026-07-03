@@ -50,7 +50,7 @@ export default function CategoryClient({ venues, translations, locale, basePath 
       <section className="relative z-10 pb-24 mt-8">
         <div className="wrap">
           
-        {/* Filters and Search Bar */}
+        {/* Filters */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12 bg-black/5 p-4 rounded-3xl backdrop-blur-sm border border-black/10">
           
           <div className="flex flex-wrap justify-center gap-3">
@@ -59,18 +59,6 @@ export default function CategoryClient({ venues, translations, locale, basePath 
             >
               {translations.allBtn}
             </button>
-          </div>
-
-          {/* Search Box */}
-          <div className="relative w-full md:w-72 lg:w-96">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/40" size={18} />
-            <input
-              type="text"
-              placeholder={translations.searchPlaceholder}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white border border-black/10 rounded-full py-3.5 pl-12 pr-4 text-sm text-black placeholder-black/40 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all shadow-sm"
-            />
           </div>
         </div>
 

@@ -130,9 +130,6 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
                 : formatFullDate(selectedDate)}
             </h2>
           </div>
-          <span className="text-xs font-bold text-black/40 uppercase tracking-widest">
-            {filteredEvents.length} {locale === 'nl' ? 'Deals gevonden' : 'Deals found'}
-          </span>
         </div>
 
         {/* Events Grid */}
