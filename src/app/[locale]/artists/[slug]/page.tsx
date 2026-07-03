@@ -35,7 +35,7 @@ function getSpotifyEmbedDetails(slug: string) {
     return { type: 'artist', id: '2o5jDhtHVPhrJdv3cEQ99Z' };
   }
   if (normalized.includes('black-coffee')) {
-    return { type: 'artist', id: '5j778Tq0J5yV5oPpyt5g5k' };
+    return { type: 'artist', id: '23HQ6V00W7V02FqfWnEw02' };
   }
   if (normalized.includes('swedish-house-mafia')) {
     return { type: 'artist', id: '1h0ceXBpq1d58XwVPRJPg3' };
@@ -44,7 +44,7 @@ function getSpotifyEmbedDetails(slug: string) {
     return { type: 'artist', id: '4u1C6C5VbK3161c5LzK17e' };
   }
   if (normalized.includes('john-summit') || normalized.includes('experts-only')) {
-    return { type: 'artist', id: '6871h1zD1qS9N6Hq6Y2D8H' };
+    return { type: 'artist', id: '7331Gn1ay40E3ZpYxjgBUP' };
   }
   if (normalized.includes('dimitri-vegas') || normalized.includes('like-mike') || normalized.includes('tomorrowland')) {
     return { type: 'artist', id: '2052Y92GZz593zF85p8o6c' };
