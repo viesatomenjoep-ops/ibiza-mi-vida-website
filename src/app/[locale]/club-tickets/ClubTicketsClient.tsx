@@ -185,15 +185,12 @@ export default function ClubTicketsClient({
 
   return (
     <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-hidden">
-      <section className="pt-[120px] md:pt-[140px] pb-12 relative z-10 flex flex-col items-center text-center px-4">
+      <section className="pt-[100px] md:pt-[120px] pb-6 relative z-10 flex flex-col items-center text-center px-4">
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
           <div className="flex flex-col gap-2 text-center mb-4">
             <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
               Alle Club Tickets
             </h1>
-            <p className="font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-6">
-              Een plek voor alle Club Tickets en activiteiten op het eiland.
-            </p>
           </div>
         </div>
       </section>
