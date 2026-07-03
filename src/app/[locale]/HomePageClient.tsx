@@ -83,11 +83,16 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </div>
 
         {/* ── HORIZONTAL LOGO MARQUEE BAR ── */}
-        <ClubLogoSlider 
-          clubLogos={clubLogos} 
-          base={base} 
-          className="w-full relative z-20 bg-transparent pt-2 pb-2 border-t border-white/10"
-        />
+        <div className="w-full relative z-20 pb-4">
+          <ClubLogoSlider 
+            clubLogos={clubLogos} 
+            base={base} 
+            className="w-full bg-transparent pt-4 pb-4 border-t border-white/10"
+          />
+          <div className="flex justify-center w-full px-4 mt-2">
+            <HomeDateFinder locale={locale} base={base} />
+          </div>
+        </div>
       </header>
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
