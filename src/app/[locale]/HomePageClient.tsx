@@ -41,7 +41,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
   return (
     <div className="theme-monaco-vip is-home bg-white text-[var(--color-ink)] min-h-screen">
 
-      <header className="hero bg-black">
+      <header className="hero bg-black relative">
         {/* ── VIDEO BACKGROUND ── */}
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           <video 
@@ -58,7 +58,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/80 to-transparent z-10 pointer-events-none"></div>
         </div>
 
-        <div className="wrap hero-inner relative z-20 pt-[220px] pb-16">
+        <div className="wrap hero-inner relative z-20 pt-[60px] md:pt-[100px] pb-16">
           <h1>
             {translations.home_hero_title}
             <span className="thin">{translations.home_hero_subtitle}</span>
@@ -212,7 +212,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                   textTransform: 'uppercase',
                   color: 'rgba(255,255,255,0.4)',
                   marginBottom: '8px',
-                }}>Ibiza's Finest</div>
+                }}></div>
                 <h2 style={{
                   fontSize: 'clamp(28px, 5vw, 48px)',
                   fontWeight: 900,

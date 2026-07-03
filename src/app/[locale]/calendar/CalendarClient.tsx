@@ -128,29 +128,27 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
   const weekCount = events.filter(e => e.date >= weekStart && e.date <= weekEnd).length;
 
   return (
-    <div className="ck-shell bg-transparent min-h-screen relative">
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-black">
-        <video src="/hero-ocean.mp4" autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-50" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80"></div>
-      </div>
-
-      <div className="ck-header relative z-10 pt-[160px] md:pt-[180px] flex flex-col items-center text-center">
+    <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-hidden">
+      <div className="ck-header relative z-10 pt-6 md:pt-10 flex flex-col items-center text-center">
         <div className="ck-header-top w-full max-w-7xl mx-auto flex flex-col items-center gap-6 px-4">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-5xl md:text-7xl font-black font-serif text-white leading-tight uppercase m-0 tracking-tight drop-shadow-2xl">KALENDER</h1>
+          <div className="flex flex-col gap-2 text-center mb-4">
+            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">KALENDER</h1>
+            <p className="font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-6">
+              Vind direct alle evenementen, clubfeesten en bootparty's op Ibiza. Filter op datum, categorie of club en bemachtig direct je tickets!
+            </p>
           </div>
 
-          <div className="relative w-full max-w-xl">
-            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50" />
+          <div className="relative w-full max-w-xl mt-6">
+            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
             <input
               type="text"
               placeholder="Zoek event, artiest of club..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full bg-white/10 border border-white/20 rounded-full py-3 md:py-4 pl-12 pr-10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-ibiza-green backdrop-blur-md transition-all shadow-xl"
+              className="w-full bg-white border-2 border-black/10 rounded-full py-3 md:py-4 pl-12 pr-10 text-black placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-ibiza-green transition-all shadow-md font-bold"
             />
             {searchQuery && (
-              <button onClick={() => setSearchQuery('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white">
+              <button onClick={() => setSearchQuery('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-black">
                 <X size={16} />
               </button>
             )}
@@ -166,7 +164,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
           ].map(([key, label]) => (
             <button
               key={key}
-              className={`px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm border-2 transition-all duration-300 shadow-xl ${categoryFilter === key ? 'bg-white text-black border-white' : 'bg-black/60 backdrop-blur-md text-white border-white/20 hover:border-white/50 hover:bg-black/80'}`}
+              className={`px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm border-2 transition-all duration-300 shadow-sm ${categoryFilter === key ? 'bg-black text-white border-black' : 'bg-white text-black border-neutral-200 hover:border-black'}`}
               onClick={() => { setCategoryFilter(key as CategoryFilter); setSelectedVenue(null); }}
             >
               {label}
@@ -184,11 +182,11 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
             ] as [QuickFilter, string, number | null][]).map(([key, label, count]) => (
               <button
                 key={key}
-                className={`relative overflow-hidden px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm border-2 transition-all duration-300 shadow-xl ${quickFilter === key ? 'bg-ibiza-green text-black border-ibiza-green shadow-[0_0_15px_rgba(20,255,0,0.3)]' : 'bg-black/60 backdrop-blur-md text-white border-white/20 hover:border-white/50 hover:bg-black/80'}`}
+                className={`relative overflow-hidden px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm border-2 transition-all duration-300 shadow-sm ${quickFilter === key ? 'bg-ibiza-green text-black border-ibiza-green shadow-[0_0_15px_rgba(20,255,0,0.3)]' : 'bg-white text-black border-neutral-200 hover:border-black'}`}
                 onClick={() => { setQuickFilter(key); if (key === 'all') setActiveMonth(format(today, 'yyyy-MM')); }}
               >
                 {label}
-                {count !== null && count > 0 && <span className={`ml-2 px-1.5 py-0.5 rounded-full text-[9px] font-black ${quickFilter === key ? 'bg-black text-ibiza-green' : 'bg-white text-black'}`}>{count}</span>}
+                {count !== null && count > 0 && <span className={`ml-2 px-1.5 py-0.5 rounded-full text-[9px] font-black ${quickFilter === key ? 'bg-black text-ibiza-green' : 'bg-neutral-100 text-black'}`}>{count}</span>}
               </button>
             ))}
         </div>
@@ -200,15 +198,15 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
               className={`snap-start shrink-0 flex flex-col items-center gap-3 group w-20 md:w-24`}
               onClick={() => setSelectedVenue(null)}
             >
-              <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full border-[3px] flex items-center justify-center transition-all duration-300 ${!selectedVenue ? 'border-ibiza-green bg-white shadow-[0_0_25px_rgba(20,255,0,0.5)] scale-110 text-black' : 'border-white/20 bg-black/60 backdrop-blur-sm text-white group-hover:border-white group-hover:scale-105'}`}>
+              <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full border-[3px] flex items-center justify-center transition-all duration-300 ${!selectedVenue ? 'border-ibiza-green bg-white shadow-[0_0_25px_rgba(20,255,0,0.5)] scale-110 text-black' : 'border-black/10 bg-white text-black group-hover:border-black/30 group-hover:scale-105 shadow-sm'}`}>
                 <Calendar size={28} />
               </div>
-              <span className={`text-[10px] md:text-xs font-bold uppercase tracking-wider text-center line-clamp-2 ${!selectedVenue ? 'text-ibiza-green drop-shadow-md' : 'text-white/60 group-hover:text-white'}`}>
+              <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest text-center line-clamp-2 ${!selectedVenue ? 'text-ibiza-green' : 'text-neutral-900 group-hover:text-black'}`}>
                 Alle {categoryFilter === 'all' ? 'Venues' : categoryFilter === 'clubbing' ? 'Clubs' : 'Boats'}
               </span>
             </button>
             {visibleVenues.map(v => {
-              const vImg = v.whitelogo || v.logo || v.image;
+              const vImg = v.logo || v.picture || v.whitelogo || v.image;
               const isActive = selectedVenue === v.slug;
               return (
                 <button
@@ -216,14 +214,14 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
                   className="snap-start shrink-0 flex flex-col items-center gap-3 group w-20 md:w-24"
                   onClick={() => setSelectedVenue(v.slug)}
                 >
-                  <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full border-[3px] overflow-hidden flex items-center justify-center transition-all duration-300 p-2 ${isActive ? 'border-ibiza-green bg-white shadow-[0_0_25px_rgba(20,255,0,0.5)] scale-110' : 'border-white/20 bg-black/60 backdrop-blur-sm group-hover:border-white group-hover:scale-105'}`}>
+                  <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full border-[3px] overflow-hidden flex items-center justify-center transition-all duration-300 p-2 ${isActive ? 'border-ibiza-green bg-white shadow-[0_0_25px_rgba(20,255,0,0.5)] scale-110' : 'border-black/10 bg-white shadow-sm group-hover:border-black/30 group-hover:scale-105'}`}>
                     {vImg ? (
-                      <img src={vImg} alt={v.name} className={`w-full h-full object-contain drop-shadow-sm ${isActive ? 'brightness-0' : 'brightness-0 invert'}`} />
+                      <img src={vImg} alt={v.name} className={`w-full h-full object-contain ${isActive ? 'brightness-0' : 'brightness-0 opacity-80 group-hover:opacity-100'}`} />
                     ) : (
-                      <span className={`text-xl font-black ${isActive ? 'text-black' : 'text-white'}`}>{v.name.slice(0,2)}</span>
+                      <span className={`text-xl font-black text-black`}>{v.name.slice(0,2)}</span>
                     )}
                   </div>
-                  <span className={`text-[10px] md:text-xs font-bold uppercase tracking-wider text-center line-clamp-2 ${isActive ? 'text-ibiza-green drop-shadow-md' : 'text-white/60 group-hover:text-white'}`}>
+                  <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest text-center line-clamp-2 text-neutral-900 group-hover:text-black`}>
                     {v.name}
                   </span>
                 </button>
@@ -243,7 +241,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
               return (
                 <button
                   key={mo}
-                  className={`px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest border transition-all ${activeMonth === mo ? 'bg-white text-black border-white' : 'bg-black/30 text-white/70 border-white/10 hover:border-white/40'}`}
+                  className={`px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest border transition-all ${activeMonth === mo ? 'bg-black text-white border-black' : 'bg-white text-neutral-500 border-neutral-200 hover:border-black hover:text-black'}`}
                   onClick={() => setActiveMonth(mo)}
                 >
                   {label}
@@ -256,18 +254,18 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 pb-24">
         {sortedDates.length === 0 ? (
-            <div className="text-center py-20 bg-black/60 backdrop-blur-md rounded-[32px] border border-white/10 mt-8">
-              <Calendar size={48} className="mx-auto text-white/30 mb-4" />
-              <p className="text-white/50 font-bold uppercase tracking-widest text-lg">Geen events gevonden</p>
+            <div className="text-center py-20 bg-white rounded-[32px] border border-neutral-100 mt-8 shadow-sm">
+              <Calendar size={48} className="mx-auto text-neutral-300 mb-4" />
+              <p className="text-neutral-500 font-bold uppercase tracking-widest text-lg">Geen events gevonden</p>
             </div>
         ) : sortedDates.map(ds => (
             <div key={ds} className="mt-12">
-              <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b-2 border-white/10">
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b-2 border-black/5">
                 <div className="flex items-center gap-4">
-                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-white tracking-tight drop-shadow-lg">{dateLabel(ds)}</h3>
-                  {isDateToday(ds) && <span className="bg-red-500 text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-[0_0_15px_rgba(239,68,68,0.5)]">Live</span>}
+                  <h3 className="text-2xl md:text-3xl font-serif font-black text-black tracking-tight">{dateLabel(ds)}</h3>
+                  {isDateToday(ds) && <span className="bg-red-500 text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-sm">Live</span>}
                 </div>
-                <div className="text-white/50 font-bold uppercase tracking-widest text-xs">{grouped[ds].length} Events</div>
+                <div className="text-neutral-400 font-bold uppercase tracking-widest text-xs">{grouped[ds].length} Events</div>
               </div>
 
               {/* Event Grid (2 cols mobile, 6 cols desktop) */}

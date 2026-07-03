@@ -10,10 +10,9 @@ export default async function ArtistsPage({ params }: { params: { locale: string
 
   return (
     <main className="theme-monaco-vip bg-neutral-50 min-h-screen text-[var(--color-ink)] pb-24 relative overflow-hidden">
-      <section className="pt-[160px] md:pt-[180px] pb-12 relative z-10 flex flex-col items-center text-center px-4">
+      <section className="pt-6 md:pt-10 pb-12 relative z-10 flex flex-col items-center text-center px-4">
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
           <div className="flex flex-col gap-2 text-center mb-4">
-            <span className="text-sm font-bold tracking-widest text-neutral-500 uppercase mb-4">Ibiza's Finest</span>
             <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
               Ibiza Artists
             </h1>
