@@ -69,22 +69,18 @@ export const BoatListClient: React.FC<BoatListClientProps> = ({
         </div>
       </div>
 
-      {/* Breadcrumbs */}
+      {/* Back navigation */}
       <div className="wrap" style={{ maxWidth: '1240px', margin: '0 auto' }}>
-        <div className="crumb" style={{ paddingTop: '14px' }}>
-          {crumbs.map((crumb, i) => (
-            <React.Fragment key={i}>
-              {crumb.href ? (
-                <>
-                  <Link href={crumb.href}>{crumb.label}</Link>
-                  <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" /></svg>
-                </>
-              ) : (
-                <b>{crumb.label}</b>
-              )}
-            </React.Fragment>
-          ))}
-        </div>
+        {crumbs.length > 1 && crumbs[crumbs.length - 2]?.href && (
+          <Link
+            href={crumbs[crumbs.length - 2].href!}
+            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest opacity-50 hover:opacity-100 transition-opacity pt-4 pb-0"
+            style={{ color: 'inherit' }}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 6l-6 6 6 6"/></svg>
+            {crumbs[crumbs.length - 2].label}
+          </Link>
+        )}
       </div>
 
       {/* Statbar */}

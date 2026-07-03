@@ -63,13 +63,15 @@ export default function PrivateBoatChartersClient({ dict, locale }: Props) {
 
   return (
     <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen pb-24">
-      {/* Breadcrumbs */}
-      <div className="crumb wrap pt-6">
-        <Link href={`/${locale}`} className="text-white/60 hover:text-white transition-colors">Home</Link>
-        <ChevronRight size={13} className="text-white/40" />
-        <Link href={`/${locale}/boat-parties`} className="text-white/60 hover:text-white transition-colors">Boats</Link>
-        <ChevronRight size={13} className="text-white/40" />
-        <b>Private Boat Charters</b>
+      {/* Back navigation pill */}
+      <div className="wrap pt-5 pb-0">
+        <Link
+          href={`/${locale}/boat-parties`}
+          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors"
+        >
+          <ChevronRight size={13} className="rotate-180" />
+          Boats
+        </Link>
       </div>
 
       {/* Hero Section */}

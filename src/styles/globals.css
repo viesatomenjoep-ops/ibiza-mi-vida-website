@@ -104,7 +104,7 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .mp.on{background:#000000;color:#ffffff;border-color:#000000}
 
 .logo-slider{background:#ffffff;border-bottom:1px solid rgba(0,0,0,0.06);padding:14px 0;overflow:hidden;position:relative;width:100%}
-.logo-slider-track{display:flex;gap:56px;width:max-content;animation:logoScroll 28s linear infinite;align-items:center}
+.logo-slider-track{display:flex;gap:56px;width:max-content;animation:logoScroll 56s linear infinite;align-items:center}
 .logo-slider-item{display:flex;align-items:center;justify-content:center;flex-shrink:0}
 @keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-33.33%)}}
 @keyframes colFloatDown{0%,100%{transform:translateY(-40%)}50%{transform:translateY(40%)}}

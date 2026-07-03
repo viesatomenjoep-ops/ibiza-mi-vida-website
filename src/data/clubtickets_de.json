@@ -1688,13 +1688,13 @@
           "logo": "https://media.clubtickets.com/event/6a3ba5bb8bad2.webp",
           "cover": "https://media.clubtickets.com/migrated/event/4b356e43-ffd9-46d3-ba31-21ca4d986c1c.jpg",
           "whitelogo": "https://media.clubtickets.com/migrated/event/d7d7ce91-dd99-4fc7-84db-71f236989599.png",
-          "startAt": "16:00",
-          "endAt": "23:00",
+          "startAt": "18:00",
+          "endAt": "02:00",
           "endIsDefined": true,
           "startAtNextDay": false,
-          "endAtNextDay": false,
+          "endAtNextDay": true,
           "description": "Brunch Electronik Ibiza in 528<br />\r\n<p>Brunch Electronik kehrt nach San Antonio 528 Ibiza zurück, um Gardens of Babylon zu bringen.</p><p class=\"tdfocus-1782293996240\">Der Veranstalter, der die ersten in Barcelona angeboten hat, setzt mit einem neuen Kapitel auf Ibiza mit 4 Terminen im Juli und August fort.</p><br />\r\n<br><br />\r\nLine-up Brunch Electronik Ibiza at 528<br />\r\n<p>Wir kennen bereits die vollständige Liste der Künstler für jedes Datum. Verpassen Sie nicht das außergewöhnliche Line-up mit Ben Böhmer, Jan Blomqvist, Monolink, Satori, Bob Moses, Henrik Schwarz, WhoMadeWho und Mind Against, unter vielen anderen.</p><br />\r\n<br>Tickets Brunch Electronik Ibiza en 528<br />\r\n<p class=\"tdfocus-1718187440451\">Tickets für Brunch Electronik Ibiza im 528 sind jetzt ab 34,80 Euro im Verkauf - kaufen Sie Ihr Ticket, bevor sie ausverkauft sind!</p><p class=\"tdfocus-1718187440451\"><br></p><p class=\"tdfocus-1718187440451\"><span>Club:</span>528 Ibiza<br></p>",
-          "requirements": "<p>- Alle Assistenten müssen einen gültigen und originalen Ausweis mitbringen.</p><br />\r\n<p class=\"tdfocus-1752215477752\">- Die Veranstaltung beginnt um 16:00 Uhr und endet um 23:00 Uhr.</p><br />\r\n<p>- 528 Ibiza betreibt eine Politik für über 18-Jährige. Personen unter 18 Jahren wird der Eintritt verweigert.</p><br />\r\n<p>- Line-ups und Spielzeiten können Änderungen unterliegen.</p><br />\r\n<p>- Kein Wiedereintritt erlaubt, sobald Sie den Veranstaltungsort verlassen, müssen Sie erneut zahlen, um Zugang zu erhalten.</p><br />\r\n<p>- Tickets sind nicht erstattungsfähig.</p>",
+          "requirements": "<p>- Alle Assistenten müssen einen gültigen und originalen Ausweis mitbringen.</p><br />\r\n<p class=\"tdfocus-1752215477752\">- Die Veranstaltung beginnt um 18:00 Uhr und endet um 2:00 Uhr.</p><br />\r\n<p>- 528 Ibiza betreibt eine Politik für über 18-Jährige. Personen unter 18 Jahren wird der Eintritt verweigert.</p><br />\r\n<p>- Line-ups und Spielzeiten können Änderungen unterliegen.</p><br />\r\n<p>- Kein Wiedereintritt erlaubt, sobald Sie den Veranstaltungsort verlassen, müssen Sie erneut zahlen, um Zugang zu erhalten.</p><br />\r\n<p>- Tickets sind nicht erstattungsfähig.</p>",
           "affLink": "https://www.clubtickets.com/de/clubbing/528-ibiza/brunch-electronik-ibiza?aff=CT219",
           "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/315/event/1853?locale=de"
         },
@@ -4674,7 +4674,7 @@
           "id": 165169,
           "date": "2026-09-29",
           "name": "",
-          "lineUp": "<p>Artist TBA</p>",
+          "lineUp": "<p>ANOTR</p><p>Prospa</p><p>Toman</p><p>Miluskha</p>",
           "prices": "50 € - 500 €",
           "affLink": "https://www.clubtickets.com/de/clubbing/unvrs-ibiza/no-art-ibiza/2026-09-29?aff=CT219"
         }
@@ -5545,7 +5545,7 @@
           "date": "2026-09-05",
           "name": "",
           "lineUp": "<p>Franky Rizardo</p><p>Riordan</p><p>Chelina Manuhutu</p><p>Dennis Quin</p><p>Raul Rodriguez</p><p><br></p>",
-          "prices": "30 € - 220 €",
+          "prices": "40 € - 220 €",
           "affLink": "https://www.clubtickets.com/de/clubbing/ushuaia-ibiza/ants/2026-09-05?aff=CT219"
         },
         {
@@ -5577,7 +5577,7 @@
           "date": "2026-10-03",
           "name": "",
           "lineUp": "<p>Franky Rizardo</p><p>Nic Fanciulli B2B Sosa</p><p>Bontan B2B Rafael</p><p>Ranger Trucco B2B Robbie Doherty</p><p>Meeshy</p><p>Raul Rodriguez</p><p><br></p>",
-          "prices": "30 € - 220 €",
+          "prices": "40 € - 220 €",
           "affLink": "https://www.clubtickets.com/de/clubbing/ushuaia-ibiza/ants/2026-10-03?aff=CT219"
         }
       ],
@@ -9724,7 +9724,7 @@
           "date": "2026-07-04",
           "name": "",
           "lineUp": "<p>Claptone </p><p> Myd</p><p>  Melé </p><p> Malive</p>",
-          "prices": "35 € - 55 €",
+          "prices": "35 € - 45 €",
           "affLink": "https://www.clubtickets.com/de/clubbing/club-chinois-ibiza/claptone-the-masquerade/2026-07-04?aff=CT219"
         },
         {
@@ -9879,7 +9879,7 @@
           "date": "2026-07-05",
           "name": "",
           "lineUp": "<p>Bedouin</p><p>Damian Lazarus</p><p>Fiona Kraft</p>",
-          "prices": "35 € - 50 €",
+          "prices": "35 € - 45 €",
           "affLink": "https://www.clubtickets.com/de/clubbing/club-chinois-ibiza/bedouin-presents-saga/2026-07-05?aff=CT219"
         },
         {
@@ -10133,7 +10133,7 @@
           "date": "2026-07-09",
           "name": "",
           "lineUp": "<p>Ferreck Dawn</p><p><span>Low Steppa</span><br></p><p><span>Nick Curly</span><br></p><p><span>Sam Divine</span><br></p><p><span>Andy Daniell</span><br></p><p><br></p>",
-          "prices": "30 € - 40 €",
+          "prices": "30 € - 50 €",
           "affLink": "https://www.clubtickets.com/de/clubbing/club-chinois-ibiza/defected/2026-07-09?aff=CT219"
         },
         {
@@ -11130,7 +11130,7 @@
           "date": "2026-07-10",
           "name": "",
           "lineUp": "",
-          "prices": "32 € - 48 €",
+          "prices": "48 €",
           "affLink": "https://www.clubtickets.com/de/clubbing/ibiza-rocks/origins/2026-07-10?aff=CT219"
         },
         {
@@ -11138,7 +11138,7 @@
           "date": "2026-07-17",
           "name": "",
           "lineUp": "",
-          "prices": "32 € - 48 €",
+          "prices": "48 €",
           "affLink": "https://www.clubtickets.com/de/clubbing/ibiza-rocks/origins/2026-07-17?aff=CT219"
         },
         {
@@ -13233,11 +13233,11 @@
       "logo": "https://media.clubtickets.com/event/6a3ba5bb8bad2.webp",
       "cover": "https://media.clubtickets.com/migrated/event/4b356e43-ffd9-46d3-ba31-21ca4d986c1c.jpg",
       "whitelogo": "https://media.clubtickets.com/migrated/event/d7d7ce91-dd99-4fc7-84db-71f236989599.png",
-      "startAt": "16:00",
-      "endAt": "23:00",
+      "startAt": "18:00",
+      "endAt": "02:00",
       "endIsDefined": true,
       "startAtNextDay": false,
-      "endAtNextDay": false,
+      "endAtNextDay": true,
       "venue": {
         "id": 315,
         "name": "528 Ibiza",
@@ -13272,7 +13272,7 @@
         }
       ],
       "description": "Brunch Electronik Ibiza in 528<br />\r\n<p>Brunch Electronik kehrt nach San Antonio 528 Ibiza zurück, um Gardens of Babylon zu bringen.</p><p class=\"tdfocus-1782293996240\">Der Veranstalter, der die ersten in Barcelona angeboten hat, setzt mit einem neuen Kapitel auf Ibiza mit 4 Terminen im Juli und August fort.</p><br />\r\n<br><br />\r\nLine-up Brunch Electronik Ibiza at 528<br />\r\n<p>Wir kennen bereits die vollständige Liste der Künstler für jedes Datum. Verpassen Sie nicht das außergewöhnliche Line-up mit Ben Böhmer, Jan Blomqvist, Monolink, Satori, Bob Moses, Henrik Schwarz, WhoMadeWho und Mind Against, unter vielen anderen.</p><br />\r\n<br>Tickets Brunch Electronik Ibiza en 528<br />\r\n<p class=\"tdfocus-1718187440451\">Tickets für Brunch Electronik Ibiza im 528 sind jetzt ab 34,80 Euro im Verkauf - kaufen Sie Ihr Ticket, bevor sie ausverkauft sind!</p><p class=\"tdfocus-1718187440451\"><br></p><p class=\"tdfocus-1718187440451\"><span>Club:</span>528 Ibiza<br></p>",
-      "requirements": "<p>- Alle Assistenten müssen einen gültigen und originalen Ausweis mitbringen.</p><br />\r\n<p class=\"tdfocus-1752215477752\">- Die Veranstaltung beginnt um 16:00 Uhr und endet um 23:00 Uhr.</p><br />\r\n<p>- 528 Ibiza betreibt eine Politik für über 18-Jährige. Personen unter 18 Jahren wird der Eintritt verweigert.</p><br />\r\n<p>- Line-ups und Spielzeiten können Änderungen unterliegen.</p><br />\r\n<p>- Kein Wiedereintritt erlaubt, sobald Sie den Veranstaltungsort verlassen, müssen Sie erneut zahlen, um Zugang zu erhalten.</p><br />\r\n<p>- Tickets sind nicht erstattungsfähig.</p>",
+      "requirements": "<p>- Alle Assistenten müssen einen gültigen und originalen Ausweis mitbringen.</p><br />\r\n<p class=\"tdfocus-1752215477752\">- Die Veranstaltung beginnt um 18:00 Uhr und endet um 2:00 Uhr.</p><br />\r\n<p>- 528 Ibiza betreibt eine Politik für über 18-Jährige. Personen unter 18 Jahren wird der Eintritt verweigert.</p><br />\r\n<p>- Line-ups und Spielzeiten können Änderungen unterliegen.</p><br />\r\n<p>- Kein Wiedereintritt erlaubt, sobald Sie den Veranstaltungsort verlassen, müssen Sie erneut zahlen, um Zugang zu erhalten.</p><br />\r\n<p>- Tickets sind nicht erstattungsfähig.</p>",
       "type": {
         "id": 1,
         "name": "Clubbing",
@@ -16997,14 +16997,6 @@
       },
       "dates": [
         {
-          "id": 167483,
-          "date": "2026-07-03",
-          "name": "",
-          "lineUp": "",
-          "prices": "69 € - 110 €",
-          "affLink": "https://www.clubtickets.com/de/boat/ibiza-cruise-crush/ibiza-cruise-crush/2026-07-03?aff=CT219"
-        },
-        {
           "id": 167484,
           "date": "2026-07-05",
           "name": "",
@@ -18082,14 +18074,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/338?locale=de"
       },
       "dates": [
-        {
-          "id": 164855,
-          "date": "2026-07-03",
-          "name": "",
-          "lineUp": "",
-          "prices": "30 € - 59.99 €",
-          "affLink": "https://www.clubtickets.com/de/boat/the-beach-hopper/beach-hopper-sunset/2026-07-03?aff=CT219"
-        },
         {
           "id": 164856,
           "date": "2026-07-04",
@@ -19544,14 +19528,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/27?locale=de"
       },
       "dates": [
-        {
-          "id": 172617,
-          "date": "2026-07-03",
-          "name": "",
-          "lineUp": "",
-          "prices": "7 € - 12 €",
-          "affLink": "https://www.clubtickets.com/de/formentera-day-trip/barco-a-formentera-ulises-cat/cala-salada-boat/2026-07-03?aff=CT219"
-        },
         {
           "id": 172618,
           "date": "2026-07-04",
@@ -45901,14 +45877,6 @@
       },
       "dates": [
         {
-          "id": 173280,
-          "date": "2026-07-03",
-          "name": "",
-          "lineUp": "",
-          "prices": "9 € - 34 €",
-          "affLink": "https://www.clubtickets.com/de/formentera-day-trip/santa-eularia-ferry/shuttle-ferry-ibiza-es-canar/2026-07-03?aff=CT219"
-        },
-        {
           "id": 173281,
           "date": "2026-07-04",
           "name": "",
@@ -56604,60 +56572,6 @@
       "venueId": 324
     },
     {
-      "id": 167483,
-      "date": "2026-07-03",
-      "name": "",
-      "lineUp": "",
-      "prices": "69 € - 110 €",
-      "affLink": "https://www.clubtickets.com/de/boat/ibiza-cruise-crush/ibiza-cruise-crush/2026-07-03?aff=CT219",
-      "eventName": "Cruise Crush Boat Party",
-      "eventSlug": "ibiza-cruise-crush",
-      "venueName": "Ibiza Cruise Crush",
-      "venueSlug": "ibiza-cruise-crush",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/98649d0b-34b9-463e-939b-91184c1013a4.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/bc02a257-7d26-496a-96e9-a6c827c99c11.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/b6a359cd-c4e9-4f8f-88c5-8622337ef55c.png",
-      "eventId": 1761,
-      "venueId": 304
-    },
-    {
-      "id": 164855,
-      "date": "2026-07-03",
-      "name": "",
-      "lineUp": "",
-      "prices": "30 € - 59.99 €",
-      "affLink": "https://www.clubtickets.com/de/boat/the-beach-hopper/beach-hopper-sunset/2026-07-03?aff=CT219",
-      "eventName": "The Beach Hopper Sunset",
-      "eventSlug": "beach-hopper-sunset",
-      "venueName": "The Beach Hopper",
-      "venueSlug": "the-beach-hopper",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/8afbbb03-026b-4125-bbf2-a1b54da7465e.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/07f8de02-8557-41d6-95b2-df41850aa7da.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/fde56c5f-663e-4600-a65e-627bfb511c3f.png",
-      "eventId": 1711,
-      "venueId": 338
-    },
-    {
-      "id": 172617,
-      "date": "2026-07-03",
-      "name": "",
-      "lineUp": "",
-      "prices": "7 € - 12 €",
-      "affLink": "https://www.clubtickets.com/de/formentera-day-trip/barco-a-formentera-ulises-cat/cala-salada-boat/2026-07-03?aff=CT219",
-      "eventName": "San Antonio - Cala Salada ferry boat",
-      "eventSlug": "cala-salada-boat",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/7edaa55a-0787-4a11-9c62-acfd1a97f2ac.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/fa8952f1-2642-45cc-b75d-6aa96ab8ac0f.jpg",
-      "eventId": 351,
-      "venueId": 27
-    },
-    {
       "id": 166859,
       "date": "2026-07-03",
       "name": "",
@@ -56746,24 +56660,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/9acfdef0-6f33-4787-bfe3-81c43c5ecfa9.png",
       "eventId": 2094,
       "venueId": 61
-    },
-    {
-      "id": 173280,
-      "date": "2026-07-03",
-      "name": "",
-      "lineUp": "",
-      "prices": "9 € - 34 €",
-      "affLink": "https://www.clubtickets.com/de/formentera-day-trip/santa-eularia-ferry/shuttle-ferry-ibiza-es-canar/2026-07-03?aff=CT219",
-      "eventName": "Shuttle Ferry Ibiza - Santa Eularia - Es Canar",
-      "eventSlug": "shuttle-ferry-ibiza-es-canar",
-      "venueName": "Santa Eularia Ferry",
-      "venueSlug": "santa-eularia-ferry",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/acd422f8-d406-4272-80e5-c6a63bc75908.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/2808f99d-982e-4653-9a7d-53575c8d115e.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/0eeb52e4-d3f4-4090-9ca6-adb1119b7419.jpg",
-      "eventId": 2022,
-      "venueId": 326
     },
     {
       "id": 170154,
@@ -56914,7 +56810,7 @@
       "date": "2026-07-04",
       "name": "",
       "lineUp": "Claptone Myd Melé Malive",
-      "prices": "35 € - 55 €",
+      "prices": "35 € - 45 €",
       "affLink": "https://www.clubtickets.com/de/clubbing/club-chinois-ibiza/claptone-the-masquerade/2026-07-04?aff=CT219",
       "eventName": "Claptone: The Masquerade",
       "eventSlug": "claptone-the-masquerade",
@@ -57670,7 +57566,7 @@
       "date": "2026-07-05",
       "name": "",
       "lineUp": "Bedouin Damian Lazarus Fiona Kraft",
-      "prices": "35 € - 50 €",
+      "prices": "35 € - 45 €",
       "affLink": "https://www.clubtickets.com/de/clubbing/club-chinois-ibiza/bedouin-presents-saga/2026-07-05?aff=CT219",
       "eventName": "Bedouin Presents Saga",
       "eventSlug": "bedouin-presents-saga",
@@ -61414,7 +61310,7 @@
       "date": "2026-07-09",
       "name": "",
       "lineUp": "Ferreck Dawn Low Steppa Nick Curly Sam Divine Andy Daniell",
-      "prices": "30 € - 40 €",
+      "prices": "30 € - 50 €",
       "affLink": "https://www.clubtickets.com/de/clubbing/club-chinois-ibiza/defected/2026-07-09?aff=CT219",
       "eventName": "Defected",
       "eventSlug": "defected",
@@ -62494,7 +62390,7 @@
       "date": "2026-07-10",
       "name": "",
       "lineUp": "",
-      "prices": "32 € - 48 €",
+      "prices": "48 €",
       "affLink": "https://www.clubtickets.com/de/clubbing/ibiza-rocks/origins/2026-07-10?aff=CT219",
       "eventName": "ORIGINS",
       "eventSlug": "origins",
@@ -69496,7 +69392,7 @@
       "date": "2026-07-17",
       "name": "",
       "lineUp": "",
-      "prices": "32 € - 48 €",
+      "prices": "48 €",
       "affLink": "https://www.clubtickets.com/de/clubbing/ibiza-rocks/origins/2026-07-17?aff=CT219",
       "eventName": "ORIGINS",
       "eventSlug": "origins",
@@ -118672,7 +118568,7 @@
       "date": "2026-09-05",
       "name": "",
       "lineUp": "Franky Rizardo Riordan Chelina Manuhutu Dennis Quin Raul Rodriguez",
-      "prices": "30 € - 220 €",
+      "prices": "40 € - 220 €",
       "affLink": "https://www.clubtickets.com/de/clubbing/ushuaia-ibiza/ants/2026-09-05?aff=CT219",
       "eventName": "ANTS",
       "eventSlug": "ants",
@@ -140199,7 +140095,7 @@
       "id": 165169,
       "date": "2026-09-29",
       "name": "",
-      "lineUp": "Artist TBA",
+      "lineUp": "ANOTR Prospa Toman Miluskha",
       "prices": "50 € - 500 €",
       "affLink": "https://www.clubtickets.com/de/clubbing/unvrs-ibiza/no-art-ibiza/2026-09-29?aff=CT219",
       "eventName": "No Art Ibiza",
@@ -143602,7 +143498,7 @@
       "date": "2026-10-03",
       "name": "",
       "lineUp": "Franky Rizardo Nic Fanciulli B2B Sosa Bontan B2B Rafael Ranger Trucco B2B Robbie Doherty Meeshy Raul Rodriguez",
-      "prices": "30 € - 220 €",
+      "prices": "40 € - 220 €",
       "affLink": "https://www.clubtickets.com/de/clubbing/ushuaia-ibiza/ants/2026-10-03?aff=CT219",
       "eventName": "ANTS",
       "eventSlug": "ants",
@@ -162500,5 +162396,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-07-03T11:57:34.052Z"
+  "lastUpdated": "2026-07-03T14:57:19.845Z"
 }

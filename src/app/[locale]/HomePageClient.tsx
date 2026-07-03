@@ -102,13 +102,18 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
         <div className="logo-slider">
           <div className="logo-slider-track">
             {[...allVenues, ...allVenues, ...allVenues].map((v, idx) => (
-              <div key={`${v.slug}-${idx}`} className="logo-slider-item">
+              <Link
+                key={`${v.slug}-${idx}`}
+                href={`/${locale}/clubs/${v.slug}`}
+                className="logo-slider-item"
+                title={v.name}
+              >
                 <img 
                   src={v.picture || v.whitelogo} 
                   alt={v.name} 
-                  className="h-8 md:h-9 w-auto object-contain shrink-0 max-w-[120px]" 
+                  className="h-8 md:h-9 w-auto object-contain max-w-[120px]" 
                 />
-              </div>
+              </Link>
             ))}
           </div>
         </div>
