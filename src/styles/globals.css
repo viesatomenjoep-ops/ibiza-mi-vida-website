@@ -412,18 +412,68 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 }
 
 /* ===== hero ===== */
-.hero{position:relative;min-height:520px;padding:28px 0 40px;display:flex;align-items:flex-start;overflow:hidden;background:#ffffff}
+/* Desktop: compact; Mobile: fullscreen 100svh */
+.hero{
+  position:relative;
+  min-height:520px;
+  padding:28px 0 40px;
+  display:flex;
+  align-items:flex-start;
+  overflow:hidden;
+  background:#ffffff;
+}
 .hero::before{display:none}
-.hero-inner{position:relative;width:100%;padding:0;display:flex;flex-direction:column;align-items:center;text-align:center}
+.hero-inner{
+  position:relative;
+  width:100%;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+/* Spacer between h1 and CTA — fills the lift animation space */
+.hero-spacer{
+  flex:1;
+  min-height:32px;
+}
 .hero h1{font-size:clamp(2.4rem,6vw,4.4rem);font-weight:900;letter-spacing:-0.02em;line-height:0.95;color:#000000;text-transform:uppercase;font-family:var(--font-display), sans-serif}
 .hero h1 .thin{display:block;font-weight:700;letter-spacing:0.08em;font-size:0.28em;color:#000000;margin-top:8px;text-transform:uppercase;font-family:var(--font-display), sans-serif}
-.hero p.lead{display:none}  /* moved below finder */
-.hero .cta-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:28px}
+.hero p.lead{display:none}
+.hero .cta-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:0}
 .hero .btn{border-color:rgba(0,0,0,0.18);color:#000000}
 .hero .btn:hover{background:#000000;color:#ffffff;border-color:#000000}
 .hero .btn.fill{background:var(--spring);color:#ffffff;border-color:var(--spring)}
 .hero .btn.fill:hover{background:#000000;color:#ffffff;border-color:#000000}
 .hero .today-badge{display:none}
+
+/* Finder section — below hero, white, clean */
+.hero-finder-section{
+  background:#fff;
+  border-top:1px solid rgba(0,0,0,.06);
+  padding:40px 0 60px;
+}
+
+/* Mobile: hero fills full viewport height */
+@media(max-width:768px){
+  .hero{
+    min-height:100svh;
+    padding:20px 0 32px;
+    /* Remove from inside hero — finder is below */
+  }
+  .hero-inner{
+    min-height:calc(100svh - 120px); /* space for topbar+navbar */
+    justify-content:space-between;
+    padding:8px 0;
+  }
+  .hero-spacer{ flex:1; min-height:80px; }
+  .hero .cta-row{
+    gap:10px;
+    width:100%;
+    padding:0 20px;
+  }
+  .hero-finder-section{ padding:28px 0 40px; }
+}
 
 /* Lead text below the date finder */
 .hero-lead-below{
@@ -437,8 +487,8 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
   letter-spacing:.01em;
 }
 
-/* finder-functie uit v3, in lichte compacte stijl */
-.finder{margin-top:52px;border:1px solid rgba(0,0,0,0.1);background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.04);padding:18px;width:100%;max-width:620px;text-align:left}
+/* finder-functie — nu in eigen sectie onder de hero */
+.finder{margin-top:0;border:1px solid rgba(0,0,0,0.1);background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.04);padding:18px;width:100%;max-width:620px;text-align:left;margin-left:auto;margin-right:auto}
 .finder .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 .chip{padding:11px 18px;border:1px solid rgba(0,0,0,0.12);font-family:var(--font-display);text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;font-weight:700;color:#333333;min-height:44px;transition:background .15s,color .15s,border-color .15s}
 .chip:hover{border-color:#000000;color:#000000}
@@ -963,8 +1013,9 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
   .ev-row{grid-template-columns:1fr;gap:12px;padding:20px}
   .ev-row .btn{width:100%}
   .hero .today-badge{position:static;text-align:left;margin-top:34px}
-  .hero .cta-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .hero .cta-row .btn { width: 100%; padding: 0 10px; font-size: 0.75rem; min-height: 48px; }
+  /* Mobile fullscreen hero: CTA buttons full-width at bottom */
+  .hero .cta-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; padding: 0 20px; }
+  .hero .cta-row .btn { width: 100%; padding: 0 10px; font-size: 0.8rem; min-height: 52px; }
   .hero h1 .thin { white-space: normal; line-height: 1.4; font-size: 0.35em; margin-top: 14px; }
   .poll-opts{grid-template-columns:1fr}
   .foot-grid{grid-template-columns:1fr}

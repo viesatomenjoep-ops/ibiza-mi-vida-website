@@ -94,13 +94,25 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
             Ibiza mi Vida
             <span className="thin">Entertainment · Boat · Nightlife — Reimagined</span>
           </h1>
-          
+
+          {/* Spacer — pushes CTA to bottom on mobile fullscreen hero */}
+          <div className="hero-spacer" aria-hidden="true" />
           
           <div className="cta-row">
             <Link className="btn fill" href={`${base}/calendar`}>Bekijk de Kalender</Link>
             <Link className="btn" href={`${base}/club-tickets`}>Clubs & Venues</Link>
           </div>
           
+          <div className="today-badge">
+            <small>Vandaag op het eiland</small>
+            <strong id="todayDate">{new Date().toLocaleDateString(locale === 'nl' ? 'nl-NL' : locale === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'long' })}</strong>
+          </div>
+        </div>
+      </header>
+
+      {/* ── FINDER SECTION — below the hero, visible on scroll ── */}
+      <section className="hero-finder-section">
+        <div className="wrap">
           {/* Category chips */}
           <div className="finder">
             <div className="chips">
@@ -132,15 +144,8 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
                 : 'All clubs, boat parties, artists and deals on the island in one place. Official tickets via Clubtickets, 100% safe.'}
             </p>
           </div>
-
-          
-          <div className="today-badge">
-            <small>Vandaag op het eiland</small>
-            <strong id="todayDate">{new Date().toLocaleDateString(locale === 'nl' ? 'nl-NL' : locale === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'long' })}</strong>
-          </div>
         </div>
-      </header>
-
+      </section>
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (
