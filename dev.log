@@ -7,10 +7,10 @@
   - Environments: .env.local
 
  ✓ Starting...
- ✓ Ready in 899ms
- ✓ Compiled /src/middleware in 122ms (72 modules)
- ○ Compiling /[locale]/artists/[slug] ...
- ✓ Compiled /[locale]/artists/[slug] in 1672ms (1342 modules)
- ✓ Compiled in 123ms (351 modules)
- GET /nl/artists/david-guetta 200 in 2080ms
+ ✓ Ready in 999ms
+ ✓ Compiled /src/middleware in 123ms (72 modules)
+ ○ Compiling /[locale]/tours ...
+ ✓ Compiled /[locale]/tours in 1932ms (728 modules)
+ ✓ Compiled in 284ms (355 modules)
+ GET /nl/tours 200 in 2634ms
 [?25h

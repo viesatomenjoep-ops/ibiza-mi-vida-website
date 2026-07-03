@@ -142,7 +142,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
         </div>
       )}
 
-      <div className="ck-header relative z-10 pt-[120px] md:pt-[140px] flex flex-col items-center text-center mb-8">
+      <div className="ck-header relative z-10 pt-[220px] md:pt-[240px] flex flex-col items-center text-center mb-8">
         <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">EVENTS</h1>
         <p className="mt-4 md:mt-6 max-w-xl mx-auto text-sm md:text-base lg:text-lg font-medium text-black/70 px-4 leading-relaxed tracking-wide drop-shadow-sm">
           {dict.calendar_subtitle || "Vind de beste feesten en events op Ibiza. Selecteer een datum of club en plan je perfecte avond."}
@@ -167,40 +167,60 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
           </div>
         </div>
 
-        {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-3 mt-8 px-4 w-full max-w-7xl">
-          {[
-            ['all', 'Alle Events'],
-            ['clubbing', 'Clubs'],
-            ['boat', 'Op het Water']
-          ].map(([key, label]) => (
-            <button
-              key={key}
-              className={`px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm border-2 transition-all duration-300 shadow-sm ${categoryFilter === key ? 'bg-black text-white border-black' : 'bg-white text-black border-neutral-200 hover:border-black'}`}
-              onClick={() => { setCategoryFilter(key as CategoryFilter); setSelectedVenue(null); }}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-
-        {/* Quick Time */}
-        <div className="flex flex-wrap justify-center gap-3 mt-4 mb-8 px-4 w-full max-w-7xl">
+        {/* Combined Selector Row */}
+        <div className="w-full max-w-7xl mx-auto px-4 mt-8 mb-8 overflow-hidden relative">
+          <div className="flex overflow-x-auto gap-3 pb-4 snap-x hide-scrollbar mask-edges">
             {([
+              ['all', dict.cal_all || `Alle Events`, null],
               ['today', dict.cal_today || `Vandaag`, todayCount],
               ['tomorrow', dict.cal_tomorrow || `Morgen`, tomorrowCount],
               ['week', dict.cal_this_week || `Deze week`, weekCount],
-              ['all', dict.cal_all || `Alle`, null],
-            ] as [QuickFilter, string, number | null][]).map(([key, label, count]) => (
-              <button
-                key={key}
-                className={`relative overflow-hidden px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm border-2 transition-all duration-300 shadow-sm ${quickFilter === key ? 'bg-ibiza-green text-black border-ibiza-green shadow-[0_0_15px_rgba(20,255,0,0.3)]' : 'bg-white text-black border-neutral-200 hover:border-black'}`}
-                onClick={() => { setQuickFilter(key); if (key === 'all') setActiveMonth(format(today, 'yyyy-MM')); }}
-              >
-                {label}
-                {count !== null && count > 0 && <span className={`ml-2 px-1.5 py-0.5 rounded-full text-[9px] font-black ${quickFilter === key ? 'bg-black text-ibiza-green' : 'bg-neutral-100 text-black'}`}>{count}</span>}
-              </button>
-            ))}
+              ['clubbing', 'Clubs', null],
+              ['boat', 'Op het Water', null]
+            ] as [string, string, number | null][]).map(([key, label, count]) => {
+              // Determine if this is a time filter or a category filter
+              const isCategory = key === 'clubbing' || key === 'boat';
+              const isTime = key === 'today' || key === 'tomorrow' || key === 'week';
+              
+              const isActive = (isCategory && categoryFilter === key) || 
+                               (isTime && quickFilter === key) || 
+                               (key === 'all' && categoryFilter === 'all' && quickFilter === 'all');
+              
+              if (isCategory) {
+                const href = key === 'clubbing' ? `/${locale}/club-tickets` : `/${locale}/shuttle-ferry`;
+                return (
+                  <Link
+                    key={key}
+                    href={href}
+                    className={`snap-start shrink-0 relative overflow-hidden px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm border-2 transition-all duration-300 shadow-sm bg-white text-black border-neutral-200 hover:border-black`}
+                  >
+                    {label}
+                  </Link>
+                );
+              }
+
+              return (
+                <button
+                  key={key}
+                  className={`snap-start shrink-0 relative overflow-hidden px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm border-2 transition-all duration-300 shadow-sm ${isActive ? 'bg-black text-white border-black' : 'bg-white text-black border-neutral-200 hover:border-black'}`}
+                  onClick={() => {
+                    if (key === 'all') {
+                      setCategoryFilter('all');
+                      setQuickFilter('all');
+                      setActiveMonth(format(today, 'yyyy-MM'));
+                      setSelectedVenue(null);
+                    } else if (isTime) {
+                      setQuickFilter(key as QuickFilter);
+                      setCategoryFilter('all');
+                    }
+                  }}
+                >
+                  {label}
+                  {count !== null && count > 0 && <span className={`ml-2 px-1.5 py-0.5 rounded-full text-[9px] font-black ${isActive ? 'bg-white text-black' : 'bg-neutral-100 text-black'}`}>{count}</span>}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Venue Selector Row */}

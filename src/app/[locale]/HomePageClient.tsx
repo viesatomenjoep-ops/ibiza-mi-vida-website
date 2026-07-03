@@ -82,13 +82,13 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <ClubLogoSlider 
           clubLogos={clubLogos} 
           base={base} 
-          className="w-full relative z-20 mt-auto bg-transparent py-4 border-t border-white/10"
+          className="w-full relative z-20 mt-auto bg-transparent pt-4 pb-2 border-t border-white/10"
         />
       </header>
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (
-        <section className="py-12 md:py-16 bg-white text-neutral-900 border-t border-black/5">
+        <section className="pb-12 pt-6 md:pb-16 md:pt-8 bg-white text-neutral-900 border-t border-black/5">
           <div className="max-w-7xl mx-auto px-4">
             <div className="mb-10">
               <div className="text-xs font-bold tracking-widest uppercase text-neutral-400 mb-2">{translations.home_live_from_calendar}</div>
