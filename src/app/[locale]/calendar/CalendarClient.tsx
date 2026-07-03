@@ -3,10 +3,11 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { format, addDays, isToday, isTomorrow, startOfWeek, endOfWeek, parseISO } from 'date-fns';
 import { nl, enUS, de, es } from 'date-fns/locale';
 import '@/styles/calendar.css';
-import { Search, X, Calendar, MapPin, ChevronRight } from 'lucide-react';
+import { Search, X, Calendar, MapPin, ChevronRight, ChevronDown } from 'lucide-react';
 
 interface CalEvent {
   id: string;
@@ -33,6 +34,7 @@ type CategoryFilter = 'all' | 'clubbing' | 'boat';
 
 export default function CalendarClient({ events, allVenues, allArtists, dict, locale, initialMonth }: CalendarClientProps) {
   const loc = getLoc(locale);
+  const router = useRouter();
   const today = useMemo(() => new Date(), []);
   const todayStr = format(today, 'yyyy-MM-dd');
 
@@ -142,84 +144,61 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
         </div>
       )}
 
-      <div className="ck-header relative z-10 pt-[220px] md:pt-[240px] flex flex-col items-center text-center mb-8">
+      <div className="ck-header relative z-10 pt-[220px] md:pt-[240px] flex flex-col items-center text-center mb-6">
         <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">EVENTS</h1>
-        <p className="mt-4 md:mt-6 max-w-xl mx-auto text-sm md:text-base lg:text-lg font-medium text-black/70 px-4 leading-relaxed tracking-wide drop-shadow-sm">
-          {dict.calendar_subtitle || "Vind de beste feesten en events op Ibiza. Selecteer een datum of club en plan je perfecte avond."}
-        </p>
       </div>
 
-      <div className="ck-header-top w-full max-w-7xl mx-auto flex flex-col items-center gap-6 px-4 mt-8">
-        <div className="relative w-full max-w-xl mt-6">
-            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+      <div className="ck-header-top w-full max-w-7xl mx-auto flex flex-col items-center gap-6 px-4">
+        <div className="relative w-full max-w-xl">
+            <Search size={20} strokeWidth={2.5} className="absolute left-4 top-1/2 -translate-y-1/2 text-black" />
             <input
               type="text"
               placeholder="Zoek event, artiest of club..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full bg-white border-2 border-black/10 rounded-full py-3 md:py-4 pl-12 pr-10 text-black placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-ibiza-green transition-all shadow-md font-bold"
+              className="w-full bg-white border-2 border-black/10 rounded-full py-3.5 md:py-4 pl-12 pr-10 text-black placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-black transition-all shadow-md font-bold text-sm md:text-base"
             />
             {searchQuery && (
-              <button onClick={() => setSearchQuery('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-black">
-                <X size={16} />
+              <button onClick={() => setSearchQuery('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-black transition-colors">
+                <X size={20} strokeWidth={2.5} />
               </button>
             )}
           </div>
         </div>
 
-        {/* Combined Selector Row */}
-        <div className="w-full max-w-7xl mx-auto px-4 mt-8 mb-8 overflow-hidden relative">
-          <div className="flex overflow-x-auto gap-3 pb-4 snap-x hide-scrollbar mask-edges">
-            {([
-              ['all', dict.cal_all || `Alle Events`, null],
-              ['today', dict.cal_today || `Vandaag`, todayCount],
-              ['tomorrow', dict.cal_tomorrow || `Morgen`, tomorrowCount],
-              ['week', dict.cal_this_week || `Deze week`, weekCount],
-              ['clubbing', 'Clubs', null],
-              ['boat', 'Op het Water', null]
-            ] as [string, string, number | null][]).map(([key, label, count]) => {
-              // Determine if this is a time filter or a category filter
-              const isCategory = key === 'clubbing' || key === 'boat';
-              const isTime = key === 'today' || key === 'tomorrow' || key === 'week';
-              
-              const isActive = (isCategory && categoryFilter === key) || 
-                               (isTime && quickFilter === key) || 
-                               (key === 'all' && categoryFilter === 'all' && quickFilter === 'all');
-              
-              if (isCategory) {
-                const href = key === 'clubbing' ? `/${locale}/club-tickets` : `/${locale}/shuttle-ferry`;
-                return (
-                  <Link
-                    key={key}
-                    href={href}
-                    className={`snap-start shrink-0 relative overflow-hidden px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm border-2 transition-all duration-300 shadow-sm bg-white text-black border-neutral-200 hover:border-black`}
-                  >
-                    {label}
-                  </Link>
-                );
-              }
-
-              return (
-                <button
-                  key={key}
-                  className={`snap-start shrink-0 relative overflow-hidden px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm border-2 transition-all duration-300 shadow-sm ${isActive ? 'bg-black text-white border-black' : 'bg-white text-black border-neutral-200 hover:border-black'}`}
-                  onClick={() => {
-                    if (key === 'all') {
-                      setCategoryFilter('all');
-                      setQuickFilter('all');
-                      setActiveMonth(format(today, 'yyyy-MM'));
-                      setSelectedVenue(null);
-                    } else if (isTime) {
-                      setQuickFilter(key as QuickFilter);
-                      setCategoryFilter('all');
-                    }
-                  }}
-                >
-                  {label}
-                  {count !== null && count > 0 && <span className={`ml-2 px-1.5 py-0.5 rounded-full text-[9px] font-black ${isActive ? 'bg-white text-black' : 'bg-neutral-100 text-black'}`}>{count}</span>}
-                </button>
-              );
-            })}
+        {/* Combined Selector Dropdown */}
+        <div className="w-full max-w-7xl mx-auto px-4 mt-8 mb-4 flex justify-center relative">
+          <div className="relative w-full max-w-xs md:max-w-sm">
+            <select
+              className="w-full appearance-none bg-white border-2 border-black/10 hover:border-black rounded-full px-6 py-3.5 text-black font-bold uppercase tracking-widest text-xs md:text-sm shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-black cursor-pointer text-center"
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val === 'clubbing') {
+                  router.push(`/${locale}/club-tickets`);
+                } else if (val === 'boat') {
+                  router.push(`/${locale}/shuttle-ferry`);
+                } else if (val === 'all') {
+                  setCategoryFilter('all');
+                  setQuickFilter('all');
+                  setActiveMonth(format(today, 'yyyy-MM'));
+                  setSelectedVenue(null);
+                } else {
+                  setQuickFilter(val as QuickFilter);
+                  setCategoryFilter('all');
+                }
+              }}
+              value={quickFilter === 'all' && categoryFilter === 'all' ? 'all' : categoryFilter !== 'all' ? categoryFilter : quickFilter}
+            >
+              <option value="all">{dict.cal_all || `Alle Events`}</option>
+              <option value="today">{dict.cal_today || `Vandaag`}</option>
+              <option value="tomorrow">{dict.cal_tomorrow || `Morgen`}</option>
+              <option value="week">{dict.cal_this_week || `Deze week`}</option>
+              <option value="clubbing">Clubs</option>
+              <option value="boat">Op het Water</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-5 flex items-center text-black">
+              <ChevronDown size={18} strokeWidth={3} />
+            </div>
           </div>
         </div>
 
@@ -306,11 +285,13 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
                   const venueName = ev.ct_venues?.name || '—';
                   const image = ev.ct_events?.cover || ev.ct_events?.logo || ev.ct_venues?.whitelogo || ev.ct_venues?.logo;
                   
+                  const affiliateLink = (ev.ct_events as any)?.affLink || `/${locale}/club-tickets/${ev.ct_venues?.slug || 'club'}/${ev.ct_events?.slug || 'event'}`;
+
                   return (
-                    <Link href={`/${locale}/club-tickets/${ev.ct_venues?.slug || 'club'}/${ev.ct_events?.slug || 'event'}`} key={ev.id} className="group flex flex-col bg-white rounded-2xl md:rounded-3xl border-2 border-transparent hover:border-ibiza-green shadow-lg hover:shadow-[0_0_30px_rgba(20,255,0,0.2)] transition-all overflow-hidden h-full">
-                      <div className="w-full aspect-square relative bg-neutral-100 flex items-center justify-center border-b border-neutral-100 p-4">
+                    <a href={affiliateLink} target={affiliateLink.startsWith('http') ? '_blank' : '_self'} rel="noopener noreferrer" key={ev.id} className="group flex flex-col bg-white rounded-2xl md:rounded-3xl border-2 border-transparent hover:border-black shadow-md hover:shadow-xl transition-all overflow-hidden h-full">
+                      <div className="w-full aspect-square relative bg-neutral-100 flex items-center justify-center p-0 border-b border-black/5">
                         {image ? (
-                           <img src={image} alt={eventTitle} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-sm" />
+                           <img src={image} alt={eventTitle} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         ) : (
                            <div className="text-neutral-300 font-bold text-3xl">{venueName.slice(0,2)}</div>
                         )}
@@ -322,7 +303,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
                       </div>
 
                       <div className="p-3 md:p-4 flex-1 flex flex-col bg-white">
-                        <div className="text-[9px] md:text-[10px] font-black tracking-widest text-ibiza-green uppercase mb-1 line-clamp-1">{venueName}</div>
+                        <div className="text-[9px] md:text-[10px] font-black tracking-widest text-black uppercase mb-1 line-clamp-1">{venueName}</div>
                         <h4 className="text-sm md:text-base font-serif font-bold text-black leading-tight mb-2 line-clamp-2">{eventTitle}</h4>
                         <div className="mt-auto pt-2 border-t border-neutral-100">
                           <span className="text-[10px] md:text-xs font-bold text-neutral-400 group-hover:text-black transition-colors uppercase tracking-widest flex items-center justify-between">
@@ -330,7 +311,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
                           </span>
                         </div>
                       </div>
-                    </Link>
+                    </a>
                   );
                 })}
               </div>

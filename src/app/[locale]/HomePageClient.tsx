@@ -42,7 +42,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
   return (
     <div className="theme-monaco-vip is-home bg-white text-[var(--color-ink)] min-h-screen">
 
-      <header className="hero bg-black relative min-h-[90vh] md:min-h-screen flex flex-col items-center justify-center overflow-hidden w-full">
+      <header className="hero bg-black relative min-h-[90vh] md:min-h-screen flex flex-col items-center justify-between overflow-hidden w-full">
         {/* ── VIDEO BACKGROUND ── */}
         <div className="absolute inset-0 w-full h-full z-0">
           <video 
@@ -61,18 +61,27 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 to-transparent z-10 pointer-events-none"></div>
         </div>
 
-        <div className="relative z-20 pt-[80px] md:pt-[100px] pb-8 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 mt-auto mb-auto">
+        {/* Spacer Top */}
+        <div className="flex-1 w-full" />
+
+        <div className="relative z-20 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4">
           <h1 className="text-white text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-bold font-serif uppercase tracking-tight drop-shadow-lg leading-none">
             {translations.home_hero_title}
             <span className="block font-serif font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-3 tracking-tight leading-none text-white/90">{translations.home_hero_subtitle}</span>
           </h1>
-          
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-6 w-full px-4 max-w-2xl">
+        </div>
+
+        {/* Spacer Middle */}
+        <div className="flex-1 w-full" />
+
+        {/* Buttons & Badge at the bottom */}
+        <div className="relative z-20 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 pb-6">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full px-4 max-w-2xl">
             <Link className="bg-ibiza-green text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:bg-white hover:text-black active:bg-white active:text-black transition-colors text-center shadow-lg hover:scale-105" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
             <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:bg-white hover:text-black active:bg-white active:text-black transition-colors text-center shadow-lg hover:scale-105" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
           </div>
           
-          <div className="mt-6 bg-black/50 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 text-white shadow-xl">
+          <div className="mt-4 bg-black/50 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 text-white shadow-xl">
             <small className="text-xs font-bold uppercase tracking-widest text-neutral-300 mr-2">{translations.home_today_island}</small>
             <strong className="text-sm font-black text-ibiza-green" id="todayDate">{new Date().toLocaleDateString(locale === 'nl' ? 'nl-NL' : locale === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'long' })}</strong>
           </div>
@@ -82,7 +91,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <ClubLogoSlider 
           clubLogos={clubLogos} 
           base={base} 
-          className="w-full relative z-20 mt-auto bg-transparent pt-4 pb-2 border-t border-white/10"
+          className="w-full relative z-20 bg-transparent pt-4 pb-2 border-t border-white/10"
         />
       </header>
 
