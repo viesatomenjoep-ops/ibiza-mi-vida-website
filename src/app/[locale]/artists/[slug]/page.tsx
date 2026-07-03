@@ -189,7 +189,8 @@ export default async function ArtistPage({ params }: Props) {
     .sort((a, b) => parseLocalDate(a.date).getTime() - parseLocalDate(b.date).getTime());
 
   const localeObj = getLocaleObj(params.locale);
-  const headerImage = futureDates[0]?.eventCover || futureDates[0]?.venueCover || artist.image || '/hi-ibiza-2026/FB_IMG_1779623220486.jpg';
+  const rawHeaderImg = futureDates[0]?.eventCover || futureDates[0]?.venueCover || artist.image;
+  const headerImage = rawHeaderImg && rawHeaderImg.trim() ? rawHeaderImg : '/hi-ibiza-2026/FB_IMG_1779623220486.jpg';
   const spotifyDetails = getSpotifyEmbedDetails(artist.slug);
 
   return (
