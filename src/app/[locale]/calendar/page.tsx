@@ -40,7 +40,7 @@ export default async function CalendarPage({
       ct_venues: {
         name: d.venueName,
         slug: d.venueSlug,
-        whitelogo: venueObj?.whitelogo || '',
+        whitelogo: venueObj?.whitelogo || d.venueLogo || venueObj?.picture || '',
         is_day_club: venueObj?.isDayClub || false,
         type_slug: venueObj?.type?.slug || ''
       }

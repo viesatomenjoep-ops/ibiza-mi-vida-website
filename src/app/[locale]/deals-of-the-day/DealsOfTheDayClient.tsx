@@ -3,7 +3,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Calendar, MapPin, Tag, ChevronRight, Music, Ticket, ExternalLink, Zap } from 'lucide-react';
+import { Music, MapPin, ExternalLink, CalendarDays, Search, X, Flame, Calendar, Tag, ChevronRight, Zap } from 'lucide-react';
+import { EventTicketSelector } from '../templates/EventTicketSelector';
 import { CSSClock } from '@/components/ui/CSSClock';
 
 interface DatabaseDate {
@@ -178,7 +179,7 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
                     
                     {/* Price badge */}
                     {price && (
-                      <div className="absolute top-4 right-4 bg-ibiza-green text-velvet-obsidian font-black text-sm px-3.5 py-1.5 rounded-xl shadow-lg transform rotate-3">
+                      <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md text-ibiza-green border border-ibiza-green/30 font-black text-sm px-4 py-1.5 rounded-lg shadow-lg">
                         €{price.toFixed(0)}
                       </div>
                     )}
@@ -208,32 +209,16 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
                     <div className="text-xs font-semibold text-black/50 flex items-center gap-1.5 mb-5 mt-auto pt-3">
                       <MapPin size={14} className="text-black/40" /> {venue?.name || 'Ibiza'}
                     </div>
-                    
                     {/* Dynamic dual booking check out buttons */}
-                    <div className="pt-3 border-t border-black/10 flex gap-2 items-center">
-                      <Link 
-                        href={`/${locale}/club-tickets/${venue?.slug || 'club'}/${event?.slug || 'event'}`}
-                        className="flex-1 text-center bg-black/5 border border-black/10 hover:bg-white/10 hover:text-black text-black/80 font-bold text-[11px] uppercase tracking-wider py-2.5 rounded-full transition-all"
-                      >
-                        Info
-                      </Link>
-                      {deal.aff_link ? (
-                        <a 
-                          href={deal.aff_link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 text-center bg-ibiza-green text-velvet-obsidian hover:brightness-95 font-bold text-[11px] uppercase tracking-wider py-2.5 rounded-full transition-all flex items-center justify-center gap-1 shadow-md"
-                        >
-                          Checkout <ExternalLink size={12} />
-                        </a>
-                      ) : (
-                        <Link 
-                          href={`/${locale}/club-tickets/${venue?.slug || 'club'}/${event?.slug || 'event'}`}
-                          className="flex-1 text-center bg-ibiza-green text-velvet-obsidian hover:brightness-95 font-bold text-[11px] uppercase tracking-wider py-2.5 rounded-full transition-all"
-                        >
-                          Boek
-                        </Link>
-                      )}
+                    <div className="pt-4 border-t border-black/10 w-full">
+                      <EventTicketSelector 
+                        id={deal.id.toString()}
+                        title={deal.name || event?.name || 'Deal Ticket'}
+                        date={deal.date}
+                        priceStr={price?.toString() || '40'}
+                        image={image}
+                        affLink={deal.aff_link}
+                      />
                     </div>
                   </div>
                 </div>

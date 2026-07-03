@@ -25,12 +25,15 @@ export default async function DealsPage({ params }: { params: { locale: string }
     .slice(0, 300) // Increase limits to render more options in memory
     .map(d => {
       const venueObj = d.venueSlug ? venuesMap.get(d.venueSlug) : undefined;
+      const priceMatch = d.prices ? d.prices.match(/\d+/) : null;
+      const parsedPrice = priceMatch ? parseInt(priceMatch[0], 10) : 40;
+      
       return {
         id: String(d.id),
         provider_id: String(d.eventId || ''),
         name: d.name,
         date: d.date,
-        prices: d.prices ? Number(parseFloat(d.prices.replace(/[^\d.,]/g, '').replace(',', '.'))) || 40 : 40,
+        prices: parsedPrice,
         aff_link: d.affLink || null,
         ct_events: {
           name: d.eventName || '',

@@ -195,8 +195,8 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
               className={`snap-start shrink-0 flex flex-col items-center gap-3 group w-20 md:w-24`}
               onClick={() => setSelectedVenue(null)}
             >
-              <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full border-[3px] flex items-center justify-center transition-all duration-300 ${!selectedVenue ? 'border-ibiza-green bg-white shadow-[0_0_25px_rgba(20,255,0,0.5)] scale-110 text-black' : 'border-black/10 bg-white text-black group-hover:border-black/30 group-hover:scale-105 shadow-sm'}`}>
-                <Calendar size={28} />
+              <div className={`w-16 h-16 md:w-20 md:h-20 flex items-center justify-center transition-all duration-300 ${!selectedVenue ? 'scale-110 text-ibiza-green drop-shadow-[0_0_15px_rgba(20,255,0,0.4)]' : 'text-neutral-400 group-hover:scale-105 group-hover:text-black'}`}>
+                <Calendar size={40} strokeWidth={2.5} />
               </div>
               <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest text-center line-clamp-2 ${!selectedVenue ? 'text-ibiza-green' : 'text-neutral-900 group-hover:text-black'}`}>
                 Alle {categoryFilter === 'all' ? 'Venues' : categoryFilter === 'clubbing' ? 'Clubs' : 'Boats'}
@@ -208,17 +208,17 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
               return (
                 <button
                   key={v.slug}
-                  className="snap-start shrink-0 flex flex-col items-center gap-3 group w-20 md:w-24"
+                  className={`snap-start shrink-0 flex flex-col items-center gap-3 group w-20 md:w-24`}
                   onClick={() => setSelectedVenue(v.slug)}
                 >
-                  <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full border-[3px] overflow-hidden flex items-center justify-center transition-all duration-300 p-2 ${isActive ? 'border-ibiza-green bg-white shadow-[0_0_25px_rgba(20,255,0,0.5)] scale-110' : 'border-black/10 bg-white shadow-sm group-hover:border-black/30 group-hover:scale-105'}`}>
+                  <div className={`w-16 h-16 md:w-20 md:h-20 flex items-center justify-center transition-all duration-300 p-1 ${isActive ? 'scale-110 drop-shadow-[0_0_15px_rgba(20,255,0,0.5)]' : 'group-hover:scale-105'}`}>
                     {vImg ? (
-                      <img src={vImg} alt={v.name} className={`w-full h-full object-contain ${isActive ? 'brightness-0' : 'brightness-0 opacity-80 group-hover:opacity-100'}`} />
+                      <img src={vImg} alt={v.name} className={`w-full h-full object-contain ${isActive ? 'brightness-0' : 'brightness-0 opacity-60 group-hover:opacity-100'}`} />
                     ) : (
-                      <span className={`text-xl font-black text-black`}>{v.name.slice(0,2)}</span>
+                      <span className={`text-2xl font-black ${isActive ? 'text-ibiza-green' : 'text-black opacity-60 group-hover:opacity-100'}`}>{v.name.slice(0,2)}</span>
                     )}
                   </div>
-                  <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest text-center line-clamp-2 text-neutral-900 group-hover:text-black`}>
+                  <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest text-center line-clamp-2 ${isActive ? 'text-ibiza-green' : 'text-neutral-900 group-hover:text-black'}`}>
                     {v.name}
                   </span>
                 </button>
