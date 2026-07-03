@@ -1,9 +1,20 @@
-import fs from 'fs';
-import path from 'path';
 import { stripHtml, cleanHtml } from './html-utils';
+import clubtickets_en from '@/data/clubtickets_en.json';
+import clubtickets_nl from '@/data/clubtickets_nl.json';
+import clubtickets_de from '@/data/clubtickets_de.json';
+import clubtickets_es from '@/data/clubtickets_es.json';
+import clubtickets_fr from '@/data/clubtickets_fr.json';
 
 export const API_KEY = '80aac9f0b1a44b63060b083f3813271a';
 export const BASE_URL = `https://affiliates.clubtickets.com/api/affiliate/${API_KEY}/get`;
+
+const LOCALE_DATA: Record<string, any> = {
+  en: clubtickets_en,
+  nl: clubtickets_nl,
+  de: clubtickets_de,
+  es: clubtickets_es,
+  fr: clubtickets_fr
+};
 
 export interface CTType {
   id: number;
@@ -122,11 +133,10 @@ let cachedData: Record<string, ClubTicketsData> = {};
 
 
 function loadData(locale: string = 'en'): ClubTicketsData {
-  if (cachedData[locale]) return cachedData[locale];
+  const normLocale = LOCALE_DATA[locale] ? locale : 'en';
+  if (cachedData[normLocale]) return cachedData[normLocale];
   try {
-    const filePath = path.join(process.cwd(), 'src', 'data', `clubtickets_${locale}.json`);
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const rawData = JSON.parse(fileContents) as ClubTicketsData;
+    const rawData = JSON.parse(JSON.stringify(LOCALE_DATA[normLocale])) as ClubTicketsData;
     
     // Clean HTML from all venues
     if (rawData.venues) {
