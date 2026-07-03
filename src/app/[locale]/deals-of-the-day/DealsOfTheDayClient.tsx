@@ -217,7 +217,7 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
                         date={deal.date}
                         priceStr={price?.toString() || '40'}
                         image={image}
-                        affLink={deal.aff_link}
+                        affLink={deal.aff_link || undefined}
                       />
                     </div>
                   </div>
