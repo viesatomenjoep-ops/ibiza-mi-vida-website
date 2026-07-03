@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Search, ArrowRight, Sun, Moon } from 'lucide-react';
 
+import { EventsBackground } from '@/components/layout/EventsBackground';
+
 interface ClubsClientProps {
   venues: any[];
   translations: {
@@ -33,18 +35,19 @@ export default function ClubsClient({ venues, translations }: ClubsClientProps) 
   }, [venues, filter, search]);
 
   return (
-    <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen pt-4 pb-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="theme-monaco-vip bg-transparent text-[var(--color-ink)] min-h-screen pt-4 pb-24 relative overflow-hidden">
+      <EventsBackground />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-6">
-          <h1 className="text-xl md:text-2xl font-bold tracking-widest uppercase text-[var(--color-ink)] mt-2">
+          <h1 className="text-xl md:text-2xl font-bold tracking-widest uppercase text-black mt-2">
             {translations.title}
           </h1>
         </div>
 
         {/* Filter and Search Bar */}
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-12 bg-white/5 backdrop-blur-md p-4 rounded-3xl border border-white/10 shadow-lg">
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-12 bg-black/5 backdrop-blur-md p-4 rounded-3xl border border-black/10 shadow-lg">
           
           {/* Filters */}
           <div className="flex items-center gap-2 w-full md:w-auto">

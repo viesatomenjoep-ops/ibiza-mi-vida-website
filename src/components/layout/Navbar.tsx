@@ -64,8 +64,19 @@ export function Navbar() {
   const currentLocale = LOCALES.find(l => pathname.startsWith(`/${l.code}/`) || pathname === `/${l.code}`) || LOCALES[0]
   const base = `/${currentLocale.code}`
 
+  const [isScrolled, setIsScrolled] = useState(false)
+  
   useEffect(() => { setMenuOpen(false) }, [pathname])
 
+  // Shrink navbar on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
   // Lock scroll when menu open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
@@ -76,7 +87,7 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="nav">
+      <nav className={`nav ${isScrolled ? 'nav--scrolled' : ''}`}>
         <div className="wrap nav-inner">
           <Link className="logo" href={base}>
             <img src="/logo-white.png" alt="Ibiza mi Vida logo" className="logo-img" />

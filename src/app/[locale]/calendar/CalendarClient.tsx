@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { EventsBackground } from '@/components/layout/EventsBackground';
 import Image from 'next/image';
 import { format, addDays, isToday, isTomorrow, startOfWeek, endOfWeek, isSameDay, parseISO } from 'date-fns';
 import { nl, enUS, de, es } from 'date-fns/locale';
@@ -148,7 +149,8 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
   const weekCount = events.filter(e => e.date >= weekStart && e.date <= weekEnd).length;
 
   return (
-    <div className="ck-shell">
+    <div className="ck-shell bg-transparent">
+      <EventsBackground />
 
       {/* ══════════════════════════════════════
           HEADER
@@ -157,7 +159,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
         <div className="ck-header-top">
           <div className="flex flex-col gap-2">
             
-            <h1 className="text-4xl md:text-6xl font-black font-serif text-white leading-tight drop-shadow-md uppercase m-0">Evenementen</h1>
+            <h1 className="text-4xl md:text-6xl font-black font-serif text-black leading-tight drop-shadow-md uppercase m-0">Evenementen</h1>
           </div>
 
           {/* Search bar */}

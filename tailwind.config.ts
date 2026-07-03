@@ -46,10 +46,15 @@ const config: Config = {
         marquee: {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-50%)' },
+        },
+        'marquee-vertical': {
+          '0%': { transform: 'translateY(0%)' },
+          '100%': { transform: 'translateY(-50%)' },
         }
       },
       animation: {
         marquee: 'marquee 25s linear infinite',
+        'marquee-vertical': 'marquee-vertical 25s linear infinite',
       }
     },
   },

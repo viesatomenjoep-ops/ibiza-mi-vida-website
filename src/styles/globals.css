@@ -50,10 +50,39 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 /* ===== topbar + gesplitste nav ===== */
 .topbar{background:var(--spring);color:var(--black);font-family:var(--display);text-transform:uppercase;letter-spacing:.3em;font-size:.68rem;font-weight:500;text-align:center;padding:9px 12px}
 .topbar a{color:var(--black);text-decoration:underline}
-.nav{position:sticky;top:0;z-index:60;background:rgba(13,5,9,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.nav-inner{display:flex;justify-content:space-between;align-items:center;min-height:92px;gap:20px}
+.nav{
+  position:fixed;
+  width:100%;
+  top:0;
+  left:0;
+  z-index:60;
+  background:rgba(13,5,9,.85);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  transition: all 0.3s ease;
+}
+.nav-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  min-height:92px;
+  gap:20px;
+  transition: all 0.3s ease;
+}
+.nav--scrolled .nav-inner {
+  min-height: 60px;
+}
+.nav .logo-img {
+  height: auto;
+  width: 130px;
+  transition: all 0.3s ease;
+}
+.nav--scrolled .logo-img {
+  width: 90px;
+}
 .nav-links{display:flex;gap:28px;align-items:center}
-.nav-links a{font-family:var(--display);text-transform:uppercase;letter-spacing:.26em;font-size:.78rem;font-weight:700;padding:6px 0;border-bottom:1px solid transparent}
+.nav-links a{font-family:var(--display);text-transform:uppercase;letter-spacing:.26em;font-size:.78rem;font-weight:700;padding:6px 0;border-bottom:1px solid transparent;transition: all 0.3s ease;}
 .nav-links a:hover{border-bottom-color:var(--spring);color:var(--spring)}
 .logo{display:flex;flex-direction:row;align-items:center;gap:12px;text-align:left}
 .logo-img{width:68px;height:68px;object-fit:contain;background:transparent;border:none;flex-shrink:0}

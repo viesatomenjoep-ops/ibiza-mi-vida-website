@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useRef } from 'react';
 import Link from 'next/link';
+import { EventsBackground } from '@/components/layout/EventsBackground';
 import { Search, MapPin, ChevronRight, Star, Heart, Calendar, Music, MessageCircle } from 'lucide-react';
 import type { CTEventDate } from '@/lib/clubtickets';
 import '@/styles/club-tickets.css';
@@ -184,16 +185,17 @@ export default function ClubTicketsClient({
   const displayedEvents = filteredEvents.slice(0, visibleCount);
 
   return (
-    <>
-      <section className="pt-0 pb-4">
+    <div className="theme-monaco-vip bg-transparent text-[var(--color-ink)] min-h-screen relative overflow-hidden">
+      <EventsBackground />
+      <section className="pt-0 pb-4 relative z-10">
         <div className="wrap">
           
 
           <div className="flex flex-col gap-2">
-            <h1 className="text-4xl md:text-6xl font-black font-serif text-white leading-tight drop-shadow-md uppercase">
+            <h1 className="text-4xl md:text-6xl font-black font-serif text-black leading-tight drop-shadow-md uppercase">
               Alle Club Tickets
             </h1>
-            <p className="text-sm text-white/60 max-w-xl">Een plek voor alle Club Tickets en activiteiten op het eiland.</p>
+            <p className="text-sm text-black/60 max-w-xl">Een plek voor alle Club Tickets en activiteiten op het eiland.</p>
           </div>
         </div>
       </section>
@@ -210,7 +212,7 @@ export default function ClubTicketsClient({
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all duration-300 shrink-0 ${
                   activeCategory === cat.id
                     ? 'bg-ibiza-green text-velvet-obsidian shadow-[0_0_15px_rgba(0,166,152,0.3)] scale-[1.02]'
-                    : 'bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10'
+                    : 'bg-white/5 hover:bg-white/10 text-black/70 hover:text-black border border-white/10'
                 }`}
               >
                 <span>{cat.icon}</span>
@@ -221,7 +223,7 @@ export default function ClubTicketsClient({
 
           {/* Slider of Round Club Tiles */}
           <div className="mb-4 relative group/slider">
-            <div className="text-[10px] font-bold tracking-widest uppercase text-white/40 mb-3">
+            <div className="text-[10px] font-bold tracking-widest uppercase text-black/40 mb-3">
               {locale === 'nl' ? 'Kies een Locatie / Partner' : 'Choose a Location / Partner'}
             </div>
             
@@ -229,7 +231,7 @@ export default function ClubTicketsClient({
               {/* Prev Button */}
               <button 
                 onClick={() => scrollSlider(-1)}
-                className="absolute -left-4 z-40 bg-black/80 hover:bg-ibiza-green hover:text-velvet-obsidian text-white border border-white/10 w-8 h-8 rounded-full flex items-center justify-center shadow-lg transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
+                className="absolute -left-4 z-40 bg-black/80 hover:bg-ibiza-green hover:text-velvet-obsidian text-black border border-white/10 w-8 h-8 rounded-full flex items-center justify-center shadow-lg transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
                 aria-label="Previous"
               >
                 &larr;
@@ -251,7 +253,7 @@ export default function ClubTicketsClient({
                   >
                     <Music size={18} className={filter === 'all' ? 'text-velvet-obsidian' : 'text-ibiza-green'} />
                   </button>
-                  <span className={`text-[9px] uppercase font-bold tracking-wider text-center mt-2 max-w-[70px] truncate ${filter === 'all' ? 'text-ibiza-green' : 'text-white/60'}`}>
+                  <span className={`text-[9px] uppercase font-bold tracking-wider text-center mt-2 max-w-[70px] truncate ${filter === 'all' ? 'text-ibiza-green' : 'text-black/60'}`}>
                     {locale === 'nl' ? 'Alles' : 'All'}
                   </span>
                 </div>
@@ -282,12 +284,12 @@ export default function ClubTicketsClient({
                             }`}
                           />
                         ) : (
-                          <span className={`font-bold text-[10px] ${isActive ? 'text-ibiza-green' : 'text-white/80'}`}>
+                          <span className={`font-bold text-[10px] ${isActive ? 'text-ibiza-green' : 'text-black/80'}`}>
                             {v.name.substring(0, 3).toUpperCase()}
                           </span>
                         )}
                       </button>
-                      <span className={`text-[9px] uppercase font-bold tracking-wider text-center mt-2 max-w-[80px] truncate ${isActive ? 'text-ibiza-green font-black' : 'text-white/60'}`}>
+                      <span className={`text-[9px] uppercase font-bold tracking-wider text-center mt-2 max-w-[80px] truncate ${isActive ? 'text-ibiza-green font-black' : 'text-black/60'}`}>
                         {v.name}
                       </span>
                     </div>
@@ -298,7 +300,7 @@ export default function ClubTicketsClient({
               {/* Next Button */}
               <button 
                 onClick={() => scrollSlider(1)}
-                className="absolute -right-4 z-40 bg-black/80 hover:bg-ibiza-green hover:text-velvet-obsidian text-white border border-white/10 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
+                className="absolute -right-4 z-40 bg-black/80 hover:bg-ibiza-green hover:text-velvet-obsidian text-black border border-white/10 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
                 aria-label="Next"
               >
                 &rarr;
@@ -318,8 +320,8 @@ export default function ClubTicketsClient({
                   )}
                 </div>
                 <div>
-                  <h4 className="text-white font-bold">{uniqueVenues.find(v => v.slug === filter)?.name}</h4>
-                  <p className="text-xs text-white/60">Bekijk de volledige biografie, vaste wekelijkse feesten en route-informatie.</p>
+                  <h4 className="text-black font-bold">{uniqueVenues.find(v => v.slug === filter)?.name}</h4>
+                  <p className="text-xs text-black/60">Bekijk de volledige biografie, vaste wekelijkse feesten en route-informatie.</p>
                 </div>
               </div>
               <Link 
@@ -334,13 +336,13 @@ export default function ClubTicketsClient({
           {/* Filter Toolbar: Search, Day/Night Filter, Sort */}
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between p-4 bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 shadow-lg mb-8">
             <div className="relative w-full md:w-auto md:flex-1 max-w-md">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={18} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/40" size={18} />
               <input 
                 type="text" 
                 placeholder="Zoeken op feest, club of DJ..." 
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-full py-3.5 pl-12 pr-4 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-ibiza-green focus:border-transparent transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-full py-3.5 pl-12 pr-4 text-sm text-black placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-ibiza-green focus:border-transparent transition-all"
               />
             </div>
             
@@ -352,7 +354,7 @@ export default function ClubTicketsClient({
                     className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
                       timeFilter === 'all' 
                         ? 'bg-ibiza-green text-velvet-obsidian shadow-sm' 
-                        : 'text-white hover:text-ibiza-green'
+                        : 'text-black hover:text-ibiza-green'
                     }`}
                   >
                     Alle
@@ -362,7 +364,7 @@ export default function ClubTicketsClient({
                     className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
                       timeFilter === 'day' 
                         ? 'bg-ibiza-green text-velvet-obsidian shadow-sm' 
-                        : 'text-white hover:text-ibiza-green'
+                        : 'text-black hover:text-ibiza-green'
                     }`}
                   >
                     Day Clubs
@@ -372,7 +374,7 @@ export default function ClubTicketsClient({
                     className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
                       timeFilter === 'night' 
                         ? 'bg-ibiza-green text-velvet-obsidian shadow-sm' 
-                        : 'text-white hover:text-ibiza-green'
+                        : 'text-black hover:text-ibiza-green'
                     }`}
                   >
                     Night Clubs
@@ -383,16 +385,16 @@ export default function ClubTicketsClient({
               <select
                 value={sort}
                 onChange={e => setSort(e.target.value as any)}
-                className="bg-white/5 border border-white/10 text-white rounded-full px-5 py-2.5 text-xs font-semibold uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-ibiza-green transition-all cursor-pointer"
+                className="bg-white/5 border border-white/10 text-black rounded-full px-5 py-2.5 text-xs font-semibold uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-ibiza-green transition-all cursor-pointer"
               >
-                <option value="date" className="bg-[#0D0509] text-white">Sorteer: Datum</option>
-                <option value="price_asc" className="bg-[#0D0509] text-white">Prijs: Laag - Hoog</option>
-                <option value="price_desc" className="bg-[#0D0509] text-white">Prijs: Hoog - Laag</option>
+                <option value="date" className="bg-[#0D0509] text-black">Sorteer: Datum</option>
+                <option value="price_asc" className="bg-[#0D0509] text-black">Prijs: Laag - Hoog</option>
+                <option value="price_desc" className="bg-[#0D0509] text-black">Prijs: Hoog - Laag</option>
               </select>
             </div>
           </div>
           
-          <div className="results-meta mb-6 text-white">
+          <div className="results-meta mb-6 text-black">
             <span>{filteredEvents.length}</span> resultaten · live uit ClubTickets API
           </div>
           
@@ -428,22 +430,22 @@ export default function ClubTicketsClient({
                   </div>
                   <div className="p-4 flex flex-col justify-between flex-1">
                     <div>
-                      <h3 className="font-serif text-lg font-bold text-white leading-tight mb-2 truncate group-hover:text-ibiza-green transition-colors">{event.eventName || event.name}</h3>
-                      <div className="flex items-center gap-1.5 text-xs text-white/60 mb-2">
-                        <MapPin size={12} className="text-white/40" />
+                      <h3 className="font-serif text-lg font-bold text-black leading-tight mb-2 truncate group-hover:text-ibiza-green transition-colors">{event.eventName || event.name}</h3>
+                      <div className="flex items-center gap-1.5 text-xs text-black/60 mb-2">
+                        <MapPin size={12} className="text-black/40" />
                         {event.venueName} · {event.date}
                       </div>
                       {event.lineUp && (
-                        <div className="text-xs text-white/50 line-clamp-2 leading-relaxed mb-4">
-                          <span className="font-bold text-white/70">Line-up: </span>
+                        <div className="text-xs text-black/50 line-clamp-2 leading-relaxed mb-4">
+                          <span className="font-bold text-black/70">Line-up: </span>
                           {event.lineUp}
                         </div>
                       )}
                     </div>
                     <div className="flex justify-between items-end border-t border-white/10 pt-3 mt-auto">
                       <div className="flex flex-col">
-                        <small className="text-[10px] uppercase tracking-wider text-white/40">Vanaf</small>
-                        <b className="text-white font-bold text-lg">€{price.toFixed(0)}</b>
+                        <small className="text-[10px] uppercase tracking-wider text-black/40">Vanaf</small>
+                        <b className="text-black font-bold text-lg">€{price.toFixed(0)}</b>
                       </div>
                       <span className="bg-ibiza-green text-velvet-obsidian font-bold text-xs px-4 py-2 rounded-full hover:brightness-95 transition-all">Bekijk</span>
                     </div>
@@ -485,6 +487,6 @@ export default function ClubTicketsClient({
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

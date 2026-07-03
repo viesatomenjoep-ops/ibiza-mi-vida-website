@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { EventsBackground } from '@/components/layout/EventsBackground'
 import { Disc } from 'lucide-react'
 import { getArtists } from '@/lib/clubtickets'
 
@@ -10,7 +11,8 @@ export default async function ArtistsPage({ params }: { params: { locale: string
   const artists = await getArtists(params.locale)
 
   return (
-    <main className="theme-monaco-vip bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pt-[16px] pb-24">
+    <main className="theme-monaco-vip bg-transparent min-h-screen text-[var(--color-ink)] pt-[16px] pb-24 relative overflow-hidden">
+      <EventsBackground />
       <div className="container mx-auto px-[5%]">
         <div className="mb-16 max-w-3xl pt-4">
           <h1 className="font-serif text-5xl md:text-7xl font-bold mb-6">Ibiza Artists</h1>
