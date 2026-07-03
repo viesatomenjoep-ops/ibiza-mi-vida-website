@@ -80,11 +80,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             <Link className="bg-ibiza-green text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:bg-white hover:text-black active:bg-white active:text-black transition-colors text-center shadow-lg hover:scale-105" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
             <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:bg-white hover:text-black active:bg-white active:text-black transition-colors text-center shadow-lg hover:scale-105" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
           </div>
-          
-          <div className="mt-4 bg-black/50 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 text-white shadow-xl">
-            <small className="text-xs font-bold uppercase tracking-widest text-neutral-300 mr-2">{translations.home_today_island}</small>
-            <strong className="text-sm font-black text-ibiza-green" id="todayDate">{new Date().toLocaleDateString(locale === 'nl' ? 'nl-NL' : locale === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'long' })}</strong>
-          </div>
         </div>
 
         {/* ── HORIZONTAL LOGO MARQUEE BAR ── */}
