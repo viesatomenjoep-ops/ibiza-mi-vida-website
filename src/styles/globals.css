@@ -163,9 +163,9 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .fs-cat{
   border-bottom:1px solid rgba(255,255,255,.06);
   /* Stagger entry */
-  opacity:0;transform:translateY(24px);
-  transition:opacity .45s cubic-bezier(.22,.68,0,1.2),transform .45s cubic-bezier(.22,.68,0,1.2);
-  transition-delay:calc(var(--ci,0) * 80ms + 120ms);
+  opacity:0;transform:translateY(16px);
+  transition:opacity .25s cubic-bezier(.22,.68,0,1.2),transform .25s cubic-bezier(.22,.68,0,1.2);
+  transition-delay:calc(var(--ci,0) * 30ms + 10ms);
 }
 .fs-menu--open .fs-cat{opacity:1;transform:translateY(0);}
 
@@ -224,9 +224,9 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
   transition:color .15s,border-color .15s,padding-left .15s;
   /* Stagger */
   opacity:0;
-  transform:translateX(-12px);
-  transition:opacity .3s,transform .3s,color .15s,border-color .15s,padding-left .2s;
-  transition-delay:calc(var(--ii,0) * 45ms + 40ms);
+  transform:translateX(-8px);
+  transition:opacity .2s,transform .2s,color .15s,border-color .15s,padding-left .2s;
+  transition-delay:calc(var(--ii,0) * 15ms + 10ms);
 }
 .fs-cat--open .fs-item{opacity:1;transform:translateX(0);}
 .fs-item:hover{
