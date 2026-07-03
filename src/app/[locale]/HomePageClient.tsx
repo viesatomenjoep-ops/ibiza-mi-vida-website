@@ -38,7 +38,7 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
   }, []);
 
   return (
-    <div className="theme-monaco-vip bg-white text-[var(--color-ink)] min-h-screen">
+    <div className="theme-monaco-vip is-home bg-white text-[var(--color-ink)] min-h-screen">
 
       <header className="hero bg-black">
         {/* ── BACKGROUND VIDEO ── */}

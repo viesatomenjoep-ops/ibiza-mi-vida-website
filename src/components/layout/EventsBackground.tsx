@@ -11,13 +11,14 @@ export function EventsBackground() {
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-overlay"
+        className="absolute inset-0 w-full h-full object-cover"
         src="https://res.cloudinary.com/daj1lyfgk/video/upload/v1783098563/zna3zmwypuqpikuatbqy.mp4"
       />
+      <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px]" />
       
       {/* Grid Pattern */}
       <div 
-        className="absolute inset-0 opacity-20"
+        className="absolute inset-0 opacity-[0.03] z-0"
         style={{
           backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px)',
           backgroundSize: '80px 80px'
