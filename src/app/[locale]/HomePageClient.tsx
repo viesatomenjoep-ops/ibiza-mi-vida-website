@@ -41,40 +41,37 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
   return (
     <div className="theme-monaco-vip is-home bg-white text-[var(--color-ink)] min-h-screen">
 
-      <header className="hero bg-black relative">
+      <header className="hero bg-black relative min-h-[85vh] flex flex-col items-center justify-center overflow-hidden w-full">
         {/* ── VIDEO BACKGROUND ── */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden">
+        <div className="absolute inset-0 w-full h-full z-0">
           <video 
             src="/achtergrond-homepage.mp4" 
             autoPlay 
             loop 
             muted 
             playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-100"
+            className="absolute inset-0 w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/20 z-10"></div>
+          <div className="absolute inset-0 bg-black/30 z-10"></div>
           {/* Gradients to fade out the top and bottom of the video */}
           <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/80 to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 to-transparent z-10 pointer-events-none"></div>
         </div>
 
-        <div className="wrap hero-inner relative z-20 pt-[60px] md:pt-[100px] pb-16">
-          <h1>
+        <div className="relative z-20 pt-[60px] md:pt-[100px] pb-16 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 mt-auto mb-auto">
+          <h1 className="text-white text-5xl md:text-7xl lg:text-8xl font-black font-serif uppercase tracking-tight drop-shadow-lg">
             {translations.home_hero_title}
-            <span className="thin">{translations.home_hero_subtitle}</span>
+            <span className="block font-light font-sans text-2xl md:text-4xl lg:text-5xl mt-2 tracking-normal">{translations.home_hero_subtitle}</span>
           </h1>
-
-          {/* Spacer — pushes CTA to bottom on mobile fullscreen hero */}
-          <div className="hero-spacer" aria-hidden="true" />
           
-          <div className="cta-row">
-            <Link className="btn fill" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
-            <Link className="btn" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-12 w-full px-4 max-w-2xl">
+            <Link className="bg-ibiza-green text-black font-black uppercase tracking-widest px-8 py-4 rounded-full w-full md:w-auto hover:bg-white transition-colors text-center shadow-lg hover:scale-105" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
+            <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-4 rounded-full w-full md:w-auto hover:bg-white hover:text-black transition-colors text-center shadow-lg hover:scale-105" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
           </div>
           
-          <div className="today-badge">
-            <small>{translations.home_today_island}</small>
-            <strong id="todayDate">{new Date().toLocaleDateString(locale === 'nl' ? 'nl-NL' : locale === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'long' })}</strong>
+          <div className="mt-12 bg-black/40 backdrop-blur-md px-6 py-2 rounded-full border border-white/10 text-white shadow-xl">
+            <small className="text-xs font-bold uppercase tracking-widest text-neutral-300 mr-2">{translations.home_today_island}</small>
+            <strong className="text-sm font-black text-ibiza-green" id="todayDate">{new Date().toLocaleDateString(locale === 'nl' ? 'nl-NL' : locale === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'long' })}</strong>
           </div>
         </div>
       </header>

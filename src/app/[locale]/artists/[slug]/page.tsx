@@ -83,36 +83,8 @@ interface Props {
 }
 
 async function fetchArtist(slug: string, locale: string) {
-  // 1. Try JSON cache first
-  const localArtist = await getArtist(slug, locale);
-  if (localArtist) {
-    const dates = await getArtistDates(localArtist.name || '', locale, localArtist.slug);
-    return {
-      artist: {
-        id: localArtist.id.toString(),
-        name: localArtist.name,
-        slug: localArtist.slug,
-        image: localArtist.image || '',
-        venueName: localArtist.venueName || '',
-        venueSlug: localArtist.venueSlug || '',
-        href: localArtist.href || ''
-      },
-      dates: dates.map(d => ({
-        id: d.id,
-        name: d.name,
-        date: d.date,
-        eventName: d.eventName || d.name,
-        eventSlug: d.eventSlug,
-        venueName: d.venueName,
-        venueSlug: d.venueSlug,
-        eventCover: d.eventCover || d.eventLogo,
-        venueCover: d.venueCover
-      }))
-    };
-  }
-
-  // 2. Fallback to Supabase Database
-  const { data: dbArtist } = await supabase
+  // Fetch from Supabase Database
+  const { data: dbArtist, error } = await supabase
     .from('ct_artists')
     .select('*')
     .eq('slug', slug)

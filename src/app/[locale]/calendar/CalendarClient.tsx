@@ -132,10 +132,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
       <div className="ck-header relative z-10 pt-6 md:pt-10 flex flex-col items-center text-center">
         <div className="ck-header-top w-full max-w-7xl mx-auto flex flex-col items-center gap-6 px-4">
           <div className="flex flex-col gap-2 text-center mb-4">
-            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">KALENDER</h1>
-            <p className="font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-6">
-              Vind direct alle evenementen, clubfeesten en bootparty's op Ibiza. Filter op datum, categorie of club en bemachtig direct je tickets!
-            </p>
+            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">EVENTS</h1>
           </div>
 
           <div className="relative w-full max-w-xl mt-6">
