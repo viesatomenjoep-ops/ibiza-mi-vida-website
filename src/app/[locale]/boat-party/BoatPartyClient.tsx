@@ -8,11 +8,7 @@ import '@/styles/bootfeesten.css';
 export default function BoatPartyClient({ dict }: { dict?: any }) {
   return (
     <>
-      <div className="crumb wrap">
-        <Link href="/">Home</Link>
-        <ChevronRight size={13} />
-        <b>Ibiza Boat Party</b>
-      </div>
+      
 
       <section className="boat-hero subhero">
         <div className="waveline">

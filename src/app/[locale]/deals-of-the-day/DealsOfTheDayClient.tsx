@@ -198,11 +198,7 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Breadcrumb */}
-        <div className="crumb mb-6 flex items-center gap-1.5 text-xs text-white/50">
-          <Link href={`/${locale}`} className="hover:text-white transition-colors">Home</Link>
-          <ChevronRight size={12} className="opacity-50" />
-          <span className="text-white font-semibold">Deals of the Day</span>
-        </div>
+        
 
         {/* Hero Title + Clock inline */}
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">

@@ -12,13 +12,9 @@ export default function IbizaTipsClient({ locale = 'nl' }: { locale: string }) {
     <div className="pl-shell">
       <div className="pl-header">
         <div className="pl-header-inner">
-          <nav className="pl-quick-nav-inner" style={{padding:0, border: 'none'}}>
-            <Link href={`/${locale}`} className="pl-qlink" style={{padding:'0 10px 0 0'}}>Home</Link>
-            <ChevronRight size={12} color="rgba(255,255,255,0.4)" />
-            <span className="pl-qlink" style={{color: 'rgba(255,255,255,0.4)'}}>Insider</span>
-          </nav>
-          <div style={{width:'100%', marginTop: '16px'}}>
-            <span className="pl-eyebrow">💡 Insider</span>
+          
+          <div style={{width:"100%"}}>
+            
             <h1 className="pl-title">Ibiza Tips</h1>
             <p className="pl-subtitle">Ontdek het beste van Ibiza. Veilig en vertrouwd via Ibiza mi Vida.</p>
           </div>

@@ -8,11 +8,7 @@ import '@/styles/bootfeesten.css'; // Re-using styles
 export default function BoatChartersClient({ dict }: { dict?: any }) {
   return (
     <>
-      <div className="crumb wrap">
-        <Link href="/">Home</Link>
-        <ChevronRight size={13} />
-        <b>Private Boat Charters</b>
-      </div>
+      
 
       <section className="boat-hero subhero">
         <div className="waveline">

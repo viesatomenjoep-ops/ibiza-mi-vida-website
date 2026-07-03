@@ -1618,7 +1618,7 @@
   background:#0a0a0a;
   color:#fff;
   padding:0;
-  padding-top:16px; /* Reduced space as requested by user */
+  padding-top:0px; /* Space removed as requested by user */
   position:sticky;
   top:0;
   z-index:40;

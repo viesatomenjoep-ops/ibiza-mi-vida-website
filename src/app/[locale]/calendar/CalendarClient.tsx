@@ -156,7 +156,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
       <div className="ck-header">
         <div className="ck-header-top">
           <div className="flex flex-col gap-2">
-            <span className="text-[0.78rem] font-bold tracking-[0.26em] uppercase text-white/90">Ibiza mi Vida · Seizoen 2026</span>
+            
             <h1 className="text-4xl md:text-6xl font-black font-serif text-white leading-tight drop-shadow-md uppercase m-0">Evenementen</h1>
           </div>
 

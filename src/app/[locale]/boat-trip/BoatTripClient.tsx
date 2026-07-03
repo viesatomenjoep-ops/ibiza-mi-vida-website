@@ -8,11 +8,7 @@ import '@/styles/bootfeesten.css'; // Re-use bootfeesten.css as it has the same 
 export default function BoatTripClient({ dict }: { dict?: any }) {
   return (
     <>
-      <div className="crumb wrap">
-        <Link href="/">Home</Link>
-        <ChevronRight size={13} />
-        <b>Boat Trips</b>
-      </div>
+      
 
       <section className="boat-hero subhero">
         <div className="waveline">

@@ -8,11 +8,7 @@ import '@/styles/boats.css';
 export default function BoatsClient({ dict }: { dict?: any }) {
   return (
     <>
-      <div className="crumb wrap">
-        <Link href="/">Home</Link>
-        <ChevronRight size={13} />
-        <b>Boten &amp; Ferry's</b>
-      </div>
+      
 
       <section className="boat-hero">
         <div className="waveline">
