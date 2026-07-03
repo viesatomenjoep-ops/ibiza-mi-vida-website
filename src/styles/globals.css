@@ -301,6 +301,8 @@ footer .logo img{filter:brightness(0)}
 .marquee::before{left:0;background:linear-gradient(90deg,var(--black),transparent)}
 .marquee::after{right:0;background:linear-gradient(270deg,var(--black),transparent)}
 footer{position:relative;overflow:hidden}
+footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420px;height:420px;border-radius:50%;pointer-events:none;
+ background:repeating-radial-gradient(circle, transparent 0 40px, rgba(225,77,104,.10) 40px 41px, transparent 41px 82px)}
 
 
 :focus-visible{outline:2px solid var(--spring);outline-offset:2px}
