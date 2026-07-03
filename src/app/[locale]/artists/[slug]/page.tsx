@@ -275,17 +275,12 @@ export default async function ArtistPage({ params }: Props) {
             <span className="text-xs font-bold uppercase tracking-wider text-black/50">Events</span>
             <span className="font-black text-xl text-black">{futureDates.length} Beschikbaar</span>
           </div>
-          <button 
-            onClick={() => {
-              const el = document.getElementById('tickets');
-              if (el) {
-                window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' });
-              }
-            }}
+          <a 
+            href="#tickets"
             className="bg-ibiza-green text-black font-black uppercase tracking-wider px-8 py-3.5 rounded-full hover:brightness-95 transition-all shadow-lg active:scale-95"
           >
             Bekijk Tickets
-          </button>
+          </a>
         </div>
       )}
     </div>

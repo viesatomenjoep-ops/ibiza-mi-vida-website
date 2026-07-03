@@ -51,18 +51,15 @@ export function ClubLogoSlider({ clubLogos, base, className = "w-full relative z
     if (sliderRef.current) sliderRef.current.scrollLeft = scrollLeft.current - walk;
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const handleTouchStart = () => {
     isDragging.current = true;
-    startX.current = e.touches[0].pageX - (sliderRef.current?.offsetLeft || 0);
-    scrollLeft.current = sliderRef.current?.scrollLeft || 0;
   };
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging.current) return;
-    const x = e.touches[0].pageX - (sliderRef.current?.offsetLeft || 0);
-    const walk = (x - startX.current) * 2;
-    if (sliderRef.current) sliderRef.current.scrollLeft = scrollLeft.current - walk;
+  const handleTouchEnd = () => { 
+    // Wait for native momentum scroll to finish before resuming auto-play
+    setTimeout(() => {
+      isDragging.current = false;
+    }, 2000); 
   };
-  const handleTouchEnd = () => { isDragging.current = false; };
 
   if (!clubLogos || clubLogos.length === 0) return null;
 
@@ -77,8 +74,8 @@ export function ClubLogoSlider({ clubLogos, base, className = "w-full relative z
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
         onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
       >
         <div className="flex items-center w-max">
           {[...clubLogos, ...clubLogos, ...clubLogos, ...clubLogos]
