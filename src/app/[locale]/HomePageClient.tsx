@@ -120,27 +120,7 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
           }
         `}} />
 
-        {/* Floating watermark branding background */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 select-none">
-          {floatingElements.map(el => (
-            <img 
-              key={el.id} 
-              src={el.logo} 
-              alt="" 
-              style={el.style}
-              className="object-contain"
-            />
-          ))}
-        </div>
-
         <div className="wrap hero-inner relative z-10">
-          <div className="coords">
-            <span>38° 54.51' N</span>
-            <span>1° 26.32' E</span>
-            <span className="dot">●</span>
-            <span>Isla de Ibiza</span>
-          </div>
-          
           <h1>
             Ibiza mi Vida
             <span className="thin">Entertainment · Boat · Nightlife — Reimagined</span>
@@ -148,6 +128,7 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
           
           <p className="lead">
             Alle clubs, boat parties, artiesten en deals van het eiland op één plek. 
+            Vind direct je tickets en plan je perfecte vakantie.
             Officiële tickets via Clubtickets, 100% veilig.
           </p>
           
