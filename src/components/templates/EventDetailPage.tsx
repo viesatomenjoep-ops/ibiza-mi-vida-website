@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { MapPin, Calendar, ArrowLeft } from 'lucide-react'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
+import { EventTicketSelector } from './EventTicketSelector'
 
 import en from '@/dictionaries/en.json'
 import nl from '@/dictionaries/nl.json'
@@ -122,20 +123,20 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                       )}
                     </div>
                     <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-4 sm:gap-6 mt-4 sm:mt-0 shrink-0">
-                      <div className="flex flex-col items-end">
+                      <div className="flex flex-col items-end w-full sm:w-auto">
                         <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider">{t.event_price || 'Price'}</span>
-                        <span className="font-bold text-lg text-velvet-obsidian">
+                        <span className="font-bold text-lg text-velvet-obsidian mb-3">
                           {dateObj.prices ? dateObj.prices : (t.event_available || 'Available')}
                         </span>
+                        <EventTicketSelector 
+                          id={dateObj.id.toString()}
+                          title={dateObj.eventName || eventName}
+                          date={dateObj.date}
+                          priceStr={dateObj.prices || '50'}
+                          image={eventCover}
+                          affLink={dateObj.affLink}
+                        />
                       </div>
-                      <a 
-                        href={dateObj.affLink} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="bg-black text-white px-6 py-2.5 rounded-xl font-semibold text-sm transition-all hover:bg-gray-800 hover:scale-105 whitespace-nowrap shadow-sm"
-                      >
-                        {t.event_buy_tickets || 'Buy Tickets'}
-                      </a>
                     </div>
                   </div>
                 ))}
