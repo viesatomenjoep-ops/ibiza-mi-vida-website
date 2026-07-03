@@ -54,7 +54,7 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
   };
 
   return (
-    <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen">
+    <div className="theme-monaco-vip bg-white text-[var(--color-ink)] min-h-screen">
 
       {/* HERO with left + right vertical logo strips */}
 <header className="hero relative overflow-hidden" id="top">
@@ -172,11 +172,11 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (
-        <section className="py-16 md:py-24 bg-ibiza-sand/20 text-white">
+        <section className="py-12 md:py-16 bg-white text-neutral-900 border-t border-black/5">
           <div className="max-w-7xl mx-auto px-4">
             <div className="mb-10">
-              <div className="text-xs font-bold tracking-widest uppercase text-white/60 mb-2">Live vanuit de kalender</div>
-              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white tracking-tight mb-4">Eerstvolgende Feesten</h2>
+              <div className="text-xs font-bold tracking-widest uppercase text-neutral-400 mb-2">Live vanuit de kalender</div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-neutral-900 tracking-tight mb-4">Eerstvolgende Feesten</h2>
               {/* Small calendar widget button — fixed width, never stretches */}
               <Link
                 href={`${base}/calendar`}
@@ -190,13 +190,12 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
                   fontWeight: 800,
                   letterSpacing: '.1em',
                   textTransform: 'uppercase',
-                  color: 'rgba(255,255,255,0.75)',
-                  border: '1.5px solid rgba(255,255,255,0.2)',
+                  color: 'rgba(0,0,0,0.6)',
+                  border: '1.5px solid rgba(0,0,0,0.15)',
                   borderRadius: '8px',
                   padding: '8px 16px',
                   textDecoration: 'none',
-                  background: 'rgba(255,255,255,0.06)',
-                  backdropFilter: 'blur(6px)',
+                  background: 'rgba(0,0,0,0.04)',
                   whiteSpace: 'nowrap',
                 }}
               >
