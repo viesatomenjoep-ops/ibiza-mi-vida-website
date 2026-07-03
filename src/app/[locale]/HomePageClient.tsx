@@ -40,76 +40,22 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
   return (
     <div className="theme-monaco-vip bg-white text-[var(--color-ink)] min-h-screen">
 
-      {/* HERO with left + right vertical logo strips */}
-<header className="hero relative overflow-hidden" id="top">
+      <header className="hero bg-black">
         {/* ── BACKGROUND VIDEO ── */}
-        <div className="absolute inset-0 z-0 overflow-hidden bg-white">
+        <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
           <video 
             autoPlay 
             muted 
             loop 
             playsInline
-            className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-[0.35]"
-            style={{ 
-              maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)',
-              WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)'
-            }}
-            src="https://res.cloudinary.com/daj1lyfgk/video/upload/v1783098563/zna3zmwypuqpikuatbqy.mp4"
-          />
-        </div>
-
-        {/* ── LIFT ELEVATOR: 10 columns, all 15+ club logos scrolling ── */}
-        {clubLogos.length > 0 && (
-          <div 
-            className="lift-bg relative z-0" 
-            aria-hidden="true"
-            style={{ 
-              maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)',
-              WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)'
-            }}
+            className="absolute inset-0 w-full h-full object-cover opacity-80"
           >
-            {/* Subtle vertical grid lines */}
-            <div className="lift-grid-lines">
-              {Array.from({ length: 11 }).map((_, i) => <div key={i} className="lift-line" />)}
-            </div>
-
-            {/* 10 elevator columns */}
-            <div className="lift-cols">
-              {liftCols.map(col => {
-                // Each column gets a different starting logo to look varied
-                const offset = (col.id * 3) % clubLogos.length;
-                const rotated = [...clubLogos.slice(offset), ...clubLogos.slice(0, offset)];
-                // Duplicate for seamless loop
-                const items = [...rotated, ...rotated];
-
-                return (
-                  <div key={col.id} className="lift-col">
-                    <div
-                      className="lift-track"
-                      style={{
-                        animationDuration: `${col.duration}s`,
-                        animationDirection: col.reverse ? 'reverse' : 'normal',
-                        animationDelay: `${col.delay}s`,
-                      }}
-                    >
-                      {items.map((club, idx) => (
-                        <div key={`${club.slug}-${idx}`} className="lift-item">
-                          <img
-                            src={club.whitelogo || club.picture}
-                            alt=""
-                            className="lift-logo"
-                            loading="lazy"
-                            decoding="async"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+            <source src="https://res.cloudinary.com/duznx2eim/video/upload/v1720025987/Achtergrond_homepage_lckwgw.mp4" type="video/mp4" />
+          </video>
+          {/* Dark gradient overlay so white text is readable everywhere */}
+          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+        </div>
 
         <div className="wrap hero-inner relative z-10">
           <h1>
@@ -130,6 +76,25 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
             <strong id="todayDate">{new Date().toLocaleDateString(locale === 'nl' ? 'nl-NL' : locale === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'long' })}</strong>
           </div>
         </div>
+
+        {/* ── HORIZONTAL LOGO MARQUEE (BELOW VIDEO TEXT) ── */}
+        {clubLogos.length > 0 && (
+          <div className="absolute bottom-0 left-0 w-full overflow-hidden whitespace-nowrap py-4 z-10" style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+            <div className="inline-block animate-marquee hover:[animation-play-state:paused]">
+              {[...clubLogos, ...clubLogos, ...clubLogos].map((club, idx) => (
+                <div key={`${club.slug}-${idx}`} className="inline-flex items-center justify-center w-24 mx-8 opacity-60 hover:opacity-100 transition-opacity">
+                  <img
+                    src={club.whitelogo || club.picture}
+                    alt=""
+                    className="w-full h-auto object-contain filter invert drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </header>
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
