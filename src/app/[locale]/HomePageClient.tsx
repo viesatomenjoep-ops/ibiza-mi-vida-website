@@ -402,11 +402,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
               <strong>Clubs & Venues</strong>
               <span className="arrow">→</span>
             </Link>
-            <Link href={`${base}/boat-parties`} className="cat">
-              <span className="icon"><Ship size={24} /></span>
-              <strong>Boat Parties</strong>
-              <span className="arrow">→</span>
-            </Link>
+
             <Link href={`${base}/calendar?filter=day`} className="cat">
               <span className="num">04</span>
               <strong>Day Clubs</strong>
