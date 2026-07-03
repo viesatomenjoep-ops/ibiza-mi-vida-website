@@ -155,11 +155,11 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
   font-weight:900;
   letter-spacing:-.03em;
   text-transform:uppercase;
-  color:#e8003c;  /* same pink as Bekijk Kalender / Zoek Feesten */
+  color:var(--spring);
   line-height:1;
   transition:color .15s;
 }
-.fs-cat-btn:hover .fs-cat-label{ color:#ff2255; }
+.fs-cat-btn:hover .fs-cat-label{ color:var(--spring); filter:brightness(1.15); }
 
 /* Arrow indicator */
 .fs-cat-arrow{
@@ -169,7 +169,7 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 }
 .fs-cat--open .fs-cat-arrow{
   transform:rotate(180deg);
-  color:#e8003c;
+  color:var(--spring);
 }
 
 /* Sub-items container — smooth accordion */
@@ -204,7 +204,7 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .fs-cat--open .fs-item{opacity:1;transform:translateX(0);}
 .fs-item:hover{
   color:#fff;
-  border-left-color:#e8003c;
+  border-left-color:var(--spring);
   padding-left:56px;
 }
 
@@ -218,7 +218,7 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
   opacity:0;transform:translateX(-6px);
   transition:opacity .15s,transform .15s,color .15s;
 }
-.fs-item:hover .fs-item-arrow{opacity:1;transform:translateX(0);color:#e8003c;}
+.fs-item:hover .fs-item-arrow{opacity:1;transform:translateX(0);color:var(--spring);}
 
 /* Footer row */
 .fs-footer{
@@ -236,7 +236,7 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
   transition:all .15s;
 }
 .fs-lang:hover,.fs-lang.active{
-  border-color:#e8003c;color:#fff;background:rgba(232,0,60,.15);
+  border-color:var(--spring);color:#fff;background:rgba(225,77,104,.15);
 }
 .fs-wa-btn{
   margin-left:auto;
