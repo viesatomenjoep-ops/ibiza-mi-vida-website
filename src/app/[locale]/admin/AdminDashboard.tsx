@@ -2,20 +2,24 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { supabase } from '@/lib/supabase/client'
-import { Trash2, Plus, RefreshCw, LogOut, UploadCloud, FileText } from 'lucide-react'
+import { Trash2, Plus, RefreshCw, LogOut, UploadCloud, FileText, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 import { parsePdfToListing } from '@/lib/pdfParser'
 
 type CustomListing = {
   id: string
-  type: string
+  category_slug: string
+  slug: string
   title: string
   description: string
-  price: number
+  price_from: number
   image_url: string
-  booking_link: string
-  active: boolean
+  is_active: boolean
   created_at: string
+}
+
+const generateSlug = (title: string) => {
+  return title.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-').replace(/^-+|-+$/g, '') + '-' + Date.now().toString().slice(-4);
 }
 
 export default function AdminDashboard() {
@@ -24,15 +28,15 @@ export default function AdminDashboard() {
   const [saving, setSaving] = useState(false)
   const [parsingPdf, setParsingPdf] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [successMsg, setSuccessMsg] = useState('')
   
   // Form state
   const [formData, setFormData] = useState({
-    type: 'private_charter', // Default to private charter for PDF uploads
+    category_slug: 'private-charter',
     title: '',
     description: '',
-    price: '',
+    price_from: '',
     image_url: '',
-    booking_link: '',
   })
 
   useEffect(() => {
@@ -57,20 +61,18 @@ export default function AdminDashboard() {
     if (!file) return
 
     setParsingPdf(true)
+    setSuccessMsg('')
     try {
-      // 1. Extract text and render first page to image
       const parsedData = await parsePdfToListing(file)
       
-      // Update basic fields immediately
       setFormData(prev => ({
         ...prev,
         title: parsedData.title,
         description: parsedData.description,
-        price: parsedData.price,
-        type: 'private_charter'
+        price_from: parsedData.price,
+        category_slug: 'private-charter'
       }))
 
-      // 2. Upload the extracted image to Cloudinary via our API route
       const uploadRes = await fetch('/api/upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -89,7 +91,6 @@ export default function AdminDashboard() {
       alert('Error parsing PDF: ' + err.message)
     } finally {
       setParsingPdf(false)
-      // Reset input so you can upload the same file again if needed
       if (fileInputRef.current) fileInputRef.current.value = ''
     }
   }
@@ -97,18 +98,19 @@ export default function AdminDashboard() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
+    setSuccessMsg('')
     
     const { data, error } = await supabase
       .from('custom_listings')
       .insert([
         {
-          type: formData.type,
+          category_slug: formData.category_slug,
+          slug: generateSlug(formData.title),
           title: formData.title,
           description: formData.description,
-          price: formData.price ? parseFloat(formData.price) : null,
+          price_from: formData.price_from ? parseFloat(formData.price_from) : null,
           image_url: formData.image_url,
-          booking_link: formData.booking_link,
-          active: true,
+          is_active: true,
         }
       ])
       .select()
@@ -116,13 +118,13 @@ export default function AdminDashboard() {
     if (error) {
       alert('Error saving listing: ' + error.message)
     } else {
+      setSuccessMsg('Advertentie succesvol opgeslagen en live gezet!')
       setFormData({
-        type: 'private_charter',
+        category_slug: 'private-charter',
         title: '',
         description: '',
-        price: '',
+        price_from: '',
         image_url: '',
-        booking_link: '',
       })
       fetchListings()
     }
@@ -145,8 +147,8 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-100 text-neutral-900 font-sans pt-24 pb-12">
-      <div className="max-w-6xl mx-auto px-4">
+    <div className="min-h-screen bg-neutral-100 text-neutral-900 font-sans pt-32 pb-12">
+      <div className="max-w-7xl mx-auto px-4">
         
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-black font-serif uppercase tracking-tight">Admin Dashboard</h1>
@@ -155,18 +157,18 @@ export default function AdminDashboard() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* Form Column */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-black/5">
+          <div className="lg:col-span-4">
+            <div className="bg-white rounded-3xl p-6 shadow-sm border border-black/5">
               <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                 <Plus size={20} className="text-ibiza-green" /> 
                 Nieuwe toevoegen
               </h2>
 
               {/* PDF Uploader */}
-              <div className="mb-6 bg-blue-50 border-2 border-dashed border-blue-200 rounded-xl p-6 text-center hover:bg-blue-100 transition-colors relative cursor-pointer" onClick={() => fileInputRef.current?.click()}>
+              <div className="mb-6 bg-blue-50 border-2 border-dashed border-blue-200 rounded-2xl p-6 text-center hover:bg-blue-100 transition-colors relative cursor-pointer" onClick={() => fileInputRef.current?.click()}>
                 <input 
                   type="file" 
                   ref={fileInputRef} 
@@ -190,102 +192,132 @@ export default function AdminDashboard() {
               
               <div className="flex items-center gap-4 mb-6">
                 <div className="h-px bg-neutral-200 flex-1"></div>
-                <span className="text-xs text-neutral-400 font-bold uppercase tracking-wider">Of vul handmatig in</span>
+                <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-widest">Of vul handmatig in</span>
                 <div className="h-px bg-neutral-200 flex-1"></div>
               </div>
               
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">Type Event / Listing</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1">Categorie</label>
                   <select 
-                    value={formData.type}
-                    onChange={e => setFormData({...formData, type: e.target.value})}
-                    className="w-full bg-neutral-50 border border-neutral-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-ibiza-green outline-none"
+                    value={formData.category_slug}
+                    onChange={e => setFormData({...formData, category_slug: e.target.value})}
+                    className="w-full bg-neutral-50 border border-neutral-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-ibiza-green outline-none"
                     required
                   >
-                    <option value="private_charter">Private Boat Charter</option>
-                    <option value="boat_party">Bootfeest / Ferry</option>
-                    <option value="club_ticket">Club Ticket</option>
+                    <option value="private-charter">Private Boat Charter</option>
+                    <option value="boat-party">Bootfeest / Ferry</option>
                     <option value="activity">Activiteit / Excursie</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">Titel</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1">Titel</label>
                   <input 
                     type="text"
                     value={formData.title}
                     onChange={e => setFormData({...formData, title: e.target.value})}
                     placeholder="Bv: Sunset Boat Party San Antonio"
-                    className="w-full bg-neutral-50 border border-neutral-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-ibiza-green outline-none"
+                    className="w-full bg-neutral-50 border border-neutral-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-ibiza-green outline-none"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">Beschrijving</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1">Beschrijving</label>
                   <textarea 
                     value={formData.description}
                     onChange={e => setFormData({...formData, description: e.target.value})}
                     placeholder="Korte pakkende beschrijving..."
-                    rows={3}
-                    className="w-full bg-neutral-50 border border-neutral-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-ibiza-green outline-none"
+                    rows={4}
+                    className="w-full bg-neutral-50 border border-neutral-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-ibiza-green outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">Prijs (Optioneel)</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1">Prijs vanaf (€)</label>
                   <input 
                     type="number"
                     step="0.01"
-                    value={formData.price}
-                    onChange={e => setFormData({...formData, price: e.target.value})}
+                    value={formData.price_from}
+                    onChange={e => setFormData({...formData, price_from: e.target.value})}
                     placeholder="Bv: 49.99"
-                    className="w-full bg-neutral-50 border border-neutral-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-ibiza-green outline-none"
+                    className="w-full bg-neutral-50 border border-neutral-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-ibiza-green outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">Afbeelding URL (Cloudinary)</label>
+                  <label className="block text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1">Afbeelding URL (Cloudinary)</label>
                   <input 
                     type="url"
                     value={formData.image_url}
                     onChange={e => setFormData({...formData, image_url: e.target.value})}
                     placeholder="https://res.cloudinary.com/..."
-                    className="w-full bg-neutral-50 border border-neutral-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-ibiza-green outline-none"
+                    className="w-full bg-neutral-50 border border-neutral-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-ibiza-green outline-none"
                   />
-                  <p className="text-[10px] text-neutral-400 mt-1">Plak hier de direct link naar je plaatje.</p>
                 </div>
 
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1">Boekings Link (Check-out URL)</label>
-                  <input 
-                    type="url"
-                    value={formData.booking_link}
-                    onChange={e => setFormData({...formData, booking_link: e.target.value})}
-                    placeholder="https://api.clubtickets.com/..."
-                    className="w-full bg-neutral-50 border border-neutral-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-ibiza-green outline-none"
-                  />
-                </div>
+                {successMsg && (
+                  <div className="bg-green-50 text-green-700 text-sm p-3 rounded-xl flex items-center gap-2 border border-green-200">
+                    <CheckCircle size={16} /> {successMsg}
+                  </div>
+                )}
 
                 <button 
                   type="submit" 
-                  disabled={saving}
-                  className="mt-4 bg-black text-white font-bold py-3 rounded-lg hover:bg-ibiza-green hover:text-black transition-colors disabled:opacity-50"
+                  disabled={saving || !formData.title}
+                  className="mt-2 bg-black text-white font-bold py-3.5 rounded-xl hover:bg-ibiza-green hover:text-black transition-colors disabled:opacity-50 uppercase tracking-widest text-xs"
                 >
-                  {saving ? 'Bezig met opslaan...' : 'Toevoegen aan database'}
+                  {saving ? 'Bezig met opslaan...' : 'Advertentie Opslaan'}
                 </button>
 
               </form>
             </div>
           </div>
 
+          {/* Live Preview Column */}
+          <div className="lg:col-span-4">
+            <div className="bg-white rounded-3xl p-6 shadow-sm border border-black/5 sticky top-32">
+              <h2 className="text-xl font-bold mb-4">Live Preview</h2>
+              <div className="text-sm text-neutral-500 mb-6">Zo komt de advertentie eruit te zien op de Private Boat Charters pagina:</div>
+              
+              {formData.title || formData.image_url ? (
+                <div className="bg-white rounded-2xl overflow-hidden border border-black/10 shadow-lg group">
+                  <div className="relative aspect-[4/3] bg-neutral-100 overflow-hidden">
+                    {formData.image_url ? (
+                      <img src={formData.image_url} alt="Preview" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
+                        <FileText size={48} />
+                      </div>
+                    )}
+                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                      {formData.category_slug.replace('-', ' ')}
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-serif font-bold text-xl mb-2 line-clamp-2 leading-tight">{formData.title || 'Titel van de listing'}</h3>
+                    <p className="text-neutral-500 text-sm line-clamp-3 mb-4 leading-relaxed">{formData.description || 'De beschrijving komt hier...'}</p>
+                    <div className="flex items-center justify-between mt-auto">
+                      <div className="text-xs uppercase tracking-widest font-bold text-neutral-400">Vanaf</div>
+                      <div className="text-lg font-black">€{formData.price_from || '0'}</div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="aspect-[3/4] border-2 border-dashed border-neutral-200 rounded-2xl flex items-center justify-center text-neutral-400 p-8 text-center bg-neutral-50">
+                  Upload een PDF of vul de velden links in om de preview te zien.
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* List Column */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-black/5 min-h-[500px]">
+          <div className="lg:col-span-4">
+            <div className="bg-white rounded-3xl p-6 shadow-sm border border-black/5 min-h-[500px]">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold">Jouw Listings</h2>
+                <h2 className="text-xl font-bold">Live Listings</h2>
                 <button onClick={fetchListings} className="text-neutral-400 hover:text-black">
                   <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
                 </button>
@@ -294,44 +326,39 @@ export default function AdminDashboard() {
               {loading && listings.length === 0 ? (
                 <div className="text-center py-12 text-neutral-400">Laden...</div>
               ) : listings.length === 0 ? (
-                <div className="text-center py-12 text-neutral-400 border-2 border-dashed border-neutral-100 rounded-xl">
-                  Nog geen listings toegevoegd. Maak er links eentje aan!
+                <div className="text-center py-12 text-neutral-400 border-2 border-dashed border-neutral-100 rounded-2xl">
+                  Nog geen listings toegevoegd.
                 </div>
               ) : (
                 <div className="flex flex-col gap-3">
                   {listings.map(item => (
-                    <div key={item.id} className="flex items-center justify-between p-4 bg-neutral-50 rounded-xl border border-neutral-100 hover:border-neutral-200 transition-colors">
+                    <div key={item.id} className="flex items-center justify-between p-3 bg-neutral-50 rounded-2xl border border-neutral-100 hover:border-neutral-200 transition-colors">
                       
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-lg bg-neutral-200 overflow-hidden shrink-0">
+                      <div className="flex items-center gap-3">
+                        <div className="w-14 h-14 rounded-xl bg-neutral-200 overflow-hidden shrink-0">
                           {item.image_url ? (
                             <img src={item.image_url} alt={item.title} className="w-full h-full object-cover" />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-neutral-400 text-xs">Geen IMG</div>
+                            <div className="w-full h-full flex items-center justify-center text-neutral-400 text-[10px]">IMG</div>
                           )}
                         </div>
                         
                         <div>
-                          <div className="flex items-center gap-2">
-                            <h3 className="font-bold text-neutral-900">{item.title}</h3>
-                            <span className="text-[10px] font-bold uppercase tracking-wider bg-black text-white px-2 py-0.5 rounded-full">
-                              {item.type.replace('_', ' ')}
-                            </span>
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="font-bold text-neutral-900 text-sm line-clamp-1">{item.title}</h3>
                           </div>
-                          <div className="text-xs text-neutral-500 mt-1 flex gap-3">
-                            {item.price && <span>€{item.price}</span>}
-                            {item.booking_link ? (
-                              <a href={item.booking_link} target="_blank" rel="noreferrer" className="text-ibiza-green hover:underline">Test Link</a>
-                            ) : (
-                              <span>Geen link</span>
-                            )}
+                          <div className="text-[10px] text-neutral-500 flex gap-2 items-center">
+                            <span className="uppercase tracking-widest bg-black text-white px-2 py-0.5 rounded-full">
+                              {item.category_slug}
+                            </span>
+                            {item.price_from && <span className="font-bold">€{item.price_from}</span>}
                           </div>
                         </div>
                       </div>
 
                       <button 
                         onClick={() => deleteListing(item.id)}
-                        className="w-8 h-8 flex items-center justify-center text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        className="w-8 h-8 flex items-center justify-center text-red-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors shrink-0 ml-2"
                         title="Verwijderen"
                       >
                         <Trash2 size={16} />

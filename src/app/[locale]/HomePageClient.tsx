@@ -42,65 +42,23 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
     <div className="theme-monaco-vip is-home bg-white text-[var(--color-ink)] min-h-screen">
 
       <header className="hero bg-black">
-        {/* ── VERTICAL EVENT LIFT BACKGROUND ── */}
-        <div className="lift-bg opacity-30">
-          <div className="lift-grid-lines">
-            <div className="lift-line"></div>
-            <div className="lift-line"></div>
-            <div className="lift-line"></div>
-            <div className="lift-line"></div>
-            <div className="lift-line"></div>
-          </div>
-          <div className="lift-cols">
-            {liftCols.map((col) => {
-              // Get events for this column, shift to create variety
-              const colEvents = [...upcomingDates].sort(() => Math.random() - 0.5);
-              
-              // We need enough items to scroll smoothly, so we repeat the array
-              const repeatedEvents = [...colEvents, ...colEvents, ...colEvents, ...colEvents];
-
-              return (
-                <div key={col.id} className="lift-col">
-                  <div 
-                    className="lift-track"
-                    style={{
-                      animationDuration: `${col.duration}s`,
-                      animationDirection: col.reverse ? 'reverse' : 'normal',
-                      animationDelay: `${col.delay}s`,
-                    }}
-                  >
-                    {repeatedEvents.map((evt, idx) => (
-                      <div key={`${col.id}-${idx}`} className="lift-item p-2">
-                        {evt.ct_events?.cover ? (
-                          <div className="relative w-full aspect-square rounded-xl overflow-hidden shadow-lg border border-white/10">
-                            <img 
-                              src={evt.ct_events.cover} 
-                              alt={evt.name}
-                              className="absolute inset-0 w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-3">
-                              <span className="text-white font-bold text-xs leading-tight mb-1">{evt.ct_events.name}</span>
-                              <span className="text-white/70 text-[10px] uppercase tracking-wider">{evt.ct_venues?.name}</span>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="w-full aspect-square bg-white/5 rounded-xl border border-white/10 flex items-center justify-center p-4">
-                            <span className="text-white/50 text-xs font-bold text-center">{evt.name}</span>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          {/* Gradients to fade out the top and bottom of the lift */}
-          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black to-transparent z-10"></div>
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black to-transparent z-10"></div>
+        {/* ── VIDEO BACKGROUND ── */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
+          <video 
+            src="/achtergrond-homepage.mp4" 
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover opacity-100"
+          />
+          <div className="absolute inset-0 bg-black/20 z-10"></div>
+          {/* Gradients to fade out the top and bottom of the video */}
+          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/80 to-transparent z-10 pointer-events-none"></div>
         </div>
 
-        <div className="wrap hero-inner relative z-20 pt-[140px]">
+        <div className="wrap hero-inner relative z-20 pt-[220px] pb-16">
           <h1>
             {translations.home_hero_title}
             <span className="thin">{translations.home_hero_subtitle}</span>

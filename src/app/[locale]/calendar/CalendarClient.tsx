@@ -151,16 +151,26 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
   const weekCount = events.filter(e => e.date >= weekStart && e.date <= weekEnd).length;
 
   return (
-    <div className="ck-shell bg-transparent">
-      <EventsBackground />
+    <div className="ck-shell bg-transparent min-h-screen relative">
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-black">
+        <video 
+          src="/hero-ocean.mp4" 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute inset-0 w-full h-full object-cover opacity-50" 
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80"></div>
+      </div>
 
       {/* ══════════════════════════════════════
           HEADER
           ══════════════════════════════════════ */}
-      <div className="ck-header pt-[140px] flex flex-col items-center text-center">
+      <div className="ck-header relative z-10 pt-[160px] flex flex-col items-center text-center">
         <div className="ck-header-top w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
           <div className="flex flex-col gap-2">
-            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight">KALENDER</h1>
+            <h1 className="text-6xl md:text-8xl font-black font-serif text-white leading-tight uppercase m-0 tracking-tight drop-shadow-2xl">KALENDER</h1>
           </div>
 
           {/* Search bar */}
@@ -182,8 +192,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
         </div>
 
         {/* ── Quick time filters ── */}
-        <div className="ck-quick-bar">
-          <div className="ck-quick-tabs">
+        <div className="ck-quick-bar flex flex-wrap justify-center gap-4 mt-8 mb-8 px-4 w-full max-w-5xl">
             {([
               ['today', dict.cal_today || `Vandaag`, todayCount],
               ['tomorrow', dict.cal_tomorrow || `Morgen`, tomorrowCount],
@@ -192,32 +201,31 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
             ] as [QuickFilter, string, number | null][]).map(([key, label, count]) => (
               <button
                 key={key}
-                className={`ck-qtab ${quickFilter === key ? 'active' : ''}`}
+                className={`relative overflow-hidden px-8 py-4 md:px-10 md:py-5 rounded-full font-bold uppercase tracking-widest text-sm md:text-base border-2 transition-all duration-300 ${quickFilter === key ? 'bg-ibiza-green text-black border-ibiza-green scale-105 shadow-[0_0_20px_rgba(20,255,0,0.4)]' : 'bg-black/60 backdrop-blur-md text-white border-white/20 hover:border-white/60 hover:bg-black/80'}`}
                 onClick={() => { setQuickFilter(key); if (key === 'all') setActiveMonth(format(today, 'yyyy-MM')); }}
               >
                 {label}
-                {count !== null && count > 0 && <span className="ck-qtab-badge">{count}</span>}
+                {count !== null && count > 0 && <span className={`ml-3 px-2 py-0.5 rounded-full text-[10px] font-black ${quickFilter === key ? 'bg-black text-ibiza-green' : 'bg-white text-black'}`}>{count}</span>}
               </button>
             ))}
-          </div>
+        </div>
 
-          <div className="ck-filter-actions">
+        <div className="w-full max-w-5xl px-4 flex justify-between items-center mb-8">
             {/* Venue filter dropdown */}
             <button
-              className={`ck-filter-btn ${(selectedVenue || filtersOpen) ? 'active' : ''}`}
+              className={`flex items-center gap-3 px-6 py-3 rounded-full font-bold uppercase tracking-widest text-xs md:text-sm border-2 transition-all duration-300 ${(selectedVenue || filtersOpen) ? 'bg-white text-black border-white' : 'bg-black/60 backdrop-blur-md text-white border-white/20 hover:border-white/60'}`}
               onClick={() => setFiltersOpen(v => !v)}
             >
-              <SlidersHorizontal size={12} />
+              <SlidersHorizontal size={16} />
               {selectedVenue ? allVenues.find(v => v.slug === selectedVenue)?.name || selectedVenue : 'Club'}
               {selectedVenue && (
-                <span onClick={e => { e.stopPropagation(); setSelectedVenue(null); }} className="ck-filter-clear">
-                  <X size={10} />
+                <span onClick={e => { e.stopPropagation(); setSelectedVenue(null); }} className="ml-2 hover:bg-neutral-200 p-1 rounded-full text-black">
+                  <X size={14} />
                 </span>
               )}
             </button>
 
-            <span className="ck-result-count">{filtered.length} events</span>
-          </div>
+            <span className="text-white/80 font-bold tracking-widest uppercase text-sm md:text-base bg-black/40 backdrop-blur-md px-6 py-3 rounded-full border border-white/10">{filtered.length} events</span>
         </div>
 
         {/* ── Venue filter dropdown ── */}
@@ -267,18 +275,18 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
       {/* ══════════════════════════════════════
           BODY — Large Event Cards
           ══════════════════════════════════════ */}
-      <div className="max-w-4xl mx-auto px-4 pb-24">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 pb-24">
         {sortedDates.length === 0 ? (
-            <div className="text-center py-20 bg-neutral-50 rounded-3xl border border-neutral-200 mt-8">
-              <Calendar size={40} className="mx-auto text-neutral-300 mb-4" />
-              <p className="text-neutral-500 font-medium">Geen events gevonden</p>
+            <div className="text-center py-20 bg-black/60 backdrop-blur-md rounded-[32px] border border-white/10 mt-8">
+              <Calendar size={48} className="mx-auto text-white/30 mb-4" />
+              <p className="text-white/50 font-bold uppercase tracking-widest text-lg">Geen events gevonden</p>
             </div>
         ) : sortedDates.map(ds => (
             <div key={ds} className="mt-12">
               {/* Date heading */}
-              <div className="flex items-center gap-4 mb-6 pb-2 border-b-2 border-black/10">
-                <h3 className="text-2xl md:text-3xl font-serif font-bold text-black tracking-tight">{dateLabel(ds)}</h3>
-                {isDateToday(ds) && <span className="bg-red-500 text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded">Live</span>}
+              <div className="flex items-center gap-4 mb-6 pb-4 border-b-2 border-white/10">
+                <h3 className="text-3xl md:text-4xl font-serif font-bold text-white tracking-tight drop-shadow-lg">{dateLabel(ds)}</h3>
+                {isDateToday(ds) && <span className="bg-red-500 text-white text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-[0_0_15px_rgba(239,68,68,0.5)]">Live</span>}
               </div>
 
               {/* Event rows */}
@@ -289,35 +297,35 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
                   const image = ev.ct_events?.cover || ev.ct_events?.logo || ev.ct_venues?.whitelogo;
                   
                   return (
-                    <div key={ev.id} className="group bg-white rounded-[32px] border border-neutral-200 shadow-sm hover:shadow-xl hover:border-black/20 transition-all overflow-hidden flex flex-col md:flex-row">
+                    <div key={ev.id} className="group bg-white rounded-[40px] border-4 border-transparent hover:border-ibiza-green shadow-xl hover:shadow-[0_0_40px_rgba(20,255,0,0.15)] transition-all overflow-hidden flex flex-col md:flex-row mb-8">
                       
                       {/* Image / Artist */}
-                      <div className="w-full md:w-72 h-72 md:h-auto shrink-0 relative p-6 bg-neutral-50 flex items-center justify-center border-b md:border-b-0 md:border-r border-neutral-100">
+                      <div className="w-full md:w-96 shrink-0 relative p-8 md:p-12 bg-neutral-100 flex items-center justify-center border-b md:border-b-0 md:border-r border-neutral-200">
                         {image ? (
-                           <div className="relative w-full h-full rounded-full overflow-hidden shadow-inner border-[6px] border-white">
-                             <img src={image} alt={eventTitle} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                           <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.2)] border-[8px] border-white group-hover:scale-105 transition-transform duration-500">
+                             <img src={image} alt={eventTitle} className="absolute inset-0 w-full h-full object-cover" />
                            </div>
                         ) : (
-                           <div className="w-full h-full rounded-full bg-neutral-200 flex items-center justify-center text-neutral-400 font-bold border-[6px] border-white text-3xl">
+                           <div className="w-48 h-48 md:w-64 md:h-64 rounded-full bg-white shadow-[0_10px_30px_rgba(0,0,0,0.1)] flex items-center justify-center text-neutral-300 font-bold border-[8px] border-white text-5xl">
                              {venueName.slice(0,2)}
                            </div>
                         )}
                       </div>
 
                       {/* Content */}
-                      <div className="p-6 md:p-8 flex-1 flex flex-col justify-center bg-white">
-                        <div className="text-sm font-bold tracking-widest text-neutral-400 uppercase mb-2">{venueName}</div>
-                        <h4 className="text-2xl md:text-4xl font-serif font-bold text-black leading-tight mb-4">{eventTitle}</h4>
+                      <div className="p-8 md:p-12 flex-1 flex flex-col justify-center bg-white">
+                        <div className="text-sm md:text-base font-black tracking-widest text-ibiza-green uppercase mb-3 drop-shadow-sm">{venueName}</div>
+                        <h4 className="text-3xl md:text-5xl font-serif font-bold text-black leading-tight mb-6">{eventTitle}</h4>
                         {ev.lineUp && (
-                          <p className="text-neutral-500 text-sm leading-relaxed mb-8 line-clamp-2">
+                          <p className="text-neutral-500 text-base md:text-lg leading-relaxed mb-10 line-clamp-2 md:line-clamp-3">
                             {ev.lineUp.replace(/MAIN ROOM|THE BUNKER|ROOM [A-Z]/g, '·').replace(/^·\s*/, '')}
                           </p>
                         )}
-                        <div className="mt-auto flex flex-col sm:flex-row sm:items-center gap-4 pt-6 border-t border-neutral-100">
-                          {ev.prices && <div className="text-2xl font-bold text-black">{dict.event_from_price || 'v.a.'} €{ev.prices.split('-')[0].trim().replace('€','').trim()}</div>}
+                        <div className="mt-auto flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-8 border-t-2 border-neutral-100">
+                          {ev.prices && <div className="text-3xl md:text-4xl font-black text-black">{dict.event_from_price || 'v.a.'} €{ev.prices.split('-')[0].trim().replace('€','').trim()}</div>}
                           <Link
                             href={`/${locale}/club-tickets/${ev.ct_venues?.slug || 'club'}/${ev.ct_events?.slug || 'event'}`}
-                            className="bg-black hover:bg-neutral-800 text-white font-bold tracking-widest text-xs uppercase px-8 py-4 rounded-full transition-colors w-full sm:w-auto sm:ml-auto text-center"
+                            className="bg-black hover:bg-ibiza-green text-white hover:text-black font-black tracking-widest text-sm md:text-base uppercase px-10 py-5 md:px-12 md:py-6 rounded-full transition-all duration-300 w-full sm:w-auto text-center shadow-lg hover:shadow-[0_0_20px_rgba(20,255,0,0.5)] transform hover:-translate-y-1"
                           >
                             {dict.event_buy_tickets || 'Koop Tickets'}
                           </Link>

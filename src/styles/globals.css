@@ -66,31 +66,31 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
   display:flex;
   justify-content:space-between;
   align-items:center;
-  min-height:72px;
+  min-height:92px;
   gap:16px;
   transition: all 0.3s ease;
 }
 .nav .logo-img {
-  width: 44px;
-  height: 44px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
   flex-shrink: 0;
 }
-.nav-links{display:flex;gap:28px;align-items:center}
-.nav-links a{font-family:var(--display);text-transform:uppercase;letter-spacing:.26em;font-size:.78rem;font-weight:700;padding:6px 0;border-bottom:1px solid transparent;transition: all 0.3s ease;}
+.nav-links{display:flex;gap:36px;align-items:center}
+.nav-links a{font-family:var(--display);text-transform:uppercase;letter-spacing:.26em;font-size:1rem;font-weight:700;padding:6px 0;border-bottom:1px solid transparent;transition: all 0.3s ease;}
 .nav-links a:hover{border-bottom-color:var(--spring);color:var(--spring)}
 .logo{display:flex;flex-direction:row;align-items:center;gap:12px;text-align:left}
-.logo-img{width:36px;height:36px;object-fit:contain;background:transparent;border:none;flex-shrink:0}
-.logo strong{font-family:var(--font-display), sans-serif;text-transform:uppercase;letter-spacing:-0.01em;font-size:1.25rem;font-weight:800;color:#fff;white-space:nowrap}
-.nav-actions{display:flex;gap:12px;align-items:center}
-.search-trigger-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;cursor:pointer}
+.logo-img{width:46px;height:46px;object-fit:contain;background:transparent;border:none;flex-shrink:0}
+.logo strong{font-family:var(--font-display), sans-serif;text-transform:uppercase;letter-spacing:-0.01em;font-size:1.4rem;font-weight:800;color:#fff;white-space:nowrap}
+.nav-actions{display:flex;gap:16px;align-items:center}
+.search-trigger-btn{width:56px;height:56px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;cursor:pointer}
 .search-trigger-btn:hover{background:rgba(255,255,255,0.08);border-color:#fff}
-.nav-logo-btn{width:44px;height:44px;border-radius:50%;border:1px solid transparent;background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;cursor:pointer;flex-shrink:0;}
+.nav-logo-btn{width:56px;height:56px;border-radius:50%;border:1px solid transparent;background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;cursor:pointer;flex-shrink:0;}
 .nav-logo-btn:hover{background:rgba(255,255,255,0.08);border-color:#fff}
-.nav-logo-btn img{width:32px;height:32px;object-fit:contain;}
-.burger{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;cursor:pointer}
+.nav-logo-btn img{width:42px;height:42px;object-fit:contain;}
+.burger{width:56px;height:56px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;cursor:pointer}
 .burger:hover{background:rgba(255,255,255,0.08);border-color:#fff}
-.burger-lines{width:18px;height:10px;display:flex;flex-direction:column;justify-content:space-between}
+.burger-lines{width:24px;height:14px;display:flex;flex-direction:column;justify-content:space-between}
 .burger-lines span{display:block;width:100%;height:2px;background-color:#fff;border-radius:2px;transition:0.2s}
 .burger:hover .burger-lines span{background-color:var(--spring)}
 
