@@ -76,10 +76,6 @@ export function Navbar() {
 
   return (
     <>
-      <div className="topbar">
-        Insider deals &amp; gastenlijst — <Link href={`${base}/guestlist`}>meld je aan via WhatsApp</Link>
-      </div>
-
       <nav className="nav">
         <div className="wrap nav-inner">
           <Link className="logo" href={base}>

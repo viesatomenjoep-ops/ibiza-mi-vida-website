@@ -43,18 +43,31 @@ export default function HomePageClient({ locale = 'nl', featuredClubs = [], upco
       {/* HERO with left + right vertical logo strips */}
 <header className="hero relative overflow-hidden" id="top">
         {/* ── BACKGROUND VIDEO ── */}
-        <video 
-          autoPlay 
-          muted 
-          loop 
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0 opacity-40 mix-blend-multiply"
-          src="https://res.cloudinary.com/daj1lyfgk/video/upload/v1783098563/zna3zmwypuqpikuatbqy.mp4"
-        />
+        <div className="absolute inset-0 z-0 overflow-hidden bg-white">
+          <video 
+            autoPlay 
+            muted 
+            loop 
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-[0.35]"
+            style={{ 
+              maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)',
+              WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)'
+            }}
+            src="https://res.cloudinary.com/daj1lyfgk/video/upload/v1783098563/zna3zmwypuqpikuatbqy.mp4"
+          />
+        </div>
 
         {/* ── LIFT ELEVATOR: 10 columns, all 15+ club logos scrolling ── */}
         {clubLogos.length > 0 && (
-          <div className="lift-bg relative z-0" aria-hidden="true">
+          <div 
+            className="lift-bg relative z-0" 
+            aria-hidden="true"
+            style={{ 
+              maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)'
+            }}
+          >
             {/* Subtle vertical grid lines */}
             <div className="lift-grid-lines">
               {Array.from({ length: 11 }).map((_, i) => <div key={i} className="lift-line" />)}
