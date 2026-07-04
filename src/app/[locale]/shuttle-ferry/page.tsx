@@ -46,6 +46,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
   return (
     <WaterAgendaClient
       locale={params.locale}
+      basePath="shuttle-ferry"
       kicker={`Ibiza Shuttle ${new Date().getFullYear()}`}
       title="Shuttle Ferry"
       subtitle="Alle shuttle- en watertaxi-afvaarten langs de kust van Ibiza, per dag, week en maand — direct te boeken via ClubTickets."

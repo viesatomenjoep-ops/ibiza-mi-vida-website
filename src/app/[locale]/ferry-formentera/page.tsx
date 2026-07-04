@@ -41,6 +41,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
   return (
     <WaterAgendaClient
       locale={params.locale}
+      basePath="ferry-formentera"
       kicker={`Ibiza · Formentera ${new Date().getFullYear()}`}
       title="Ferry Formentera"
       subtitle="Bekijk alle afvaarten naar Formentera per dag, week en maand en boek direct via ClubTickets."

@@ -10,7 +10,7 @@ interface Props {
 
 export default async function EventPage({ params }: Props) {
   const venues = await getVenues(params.locale);
-  const venue = venues.find(v => v.slug === params.slug && v.type.slug === 'boat');
+  const venue = venues.find(v => v.slug === params.slug && v.type.slug === 'formentera-day-trip');
   if (!venue) notFound();
 
   const allDates = await getAllDates(params.locale);

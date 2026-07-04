@@ -57,6 +57,10 @@ interface WaterAgendaClientProps {
   events: WaterAgendaEvent[];
   venues: WaterAgendaVenue[];
   locale: string;
+  /** URL segment for the internal event detail page, e.g. "tours". When set,
+   *  event cards link to /{locale}/{basePath}/{venueSlug}/{eventSlug} (our own
+   *  intermediate page) instead of straight to ClubTickets. */
+  basePath?: string;
 }
 
 const getLoc = (locale: string) => ({ nl, de, es, fr, en: enUS }[locale] || enUS);
@@ -69,7 +73,7 @@ const priceShort = (p?: string) => {
 };
 const eventImg = (e: WaterAgendaEvent) => e.eventCover || e.eventLogo || e.venueCover || e.venueLogo || '';
 
-export default function WaterAgendaClient({ title, subtitle, kicker, events, venues, locale }: WaterAgendaClientProps) {
+export default function WaterAgendaClient({ title, subtitle, kicker, events, venues, locale, basePath = '' }: WaterAgendaClientProps) {
   const loc = getLoc(locale);
   const L = getLabels(locale);
   const today = useMemo(() => new Date(), []);
@@ -318,7 +322,7 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
             <EmptyState locale={locale} />
           ) : (
             listGroups.map(g => (
-              <DayBlock key={g.date} date={g.date} items={g.items} label={dateLabel(g.date)} isToday={g.date === todayStr} locale={locale} />
+              <DayBlock key={g.date} date={g.date} items={g.items} label={dateLabel(g.date)} isToday={g.date === todayStr} locale={locale} basePath={basePath} />
             ))
           )
         )}
@@ -327,7 +331,7 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
         {quickFilter === 'month' && (
           detailDay ? (
             <div className="mt-4">
-              <DayBlock date={detailDay} items={dayEvents(detailDay)} label={dateLabel(detailDay)} isToday={detailDay === todayStr} locale={locale} />
+              <DayBlock date={detailDay} items={dayEvents(detailDay)} label={dateLabel(detailDay)} isToday={detailDay === todayStr} locale={locale} basePath={basePath} />
             </div>
           ) : (
             <div className="mt-8"><EmptyState locale={locale} /></div>
@@ -359,15 +363,21 @@ function EmptyState({ locale }: { locale: string }) {
   );
 }
 
-function EventTile({ ev, locale }: { ev: WaterAgendaEvent; locale: string }) {
+function EventTile({ ev, locale, basePath = '' }: { ev: WaterAgendaEvent; locale: string; basePath?: string }) {
   const L = getLabels(locale);
   const eventTitle = ev.eventName || ev.name || '—';
   const venueName = ev.venueName || '—';
   const image = eventImg(ev);
-  const link = ev.affLink || `/${locale}`;
+  // Prefer our own intermediate detail page; fall back to ClubTickets only if we
+  // can't build an internal route.
+  const internal = basePath && ev.venueSlug && ev.eventSlug
+    ? `/${locale}/${basePath}/${ev.venueSlug}/${ev.eventSlug}`
+    : '';
+  const link = internal || ev.affLink || `/${locale}`;
+  const isExternal = link.startsWith('http');
   const price = priceShort(ev.prices);
   return (
-    <a href={link} target={link.startsWith('http') ? '_blank' : '_self'} rel="noopener noreferrer" className="group flex flex-col bg-white rounded-2xl md:rounded-3xl border-2 border-transparent hover:border-black shadow-md hover:shadow-xl transition-all overflow-hidden h-full">
+    <a href={link} target={isExternal ? '_blank' : '_self'} rel="noopener noreferrer" className="group flex flex-col bg-white rounded-2xl md:rounded-3xl border-2 border-transparent hover:border-black shadow-md hover:shadow-xl transition-all overflow-hidden h-full">
       <div className="w-full aspect-square relative bg-neutral-100 flex items-center justify-center border-b border-black/5">
         {image ? (
           <img src={image} alt={eventTitle} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -389,7 +399,7 @@ function EventTile({ ev, locale }: { ev: WaterAgendaEvent; locale: string }) {
   );
 }
 
-function DayBlock({ date, items, label, isToday, locale }: { date: string; items: WaterAgendaEvent[]; label: string; isToday: boolean; locale: string }) {
+function DayBlock({ date, items, label, isToday, locale, basePath = '' }: { date: string; items: WaterAgendaEvent[]; label: string; isToday: boolean; locale: string; basePath?: string }) {
   const L = getLabels(locale);
   return (
     <div className="mt-10">
@@ -401,7 +411,7 @@ function DayBlock({ date, items, label, isToday, locale }: { date: string; items
         <div className="text-neutral-400 font-bold uppercase tracking-widest text-xs">{items.length} {L.departures}</div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
-        {items.map(ev => <EventTile key={ev.id} ev={ev} locale={locale} />)}
+        {items.map(ev => <EventTile key={ev.id} ev={ev} locale={locale} basePath={basePath} />)}
       </div>
     </div>
   );

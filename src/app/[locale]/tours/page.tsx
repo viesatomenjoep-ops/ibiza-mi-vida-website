@@ -45,6 +45,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
   return (
     <WaterAgendaClient
       locale={params.locale}
+      basePath="tours"
       kicker={`Ibiza Tours ${new Date().getFullYear()}`}
       title="Tours"
       subtitle="Alle tours en excursies in Ibiza per dag, week en maand — direct te boeken via ClubTickets."

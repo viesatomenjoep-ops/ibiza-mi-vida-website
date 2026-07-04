@@ -1,10 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { MapPin, Calendar, ArrowLeft } from 'lucide-react'
+import { MapPin, ArrowLeft, Check, Info, Camera, HelpCircle, Ticket } from 'lucide-react'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
 import { EventTicketSelector } from './EventTicketSelector'
 import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
+import { stripHtml } from '@/lib/html-utils'
 
 import en from '@/dictionaries/en.json'
 import nl from '@/dictionaries/nl.json'
@@ -14,30 +15,163 @@ import fr from '@/dictionaries/fr.json'
 
 const dicts: Record<string, any> = { en, nl, es, de, fr }
 
+// ── Local i18n for the enriched sections + FAQ ──────────────────────────────────
+interface FaqCtx {
+  event: string;
+  venue: string;
+  datesText: string;
+  timeText: string;
+  lineupText: string;
+}
+interface EventLabels {
+  aboutTitle: (e: string) => string;
+  importantTitle: string;
+  galleryTitle: string;
+  locationTitle: string;
+  faqKicker: string;
+  faqTitle: (e: string) => string;
+  faqs: (c: FaqCtx) => { q: string; a: string }[];
+}
+
+const EVENT_I18N: Record<string, EventLabels> = {
+  en: {
+    aboutTitle: (e) => `About ${e}`,
+    importantTitle: 'Important information',
+    galleryTitle: 'Gallery',
+    locationTitle: 'Location',
+    faqKicker: 'Good to know',
+    faqTitle: (e) => `FAQs — ${e}`,
+    faqs: (c) => [
+      { q: `How do I get to ${c.event} at ${c.venue}?`, a: `${c.venue} is located on the island of Ibiza. Check the interactive map below for the exact spot and the best route from your hotel — by taxi, bus or car.` },
+      { q: `What are the dates and times for ${c.event}?`, a: `${c.datesText} ${c.timeText} We recommend arriving a little early to avoid queues at the entrance.` },
+      { q: `What is the age requirement for ${c.event}?`, a: `Most events in Ibiza operate an 18+ policy. Always bring a valid ID or passport with you.` },
+      { q: `What can I expect at ${c.event}?`, a: c.lineupText ? `Expect ${c.lineupText}. The full programme for each date is listed above.` : `A carefully curated experience — see the description and the dates above for the full details.` },
+      { q: `What is the dress code for ${c.event}?`, a: `Smart-casual is a safe choice. Comfortable footwear is recommended; some nights apply a stricter door policy.` },
+      { q: `How much does it cost?`, a: `Prices per date are shown above and may vary by demand. Booking early is the best way to secure the lowest price.` },
+      { q: `Can I book VIP or a private option for ${c.event}?`, a: `VIP tickets, tables and private options are often available. Message us and we'll arrange the best spot for your group.` },
+      { q: `Any tips for ${c.event}?`, a: `Book in advance — popular dates sell out fast. Arrive early, stay hydrated, and keep your ticket and ID ready at the door.` },
+    ],
+  },
+  nl: {
+    aboutTitle: (e) => `Over ${e}`,
+    importantTitle: 'Belangrijke informatie',
+    galleryTitle: 'Galerij',
+    locationTitle: 'Locatie',
+    faqKicker: 'Goed om te weten',
+    faqTitle: (e) => `Veelgestelde vragen — ${e}`,
+    faqs: (c) => [
+      { q: `Hoe kom ik bij ${c.event} in ${c.venue}?`, a: `${c.venue} ligt op het eiland Ibiza. Bekijk de interactieve kaart hieronder voor de exacte locatie en de beste route vanaf je hotel — met taxi, bus of auto.` },
+      { q: `Wat zijn de data en tijden van ${c.event}?`, a: `${c.datesText} ${c.timeText} We raden aan om iets eerder te komen om wachtrijen bij de ingang te vermijden.` },
+      { q: `Wat is de leeftijdsgrens voor ${c.event}?`, a: `De meeste events op Ibiza hanteren een 18+ beleid. Neem altijd een geldig ID of paspoort mee.` },
+      { q: `Wat kan ik verwachten bij ${c.event}?`, a: c.lineupText ? `Verwacht ${c.lineupText}. Het volledige programma per datum staat hierboven.` : `Een zorgvuldig samengestelde ervaring — bekijk de beschrijving en de data hierboven voor alle details.` },
+      { q: `Wat is de dresscode voor ${c.event}?`, a: `Smart-casual is een veilige keuze. Comfortabele schoenen worden aangeraden; sommige avonden hanteren een strenger deurbeleid.` },
+      { q: `Hoeveel kost het?`, a: `De prijzen per datum staan hierboven en kunnen variëren op basis van vraag. Vroeg boeken is de beste manier om de laagste prijs te krijgen.` },
+      { q: `Kan ik VIP of een privé-optie boeken voor ${c.event}?`, a: `VIP-tickets, tafels en privé-opties zijn vaak beschikbaar. Stuur ons een bericht en we regelen de beste plek voor je groep.` },
+      { q: `Nog tips voor ${c.event}?`, a: `Boek op tijd — populaire data zijn snel uitverkocht. Kom vroeg, blijf gehydrateerd en houd je ticket en ID klaar bij de deur.` },
+    ],
+  },
+  de: {
+    aboutTitle: (e) => `Über ${e}`,
+    importantTitle: 'Wichtige Informationen',
+    galleryTitle: 'Galerie',
+    locationTitle: 'Lage',
+    faqKicker: 'Gut zu wissen',
+    faqTitle: (e) => `FAQs — ${e}`,
+    faqs: (c) => [
+      { q: `Wie komme ich zu ${c.event} im ${c.venue}?`, a: `${c.venue} befindet sich auf der Insel Ibiza. Sehen Sie sich die interaktive Karte unten für den genauen Standort und die beste Route von Ihrem Hotel an — per Taxi, Bus oder Auto.` },
+      { q: `Was sind die Termine und Zeiten für ${c.event}?`, a: `${c.datesText} ${c.timeText} Wir empfehlen, etwas früher zu kommen, um Warteschlangen am Eingang zu vermeiden.` },
+      { q: `Welche Altersvoraussetzung gilt für ${c.event}?`, a: `Die meisten Events auf Ibiza haben eine 18+-Regelung. Bringen Sie immer einen gültigen Ausweis oder Reisepass mit.` },
+      { q: `Was kann ich bei ${c.event} erwarten?`, a: c.lineupText ? `Erwarten Sie ${c.lineupText}. Das vollständige Programm pro Termin finden Sie oben.` : `Ein sorgfältig kuratiertes Erlebnis — Details finden Sie in der Beschreibung und den Terminen oben.` },
+      { q: `Was ist der Dresscode für ${c.event}?`, a: `Smart-Casual ist eine sichere Wahl. Bequemes Schuhwerk wird empfohlen; an manchen Abenden gilt eine strengere Einlasspolitik.` },
+      { q: `Wie viel kostet es?`, a: `Die Preise pro Termin sind oben angegeben und können je nach Nachfrage variieren. Frühzeitig buchen sichert den besten Preis.` },
+      { q: `Kann ich VIP oder eine private Option für ${c.event} buchen?`, a: `VIP-Tickets, Tische und private Optionen sind oft verfügbar. Schreiben Sie uns und wir organisieren den besten Platz für Ihre Gruppe.` },
+      { q: `Tipps für ${c.event}?`, a: `Buchen Sie im Voraus — beliebte Termine sind schnell ausverkauft. Kommen Sie früh, trinken Sie ausreichend und halten Sie Ticket und Ausweis am Eingang bereit.` },
+    ],
+  },
+  es: {
+    aboutTitle: (e) => `Sobre ${e}`,
+    importantTitle: 'Información importante',
+    galleryTitle: 'Galería',
+    locationTitle: 'Ubicación',
+    faqKicker: 'Bueno saberlo',
+    faqTitle: (e) => `Preguntas frecuentes — ${e}`,
+    faqs: (c) => [
+      { q: `¿Cómo llego a ${c.event} en ${c.venue}?`, a: `${c.venue} se encuentra en la isla de Ibiza. Consulta el mapa interactivo de abajo para ver la ubicación exacta y la mejor ruta desde tu hotel — en taxi, autobús o coche.` },
+      { q: `¿Cuáles son las fechas y horarios de ${c.event}?`, a: `${c.datesText} ${c.timeText} Recomendamos llegar un poco antes para evitar colas en la entrada.` },
+      { q: `¿Cuál es el requisito de edad para ${c.event}?`, a: `La mayoría de los eventos en Ibiza aplican una política de +18. Lleva siempre un documento de identidad o pasaporte válido.` },
+      { q: `¿Qué puedo esperar en ${c.event}?`, a: c.lineupText ? `Espera ${c.lineupText}. El programa completo por fecha aparece arriba.` : `Una experiencia cuidadosamente seleccionada — consulta la descripción y las fechas de arriba para todos los detalles.` },
+      { q: `¿Cuál es el código de vestimenta para ${c.event}?`, a: `El estilo smart-casual es una opción segura. Se recomienda calzado cómodo; algunas noches aplican una política de acceso más estricta.` },
+      { q: `¿Cuánto cuesta?`, a: `Los precios por fecha se muestran arriba y pueden variar según la demanda. Reservar con antelación es la mejor forma de conseguir el mejor precio.` },
+      { q: `¿Puedo reservar VIP o una opción privada para ${c.event}?`, a: `A menudo hay entradas VIP, mesas y opciones privadas disponibles. Escríbenos y organizaremos el mejor sitio para tu grupo.` },
+      { q: `¿Algún consejo para ${c.event}?`, a: `Reserva con antelación — las fechas populares se agotan rápido. Llega temprano, mantente hidratado y ten a mano tu entrada e identificación en la puerta.` },
+    ],
+  },
+  fr: {
+    aboutTitle: (e) => `À propos de ${e}`,
+    importantTitle: 'Informations importantes',
+    galleryTitle: 'Galerie',
+    locationTitle: 'Emplacement',
+    faqKicker: 'Bon à savoir',
+    faqTitle: (e) => `FAQ — ${e}`,
+    faqs: (c) => [
+      { q: `Comment se rendre à ${c.event} au ${c.venue} ?`, a: `${c.venue} se situe sur l'île d'Ibiza. Consultez la carte interactive ci-dessous pour l'emplacement exact et le meilleur itinéraire depuis votre hôtel — en taxi, bus ou voiture.` },
+      { q: `Quelles sont les dates et horaires de ${c.event} ?`, a: `${c.datesText} ${c.timeText} Nous vous recommandons d'arriver un peu en avance pour éviter les files d'attente à l'entrée.` },
+      { q: `Quel est l'âge requis pour ${c.event} ?`, a: `La plupart des événements à Ibiza appliquent une politique +18. Munissez-vous toujours d'une pièce d'identité ou d'un passeport valide.` },
+      { q: `À quoi puis-je m'attendre à ${c.event} ?`, a: c.lineupText ? `Attendez-vous à ${c.lineupText}. Le programme complet par date est indiqué ci-dessus.` : `Une expérience soigneusement sélectionnée — consultez la description et les dates ci-dessus pour tous les détails.` },
+      { q: `Quel est le code vestimentaire pour ${c.event} ?`, a: `Le style smart-casual est un choix sûr. Des chaussures confortables sont recommandées ; certaines soirées appliquent une politique d'entrée plus stricte.` },
+      { q: `Combien ça coûte ?`, a: `Les prix par date sont indiqués ci-dessus et peuvent varier selon la demande. Réserver tôt est le meilleur moyen d'obtenir le meilleur prix.` },
+      { q: `Puis-je réserver une option VIP ou privée pour ${c.event} ?`, a: `Des billets VIP, des tables et des options privées sont souvent disponibles. Écrivez-nous et nous organiserons le meilleur emplacement pour votre groupe.` },
+      { q: `Des conseils pour ${c.event} ?`, a: `Réservez à l'avance — les dates populaires se vendent vite. Arrivez tôt, restez hydraté et gardez votre billet et votre pièce d'identité prêts à l'entrée.` },
+    ],
+  },
+}
+
+const BCP: Record<string, string> = { en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' }
+
+/** Turn the API "requirements" HTML into a clean list of bullet points. */
+function parseImportant(html?: string): string[] {
+  if (!html) return [];
+  const withBreaks = html
+    .replace(/<\/(p|div|li|h[1-6])>/gi, '\n')
+    .replace(/<br\s*\/?>/gi, '\n');
+  return withBreaks
+    .split('\n')
+    .map(line => stripHtml(line).replace(/^[-•·]\s*/, '').trim())
+    .filter(line => line.length > 1 && !/^-+$/.test(line) && line.toUpperCase() !== 'IMPORTANT:' && line.toUpperCase() !== 'IMPORTANT');
+}
+
 interface EventDetailPageProps {
   club: CTVenue;
   eventDates: CTEventDate[];
   eventSlug: string;
   locale: string;
-  basePath: string; // e.g. "club-tickets" or "boat-parties"
+  basePath: string; // e.g. "tours", "activities"
 }
 
 export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath }: EventDetailPageProps) {
-  // Get event details from the first date object, or from the club's event list
   const eventDetail = club.events?.find(e => e.slug === eventSlug)
   const t = dicts[locale] || dicts['en']
-  
+  const T = EVENT_I18N[locale] || EVENT_I18N.en
+  const bcp = BCP[locale] || 'en-GB'
+
   const eventName = eventDetail?.name || eventDates[0]?.eventName || 'Event'
   const eventCover = eventDetail?.cover || eventDetail?.logo || club.cover || club.picture || ''
   const description = eventDetail?.description || club.description || ''
 
-  const cleanDescription = description 
+  const cleanDescription = description
     ? description.split('.promo-hz')[0]
-                      .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
-                      .replace(/<[^>]+>/g, ' ')
-                      .replace(/\s+/g, ' ')
-                      .trim()
+        .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
     : '';
+
+  const important = parseImportant(eventDetail?.requirements)
+
+  // Gallery — unique, real photos (skip transparent logos).
+  const gallery = Array.from(new Set([
+    eventDetail?.cover, club.cover, eventDetail?.logo, club.picture,
+  ].filter(Boolean) as string[]))
 
   const formatLineUp = (lineUp?: string) => {
     if (!lineUp) return '';
@@ -47,19 +181,24 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
     return text;
   };
 
+  // FAQ context derived from the ClubTickets data.
+  const upcoming = eventDates.slice(0, 3).map(d =>
+    new Date(d.date).toLocaleDateString(bcp, { day: 'numeric', month: 'long', timeZone: 'UTC' })
+  )
+  const datesText = upcoming.length
+    ? `${t.event_next_dates || 'Upcoming dates:'} ${upcoming.join(', ')}${eventDates.length > 3 ? '…' : '.'}`
+    : (t.event_see_dates || 'See all upcoming dates above.')
+  const timeText = eventDetail?.startAt ? `${t.event_start_time || 'Start time'} ${eventDetail.startAt}.` : ''
+  const lineupText = formatLineUp(eventDates[0]?.lineUp)
+  const faqs = T.faqs({ event: eventName, venue: club.name, datesText, timeText, lineupText })
+
   return (
     <>
       {/* Hero */}
       <section className="relative flex min-h-[50vh] flex-col justify-end overflow-hidden" aria-label={`${eventName} hero`}>
-        <Image
-          src={eventCover}
-          alt={eventName}
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-          quality={85}
-        />
+        {eventCover && (
+          <Image src={eventCover} alt={eventName} fill priority className="object-cover object-center" sizes="100vw" quality={85} />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian via-velvet-obsidian/50 to-transparent" />
 
         <div className="absolute left-4 top-24 z-10 md:left-8">
@@ -73,63 +212,51 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
         </div>
 
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-12 pt-32 md:px-8">
-          <div className="flex flex-col gap-4">
-            <h1 className="font-serif text-4xl font-bold text-ibiza-sand md:text-5xl lg:text-6xl">
-              {eventName}
-            </h1>
-            <div className="flex flex-wrap gap-4 text-ibiza-sand/80 font-bold">
-              <Link href={`/${locale}/${basePath}/${club.slug}`} className="flex items-center gap-1.5 hover:text-white transition-colors">
-                <MapPin size={16} className="text-[#00A698]" />
-                {club.name}
-              </Link>
-            </div>
+          <h1 className="font-serif text-4xl font-bold text-ibiza-sand md:text-5xl lg:text-6xl">{eventName}</h1>
+          <div className="mt-4 flex flex-wrap gap-4 font-bold text-ibiza-sand/80">
+            <Link href={`/${locale}/${basePath}/${club.slug}`} className="flex items-center gap-1.5 transition-colors hover:text-white">
+              <MapPin size={16} className="text-ibiza-green" />
+              {club.name}
+            </Link>
           </div>
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 py-12 md:px-8">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
-          {/* Main content */}
-          <div className="lg:col-span-2 flex flex-col gap-10">
-            {/* Calendar Events List */}
-            <div id="tickets">
-              <AnimatedSection delay={100} className="flex flex-col gap-6">
-                <div className="flex items-end justify-between">
-                <div>
-                  <h2 className="font-serif text-3xl md:text-4xl font-black text-black">{t.event_select_date_book || 'Select Date & Book'}</h2>
-                  <p className="mt-2 font-sans text-velvet-obsidian/60">
-                    {t.event_all_dates_for || 'All upcoming dates for'} {eventName} {t.event_at || 'at'} {club.name}. {t.event_book_securely || 'Book securely via ClubTickets.'}
-                  </p>
-                </div>
+      <div className="mx-auto max-w-7xl px-4 py-12 pb-32 md:px-8">
+        <div className="flex flex-col gap-12">
+          {/* Dates + tickets */}
+          <div id="tickets">
+            <AnimatedSection delay={100} className="flex flex-col gap-6">
+              <div>
+                <h2 className="font-serif text-3xl font-black text-black md:text-4xl">{t.event_select_date_book || 'Select date & book'}</h2>
+                <p className="mt-2 font-sans text-velvet-obsidian/60">
+                  {t.event_all_dates_for || 'All upcoming dates for'} {eventName} {t.event_at || 'at'} {club.name}. {t.event_book_securely || 'Book securely via ClubTickets.'}
+                </p>
               </div>
 
               <div className="flex flex-col gap-3">
                 {eventDates.map((dateObj, idx) => (
-                  <div key={`${dateObj.id}-${idx}`} className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 border border-velvet-obsidian/10 rounded-2xl bg-white transition-all hover:border-[#00A698]/30 hover:shadow-md">
-                    <div className="flex flex-col gap-1 w-full sm:w-2/3">
-                      <span className="font-serif text-xl font-bold text-velvet-obsidian group-hover:text-[#00A698] transition-colors">
-                        {dateObj.eventName}
-                      </span>
-                      <span className="text-sm text-velvet-obsidian/60 font-medium flex items-center gap-2">
-                        <span className="bg-[#00A698]/10 text-[#00A698] px-2 py-0.5 rounded-md text-xs uppercase tracking-wider font-bold shrink-0">
-                          {new Date(dateObj.date).toLocaleDateString(locale, { weekday: 'short' })}
+                  <div key={`${dateObj.id}-${idx}`} className="group flex flex-col justify-between gap-4 rounded-2xl border border-velvet-obsidian/10 bg-white p-5 transition-all hover:border-ibiza-green/40 hover:shadow-md sm:flex-row sm:items-center">
+                    <div className="flex w-full flex-col gap-1 sm:w-2/3">
+                      <span className="font-serif text-xl font-bold text-velvet-obsidian transition-colors group-hover:text-ibiza-green">{dateObj.eventName || eventName}</span>
+                      <span className="flex items-center gap-2 text-sm font-medium text-velvet-obsidian/60">
+                        <span className="shrink-0 rounded-md bg-ibiza-green/10 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-ibiza-green">
+                          {new Date(dateObj.date).toLocaleDateString(bcp, { weekday: 'short', timeZone: 'UTC' })}
                         </span>
-                        {new Date(dateObj.date).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })}
+                        {new Date(dateObj.date).toLocaleDateString(bcp, { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}
                       </span>
                       {formatLineUp(dateObj.lineUp) && (
-                        <p className="text-sm text-slate-500 mt-2 flex items-start gap-1.5">
-                          <span className="text-[#00A698] shrink-0 mt-0.5">✓</span>
+                        <p className="mt-2 flex items-start gap-1.5 text-sm text-slate-500">
+                          <span className="mt-0.5 shrink-0 text-ibiza-green">✓</span>
                           <span className="line-clamp-2">{formatLineUp(dateObj.lineUp)}</span>
                         </p>
                       )}
                     </div>
-                    <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-4 sm:gap-6 mt-4 sm:mt-0 shrink-0">
-                      <div className="flex flex-col items-end w-full sm:w-auto">
-                        <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider">{t.event_price || 'Price'}</span>
-                        <span className="font-bold text-lg text-velvet-obsidian mb-3">
-                          {dateObj.prices ? dateObj.prices : (t.event_available || 'Available')}
-                        </span>
-                        <EventTicketSelector 
+                    <div className="mt-4 flex w-full shrink-0 items-center justify-between gap-4 sm:mt-0 sm:w-auto sm:justify-end sm:gap-6">
+                      <div className="flex w-full flex-col items-end sm:w-auto">
+                        <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">{t.event_price || 'Price'}</span>
+                        <span className="mb-3 text-lg font-bold text-velvet-obsidian">{dateObj.prices ? dateObj.prices : (t.event_available || 'Available')}</span>
+                        <EventTicketSelector
                           id={dateObj.id.toString()}
                           title={dateObj.eventName || eventName}
                           date={dateObj.date}
@@ -143,42 +270,94 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                 ))}
               </div>
             </AnimatedSection>
-            </div>
-
-            {cleanDescription && (
-              <AnimatedSection delay={200}>
-                <h2 className="font-serif text-3xl md:text-4xl font-black text-black mb-6">{t.event_about || 'About'} {eventName}</h2>
-                <div className="prose prose-lg md:prose-xl max-w-none text-black leading-relaxed prose-p:text-black">
-                  <p>{cleanDescription}</p>
-                </div>
-              </AnimatedSection>
-            )}
-
-            {/* Venue location map */}
-            <AnimatedSection delay={250}>
-              <VenueLocationMap venueName={club.name} locale={locale} />
-            </AnimatedSection>
           </div>
+
+          {/* About */}
+          {cleanDescription && (
+            <AnimatedSection delay={150}>
+              <h2 className="mb-5 font-serif text-3xl font-black text-black md:text-4xl">{T.aboutTitle(eventName)}</h2>
+              <div className="max-w-none text-lg leading-relaxed text-black/80">
+                <p>{cleanDescription}</p>
+              </div>
+            </AnimatedSection>
+          )}
+
+          {/* Important information */}
+          {important.length > 0 && (
+            <AnimatedSection delay={200}>
+              <div className="rounded-[28px] border border-black/10 bg-neutral-50 p-6 md:p-8">
+                <h2 className="mb-5 flex items-center gap-2 font-serif text-2xl font-black text-black md:text-3xl">
+                  <Info size={24} className="text-ibiza-green" /> {T.importantTitle}
+                </h2>
+                <ul className="flex flex-col gap-3">
+                  {important.map((line, i) => (
+                    <li key={i} className="flex items-start gap-3 text-base leading-relaxed text-black/80">
+                      <Check size={18} className="mt-1 shrink-0 text-ibiza-green" />
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </AnimatedSection>
+          )}
+
+          {/* Gallery */}
+          {gallery.length > 1 && (
+            <AnimatedSection delay={220}>
+              <h2 className="mb-5 flex items-center gap-2 font-serif text-2xl font-black text-black md:text-3xl">
+                <Camera size={24} className="text-ibiza-green" /> {T.galleryTitle}
+              </h2>
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:gap-4">
+                {gallery.map((src, i) => (
+                  <div key={i} className={`relative overflow-hidden rounded-2xl bg-neutral-100 ${i === 0 ? 'col-span-2 aspect-[16/10] md:col-span-2 md:row-span-2' : 'aspect-[4/3]'}`}>
+                    <Image src={src} alt={`${eventName} ${i + 1}`} fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover transition-transform duration-700 hover:scale-105" />
+                  </div>
+                ))}
+              </div>
+            </AnimatedSection>
+          )}
+
+          {/* Location */}
+          <AnimatedSection delay={250}>
+            <h2 className="mb-5 flex items-center gap-2 font-serif text-2xl font-black text-black md:text-3xl">
+              <MapPin size={24} className="text-ibiza-green" /> {T.locationTitle}
+            </h2>
+            <VenueLocationMap venueName={club.name} locale={locale} />
+          </AnimatedSection>
+
+          {/* FAQ */}
+          <AnimatedSection delay={280}>
+            <div className="text-xs font-black uppercase tracking-[0.2em] text-ibiza-green">{T.faqKicker}</div>
+            <h2 className="mb-6 mt-2 flex items-center gap-2 font-serif text-3xl font-black text-black md:text-4xl">
+              <HelpCircle size={28} className="text-ibiza-green" /> {T.faqTitle(eventName)}
+            </h2>
+            <div className="flex flex-col gap-3">
+              {faqs.map((f, i) => (
+                <details key={i} className="group rounded-2xl border border-black/10 bg-white p-5 open:border-ibiza-green/40 open:shadow-md">
+                  <summary className="flex cursor-pointer items-center justify-between gap-4 font-serif text-lg font-bold text-black marker:content-['']">
+                    {f.q}
+                    <span className="shrink-0 text-2xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
+                  </summary>
+                  <p className="mt-3 text-base leading-relaxed text-black/70">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </AnimatedSection>
         </div>
       </div>
 
-      {/* Floating Checkout Bar */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-black/10 z-50 flex items-center justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+      {/* Floating checkout bar (server-friendly anchor) */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between border-t border-black/10 bg-white/95 p-4 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] backdrop-blur-md">
         <div className="flex flex-col">
-          <span className="text-xs font-bold uppercase tracking-wider text-black/50">{t.event_from_price || 'Vanaf'}</span>
-          <span className="font-black text-xl text-black">{eventDates[0]?.prices || '€30'}</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-black/50">{t.event_from_price || 'From'}</span>
+          <span className="text-xl font-black text-black">{eventDates[0]?.prices || '€30'}</span>
         </div>
-        <button 
-          onClick={() => {
-            const el = document.getElementById('tickets');
-            if (el) {
-              window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' });
-            }
-          }}
-          className="bg-ibiza-green text-black font-black uppercase tracking-wider px-8 py-3.5 rounded-full hover:brightness-95 transition-all shadow-lg active:scale-95"
+        <a
+          href="#tickets"
+          className="inline-flex items-center gap-2 rounded-full bg-ibiza-green px-8 py-3.5 font-black uppercase tracking-wider text-black shadow-lg transition-all hover:brightness-95 active:scale-95"
         >
-          {t.event_select_tickets || 'Select Tickets'}
-        </button>
+          <Ticket size={18} /> {t.event_select_tickets || 'Select tickets'}
+        </a>
       </div>
     </>
   )
