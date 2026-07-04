@@ -187,7 +187,7 @@ function waLink(boat: Boat, T: FleetLabels) {
 function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; locale: string; onOpen: () => void }) {
   const p = boat.price;
   return (
-    <article className="group grid grid-cols-1 md:grid-cols-2 overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.03] shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green/40 hover:shadow-2xl">
+    <article className="group grid grid-cols-1 md:grid-cols-2 overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl">
       {/* Photo */}
       <button
         onClick={onOpen}
@@ -219,15 +219,15 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
 
       {/* Info / price panel */}
       <div className="flex flex-col p-6 md:p-7">
-        <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-white/50">
+        <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-black/50">
           <MapPin size={12} className="text-ibiza-green" /> {boat.marina}
         </div>
-        <h3 className="font-serif text-2xl md:text-3xl font-bold leading-tight text-white">
+        <h3 className="font-serif text-2xl md:text-3xl font-bold leading-tight text-black">
           {boat.model}{boat.name && <span className="text-ibiza-green"> {boat.name}</span>}
         </h3>
 
         {/* Seasonal prices */}
-        <div className="mt-5 space-y-2.5 border-t border-white/10 pt-4">
+        <div className="mt-5 space-y-2.5 border-t border-black/10 pt-4">
           <PriceRow label={T.seasonLow} note={T.seasonLowNote} value={p.low} T={T} locale={locale} />
           {p.mid != null && <PriceRow label={T.seasonMid} note={boat.category === 'motorboat' ? T.seasonMidNoteCompact : T.seasonMidNote} value={p.mid} T={T} locale={locale} />}
           <PriceRow label={T.seasonHigh} note={p.highWindow || T.seasonHighNote} value={p.high} T={T} locale={locale} highlight />
@@ -235,15 +235,15 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
 
         {/* Includes */}
         <div className="mt-5">
-          <div className="mb-2 text-[11px] font-bold uppercase tracking-wider text-white/40">{T.includedTitle}</div>
+          <div className="mb-2 text-[11px] font-bold uppercase tracking-wider text-black/40">{T.includedTitle}</div>
           <div className="flex flex-wrap gap-1.5">
             {boatIncludes(boat).map(inc => (
-              <span key={inc} className="inline-flex items-center gap-1 rounded-full bg-white/[0.06] px-2.5 py-1 text-[11px] font-medium text-white/75 ring-1 ring-white/10">
+              <span key={inc} className="inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-1 text-[11px] font-medium text-black/70 ring-1 ring-black/5">
                 <span className="text-ibiza-green">{INCLUDE_ICON[inc]}</span> {T.includes[inc]}
               </span>
             ))}
           </div>
-          <p className="mt-2 text-[11px] italic text-white/35">{boat.captainIncluded ? T.fuelNote : T.fuelNoteCaptain(boat.captainExtra ?? 180)}</p>
+          <p className="mt-2 text-[11px] italic text-black/40">{boat.captainIncluded ? T.fuelNote : T.fuelNoteCaptain(boat.captainExtra ?? 180)}</p>
         </div>
 
         {/* WhatsApp inquiry */}
@@ -251,7 +251,7 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
           href={waLink(boat, T)}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-ibiza-green px-6 py-3 font-bold text-velvet-obsidian transition-all hover:brightness-95 active:scale-[0.98]"
+          className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-ibiza-green px-6 py-3 font-bold text-black transition-all hover:brightness-95 active:scale-[0.98]"
         >
           <MessageCircle size={18} /> {T.inquire}
         </a>
@@ -264,11 +264,11 @@ function PriceRow({ label, note, value, T, locale, highlight }: { label: string;
   return (
     <div className="flex items-baseline justify-between gap-3">
       <div className="min-w-0">
-        <div className={`text-xs font-bold uppercase tracking-wider ${highlight ? 'text-ibiza-green' : 'text-white/70'}`}>{label}</div>
-        <div className="truncate text-[11px] text-white/40">{note}</div>
+        <div className={`text-xs font-bold uppercase tracking-wider ${highlight ? 'text-ibiza-green' : 'text-black/70'}`}>{label}</div>
+        <div className="truncate text-[11px] text-black/40">{note}</div>
       </div>
-      <div className={`shrink-0 font-serif font-bold ${highlight ? 'text-2xl text-white' : 'text-xl text-white/85'}`}>
-        €{fmt(value, locale)} <span className="text-[11px] font-sans font-normal text-white/40">{T.perDay}</span>
+      <div className={`shrink-0 font-serif font-bold ${highlight ? 'text-2xl text-black' : 'text-xl text-black/85'}`}>
+        €{fmt(value, locale)} <span className="text-[11px] font-sans font-normal text-black/40">{T.perDay}</span>
       </div>
     </div>
   );
@@ -342,25 +342,23 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
   }, [filtered.length]);
 
   return (
-    <div className="theme-monaco-vip min-h-screen bg-[var(--color-paper)] text-white">
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <Image src="/fleet/cover.jpeg" alt="Ibiza private boat charter" fill priority className="object-cover object-center opacity-40" sizes="100vw" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-paper)]/70 via-[var(--color-paper)]/60 to-[var(--color-paper)]" />
-        </div>
-        <div className="relative z-10 mx-auto max-w-6xl px-4 pt-[120px] md:pt-[150px] pb-14 text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-ibiza-green ring-1 ring-white/15">
+    <div className="min-h-screen bg-white text-black">
+      {/* Hero — large image banner; the filter bars sit fully below it */}
+      <section className="relative h-[380px] w-full overflow-hidden sm:h-[460px] md:h-[560px]">
+        <Image src="/fleet/cover.jpeg" alt="Ibiza private boat charter" fill priority className="object-cover object-center" sizes="100vw" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/10" />
+        <div className="absolute inset-x-0 bottom-0 z-10 mx-auto max-w-6xl px-4 pb-8 text-center md:pb-14">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-ibiza-green ring-1 ring-white/25 backdrop-blur-sm">
             <Anchor size={13} /> {T.fromPrice}
           </span>
-          <h1 className="mt-5 font-serif text-4xl md:text-6xl font-black tracking-tight text-white">{T.title}</h1>
-          <p className="mx-auto mt-5 max-w-2xl text-base md:text-lg leading-relaxed text-white/70">{T.subtitle}</p>
+          <h1 className="mt-4 font-serif text-4xl font-black tracking-tight text-white drop-shadow-lg md:text-6xl lg:text-7xl">{T.title}</h1>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-white/90 drop-shadow md:text-lg">{T.subtitle}</p>
         </div>
       </section>
 
-      {/* Category tabs */}
-      <section className="relative z-10 mx-auto max-w-6xl px-4 pb-3">
-        <div className="flex flex-wrap justify-center gap-2">
+      {/* Category tabs — below the image, never overlapping it */}
+      <section className="mx-auto max-w-6xl px-4 pt-10 md:pt-12">
+        <div className="flex flex-wrap justify-center gap-3">
           <FilterTab active={category === 'all'} onClick={() => setCategory('all')}>{T.catAll}</FilterTab>
           <FilterTab active={category === 'yacht'} onClick={() => setCategory('yacht')}>{T.catYacht}</FilterTab>
           <FilterTab active={category === 'motorboat'} onClick={() => setCategory('motorboat')}>{T.catMotorboat}</FilterTab>
@@ -368,52 +366,52 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
       </section>
 
       {/* Filters */}
-      <section className="relative z-10 mx-auto max-w-6xl px-4">
-        <div className="flex flex-col gap-4 rounded-3xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-wrap justify-center gap-2 md:justify-start">
+      <section className="mx-auto max-w-6xl px-4 pt-5">
+        <div className="flex flex-col gap-4 rounded-3xl border border-black/10 bg-neutral-50 p-5 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-wrap justify-center gap-2.5 md:justify-start">
             <FilterTab active={marina === 'all'} onClick={() => setMarina('all')}>{T.allMarinas}</FilterTab>
             {marinas.map(m => (
               <FilterTab key={m} active={marina === m} onClick={() => setMarina(m)}>{m}</FilterTab>
             ))}
           </div>
-          <div className="relative w-full md:w-72">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={18} />
+          <div className="relative w-full md:w-80">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/40" size={18} />
             <input
-              className="w-full rounded-full border border-white/10 bg-white/[0.04] py-3 pl-11 pr-4 text-sm text-white placeholder-white/40 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-ibiza-green"
+              className="w-full rounded-full border border-black/10 bg-white py-3.5 pl-11 pr-4 text-sm text-black placeholder-black/40 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-ibiza-green"
               placeholder={T.searchPlaceholder}
               value={search}
               onChange={e => setSearch(e.target.value)}
             />
           </div>
         </div>
-        <div className="mt-4 px-1 text-sm font-semibold text-white/40">{T.boatsCount(filtered.length)}</div>
+        <div className="mt-4 px-1 text-sm font-semibold text-black/50">{T.boatsCount(filtered.length)}</div>
       </section>
 
       {/* Grid */}
-      <section className="mx-auto max-w-6xl px-4 pb-8 pt-6">
+      <section className="mx-auto max-w-6xl px-4 pb-10 pt-6">
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 gap-7 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             {filtered.map(boat => (
               <BoatCard key={boat.slug} boat={boat} T={T} locale={locale} onOpen={() => openAt(boat.slug)} />
             ))}
           </div>
         ) : (
-          <div className="rounded-3xl border border-white/10 bg-white/[0.03] py-20 text-center text-white/50">{T.noResults}</div>
+          <div className="rounded-3xl border border-black/10 bg-neutral-50 py-20 text-center text-black/50">{T.noResults}</div>
         )}
       </section>
 
       {/* WhatsApp banner */}
       <section className="mx-auto max-w-6xl px-4 pb-24">
-        <div className="flex flex-col items-center justify-between gap-5 rounded-3xl border border-ibiza-green/20 bg-gradient-to-r from-ibiza-green/10 to-transparent p-7 md:flex-row md:p-9">
+        <div className="flex flex-col items-center justify-between gap-5 rounded-3xl border border-ibiza-green/40 bg-ibiza-green/10 p-7 md:flex-row md:p-10">
           <div>
-            <h3 className="font-serif text-2xl font-bold text-white">{T.bannerTitle}</h3>
-            <p className="mt-1 max-w-xl text-white/60">{T.bannerText}</p>
+            <h3 className="font-serif text-2xl font-bold text-black md:text-3xl">{T.bannerTitle}</h3>
+            <p className="mt-1 max-w-xl text-black/60">{T.bannerText}</p>
           </div>
           <a
             href={`https://wa.me/${WHATSAPP}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-ibiza-green px-7 py-3.5 font-bold text-velvet-obsidian transition-all hover:brightness-95 active:scale-95"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-ibiza-green px-7 py-4 font-bold text-black transition-all hover:brightness-95 active:scale-95"
           >
             <MessageCircle size={19} /> {T.whatsapp}
           </a>
@@ -431,8 +429,8 @@ function FilterTab({ active, onClick, children }: { active: boolean; onClick: ()
   return (
     <button
       onClick={onClick}
-      className={`rounded-full px-5 py-2.5 text-sm font-bold transition-all duration-200 ${
-        active ? 'bg-ibiza-green text-velvet-obsidian' : 'bg-white/[0.06] text-white/70 hover:bg-white/10 hover:text-white'
+      className={`rounded-full px-6 py-3 text-sm font-bold transition-all duration-200 md:text-base ${
+        active ? 'bg-ibiza-green text-black shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200 hover:text-black'
       }`}
     >
       {children}
