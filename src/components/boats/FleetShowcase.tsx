@@ -4,12 +4,40 @@ import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import Image from 'next/image';
 import {
   Search, MessageCircle, Anchor, Ship, Waves, Percent, Users, Ruler,
-  MapPin, Maximize2, X, ChevronLeft, ChevronRight, Check,
+  MapPin, Maximize2, X, ChevronLeft, ChevronRight, Check, Euro, Lock, LockOpen, SlidersHorizontal,
 } from 'lucide-react';
 import { FLEET, FLEET_FROM_PRICE, boatIncludes, type Boat, type FleetInclude, type FleetCategory } from '@/data/fleet';
 
 /** WhatsApp business number (digits only). */
 const WHATSAPP = '34600000000';
+
+// ── Price range (from real fleet "low season" day rates) ──────────────────────
+const FLEET_LOWS = FLEET.map(b => b.price.low);
+const PRICE_MIN = Math.floor(Math.min(...FLEET_LOWS) / 50) * 50;   // ~350
+const PRICE_MAX = Math.ceil(Math.max(...FLEET_LOWS) / 100) * 100;  // ~6600
+const PRICE_STEP = 50;
+/** Tactical budget presets (per day). Trimmed to the real fleet range. */
+const PRICE_PRESETS = [500, 1000, 2000, 3500, 5000].filter(v => v > PRICE_MIN && v < PRICE_MAX);
+
+// ── Price filter i18n ─────────────────────────────────────────────────────────
+interface PriceLabels {
+  heading: string;                    // "Budget per day"
+  sub: string;                        // helper line
+  any: string;                        // "Any budget"
+  upTo: (v: string) => string;        // "Up to €{v} / day"
+  placeholder: string;                // input placeholder
+  lock: string;                       // "Lock"
+  locked: string;                     // "Locked"
+  reset: string;                      // "Reset"
+  quick: string;                      // "Quick budgets"
+}
+const PRICE_I18N: Record<string, PriceLabels> = {
+  en: { heading: 'Budget per day', sub: 'Slide, or type an exact max and lock it', any: 'Any budget', upTo: (v) => `Up to €${v} / day`, placeholder: 'Type a max…', lock: 'Lock', locked: 'Locked', reset: 'Reset', quick: 'Quick budgets' },
+  nl: { heading: 'Budget per dag', sub: 'Schuif, of tik een exact maximum in en zet het vast', any: 'Elk budget', upTo: (v) => `Tot €${v} / dag`, placeholder: 'Tik een max…', lock: 'Vastzetten', locked: 'Vastgezet', reset: 'Herstel', quick: 'Snelle budgetten' },
+  de: { heading: 'Budget pro Tag', sub: 'Schieben oder ein genaues Maximum eingeben und fixieren', any: 'Jedes Budget', upTo: (v) => `Bis €${v} / Tag`, placeholder: 'Max eingeben…', lock: 'Fixieren', locked: 'Fixiert', reset: 'Zurücksetzen', quick: 'Schnelle Budgets' },
+  es: { heading: 'Presupuesto por día', sub: 'Desliza, o escribe un máximo exacto y fíjalo', any: 'Cualquier presupuesto', upTo: (v) => `Hasta €${v} / día`, placeholder: 'Escribe un máx…', lock: 'Fijar', locked: 'Fijado', reset: 'Reiniciar', quick: 'Presupuestos rápidos' },
+  fr: { heading: 'Budget par jour', sub: 'Glissez, ou saisissez un maximum exact et verrouillez-le', any: 'Tout budget', upTo: (v) => `Jusqu'à €${v} / jour`, placeholder: 'Saisir un max…', lock: 'Verrouiller', locked: 'Verrouillé', reset: 'Réinitialiser', quick: 'Budgets rapides' },
+};
 
 // ── i18n ──────────────────────────────────────────────────────────────────────
 interface FleetLabels {
@@ -315,10 +343,30 @@ function Lightbox({ boats, index, onClose, onNav }: { boats: Boat[]; index: numb
 // ── Main showcase ────────────────────────────────────────────────────────────
 export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
   const T = FLEET_I18N[locale] || FLEET_I18N.en;
+  const P = PRICE_I18N[locale] || PRICE_I18N.en;
+  const bcp = ({ en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' } as Record<string, string>)[locale] || 'en-GB';
   const [search, setSearch] = useState('');
   const [marina, setMarina] = useState<string>('all');
   const [category, setCategory] = useState<FleetCategory | 'all'>('all');
   const [lightbox, setLightbox] = useState<number | null>(null);
+
+  // Price filter state
+  const [maxPrice, setMaxPrice] = useState<number>(PRICE_MAX);
+  const [priceLocked, setPriceLocked] = useState(false);
+  const [priceDraft, setPriceDraft] = useState<string>('');
+  const isPriceActive = maxPrice < PRICE_MAX;
+  const pricePct = ((maxPrice - PRICE_MIN) / (PRICE_MAX - PRICE_MIN)) * 100;
+
+  const applyDraft = useCallback(() => {
+    const n = parseInt(priceDraft.replace(/[^\d]/g, ''), 10);
+    if (!isNaN(n)) {
+      setMaxPrice(Math.min(PRICE_MAX, Math.max(PRICE_MIN, Math.round(n / PRICE_STEP) * PRICE_STEP)));
+      setPriceLocked(true);
+    }
+    setPriceDraft('');
+  }, [priceDraft]);
+
+  const resetPrice = useCallback(() => { setMaxPrice(PRICE_MAX); setPriceLocked(false); setPriceDraft(''); }, []);
 
   const marinas = useMemo(() => Array.from(new Set(FLEET.map(b => b.marina))), []);
 
@@ -328,9 +376,10 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
       const matchCategory = category === 'all' || b.category === category;
       const matchMarina = marina === 'all' || b.marina === marina;
       const matchSearch = !q || `${b.model} ${b.name ?? ''} ${b.marina}`.toLowerCase().includes(q);
-      return matchCategory && matchMarina && matchSearch;
+      const matchPrice = b.price.low <= maxPrice;
+      return matchCategory && matchMarina && matchSearch && matchPrice;
     });
-  }, [search, marina, category]);
+  }, [search, marina, category, maxPrice]);
 
   const openAt = useCallback((slug: string) => {
     const i = filtered.findIndex(b => b.slug === slug);
@@ -343,6 +392,13 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
 
   return (
     <div className="min-h-screen bg-white text-black">
+      <style dangerouslySetInnerHTML={{ __html: `
+        .fleet-range { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 9999px; outline: none; cursor: pointer; }
+        .fleet-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #14FF00; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; transition: transform .15s ease; }
+        .fleet-range::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.12); }
+        .fleet-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #14FF00; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; }
+        .fleet-range:disabled::-webkit-slider-thumb { cursor: not-allowed; border-color: #9ca3af; }
+      ` }} />
       {/* Hero — large image banner; the filter bars sit fully below it */}
       <section className="relative h-[380px] w-full overflow-hidden sm:h-[460px] md:h-[560px]">
         <Image src="/fleet/cover.jpeg" alt="Ibiza private boat charter" fill priority className="object-cover object-center" sizes="100vw" />
@@ -382,6 +438,98 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
               value={search}
               onChange={e => setSearch(e.target.value)}
             />
+          </div>
+        </div>
+      </section>
+
+      {/* Price / budget slider */}
+      <section className="mx-auto max-w-6xl px-4 pt-4">
+        <div className="rounded-3xl border border-black/10 bg-neutral-50 p-5 md:p-6">
+          {/* Header row: label + live value + type-and-lock */}
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center gap-3">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-ibiza-green/15 text-black">
+                <SlidersHorizontal size={18} />
+              </span>
+              <div>
+                <div className="text-sm font-black uppercase tracking-wider text-black">{P.heading}</div>
+                <div className="text-xs text-black/50">{P.sub}</div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <Euro className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40" size={15} />
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={priceDraft}
+                  onChange={e => setPriceDraft(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') applyDraft(); }}
+                  placeholder={isPriceActive ? maxPrice.toLocaleString(bcp) : P.placeholder}
+                  className="w-32 rounded-full border border-black/10 bg-white py-2.5 pl-8 pr-3 text-sm font-semibold text-black placeholder-black/40 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-ibiza-green"
+                />
+              </div>
+              <button
+                onClick={applyDraft}
+                className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-bold transition-all ${
+                  priceLocked && isPriceActive ? 'bg-ibiza-green text-black shadow-sm' : 'bg-black text-white hover:brightness-110'
+                }`}
+              >
+                {priceLocked && isPriceActive ? <Lock size={14} /> : <LockOpen size={14} />}
+                {priceLocked && isPriceActive ? P.locked : P.lock}
+              </button>
+            </div>
+          </div>
+
+          {/* The range slider */}
+          <div className="mt-6">
+            <div className="mb-2 flex items-center justify-between text-sm font-bold text-black">
+              <span className="text-black/50">€{PRICE_MIN.toLocaleString(bcp)}</span>
+              <span className="rounded-full bg-ibiza-green px-3 py-1 text-black">
+                {isPriceActive ? P.upTo(maxPrice.toLocaleString(bcp)) : P.any}
+              </span>
+              <span className="text-black/50">€{PRICE_MAX.toLocaleString(bcp)}+</span>
+            </div>
+            <input
+              type="range"
+              min={PRICE_MIN}
+              max={PRICE_MAX}
+              step={PRICE_STEP}
+              value={maxPrice}
+              disabled={priceLocked}
+              onChange={e => setMaxPrice(parseInt(e.target.value, 10))}
+              className="fleet-range w-full disabled:opacity-60"
+              style={{ background: `linear-gradient(to right, #14FF00 0%, #14FF00 ${pricePct}%, #e5e5e5 ${pricePct}%, #e5e5e5 100%)` }}
+              aria-label={P.heading}
+            />
+          </div>
+
+          {/* Tactical preset chips */}
+          <div className="mt-5 flex flex-wrap items-center gap-2">
+            <span className="mr-1 hidden text-xs font-bold uppercase tracking-wider text-black/40 sm:inline">{P.quick}</span>
+            {PRICE_PRESETS.map(v => {
+              const on = maxPrice === v;
+              return (
+                <button
+                  key={v}
+                  onClick={() => { setMaxPrice(v); setPriceLocked(true); setPriceDraft(''); }}
+                  className={`rounded-full px-4 py-2 text-xs font-bold transition-all ${
+                    on ? 'bg-ibiza-green text-black shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200'
+                  }`}
+                >
+                  ≤ €{v.toLocaleString(bcp)}
+                </button>
+              );
+            })}
+            <button
+              onClick={resetPrice}
+              className={`rounded-full px-4 py-2 text-xs font-bold transition-all ${
+                !isPriceActive ? 'bg-ibiza-green text-black shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200'
+              }`}
+            >
+              {P.any}
+            </button>
           </div>
         </div>
         <div className="mt-4 px-1 text-sm font-semibold text-black/50">{T.boatsCount(filtered.length)}</div>
