@@ -399,36 +399,27 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
         .fleet-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #14FF00; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; }
         .fleet-range:disabled::-webkit-slider-thumb { cursor: not-allowed; border-color: #9ca3af; }
       ` }} />
-      {/* Header — matches the site-wide category header (single source of truth) */}
-      <section className="pt-[108px] md:pt-[128px] pb-6 relative z-10 flex flex-col items-center text-center px-4">
-        <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-4">
-          <span className="inline-flex items-center gap-2 rounded-full bg-ibiza-green/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-ibiza-green ring-1 ring-ibiza-green/30">
+      {/* Hero — boat image as a full-bleed background behind the header AND the category selector */}
+      <section className="relative w-full overflow-hidden">
+        <Image src="/fleet/cover.jpeg" alt="Ibiza private boat charter" fill priority sizes="100vw" className="object-cover object-center" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/75" />
+        <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-4 px-4 pt-[108px] pb-12 text-center md:pt-[128px] md:pb-16">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-ibiza-green ring-1 ring-white/25 backdrop-blur-sm">
             <Anchor size={13} /> {T.fromPrice}
           </span>
-          <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">{T.title}</h1>
-          <p className="font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-2">{T.subtitle}</p>
+          <h1 className="text-5xl md:text-7xl font-black font-serif text-white leading-tight uppercase m-0 tracking-tight drop-shadow-lg">{T.title}</h1>
+          <p className="font-sans text-base md:text-lg text-white/90 max-w-2xl mx-auto mt-1 drop-shadow">{T.subtitle}</p>
+          {/* Category selector — sits directly on the image */}
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <FilterTab active={category === 'all'} onClick={() => setCategory('all')}>{T.catAll}</FilterTab>
+            <FilterTab active={category === 'yacht'} onClick={() => setCategory('yacht')}>{T.catYacht}</FilterTab>
+            <FilterTab active={category === 'motorboat'} onClick={() => setCategory('motorboat')}>{T.catMotorboat}</FilterTab>
+          </div>
         </div>
       </section>
 
-      {/* Fleet cover image banner */}
-      <section className="mx-auto max-w-6xl px-4">
-        <div className="relative h-[240px] w-full overflow-hidden rounded-[2rem] sm:h-[320px] md:h-[440px]">
-          <Image src="/fleet/cover.jpeg" alt="Ibiza private boat charter" fill priority className="object-cover object-center" sizes="100vw" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
-        </div>
-      </section>
-
-      {/* Category tabs — below the image, never overlapping it */}
-      <section className="mx-auto max-w-6xl px-4 pt-10 md:pt-12">
-        <div className="flex flex-wrap justify-center gap-3">
-          <FilterTab active={category === 'all'} onClick={() => setCategory('all')}>{T.catAll}</FilterTab>
-          <FilterTab active={category === 'yacht'} onClick={() => setCategory('yacht')}>{T.catYacht}</FilterTab>
-          <FilterTab active={category === 'motorboat'} onClick={() => setCategory('motorboat')}>{T.catMotorboat}</FilterTab>
-        </div>
-      </section>
-
-      {/* Filters */}
-      <section className="mx-auto max-w-6xl px-4 pt-5">
+      {/* Filters — tight under the hero */}
+      <section className="mx-auto max-w-6xl px-4 pt-6">
         <div className="flex flex-col gap-4 rounded-3xl border border-black/10 bg-neutral-50 p-5 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap justify-center gap-2.5 md:justify-start">
             <FilterTab active={marina === 'all'} onClick={() => setMarina('all')}>{T.allMarinas}</FilterTab>

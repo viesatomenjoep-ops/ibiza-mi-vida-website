@@ -32,7 +32,7 @@ export function Footer() {
           <div>
             <Link className="logo" href={base} style={{ alignItems: 'flex-start' }}>
               <span className="mark">
-                <img src="/logo-clean.png" alt="Ibiza mi Vida logo" style={{ width: '100%', height: '100%', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+                <img src="/logo-clean.png" alt="Ibiza mi Vida logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
               </span>
               <strong>Ibiza mi Vida</strong>
             </Link>

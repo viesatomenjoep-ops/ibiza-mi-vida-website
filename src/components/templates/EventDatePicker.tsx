@@ -51,9 +51,11 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
   const today = useMemo(() => startOfDay(new Date()), [])
   const todayStr = format(today, 'yyyy-MM-dd')
 
-  // Only upcoming dates, sorted
+  // Only upcoming dates, sorted — guard against missing/invalid date strings
   const upcoming = useMemo(
-    () => [...dates].filter(d => d.date >= todayStr).sort((a, b) => a.date.localeCompare(b.date)),
+    () => [...dates]
+      .filter(d => d && typeof d.date === 'string' && /^\d{4}-\d{2}-\d{2}/.test(d.date) && d.date >= todayStr)
+      .sort((a, b) => a.date.localeCompare(b.date)),
     [dates, todayStr]
   )
 

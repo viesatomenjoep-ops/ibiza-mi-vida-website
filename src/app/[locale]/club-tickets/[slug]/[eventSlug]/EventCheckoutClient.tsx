@@ -84,12 +84,17 @@ function Accordion({ icon, title, children }: { icon: React.ReactNode; title: st
 export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent, locale }: Props) {
   const S = SEC_I18N[locale] || SEC_I18N.en
 
+  const BCP: Record<string, string> = { en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' }
   let dateFormatted = ''
   try {
     if (selectedDateObj?.date) {
-      dateFormatted = new Date(selectedDateObj.date).toLocaleDateString(locale || 'nl', {
-        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
-      })
+      const d = new Date(selectedDateObj.date)
+      if (!isNaN(d.getTime())) {
+        // timeZone:'UTC' keeps server + client output identical (no hydration mismatch)
+        dateFormatted = d.toLocaleDateString(BCP[locale] || 'nl-NL', {
+          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
+        })
+      }
     }
   } catch (err) {
     console.error('Invalid date format:', selectedDateObj?.date, err)
