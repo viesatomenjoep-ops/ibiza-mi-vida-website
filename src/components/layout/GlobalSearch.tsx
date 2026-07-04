@@ -66,7 +66,7 @@ export function GlobalSearch({ locale }: { locale: string }) {
         <>
           {/* Mobile backdrop to close when clicking outside */}
           <div className="fixed inset-0 z-[90] md:hidden" onClick={() => setIsOpen(false)} />
-          <div className="fixed md:absolute left-4 right-4 md:left-auto md:right-0 top-[80px] md:top-[70px] w-auto md:w-[90vw] md:max-w-[450px] bg-white rounded-3xl shadow-2xl border border-black/10 overflow-hidden z-[100] transform transition-all mt-2 md:mt-0 flex flex-col max-h-[80vh] md:max-h-[85vh]">
+          <div className="fixed left-3 right-3 top-[64px] md:absolute md:left-auto md:right-0 md:top-[70px] md:w-[420px] md:max-w-[calc(100vw-24px)] bg-white rounded-2xl shadow-2xl border border-black/10 overflow-hidden z-[100] flex flex-col max-h-[70vh] md:max-h-[85vh]">
             <div className="p-3 md:p-4 border-b border-black/10 flex items-center gap-3 shrink-0">
               <Search size={18} strokeWidth={2.5} className="text-neutral-400" />
             <input 

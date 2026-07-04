@@ -197,6 +197,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
   const T = EVENT_I18N[locale] || EVENT_I18N.en
   const S = SECTION_I18N[locale] || SECTION_I18N.en
   const bcp = BCP[locale] || 'en-GB'
+  const checkoutLabel = ({ en: 'Checkout', nl: 'Afrekenen', de: 'Zur Kasse', es: 'Finalizar compra', fr: 'Commander' } as Record<string, string>)[locale] || 'Checkout'
 
   const eventName = eventDetail?.name || eventDates[0]?.eventName || 'Event'
   const eventCover = eventDetail?.cover || eventDetail?.logo || club.cover || club.picture || ''
@@ -276,7 +277,17 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 py-12 pb-32 md:px-8">
+      {/* Full-width Checkout button directly under the event image */}
+      <div className="mx-auto max-w-7xl px-4 mt-6 md:mt-8 md:px-8">
+        <a
+          href="#tickets"
+          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green py-5 text-lg font-black uppercase tracking-wider text-black shadow-lg transition-all hover:scale-[1.01] hover:brightness-95 md:text-xl"
+        >
+          <Ticket size={22} /> {checkoutLabel}
+        </a>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 py-10 pb-32 md:px-8">
         <div className="flex flex-col gap-12">
           {/* Dates + tickets */}
           <div id="tickets">
@@ -310,7 +321,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
             <AnimatedSection delay={130}>
               <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
-                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green/15 text-ibiza-green"><Music size={22} /></span> {S.lineup}</span>
+                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green text-black"><Music size={22} /></span> {S.lineup}</span>
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <div className="mt-5 flex flex-col gap-5">
@@ -336,7 +347,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
             <AnimatedSection delay={160}>
               <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
-                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green/15 text-ibiza-green"><Clock size={22} /></span> {S.times}</span>
+                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green text-black"><Clock size={22} /></span> {S.times}</span>
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <div className="mt-5 flex flex-wrap gap-3">
@@ -362,7 +373,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
             <AnimatedSection delay={180}>
               <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
-                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green/15 text-ibiza-green"><Info size={22} /></span> {T.aboutTitle(eventName)}</span>
+                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green text-black"><Info size={22} /></span> {T.aboutTitle(eventName)}</span>
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
 
@@ -379,7 +390,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
 
                 {/* Intro paragraphs */}
                 {desc.intro.length > 0 && (
-                  <div className="mt-6 flex flex-col gap-4 text-base font-semibold leading-relaxed text-black">
+                  <div className="mt-6 flex flex-col gap-4 text-lg md:text-xl font-medium leading-relaxed text-black">
                     {desc.intro.map((p, i) => <p key={i}>{p}</p>)}
                   </div>
                 )}
@@ -399,8 +410,8 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                           </div>
                           <ul className="flex flex-col gap-2">
                             {s.items.map((it, j) => (
-                              <li key={j} className="flex items-start gap-2.5 text-base font-semibold leading-snug text-black">
-                                <Check size={16} className="mt-0.5 shrink-0 text-ibiza-green" />
+                              <li key={j} className="flex items-start gap-2.5 text-lg font-medium leading-snug text-black">
+                                <Check size={18} className="mt-0.5 shrink-0 text-ibiza-green" />
                                 <span>{it}</span>
                               </li>
                             ))}
@@ -430,8 +441,8 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                                 <Clock size={12} /> {stop.time}
                               </span>
                             )}
-                            <span className="font-bold text-black">{stop.title}</span>
-                            {stop.sub && <span className="text-sm leading-snug text-black">{stop.sub}</span>}
+                            <span className="text-lg font-bold text-black">{stop.title}</span>
+                            {stop.sub && <span className="text-base leading-snug text-black">{stop.sub}</span>}
                           </div>
                         </li>
                       ))}
@@ -447,7 +458,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
             <AnimatedSection delay={200}>
               <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
-                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green/15 text-ibiza-green"><Check size={22} /></span> {T.importantTitle}</span>
+                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green text-black"><Check size={22} /></span> {T.importantTitle}</span>
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <ul className="mt-5 flex flex-col gap-3">
@@ -517,7 +528,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           href="#tickets"
           className="inline-flex items-center gap-2 rounded-full bg-ibiza-green px-8 py-3.5 font-black uppercase tracking-wider text-black shadow-lg transition-all hover:brightness-95 active:scale-95"
         >
-          <Ticket size={18} /> {t.event_select_tickets || 'Select tickets'}
+          <Ticket size={18} /> {checkoutLabel}
         </a>
       </div>
     </div>

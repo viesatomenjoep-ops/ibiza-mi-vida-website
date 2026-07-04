@@ -25,11 +25,11 @@ const SEC_I18N: Record<string, {
   standard: string; standardNote: string; bookOn: string; secure: string;
   instant: string; official: string; noFees: string;
 }> = {
-  en: { lineup: 'Line-up', times: 'Times', about: 'About this event', important: 'Important information', doors: 'Doors open', closes: 'Closes', itinerary: 'Itinerary', book: 'Book your ticket', standard: 'Standard entry', standardNote: 'Official general admission', bookOn: 'Book on ClubTickets', secure: 'Secure payment via ClubTickets', instant: 'Instant ticket delivery', official: 'Official partner guarantee', noFees: 'No hidden booking fees' },
-  nl: { lineup: 'Line-up', times: 'Tijden', about: 'Over dit event', important: 'Belangrijke informatie', doors: 'Deuren open', closes: 'Sluit', itinerary: 'Routebeschrijving', book: 'Boek je ticket', standard: 'Standaard toegang', standardNote: 'Officiële algemene toegang', bookOn: 'Boek op ClubTickets', secure: 'Veilig betalen via ClubTickets', instant: 'Directe ticketlevering', official: 'Officiële partnergarantie', noFees: 'Geen verborgen kosten' },
-  de: { lineup: 'Line-up', times: 'Zeiten', about: 'Über dieses Event', important: 'Wichtige Informationen', doors: 'Einlass', closes: 'Ende', itinerary: 'Routenverlauf', book: 'Ticket buchen', standard: 'Standard-Eintritt', standardNote: 'Offizieller allgemeiner Eintritt', bookOn: 'Auf ClubTickets buchen', secure: 'Sichere Zahlung über ClubTickets', instant: 'Sofortige Ticketzustellung', official: 'Offizielle Partnergarantie', noFees: 'Keine versteckten Gebühren' },
-  es: { lineup: 'Line-up', times: 'Horarios', about: 'Sobre este evento', important: 'Información importante', doors: 'Apertura', closes: 'Cierre', itinerary: 'Itinerario', book: 'Reserva tu entrada', standard: 'Entrada estándar', standardNote: 'Admisión general oficial', bookOn: 'Reservar en ClubTickets', secure: 'Pago seguro con ClubTickets', instant: 'Entrega instantánea de entradas', official: 'Garantía de socio oficial', noFees: 'Sin gastos ocultos' },
-  fr: { lineup: 'Line-up', times: 'Horaires', about: 'À propos de cet événement', important: 'Informations importantes', doors: 'Ouverture', closes: 'Fermeture', itinerary: 'Itinéraire', book: 'Réservez votre billet', standard: 'Entrée standard', standardNote: 'Admission générale officielle', bookOn: 'Réserver sur ClubTickets', secure: 'Paiement sécurisé via ClubTickets', instant: 'Livraison instantanée des billets', official: 'Garantie partenaire officiel', noFees: 'Aucun frais caché' },
+  en: { lineup: 'Line-up', times: 'Times', about: 'About this event', important: 'Important information', doors: 'Doors open', closes: 'Closes', itinerary: 'Itinerary', book: 'Book your ticket', standard: 'Standard entry', standardNote: 'Official general admission', bookOn: 'Checkout', secure: 'Secure payment via ClubTickets', instant: 'Instant ticket delivery', official: 'Official partner guarantee', noFees: 'No hidden booking fees' },
+  nl: { lineup: 'Line-up', times: 'Tijden', about: 'Over dit event', important: 'Belangrijke informatie', doors: 'Deuren open', closes: 'Sluit', itinerary: 'Routebeschrijving', book: 'Boek je ticket', standard: 'Standaard toegang', standardNote: 'Officiële algemene toegang', bookOn: 'Afrekenen', secure: 'Veilig betalen via ClubTickets', instant: 'Directe ticketlevering', official: 'Officiële partnergarantie', noFees: 'Geen verborgen kosten' },
+  de: { lineup: 'Line-up', times: 'Zeiten', about: 'Über dieses Event', important: 'Wichtige Informationen', doors: 'Einlass', closes: 'Ende', itinerary: 'Routenverlauf', book: 'Ticket buchen', standard: 'Standard-Eintritt', standardNote: 'Offizieller allgemeiner Eintritt', bookOn: 'Zur Kasse', secure: 'Sichere Zahlung über ClubTickets', instant: 'Sofortige Ticketzustellung', official: 'Offizielle Partnergarantie', noFees: 'Keine versteckten Gebühren' },
+  es: { lineup: 'Line-up', times: 'Horarios', about: 'Sobre este evento', important: 'Información importante', doors: 'Apertura', closes: 'Cierre', itinerary: 'Itinerario', book: 'Reserva tu entrada', standard: 'Entrada estándar', standardNote: 'Admisión general oficial', bookOn: 'Finalizar compra', secure: 'Pago seguro con ClubTickets', instant: 'Entrega instantánea de entradas', official: 'Garantía de socio oficial', noFees: 'Sin gastos ocultos' },
+  fr: { lineup: 'Line-up', times: 'Horaires', about: 'À propos de cet événement', important: 'Informations importantes', doors: 'Ouverture', closes: 'Fermeture', itinerary: 'Itinéraire', book: 'Réservez votre billet', standard: 'Entrée standard', standardNote: 'Admission générale officielle', bookOn: 'Commander', secure: 'Paiement sécurisé via ClubTickets', instant: 'Livraison instantanée des billets', official: 'Garantie partenaire officiel', noFees: 'Aucun frais caché' },
 }
 
 /** Pick a fitting icon for a CT section title (multilingual keyword match). */
@@ -71,7 +71,7 @@ function Accordion({ icon, title, children }: { icon: React.ReactNode; title: st
     <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
       <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
         <span className="flex items-center gap-3">
-          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green/15 text-ibiza-green">{icon}</span>
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green text-black">{icon}</span>
           {title}
         </span>
         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
@@ -126,7 +126,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
   }
 
   return (
-    <div className="theme-monaco-vip min-h-screen bg-neutral-50 pb-28 pt-20 text-black">
+    <div className="theme-monaco-vip min-h-screen bg-neutral-50 pb-28 text-black">
       {/* Hero Section */}
       <div className="relative h-[38vh] w-full overflow-hidden rounded-b-[36px] bg-neutral-900 md:h-[48vh]">
         <Image src={imageUrl} alt={selectedDateObj.eventName || ''} fill className="object-cover" priority sizes="100vw" />
@@ -152,7 +152,17 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
         </div>
       </div>
 
-      <div className="mx-auto mt-10 grid max-w-7xl grid-cols-1 gap-8 px-4 md:mt-14 lg:grid-cols-3 lg:gap-12">
+      {/* Full-width Checkout button directly under the event image */}
+      <div className="mx-auto max-w-7xl px-4 mt-6 md:mt-8">
+        <button
+          onClick={handleCheckout}
+          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green py-5 text-lg font-black uppercase tracking-wider text-velvet-obsidian shadow-lg transition-all hover:scale-[1.01] hover:brightness-95 md:text-xl"
+        >
+          {S.bookOn} · €{priceNum.toFixed(2)} <ExternalLink size={22} />
+        </button>
+      </div>
+
+      <div className="mx-auto mt-8 grid max-w-7xl grid-cols-1 gap-8 px-4 md:mt-10 lg:grid-cols-3 lg:gap-12">
 
         {/* Left Column: Details (all collapsed by default) */}
         <div className="flex flex-col gap-6 lg:col-span-2">
@@ -204,7 +214,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
 
               {/* Intro — large, readable */}
               {desc.intro.length > 0 && (
-                <div className="flex flex-col gap-4 text-base font-semibold leading-relaxed text-black">
+                <div className="flex flex-col gap-4 text-lg md:text-xl font-medium leading-relaxed text-black">
                   {desc.intro.map((p, i) => <p key={i}>{p}</p>)}
                 </div>
               )}
@@ -224,8 +234,8 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
                         </div>
                         <ul className="flex flex-col gap-2">
                           {s.items.map((it, j) => (
-                            <li key={j} className="flex items-start gap-2.5 text-base font-semibold leading-snug text-black">
-                              <Check size={16} className="mt-0.5 shrink-0 text-ibiza-green" />
+                            <li key={j} className="flex items-start gap-2.5 text-lg font-medium leading-snug text-black">
+                              <Check size={18} className="mt-0.5 shrink-0 text-ibiza-green" />
                               <span>{it}</span>
                             </li>
                           ))}
