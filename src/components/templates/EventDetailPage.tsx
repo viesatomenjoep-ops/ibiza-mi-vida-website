@@ -1,11 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { MapPin, ArrowLeft, Check, Info, Camera, HelpCircle, Ticket, Clock, Music } from 'lucide-react'
+import { MapPin, ArrowLeft, Check, Info, Camera, HelpCircle, Ticket, Clock, Music, Sparkles, Navigation, AlertCircle, Utensils, Anchor, Waves } from 'lucide-react'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
 import { EventTicketSelector } from './EventTicketSelector'
 import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
 import { stripHtml } from '@/lib/html-utils'
+import { parseCTDescription } from '@/lib/ct-description'
 
 import en from '@/dictionaries/en.json'
 import nl from '@/dictionaries/nl.json'
@@ -149,6 +150,30 @@ function parseImportant(html?: string): string[] {
     .filter(line => line.length > 1 && !/^-+$/.test(line) && line.toUpperCase() !== 'IMPORTANT:' && line.toUpperCase() !== 'IMPORTANT');
 }
 
+// Labels for the itinerary / highlights blocks (section titles themselves come localized from CT)
+const ROUTE_I18N: Record<string, { itinerary: string; highlights: string }> = {
+  en: { itinerary: 'Itinerary', highlights: 'Highlights' },
+  nl: { itinerary: 'Routebeschrijving', highlights: 'Hoogtepunten' },
+  de: { itinerary: 'Routenverlauf', highlights: 'Highlights' },
+  es: { itinerary: 'Itinerario', highlights: 'Destacados' },
+  fr: { itinerary: 'Itinéraire', highlights: 'Points forts' },
+}
+
+/** Pick a fitting icon for a CT section title (multilingual keyword match). */
+function sectionIcon(title: string) {
+  const t = title.toLowerCase()
+  if (/includ|inclu|inbegrep|enthalt|incluso/.test(t)) return Sparkles
+  if (/meeting|point|punto|treffpunkt|ontmoet|rendez|encuentro|lieu/.test(t)) return MapPin
+  if (/check|depart|salida|abfahrt|vertrek|départ|return|regres|retour|rückkehr/.test(t)) return Clock
+  if (/itinerar|route|ruta|verlauf/.test(t)) return Navigation
+  if (/ticket|tipo|type|typ|billet|entrada/.test(t)) return Ticket
+  if (/import|belangrijk|wichtig|importante/.test(t)) return AlertCircle
+  if (/food|lunch|comida|essen|eten|repas|drink|bar|beverage/.test(t)) return Utensils
+  if (/boat|barco|boot|bateau|schiff|cruise|sail|navega/.test(t)) return Anchor
+  if (/swim|beach|playa|strand|plage|water|agua/.test(t)) return Waves
+  return Check
+}
+
 interface EventDetailPageProps {
   club: CTVenue;
   eventDates: CTEventDate[];
@@ -168,13 +193,9 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
   const eventCover = eventDetail?.cover || eventDetail?.logo || club.cover || club.picture || ''
   const description = eventDetail?.description || club.description || ''
 
-  const cleanDescription = description
-    ? description.split('.promo-hz')[0]
-        .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
-        .replace(/<[^>]+>/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim()
-    : '';
+  const R = ROUTE_I18N[locale] || ROUTE_I18N.en
+  const desc = parseCTDescription(description)
+  const hasAbout = desc.intro.length > 0 || desc.chips.length > 0 || desc.sections.length > 0 || desc.itinerary.length > 0
 
   const important = parseImportant(eventDetail?.requirements)
 
@@ -348,17 +369,87 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
             </AnimatedSection>
           )}
 
-          {/* About (collapsible) */}
-          {cleanDescription && (
+          {/* About (collapsible, richly structured) */}
+          {hasAbout && (
             <AnimatedSection delay={180}>
               <details open className="group rounded-[28px] border border-black/10 bg-white p-6 shadow-sm open:shadow-md md:p-8">
                 <summary className="flex cursor-pointer items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] md:text-3xl">
                   <span className="flex items-center gap-2"><Info size={24} className="text-ibiza-green" /> {T.aboutTitle(eventName)}</span>
                   <span className="shrink-0 text-3xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
-                <div className="mt-5 max-w-none text-lg leading-relaxed text-black/80">
-                  <p>{cleanDescription}</p>
-                </div>
+
+                {/* Quick-fact chips */}
+                {desc.chips.length > 0 && (
+                  <div className="mt-6 flex flex-wrap gap-2.5">
+                    {desc.chips.map((c, i) => (
+                      <span key={i} className="inline-flex items-center gap-1.5 rounded-full bg-ibiza-green/12 px-3.5 py-1.5 text-sm font-bold text-black ring-1 ring-ibiza-green/30">
+                        <Sparkles size={14} className="text-ibiza-green" /> {c}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* Intro paragraphs */}
+                {desc.intro.length > 0 && (
+                  <div className="mt-6 flex flex-col gap-4 text-lg leading-relaxed text-black/80">
+                    {desc.intro.map((p, i) => <p key={i}>{p}</p>)}
+                  </div>
+                )}
+
+                {/* Section cards — tight 2-column grid with icons */}
+                {desc.sections.length > 0 && (
+                  <div className="mt-7 grid grid-cols-1 gap-4 md:grid-cols-2">
+                    {desc.sections.map((s, i) => {
+                      const Icon = sectionIcon(s.title)
+                      return (
+                        <div key={i} className="rounded-2xl border border-black/10 bg-neutral-50 p-5">
+                          <div className="mb-3 flex items-center gap-2.5">
+                            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-ibiza-green/15 text-black">
+                              <Icon size={17} />
+                            </span>
+                            <h3 className="font-serif text-lg font-black text-black">{s.title}</h3>
+                          </div>
+                          <ul className="flex flex-col gap-2">
+                            {s.items.map((it, j) => (
+                              <li key={j} className="flex items-start gap-2.5 text-[15px] leading-snug text-black/75">
+                                <Check size={16} className="mt-0.5 shrink-0 text-ibiza-green" />
+                                <span>{it}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+
+                {/* Itinerary — vertical timeline */}
+                {desc.itinerary.length > 0 && (
+                  <div className="mt-8">
+                    <h3 className="mb-5 flex items-center gap-2 font-serif text-xl font-black text-black">
+                      <Navigation size={20} className="text-ibiza-green" /> {R.itinerary}
+                    </h3>
+                    <ol className="relative flex flex-col gap-6 pl-2">
+                      <span className="absolute left-[14px] top-2 bottom-2 w-0.5 bg-ibiza-green/25" aria-hidden />
+                      {desc.itinerary.map((stop, i) => (
+                        <li key={i} className="relative flex gap-4 pl-8">
+                          <span className="absolute left-0 top-0.5 grid h-7 w-7 place-items-center rounded-full border-2 border-ibiza-green bg-white text-[11px] font-black text-black">
+                            {i + 1}
+                          </span>
+                          <div className="flex flex-col">
+                            {stop.time && (
+                              <span className="mb-0.5 inline-flex w-fit items-center gap-1 rounded-md bg-ibiza-green/15 px-2 py-0.5 text-xs font-bold text-black">
+                                <Clock size={12} /> {stop.time}
+                              </span>
+                            )}
+                            <span className="font-bold text-black">{stop.title}</span>
+                            {stop.sub && <span className="text-sm leading-snug text-black/60">{stop.sub}</span>}
+                          </div>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
               </details>
             </AnimatedSection>
           )}
