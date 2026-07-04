@@ -32,6 +32,7 @@ const config: Config = {
         'ibiza-orange': '#FF4E00',
         'ibiza-dark': '#0A0A0A',
         'ibiza-card': '#141414',
+        'ibiza-green': '#14FF00',
       },
       fontFamily: {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],

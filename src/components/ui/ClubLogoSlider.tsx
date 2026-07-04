@@ -13,8 +13,6 @@ interface ClubLogoSliderProps {
 export function ClubLogoSlider({ clubLogos, base, className = "w-full relative z-20 bg-black/80 py-4 border-t border-white/10 border-b", basePath = "club-tickets" }: ClubLogoSliderProps) {
   const sliderRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
-  const startX = useRef(0);
-  const scrollLeft = useRef(0);
 
   useEffect(() => {
     const slider = sliderRef.current;
@@ -37,21 +35,6 @@ export function ClubLogoSlider({ clubLogos, base, className = "w-full relative z
     return () => cancelAnimationFrame(animationId);
   }, [clubLogos]);
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    isDragging.current = true;
-    startX.current = e.pageX - (sliderRef.current?.offsetLeft || 0);
-    scrollLeft.current = sliderRef.current?.scrollLeft || 0;
-  };
-  const handleMouseLeave = () => { isDragging.current = false; };
-  const handleMouseUp = () => { isDragging.current = false; };
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current) return;
-    e.preventDefault();
-    const x = e.pageX - (sliderRef.current?.offsetLeft || 0);
-    const walk = (x - startX.current) * 2;
-    if (sliderRef.current) sliderRef.current.scrollLeft = scrollLeft.current - walk;
-  };
-
   const handleTouchStart = () => {
     isDragging.current = true;
   };
@@ -66,14 +49,10 @@ export function ClubLogoSlider({ clubLogos, base, className = "w-full relative z
 
   return (
     <div className={className}>
-      <div 
-        className="w-full overflow-x-auto hide-scrollbar cursor-grab active:cursor-grabbing" 
+      <div
+        className="w-full overflow-x-auto md:overflow-x-hidden hide-scrollbar cursor-default"
         style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)' }}
         ref={sliderRef}
-        onMouseDown={handleMouseDown}
-        onMouseLeave={handleMouseLeave}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         onTouchCancel={handleTouchEnd}

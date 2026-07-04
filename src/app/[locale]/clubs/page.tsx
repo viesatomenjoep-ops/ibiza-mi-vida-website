@@ -23,12 +23,39 @@ export default async function NightlifePage({
     .eq('active', true)
     .order('name');
 
-  const translations = {
-    title: 'Clubs Ibiza',
-    description: 'Ontdek het legendarische nachtleven van Ibiza. Van wereldberoemde superclubs tot intieme day clubs en legendarische discotheken. Vind jouw favoriete venue en boek officiële tickets.',
-    allClubs: 'Alle clubs',
-    searchPlaceholder: 'Zoek een club...',
+  const CLUBS_I18N: Record<string, { title: string; description: string; allClubs: string; searchPlaceholder: string }> = {
+    en: {
+      title: 'Clubs Ibiza',
+      description: 'Discover the legendary nightlife of Ibiza. From world-famous superclubs to intimate day clubs and legendary discotheques. Find your favourite venue and book official tickets.',
+      allClubs: 'All clubs',
+      searchPlaceholder: 'Search a club...',
+    },
+    nl: {
+      title: 'Clubs Ibiza',
+      description: 'Ontdek het legendarische nachtleven van Ibiza. Van wereldberoemde superclubs tot intieme day clubs en legendarische discotheken. Vind jouw favoriete venue en boek officiële tickets.',
+      allClubs: 'Alle clubs',
+      searchPlaceholder: 'Zoek een club...',
+    },
+    de: {
+      title: 'Clubs Ibiza',
+      description: 'Entdecke das legendäre Nachtleben von Ibiza. Von weltberühmten Superclubs bis zu intimen Day Clubs und legendären Diskotheken. Finde deine Lieblingslocation und buche offizielle Tickets.',
+      allClubs: 'Alle Clubs',
+      searchPlaceholder: 'Club suchen...',
+    },
+    es: {
+      title: 'Clubs Ibiza',
+      description: 'Descubre la legendaria vida nocturna de Ibiza. Desde superclubs de fama mundial hasta íntimos day clubs y discotecas legendarias. Encuentra tu local favorito y reserva entradas oficiales.',
+      allClubs: 'Todos los clubs',
+      searchPlaceholder: 'Buscar un club...',
+    },
+    fr: {
+      title: 'Clubs Ibiza',
+      description: "Découvrez la vie nocturne légendaire d'Ibiza. Des superclubs de renommée mondiale aux day clubs intimistes et aux discothèques légendaires. Trouvez votre lieu favori et réservez des billets officiels.",
+      allClubs: 'Tous les clubs',
+      searchPlaceholder: 'Rechercher un club...',
+    },
   }
+  const translations = CLUBS_I18N[params.locale] || CLUBS_I18N.en
 
   return (
     <>

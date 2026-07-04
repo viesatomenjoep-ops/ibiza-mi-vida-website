@@ -86,7 +86,7 @@ export default function DealsClient({ dates, translations }: DealsClientProps) {
 
   return (
     <>
-      <section className="pt-[140px] pb-4 relative z-10 flex flex-col items-center text-center">
+      <section className="pt-[108px] md:pt-[128px] pb-4 relative z-10 flex flex-col items-center text-center">
         <div className="w-full max-w-4xl mx-auto px-4 flex flex-col items-center gap-6">
           <div className="flex flex-col gap-2 text-center mb-8">
             <span className="text-sm font-bold tracking-widest text-neutral-500 uppercase mb-2">Deals of the Day</span>

@@ -3,11 +3,10 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { format, addDays, isToday, isTomorrow, startOfWeek, endOfWeek, parseISO } from 'date-fns';
 import { nl, enUS, de, es } from 'date-fns/locale';
 import '@/styles/calendar.css';
-import { Search, X, Calendar, MapPin, ChevronRight, ChevronDown } from 'lucide-react';
+import { Search, X, Calendar, MapPin, ChevronRight } from 'lucide-react';
 
 interface CalEvent {
   id: string;
@@ -29,12 +28,16 @@ interface CalendarClientProps {
 }
 
 const getLoc = (locale: string) => ({ nl, de, es, en: enUS }[locale] || enUS);
-type QuickFilter = 'today' | 'tomorrow' | 'week' | 'all';
+type QuickFilter = 'today' | 'tomorrow' | 'week' | 'month' | 'all';
 type CategoryFilter = 'all' | 'clubbing' | 'boat';
+
+// Clubtickets venue types that count as "Op het Water"
+const WATER_SLUGS = ['boat', 'formentera-day-trip'];
+const isWater = (slug?: string) => !!slug && WATER_SLUGS.includes(slug);
+const isClub = (slug?: string) => slug === 'clubbing';
 
 export default function CalendarClient({ events, allVenues, allArtists, dict, locale, initialMonth }: CalendarClientProps) {
   const loc = getLoc(locale);
-  const router = useRouter();
   const today = useMemo(() => new Date(), []);
   const todayStr = format(today, 'yyyy-MM-dd');
 
@@ -61,8 +64,8 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
   // Venues to show based on category
   const visibleVenues = useMemo(() => {
     if (categoryFilter === 'all') return activeVenues;
-    if (categoryFilter === 'clubbing') return activeVenues.filter(v => v.type_slug === 'clubbing');
-    if (categoryFilter === 'boat') return activeVenues.filter(v => v.type_slug === 'boat-party');
+    if (categoryFilter === 'clubbing') return activeVenues.filter(v => isClub(v.type_slug));
+    if (categoryFilter === 'boat') return activeVenues.filter(v => isWater(v.type_slug));
     return activeVenues;
   }, [activeVenues, categoryFilter]);
 
@@ -74,11 +77,12 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
     if (quickFilter === 'today') evs = evs.filter(e => e.date === todayStr);
     else if (quickFilter === 'tomorrow') evs = evs.filter(e => e.date === tomorrowStr);
     else if (quickFilter === 'week') evs = evs.filter(e => e.date >= weekStart && e.date <= weekEnd);
-    else evs = evs.filter(e => e.date.startsWith(activeMonth));
+    else if (quickFilter === 'month') evs = evs.filter(e => e.date.startsWith(activeMonth));
+    else evs = evs.filter(e => e.date >= todayStr); // 'all' = alle aankomende events
 
     // Category filter
-    if (categoryFilter === 'clubbing') evs = evs.filter(e => e.ct_venues?.type_slug === 'clubbing');
-    if (categoryFilter === 'boat') evs = evs.filter(e => e.ct_venues?.type_slug === 'boat-party');
+    if (categoryFilter === 'clubbing') evs = evs.filter(e => isClub(e.ct_venues?.type_slug));
+    if (categoryFilter === 'boat') evs = evs.filter(e => isWater(e.ct_venues?.type_slug));
 
     // Venue filter
     if (selectedVenue) evs = evs.filter(e => e.ct_venues?.slug === selectedVenue);
@@ -126,13 +130,40 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
 
   const isDateToday = (ds: string) => ds === todayStr;
 
-  // Counts
-  const todayCount = events.filter(e => e.date === todayStr).length;
-  const tomorrowCount = events.filter(e => e.date === tomorrowStr).length;
-  const weekCount = events.filter(e => e.date >= weekStart && e.date <= weekEnd).length;
+  // Counts (respecting the active category so the numbers match what's shown)
+  const inCategory = (e: CalEvent) =>
+    categoryFilter === 'all' ? true :
+    categoryFilter === 'clubbing' ? isClub(e.ct_venues?.type_slug) :
+    isWater(e.ct_venues?.type_slug);
+  const todayCount = events.filter(e => e.date === todayStr && inCategory(e)).length;
+  const tomorrowCount = events.filter(e => e.date === tomorrowStr && inCategory(e)).length;
+  const weekCount = events.filter(e => e.date >= weekStart && e.date <= weekEnd && inCategory(e)).length;
+  const monthCount = events.filter(e => e.date.startsWith(activeMonth) && inCategory(e)).length;
+  const allCount = events.filter(e => e.date >= todayStr && inCategory(e)).length;
+
+  const activeMonthLabel = (() => {
+    try {
+      const [y, m] = activeMonth.split('-').map(Number);
+      return format(new Date(y, m - 1, 1), 'MMMM', { locale: loc });
+    } catch { return ''; }
+  })();
+
+  const timeTabs: { key: QuickFilter; label: string; count: number }[] = [
+    { key: 'today', label: dict.cal_today || 'Vandaag', count: todayCount },
+    { key: 'tomorrow', label: dict.cal_tomorrow || 'Morgen', count: tomorrowCount },
+    { key: 'week', label: dict.cal_this_week || 'Deze week', count: weekCount },
+    { key: 'month', label: dict.cal_this_month || 'Deze maand', count: monthCount },
+    { key: 'all', label: dict.cal_all || 'Alles', count: allCount },
+  ];
+
+  const catTabs: { key: CategoryFilter; label: string }[] = [
+    { key: 'all', label: dict.cal_cat_all || 'Alles' },
+    { key: 'clubbing', label: dict.cal_cat_clubs || 'Clubs' },
+    { key: 'boat', label: dict.cal_cat_water || 'Op het Water' },
+  ];
 
   return (
-    <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-hidden">
+    <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-x-clip">
       {selectedVenue && (
         <div className="absolute top-0 left-0 w-full h-[50vh] z-0 overflow-hidden opacity-30 pointer-events-none">
           <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-transparent z-10" />
@@ -144,43 +175,91 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
         </div>
       )}
 
-      <div className="ck-header relative z-10 pt-[80px] md:pt-[100px] flex flex-col items-center text-center">
-        <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">EVENTS</h1>
+      <div className="relative z-10 pt-[108px] md:pt-[128px] pb-2 flex flex-col items-center text-center px-4">
+        <p className="text-[11px] md:text-xs font-black uppercase tracking-[0.3em] text-black/40 mb-2">Ibiza Agenda {format(today, 'yyyy')}</p>
+        <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-none uppercase m-0 tracking-tight drop-shadow-sm">EVENTS</h1>
+        <p className="text-sm md:text-base text-black/50 font-medium mt-3 max-w-md">{dict.cal_subtitle || 'Ontdek wat er vandaag, deze week en deze maand te doen is op het eiland.'}</p>
       </div>
 
-        {/* Combined Selector Dropdown */}
-        <div className="w-full max-w-7xl mx-auto px-4 mt-2 mb-2 flex justify-center relative">
-          <div className="relative w-full max-w-xs md:max-w-sm">
-            <select
-              className="w-full appearance-none bg-white border-2 border-black/10 hover:border-black rounded-full px-6 py-3.5 text-black font-bold uppercase tracking-widest text-xs md:text-sm shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-black cursor-pointer text-center"
-              onChange={(e) => {
-                const val = e.target.value;
-                if (val === 'clubbing') {
-                  router.push(`/${locale}/club-tickets`);
-                } else if (val === 'boat') {
-                  router.push(`/${locale}/shuttle-ferry`);
-                } else if (val === 'all') {
-                  setCategoryFilter('all');
-                  setQuickFilter('all');
-                  setActiveMonth(format(today, 'yyyy-MM'));
-                  setSelectedVenue(null);
-                } else {
-                  setQuickFilter(val as QuickFilter);
-                  setCategoryFilter('all');
-                }
-              }}
-              value={quickFilter === 'all' && categoryFilter === 'all' ? 'all' : categoryFilter !== 'all' ? categoryFilter : quickFilter}
-            >
-              <option value="all">{dict.cal_all || `Alle Events`}</option>
-              <option value="today">{dict.cal_today || `Vandaag`}</option>
-              <option value="tomorrow">{dict.cal_tomorrow || `Morgen`}</option>
-              <option value="week">{dict.cal_this_week || `Deze week`}</option>
-              <option value="clubbing">Clubs</option>
-              <option value="boat">Op het Water</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-5 flex items-center text-black">
-              <ChevronDown size={18} strokeWidth={3} />
+        {/* ── Tactical selector bar (sticky) ── */}
+        <div className="sticky top-[70px] md:top-[84px] z-40 mt-5 bg-neutral-50/95 backdrop-blur-md border-y border-black/5">
+          <div className="w-full max-w-7xl mx-auto px-4 py-3 md:py-4 flex flex-col items-center gap-3">
+
+            {/* Primary: time range segmented control */}
+            <div className="w-full overflow-x-auto hide-scrollbar">
+              <div className="flex md:justify-center gap-2 min-w-max mx-auto">
+                {timeTabs.map(tab => {
+                  const active = quickFilter === tab.key;
+                  return (
+                    <button
+                      key={tab.key}
+                      onClick={() => setQuickFilter(tab.key)}
+                      aria-pressed={active}
+                      className={`group flex items-center gap-2 rounded-full px-4 md:px-5 py-2.5 text-xs md:text-sm font-black uppercase tracking-widest border-2 transition-all whitespace-nowrap ${active ? 'bg-black text-white border-black shadow-lg scale-[1.03]' : 'bg-white text-black/55 border-black/10 hover:border-black hover:text-black'}`}
+                    >
+                      {tab.label}
+                      <span className={`text-[10px] leading-none font-black rounded-full px-1.5 py-1 min-w-[20px] text-center ${active ? 'bg-white/20 text-white' : 'bg-black/5 text-black/40 group-hover:bg-black/10'}`}>{tab.count}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
+
+            {/* Secondary: category pills + search */}
+            <div className="w-full flex flex-wrap items-center justify-center gap-2">
+              {catTabs.map(tab => {
+                const active = categoryFilter === tab.key;
+                return (
+                  <button
+                    key={tab.key}
+                    onClick={() => { setCategoryFilter(tab.key); setSelectedVenue(null); }}
+                    aria-pressed={active}
+                    className={`rounded-full px-4 py-1.5 text-[10px] md:text-xs font-bold uppercase tracking-widest border transition-all ${active ? 'bg-ibiza-green text-black border-ibiza-green shadow-[0_0_12px_rgba(20,255,0,0.35)]' : 'bg-white text-black/50 border-black/10 hover:border-black hover:text-black'}`}
+                  >
+                    {tab.label}
+                  </button>
+                );
+              })}
+              <div className="relative ml-1">
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-black/30" />
+                <input
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={dict.cal_search || 'Zoek event of artiest…'}
+                  className="w-44 md:w-64 rounded-full border border-black/10 bg-white pl-8 pr-8 py-1.5 text-xs font-medium text-black placeholder:text-black/30 focus:outline-none focus:border-black transition-all"
+                />
+                {searchQuery && (
+                  <button onClick={() => setSearchQuery('')} aria-label="Zoekopdracht wissen" className="absolute right-2.5 top-1/2 -translate-y-1/2 text-black/30 hover:text-black">
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Month picker — only in 'Deze maand' mode */}
+            {quickFilter === 'month' && (
+              <div className="w-full overflow-x-auto hide-scrollbar">
+                <div className="flex md:justify-center gap-2 min-w-max mx-auto pt-1">
+                  {months.map(mo => {
+                    let label = mo;
+                    try {
+                      const [y, m] = mo.split('-').map(Number);
+                      label = format(new Date(y, m - 1, 1), 'MMM yy', { locale: loc }).toUpperCase();
+                    } catch {}
+                    const active = activeMonth === mo;
+                    return (
+                      <button
+                        key={mo}
+                        onClick={() => setActiveMonth(mo)}
+                        className={`px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest border transition-all whitespace-nowrap ${active ? 'bg-black text-white border-black' : 'bg-white text-neutral-500 border-neutral-200 hover:border-black hover:text-black'}`}
+                      >
+                        {label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -223,28 +302,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
           </div>
         </div>
 
-        {quickFilter === 'all' && (
-          <div className="flex flex-wrap justify-center gap-2 mb-8 px-4">
-            {months.map(mo => {
-              let label = mo;
-              try {
-                const [y, m] = mo.split('-').map(Number);
-                label = format(new Date(y, m - 1, 1), 'MMM yy', { locale: loc }).toUpperCase();
-              } catch {}
-              return (
-                <button
-                  key={mo}
-                  className={`px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest border transition-all ${activeMonth === mo ? 'bg-black text-white border-black' : 'bg-white text-neutral-500 border-neutral-200 hover:border-black hover:text-black'}`}
-                  onClick={() => setActiveMonth(mo)}
-                >
-                  {label}
-                </button>
-              );
-            })}
-          </div>
-        )}
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 pb-24">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 pb-24 pt-4">
         {sortedDates.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-[32px] border border-neutral-100 mt-8 shadow-sm">
               <Calendar size={48} className="mx-auto text-neutral-300 mb-4" />

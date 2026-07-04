@@ -4,7 +4,6 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, ArrowRight, Sun, Moon } from 'lucide-react';
-import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 
 interface CategoryClientProps {
   venues: any[];
@@ -32,7 +31,7 @@ export default function CategoryClient({ venues, translations, locale, basePath 
 
   return (
     <div className="theme-monaco-vip min-h-screen bg-neutral-50 relative">
-      <section className="pt-[80px] md:pt-[100px] pb-6 relative z-10 flex flex-col items-center text-center px-4">
+      <section className="pt-[108px] md:pt-[128px] pb-6 relative z-10 flex flex-col items-center text-center px-4">
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
           <div className="flex flex-col gap-2 text-center mb-4">
             <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
@@ -44,8 +43,6 @@ export default function CategoryClient({ venues, translations, locale, basePath 
           </div>
         </div>
       </section>
-
-      <ClubLogoSlider clubLogos={venues} base={`/${locale}`} basePath={basePath} />
 
       <section className="relative z-10 pb-24 mt-8">
         <div className="wrap">

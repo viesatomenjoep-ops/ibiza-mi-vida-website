@@ -51,7 +51,8 @@ export default async function CalendarPage({
     name: v.name,
     slug: v.slug,
     whitelogo: v.whitelogo || '',
-    picture: v.picture || ''
+    picture: v.picture || '',
+    type_slug: v.type?.slug || ''
   }));
 
   return (

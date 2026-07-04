@@ -95,7 +95,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
               <AnimatedSection delay={100} className="flex flex-col gap-6">
                 <div className="flex items-end justify-between">
                 <div>
-                  <h2 className="font-serif text-3xl font-bold text-velvet-obsidian">{t.event_select_date_book || 'Select Date & Book'}</h2>
+                  <h2 className="font-serif text-3xl md:text-4xl font-black text-black">{t.event_select_date_book || 'Select Date & Book'}</h2>
                   <p className="mt-2 font-sans text-velvet-obsidian/60">
                     {t.event_all_dates_for || 'All upcoming dates for'} {eventName} {t.event_at || 'at'} {club.name}. {t.event_book_securely || 'Book securely via ClubTickets.'}
                   </p>
@@ -146,8 +146,8 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
 
             {cleanDescription && (
               <AnimatedSection delay={200}>
-                <h2 className="font-serif text-3xl font-bold text-velvet-obsidian mb-6">{t.event_about || 'About'} {eventName}</h2>
-                <div className="prose prose-lg max-w-none text-velvet-obsidian">
+                <h2 className="font-serif text-3xl md:text-4xl font-black text-black mb-6">{t.event_about || 'About'} {eventName}</h2>
+                <div className="prose prose-lg md:prose-xl max-w-none text-black leading-relaxed prose-p:text-black">
                   <p>{cleanDescription}</p>
                 </div>
               </AnimatedSection>

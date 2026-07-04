@@ -191,5 +191,9 @@
   "cal_events": "events",
   "cal_live": "LIVE",
   "cal_tickets": "Tickets",
-  "cal_favorite": "Favorite"
+  "cal_favorite": "Favorite",
+  "cal_this_month": "This month",
+  "cal_cat_all": "All",
+  "cal_cat_clubs": "Clubs",
+  "cal_cat_water": "On the water"
 }

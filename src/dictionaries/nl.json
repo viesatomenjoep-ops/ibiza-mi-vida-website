@@ -191,5 +191,9 @@
   "cal_events": "events",
   "cal_live": "LIVE",
   "cal_tickets": "Tickets",
-  "cal_favorite": "Favoriet"
+  "cal_favorite": "Favoriet",
+  "cal_this_month": "Deze maand",
+  "cal_cat_all": "Alles",
+  "cal_cat_clubs": "Clubs",
+  "cal_cat_water": "Op het water"
 }
