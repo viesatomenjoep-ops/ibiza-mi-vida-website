@@ -66,15 +66,15 @@ function formatLineUp(lineUp?: string): string[] {
 }
 
 // ── reusable collapsed accordion (dark, bright-white, enlarges on expand) ──────
-function Accordion({ icon, title, children, tint = false }: { icon: React.ReactNode; title: string; children: React.ReactNode; tint?: boolean }) {
+function Accordion({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode; tint?: boolean }) {
   return (
-    <details className={`group rounded-[28px] border border-white/10 ${tint ? 'bg-ibiza-green/[0.06]' : 'bg-white/[0.04]'} p-6 shadow-lg transition-colors open:border-ibiza-green/30 md:p-8`}>
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-white marker:content-[''] md:text-3xl">
+    <details className="group rounded-[28px] border border-white/10 bg-white/[0.04] p-6 shadow-lg transition-colors open:border-white/15 open:bg-black md:p-8">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-white marker:content-[''] [&::-webkit-details-marker]:hidden md:text-3xl">
         <span className="flex items-center gap-3">
           <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green/20 text-ibiza-green">{icon}</span>
           {title}
         </span>
-        <span className="shrink-0 text-4xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
       </summary>
       <div className="mt-6">{children}</div>
     </details>

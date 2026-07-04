@@ -321,7 +321,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           {hasLineup && (
             <AnimatedSection delay={130}>
               <details open className="group rounded-[28px] border border-black/10 bg-white p-6 shadow-sm open:shadow-md md:p-8">
-                <summary className="flex cursor-pointer items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] md:text-3xl">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden md:text-3xl">
                   <span className="flex items-center gap-2"><Music size={24} className="text-ibiza-green" /> {S.lineup}</span>
                   <span className="shrink-0 text-3xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
@@ -347,7 +347,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           {hasTimes && (
             <AnimatedSection delay={160}>
               <details open className="group rounded-[28px] border border-black/10 bg-white p-6 shadow-sm open:shadow-md md:p-8">
-                <summary className="flex cursor-pointer items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] md:text-3xl">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden md:text-3xl">
                   <span className="flex items-center gap-2"><Clock size={24} className="text-ibiza-green" /> {S.times}</span>
                   <span className="shrink-0 text-3xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
@@ -373,7 +373,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           {hasAbout && (
             <AnimatedSection delay={180}>
               <details open className="group rounded-[28px] border border-black/10 bg-white p-6 shadow-sm open:shadow-md md:p-8">
-                <summary className="flex cursor-pointer items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] md:text-3xl">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden md:text-3xl">
                   <span className="flex items-center gap-2"><Info size={24} className="text-ibiza-green" /> {T.aboutTitle(eventName)}</span>
                   <span className="shrink-0 text-3xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
@@ -458,7 +458,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           {important.length > 0 && (
             <AnimatedSection delay={200}>
               <details open className="group rounded-[28px] border border-black/10 bg-neutral-50 p-6 shadow-sm open:shadow-md md:p-8">
-                <summary className="flex cursor-pointer items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] md:text-3xl">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden md:text-3xl">
                   <span className="flex items-center gap-2"><Check size={24} className="text-ibiza-green" /> {T.importantTitle}</span>
                   <span className="shrink-0 text-3xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
@@ -507,7 +507,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
             <div className="flex flex-col gap-3">
               {faqs.map((f, i) => (
                 <details key={i} className="group rounded-2xl border border-black/10 bg-white p-5 open:border-ibiza-green/40 open:shadow-md">
-                  <summary className="flex cursor-pointer items-center justify-between gap-4 font-serif text-lg font-bold text-black marker:content-['']">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-bold text-black marker:content-[''] [&::-webkit-details-marker]:hidden">
                     {f.q}
                     <span className="shrink-0 text-2xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
                   </summary>

@@ -1,25 +1,14 @@
-import { getDictionary } from '@/lib/dictionary';
-import CalendarClient from './CalendarClient';
-import { getVenues, getAllDates, getArtists } from '@/lib/clubtickets';
+import EventsExplorer from './EventsExplorer';
+import { getVenues, getAllDates } from '@/lib/clubtickets';
 
-export default async function CalendarPage({ 
+export default async function CalendarPage({
   params,
-  searchParams
-}: { 
+}: {
   params: { locale: string },
-  searchParams: { month?: string }
 }) {
-  const dict = await getDictionary(params.locale as any);
-  
-  // Default to current month if no month is provided
-  const today = new Date();
-  const currentMonth = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}`;
-  const targetMonthStr = searchParams.month || currentMonth;
-
   // Fetch dates and venues statically from JSON
   const allDates = await getAllDates(params.locale);
   const venues = await getVenues(params.locale);
-  const artists = await getArtists(params.locale);
   const venuesMap = new Map(venues.map(v => [v.slug, v]));
 
   // Map dates to the format expected by the client
@@ -35,15 +24,15 @@ export default async function CalendarPage({
         name: d.eventName,
         slug: d.eventSlug,
         logo: d.eventLogo,
-        cover: d.eventCover
+        cover: d.eventCover,
       },
       ct_venues: {
         name: d.venueName,
         slug: d.venueSlug,
         whitelogo: venueObj?.whitelogo || d.venueLogo || venueObj?.picture || '',
-        is_day_club: venueObj?.isDayClub || false,
-        type_slug: venueObj?.type?.slug || ''
-      }
+        picture: venueObj?.picture || d.venueCover || '',
+        type_slug: venueObj?.type?.slug || '',
+      },
     };
   });
 
@@ -52,17 +41,14 @@ export default async function CalendarPage({
     slug: v.slug,
     whitelogo: v.whitelogo || '',
     picture: v.picture || '',
-    type_slug: v.type?.slug || ''
+    type_slug: v.type?.slug || '',
   }));
 
   return (
-    <CalendarClient 
-      events={mappedEvents} 
+    <EventsExplorer
+      events={mappedEvents}
       allVenues={lightVenues}
-      allArtists={[]} // Not used in CalendarClient
-      dict={dict} 
       locale={params.locale}
-      initialMonth={targetMonthStr}
     />
   );
 }
