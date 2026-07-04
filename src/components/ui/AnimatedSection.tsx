@@ -29,11 +29,13 @@ export function AnimatedSection({
         <div className={className}>{children}</div>
       </noscript>
       <motion.div
+        // Reveal on mount (not on scroll-into-view). whileInView + IntersectionObserver
+        // could fail to fire on client-side navigation, leaving the whole page stuck at
+        // opacity:0 (a blank page). Animating on mount guarantees content is always shown.
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.7, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
-        className={`${className} no-js-hidden`}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: Math.min(delay, 0.25), ease: [0.21, 0.47, 0.32, 0.98] }}
+        className={className}
       >
         {children}
       </motion.div>

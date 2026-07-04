@@ -65,16 +65,16 @@ function formatLineUp(lineUp?: string): string[] {
   return text.split(',').map(a => a.trim()).filter(Boolean)
 }
 
-// ── reusable collapsed accordion (dark, bright-white, enlarges on expand) ──────
+// ── reusable collapsed accordion (light "Deals of the Day" style) ──────────────
 function Accordion({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode; tint?: boolean }) {
   return (
-    <details className="group rounded-[28px] border border-white/10 bg-white/[0.04] p-6 shadow-lg transition-colors open:border-white/15 open:bg-black md:p-8">
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-white marker:content-[''] [&::-webkit-details-marker]:hidden md:text-3xl">
+    <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
         <span className="flex items-center gap-3">
-          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green/20 text-ibiza-green">{icon}</span>
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green/15 text-ibiza-green">{icon}</span>
           {title}
         </span>
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
       </summary>
       <div className="mt-6">{children}</div>
     </details>
@@ -121,11 +121,11 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0509] pb-28 pt-20 text-white">
+    <div className="theme-monaco-vip min-h-screen bg-neutral-50 pb-28 pt-20 text-black">
       {/* Hero Section */}
       <div className="relative h-[38vh] w-full overflow-hidden rounded-b-[36px] bg-neutral-900 md:h-[48vh]">
         <Image src={imageUrl} alt={selectedDateObj.eventName || ''} fill className="object-cover" priority sizes="100vw" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0D0509] via-black/45 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-neutral-50 via-black/40 to-black/10" />
 
         <div className="absolute bottom-0 left-0 z-10 w-full p-6 md:p-12">
           <div className="mx-auto flex max-w-7xl flex-col items-start gap-4">
@@ -157,7 +157,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
             <Accordion icon={<Music size={22} />} title={S.lineup}>
               <div className="flex flex-wrap gap-2.5">
                 {artists.map((a, i) => (
-                  <span key={i} className="rounded-full bg-white/10 px-4 py-2 text-base font-semibold text-white ring-1 ring-white/15">{a}</span>
+                  <span key={i} className="rounded-full bg-black/5 px-4 py-2 text-base font-semibold text-black ring-1 ring-black/10">{a}</span>
                 ))}
               </div>
             </Accordion>
@@ -168,15 +168,15 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
             <Accordion icon={<Clock size={22} />} title={S.times}>
               <div className="flex flex-wrap gap-3">
                 {startAt && (
-                  <div className="flex flex-col rounded-2xl border border-white/10 bg-white/5 px-6 py-4">
-                    <span className="text-xs font-bold uppercase tracking-wider text-white/50">{S.doors}</span>
-                    <span className="text-3xl font-black text-white">{startAt}</span>
+                  <div className="flex flex-col rounded-2xl border border-black/10 bg-black/5 px-6 py-4">
+                    <span className="text-xs font-bold uppercase tracking-wider text-black/50">{S.doors}</span>
+                    <span className="text-3xl font-black text-black">{startAt}</span>
                   </div>
                 )}
                 {endAt && (
-                  <div className="flex flex-col rounded-2xl border border-white/10 bg-white/5 px-6 py-4">
-                    <span className="text-xs font-bold uppercase tracking-wider text-white/50">{S.closes}</span>
-                    <span className="text-3xl font-black text-white">{endAt}</span>
+                  <div className="flex flex-col rounded-2xl border border-black/10 bg-black/5 px-6 py-4">
+                    <span className="text-xs font-bold uppercase tracking-wider text-black/50">{S.closes}</span>
+                    <span className="text-3xl font-black text-black">{endAt}</span>
                   </div>
                 )}
               </div>
@@ -190,7 +190,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
               {desc.chips.length > 0 && (
                 <div className="mb-6 flex flex-wrap gap-2.5">
                   {desc.chips.map((c, i) => (
-                    <span key={i} className="inline-flex items-center gap-1.5 rounded-full bg-ibiza-green/15 px-3.5 py-1.5 text-sm font-bold text-white ring-1 ring-ibiza-green/30">
+                    <span key={i} className="inline-flex items-center gap-1.5 rounded-full bg-ibiza-green/15 px-3.5 py-1.5 text-sm font-bold text-black ring-1 ring-ibiza-green/40">
                       <Sparkles size={14} className="text-ibiza-green" /> {c}
                     </span>
                   ))}
@@ -199,7 +199,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
 
               {/* Intro — large, readable */}
               {desc.intro.length > 0 && (
-                <div className="flex flex-col gap-4 text-lg leading-relaxed text-white/90 md:text-xl">
+                <div className="flex flex-col gap-4 text-xl font-medium leading-relaxed text-black md:text-2xl">
                   {desc.intro.map((p, i) => <p key={i}>{p}</p>)}
                 </div>
               )}
@@ -210,17 +210,17 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
                   {desc.sections.map((s, i) => {
                     const Icon = sectionIcon(s.title)
                     return (
-                      <div key={i} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+                      <div key={i} className="rounded-2xl border border-black/10 bg-black/5 p-5">
                         <div className="mb-3 flex items-center gap-2.5">
-                          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-ibiza-green/20 text-ibiza-green">
+                          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-ibiza-green/15 text-ibiza-green">
                             <Icon size={17} />
                           </span>
-                          <h3 className="font-serif text-lg font-black text-white">{s.title}</h3>
+                          <h3 className="font-serif text-lg font-black text-black">{s.title}</h3>
                         </div>
                         <ul className="flex flex-col gap-2">
                           {s.items.map((it, j) => (
-                            <li key={j} className="flex items-start gap-2.5 text-base leading-snug text-white/80">
-                              <Check size={16} className="mt-0.5 shrink-0 text-ibiza-green" />
+                            <li key={j} className="flex items-start gap-2.5 text-lg font-medium leading-snug text-black">
+                              <Check size={18} className="mt-0.5 shrink-0 text-ibiza-green" />
                               <span>{it}</span>
                             </li>
                           ))}
@@ -234,14 +234,14 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
               {/* Itinerary timeline */}
               {desc.itinerary.length > 0 && (
                 <div className="mt-8">
-                  <h3 className="mb-5 flex items-center gap-2 font-serif text-xl font-black text-white">
+                  <h3 className="mb-5 flex items-center gap-2 font-serif text-xl font-black text-black">
                     <Navigation size={20} className="text-ibiza-green" /> {S.itinerary}
                   </h3>
                   <ol className="relative flex flex-col gap-6 pl-2">
-                    <span className="absolute bottom-2 left-[14px] top-2 w-0.5 bg-ibiza-green/30" aria-hidden />
+                    <span className="absolute bottom-2 left-[14px] top-2 w-0.5 bg-ibiza-green/40" aria-hidden />
                     {desc.itinerary.map((stop, i) => (
                       <li key={i} className="relative flex gap-4 pl-8">
-                        <span className="absolute left-0 top-0.5 grid h-7 w-7 place-items-center rounded-full border-2 border-ibiza-green bg-[#0D0509] text-[11px] font-black text-white">
+                        <span className="absolute left-0 top-0.5 grid h-7 w-7 place-items-center rounded-full border-2 border-ibiza-green bg-neutral-50 text-[11px] font-black text-black">
                           {i + 1}
                         </span>
                         <div className="flex flex-col">
@@ -250,8 +250,8 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
                               <Clock size={12} /> {stop.time}
                             </span>
                           )}
-                          <span className="text-lg font-bold text-white">{stop.title}</span>
-                          {stop.sub && <span className="text-base leading-snug text-white/70">{stop.sub}</span>}
+                          <span className="text-lg font-bold text-black">{stop.title}</span>
+                          {stop.sub && <span className="text-base leading-snug text-black/70">{stop.sub}</span>}
                         </div>
                       </li>
                     ))}
@@ -272,9 +272,9 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
                   else if (r.includes('driver') || r.includes('license') || r.includes('age') || r.includes('years')) icon = <Lock className="h-5 w-5 text-ibiza-green" />
                   else if (r.includes('booking') || r.includes('people') || r.includes('min')) icon = <Ticket className="h-5 w-5 text-ibiza-green" />
                   return (
-                    <div key={idx} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                    <div key={idx} className="flex items-start gap-3 rounded-2xl border border-black/10 bg-black/5 p-4">
                       <div className="mt-0.5 shrink-0">{icon}</div>
-                      <span className="text-base font-medium leading-snug text-white/90">{req.replace(/^[-•]\s*/, '')}</span>
+                      <span className="text-base font-medium leading-snug text-black/90">{req.replace(/^[-•]\s*/, '')}</span>
                     </div>
                   )
                 })}
@@ -290,37 +290,37 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
 
         {/* Right Column: Checkout Widget */}
         <div className="lg:col-span-1">
-          <div className="sticky top-24 rounded-3xl border border-white/10 bg-white/[0.04] p-7 shadow-xl md:p-8">
-            <h3 className="mb-6 font-serif text-2xl font-black text-white md:text-3xl">{S.book}</h3>
+          <div className="sticky top-24 rounded-3xl border border-black/10 bg-black/5 p-7 shadow-xl md:p-8">
+            <h3 className="mb-6 font-serif text-2xl font-black text-black md:text-3xl">{S.book}</h3>
 
             <div className="mb-6 flex flex-col rounded-2xl border-2 border-ibiza-green bg-ibiza-green/10 p-5">
               <div className="flex items-center justify-between gap-4">
                 <div className="flex flex-col">
-                  <span className="text-lg font-bold text-white md:text-xl">{S.standard}</span>
-                  <span className="mt-1 text-xs font-semibold uppercase tracking-wider text-white/60">{S.standardNote}</span>
+                  <span className="text-lg font-bold text-black md:text-xl">{S.standard}</span>
+                  <span className="mt-1 text-xs font-semibold uppercase tracking-wider text-black/60">{S.standardNote}</span>
                 </div>
-                <span className="whitespace-nowrap text-2xl font-black text-white md:text-3xl">€{priceNum.toFixed(2)}</span>
+                <span className="whitespace-nowrap text-2xl font-black text-black md:text-3xl">€{priceNum.toFixed(2)}</span>
               </div>
             </div>
 
             <button
               onClick={handleCheckout}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green py-5 text-lg font-black uppercase tracking-wider text-black shadow-lg transition-all hover:scale-[1.02] hover:brightness-95 md:py-6 md:text-xl"
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green py-5 text-lg font-black uppercase tracking-wider text-velvet-obsidian shadow-lg transition-all hover:scale-[1.02] hover:brightness-95 md:py-6 md:text-xl"
             >
               {S.bookOn} <ExternalLink size={22} />
             </button>
-            <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs font-semibold text-white/50">
+            <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs font-semibold text-black/50">
               <Lock size={12} /> {S.secure}
             </p>
 
             <ul className="mt-8 flex flex-col gap-3">
-              <li className="flex items-center gap-3 text-sm font-semibold text-white/70">
+              <li className="flex items-center gap-3 text-sm font-semibold text-black/70">
                 <CheckCircle2 size={18} className="text-ibiza-green" /> {S.instant}
               </li>
-              <li className="flex items-center gap-3 text-sm font-semibold text-white/70">
+              <li className="flex items-center gap-3 text-sm font-semibold text-black/70">
                 <CheckCircle2 size={18} className="text-ibiza-green" /> {S.official}
               </li>
-              <li className="flex items-center gap-3 text-sm font-semibold text-white/70">
+              <li className="flex items-center gap-3 text-sm font-semibold text-black/70">
                 <CheckCircle2 size={18} className="text-ibiza-green" /> {S.noFees}
               </li>
             </ul>
