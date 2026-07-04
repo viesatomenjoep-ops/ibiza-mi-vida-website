@@ -84,7 +84,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </div>
 
         {/* ── HORIZONTAL LOGO MARQUEE BAR ── */}
-        <div className="w-full relative z-20 pt-2 pb-6 md:pb-8">
+        <div className="w-full relative z-20 mt-auto pt-4 pb-1">
           <ClubLogoSlider
             clubLogos={clubLogos}
             base={base}
@@ -92,7 +92,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             locale={locale}
             showLegend
             speed={0.3}
-            className="w-full bg-transparent pt-5 pb-5 border-t border-white/10"
+            className="w-full bg-transparent pt-4 pb-1 border-t border-white/10"
           />
         </div>
       </header>

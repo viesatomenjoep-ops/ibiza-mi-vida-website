@@ -184,7 +184,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
 
   return (
     <>
-      <div className="theme-monaco-vip bg-[var(--color-paper)] min-h-screen text-[var(--color-ink)] pb-20 pt-0">
+      <div className="bg-white min-h-screen text-black pb-20 pt-0">
         
         {/* Hero Section */}
       <section className="relative h-[340px] md:h-[400px] rounded-b-[36px] overflow-hidden bg-gradient-to-br from-[#1a2e29] to-[#2C4A42] flex items-end">
@@ -368,23 +368,23 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
       </section>
 
       {/* FAQ section */}
-      <section className="py-16 bg-[var(--color-paper)]">
+      <section className="py-16 bg-white">
         <div className="max-w-3xl mx-auto px-4">
           <div className="mb-10">
             <div className="text-xs font-black tracking-[0.25em] uppercase text-ibiza-green mb-3">{T.faqKicker}</div>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold text-white">{T.aboutPrefix} {club.name}</h2>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-black">{T.aboutPrefix} {club.name}</h2>
           </div>
 
           <div className="flex flex-col gap-4">
             {faqs.map((faq, i) => (
-              <details key={i} className="group bg-white/[0.04] border border-white/10 rounded-2xl overflow-hidden transition-all open:bg-white/[0.06] open:border-white/20" open={i === 0}>
-                <summary className="flex items-center justify-between gap-4 p-6 text-xl md:text-2xl font-bold cursor-pointer list-none [&::-webkit-details-marker]:hidden text-white">
+              <details key={i} className="group bg-neutral-50 border border-black/10 rounded-2xl overflow-hidden transition-all open:bg-neutral-100 open:border-black/20" open={i === 0}>
+                <summary className="flex items-center justify-between gap-4 p-6 text-xl md:text-2xl font-bold cursor-pointer list-none [&::-webkit-details-marker]:hidden text-black">
                   {faq.q}
                   <div className="w-8 h-8 rounded-full bg-ibiza-green/20 text-ibiza-green shrink-0 flex items-center justify-center transition-transform group-open:rotate-45 group-open:bg-ibiza-green group-open:text-black">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><path d="M12 5v14M5 12h14"/></svg>
                   </div>
                 </summary>
-                <div className="px-6 pb-6 text-white/80 text-lg md:text-xl leading-relaxed">
+                <div className="px-6 pb-6 text-black/80 text-lg md:text-xl leading-relaxed">
                   {faq.a}
                 </div>
               </details>
