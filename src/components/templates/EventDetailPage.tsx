@@ -248,15 +248,15 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
   const hasTimes = !!(startAt || endAt)
 
   return (
-    <div className="bg-white text-black min-h-screen">
+    <div className="bg-white text-black min-h-screen pt-[70px] md:pt-[104px]">
       {/* Hero */}
-      <section className="relative flex min-h-[50vh] flex-col justify-end overflow-hidden" aria-label={`${eventName} hero`}>
+      <section className="relative mx-auto flex h-[46vh] w-[calc(100%-24px)] max-w-7xl flex-col justify-end overflow-hidden rounded-[28px] md:h-[58vh]" aria-label={`${eventName} hero`}>
         {eventCover && (
           <Image src={eventCover} alt={eventName} fill priority className="object-cover object-center" sizes="100vw" quality={85} />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian via-velvet-obsidian/50 to-transparent" />
 
-        <div className="absolute left-4 top-24 z-10 md:left-8">
+        <div className="absolute left-4 top-4 z-10">
           <Link
             href={`/${locale}/${basePath}/${club.slug}`}
             className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-sans text-sm text-ibiza-sand backdrop-blur-sm transition-colors hover:bg-white/20"
@@ -266,7 +266,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           </Link>
         </div>
 
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-12 pt-32 md:px-8">
+        <div className="relative z-10 w-full px-6 pb-8 md:px-10 md:pb-10">
           <h1 className="font-serif text-4xl font-bold text-ibiza-sand md:text-5xl lg:text-6xl">{eventName}</h1>
           <div className="mt-4 flex flex-wrap gap-4 font-bold text-ibiza-sand/80">
             <Link href={`/${locale}/${basePath}/${club.slug}`} className="flex items-center gap-1.5 transition-colors hover:text-white">
