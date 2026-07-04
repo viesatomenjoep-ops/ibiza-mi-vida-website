@@ -96,6 +96,16 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .burger-lines{width:24px;height:14px;display:flex;flex-direction:column;justify-content:space-between}
 .burger-lines span{display:block;width:100%;height:2px;background-color:#fff;border-radius:2px;transition:0.2s}
 .burger:hover .burger-lines span{background-color:var(--spring)}
+/* Spotify button (round, matches search/burger circles) + slide-out player */
+.spotify-btn{width:56px;height:56px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;cursor:pointer;flex-shrink:0}
+.spotify-btn:hover{background:rgba(30,215,96,0.12);border-color:#1ED760}
+.spotify-btn svg{width:26px;height:26px;display:block}
+.spotify-panel{position:fixed;top:96px;right:24px;width:380px;max-width:calc(100vw - 32px);background:#0D0509;border:1px solid var(--line-strong);border-radius:20px;overflow:hidden;z-index:80;box-shadow:0 24px 70px rgba(0,0,0,0.55)}
+.spotify-panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;color:#fff;font-size:.82rem;font-weight:700;letter-spacing:.02em}
+.spotify-panel-close{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;border:0;background:rgba(255,255,255,0.08);color:#fff;cursor:pointer;transition:background .2s ease}
+.spotify-panel-close:hover{background:rgba(255,255,255,0.18)}
+.spotify-panel iframe{display:block;width:100%}
+@media (max-width:640px){.spotify-panel{top:auto;bottom:0;left:0;right:0;width:100%;max-width:100%;border-radius:20px 20px 0 0}}
 
 /* ── old sheet (kept for safety, overridden below) ── */
 .sheet{display:none}
@@ -976,6 +986,12 @@ footer a{display:block;color:#555555;padding:4px 0;font-size:.88rem}
 footer a:hover{color:#000000}
 footer .logo strong{color:#000000;font-family:var(--font-display), sans-serif}
 footer .logo img{filter:brightness(0)}
+/* Collapsible footer column groups (desktop: always open; mobile: tap to expand) */
+.foot-col-head{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:none;border:0;padding:0;margin:0;cursor:pointer;color:inherit;text-align:left}
+.foot-col-head h4{margin-bottom:0}
+.foot-col .foot-links{display:flex;flex-direction:column;margin-top:16px}
+.foot-chev{color:#000000;flex-shrink:0;transition:transform .25s ease}
+@media (min-width:768px){.foot-chev{display:none}.foot-col-head{cursor:default}}
 .foot-bottom{margin-top:50px;padding-top:24px;border-top:1px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.78rem;color:#666666;letter-spacing:.06em}
 .datebar{position:fixed;left:0;right:0;bottom:0;z-index:55;background:rgba(13,5,9,.92);backdrop-filter:blur(10px);border-top:1px solid var(--line-strong);padding:12px 0}
 .datebar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}

@@ -21,11 +21,14 @@ export interface PickerDate {
   affLink?: string | null
 }
 
+// NOTE: every field must be a plain string — this object is passed from a Server
+// Component (EventDetailPage) to this Client Component, and functions are not
+// serialisable across that boundary (they throw a server-side exception).
 export interface PickerLabels {
   day: string; week: string; month: string; year: string
-  whole: (p: string) => string
+  wholeWeek: string; wholeMonth: string
   price: string; available: string; noDates: string
-  today: string; tomorrow: string; count: (n: number) => string
+  today: string; tomorrow: string
 }
 
 interface Props {
@@ -124,7 +127,7 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
               onClick={() => setActiveDay(null)}
               className={`shrink-0 rounded-2xl border px-4 py-3 text-sm font-bold transition ${!activeDay ? 'border-ibiza-green bg-ibiza-green text-velvet-obsidian' : 'border-black/10 bg-white text-black/60 hover:border-black/40 hover:text-black'}`}
             >
-              {L.whole(period === 'week' ? L.week : L.month)}
+              {period === 'week' ? L.wholeWeek : L.wholeMonth}
             </button>
           )}
           {stripDays.map(d => {

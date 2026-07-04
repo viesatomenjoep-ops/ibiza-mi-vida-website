@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { GlobalSearch } from './GlobalSearch'
 import { LanguageSelector, LOCALES } from './LanguageSelector'
+import { SpotifyButton } from './SpotifyButton'
 
 import en from '@/dictionaries/en.json'
 import nl from '@/dictionaries/nl.json'
@@ -117,6 +118,7 @@ export function Navbar() {
           </div>
           <div className="nav-actions">
             <LanguageSelector />
+            <SpotifyButton />
             <GlobalSearch locale={currentLocale.code} />
             <button
               className="burger"

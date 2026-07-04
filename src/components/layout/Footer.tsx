@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { ChevronDown } from 'lucide-react'
 
 import en from '@/dictionaries/en.json'
 import nl from '@/dictionaries/nl.json'
@@ -25,6 +27,54 @@ export function Footer() {
   const base = `/${currentLocale.code}`
   const t = dicts[currentLocale.code] || dicts['en']
 
+  const groups = [
+    {
+      id: 'events',
+      title: t.nav_events_tickets || 'Events & Tickets',
+      links: [
+        { href: `${base}/calendar`, label: t.nav_ibiza_calendar || 'Ibiza Calendar' },
+        { href: `${base}/deals-of-the-day`, label: t.nav_deals || 'Deals of the Day' },
+        { href: `${base}/artists`, label: t.nav_artists || 'Artiesten' },
+        { href: `${base}/club-tickets`, label: t.nav_club_tickets || 'Club Tickets' },
+        { href: `${base}/clubs`, label: t.nav_clubs_ibiza || 'Clubs Ibiza' },
+      ],
+    },
+    {
+      id: 'water',
+      title: t.nav_on_the_water || 'Op het water',
+      links: [
+        { href: `${base}/private-boat-charters`, label: t.nav_private_charters || 'Private Boat Charters' },
+        { href: `${base}/shuttle-ferry`, label: t.nav_shuttle_ferry || 'Shuttle Ferry' },
+        { href: `${base}/ferry-formentera`, label: t.nav_ferry_formentera || 'Ferry Ibiza – Formentera' },
+      ],
+    },
+    {
+      id: 'island',
+      title: t.nav_experience_island || 'Beleef & Insider',
+      links: [
+        { href: `${base}/activities`, label: t.nav_activities || 'Activities' },
+        { href: `${base}/water-sports`, label: t.nav_water_sports || 'Water Sports' },
+        { href: `${base}/drink-packages`, label: t.nav_drink_packages || 'Drankpakketten' },
+        { href: `${base}/car-scooter-rental`, label: t.nav_car_scooter || 'Car & Scooter Rental' },
+        { href: `${base}/guestlist`, label: t.nav_guestlist || 'Gastenlijst' },
+        { href: `${base}/tips`, label: t.nav_tips || 'Ibiza Tips' },
+        { href: `${base}/blog`, label: t.nav_blog || 'Blog' },
+      ],
+    },
+  ]
+
+  // Desktop: columns always open. Mobile: tap a heading to expand/collapse.
+  const [isDesktop, setIsDesktop] = useState(true)
+  const [open, setOpen] = useState<Record<string, boolean>>({})
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)')
+    const apply = () => setIsDesktop(mq.matches)
+    apply()
+    mq.addEventListener('change', apply)
+    return () => mq.removeEventListener('change', apply)
+  }, [])
+  const shown = (id: string) => isDesktop || !!open[id]
+
   return (
     <footer>
       <div className="wrap">
@@ -40,33 +90,27 @@ export function Footer() {
               {t.footer_slogan || "Het startpunt van jouw Ibiza-zomer. Events, tickets, boot & tips — allemaal op één eiland, allemaal op één site."}
             </p>
           </div>
-          
-          <div>
-            <h4>{t.nav_events_tickets || 'Events & Tickets'}</h4>
-            <Link href={`${base}/calendar`}>{t.nav_ibiza_calendar || 'Ibiza Calendar'}</Link>
-            <Link href={`${base}/deals-of-the-day`}>{t.nav_deals || 'Deals of the Day'}</Link>
-            <Link href={`${base}/artists`}>{t.nav_artists || 'Artiesten'}</Link>
-            <Link href={`${base}/club-tickets`}>{t.nav_club_tickets || 'Club Tickets'}</Link>
-            <Link href={`${base}/clubs`}>{t.nav_clubs_ibiza || 'Clubs Ibiza'}</Link>
-          </div>
-          
-          <div>
-            <h4>{t.nav_on_the_water || 'Op het water'}</h4>
-            <Link href={`${base}/private-boat-charters`}>{t.nav_private_charters || 'Private Boat Charters'}</Link>
-            <Link href={`${base}/formentera-boat-trips`}>{t.nav_shuttle_ferry || 'Shuttle Ferry'}</Link>
-            <Link href={`${base}/formentera-boat-trips`}>{t.nav_ferry_formentera || 'Ferry Ibiza – Formentera'}</Link>
-          </div>
-          
-          <div>
-            <h4>{t.nav_experience_island || 'Beleef & Insider'}</h4>
-            <Link href={`${base}/activities`}>{t.nav_activities || 'Activities'}</Link>
-            <Link href={`${base}/water-sports`}>{t.nav_water_sports || 'Water Sports'}</Link>
-            <Link href={`${base}/drink-packages`}>{t.nav_drink_packages || 'Drankpakketten'}</Link>
-            <Link href={`${base}/car-scooter-rental`}>{t.nav_car_scooter || 'Car & Scooter Rental'}</Link>
-            <Link href={`${base}/guestlist`}>{t.nav_guestlist || 'Gastenlijst'}</Link>
-            <Link href={`${base}/tips`}>{t.nav_tips || 'Ibiza Tips'}</Link>
-            <Link href={`${base}/blog`}>{t.nav_blog || 'Blog'}</Link>
-          </div>
+
+          {groups.map(g => (
+            <div className="foot-col" key={g.id}>
+              <button
+                type="button"
+                className="foot-col-head"
+                aria-expanded={shown(g.id)}
+                onClick={() => setOpen(p => ({ ...p, [g.id]: !p[g.id] }))}
+              >
+                <h4>{g.title}</h4>
+                <ChevronDown size={18} className="foot-chev" style={{ transform: shown(g.id) ? 'rotate(180deg)' : 'none' }} />
+              </button>
+              {shown(g.id) && (
+                <div className="foot-links">
+                  {g.links.map(l => (
+                    <Link key={l.href + l.label} href={l.href}>{l.label}</Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
         
         <div className="foot-bottom">

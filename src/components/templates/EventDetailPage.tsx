@@ -140,11 +140,11 @@ const BCP: Record<string, string> = { en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es:
 
 // Labels for the calendar date-picker (day/week/month selector + tiles)
 const PICKER_I18N: Record<string, PickerLabels> = {
-  en: { day: 'Day', week: 'Week', month: 'Month', year: 'Whole year', whole: p => `All ${p}`, price: 'Price', available: 'Available', noDates: 'No dates for this selection.', today: 'Today', tomorrow: 'Tomorrow', count: n => `${n} ${n === 1 ? 'date' : 'dates'}` },
-  nl: { day: 'Dag', week: 'Week', month: 'Maand', year: 'Heel het jaar', whole: p => `Hele ${p}`, price: 'Prijs', available: 'Beschikbaar', noDates: 'Geen data voor deze selectie.', today: 'Vandaag', tomorrow: 'Morgen', count: n => `${n} ${n === 1 ? 'datum' : 'data'}` },
-  de: { day: 'Tag', week: 'Woche', month: 'Monat', year: 'Ganzes Jahr', whole: p => `Ganze ${p}`, price: 'Preis', available: 'Verfügbar', noDates: 'Keine Termine für diese Auswahl.', today: 'Heute', tomorrow: 'Morgen', count: n => `${n} ${n === 1 ? 'Termin' : 'Termine'}` },
-  es: { day: 'Día', week: 'Semana', month: 'Mes', year: 'Todo el año', whole: p => `Todo el/la ${p}`, price: 'Precio', available: 'Disponible', noDates: 'No hay fechas para esta selección.', today: 'Hoy', tomorrow: 'Mañana', count: n => `${n} ${n === 1 ? 'fecha' : 'fechas'}` },
-  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Toute l’année', whole: p => `Tout le/la ${p}`, price: 'Prix', available: 'Disponible', noDates: 'Aucune date pour cette sélection.', today: "Aujourd'hui", tomorrow: 'Demain', count: n => `${n} ${n === 1 ? 'date' : 'dates'}` },
+  en: { day: 'Day', week: 'Week', month: 'Month', year: 'Whole year', wholeWeek: 'All week', wholeMonth: 'All month', price: 'Price', available: 'Available', noDates: 'No dates for this selection.', today: 'Today', tomorrow: 'Tomorrow' },
+  nl: { day: 'Dag', week: 'Week', month: 'Maand', year: 'Heel het jaar', wholeWeek: 'Hele week', wholeMonth: 'Hele maand', price: 'Prijs', available: 'Beschikbaar', noDates: 'Geen data voor deze selectie.', today: 'Vandaag', tomorrow: 'Morgen' },
+  de: { day: 'Tag', week: 'Woche', month: 'Monat', year: 'Ganzes Jahr', wholeWeek: 'Ganze Woche', wholeMonth: 'Ganzer Monat', price: 'Preis', available: 'Verfügbar', noDates: 'Keine Termine für diese Auswahl.', today: 'Heute', tomorrow: 'Morgen' },
+  es: { day: 'Día', week: 'Semana', month: 'Mes', year: 'Todo el año', wholeWeek: 'Toda la semana', wholeMonth: 'Todo el mes', price: 'Precio', available: 'Disponible', noDates: 'No hay fechas para esta selección.', today: 'Hoy', tomorrow: 'Mañana' },
+  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Toute l’année', wholeWeek: 'Toute la semaine', wholeMonth: 'Tout le mois', price: 'Prix', available: 'Disponible', noDates: 'Aucune date pour cette sélection.', today: "Aujourd'hui", tomorrow: 'Demain' },
 }
 
 /** Turn the API "requirements" HTML into a clean list of bullet points. */

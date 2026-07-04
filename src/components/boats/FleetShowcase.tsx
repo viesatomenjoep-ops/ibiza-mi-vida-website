@@ -219,7 +219,7 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
       {/* Photo */}
       <button
         onClick={onOpen}
-        className="relative h-64 md:h-full min-h-[280px] w-full overflow-hidden cursor-zoom-in"
+        className="relative h-64 md:h-full min-h-[280px] md:min-h-0 w-full overflow-hidden cursor-zoom-in"
         aria-label={T.enlarge}
       >
         <Image
@@ -246,11 +246,11 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
       </button>
 
       {/* Info / price panel */}
-      <div className="flex flex-col p-6 md:p-7">
+      <div className="flex flex-col p-6 md:p-5">
         <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-black/50">
           <MapPin size={12} className="text-ibiza-green" /> {boat.marina}
         </div>
-        <h3 className="font-serif text-2xl md:text-3xl font-bold leading-tight text-black">
+        <h3 className="font-serif text-2xl font-bold leading-tight text-black">
           {boat.model}{boat.name && <span className="text-ibiza-green"> {boat.name}</span>}
         </h3>
 
@@ -533,9 +533,9 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
       </section>
 
       {/* Grid */}
-      <section className="mx-auto max-w-6xl px-4 pb-10 pt-6">
+      <section className="mx-auto max-w-5xl px-4 pb-10 pt-6">
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {filtered.map(boat => (
               <BoatCard key={boat.slug} boat={boat} T={T} locale={locale} onOpen={() => openAt(boat.slug)} />
             ))}
