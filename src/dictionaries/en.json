@@ -37,7 +37,7 @@
   "footer_chat_instant": "Chat with us on WhatsApp for instant replies.",
   "footer_chat_btn": "Chat on WhatsApp",
   "footer_all_rights": "All rights reserved.",
-  "footer_privacy": "Privacy Policy",
+  "footer_privacy": "Privacy",
   "footer_cookie": "Cookie Policy",
   "deals_title": "Deals of the Day",
   "deals_subtitle": "Your ultimate overview. Find the best club tickets, boat parties, excursions, and drink packages all in one place.",
@@ -195,5 +195,18 @@
   "cal_this_month": "This month",
   "cal_cat_all": "All",
   "cal_cat_clubs": "Clubs",
-  "cal_cat_water": "On the water"
+  "cal_cat_water": "On the water",
+  "home_from": "from",
+  "home_all_clubs": "All Clubs",
+  "home_view_events": "View Events",
+  "home_view_all_clubs": "View All Clubs",
+  "home_discover_all": "Discover everything",
+  "home_popular_on_ibiza": "Popular on Ibiza",
+  "home_cat_calendar": "Calendar 2026",
+  "home_cat_clubs_venues": "Clubs & Venues",
+  "home_cat_day_clubs": "Day Clubs",
+  "footer_slogan": "The starting point of your Ibiza summer. Events, tickets, boats & tips — all on one island, all on one site.",
+  "footer_partner": "Official ClubTickets partner",
+  "footer_cookies": "Cookies",
+  "footer_terms": "Terms"
 }

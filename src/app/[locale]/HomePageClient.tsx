@@ -146,7 +146,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                       </div>
 
                       <div className="text-sm font-bold text-neutral-950">
-                        vanaf €{dateObj.prices || ' ??'}
+                        {translations.home_from} €{dateObj.prices || ' ??'}
                       </div>
                     </div>
                     
@@ -161,7 +161,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             <div className="mt-10 text-center md:hidden">
               <Link href={`${base}/calendar`} className="inline-flex items-center justify-center gap-2 w-full text-xs font-black tracking-widest uppercase text-black border-2 border-black/10 bg-white hover:border-black rounded-full px-6 py-4 transition-colors">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                Volledige Kalender
+                {translations.home_full_calendar}
               </Link>
             </div>
           </div>
@@ -191,13 +191,13 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                   letterSpacing: '-0.02em',
                   fontFamily: 'var(--display, sans-serif)',
                   margin: 0,
-                }}>Populaire Clubs</h2>
+                }}>{translations.home_popular_clubs}</h2>
               </div>
               <Link
                 href={`${base}/club-tickets`}
                 className="inline-flex items-center gap-2 text-xs font-black tracking-widest uppercase text-white border-2 border-white/25 hover:bg-white hover:text-black rounded-full px-6 py-3 transition-colors"
               >
-                Alle Clubs &rarr;
+                {translations.home_all_clubs} &rarr;
               </Link>
             </div>
 
@@ -238,7 +238,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                         </div>
                       )}
                       <div className="club-card-name">{club.name}</div>
-                      <div className="club-card-cta">Bekijk Events →</div>
+                      <div className="club-card-cta">{translations.home_view_events} →</div>
                     </div>
                   </div>
 
@@ -257,7 +257,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             {/* Mobile: all clubs link */}
             <div className="mt-8 text-center md:hidden">
               <Link href={`${base}/club-tickets`} className="btn fill w-full justify-center">
-                Alle Clubs Bekijken
+                {translations.home_view_all_clubs}
               </Link>
             </div>
           </div>
@@ -269,26 +269,26 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <div className="wrap">
           <div className="section-head">
             <div>
-              <span className="kicker !text-neutral-900">Ontdek alles</span>
-              <h2 className="text-neutral-900" style={{ marginTop: '12px' }}>Populair op Ibiza</h2>
+              <span className="kicker !text-neutral-900">{translations.home_discover_all}</span>
+              <h2 className="text-neutral-900" style={{ marginTop: '12px' }}>{translations.home_popular_on_ibiza}</h2>
             </div>
           </div>
           
           <div className="cat-grid">
             <Link href={`${base}/calendar`} className="cat">
               <span className="num">01</span>
-              <strong>Kalender 2026</strong>
+              <strong>{translations.home_cat_calendar}</strong>
               <span className="arrow">→</span>
             </Link>
             <Link href={`${base}/club-tickets`} className="cat">
               <span className="num">02</span>
-              <strong>Clubs & Venues</strong>
+              <strong>{translations.home_cat_clubs_venues}</strong>
               <span className="arrow">→</span>
             </Link>
 
             <Link href={`${base}/calendar?filter=day`} className="cat">
               <span className="num">04</span>
-              <strong>Day Clubs</strong>
+              <strong>{translations.home_cat_day_clubs}</strong>
               <span className="arrow">→</span>
             </Link>
           </div>

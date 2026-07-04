@@ -37,7 +37,7 @@
   "footer_chat_instant": "Chat met ons op WhatsApp voor direct antwoord.",
   "footer_chat_btn": "Chat op WhatsApp",
   "footer_all_rights": "Alle rechten voorbehouden.",
-  "footer_privacy": "Privacybeleid",
+  "footer_privacy": "Privacy",
   "footer_cookie": "Cookiebeleid",
   "deals_title": "Deals of the Day",
   "deals_subtitle": "Jouw ultieme overzicht. Vind de beste club tickets, bootfeesten, excursies en drankpakketten allemaal op één plek.",
@@ -195,5 +195,18 @@
   "cal_this_month": "Deze maand",
   "cal_cat_all": "Alles",
   "cal_cat_clubs": "Clubs",
-  "cal_cat_water": "Op het water"
+  "cal_cat_water": "Op het water",
+  "home_from": "vanaf",
+  "home_all_clubs": "Alle Clubs",
+  "home_view_events": "Bekijk Events",
+  "home_view_all_clubs": "Alle Clubs Bekijken",
+  "home_discover_all": "Ontdek alles",
+  "home_popular_on_ibiza": "Populair op Ibiza",
+  "home_cat_calendar": "Kalender 2026",
+  "home_cat_clubs_venues": "Clubs & Venues",
+  "home_cat_day_clubs": "Day Clubs",
+  "footer_slogan": "Het startpunt van jouw Ibiza-zomer. Events, tickets, boot & tips — allemaal op één eiland, allemaal op één site.",
+  "footer_partner": "Officiële Clubtickets-partner",
+  "footer_cookies": "Cookies",
+  "footer_terms": "Voorwaarden"
 }

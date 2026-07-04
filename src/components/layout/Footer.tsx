@@ -70,11 +70,11 @@ export function Footer() {
         </div>
         
         <div className="foot-bottom">
-          <span>© {new Date().getFullYear()} Ibiza mi Vida · Officiële Clubtickets-partner</span>
+          <span>© {new Date().getFullYear()} Ibiza mi Vida · {t.footer_partner || 'Official ClubTickets partner'}</span>
           <span>
-            <Link href={`${base}/privacy-policy`}>Privacy</Link> ·{' '}
-            <Link href={`${base}/cookie-policy`}>Cookies</Link> ·{' '}
-            <Link href={`${base}/terms-and-conditions`}>Voorwaarden</Link>
+            <Link href={`${base}/privacy-policy`}>{t.footer_privacy || 'Privacy'}</Link> ·{' '}
+            <Link href={`${base}/cookie-policy`}>{t.footer_cookies || 'Cookies'}</Link> ·{' '}
+            <Link href={`${base}/terms-and-conditions`}>{t.footer_terms || 'Terms'}</Link>
           </span>
         </div>
       </div>
