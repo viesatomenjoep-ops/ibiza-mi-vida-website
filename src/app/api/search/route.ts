@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getVenues, getAllDates } from '@/lib/clubtickets';
+import { getVenues, getAllDates, getArtists } from '@/lib/clubtickets';
 
 export const dynamic = 'force-dynamic';
 import { locations } from '@/lib/locations';
@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   const q = searchParams.get('q')?.toLowerCase() || '';
   const locale = searchParams.get('locale') || 'nl';
 
-  if (!q || q.length < 2) {
+  if (!q || q.length < 1) {
     return NextResponse.json({ results: [] });
   }
 
@@ -32,6 +32,20 @@ export async function GET(request: Request) {
         subtitle: 'Official Club Tickets',
         image: v.cover || v.picture || null,
         url: `/${locale}/club-tickets/${v.slug}`
+      });
+    });
+
+    // 1b. Search Artists / DJs
+    const artists = await getArtists(locale);
+    const matchedArtists = artists.filter(a => a.name && a.name.toLowerCase().includes(q)).slice(0, 6);
+    matchedArtists.forEach((a: any) => {
+      results.push({
+        id: `artist-${a.slug}`,
+        type: 'Artiest',
+        title: a.name,
+        subtitle: a.venueName ? `@ ${a.venueName}` : 'DJ / Artiest',
+        image: a.image || null,
+        url: `/${locale}/artists/${a.slug}`,
       });
     });
 
@@ -100,7 +114,18 @@ export async function GET(request: Request) {
       });
     });
 
-    return NextResponse.json({ results });
+    // Dedupe (events repeat per date) and rank exact prefix matches first
+    const seen = new Set<string>();
+    const deduped = results.filter(r => {
+      const key = `${r.type}|${(r.title || '').toLowerCase()}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    const rank = (r: any) => ((r.title || '').toLowerCase().startsWith(q) ? 0 : 1);
+    deduped.sort((a, b) => rank(a) - rank(b));
+
+    return NextResponse.json({ results: deduped.slice(0, 16) });
   } catch (error) {
     console.error("Search API error:", error);
     return NextResponse.json({ results: [], error: 'Failed to perform search' }, { status: 500 });

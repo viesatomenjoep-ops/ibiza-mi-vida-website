@@ -130,7 +130,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
       {/* Hero Section */}
       <div className="relative h-[38vh] w-full overflow-hidden rounded-b-[36px] bg-neutral-900 md:h-[48vh]">
         <Image src={imageUrl} alt={selectedDateObj.eventName || ''} fill className="object-cover" priority sizes="100vw" />
-        <div className="absolute inset-0 bg-gradient-to-t from-neutral-50 via-black/40 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
 
         <div className="absolute bottom-0 left-0 z-10 w-full p-6 md:p-12">
           <div className="mx-auto flex max-w-7xl flex-col items-start gap-4">
@@ -256,7 +256,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
                             </span>
                           )}
                           <span className="text-lg font-bold text-black">{stop.title}</span>
-                          {stop.sub && <span className="text-base leading-snug text-black/70">{stop.sub}</span>}
+                          {stop.sub && <span className="text-base leading-snug text-black">{stop.sub}</span>}
                         </div>
                       </li>
                     ))}
@@ -279,7 +279,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
                   return (
                     <div key={idx} className="flex items-start gap-3 rounded-2xl border border-black/10 bg-black/5 p-4">
                       <div className="mt-0.5 shrink-0">{icon}</div>
-                      <span className="text-base font-medium leading-snug text-black/90">{req.replace(/^[-•]\s*/, '')}</span>
+                      <span className="text-base font-semibold leading-snug text-black">{req.replace(/^[-•]\s*/, '')}</span>
                     </div>
                   )
                 })}

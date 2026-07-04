@@ -318,9 +318,9 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
       <section className="py-14 bg-white text-black">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-8 items-start">
-            <div className="text-black/80 text-lg leading-relaxed">
+            <div className="text-black text-lg leading-relaxed">
               <h2 className="text-3xl md:text-4xl font-serif font-black text-black tracking-tight mb-4">{T.aboutPrefix} {club.name}</h2>
-              <div dangerouslySetInnerHTML={{ __html: cleanDescription }} className="prose prose-lg max-w-none text-black prose-p:text-black mb-6" />
+              <div dangerouslySetInnerHTML={{ __html: cleanDescription }} className="prose prose-lg max-w-none text-black prose-p:text-black prose-li:text-black prose-strong:text-black mb-6" />
               
               <a href="https://wa.me/31612345678" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-ibiza-green text-velvet-obsidian font-bold text-sm px-6 py-3 rounded-full hover:brightness-95 transition-all">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2z"/></svg>
@@ -377,14 +377,14 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
 
           <div className="flex flex-col gap-4">
             {faqs.map((faq, i) => (
-              <details key={i} className="group bg-neutral-50 border border-black/10 rounded-2xl overflow-hidden transition-all open:bg-neutral-100 open:border-black/20" open={i === 0}>
-                <summary className="flex items-center justify-between gap-4 p-6 text-xl md:text-2xl font-bold cursor-pointer list-none [&::-webkit-details-marker]:hidden text-black">
+              <details key={i} className="group bg-[#0D0509] border border-white/10 rounded-2xl overflow-hidden transition-all open:border-ibiza-green/40" open={i === 0}>
+                <summary className="flex items-center justify-between gap-4 p-6 text-xl md:text-2xl font-bold cursor-pointer list-none [&::-webkit-details-marker]:hidden [&::marker]:content-[''] text-white">
                   {faq.q}
                   <div className="w-8 h-8 rounded-full bg-ibiza-green/20 text-ibiza-green shrink-0 flex items-center justify-center transition-transform group-open:rotate-45 group-open:bg-ibiza-green group-open:text-black">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><path d="M12 5v14M5 12h14"/></svg>
                   </div>
                 </summary>
-                <div className="px-6 pb-6 text-black/80 text-lg md:text-xl leading-relaxed">
+                <div className="px-6 pb-6 text-white text-lg md:text-xl leading-relaxed">
                   {faq.a}
                 </div>
               </details>

@@ -431,7 +431,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                               </span>
                             )}
                             <span className="font-bold text-black">{stop.title}</span>
-                            {stop.sub && <span className="text-sm leading-snug text-black/60">{stop.sub}</span>}
+                            {stop.sub && <span className="text-sm leading-snug text-black">{stop.sub}</span>}
                           </div>
                         </li>
                       ))}
@@ -452,7 +452,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                 </summary>
                 <ul className="mt-5 flex flex-col gap-3">
                   {important.map((line, i) => (
-                    <li key={i} className="flex items-start gap-3 text-base leading-relaxed text-black/80">
+                    <li key={i} className="flex items-start gap-3 text-base font-medium leading-relaxed text-black">
                       <Check size={18} className="mt-1 shrink-0 text-ibiza-green" />
                       <span>{line}</span>
                     </li>
@@ -494,12 +494,12 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
             </h2>
             <div className="flex flex-col gap-3">
               {faqs.map((f, i) => (
-                <details key={i} className="group rounded-2xl border border-black/10 bg-white p-5 open:border-ibiza-green/40 open:shadow-md">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-bold text-black marker:content-[''] [&::-webkit-details-marker]:hidden">
+                <details key={i} className="group rounded-2xl border border-white/10 bg-[#0D0509] p-5 open:border-ibiza-green/40 open:shadow-lg">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-bold text-white marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-['']">
                     {f.q}
                     <span className="shrink-0 text-2xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
                   </summary>
-                  <p className="mt-3 text-base leading-relaxed text-black/70">{f.a}</p>
+                  <p className="mt-3 text-base leading-relaxed text-white">{f.a}</p>
                 </details>
               ))}
             </div>

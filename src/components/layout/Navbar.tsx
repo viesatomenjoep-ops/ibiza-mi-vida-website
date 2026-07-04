@@ -118,7 +118,6 @@ export function Navbar() {
           </div>
           <div className="nav-actions">
             <LanguageSelector />
-            <SpotifyButton />
             <GlobalSearch locale={currentLocale.code} />
             <button
               className="burger"
@@ -158,6 +157,9 @@ export function Navbar() {
           <img src="/logo-clean.png" alt="Ibiza mi Vida" />
           <span>Ibiza mi Vida</span>
         </div>
+
+        {/* Spotify player — between the logo and the categories */}
+        <SpotifyButton />
 
         {/* Categories */}
         <nav className="fs-nav" aria-label="Hoofdnavigatie">
