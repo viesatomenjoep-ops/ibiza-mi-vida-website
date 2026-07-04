@@ -237,12 +237,12 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
       </section>
 
       {/* Info Grid */}
-      <section className="py-12">
+      <section className="py-14 bg-white text-black">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-8 items-start">
-            <div className="text-velvet-obsidian/80 text-lg leading-relaxed">
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-velvet-obsidian tracking-tight mb-4">Over {club.name}</h2>
-              <div dangerouslySetInnerHTML={{ __html: cleanDescription }} className="prose prose-lg mb-6" />
+            <div className="text-black/80 text-lg leading-relaxed">
+              <h2 className="text-3xl md:text-4xl font-serif font-black text-black tracking-tight mb-4">Over {club.name}</h2>
+              <div dangerouslySetInnerHTML={{ __html: cleanDescription }} className="prose prose-lg max-w-none text-black prose-p:text-black mb-6" />
               
               <a href="https://wa.me/31612345678" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-ibiza-green text-velvet-obsidian font-bold text-sm px-6 py-3 rounded-full hover:brightness-95 transition-all">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2z"/></svg>
@@ -250,31 +250,34 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
               </a>
             </div>
             
-            <div className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm">
-              <h3 className="text-xl font-bold mb-4">Praktische info</h3>
-              
-              <div className="flex items-center gap-3 py-3 border-b border-black/5 text-sm">
-                <div className="w-9 h-9 rounded-xl bg-ibiza-mint flex items-center justify-center shrink-0">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/></svg>
+            <div className="bg-white border border-black/10 rounded-3xl p-7 md:p-8 shadow-sm text-black">
+              <h3 className="text-xs font-black uppercase tracking-[0.25em] text-black/40 mb-1">Praktische info</h3>
+              <div className="w-10 h-1 rounded-full bg-ibiza-green mb-6" />
+
+              <div className="flex flex-col">
+                <div className="flex items-center gap-4 py-4 border-b border-black/10">
+                  <div className="w-11 h-11 rounded-2xl bg-black flex items-center justify-center shrink-0 text-white">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                  </div>
+                  <span className="text-sm font-semibold text-black/50 uppercase tracking-wider">Locatie</span>
+                  <span className="ml-auto text-base md:text-lg font-black text-black">Ibiza, Spain</span>
                 </div>
-                <span>Locatie</span>
-                <span className="font-bold ml-auto text-velvet-obsidian">Ibiza, Spain</span>
-              </div>
-              
-              <div className="flex items-center gap-3 py-3 border-b border-black/5 text-sm">
-                <div className="w-9 h-9 rounded-xl bg-ibiza-mint flex items-center justify-center shrink-0">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+
+                <div className="flex items-center gap-4 py-4 border-b border-black/10">
+                  <div className="w-11 h-11 rounded-2xl bg-black flex items-center justify-center shrink-0 text-white">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+                  </div>
+                  <span className="text-sm font-semibold text-black/50 uppercase tracking-wider">Openingstijden</span>
+                  <span className="ml-auto text-base md:text-lg font-black text-black">{club.is_day_club ? 'Overdag' : "'s Nachts"}</span>
                 </div>
-                <span>Openingstijden</span>
-                <span className="font-bold ml-auto text-velvet-obsidian">{club.is_day_club ? 'Daytime' : 'Night'}</span>
-              </div>
-              
-              <div className="flex items-center gap-3 py-3 text-sm">
-                <div className="w-9 h-9 rounded-xl bg-ibiza-mint flex items-center justify-center shrink-0">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/></svg>
+
+                <div className="flex items-center gap-4 py-4">
+                  <div className="w-11 h-11 rounded-2xl bg-black flex items-center justify-center shrink-0 text-white">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                  </div>
+                  <span className="text-sm font-semibold text-black/50 uppercase tracking-wider">Genre</span>
+                  <span className="ml-auto text-base md:text-lg font-black text-black">{club.type_name || 'Clubbing'}</span>
                 </div>
-                <span>Genre</span>
-                <span className="font-bold ml-auto text-velvet-obsidian">{club.type_name || 'Electronic'}</span>
               </div>
             </div>
           </div>
