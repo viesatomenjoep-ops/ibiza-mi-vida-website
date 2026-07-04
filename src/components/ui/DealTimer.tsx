@@ -58,10 +58,10 @@ export function DealTimer() {
         
         {/* Logo at Top */}
         <div className="relative w-16 h-16 mt-1 flex-shrink-0 animate-pulse-slow">
-          <Image 
-            src="/logo-clean.png" 
-            alt="Ibiza mi vida" 
-            fill 
+          <Image
+            src="/logo-clean.png"
+            alt="Ibiza mi vida"
+            fill
             className="object-contain filter brightness-0 invert opacity-90"
           />
         </div>

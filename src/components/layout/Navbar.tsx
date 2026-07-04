@@ -108,7 +108,7 @@ export function Navbar() {
       <nav className={`nav ${isScrolled ? 'nav--scrolled' : ''}`}>
         <div className="wrap nav-inner">
           <Link className="nav-logo-btn" href={base}>
-            <img ref={logoRef} className="logo-spin" src="/logo-mark.svg" alt="Ibiza mi Vida logo" />
+            <img ref={logoRef} className="logo-spin" src="/logo-clean.png" alt="Ibiza mi Vida logo" />
           </Link>
           <div className="nav-links">
             <Link href={`${base}/calendar`}>Events</Link>
@@ -153,7 +153,7 @@ export function Navbar() {
 
         {/* Logo in overlay */}
         <div className="fs-logo">
-          <img src="/logo-mark.svg" alt="Ibiza mi Vida" />
+          <img src="/logo-clean.png" alt="Ibiza mi Vida" />
           <span>Ibiza mi Vida</span>
         </div>
 

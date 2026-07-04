@@ -399,16 +399,22 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
         .fleet-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #14FF00; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; }
         .fleet-range:disabled::-webkit-slider-thumb { cursor: not-allowed; border-color: #9ca3af; }
       ` }} />
-      {/* Hero — large image banner; the filter bars sit fully below it */}
-      <section className="relative h-[380px] w-full overflow-hidden sm:h-[460px] md:h-[560px]">
-        <Image src="/fleet/cover.jpeg" alt="Ibiza private boat charter" fill priority className="object-cover object-center" sizes="100vw" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/10" />
-        <div className="absolute inset-x-0 bottom-0 z-10 mx-auto max-w-6xl px-4 pb-8 text-center md:pb-14">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-ibiza-green ring-1 ring-white/25 backdrop-blur-sm">
+      {/* Header — matches the site-wide category header (single source of truth) */}
+      <section className="pt-[108px] md:pt-[128px] pb-6 relative z-10 flex flex-col items-center text-center px-4">
+        <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-4">
+          <span className="inline-flex items-center gap-2 rounded-full bg-ibiza-green/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-ibiza-green ring-1 ring-ibiza-green/30">
             <Anchor size={13} /> {T.fromPrice}
           </span>
-          <h1 className="mt-4 font-serif text-4xl font-black tracking-tight text-white drop-shadow-lg md:text-6xl lg:text-7xl">{T.title}</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-white/90 drop-shadow md:text-lg">{T.subtitle}</p>
+          <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">{T.title}</h1>
+          <p className="font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-2">{T.subtitle}</p>
+        </div>
+      </section>
+
+      {/* Fleet cover image banner */}
+      <section className="mx-auto max-w-6xl px-4">
+        <div className="relative h-[240px] w-full overflow-hidden rounded-[2rem] sm:h-[320px] md:h-[440px]">
+          <Image src="/fleet/cover.jpeg" alt="Ibiza private boat charter" fill priority className="object-cover object-center" sizes="100vw" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
         </div>
       </section>
 

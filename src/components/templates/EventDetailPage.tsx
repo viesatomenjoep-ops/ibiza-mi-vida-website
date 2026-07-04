@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { MapPin, ArrowLeft, Check, Info, Camera, HelpCircle, Ticket, Clock, Music, Sparkles, Navigation, AlertCircle, Utensils, Anchor, Waves } from 'lucide-react'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
-import { EventTicketSelector } from './EventTicketSelector'
+import { EventDatePicker, PickerLabels } from './EventDatePicker'
 import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
 import { stripHtml } from '@/lib/html-utils'
 import { parseCTDescription } from '@/lib/ct-description'
@@ -137,6 +137,15 @@ const SECTION_I18N: Record<string, { lineup: string; times: string; doors: strin
 }
 
 const BCP: Record<string, string> = { en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' }
+
+// Labels for the calendar date-picker (day/week/month selector + tiles)
+const PICKER_I18N: Record<string, PickerLabels> = {
+  en: { day: 'Day', week: 'Week', month: 'Month', year: 'Whole year', whole: p => `All ${p}`, price: 'Price', available: 'Available', noDates: 'No dates for this selection.', today: 'Today', tomorrow: 'Tomorrow', count: n => `${n} ${n === 1 ? 'date' : 'dates'}` },
+  nl: { day: 'Dag', week: 'Week', month: 'Maand', year: 'Heel het jaar', whole: p => `Hele ${p}`, price: 'Prijs', available: 'Beschikbaar', noDates: 'Geen data voor deze selectie.', today: 'Vandaag', tomorrow: 'Morgen', count: n => `${n} ${n === 1 ? 'datum' : 'data'}` },
+  de: { day: 'Tag', week: 'Woche', month: 'Monat', year: 'Ganzes Jahr', whole: p => `Ganze ${p}`, price: 'Preis', available: 'Verfügbar', noDates: 'Keine Termine für diese Auswahl.', today: 'Heute', tomorrow: 'Morgen', count: n => `${n} ${n === 1 ? 'Termin' : 'Termine'}` },
+  es: { day: 'Día', week: 'Semana', month: 'Mes', year: 'Todo el año', whole: p => `Todo el/la ${p}`, price: 'Precio', available: 'Disponible', noDates: 'No hay fechas para esta selección.', today: 'Hoy', tomorrow: 'Mañana', count: n => `${n} ${n === 1 ? 'fecha' : 'fechas'}` },
+  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Toute l’année', whole: p => `Tout le/la ${p}`, price: 'Prix', available: 'Disponible', noDates: 'Aucune date pour cette sélection.', today: "Aujourd'hui", tomorrow: 'Demain', count: n => `${n} ${n === 1 ? 'date' : 'dates'}` },
+}
 
 /** Turn the API "requirements" HTML into a clean list of bullet points. */
 function parseImportant(html?: string): string[] {
@@ -279,51 +288,30 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                 </p>
               </div>
 
-              <div className="flex flex-col gap-3">
-                {eventDates.map((dateObj, idx) => (
-                  <div key={`${dateObj.id}-${idx}`} className="group flex flex-col justify-between gap-4 rounded-2xl border border-velvet-obsidian/10 bg-white p-5 transition-all hover:border-ibiza-green/40 hover:shadow-md sm:flex-row sm:items-center">
-                    <div className="flex w-full flex-col gap-1 sm:w-2/3">
-                      <span className="font-serif text-xl font-bold text-velvet-obsidian transition-colors group-hover:text-ibiza-green">{dateObj.eventName || eventName}</span>
-                      <span className="flex items-center gap-2 text-sm font-medium text-velvet-obsidian/60">
-                        <span className="shrink-0 rounded-md bg-ibiza-green/10 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-ibiza-green">
-                          {new Date(dateObj.date).toLocaleDateString(bcp, { weekday: 'short', timeZone: 'UTC' })}
-                        </span>
-                        {new Date(dateObj.date).toLocaleDateString(bcp, { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}
-                      </span>
-                      {formatLineUp(dateObj.lineUp) && (
-                        <p className="mt-2 flex items-start gap-1.5 text-sm text-slate-500">
-                          <span className="mt-0.5 shrink-0 text-ibiza-green">✓</span>
-                          <span className="line-clamp-2">{formatLineUp(dateObj.lineUp)}</span>
-                        </p>
-                      )}
-                    </div>
-                    <div className="mt-4 flex w-full shrink-0 items-center justify-between gap-4 sm:mt-0 sm:w-auto sm:justify-end sm:gap-6">
-                      <div className="flex w-full flex-col items-end sm:w-auto">
-                        <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">{t.event_price || 'Price'}</span>
-                        <span className="mb-3 text-lg font-bold text-velvet-obsidian">{dateObj.prices ? dateObj.prices : (t.event_available || 'Available')}</span>
-                        <EventTicketSelector
-                          id={dateObj.id.toString()}
-                          title={dateObj.eventName || eventName}
-                          date={dateObj.date}
-                          priceStr={dateObj.prices || '50'}
-                          image={eventCover}
-                          affLink={dateObj.affLink}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <EventDatePicker
+                dates={eventDates.map(d => ({
+                  id: String(d.id),
+                  date: d.date,
+                  eventName: d.eventName,
+                  prices: d.prices,
+                  lineUp: d.lineUp,
+                  affLink: d.affLink,
+                }))}
+                eventName={eventName}
+                eventCover={eventCover}
+                locale={locale}
+                labels={PICKER_I18N[locale] || PICKER_I18N.en}
+              />
             </AnimatedSection>
           </div>
 
           {/* Line-up (collapsible) */}
           {hasLineup && (
             <AnimatedSection delay={130}>
-              <details open className="group rounded-[28px] border border-black/10 bg-white p-6 shadow-sm open:shadow-md md:p-8">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden md:text-3xl">
-                  <span className="flex items-center gap-2"><Music size={24} className="text-ibiza-green" /> {S.lineup}</span>
-                  <span className="shrink-0 text-3xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
+              <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
+                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green/15 text-ibiza-green"><Music size={22} /></span> {S.lineup}</span>
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <div className="mt-5 flex flex-col gap-5">
                   {lineupDates.map((d, i) => (
@@ -346,10 +334,10 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           {/* Times (collapsible) */}
           {hasTimes && (
             <AnimatedSection delay={160}>
-              <details open className="group rounded-[28px] border border-black/10 bg-white p-6 shadow-sm open:shadow-md md:p-8">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden md:text-3xl">
-                  <span className="flex items-center gap-2"><Clock size={24} className="text-ibiza-green" /> {S.times}</span>
-                  <span className="shrink-0 text-3xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
+              <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
+                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green/15 text-ibiza-green"><Clock size={22} /></span> {S.times}</span>
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <div className="mt-5 flex flex-wrap gap-3">
                   {startAt && (
@@ -372,10 +360,10 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           {/* About (collapsible, richly structured) */}
           {hasAbout && (
             <AnimatedSection delay={180}>
-              <details open className="group rounded-[28px] border border-black/10 bg-white p-6 shadow-sm open:shadow-md md:p-8">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden md:text-3xl">
-                  <span className="flex items-center gap-2"><Info size={24} className="text-ibiza-green" /> {T.aboutTitle(eventName)}</span>
-                  <span className="shrink-0 text-3xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
+              <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
+                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green/15 text-ibiza-green"><Info size={22} /></span> {T.aboutTitle(eventName)}</span>
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
 
                 {/* Quick-fact chips */}
@@ -457,10 +445,10 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           {/* Important information (collapsible) */}
           {important.length > 0 && (
             <AnimatedSection delay={200}>
-              <details open className="group rounded-[28px] border border-black/10 bg-neutral-50 p-6 shadow-sm open:shadow-md md:p-8">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden md:text-3xl">
-                  <span className="flex items-center gap-2"><Check size={24} className="text-ibiza-green" /> {T.importantTitle}</span>
-                  <span className="shrink-0 text-3xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
+              <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
+                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green/15 text-ibiza-green"><Check size={22} /></span> {T.importantTitle}</span>
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <ul className="mt-5 flex flex-col gap-3">
                   {important.map((line, i) => (

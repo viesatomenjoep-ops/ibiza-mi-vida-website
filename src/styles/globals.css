@@ -87,7 +87,7 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .search-trigger-btn:hover{background:rgba(255,255,255,0.08);border-color:#fff}
 .nav-logo-btn{width:78px;height:78px;border-radius:50%;border:1px solid transparent;background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;cursor:pointer;flex-shrink:0;}
 .nav-logo-btn:hover{background:rgba(255,255,255,0.08);border-color:#fff}
-.nav-logo-btn img{width:66px;height:66px;object-fit:contain;}
+.nav-logo-btn img{width:66px;height:66px;object-fit:contain;filter:brightness(0) invert(1);}
 .nav--scrolled .nav-logo-btn{width:66px;height:66px;}
 .nav--scrolled .nav-logo-btn img{width:56px;height:56px;}
 .logo-spin{transform-origin:50% 50%;will-change:transform;}
@@ -148,7 +148,7 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
   border-bottom:1px solid rgba(255,255,255,.06);
   flex-shrink:0;
 }
-.fs-logo img{width:54px;height:54px;object-fit:contain;}
+.fs-logo img{width:54px;height:54px;object-fit:contain;filter:brightness(0) invert(1);}
 .fs-logo span{
   font-family:var(--font-display),sans-serif;
   font-weight:900;font-size:1.1rem;
