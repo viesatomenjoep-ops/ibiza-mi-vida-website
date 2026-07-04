@@ -88,38 +88,45 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
 
           {/* Line Up / Timetable */}
           {lineUpClean && (
-            <section className="bg-white border border-black/10 rounded-3xl p-7 md:p-10 shadow-sm">
-              <h2 className="text-3xl md:text-4xl font-serif font-black mb-6 flex items-center gap-3 text-black">
-                <div className="w-11 h-11 rounded-xl bg-ibiza-green/20 flex items-center justify-center shrink-0">
-                  <Clock size={22} className="text-black" />
-                </div>
-                Line Up &amp; Times
-              </h2>
+            <details open className="group bg-white border border-black/10 rounded-3xl p-7 md:p-10 shadow-sm open:shadow-md">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-3xl md:text-4xl font-serif font-black text-black marker:content-['']">
+                <span className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-xl bg-ibiza-green/20 flex items-center justify-center shrink-0">
+                    <Clock size={22} className="text-black" />
+                  </div>
+                  Line Up &amp; Times
+                </span>
+                <span className="shrink-0 text-4xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
+              </summary>
               <div
-                className="prose prose-lg md:prose-xl max-w-none text-black leading-relaxed prose-p:my-2 prose-p:text-black prose-strong:text-black prose-li:text-black prose-a:text-black prose-headings:text-black"
+                className="mt-6 prose prose-lg md:prose-xl max-w-none text-black leading-relaxed prose-p:my-2 prose-p:text-black prose-strong:text-black prose-li:text-black prose-a:text-black prose-headings:text-black"
                 dangerouslySetInnerHTML={{ __html: lineUpClean }}
               />
-            </section>
+            </details>
           )}
 
           {/* About this Event */}
           {descriptionClean && (
-            <section className="bg-white border border-black/10 rounded-3xl p-7 md:p-10 shadow-sm">
-              <h2 className="text-3xl md:text-4xl font-serif font-black mb-6 text-black">About this Event</h2>
+            <details open className="group bg-white border border-black/10 rounded-3xl p-7 md:p-10 shadow-sm open:shadow-md">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-3xl md:text-4xl font-serif font-black text-black marker:content-['']">
+                <span>About this Event</span>
+                <span className="shrink-0 text-4xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
+              </summary>
               <div
-                className="prose prose-lg md:prose-xl max-w-none text-black leading-relaxed prose-p:text-black prose-strong:text-black prose-li:text-black prose-a:text-black prose-headings:text-black"
+                className="mt-6 prose prose-lg md:prose-xl max-w-none text-black leading-relaxed prose-p:text-black prose-strong:text-black prose-li:text-black prose-a:text-black prose-headings:text-black"
                 dangerouslySetInnerHTML={{ __html: descriptionClean }}
               />
-            </section>
+            </details>
           )}
 
           {/* Important Information */}
           {fullEvent?.requirements && (
-            <section className="bg-neutral-50 rounded-3xl p-7 md:p-10 shadow-sm border border-black/10">
-              <h2 className="text-3xl md:text-4xl font-serif font-black mb-6 text-black">
-                Important Information
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <details open className="group bg-neutral-50 rounded-3xl p-7 md:p-10 shadow-sm border border-black/10 open:shadow-md">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-3xl md:text-4xl font-serif font-black text-black marker:content-['']">
+                <span>Important Information</span>
+                <span className="shrink-0 text-4xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
+              </summary>
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {stripHtml(fullEvent.requirements)
                   .replace(/\[\s*\]/g, '')
                   .split(/\r?\n/)
@@ -141,7 +148,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
                     )
                   })}
               </div>
-            </section>
+            </details>
           )}
 
           {/* Venue location map */}

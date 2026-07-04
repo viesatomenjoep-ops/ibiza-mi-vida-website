@@ -157,10 +157,9 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
               const price = deal.prices;
 
               return (
-                <Link 
+                <Link
                   key={deal.id}
-                  href={deal.aff_link || `/${locale}/club-tickets/${venue?.slug || 'club'}/${event?.slug || deal.id}`}
-                  target={deal.aff_link ? "_blank" : "_self"}
+                  href={`/${locale}/club-tickets/${venue?.slug || 'club'}/${event?.slug || deal.id}`}
                   className="bg-black/5 hover:bg-white/10 rounded-3xl overflow-hidden shadow-lg hover:shadow-xl border border-black/10 hover:border-ibiza-green/60 transition-all duration-300 group flex flex-col hover:scale-[1.02]"
                 >
                   <div className="h-48 relative bg-[#0D0509] overflow-hidden shrink-0">

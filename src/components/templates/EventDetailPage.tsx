@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { MapPin, ArrowLeft, Check, Info, Camera, HelpCircle, Ticket } from 'lucide-react'
+import { MapPin, ArrowLeft, Check, Info, Camera, HelpCircle, Ticket, Clock, Music } from 'lucide-react'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
 import { EventTicketSelector } from './EventTicketSelector'
@@ -126,6 +126,15 @@ const EVENT_I18N: Record<string, EventLabels> = {
   },
 }
 
+// Labels for the collapsible Line-up / Times sections
+const SECTION_I18N: Record<string, { lineup: string; times: string; doors: string; closes: string; noTimes: string; noLineup: string }> = {
+  en: { lineup: 'Line-up', times: 'Times', doors: 'Doors open', closes: 'Closes', noTimes: 'Exact times are announced closer to the date.', noLineup: 'The full line-up is announced closer to the date.' },
+  nl: { lineup: 'Line-up', times: 'Tijden', doors: 'Deuren open', closes: 'Sluit', noTimes: 'De exacte tijden worden dichter bij de datum bekendgemaakt.', noLineup: 'De volledige line-up wordt dichter bij de datum bekendgemaakt.' },
+  de: { lineup: 'Line-up', times: 'Zeiten', doors: 'Einlass', closes: 'Ende', noTimes: 'Die genauen Zeiten werden näher am Termin bekannt gegeben.', noLineup: 'Das vollständige Line-up wird näher am Termin bekannt gegeben.' },
+  es: { lineup: 'Line-up', times: 'Horarios', doors: 'Apertura', closes: 'Cierre', noTimes: 'Los horarios exactos se anuncian más cerca de la fecha.', noLineup: 'El line-up completo se anuncia más cerca de la fecha.' },
+  fr: { lineup: 'Line-up', times: 'Horaires', doors: 'Ouverture', closes: 'Fermeture', noTimes: 'Les horaires exacts sont annoncés à l’approche de la date.', noLineup: 'Le line-up complet est annoncé à l’approche de la date.' },
+}
+
 const BCP: Record<string, string> = { en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' }
 
 /** Turn the API "requirements" HTML into a clean list of bullet points. */
@@ -152,6 +161,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
   const eventDetail = club.events?.find(e => e.slug === eventSlug)
   const t = dicts[locale] || dicts['en']
   const T = EVENT_I18N[locale] || EVENT_I18N.en
+  const S = SECTION_I18N[locale] || SECTION_I18N.en
   const bcp = BCP[locale] || 'en-GB'
 
   const eventName = eventDetail?.name || eventDates[0]?.eventName || 'Event'
@@ -192,8 +202,22 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
   const lineupText = formatLineUp(eventDates[0]?.lineUp)
   const faqs = T.faqs({ event: eventName, venue: club.name, datesText, timeText, lineupText })
 
+  // Line-up per date (only dates that actually carry a line-up)
+  const lineupDates = eventDates
+    .map(d => ({
+      label: new Date(d.date).toLocaleDateString(bcp, { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }),
+      artists: formatLineUp(d.lineUp).split(',').map(a => a.trim()).filter(Boolean),
+    }))
+    .filter(d => d.artists.length > 0)
+  const hasLineup = lineupDates.length > 0
+
+  // Times come from the ClubTickets event record (startAt / endAt)
+  const startAt = eventDetail?.startAt
+  const endAt = eventDetail?.endAt
+  const hasTimes = !!(startAt || endAt)
+
   return (
-    <>
+    <div className="bg-white text-black min-h-screen">
       {/* Hero */}
       <section className="relative flex min-h-[50vh] flex-col justify-end overflow-hidden" aria-label={`${eventName} hero`}>
         {eventCover && (
@@ -272,24 +296,82 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
             </AnimatedSection>
           </div>
 
-          {/* About */}
-          {cleanDescription && (
-            <AnimatedSection delay={150}>
-              <h2 className="mb-5 font-serif text-3xl font-black text-black md:text-4xl">{T.aboutTitle(eventName)}</h2>
-              <div className="max-w-none text-lg leading-relaxed text-black/80">
-                <p>{cleanDescription}</p>
-              </div>
+          {/* Line-up (collapsible) */}
+          {hasLineup && (
+            <AnimatedSection delay={130}>
+              <details open className="group rounded-[28px] border border-black/10 bg-white p-6 shadow-sm open:shadow-md md:p-8">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] md:text-3xl">
+                  <span className="flex items-center gap-2"><Music size={24} className="text-ibiza-green" /> {S.lineup}</span>
+                  <span className="shrink-0 text-3xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <div className="mt-5 flex flex-col gap-5">
+                  {lineupDates.map((d, i) => (
+                    <div key={i}>
+                      {lineupDates.length > 1 && (
+                        <div className="mb-2 text-xs font-bold uppercase tracking-wider text-ibiza-green">{d.label}</div>
+                      )}
+                      <div className="flex flex-wrap gap-2">
+                        {d.artists.map((a, j) => (
+                          <span key={j} className="rounded-full bg-neutral-100 px-3 py-1.5 text-sm font-semibold text-black/80 ring-1 ring-black/5">{a}</span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </details>
             </AnimatedSection>
           )}
 
-          {/* Important information */}
+          {/* Times (collapsible) */}
+          {hasTimes && (
+            <AnimatedSection delay={160}>
+              <details open className="group rounded-[28px] border border-black/10 bg-white p-6 shadow-sm open:shadow-md md:p-8">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] md:text-3xl">
+                  <span className="flex items-center gap-2"><Clock size={24} className="text-ibiza-green" /> {S.times}</span>
+                  <span className="shrink-0 text-3xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <div className="mt-5 flex flex-wrap gap-3">
+                  {startAt && (
+                    <div className="flex flex-col rounded-2xl border border-black/10 bg-neutral-50 px-5 py-3">
+                      <span className="text-xs font-bold uppercase tracking-wider text-black/50">{S.doors}</span>
+                      <span className="text-2xl font-black text-black">{startAt}</span>
+                    </div>
+                  )}
+                  {endAt && (
+                    <div className="flex flex-col rounded-2xl border border-black/10 bg-neutral-50 px-5 py-3">
+                      <span className="text-xs font-bold uppercase tracking-wider text-black/50">{S.closes}</span>
+                      <span className="text-2xl font-black text-black">{endAt}</span>
+                    </div>
+                  )}
+                </div>
+              </details>
+            </AnimatedSection>
+          )}
+
+          {/* About (collapsible) */}
+          {cleanDescription && (
+            <AnimatedSection delay={180}>
+              <details open className="group rounded-[28px] border border-black/10 bg-white p-6 shadow-sm open:shadow-md md:p-8">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] md:text-3xl">
+                  <span className="flex items-center gap-2"><Info size={24} className="text-ibiza-green" /> {T.aboutTitle(eventName)}</span>
+                  <span className="shrink-0 text-3xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <div className="mt-5 max-w-none text-lg leading-relaxed text-black/80">
+                  <p>{cleanDescription}</p>
+                </div>
+              </details>
+            </AnimatedSection>
+          )}
+
+          {/* Important information (collapsible) */}
           {important.length > 0 && (
             <AnimatedSection delay={200}>
-              <div className="rounded-[28px] border border-black/10 bg-neutral-50 p-6 md:p-8">
-                <h2 className="mb-5 flex items-center gap-2 font-serif text-2xl font-black text-black md:text-3xl">
-                  <Info size={24} className="text-ibiza-green" /> {T.importantTitle}
-                </h2>
-                <ul className="flex flex-col gap-3">
+              <details open className="group rounded-[28px] border border-black/10 bg-neutral-50 p-6 shadow-sm open:shadow-md md:p-8">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] md:text-3xl">
+                  <span className="flex items-center gap-2"><Check size={24} className="text-ibiza-green" /> {T.importantTitle}</span>
+                  <span className="shrink-0 text-3xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <ul className="mt-5 flex flex-col gap-3">
                   {important.map((line, i) => (
                     <li key={i} className="flex items-start gap-3 text-base leading-relaxed text-black/80">
                       <Check size={18} className="mt-1 shrink-0 text-ibiza-green" />
@@ -297,7 +379,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                     </li>
                   ))}
                 </ul>
-              </div>
+              </details>
             </AnimatedSection>
           )}
 
@@ -359,6 +441,6 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           <Ticket size={18} /> {t.event_select_tickets || 'Select tickets'}
         </a>
       </div>
-    </>
+    </div>
   )
 }
