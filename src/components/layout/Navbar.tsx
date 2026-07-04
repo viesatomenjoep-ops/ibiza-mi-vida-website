@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { GlobalSearch } from './GlobalSearch'
@@ -67,7 +67,8 @@ export function Navbar() {
   ]
 
   const [isScrolled, setIsScrolled] = useState(false)
-  
+  const logoRef = useRef<HTMLImageElement>(null)
+
   useEffect(() => { setMenuOpen(false) }, [pathname])
 
   // Shrink navbar on scroll
@@ -78,6 +79,21 @@ export function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Spin the logo fluidly as you scroll (rAF-eased toward a scroll-driven angle)
+  useEffect(() => {
+    let raf = 0
+    let current = 0
+    const loop = () => {
+      const target = window.scrollY * 0.35 // degrees
+      current += (target - current) * 0.12 // easing = fluid trailing motion
+      const el = logoRef.current
+      if (el) el.style.transform = `rotate(${current.toFixed(2)}deg)`
+      raf = requestAnimationFrame(loop)
+    }
+    raf = requestAnimationFrame(loop)
+    return () => cancelAnimationFrame(raf)
   }, [])
   // Lock scroll when menu open
   useEffect(() => {
@@ -92,7 +108,7 @@ export function Navbar() {
       <nav className={`nav ${isScrolled ? 'nav--scrolled' : ''}`}>
         <div className="wrap nav-inner">
           <Link className="nav-logo-btn" href={base}>
-            <img src="/logo-white.png" alt="Ibiza mi Vida logo" />
+            <img ref={logoRef} className="logo-spin" src="/logo-mark.svg" alt="Ibiza mi Vida logo" />
           </Link>
           <div className="nav-links">
             <Link href={`${base}/calendar`}>Events</Link>
@@ -137,7 +153,7 @@ export function Navbar() {
 
         {/* Logo in overlay */}
         <div className="fs-logo">
-          <img src="/logo-white.png" alt="Ibiza mi Vida" />
+          <img src="/logo-mark.svg" alt="Ibiza mi Vida" />
           <span>Ibiza mi Vida</span>
         </div>
 

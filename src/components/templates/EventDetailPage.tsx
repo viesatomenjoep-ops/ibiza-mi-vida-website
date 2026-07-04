@@ -391,7 +391,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
 
                 {/* Intro paragraphs */}
                 {desc.intro.length > 0 && (
-                  <div className="mt-6 flex flex-col gap-4 text-xl font-medium leading-relaxed text-black md:text-2xl">
+                  <div className="mt-6 flex flex-col gap-4 text-base font-semibold leading-relaxed text-black">
                     {desc.intro.map((p, i) => <p key={i}>{p}</p>)}
                   </div>
                 )}
@@ -411,8 +411,8 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                           </div>
                           <ul className="flex flex-col gap-2">
                             {s.items.map((it, j) => (
-                              <li key={j} className="flex items-start gap-2.5 text-lg font-medium leading-snug text-black">
-                                <Check size={18} className="mt-0.5 shrink-0 text-ibiza-green" />
+                              <li key={j} className="flex items-start gap-2.5 text-base font-semibold leading-snug text-black">
+                                <Check size={16} className="mt-0.5 shrink-0 text-ibiza-green" />
                                 <span>{it}</span>
                               </li>
                             ))}
