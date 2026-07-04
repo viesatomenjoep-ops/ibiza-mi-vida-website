@@ -112,7 +112,7 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
           <button
             key={p.key}
             onClick={() => changePeriod(p.key)}
-            className={`relative z-10 rounded-full py-2.5 text-center text-sm font-black uppercase tracking-wide transition-colors md:text-base ${period === p.key ? 'text-velvet-obsidian' : 'text-black/55 hover:text-black'}`}
+            className={`relative z-10 rounded-full py-3 text-center text-xs font-black uppercase tracking-wide leading-none transition-colors sm:text-sm ${period === p.key ? 'text-velvet-obsidian' : 'text-black/55 hover:text-black'}`}
           >
             {p.label}
           </button>

@@ -214,8 +214,8 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
 
               {/* Intro — large, readable */}
               {desc.intro.length > 0 && (
-                <div className="flex flex-col gap-4 text-lg md:text-xl font-medium leading-relaxed text-black">
-                  {desc.intro.map((p, i) => <p key={i}>{p}</p>)}
+                <div className="flex flex-col gap-4">
+                  {desc.intro.map((p, i) => <p key={i} className="text-lg md:text-xl font-medium leading-relaxed text-black">{p}</p>)}
                 </div>
               )}
 
