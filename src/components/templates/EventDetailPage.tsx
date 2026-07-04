@@ -4,6 +4,7 @@ import { MapPin, Calendar, ArrowLeft } from 'lucide-react'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
 import { EventTicketSelector } from './EventTicketSelector'
+import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
 
 import en from '@/dictionaries/en.json'
 import nl from '@/dictionaries/nl.json'
@@ -152,6 +153,11 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                 </div>
               </AnimatedSection>
             )}
+
+            {/* Venue location map */}
+            <AnimatedSection delay={250}>
+              <VenueLocationMap venueName={club.name} locale={locale} />
+            </AnimatedSection>
           </div>
         </div>
       </div>

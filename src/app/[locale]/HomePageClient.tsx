@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Calendar, MapPin, Music } from 'lucide-react';
 import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
+import { HeroTypewriter } from '@/components/ui/HeroTypewriter';
 
 interface HomePageProps {
   locale?: string;
@@ -13,9 +14,10 @@ interface HomePageProps {
   featuredClubs?: any[];
   upcomingDates?: any[];
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
+  liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
 }
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], allVenues = [] }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], allVenues = [], liveByClub = {} }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -64,10 +66,10 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <div className="h-[100px] md:h-[140px] w-full shrink-0" />
 
         <div className="relative z-20 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4">
-          <h1 className="text-white text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-bold font-serif uppercase tracking-tight drop-shadow-lg leading-none">
-            {translations.home_hero_title}
-            <span className="block font-serif font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-3 tracking-tight leading-none text-white/90">{translations.home_hero_subtitle}</span>
-          </h1>
+          <HeroTypewriter
+            title={translations.home_hero_title || 'Ibiza mi Vida'}
+            subtitle={translations.home_hero_subtitle || 'Entertainment · Boat · Nightlife — Reimagined'}
+          />
         </div>
 
         {/* Spacer Middle */}
@@ -82,11 +84,15 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </div>
 
         {/* ── HORIZONTAL LOGO MARQUEE BAR ── */}
-        <div className="w-full relative z-20 pb-4">
+        <div className="w-full relative z-20 pt-2 pb-6 md:pb-8">
           <ClubLogoSlider
             clubLogos={clubLogos}
             base={base}
-            className="w-full bg-transparent pt-4 pb-4 border-t border-white/10"
+            liveByClub={liveByClub}
+            locale={locale}
+            showLegend
+            speed={0.3}
+            className="w-full bg-transparent pt-5 pb-5 border-t border-white/10"
           />
         </div>
       </header>

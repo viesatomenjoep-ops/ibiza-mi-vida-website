@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Calendar, MapPin, ExternalLink, Ticket, CheckCircle2, Lock, Clock } from 'lucide-react'
 import type { CTEventDate, CTEvent } from '@/lib/clubtickets'
 import { cleanHtml, stripHtml } from '@/lib/html-utils'
+import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
 
 interface Props {
   selectedDateObj: CTEventDate
@@ -141,6 +142,11 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
                   })}
               </div>
             </section>
+          )}
+
+          {/* Venue location map */}
+          {selectedDateObj.venueName && (
+            <VenueLocationMap venueName={selectedDateObj.venueName} locale={locale} />
           )}
         </div>
 

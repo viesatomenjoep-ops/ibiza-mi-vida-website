@@ -22,6 +22,26 @@ export default async function Home({ params }: { params: { locale: string } }) {
   // Fetch upcoming dates from local compiled JSON
   const allDates = await getAllDates(params.locale);
   const todayStr = new Date().toISOString().split('T')[0];
+
+  // ── LIVE EVENT TRACKER ──
+  // Build a per-club map of events happening today (and last night) so the
+  // homepage slider can show live status dots. Time-of-day logic runs client-side.
+  const yesterdayStr = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+  const dayClubBySlug = new Map(allVenues.map(v => [v.slug, !!(v as any).isDayClub]));
+  const liveByClub: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }> = {};
+  for (const d of allDates) {
+    const day = (d.date || '').slice(0, 10);
+    const isToday = day === todayStr;
+    const isYesterday = day === yesterdayStr;
+    if ((!isToday && !isYesterday) || !d.venueSlug) continue;
+    const rec = liveByClub[d.venueSlug] || (liveByClub[d.venueSlug] = {
+      today: [], lastNight: [], isDayClub: dayClubBySlug.get(d.venueSlug) || false,
+    });
+    const item = { name: d.eventName || d.name || 'Event', slug: d.eventSlug };
+    if (isToday && rec.today.length < 3) rec.today.push(item);
+    if (isYesterday && rec.lastNight.length < 3) rec.lastNight.push(item);
+  }
+
   const upcomingDates = allDates
     .filter(d => d.date >= todayStr)
     .slice(0, 10)
@@ -48,11 +68,13 @@ export default async function Home({ params }: { params: { locale: string } }) {
       translations={dict}
       featuredClubs={featuredClubs}
       upcomingDates={upcomingDates}
+      liveByClub={liveByClub}
       allVenues={allVenues.map(v => ({
         slug: v.slug,
         name: v.name,
         picture: v.picture,
         whitelogo: v.whitelogo,
+        isDayClub: (v as any).isDayClub,
         typeSlug: (v as any).type?.slug || ''
       }))}
     />
