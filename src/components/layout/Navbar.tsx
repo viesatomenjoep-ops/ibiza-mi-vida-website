@@ -116,11 +116,6 @@ export function Navbar() {
               <span className="nav-brand-sub">TICKETS · PRIVATE BOATS · RENTAL</span>
             </span>
           </Link>
-          <div className="nav-links">
-            <Link href={`${base}/calendar`}>Events</Link>
-            <Link href={`${base}/deals-of-the-day`}>Deals</Link>
-            <Link href={`${base}/clubs`}>Clubs</Link>
-          </div>
           <div className="nav-actions">
             <span className="nav-lang"><LanguageSelector /></span>
             <button
