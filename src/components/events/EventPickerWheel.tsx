@@ -394,78 +394,81 @@ function PickerRows({ events, locale, persistKey, full, onExpand }: { events: Pi
     <div className="w-full">
       <PeriodTabs period={period} setPeriod={changePeriod} locale={locale} />
 
-      {/* Clubs strip (horizontal) */}
-      <div className="mb-3 rounded-3xl border border-black/10 bg-white p-2 shadow-sm">
-        <div className="px-3 pb-1 pt-1 text-[10px] font-black uppercase tracking-widest text-black/35">{L.pickClub}</div>
-        <WheelH count={clubs.length} itemW={128} itemH={104} initialIndex={initialClubIdx} onIndex={(i) => { setClubIdx(i); if (ready.current) setDateIdx(0) }} render={(i, active) => {
-          const c = clubs[i]
-          return (
-            <div className="flex flex-col items-center gap-1.5">
-              <span className="grid h-12 w-full place-items-center">{c.logo ? <img src={c.logo} alt="" className="max-h-11 max-w-[85%] object-contain [filter:brightness(0)]" /> : <span className="text-sm font-black text-black">{c.name.slice(0, 3).toUpperCase()}</span>}</span>
-              <span className={`px-1 text-center text-[11px] font-bold leading-tight line-clamp-2 ${active ? 'text-black' : 'text-black/45'}`}>{c.name}</span>
-            </div>
-          )
-        }} />
-      </div>
-
-      {/* Dates strip (horizontal) */}
-      <div className="mb-3 rounded-3xl border border-black/10 bg-white p-2 shadow-sm">
-        <div className="px-3 pb-1 pt-1 text-[10px] font-black uppercase tracking-widest text-black/35">{L.pickDate}</div>
-        <WheelH key={`${club?.slug}-${period}`} count={dateItems.length} itemW={period === 'week' ? 128 : 96} itemH={104} initialIndex={ready.current ? 0 : initialDateIdx} onIndex={(i) => setDateIdx(i)} render={(i, active) => {
-          const d = dateItems[i]; if (!d) return null
-          return (
-            <div className="flex flex-col items-center justify-center leading-none">
-              <span className={`text-[11px] font-black uppercase tracking-wide ${active ? 'text-black/50' : 'text-black/30'}`}>{d.top}</span>
-              <span className={`font-serif ${period === 'week' ? 'text-2xl' : 'text-4xl'} font-black ${active ? 'text-black' : 'text-black/60'}`}>{d.mid}</span>
-              <span className="text-[11px] font-black uppercase tracking-wide text-ibiza-green">{d.bottom}</span>
-            </div>
-          )
-        }} />
-      </div>
-
-      {/* Horizontal event carousel — swipe left/right through all events of the window */}
-      {windowEvents.length > 0 ? (
-        <>
-          <div className="relative">
-            <div className="hide-scrollbar -mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-2">
-              {windowEvents.map(e => (
-                <Link key={e.id} href={e.href} className="group block w-[86%] shrink-0 snap-center overflow-hidden rounded-3xl border border-black/10 shadow-lg sm:w-[72%]">
-                  <div className="relative aspect-[16/10] w-full bg-neutral-900 sm:aspect-[16/8]">
-                    {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
-                    {e.price > 0 && <span className="absolute right-3 top-3 rounded-lg bg-ibiza-green px-3 py-1 text-sm font-black text-black">€{e.price}</span>}
-                    <div className="absolute inset-x-0 bottom-0 p-5 pr-16">
-                      <div className="font-serif text-2xl font-black leading-tight text-white line-clamp-2 md:text-3xl">{e.eventName}</div>
-                      <div className="mt-1 text-sm font-semibold text-white/75">{e.clubName} · <span className="capitalize">{fmt(e.date, 'EEEE d MMMM')}</span></div>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            {/* Expand-to-full-view arrow — bottom of the event image (not near the price) */}
-            {onExpand && (
-              <button type="button" onClick={onExpand} aria-label={L.openCal} className="absolute bottom-4 right-4 z-20 grid h-11 w-11 place-items-center rounded-full bg-ibiza-green text-black shadow-lg transition-transform hover:scale-110">
-                <Maximize2 size={20} />
-              </button>
-            )}
+      {/* Desktop: two compact strips stacked on the left, event image beside them. Mobile: stacked. */}
+      <div className="md:grid md:grid-cols-[1fr_1.15fr] md:items-stretch md:gap-4">
+        {/* Left column — the two strips */}
+        <div className="flex flex-col gap-3">
+          {/* Clubs strip */}
+          <div className="rounded-3xl border border-black/10 bg-white p-2 shadow-sm">
+            <div className="px-3 pb-1 pt-1 text-[10px] font-black uppercase tracking-widest text-black/35">{L.pickClub}</div>
+            <WheelH count={clubs.length} itemW={118} itemH={88} initialIndex={initialClubIdx} onIndex={(i) => { setClubIdx(i); if (ready.current) setDateIdx(0) }} render={(i, active) => {
+              const c = clubs[i]
+              return (
+                <div className="flex flex-col items-center gap-1">
+                  <span className="grid h-10 w-full place-items-center">{c.logo ? <img src={c.logo} alt="" className="max-h-9 max-w-[85%] object-contain [filter:brightness(0)]" /> : <span className="text-sm font-black text-black">{c.name.slice(0, 3).toUpperCase()}</span>}</span>
+                  <span className={`px-1 text-center text-[11px] font-bold leading-tight line-clamp-1 ${active ? 'text-black' : 'text-black/45'}`}>{c.name}</span>
+                </div>
+              )
+            }} />
           </div>
+          {/* Dates strip */}
+          <div className="rounded-3xl border border-black/10 bg-white p-2 shadow-sm">
+            <div className="px-3 pb-1 pt-1 text-[10px] font-black uppercase tracking-widest text-black/35">{L.pickDate}</div>
+            <WheelH key={`${club?.slug}-${period}`} count={dateItems.length} itemW={period === 'week' ? 118 : 88} itemH={88} initialIndex={ready.current ? 0 : initialDateIdx} onIndex={(i) => setDateIdx(i)} render={(i, active) => {
+              const d = dateItems[i]; if (!d) return null
+              return (
+                <div className="flex flex-col items-center justify-center leading-none">
+                  <span className={`text-[11px] font-black uppercase tracking-wide ${active ? 'text-black/50' : 'text-black/30'}`}>{d.top}</span>
+                  <span className={`font-serif ${period === 'week' ? 'text-xl' : 'text-3xl'} font-black ${active ? 'text-black' : 'text-black/60'}`}>{d.mid}</span>
+                  <span className="text-[11px] font-black uppercase tracking-wide text-ibiza-green">{d.bottom}</span>
+                </div>
+              )
+            }} />
+          </div>
+        </div>
 
-          {/* Book CTA for the focused event */}
-          {ev && (
-            <Link href={ev.href} className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95">
-              <Ticket size={20} /> {L.book}{ev.price > 0 ? ` · €${ev.price}` : ''}
-            </Link>
-          )}
-
-          {/* Full view only: all events grouped per day (bigger images, whole card opens the line-up) */}
-          {full && period !== 'day' && (
-            <div className="mt-6">
-              <WindowList events={windowEvents} period={period} locale={locale} fmt={fmt} />
+        {/* Right column — event image / carousel */}
+        <div className="mt-3 md:mt-0">
+          {windowEvents.length > 0 ? (
+            <div className="relative h-full">
+              <div className="hide-scrollbar -mx-1 flex h-full snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-1">
+                {windowEvents.map(e => (
+                  <Link key={e.id} href={e.href} className="group block w-[86%] shrink-0 snap-center overflow-hidden rounded-3xl border border-black/10 shadow-lg sm:w-[72%] md:w-full">
+                    <div className="relative aspect-[16/10] w-full bg-neutral-900 sm:aspect-[16/8] md:aspect-auto md:h-full md:min-h-[220px]">
+                      {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                      {e.price > 0 && <span className="absolute right-3 top-3 rounded-lg bg-ibiza-green px-3 py-1 text-sm font-black text-black">€{e.price}</span>}
+                      <div className="absolute inset-x-0 bottom-0 p-5 pr-16">
+                        <div className="font-serif text-2xl font-black leading-tight text-white line-clamp-2 md:text-3xl">{e.eventName}</div>
+                        <div className="mt-1 text-sm font-semibold text-white/75">{e.clubName} · <span className="capitalize">{fmt(e.date, 'EEEE d MMMM')}</span></div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              {onExpand && (
+                <button type="button" onClick={onExpand} aria-label={L.openCal} className="absolute bottom-4 right-4 z-20 grid h-11 w-11 place-items-center rounded-full bg-ibiza-green text-black shadow-lg transition-transform hover:scale-110">
+                  <Maximize2 size={20} />
+                </button>
+              )}
             </div>
-          )}
-        </>
-      ) : <div className="grid h-40 place-items-center rounded-3xl border border-black/10 text-sm font-semibold text-black/40">{L.none}</div>}
+          ) : <div className="grid h-full min-h-[200px] place-items-center rounded-3xl border border-black/10 text-sm font-semibold text-black/40">{L.none}</div>}
+        </div>
+      </div>
+
+      {/* Book CTA for the focused event */}
+      {windowEvents.length > 0 && ev && (
+        <Link href={ev.href} className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95">
+          <Ticket size={20} /> {L.book}{ev.price > 0 ? ` · €${ev.price}` : ''}
+        </Link>
+      )}
+
+      {/* Full view only: all events grouped per day */}
+      {windowEvents.length > 0 && full && period !== 'day' && (
+        <div className="mt-6">
+          <WindowList events={windowEvents} period={period} locale={locale} fmt={fmt} />
+        </div>
+      )}
     </div>
   )
 }
