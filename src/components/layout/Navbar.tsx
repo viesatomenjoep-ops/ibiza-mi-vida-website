@@ -112,8 +112,8 @@ export function Navbar() {
               <img ref={logoRef} className="logo-spin" src="/logo-clean.png" alt="IBZMV logo" />
             </span>
             <span className="nav-brand-text">
-              <span className="nav-brand-name">IBZMV</span>
-              <span className="nav-brand-sub">tickets and more</span>
+              <span className="nav-brand-name">IBIZA MI VIDA</span>
+              <span className="nav-brand-sub">TICKETS · PRIVATE BOATS · RENTAL</span>
             </span>
           </Link>
           <div className="nav-links">
@@ -122,7 +122,7 @@ export function Navbar() {
             <Link href={`${base}/clubs`}>Clubs</Link>
           </div>
           <div className="nav-actions">
-            <LanguageSelector />
+            <span className="nav-lang"><LanguageSelector /></span>
             <button
               className="burger"
               aria-label="Menu openen"
@@ -160,8 +160,8 @@ export function Navbar() {
         <div className="fs-logo">
           <img src="/logo-clean.png" alt="IBZMV" />
           <span className="fs-brand">
-            <span className="fs-brand-name">IBZMV</span>
-            <span className="fs-brand-sub">tickets and more</span>
+            <span className="fs-brand-name">IBIZA MI VIDA</span>
+            <span className="fs-brand-sub">TICKETS · PRIVATE BOATS · RENTAL</span>
           </span>
         </div>
 

@@ -85,8 +85,8 @@ export function Footer() {
                 <img src="/logo-clean.png" alt="Ibiza mi Vida logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
               </span>
               <span className="foot-brand">
-                <strong>IBZMV</strong>
-                <span className="foot-brand-sub">tickets and more</span>
+                <strong>IBIZA MI VIDA</strong>
+                <span className="foot-brand-sub">TICKETS · PRIVATE BOATS · RENTAL</span>
               </span>
             </Link>
             <p style={{ marginTop: '16px', fontSize: '.86rem', color: '#555555', maxWidth: '280px' }}>
