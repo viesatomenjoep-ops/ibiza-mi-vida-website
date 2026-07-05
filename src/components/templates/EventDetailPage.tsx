@@ -248,9 +248,9 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
   const hasTimes = !!(startAt || endAt)
 
   return (
-    <div className="bg-white text-black min-h-screen pt-[88px] md:pt-[132px]">
+    <div className="bg-white text-black min-h-screen pt-[76px] md:pt-[120px]">
       {/* Hero */}
-      <section className="relative mx-auto flex h-[46vh] w-[calc(100%-24px)] max-w-7xl flex-col justify-end overflow-hidden rounded-[28px] md:h-[58vh]" aria-label={`${eventName} hero`}>
+      <section className="relative flex h-[46vh] w-full flex-col justify-end overflow-hidden rounded-b-[28px] md:h-[58vh]" aria-label={`${eventName} hero`}>
         {eventCover && (
           <Image src={eventCover} alt={eventName} fill priority className="object-cover object-center" sizes="100vw" quality={85} />
         )}

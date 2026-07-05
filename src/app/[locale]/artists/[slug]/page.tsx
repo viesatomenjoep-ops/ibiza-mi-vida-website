@@ -237,7 +237,7 @@ export default async function ArtistPage({ params }: Props) {
   const spotifyDetails = getSpotifyEmbedDetails(artist.slug);
 
   return (
-    <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen pb-24">
+    <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen pb-24 pt-[76px] md:pt-[120px]">
       
       {/* Hero Section */}
       <section className="relative h-[360px] md:h-[440px] overflow-hidden flex items-center justify-center text-center px-4 rounded-b-[36px] bg-black">
