@@ -231,7 +231,7 @@ function usePickerData(events: PickerEvent[], locale: string, persistKey?: strin
 function PeriodTabs({ period, setPeriod, locale }: { period: Period; setPeriod: (p: Period) => void; locale: string }) {
   const L = LABELS[locale] || LABELS.en
   return (
-    <div className="mb-4 flex justify-center">
+    <div className="mb-3 flex justify-center">
       <div className="inline-flex rounded-full bg-black/5 p-1">
         {(['day', 'week', 'month'] as Period[]).map(p => (
           <button key={p} onClick={() => setPeriod(p)} className={`rounded-full px-4 py-2 text-xs font-black uppercase tracking-wider transition-all md:px-5 md:text-sm ${period === p ? 'bg-ibiza-green text-black shadow-sm' : 'text-black/50 hover:text-black'}`}>{L[p]}</button>
@@ -407,7 +407,7 @@ function PickerRows({ events, locale, persistKey, full, onExpand }: { events: Pi
       {/* Desktop: two compact strips stacked on the left, event image beside them. Mobile: stacked. */}
       <div className="md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] md:items-stretch md:gap-4">
         {/* Left column — the two strips */}
-        <div className="flex min-w-0 flex-col gap-3">
+        <div className="flex min-w-0 flex-col gap-2.5">
           {/* Clubs strip */}
           <div className="rounded-3xl border border-black/10 bg-white p-2 shadow-sm">
             <div className="px-3 pb-1 pt-1 text-[10px] font-black uppercase tracking-widest text-black/35">{L.pickClub}</div>
@@ -444,7 +444,7 @@ function PickerRows({ events, locale, persistKey, full, onExpand }: { events: Pi
               <div className="hide-scrollbar -mx-1 flex h-full snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-1">
                 {windowEvents.map(e => (
                   <Link key={e.id} href={e.href} className="group block w-[86%] shrink-0 snap-center overflow-hidden rounded-3xl border border-black/10 shadow-lg sm:w-[72%] md:w-full">
-                    <div className="relative aspect-[16/10] w-full bg-neutral-900 sm:aspect-[16/8] md:aspect-auto md:h-full md:min-h-[220px]">
+                    <div className="relative aspect-[16/7] w-full bg-neutral-900 sm:aspect-[16/8] md:aspect-auto md:h-full md:min-h-[300px] lg:min-h-[360px]">
                       {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
                       {e.price > 0 && <span className="absolute right-3 top-3 rounded-lg bg-ibiza-green px-3 py-1 text-sm font-black text-black">€{e.price}</span>}
@@ -468,7 +468,7 @@ function PickerRows({ events, locale, persistKey, full, onExpand }: { events: Pi
 
       {/* Book CTA for the focused event */}
       {windowEvents.length > 0 && ev && (
-        <Link href={ev.href} className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95">
+        <Link href={ev.href} className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-3.5 font-serif text-lg font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95">
           <Ticket size={20} /> {L.book}{ev.price > 0 ? ` · €${ev.price}` : ''}
         </Link>
       )}
@@ -510,18 +510,18 @@ export function EventPickerWheel({ events, locale = 'nl', className = '', storeK
   return (
     <section className={`w-full ${className}`}>
       {/* Bright-green glowing button — the only thing shown on the page; opens the full calendar */}
-      <button onClick={open} className="cal-cta flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-black bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-lg transition-transform hover:scale-[1.01]">
-        <CalendarDays size={20} /> {L.openCal}
+      <button onClick={open} className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-black bg-ibiza-green px-5 py-3 font-serif text-base font-black uppercase tracking-wide text-black shadow-md transition-transform hover:scale-[1.01]">
+        <CalendarDays size={17} /> {L.openCal}
       </button>
 
       {mounted && full && createPortal(
         <div className="fixed inset-0 z-[300] flex flex-col bg-white">
-          <div className="flex items-center justify-between border-b border-black/10 px-5 py-4">
-            <h2 className="font-serif text-xl font-black text-black md:text-2xl">Ibiza Calendar</h2>
-            <button onClick={close} aria-label="Close" className="inline-flex items-center gap-2 rounded-full bg-black/5 px-4 py-2.5 text-sm font-black uppercase tracking-wide text-black hover:bg-black/10"><X size={18} /> {L.close}</button>
+          <div className="flex items-center justify-between border-b border-black/10 px-4 py-2.5 md:px-5 md:py-4">
+            <h2 className="font-serif text-lg font-black text-black md:text-2xl">Ibiza Calendar</h2>
+            <button onClick={close} aria-label="Close" className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3.5 py-2 text-sm font-black uppercase tracking-wide text-black hover:bg-black/10"><X size={18} /> {L.close}</button>
           </div>
-          <div className="flex-1 overflow-y-auto px-4 py-6 md:px-6">
-            <div className="mx-auto w-full max-w-3xl">
+          <div className="flex-1 overflow-y-auto px-4 py-3 md:px-8 md:py-8">
+            <div className="mx-auto w-full max-w-3xl md:max-w-6xl">
               <PickerRows events={events} locale={locale} persistKey={storeKey} full />
             </div>
           </div>

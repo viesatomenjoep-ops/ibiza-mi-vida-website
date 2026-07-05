@@ -97,6 +97,10 @@ export function ClubLogoSlider({
   const trackRef = useRef<HTMLDivElement>(null);
   const offsetRef = useRef(0);
   const isDragging = useRef(false);
+  const unitRef = useRef(0);
+  const dragStartX = useRef(0);
+  const dragStartOffset = useRef(0);
+  const dragMoved = useRef(false);
   const [now, setNow] = useState<Date | null>(null);
 
   // Compute status only on the client (avoids hydration mismatch) + refresh each minute.
@@ -113,12 +117,12 @@ export function ClubLogoSlider({
     if (!track || clubLogos.length === 0) return;
 
     let animationId: number;
-    let unit = 0; // width of one repeated set (the track renders 4 copies)
-    const measure = () => { unit = track.scrollWidth / 4; };
+    const measure = () => { unitRef.current = track.scrollWidth / 4; };
     measure();
 
     const play = () => {
       if (!isDragging.current && track) {
+        const unit = unitRef.current;
         offsetRef.current -= speed;
         if (unit && -offsetRef.current >= unit) offsetRef.current += unit;
         track.style.transform = `translate3d(${offsetRef.current}px,0,0)`;
@@ -136,13 +140,33 @@ export function ClubLogoSlider({
     };
   }, [clubLogos, speed]);
 
-  const handleTouchStart = () => {
+  // Manual drag (pointer = mouse + touch) — swipe left/right by hand; auto resumes on release.
+  const onPointerDown = (e: React.PointerEvent) => {
     isDragging.current = true;
+    dragMoved.current = false;
+    dragStartX.current = e.clientX;
+    dragStartOffset.current = offsetRef.current;
+    try { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); } catch {}
   };
-  const handleTouchEnd = () => {
-    setTimeout(() => {
-      isDragging.current = false;
-    }, 2000);
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!isDragging.current) return;
+    const track = trackRef.current;
+    if (!track) return;
+    const dx = e.clientX - dragStartX.current;
+    if (Math.abs(dx) > 4) dragMoved.current = true;
+    let off = dragStartOffset.current + dx;
+    const u = unitRef.current;
+    if (u) { while (off <= -u) off += u; while (off > 0) off -= u; }
+    offsetRef.current = off;
+    track.style.transform = `translate3d(${off}px,0,0)`;
+  };
+  const onPointerUp = (e: React.PointerEvent) => {
+    isDragging.current = false;
+    try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch {}
+  };
+  // Swallow the click that follows a real drag so logos don't navigate mid-swipe.
+  const onClickCapture = (e: React.MouseEvent) => {
+    if (dragMoved.current) { e.preventDefault(); e.stopPropagation(); dragMoved.current = false; }
   };
 
   if (!clubLogos || clubLogos.length === 0) return null;
@@ -180,14 +204,18 @@ export function ClubLogoSlider({
       )}
 
       <div
-        className="w-full overflow-hidden hide-scrollbar cursor-default"
+        className="w-full overflow-hidden hide-scrollbar cursor-grab active:cursor-grabbing select-none"
         style={{
           WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
           maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+          touchAction: 'pan-y',
         }}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        onTouchCancel={handleTouchEnd}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+        onPointerLeave={onPointerUp}
+        onClickCapture={onClickCapture}
       >
         {/* Top padding gives the status badges room so they are never clipped */}
         <div ref={trackRef} className="flex items-center w-max pt-4 pb-1 will-change-transform">
