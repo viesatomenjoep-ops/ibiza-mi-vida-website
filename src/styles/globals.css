@@ -74,7 +74,7 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 /* Fixed bottom official-partner bar for ClubTickets categories: clean white strip, black text */
 .nav-partner-bottom{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -4px 16px rgba(0,0,0,.06);pointer-events:none}
 .nav-partner-bottom .nav-topbar-inner{color:#0D0509}
-.nav-topbar-inner{display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 14px;font-family:var(--font-display),sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;text-align:center;line-height:1.2;text-shadow:none;transition:color .25s ease}
+.nav-topbar-inner{display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 14px;font-family:var(--font-display),sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;text-align:center;line-height:1.2;text-shadow:none;transition:color .12s ease}
 .nav-topbar-inner svg{width:14px;height:14px;flex-shrink:0;display:block}
 .nav{
   position:relative;
@@ -108,11 +108,11 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 /* Centered brand: small logo + stacked wordmark */
 .nav-brand-c{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-decoration:none;min-width:0}
 .nav-brand-subs{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;line-height:1.1;gap:2px;min-width:0}
-.nav-brand-name{font-family:var(--font-display), sans-serif;font-weight:600;font-size:1.17rem;letter-spacing:.03em;text-transform:uppercase;color:#fff;white-space:nowrap;line-height:1;text-align:center;text-shadow:none;transition:color .25s ease}
-.nav-brand-sub{font-family:var(--font-display), sans-serif;font-weight:700;font-size:.48rem;letter-spacing:.06em;text-transform:uppercase;color:#fff;white-space:nowrap;text-align:center;text-shadow:none;transition:color .25s ease}
+.nav-brand-name{font-family:var(--font-display), sans-serif;font-weight:600;font-size:1.17rem;letter-spacing:.03em;text-transform:uppercase;color:#fff;white-space:nowrap;line-height:1;text-align:center;text-shadow:none;transition:color .12s ease}
+.nav-brand-sub{font-family:var(--font-display), sans-serif;font-weight:700;font-size:.48rem;letter-spacing:.06em;text-transform:uppercase;color:#fff;white-space:nowrap;text-align:center;text-shadow:none;transition:color .12s ease}
 .nav-logo-btn{width:52px;height:52px;border-radius:50%;border:1px solid transparent;background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;cursor:pointer;flex-shrink:0;}
 .nav-brand-c:hover .nav-logo-btn{background:rgba(255,255,255,0.08);border-color:#fff}
-.nav-logo-btn img{width:46px;height:46px;object-fit:contain;filter:brightness(0) invert(1);transition:filter .25s ease,width .3s ease,height .3s ease;}
+.nav-logo-btn img{width:46px;height:46px;object-fit:contain;filter:brightness(0) invert(1);transition:filter .12s ease,width .3s ease,height .3s ease;}
 .site-header--scrolled .nav-logo-btn{width:46px;height:46px;}
 .site-header--scrolled .nav-logo-btn img{width:40px;height:40px;}
 /* Adaptive: on a light hero (only while transparent/not scrolled) the brand + burger go black */
@@ -131,15 +131,13 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .wa-btn svg{width:26px;height:26px;display:block}
 .burger:hover .burger-lines span{background-color:var(--spring)}
 /* Spotify player inside the fullscreen menu (between logo and categories) */
-.fs-spotify{width:100%;margin:6px 0 22px}
-.fs-spotify-head{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:14px 16px;border-radius:16px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.04);color:#fff;cursor:pointer;transition:all .2s ease}
-.fs-spotify-head:hover{border-color:#1ED760;background:rgba(30,215,96,0.08)}
-.fs-spotify-logo{display:flex;align-items:center;gap:12px;min-width:0}
-.fs-spotify-logo svg{width:30px;height:30px;flex-shrink:0;display:block}
-.fs-spotify-label{font-family:var(--font-display),sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.fs-spotify-chev{color:#fff;flex-shrink:0;transition:transform .25s ease}
-.fs-spotify-panel{margin-top:12px;animation:fsSpotifyIn .25s ease}
-@keyframes fsSpotifyIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+/* Spotify: small round icon (size of a language pill) in the menu footer; panel opens UPWARD */
+.fs-spotify{position:relative;display:inline-flex}
+.fs-spotify-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.04);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .15s,background .15s;padding:0}
+.fs-spotify-btn:hover,.fs-spotify-btn[aria-expanded="true"]{border-color:#1ED760;background:rgba(30,215,96,.12)}
+.fs-spotify-btn svg{width:24px;height:24px;display:block}
+.fs-spotify-panel{position:absolute;bottom:calc(100% + 12px);right:0;width:320px;max-width:80vw;z-index:30;border-radius:16px;overflow:hidden;box-shadow:0 -12px 44px rgba(0,0,0,.55);animation:fsSpotifyUp .28s cubic-bezier(.22,1,.36,1)}
+@keyframes fsSpotifyUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── old sheet (kept for safety, overridden below) ── */
 .sheet{display:none}
@@ -187,13 +185,13 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 
 /* Logo row */
 .fs-logo{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;
   padding:28px 40px 24px;
   border-bottom:1px solid rgba(255,255,255,.06);
   flex-shrink:0;
 }
-.fs-logo img{width:56px;height:56px;object-fit:contain;filter:brightness(0) invert(1);}
-.fs-brand{display:flex;flex-direction:column;align-items:center;text-align:center;line-height:1.05}
+.fs-logo img{width:46px;height:46px;object-fit:contain;filter:brightness(0) invert(1);}
+.fs-brand{display:flex;flex-direction:column;align-items:flex-start;text-align:left;line-height:1.05}
 .fs-brand-name{font-family:var(--font-display),sans-serif;font-weight:600;font-size:1.17rem;letter-spacing:.03em;text-transform:uppercase;color:#fff;line-height:1}
 .fs-brand-sub{font-family:var(--font-display),sans-serif;font-weight:700;font-size:.48rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-top:3px}
 
@@ -294,11 +292,13 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 
 /* Footer row */
 .fs-footer{
-  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
   padding:20px 40px;
   border-top:1px solid rgba(255,255,255,.06);
   flex-shrink:0;
 }
+.fs-langs{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fs-actions{display:flex;align-items:center;gap:10px}
 .fs-lang{
   width:40px;height:40px;border-radius:50%;
   border:1.5px solid rgba(255,255,255,.15);
@@ -311,11 +311,10 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
   border-color:var(--spring);color:#fff;background:rgba(225,77,104,.15);
 }
 .fs-wa-btn{
-  margin-left:auto;
-  display:inline-flex;align-items:center;gap:8px;
-  padding:10px 20px;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 14px;
   background:#25D366;color:#fff;border-radius:999px;
-  font-size:12px;font-weight:800;letter-spacing:.06em;
+  font-size:11px;font-weight:800;letter-spacing:.05em;
   text-decoration:none;transition:background .15s;
 }
 .fs-wa-btn:hover{background:#1fb759;}
