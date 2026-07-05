@@ -281,9 +281,9 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
       <div className="mx-auto max-w-7xl px-4 mt-6 md:mt-8 md:px-8">
         <a
           href="#tickets"
-          className="flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-ibiza-green bg-black/5 p-4 font-serif text-lg font-black text-black shadow-md transition-colors hover:bg-ibiza-green/10 md:p-5 md:text-xl"
+          className="flex w-full items-center gap-3 rounded-2xl border border-black/10 bg-black/5 p-4 font-serif text-lg font-black uppercase text-black shadow-md transition-colors hover:bg-white md:p-5 md:text-xl"
         >
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green/15 text-ibiza-green"><Ticket size={18} /></span>
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Ticket size={18} /></span>
           {checkoutLabel}
         </a>
       </div>
@@ -527,9 +527,9 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
         </div>
         <a
           href="#tickets"
-          className="inline-flex items-center gap-2 rounded-full border-2 border-ibiza-green bg-black/5 px-6 py-3 font-serif font-black text-black transition-colors hover:bg-ibiza-green/10"
+          className="inline-flex items-center gap-2.5 rounded-2xl border border-black/10 bg-black/5 px-5 py-3 font-serif font-black uppercase text-black shadow-sm transition-colors hover:bg-white"
         >
-          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-ibiza-green/15 text-ibiza-green"><Ticket size={16} /></span>
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Ticket size={18} /></span>
           {checkoutLabel}
         </a>
       </div>
