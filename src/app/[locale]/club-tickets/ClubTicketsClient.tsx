@@ -199,6 +199,7 @@ export default function ClubTicketsClient({
       price: parsePrice(e.prices),
       lineUp: e.lineUp || '',
       href: `/${locale}/club-tickets/${e.venueSlug}/${e.eventSlug}`,
+      affLink: (e as any).affLink || '',
     };
   }), [initialEvents, venues, locale]);
 

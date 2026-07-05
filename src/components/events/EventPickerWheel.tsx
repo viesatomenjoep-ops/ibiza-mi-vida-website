@@ -1,10 +1,11 @@
 'use client'
 
 import { useMemo, useRef, useState, useEffect, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { format, parseISO, isValid, startOfDay } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
-import { Ticket, Music, ChevronRight } from 'lucide-react'
+import { Ticket, Music, ChevronRight, CalendarDays, X } from 'lucide-react'
 
 export interface PickerEvent {
   id: string
@@ -18,6 +19,7 @@ export interface PickerEvent {
   price: number
   lineUp?: string
   href: string
+  affLink?: string
 }
 
 type Period = 'day' | 'week' | 'month'
@@ -25,230 +27,259 @@ type Period = 'day' | 'week' | 'month'
 const DF: Record<string, any> = { nl, en: enUS, de, es, fr }
 
 const LABELS: Record<string, {
-  day: string; week: string; month: string; all: string; from: string;
-  lineup: string; view: string; none: string; title: string
+  day: string; week: string; month: string; from: string; lineup: string;
+  view: string; none: string; open: string; book: string; pickClub: string; pickDate: string
 }> = {
-  en: { day: 'Day', week: 'Week', month: 'Month', all: 'All clubs', from: 'From', lineup: 'Line-up', view: 'View event', none: 'No events in this range — showing all upcoming.', title: 'Spin to your night' },
-  nl: { day: 'Dag', week: 'Week', month: 'Maand', all: 'Alle clubs', from: 'Vanaf', lineup: 'Line-up', view: 'Bekijk event', none: 'Geen events in dit bereik — alle komende worden getoond.', title: 'Draai naar jouw avond' },
-  de: { day: 'Tag', week: 'Woche', month: 'Monat', all: 'Alle Clubs', from: 'Ab', lineup: 'Line-up', view: 'Event ansehen', none: 'Keine Events in diesem Zeitraum — alle kommenden werden gezeigt.', title: 'Dreh zu deiner Nacht' },
-  es: { day: 'Día', week: 'Semana', month: 'Mes', all: 'Todos los clubs', from: 'Desde', lineup: 'Line-up', view: 'Ver evento', none: 'No hay eventos en este rango — mostrando todos los próximos.', title: 'Gira hacia tu noche' },
-  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', all: 'Tous les clubs', from: 'Dès', lineup: 'Line-up', view: 'Voir l’événement', none: 'Aucun événement dans cette plage — affichage de tous les prochains.', title: 'Tourne vers ta nuit' },
+  en: { day: 'Day', week: 'Week', month: 'Month', from: 'From', lineup: 'Line-up', view: 'View event', none: 'No events', open: 'Open calendar', book: 'View & book', pickClub: 'Club', pickDate: 'Date' },
+  nl: { day: 'Dag', week: 'Week', month: 'Maand', from: 'Vanaf', lineup: 'Line-up', view: 'Bekijk event', none: 'Geen events', open: 'Open agenda', book: 'Bekijk & boek', pickClub: 'Club', pickDate: 'Datum' },
+  de: { day: 'Tag', week: 'Woche', month: 'Monat', from: 'Ab', lineup: 'Line-up', view: 'Event ansehen', none: 'Keine Events', open: 'Kalender öffnen', book: 'Ansehen & buchen', pickClub: 'Club', pickDate: 'Datum' },
+  es: { day: 'Día', week: 'Semana', month: 'Mes', from: 'Desde', lineup: 'Line-up', view: 'Ver evento', none: 'Sin eventos', open: 'Abrir calendario', book: 'Ver y reservar', pickClub: 'Club', pickDate: 'Fecha' },
+  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', from: 'Dès', lineup: 'Line-up', view: 'Voir', none: 'Aucun événement', open: 'Ouvrir le calendrier', book: 'Voir & réserver', pickClub: 'Club', pickDate: 'Date' },
 }
 
-const ROW = 82          // px per row
-const VISIBLE = 5       // odd → a true centre row
-const VH = ROW * VISIBLE
-const PAD = VH / 2 - ROW / 2
-
-export function EventPickerWheel({ events, locale = 'nl', className = '' }: { events: PickerEvent[]; locale?: string; className?: string }) {
-  const L = LABELS[locale] || LABELS.en
-  const loc = DF[locale] || enUS
-  const [period, setPeriod] = useState<Period>('week')
-  const [club, setClub] = useState<string | null>(null)
-  const [active, setActive] = useState(0)
-
+// ── Reusable iOS-style wheel ──────────────────────────────────────────────────
+function Wheel({ count, rowH, visible, onIndex, render }: {
+  count: number
+  rowH: number
+  visible: number
+  onIndex?: (i: number) => void
+  render: (i: number, active: boolean) => React.ReactNode
+}) {
+  const H = rowH * visible
+  const PAD = H / 2 - rowH / 2
   const scrollRef = useRef<HTMLDivElement>(null)
-  const rowRefs = useRef<(HTMLAnchorElement | null)[]>([])
-  const rafRef = useRef<number>(0)
+  const rowRefs = useRef<(HTMLDivElement | null)[]>([])
+  const raf = useRef(0)
+  const last = useRef(-1)
+  const [act, setAct] = useState(0)
 
-  const todayStr = useMemo(() => format(startOfDay(new Date()), 'yyyy-MM-dd'), [])
-
-  // Unique clubs (for the top filter strip)
-  const clubs = useMemo(() => {
-    const map = new Map<string, { slug: string; name: string; logo?: string }>()
-    events.forEach(e => { if (!map.has(e.clubSlug)) map.set(e.clubSlug, { slug: e.clubSlug, name: e.clubName, logo: e.clubLogo }) })
-    return Array.from(map.values())
-  }, [events])
-
-  // Filter by period window + club, sorted by date; fall back to all-upcoming if empty
-  const list = useMemo(() => {
-    const upcoming = events
-      .filter(e => /^\d{4}-\d{2}-\d{2}/.test(e.date) && e.date >= todayStr)
-      .filter(e => !club || e.clubSlug === club)
-      .sort((a, b) => a.date.localeCompare(b.date))
-    const endOffset = period === 'day' ? 0 : period === 'week' ? 6 : 31
-    const end = format(startOfDay(new Date(Date.now() + endOffset * 86400000)), 'yyyy-MM-dd')
-    const windowed = upcoming.filter(e => e.date <= end)
-    return windowed.length ? windowed : upcoming
-  }, [events, club, period, todayStr])
-
-  // Reset scroll + active when the list changes
-  useEffect(() => {
-    setActive(0)
-    if (scrollRef.current) scrollRef.current.scrollTop = 0
-    requestAnimationFrame(() => applyWheel())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [list])
-
-  const applyWheel = useCallback(() => {
+  const apply = useCallback(() => {
     const el = scrollRef.current
     if (!el) return
-    const centerY = el.scrollTop + VH / 2
-    let nearest = 0
-    let nearestDist = Infinity
-    for (let i = 0; i < list.length; i++) {
+    const centerY = el.scrollTop + H / 2
+    let near = 0, nd = Infinity
+    for (let i = 0; i < count; i++) {
       const row = rowRefs.current[i]
       if (!row) continue
-      const rowCenter = PAD + i * ROW + ROW / 2
-      const d = (rowCenter - centerY) / ROW
+      const rc = PAD + i * rowH + rowH / 2
+      const d = (rc - centerY) / rowH
       const ad = Math.abs(d)
-      const scale = Math.max(0.72, 1 - ad * 0.13)
-      const opacity = Math.max(0.25, 1 - ad * 0.26)
-      const rot = Math.max(-58, Math.min(58, -d * 20))
-      row.style.transform = `translateZ(0) scale(${scale.toFixed(3)}) rotateX(${rot.toFixed(1)}deg)`
-      row.style.opacity = opacity.toFixed(3)
-      row.style.zIndex = String(100 - Math.round(ad))
-      if (ad < nearestDist) { nearestDist = ad; nearest = i }
+      row.style.transform = `scale(${Math.max(0.68, 1 - ad * 0.13).toFixed(3)}) rotateX(${Math.max(-60, Math.min(60, -d * 22)).toFixed(1)}deg)`
+      row.style.opacity = Math.max(0.22, 1 - ad * 0.3).toFixed(3)
+      if (ad < nd) { nd = ad; near = i }
     }
-    setActive(prev => (prev !== nearest ? nearest : prev))
-  }, [list.length])
+    if (near !== last.current) {
+      last.current = near
+      setAct(near)
+      onIndex?.(near)
+    }
+  }, [count, rowH, H, PAD, onIndex])
 
-  const onScroll = useCallback(() => {
-    cancelAnimationFrame(rafRef.current)
-    rafRef.current = requestAnimationFrame(applyWheel)
-  }, [applyWheel])
+  const onScroll = () => { cancelAnimationFrame(raf.current); raf.current = requestAnimationFrame(apply) }
+  useEffect(() => { last.current = -1; requestAnimationFrame(apply) }, [count, apply])
 
-  useEffect(() => { applyWheel() }, [applyWheel])
+  return (
+    <div className="relative select-none" style={{ height: H }}>
+      <div className="pointer-events-none absolute inset-x-1 z-0 rounded-2xl border-2 border-ibiza-green/70 bg-ibiza-green/5" style={{ top: PAD, height: rowH }} />
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-20 bg-gradient-to-b from-white to-transparent" style={{ height: PAD }} />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-white to-transparent" style={{ height: PAD }} />
+      <div
+        ref={scrollRef}
+        onScroll={onScroll}
+        className="hide-scrollbar h-full overflow-y-auto"
+        style={{ scrollSnapType: 'y mandatory', perspective: '900px', paddingTop: PAD, paddingBottom: PAD }}
+      >
+        {Array.from({ length: count }).map((_, i) => (
+          <div
+            key={i}
+            ref={(el) => { rowRefs.current[i] = el }}
+            className="flex items-center justify-center px-1"
+            style={{ height: rowH, scrollSnapAlign: 'center', transformStyle: 'preserve-3d', willChange: 'transform, opacity' }}
+          >
+            {render(i, i === act)}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
-  const activeEvent = list[active]
+// ── The three-wheel picker body (used compact + full-screen) ──────────────────
+function PickerBody({ events, locale, big }: { events: PickerEvent[]; locale: string; big?: boolean }) {
+  const L = LABELS[locale] || LABELS.en
+  const loc = DF[locale] || enUS
+  const todayStr = useMemo(() => format(startOfDay(new Date()), 'yyyy-MM-dd'), [])
+  const [period, setPeriod] = useState<Period>('week')
+  const [clubIdx, setClubIdx] = useState(0)
+  const [dateIdx, setDateIdx] = useState(0)
 
-  const fmtDate = (iso: string, pattern: string) => {
-    try { const d = parseISO(iso); return isValid(d) ? format(d, pattern, { locale: loc }) : '' } catch { return '' }
-  }
+  const fmt = (iso: string, p: string) => { try { const d = parseISO(iso); return isValid(d) ? format(d, p, { locale: loc }) : '' } catch { return '' } }
+
+  const clubs = useMemo(() => {
+    const map = new Map<string, { slug: string; name: string; logo?: string }>()
+    events.filter(e => e.date >= todayStr).forEach(e => { if (!map.has(e.clubSlug)) map.set(e.clubSlug, { slug: e.clubSlug, name: e.clubName, logo: e.clubLogo }) })
+    return Array.from(map.values())
+  }, [events, todayStr])
+
+  const club = clubs[Math.min(clubIdx, clubs.length - 1)]
+
+  const clubDates = useMemo(() => {
+    if (!club) return [] as PickerEvent[]
+    const all = events.filter(e => e.clubSlug === club.slug && e.date >= todayStr).sort((a, b) => a.date.localeCompare(b.date))
+    const off = period === 'day' ? 0 : period === 'week' ? 6 : 31
+    const end = format(startOfDay(new Date(Date.now() + off * 86400000)), 'yyyy-MM-dd')
+    const win = all.filter(e => e.date <= end)
+    return win.length ? win : all
+  }, [events, club, period, todayStr])
+
+  const ev = clubDates[Math.min(dateIdx, clubDates.length - 1)]
+
+  const clubRow = big ? 92 : 66
+  const dateRow = big ? 92 : 66
+  const vis = big ? 5 : 3
+
+  if (clubs.length === 0) return <div className="p-10 text-center text-sm font-semibold text-black/40">{L.none}</div>
+
+  return (
+    <div className="w-full">
+      {/* Day / Week / Month */}
+      <div className="mb-4 flex justify-center">
+        <div className="inline-flex rounded-full bg-black/5 p-1">
+          {(['day', 'week', 'month'] as Period[]).map(p => (
+            <button
+              key={p}
+              onClick={() => setPeriod(p)}
+              className={`rounded-full px-4 py-2 text-xs font-black uppercase tracking-wider transition-all md:px-5 md:text-sm ${period === p ? 'bg-ibiza-green text-black shadow-sm' : 'text-black/50 hover:text-black'}`}
+            >{L[p]}</button>
+          ))}
+        </div>
+      </div>
+
+      {/* 3 columns: club wheel | date wheel | reactive event */}
+      <div className="overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg">
+        <div className="grid grid-cols-[1fr_1fr_1.5fr] items-stretch">
+          {/* Club wheel */}
+          <div className="border-r border-black/5">
+            <div className="border-b border-black/5 py-2 text-center text-[10px] font-black uppercase tracking-widest text-black/35">{L.pickClub}</div>
+            <Wheel
+              count={clubs.length}
+              rowH={clubRow}
+              visible={vis}
+              onIndex={(i) => { setClubIdx(i); setDateIdx(0) }}
+              render={(i, active) => {
+                const c = clubs[i]
+                return (
+                  <div className="flex flex-col items-center gap-1">
+                    <span className="grid h-9 w-full place-items-center">
+                      {c.logo ? <img src={c.logo} alt="" className="max-h-8 max-w-[80%] object-contain [filter:brightness(0)]" /> : <span className="text-xs font-black text-black">{c.name.slice(0, 3).toUpperCase()}</span>}
+                    </span>
+                    <span className={`px-1 text-center text-[10px] font-bold leading-tight ${active ? 'text-black' : 'text-black/50'} line-clamp-1`}>{c.name}</span>
+                  </div>
+                )
+              }}
+            />
+          </div>
+
+          {/* Date wheel — remounts (key) when club or period changes */}
+          <div className="border-r border-black/5">
+            <div className="border-b border-black/5 py-2 text-center text-[10px] font-black uppercase tracking-widest text-black/35">{L.pickDate}</div>
+            <Wheel
+              key={`${club?.slug}-${period}`}
+              count={clubDates.length}
+              rowH={dateRow}
+              visible={vis}
+              onIndex={(i) => setDateIdx(i)}
+              render={(i, active) => {
+                const d = clubDates[i]
+                if (!d) return null
+                return (
+                  <div className="flex flex-col items-center justify-center leading-none">
+                    <span className={`text-[10px] font-black uppercase tracking-wide ${active ? 'text-black/50' : 'text-black/30'}`}>{fmt(d.date, 'EEE')}</span>
+                    <span className={`font-serif font-black ${active ? 'text-black' : 'text-black/70'} ${big ? 'text-3xl' : 'text-2xl'}`}>{fmt(d.date, 'd')}</span>
+                    <span className="text-[10px] font-black uppercase tracking-wide text-ibiza-green">{fmt(d.date, 'MMM')}</span>
+                  </div>
+                )
+              }}
+            />
+          </div>
+
+          {/* Reactive event image + price */}
+          <div className="relative">
+            {ev ? (
+              <Link href={ev.href} className="group block h-full w-full">
+                <div className="relative h-full w-full overflow-hidden bg-neutral-900">
+                  {ev.image ? <img key={ev.id} src={ev.image} alt={ev.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+                  {ev.price > 0 && <span className="absolute right-2 top-2 rounded-md bg-ibiza-green px-2 py-0.5 text-[11px] font-black text-black">€{ev.price}</span>}
+                  <div className="absolute inset-x-0 bottom-0 p-3">
+                    <div className={`font-serif font-black leading-tight text-white line-clamp-2 ${big ? 'text-lg' : 'text-sm'}`}>{ev.eventName}</div>
+                    <div className="mt-0.5 truncate text-[11px] font-semibold text-white/70 capitalize">{fmt(ev.date, 'EEEE d MMMM')}</div>
+                  </div>
+                </div>
+              </Link>
+            ) : (
+              <div className="grid h-full place-items-center p-4 text-center text-xs font-semibold text-black/40">{L.none}</div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Reactive info + CTA */}
+      {ev && (
+        <Link href={ev.href} className="group mt-4 flex items-center gap-4 rounded-2xl border border-black/10 bg-black/5 p-4 transition-colors hover:bg-white">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Ticket size={20} /></span>
+          <div className="min-w-0 flex-1">
+            <h3 className="truncate font-serif text-lg font-black text-black md:text-xl">{ev.eventName}</h3>
+            <p className="truncate text-sm font-semibold text-black/60">{ev.clubName} · <span className="capitalize">{fmt(ev.date, 'EEEE d MMMM')}</span></p>
+            {ev.lineUp && <p className="mt-0.5 flex items-center gap-1.5 truncate text-xs font-semibold text-black/50"><Music size={13} className="shrink-0 text-ibiza-green" /> {ev.lineUp}</p>}
+          </div>
+          <div className="flex shrink-0 flex-col items-end">
+            {ev.price > 0 && <><span className="text-[10px] font-bold uppercase tracking-wider text-black/40">{L.from}</span><span className="font-serif text-xl font-black text-black">€{ev.price}</span></>}
+            <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-ibiza-green px-3 py-1 text-xs font-black uppercase tracking-wider text-black">{L.book} <ChevronRight size={14} /></span>
+          </div>
+        </Link>
+      )}
+    </div>
+  )
+}
+
+// ── Public component: compact picker + "Open calendar" full-screen ────────────
+export function EventPickerWheel({ events, locale = 'nl', className = '' }: { events: PickerEvent[]; locale?: string; className?: string }) {
+  const L = LABELS[locale] || LABELS.en
+  const [full, setFull] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    if (!full) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = prev }
+  }, [full])
 
   return (
     <section className={`w-full ${className}`}>
-      {/* Club filter strip */}
-      {clubs.length > 1 && (
-        <div className="hide-scrollbar -mx-4 mb-5 flex gap-3 overflow-x-auto px-4 pb-1">
-          <button
-            onClick={() => setClub(null)}
-            className={`shrink-0 rounded-full px-4 py-2 text-xs font-black uppercase tracking-wider transition-colors ${!club ? 'bg-black text-white' : 'bg-black/5 text-black/60 hover:bg-black/10'}`}
-          >
-            {L.all}
-          </button>
-          {clubs.map(c => (
-            <button
-              key={c.slug}
-              onClick={() => setClub(c.slug === club ? null : c.slug)}
-              className={`flex shrink-0 items-center gap-2 rounded-full border py-1.5 pl-1.5 pr-4 transition-colors ${club === c.slug ? 'border-ibiza-green bg-ibiza-green/10' : 'border-black/10 bg-white hover:border-black/25'}`}
-            >
-              <span className="grid h-8 w-8 place-items-center overflow-hidden rounded-full bg-black/5">
-                {c.logo ? <img src={c.logo} alt="" className="h-full w-full object-contain p-1 [filter:brightness(0)]" /> : null}
-              </span>
-              <span className="whitespace-nowrap text-xs font-bold text-black">{c.name}</span>
-            </button>
-          ))}
-        </div>
-      )}
+      <PickerBody events={events} locale={locale} />
 
-      {/* Day / Week / Month selector */}
-      <div className="mb-5 inline-flex rounded-full bg-black/5 p-1">
-        {(['day', 'week', 'month'] as Period[]).map(p => (
-          <button
-            key={p}
-            onClick={() => setPeriod(p)}
-            className={`rounded-full px-5 py-2 text-sm font-black uppercase tracking-wider transition-all ${period === p ? 'bg-ibiza-green text-black shadow-sm' : 'text-black/50 hover:text-black'}`}
-          >
-            {L[p]}
-          </button>
-        ))}
-      </div>
+      <button
+        onClick={() => setFull(true)}
+        className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-ibiza-green bg-ibiza-green/10 px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black transition-colors hover:bg-ibiza-green/20"
+      >
+        <CalendarDays size={20} /> {L.open}
+      </button>
 
-      {/* The 3-column iOS-style picker */}
-      <div className="relative overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg">
-        {/* Column headers */}
-        <div className="grid grid-cols-[70px_92px_1fr] items-center gap-2 border-b border-black/5 px-3 py-2.5 text-[10px] font-black uppercase tracking-widest text-black/35">
-          <span className="text-center">Club</span>
-          <span className="text-center">Datum</span>
-          <span className="pl-2">Event</span>
-        </div>
-
-        {list.length === 0 ? (
-          <div className="p-10 text-center text-sm font-semibold text-black/40">{L.none}</div>
-        ) : (
-          <div className="relative" style={{ height: VH }}>
-            {/* Centre selection band */}
-            <div
-              className="pointer-events-none absolute inset-x-2 z-0 rounded-2xl border-2 border-ibiza-green/70 bg-ibiza-green/5"
-              style={{ top: PAD, height: ROW }}
-            />
-            {/* Top/bottom fade */}
-            <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-16 bg-gradient-to-b from-white to-transparent" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-16 bg-gradient-to-t from-white to-transparent" />
-
-            <div
-              ref={scrollRef}
-              onScroll={onScroll}
-              className="hide-scrollbar h-full overflow-y-auto"
-              style={{ scrollSnapType: 'y mandatory', perspective: '900px', paddingTop: PAD, paddingBottom: PAD }}
-            >
-              {list.map((e, i) => (
-                <Link
-                  href={e.href}
-                  key={e.id}
-                  ref={(el) => { rowRefs.current[i] = el }}
-                  className="grid grid-cols-[70px_92px_1fr] items-center gap-2 px-3"
-                  style={{ height: ROW, scrollSnapAlign: 'center', transformStyle: 'preserve-3d', willChange: 'transform, opacity' }}
-                >
-                  {/* Col 1 — club logo */}
-                  <span className="grid h-12 w-full place-items-center">
-                    {e.clubLogo
-                      ? <img src={e.clubLogo} alt={e.clubName} className="max-h-10 max-w-full object-contain [filter:brightness(0)]" />
-                      : <span className="text-[10px] font-black text-black/60">{e.clubName.slice(0, 3).toUpperCase()}</span>}
-                  </span>
-                  {/* Col 2 — date */}
-                  <span className="flex flex-col items-center justify-center leading-none">
-                    <span className="text-[10px] font-black uppercase tracking-wide text-black/40">{fmtDate(e.date, 'EEE')}</span>
-                    <span className="font-serif text-2xl font-black text-black">{fmtDate(e.date, 'd')}</span>
-                    <span className="text-[10px] font-black uppercase tracking-wide text-ibiza-green">{fmtDate(e.date, 'MMM')}</span>
-                  </span>
-                  {/* Col 3 — event image + price */}
-                  <span className="relative h-[64px] w-full overflow-hidden rounded-xl bg-neutral-900">
-                    {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover" /> : null}
-                    <span className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent" />
-                    <span className="absolute left-2.5 top-1/2 -translate-y-1/2 pr-16 font-serif text-sm font-black leading-tight text-white line-clamp-2">{e.eventName}</span>
-                    {e.price > 0 && (
-                      <span className="absolute right-2 top-2 rounded-md bg-ibiza-green px-2 py-0.5 text-[11px] font-black text-black">€{e.price}</span>
-                    )}
-                  </span>
-                </Link>
-              ))}
+      {mounted && full && createPortal(
+        <div className="fixed inset-0 z-[300] flex flex-col bg-white">
+          <div className="flex items-center justify-between border-b border-black/10 px-5 py-4">
+            <h2 className="font-serif text-xl font-black text-black md:text-2xl">Ibiza Calendar</h2>
+            <button onClick={() => setFull(false)} aria-label="Close" className="grid h-11 w-11 place-items-center rounded-full bg-black/5 text-black hover:bg-black/10"><X size={22} /></button>
+          </div>
+          <div className="flex-1 overflow-y-auto px-5 py-6">
+            <div className="mx-auto w-full max-w-2xl">
+              <PickerBody events={events} locale={locale} big />
             </div>
           </div>
-        )}
-      </div>
-
-      {/* Info strip — artist / line-up / date / price of the centred event */}
-      {activeEvent && (
-        <Link
-          href={activeEvent.href}
-          className="group mt-5 flex items-center gap-4 rounded-2xl border border-black/10 bg-black/5 p-4 transition-colors hover:bg-white"
-        >
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Ticket size={20} /></span>
-          <div className="min-w-0 flex-1">
-            <h3 className="truncate font-serif text-lg font-black text-black md:text-xl">{activeEvent.eventName}</h3>
-            <p className="truncate text-sm font-semibold text-black/60">
-              {activeEvent.clubName} · <span className="capitalize">{fmtDate(activeEvent.date, 'EEEE d MMMM')}</span>
-            </p>
-            {activeEvent.lineUp && (
-              <p className="mt-0.5 flex items-center gap-1.5 truncate text-xs font-semibold text-black/50">
-                <Music size={13} className="shrink-0 text-ibiza-green" /> {activeEvent.lineUp}
-              </p>
-            )}
-          </div>
-          <div className="flex shrink-0 flex-col items-end">
-            {activeEvent.price > 0 && (
-              <>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-black/40">{L.from}</span>
-                <span className="font-serif text-xl font-black text-black">€{activeEvent.price}</span>
-              </>
-            )}
-            <span className="mt-1 inline-flex items-center gap-1 text-xs font-black uppercase tracking-wider text-ibiza-green">
-              {L.view} <ChevronRight size={14} className="transition-transform group-hover:translate-x-0.5" />
-            </span>
-          </div>
-        </Link>
+        </div>,
+        document.body
       )}
     </section>
   )
