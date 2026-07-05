@@ -94,7 +94,8 @@ export function ClubLogoSlider({
   showLegend = false,
   speed = 0.5,
 }: ClubLogoSliderProps) {
-  const sliderRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const offsetRef = useRef(0);
   const isDragging = useRef(false);
   const [now, setNow] = useState<Date | null>(null);
 
@@ -105,24 +106,34 @@ export function ClubLogoSlider({
     return () => clearInterval(id);
   }, []);
 
+  // Smooth GPU marquee: animate a sub-pixel translate3d instead of integer scrollLeft
+  // (scrollLeft snaps to whole pixels and stutters at slow speeds on many browsers/devices).
   useEffect(() => {
-    const slider = sliderRef.current;
-    if (!slider || clubLogos.length === 0) return;
+    const track = trackRef.current;
+    if (!track || clubLogos.length === 0) return;
 
     let animationId: number;
+    let unit = 0; // width of one repeated set (the track renders 4 copies)
+    const measure = () => { unit = track.scrollWidth / 4; };
+    measure();
 
     const play = () => {
-      if (!isDragging.current && slider) {
-        slider.scrollLeft -= speed;
-        if (slider.scrollLeft <= 0) {
-          slider.scrollLeft = slider.scrollWidth / 2;
-        }
+      if (!isDragging.current && track) {
+        offsetRef.current -= speed;
+        if (unit && -offsetRef.current >= unit) offsetRef.current += unit;
+        track.style.transform = `translate3d(${offsetRef.current}px,0,0)`;
       }
       animationId = requestAnimationFrame(play);
     };
 
     play();
-    return () => cancelAnimationFrame(animationId);
+    window.addEventListener('resize', measure);
+    const remeasure = setTimeout(measure, 400); // after logos load
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', measure);
+      clearTimeout(remeasure);
+    };
   }, [clubLogos, speed]);
 
   const handleTouchStart = () => {
@@ -169,15 +180,17 @@ export function ClubLogoSlider({
       )}
 
       <div
-        className="w-full overflow-x-auto md:overflow-x-hidden hide-scrollbar cursor-default"
-        style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)' }}
-        ref={sliderRef}
+        className="w-full overflow-hidden hide-scrollbar cursor-default"
+        style={{
+          WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+          maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+        }}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         onTouchCancel={handleTouchEnd}
       >
-        {/* Extra top padding gives the status badges room so they are never clipped */}
-        <div className="flex items-center w-max pt-6 pb-2">
+        {/* Top padding gives the status badges room so they are never clipped */}
+        <div ref={trackRef} className="flex items-center w-max pt-4 pb-1 will-change-transform">
           {[...clubLogos, ...clubLogos, ...clubLogos, ...clubLogos]
             .filter(club => club.whitelogo || club.picture)
             .map((club, idx) => {
@@ -196,7 +209,7 @@ export function ClubLogoSlider({
                     <img
                       src={club.whitelogo || club.picture}
                       alt={club.name}
-                      className="h-8 md:h-10 w-auto object-contain brightness-0 invert drop-shadow-md pointer-events-none"
+                      className="h-5 md:h-6 w-auto object-contain brightness-0 invert drop-shadow-md pointer-events-none"
                       loading="lazy"
                       decoding="async"
                     />
