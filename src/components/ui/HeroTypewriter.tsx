@@ -10,7 +10,7 @@ interface HeroTypewriterProps {
 // Classes kept identical between the invisible "ghost" (reserves layout so
 // there is zero layout shift) and the animated overlay.
 const H1_CLASS =
-  'text-white text-[0.55rem] sm:text-2xl md:text-2xl lg:text-[2.1rem] font-medium font-serif uppercase tracking-tight drop-shadow-lg leading-[1.05]'
+  'text-white text-sm sm:text-2xl md:text-2xl lg:text-[2.1rem] font-medium font-serif uppercase tracking-tight drop-shadow-lg leading-[1.05]'
 const SUB_CLASS =
   'block font-serif font-normal text-xs sm:text-sm md:text-base lg:text-lg mt-3 tracking-tight leading-snug text-white/90'
 

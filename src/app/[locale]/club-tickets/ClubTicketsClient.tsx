@@ -376,7 +376,9 @@ export default function ClubTicketsClient({
             {displayedEvents.map((event, i) => {
               const price = parsePrice(event.prices);
               const matchingVenue = venues.find(v => v.slug === event.venueSlug);
-              const cardLogo = event.venueLogo || matchingVenue?.whitelogo;
+              // Prefer the monochrome white logo (→ clean black via brightness(0)); fall back for
+              // venues whose whitelogo is empty (e.g. SIN Sundays) so a logo is always shown.
+              const cardLogo = matchingVenue?.whitelogo || event.venueLogo || matchingVenue?.logo || matchingVenue?.picture;
 
               return (
                 <Link key={`${event.id}-${i}`} href={`/${locale}/club-tickets/${event.venueSlug}/${event.eventSlug}`} className="lcard in group">
