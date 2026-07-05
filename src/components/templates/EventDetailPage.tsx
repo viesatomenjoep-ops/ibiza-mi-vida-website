@@ -259,7 +259,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
         <div className="absolute left-4 top-4 z-10">
           <Link
             href={`/${locale}/${basePath}/${club.slug}`}
-            className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-sans text-sm text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+            className="inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 font-sans text-sm font-semibold text-black shadow-sm backdrop-blur-sm transition-colors hover:bg-white"
           >
             <ArrowLeft size={14} />
             {t.event_back_to || 'Back to'} {club.name}
