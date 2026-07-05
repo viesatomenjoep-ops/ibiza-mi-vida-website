@@ -250,11 +250,11 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
   return (
     <div className="bg-white text-black min-h-screen pt-[76px] md:pt-[120px]">
       {/* Hero */}
-      <section className="relative flex h-[60vh] w-full flex-col justify-end overflow-hidden rounded-b-[32px] md:h-[74vh]" aria-label={`${eventName} hero`}>
+      <section className="relative flex h-[78vh] w-full flex-col justify-end overflow-hidden rounded-b-[32px] md:h-[96vh]" aria-label={`${eventName} hero`}>
         {eventCover && (
           <Image src={eventCover} alt={eventName} fill priority className="object-cover object-center" sizes="100vw" quality={85} />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian via-velvet-obsidian/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian via-velvet-obsidian/60 to-transparent" />
 
         <div className="absolute left-4 top-4 z-10">
           <Link
