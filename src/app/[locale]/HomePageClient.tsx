@@ -65,27 +65,17 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         {/* Spacer Top (Fixed to push text up) */}
         <div className="h-[var(--nav-h)] w-full shrink-0" />
 
-        <div className="relative z-20 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4">
-          <HeroTypewriter
-            title={translations.home_hero_title || 'Ibiza mi Vida'}
-            subtitle={translations.home_hero_subtitle || 'Entertainment · Boat · Nightlife — Reimagined'}
-          />
-        </div>
+        {/* TOP: the three categories (were at the bottom) */}
+        <div className="relative z-20 w-full flex flex-col items-center px-4">
+          {/* Desktop: text buttons (hidden on mobile) */}
+          <div className="hidden md:flex md:flex-row items-center justify-center gap-4 w-full max-w-3xl mx-auto md:pt-6">
+            <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
+            <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
+            <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/private-boat-charters`}>{translations.nav_private_boat}</Link>
+          </div>
 
-        {/* Spacer Middle */}
-        <div className="flex-1 w-full" />
-
-        {/* Desktop: text buttons (hidden on mobile) */}
-        <div className="relative z-20 hidden md:flex md:flex-row items-center justify-center gap-4 w-full max-w-3xl mx-auto px-4 md:pt-16 md:pb-12">
-          <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
-          <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
-          <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/private-boat-charters`}>{translations.nav_private_boat}</Link>
-        </div>
-
-        {/* ── HORIZONTAL LOGO MARQUEE BAR ── */}
-        <div className="w-full relative z-20 mt-auto pt-8 pb-2 md:pt-10 md:pb-3">
-          {/* Mobile: animated category icons — directly above the slider */}
-          <div className="mcat-row md:hidden mb-4">
+          {/* Mobile: animated category icons */}
+          <div className="mcat-row md:hidden">
             <Link href={`${base}/calendar`} className="mcat" aria-label={translations.home_full_calendar}>
               <span className="mcat-ico mcat-cal" aria-hidden="true">
                 <svg viewBox="0 0 48 48" fill="none">
@@ -123,6 +113,20 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
               </span>
               <span className="mcat-label">{translations.nav_private_boat}</span>
             </Link>
+          </div>
+        </div>
+
+        {/* Spacer Middle */}
+        <div className="flex-1 w-full" />
+
+        {/* ── SLOGAN (were at the top) + HORIZONTAL LOGO MARQUEE BAR ── */}
+        <div className="w-full relative z-20 mt-auto pt-8 pb-2 md:pt-10 md:pb-3">
+          {/* Slogan now sits directly above the slider, where the categories used to be */}
+          <div className="relative z-20 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 mb-5 md:mb-6">
+            <HeroTypewriter
+              title={translations.home_hero_title || 'Ibiza mi Vida'}
+              subtitle={translations.home_hero_subtitle || 'Entertainment · Boat · Nightlife — Reimagined'}
+            />
           </div>
           <ClubLogoSlider
             clubLogos={clubLogos}
