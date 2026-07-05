@@ -231,7 +231,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${onLight ? 'site-header--onlight' : ''}`}>
+      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${onLight ? 'site-header--onlight' : ''}`}>
         {/* Topbar strip: official ticket partner */}
         <div className="nav-topbar">
           <span className="nav-topbar-inner">
@@ -300,7 +300,8 @@ export function Navbar() {
           <img src="/logo-clean.png" alt="IBZMV" />
           <span className="fs-brand">
             <span className="fs-brand-name">IBIZA MI VIDA</span>
-            <span className="fs-brand-sub">TICKETS · PRIVATE BOATS · RENTAL</span>
+            <span className="fs-brand-sub">TICKETS · PRIVATE BOATS</span>
+            <span className="fs-brand-sub">RENTAL · EVENTS</span>
           </span>
         </div>
 
