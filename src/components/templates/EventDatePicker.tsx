@@ -189,6 +189,7 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
                       priceStr={dateObj.prices || '50'}
                       image={eventCover}
                       affLink={dateObj.affLink || ''}
+                      locale={locale}
                     />
                   </div>
                 </div>

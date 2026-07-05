@@ -4,6 +4,7 @@ import React, { useState, useMemo, useRef } from 'react';
 import Link from 'next/link';
 import { Search, MapPin, ChevronRight, Star, Heart, Calendar, Music, MessageCircle, ArrowRight, Ticket } from 'lucide-react';
 import type { CTEventDate } from '@/lib/clubtickets';
+import { EventPickerWheel, type PickerEvent } from '@/components/events/EventPickerWheel';
 import '@/styles/club-tickets.css';
 
 function parsePrice(priceStr?: string): number {
@@ -183,6 +184,24 @@ export default function ClubTicketsClient({
 
   const displayedEvents = filteredEvents.slice(0, visibleCount);
 
+  // Normalised events for the iOS-style picker wheel
+  const pickerEvents: PickerEvent[] = useMemo(() => initialEvents.map(e => {
+    const mv = venues.find(v => v.slug === e.venueSlug);
+    return {
+      id: `${e.id}-${e.eventSlug}`,
+      clubSlug: e.venueSlug || '',
+      clubName: e.venueName || e.name || '',
+      clubLogo: mv?.whitelogo || e.venueLogo || mv?.logo || mv?.picture || '',
+      eventSlug: e.eventSlug || '',
+      eventName: e.eventName || e.name || '',
+      image: e.eventCover || e.eventLogo || e.venueCover || '',
+      date: e.date || '',
+      price: parsePrice(e.prices),
+      lineUp: e.lineUp || '',
+      href: `/${locale}/club-tickets/${e.venueSlug}/${e.eventSlug}`,
+    };
+  }), [initialEvents, venues, locale]);
+
   return (
     <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-hidden">
       <section className="pt-[calc(var(--nav-h)+16px)] pb-6 relative z-10 flex flex-col items-center text-center px-4">
@@ -195,9 +214,22 @@ export default function ClubTicketsClient({
         </div>
       </section>
 
+      {/* ── iOS-style event picker wheel ── */}
+      {pickerEvents.length > 0 && (
+        <section className="relative z-10 pb-4">
+          <div className="wrap">
+            <div className="mb-5">
+              <div className="text-xs font-black tracking-widest uppercase text-ibiza-green mb-1">Score your tickets</div>
+              <h2 className="font-serif text-3xl md:text-4xl font-black text-black tracking-tight">Draai naar jouw avond</h2>
+            </div>
+            <EventPickerWheel events={pickerEvents} locale={locale} />
+          </div>
+        </section>
+      )}
+
       <section className="block pt-2 relative z-10">
         <div className="wrap">
-          
+
           {/* Category Tabs */}
           <div className="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-none border-b border-black/10">
             {CATEGORIES.map(cat => (

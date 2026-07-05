@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import {
   Calendar, MapPin, ExternalLink, Ticket, CheckCircle2, Lock, Clock, Music, Info,
@@ -26,12 +26,13 @@ const SEC_I18N: Record<string, {
   doors: string; closes: string; itinerary: string; book: string;
   standard: string; standardNote: string; bookOn: string; secure: string;
   instant: string; official: string; noFees: string;
+  confirmTitle: string; confirmBody: string; confirmYes: string; confirmNo: string;
 }> = {
-  en: { lineup: 'Line-up', times: 'Times', about: 'About this event', important: 'Important information', doors: 'Doors open', closes: 'Closes', itinerary: 'Itinerary', book: 'Book your ticket', standard: 'Standard entry', standardNote: 'Official general admission', bookOn: 'Checkout', secure: 'Secure payment via ClubTickets', instant: 'Instant ticket delivery', official: 'Official partner guarantee', noFees: 'No hidden booking fees' },
-  nl: { lineup: 'Line-up', times: 'Tijden', about: 'Over dit event', important: 'Belangrijke informatie', doors: 'Deuren open', closes: 'Sluit', itinerary: 'Routebeschrijving', book: 'Boek je ticket', standard: 'Standaard toegang', standardNote: 'Officiële algemene toegang', bookOn: 'Afrekenen', secure: 'Veilig betalen via ClubTickets', instant: 'Directe ticketlevering', official: 'Officiële partnergarantie', noFees: 'Geen verborgen kosten' },
-  de: { lineup: 'Line-up', times: 'Zeiten', about: 'Über dieses Event', important: 'Wichtige Informationen', doors: 'Einlass', closes: 'Ende', itinerary: 'Routenverlauf', book: 'Ticket buchen', standard: 'Standard-Eintritt', standardNote: 'Offizieller allgemeiner Eintritt', bookOn: 'Zur Kasse', secure: 'Sichere Zahlung über ClubTickets', instant: 'Sofortige Ticketzustellung', official: 'Offizielle Partnergarantie', noFees: 'Keine versteckten Gebühren' },
-  es: { lineup: 'Line-up', times: 'Horarios', about: 'Sobre este evento', important: 'Información importante', doors: 'Apertura', closes: 'Cierre', itinerary: 'Itinerario', book: 'Reserva tu entrada', standard: 'Entrada estándar', standardNote: 'Admisión general oficial', bookOn: 'Finalizar compra', secure: 'Pago seguro con ClubTickets', instant: 'Entrega instantánea de entradas', official: 'Garantía de socio oficial', noFees: 'Sin gastos ocultos' },
-  fr: { lineup: 'Line-up', times: 'Horaires', about: 'À propos de cet événement', important: 'Informations importantes', doors: 'Ouverture', closes: 'Fermeture', itinerary: 'Itinéraire', book: 'Réservez votre billet', standard: 'Entrée standard', standardNote: 'Admission générale officielle', bookOn: 'Commander', secure: 'Paiement sécurisé via ClubTickets', instant: 'Livraison instantanée des billets', official: 'Garantie partenaire officiel', noFees: 'Aucun frais caché' },
+  en: { lineup: 'Line-up', times: 'Times', about: 'About this event', important: 'Important information', doors: 'Doors open', closes: 'Closes', itinerary: 'Itinerary', book: 'Book your ticket', standard: 'Standard entry', standardNote: 'Official general admission', bookOn: 'Checkout', secure: 'Secure payment via ClubTickets', instant: 'Instant ticket delivery', official: 'Official partner guarantee', noFees: 'No hidden booking fees', confirmTitle: 'Ready to check out?', confirmBody: "You'll be taken to our official ticket partner ClubTickets to securely complete your booking.", confirmYes: 'Yes, check out', confirmNo: 'Cancel' },
+  nl: { lineup: 'Line-up', times: 'Tijden', about: 'Over dit event', important: 'Belangrijke informatie', doors: 'Deuren open', closes: 'Sluit', itinerary: 'Routebeschrijving', book: 'Boek je ticket', standard: 'Standaard toegang', standardNote: 'Officiële algemene toegang', bookOn: 'Afrekenen', secure: 'Veilig betalen via ClubTickets', instant: 'Directe ticketlevering', official: 'Officiële partnergarantie', noFees: 'Geen verborgen kosten', confirmTitle: 'Klaar om af te rekenen?', confirmBody: 'Je wordt doorgestuurd naar onze officiële ticketpartner ClubTickets om je boeking veilig af te ronden.', confirmYes: 'Ja, afrekenen', confirmNo: 'Annuleren' },
+  de: { lineup: 'Line-up', times: 'Zeiten', about: 'Über dieses Event', important: 'Wichtige Informationen', doors: 'Einlass', closes: 'Ende', itinerary: 'Routenverlauf', book: 'Ticket buchen', standard: 'Standard-Eintritt', standardNote: 'Offizieller allgemeiner Eintritt', bookOn: 'Zur Kasse', secure: 'Sichere Zahlung über ClubTickets', instant: 'Sofortige Ticketzustellung', official: 'Offizielle Partnergarantie', noFees: 'Keine versteckten Gebühren', confirmTitle: 'Bereit zur Kasse?', confirmBody: 'Sie werden zu unserem offiziellen Ticketpartner ClubTickets weitergeleitet, um Ihre Buchung sicher abzuschließen.', confirmYes: 'Ja, zur Kasse', confirmNo: 'Abbrechen' },
+  es: { lineup: 'Line-up', times: 'Horarios', about: 'Sobre este evento', important: 'Información importante', doors: 'Apertura', closes: 'Cierre', itinerary: 'Itinerario', book: 'Reserva tu entrada', standard: 'Entrada estándar', standardNote: 'Admisión general oficial', bookOn: 'Finalizar compra', secure: 'Pago seguro con ClubTickets', instant: 'Entrega instantánea de entradas', official: 'Garantía de socio oficial', noFees: 'Sin gastos ocultos', confirmTitle: '¿Listo para finalizar la compra?', confirmBody: 'Te redirigiremos a nuestro socio oficial de entradas ClubTickets para completar tu reserva de forma segura.', confirmYes: 'Sí, finalizar', confirmNo: 'Cancelar' },
+  fr: { lineup: 'Line-up', times: 'Horaires', about: 'À propos de cet événement', important: 'Informations importantes', doors: 'Ouverture', closes: 'Fermeture', itinerary: 'Itinéraire', book: 'Réservez votre billet', standard: 'Entrée standard', standardNote: 'Admission générale officielle', bookOn: 'Commander', secure: 'Paiement sécurisé via ClubTickets', instant: 'Livraison instantanée des billets', official: 'Garantie partenaire officiel', noFees: 'Aucun frais caché', confirmTitle: 'Prêt à commander ?', confirmBody: 'Vous serez redirigé vers notre partenaire billetterie officiel ClubTickets pour finaliser votre réservation en toute sécurité.', confirmYes: 'Oui, commander', confirmNo: 'Annuler' },
 }
 
 /** Pick a fitting icon for a CT section title (multilingual keyword match). */
@@ -127,6 +128,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
   const startAt = (fullEvent as any)?.startAt
   const endAt = (fullEvent as any)?.endAt
 
+  const [confirmOpen, setConfirmOpen] = useState(false)
   const handleCheckout = () => {
     window.open(selectedDateObj.affLink, '_blank')
   }
@@ -158,7 +160,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
       {/* Full-width Checkout button directly under the event image */}
       <div className="mx-auto max-w-7xl px-4 mt-6 md:mt-8">
         <button
-          onClick={handleCheckout}
+          onClick={() => setConfirmOpen(true)}
           className="flex w-full items-center gap-3 rounded-2xl border border-black/10 bg-black/5 p-4 font-serif text-lg font-black uppercase text-black shadow-md transition-colors hover:bg-white md:p-5 md:text-xl"
         >
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Ticket size={18} /></span>
@@ -189,13 +191,13 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
                 {startAt && (
                   <div className="flex flex-col rounded-2xl border border-black/10 bg-black/5 px-6 py-4">
                     <span className="text-xs font-bold uppercase tracking-wider text-black/50">{S.doors}</span>
-                    <span className="text-3xl font-black text-black">{startAt}</span>
+                    <span className="text-lg font-black text-black md:text-xl">{startAt}</span>
                   </div>
                 )}
                 {endAt && (
                   <div className="flex flex-col rounded-2xl border border-black/10 bg-black/5 px-6 py-4">
                     <span className="text-xs font-bold uppercase tracking-wider text-black/50">{S.closes}</span>
-                    <span className="text-3xl font-black text-black">{endAt}</span>
+                    <span className="text-lg font-black text-black md:text-xl">{endAt}</span>
                   </div>
                 )}
               </div>
@@ -323,7 +325,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
             </div>
 
             <button
-              onClick={handleCheckout}
+              onClick={() => setConfirmOpen(true)}
               className="flex w-full items-center gap-3 rounded-2xl border border-black/10 bg-black/5 p-4 font-serif text-lg font-black uppercase text-black shadow-md transition-colors hover:bg-white md:p-5 md:text-xl"
             >
               <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Ticket size={18} /></span>
@@ -348,6 +350,32 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
         </div>
 
       </div>
+
+      {/* Checkout confirmation dialog */}
+      {confirmOpen && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4" role="dialog" aria-modal="true">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setConfirmOpen(false)} />
+          <div className="relative z-10 w-full max-w-md rounded-3xl border border-black/10 bg-white p-7 shadow-2xl md:p-8">
+            <span className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-ibiza-green text-black"><Ticket size={24} /></span>
+            <h3 className="font-serif text-2xl font-black text-black md:text-3xl">{S.confirmTitle}</h3>
+            <p className="mt-3 text-base font-medium leading-relaxed text-black/70">{S.confirmBody}</p>
+            <div className="mt-7 flex flex-col-reverse gap-3 sm:flex-row">
+              <button
+                onClick={() => setConfirmOpen(false)}
+                className="flex-1 rounded-2xl border border-black/15 bg-white px-6 py-3.5 font-serif text-base font-black uppercase text-black transition-colors hover:bg-black/5"
+              >
+                {S.confirmNo}
+              </button>
+              <button
+                onClick={() => { setConfirmOpen(false); handleCheckout() }}
+                className="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-3.5 font-serif text-base font-black uppercase text-black shadow-md transition-all hover:brightness-95"
+              >
+                {S.confirmYes} <ExternalLink size={18} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -219,7 +219,7 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
       {/* Photo */}
       <button
         onClick={onOpen}
-        className="relative h-64 md:h-full min-h-[280px] md:min-h-0 w-full overflow-hidden cursor-zoom-in"
+        className="relative h-52 md:h-full min-h-[200px] md:min-h-0 w-full overflow-hidden cursor-zoom-in"
         aria-label={T.enlarge}
       >
         <Image
@@ -246,24 +246,24 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
       </button>
 
       {/* Info / price panel */}
-      <div className="flex flex-col p-6 md:p-5">
-        <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-black/50">
+      <div className="flex flex-col p-5 md:p-4">
+        <div className="mb-1 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-black/50">
           <MapPin size={12} className="text-ibiza-green" /> {boat.marina}
         </div>
-        <h3 className="font-serif text-2xl font-bold leading-tight text-black">
+        <h3 className="font-serif text-xl font-bold leading-tight text-black">
           {boat.model}{boat.name && <span className="text-ibiza-green"> {boat.name}</span>}
         </h3>
 
         {/* Seasonal prices */}
-        <div className="mt-5 space-y-2.5 border-t border-black/10 pt-4">
+        <div className="mt-3.5 space-y-1.5 border-t border-black/10 pt-3">
           <PriceRow label={T.seasonLow} note={T.seasonLowNote} value={p.low} T={T} locale={locale} />
           {p.mid != null && <PriceRow label={T.seasonMid} note={boat.category === 'motorboat' ? T.seasonMidNoteCompact : T.seasonMidNote} value={p.mid} T={T} locale={locale} />}
           <PriceRow label={T.seasonHigh} note={p.highWindow || T.seasonHighNote} value={p.high} T={T} locale={locale} highlight />
         </div>
 
         {/* Includes */}
-        <div className="mt-5">
-          <div className="mb-2 text-[11px] font-bold uppercase tracking-wider text-black/40">{T.includedTitle}</div>
+        <div className="mt-3.5">
+          <div className="mb-1.5 text-[11px] font-bold uppercase tracking-wider text-black/40">{T.includedTitle}</div>
           <div className="flex flex-wrap gap-1.5">
             {boatIncludes(boat).map(inc => (
               <span key={inc} className="inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-1 text-[11px] font-medium text-black/70 ring-1 ring-black/5">
@@ -279,7 +279,7 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
           href={waLink(boat, T)}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-ibiza-green px-6 py-3 font-bold text-black transition-all hover:brightness-95 active:scale-[0.98]"
+          className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-ibiza-green px-6 py-2.5 font-bold text-black transition-all hover:brightness-95 active:scale-[0.98]"
         >
           <MessageCircle size={18} /> {T.inquire}
         </a>
@@ -290,13 +290,13 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
 
 function PriceRow({ label, note, value, T, locale, highlight }: { label: string; note: string; value: number; T: FleetLabels; locale: string; highlight?: boolean }) {
   return (
-    <div className="flex items-baseline justify-between gap-3">
+    <div className="flex items-baseline justify-between gap-2">
       <div className="min-w-0">
-        <div className={`text-xs font-bold uppercase tracking-wider ${highlight ? 'text-ibiza-green' : 'text-black/70'}`}>{label}</div>
-        <div className="truncate text-[11px] text-black/40">{note}</div>
+        <div className={`truncate text-[11px] font-bold uppercase tracking-wider ${highlight ? 'text-ibiza-green' : 'text-black/70'}`}>{label}</div>
+        <div className="truncate text-[10px] text-black/40">{note}</div>
       </div>
-      <div className={`shrink-0 font-serif font-bold ${highlight ? 'text-2xl text-black' : 'text-xl text-black/85'}`}>
-        €{fmt(value, locale)} <span className="text-[11px] font-sans font-normal text-black/40">{T.perDay}</span>
+      <div className={`shrink-0 whitespace-nowrap font-serif font-bold ${highlight ? 'text-lg text-black' : 'text-base text-black/85'}`}>
+        €{fmt(value, locale)} <span className="text-[10px] font-sans font-normal text-black/40">{T.perDay}</span>
       </div>
     </div>
   );
@@ -418,29 +418,8 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
         </div>
       </section>
 
-      {/* Filters — tight under the hero */}
+      {/* Price / budget slider — now first under the hero */}
       <section className="mx-auto max-w-6xl px-4 pt-6">
-        <div className="flex flex-col gap-4 rounded-3xl border border-black/10 bg-neutral-50 p-5 md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-wrap justify-center gap-2.5 md:justify-start">
-            <FilterTab active={marina === 'all'} onClick={() => setMarina('all')}>{T.allMarinas}</FilterTab>
-            {marinas.map(m => (
-              <FilterTab key={m} active={marina === m} onClick={() => setMarina(m)}>{m}</FilterTab>
-            ))}
-          </div>
-          <div className="relative w-full md:w-80">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/40" size={18} />
-            <input
-              className="w-full rounded-full border border-black/10 bg-white py-3.5 pl-11 pr-4 text-sm text-black placeholder-black/40 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-ibiza-green"
-              placeholder={T.searchPlaceholder}
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Price / budget slider */}
-      <section className="mx-auto max-w-6xl px-4 pt-4">
         <div className="rounded-3xl border border-black/10 bg-neutral-50 p-5 md:p-6">
           {/* Header row: label + live value + type-and-lock */}
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -527,6 +506,27 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
             >
               {P.any}
             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Marina filter + search — now below the budget slider */}
+      <section className="mx-auto max-w-6xl px-4 pt-4">
+        <div className="flex flex-col gap-4 rounded-3xl border border-black/10 bg-neutral-50 p-5 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-wrap justify-center gap-2.5 md:justify-start">
+            <FilterTab active={marina === 'all'} onClick={() => setMarina('all')}>{T.allMarinas}</FilterTab>
+            {marinas.map(m => (
+              <FilterTab key={m} active={marina === m} onClick={() => setMarina(m)}>{m}</FilterTab>
+            ))}
+          </div>
+          <div className="relative w-full md:w-80">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/40" size={18} />
+            <input
+              className="w-full rounded-full border border-black/10 bg-white py-3.5 pl-11 pr-4 text-sm text-black placeholder-black/40 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-ibiza-green"
+              placeholder={T.searchPlaceholder}
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
           </div>
         </div>
         <div className="mt-4 px-1 text-sm font-semibold text-black/50">{T.boatsCount(filtered.length)}</div>

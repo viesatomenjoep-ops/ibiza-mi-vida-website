@@ -8,6 +8,7 @@ import {
 } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { MapPin, Calendar } from 'lucide-react'
+import { EventPickerWheel, type PickerEvent } from '@/components/events/EventPickerWheel'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface ExEvent {
@@ -67,6 +68,24 @@ export default function EventsExplorer({ events, locale }: Props) {
 
   const [period, setPeriod] = useState<Period>('week')
   const [activeDay, setActiveDay] = useState<string | null>(null)
+
+  // Normalised events for the iOS-style picker wheel
+  const pickerEvents: PickerEvent[] = useMemo(() => events.map(e => {
+    const m = String(e.prices || '').match(/\d+([.,]\d+)?/)
+    return {
+      id: e.id,
+      clubSlug: e.ct_venues?.slug || '',
+      clubName: e.ct_venues?.name || '',
+      clubLogo: e.ct_venues?.whitelogo || e.ct_venues?.picture || '',
+      eventSlug: e.ct_events?.slug || '',
+      eventName: e.ct_events?.name || e.name || '',
+      image: e.ct_events?.cover || e.ct_events?.logo || '',
+      date: e.date || '',
+      price: m ? parseFloat(m[0].replace(',', '.')) : 0,
+      lineUp: e.lineUp || '',
+      href: `/${locale}/club-tickets/${e.ct_venues?.slug}/${e.ct_events?.slug}`,
+    }
+  }), [events, locale])
 
   // Only clubbing events, upcoming
   const clubEvents = useMemo(
@@ -146,6 +165,17 @@ export default function EventsExplorer({ events, locale }: Props) {
           </div>
         </div>
       </section>
+
+      {/* ── iOS-style event picker wheel ── */}
+      {pickerEvents.length > 0 && (
+        <section className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-6">
+          <div className="mb-5">
+            <div className="text-xs font-black tracking-widest uppercase text-ibiza-green mb-1">Score your tickets</div>
+            <h2 className="font-serif text-3xl md:text-4xl font-black text-black tracking-tight">Draai naar jouw avond</h2>
+          </div>
+          <EventPickerWheel events={pickerEvents} locale={locale} />
+        </section>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-24">
 

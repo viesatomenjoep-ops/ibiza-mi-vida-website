@@ -1,45 +1,50 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 
 const PLAYLIST_ID = '15AK4lfHIRpqQ2ZaggSrCQ'
 
-// Small round Spotify icon (same size as the language pills) that lives in the menu footer.
-// Tap to open the playlist — the panel unfolds UPWARD so it never runs off the bottom.
+// Small round Spotify icon in the menu footer. Tapping opens a full-screen player.
+// The iframe is portalled to <body> and kept mounted once started, so the music keeps
+// playing when you close the menu or navigate to other pages (the Navbar stays mounted).
 export function SpotifyButton() {
   const [open, setOpen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+  const [started, setStarted] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
-  useEffect(() => {
-    if (!open) return
-    const onDoc = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
-    }
-    document.addEventListener('mousedown', onDoc)
-    return () => document.removeEventListener('mousedown', onDoc)
-  }, [open])
+  useEffect(() => setMounted(true), [])
+
+  const host = mounted && started
+    ? createPortal(
+        <div className={`fs-spotify-host${open ? ' is-open' : ''}`} onClick={() => setOpen(false)}>
+          <div className="fs-spotify-inner" onClick={(e) => e.stopPropagation()}>
+            {open && (
+              <button type="button" className="fs-spotify-close" aria-label="Sluiten" onClick={() => setOpen(false)}>×</button>
+            )}
+            <iframe
+              title="Ibiza mi Vida Spotify playlist"
+              src={`https://open.spotify.com/embed/playlist/${PLAYLIST_ID}?utm_source=generator&theme=0`}
+              width="100%"
+              height="420"
+              style={{ border: 0, display: 'block', borderRadius: '16px' }}
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            />
+          </div>
+        </div>,
+        document.body
+      )
+    : null
 
   return (
-    <div className={`fs-spotify${open ? ' is-open' : ''}`} ref={ref}>
-      {open && (
-        <div className="fs-spotify-panel">
-          <iframe
-            title="Ibiza mi Vida Spotify playlist"
-            src={`https://open.spotify.com/embed/playlist/${PLAYLIST_ID}?utm_source=generator&theme=0`}
-            width="100%"
-            height="352"
-            style={{ border: 0, display: 'block', borderRadius: '16px' }}
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          />
-        </div>
-      )}
+    <>
       <button
         type="button"
         className="fs-spotify-btn"
         aria-expanded={open}
         aria-label="Ibiza mi Vida · Spotify playlist"
-        onClick={() => setOpen(o => !o)}
+        onClick={() => { setStarted(true); setOpen(o => !o) }}
       >
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path
@@ -48,6 +53,7 @@ export function SpotifyButton() {
           />
         </svg>
       </button>
-    </div>
+      {host}
+    </>
   )
 }

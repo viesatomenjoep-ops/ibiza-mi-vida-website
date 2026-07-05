@@ -90,7 +90,7 @@ export function Footer() {
                 <span className="foot-brand-sub">RENTAL · EVENTS</span>
               </span>
             </Link>
-            <p style={{ marginTop: '16px', fontSize: '.86rem', color: '#555555', maxWidth: '280px' }}>
+            <p className="foot-slogan" style={{ marginTop: '16px' }}>
               {t.footer_slogan || "Het startpunt van jouw Ibiza-zomer. Events, tickets, boot & tips — allemaal op één eiland, allemaal op één site."}
             </p>
           </div>
@@ -119,11 +119,6 @@ export function Footer() {
         
         <div className="foot-bottom">
           <span>© {new Date().getFullYear()} Ibiza mi Vida · {t.footer_partner || 'Official ClubTickets partner'}</span>
-          <span>
-            <Link href={`${base}/privacy-policy`}>{t.footer_privacy || 'Privacy'}</Link> ·{' '}
-            <Link href={`${base}/cookie-policy`}>{t.footer_cookies || 'Cookies'}</Link> ·{' '}
-            <Link href={`${base}/terms-and-conditions`}>{t.footer_terms || 'Terms'}</Link>
-          </span>
         </div>
       </div>
     </footer>

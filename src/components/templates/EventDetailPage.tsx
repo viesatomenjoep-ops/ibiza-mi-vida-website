@@ -355,13 +355,13 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                   {startAt && (
                     <div className="flex flex-col rounded-2xl border border-black/10 bg-neutral-50 px-5 py-3">
                       <span className="text-xs font-bold uppercase tracking-wider text-black/50">{S.doors}</span>
-                      <span className="text-2xl font-black text-black">{startAt}</span>
+                      <span className="text-lg font-black text-black md:text-xl">{startAt}</span>
                     </div>
                   )}
                   {endAt && (
                     <div className="flex flex-col rounded-2xl border border-black/10 bg-neutral-50 px-5 py-3">
                       <span className="text-xs font-bold uppercase tracking-wider text-black/50">{S.closes}</span>
-                      <span className="text-2xl font-black text-black">{endAt}</span>
+                      <span className="text-lg font-black text-black md:text-xl">{endAt}</span>
                     </div>
                   )}
                 </div>
