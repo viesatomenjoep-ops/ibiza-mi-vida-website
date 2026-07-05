@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { Calendar, MapPin, Music } from 'lucide-react';
 import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 import { HeroTypewriter } from '@/components/ui/HeroTypewriter';
+import { CategoryReveal } from '@/components/ui/CategoryReveal';
 
 interface HomePageProps {
   locale?: string;
@@ -65,49 +66,14 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         {/* Spacer Top (Fixed to push text up) */}
         <div className="h-[var(--nav-h)] w-full shrink-0" />
 
-        {/* TOP: the three categories (were at the bottom) */}
-        <div className="relative z-20 w-full flex flex-col items-center px-4">
-          {/* Desktop: text buttons (hidden on mobile) */}
-          <div className="hidden md:flex md:flex-row items-center justify-center gap-4 w-full max-w-3xl mx-auto md:pt-6">
-            <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
-            <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
-            <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/private-boat-charters`}>{translations.nav_private_boat}</Link>
-          </div>
-        </div>
-
         {/* Spacer Middle */}
         <div className="flex-1 w-full" />
 
         {/* ── SLOGAN (were at the top) + HORIZONTAL LOGO MARQUEE BAR ── */}
         <div className="w-full relative z-20 mt-auto pt-8 pb-2 md:pt-10 md:pb-3">
-          {/* Three round category tiles — just above the slogan */}
-          <div className="mcat-row md:hidden mb-6">
-            <Link href={`${base}/calendar`} className="mcat" aria-label={translations.home_full_calendar}>
-              <span className="mcat-ico" aria-hidden="true">
-                <img src="/icons/cat-kalender.jpg" alt="" width={56} height={56} />
-              </span>
-              <span className="mcat-label">{translations.home_full_calendar}</span>
-            </Link>
-
-            <Link href={`${base}/club-tickets`} className="mcat" aria-label={translations.home_clubs_venues}>
-              <span className="mcat-ico" aria-hidden="true">
-                <img src="/icons/cat-club.jpg" alt="" width={56} height={56} />
-              </span>
-              <span className="mcat-label">
-                {(translations.home_clubs_venues || 'Clubs & Venues')
-                  .split(/\s*&\s*|\s+(?:en|and|y|et)\s+/i)
-                  .map((p: string, i: number) => (
-                    <span key={i} className="block">{p}</span>
-                  ))}
-              </span>
-            </Link>
-
-            <Link href={`${base}/private-boat-charters`} className="mcat" aria-label={translations.nav_private_boat}>
-              <span className="mcat-ico" aria-hidden="true">
-                <img src="/icons/cat-boot.jpg" alt="" width={56} height={56} />
-              </span>
-              <span className="mcat-label">{translations.nav_private_boat}</span>
-            </Link>
+          {/* Three category tiles with click-to-reveal photo effect (desktop + mobile) */}
+          <div className="mb-6 md:mb-8">
+            <CategoryReveal base={base} translations={translations} />
           </div>
 
           {/* Slogan now sits directly above the slider, where the categories used to be */}
