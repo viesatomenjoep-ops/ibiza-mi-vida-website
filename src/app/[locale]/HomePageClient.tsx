@@ -133,7 +133,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </div>
 
         {/* ── HORIZONTAL LOGO MARQUEE BAR ── */}
-        <div className="w-full relative z-20 mt-auto pt-10 pb-8 md:pt-14 md:pb-12">
+        <div className="w-full relative z-20 mt-auto pt-16 pb-8 md:pt-[72px] md:pb-12">
           <ClubLogoSlider
             clubLogos={clubLogos}
             base={base}

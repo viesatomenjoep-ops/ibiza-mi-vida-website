@@ -163,9 +163,6 @@ export function ClubLogoSlider({
             <span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.green }} /> {L.tonight}
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.orange }} /> {L.now}
-          </span>
-          <span className="flex items-center gap-1.5">
             <span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.red }} /> {L.last}
           </span>
         </div>
