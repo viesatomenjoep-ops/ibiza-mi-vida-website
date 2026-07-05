@@ -181,10 +181,10 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
   border-bottom:1px solid rgba(255,255,255,.06);
   flex-shrink:0;
 }
-.fs-logo img{width:54px;height:54px;object-fit:contain;filter:brightness(0) invert(1);}
+.fs-logo img{width:56px;height:56px;object-fit:contain;filter:brightness(0) invert(1);}
 .fs-brand{display:flex;flex-direction:column;align-items:center;text-align:center;line-height:1.05}
-.fs-brand-name{font-family:var(--font-display),sans-serif;font-weight:900;font-size:1.75rem;letter-spacing:.01em;text-transform:uppercase;color:#fff;line-height:1}
-.fs-brand-sub{font-family:var(--font-display),sans-serif;font-weight:700;font-size:.64rem;letter-spacing:.03em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-top:4px}
+.fs-brand-name{font-family:var(--font-display),sans-serif;font-weight:600;font-size:1.17rem;letter-spacing:.03em;text-transform:uppercase;color:#fff;line-height:1}
+.fs-brand-sub{font-family:var(--font-display),sans-serif;font-weight:700;font-size:.48rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-top:3px}
 
 /* Scrollable nav */
 .fs-nav{
