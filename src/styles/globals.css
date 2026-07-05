@@ -57,12 +57,8 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 /* Fixed site header = topbar strip + navbar. --nav-h is the single source of truth
    for how far page content must sit below it (used across every page). */
 .site-header{position:fixed;top:0;left:0;width:100%;z-index:60;background:transparent;transition:background .3s ease,backdrop-filter .3s ease}
-/* Progressive dissolve zone: fixed strip just under the navbar that blurs scrolling
-   content into an EXTREME white haze as it slides up — same on light or dark pages.
-   Above page content, below the navbar. */
-.nav-fade{position:fixed;top:0;left:0;right:0;height:calc(var(--nav-h) + 36px);z-index:50;pointer-events:none;opacity:0;transition:opacity .3s ease;background:linear-gradient(to bottom,rgba(255,255,255,.97) 0%,rgba(255,255,255,.88) 42%,rgba(255,255,255,.45) 72%,rgba(255,255,255,0) 100%);-webkit-backdrop-filter:blur(11px) saturate(115%);backdrop-filter:blur(11px) saturate(115%);-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 62%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 62%,transparent 100%)}
-.nav-fade--on{opacity:1}
-/* While the white haze is up, the navbar's own text/logo/burger go black for contrast. */
+/* On scroll the navbar becomes a clean, sharp SOLID WHITE bar (no blur) with black text. */
+.site-header--fade{background:#fff;border-bottom:1px solid rgba(0,0,0,.08)}
 .site-header--fade .nav-topbar-inner,
 .site-header--fade .nav-brand-name,
 .site-header--fade .nav-brand-sub{color:#0D0509}
@@ -80,7 +76,7 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 }
 .site-header--scrolled .nav{
   background:transparent;
-  border-bottom:1px solid var(--line);
+  border-bottom:1px solid transparent;
 }
 .nav-inner{
   display:flex;
@@ -101,15 +97,15 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .search-trigger-btn{width:52px;height:52px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;cursor:pointer}
 .search-trigger-btn:hover{background:rgba(255,255,255,0.08);border-color:#fff}
 /* Centered brand: small logo + stacked wordmark */
-.nav-brand-c{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:13px;text-decoration:none;min-width:0}
+.nav-brand-c{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-decoration:none;min-width:0}
 .nav-brand-subs{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;line-height:1.1;gap:2px;min-width:0}
-.nav-brand-name{font-family:var(--font-display), sans-serif;font-weight:600;font-size:1.17rem;letter-spacing:.03em;text-transform:uppercase;color:#fff;white-space:nowrap;line-height:1;text-shadow:none;transition:color .25s ease}
+.nav-brand-name{font-family:var(--font-display), sans-serif;font-weight:600;font-size:1.17rem;letter-spacing:.03em;text-transform:uppercase;color:#fff;white-space:nowrap;line-height:1;text-align:center;text-shadow:none;transition:color .25s ease}
 .nav-brand-sub{font-family:var(--font-display), sans-serif;font-weight:700;font-size:.48rem;letter-spacing:.06em;text-transform:uppercase;color:#fff;white-space:nowrap;text-align:center;text-shadow:none;transition:color .25s ease}
-.nav-logo-btn{width:64px;height:64px;border-radius:50%;border:1px solid transparent;background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;cursor:pointer;flex-shrink:0;}
+.nav-logo-btn{width:52px;height:52px;border-radius:50%;border:1px solid transparent;background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;cursor:pointer;flex-shrink:0;}
 .nav-brand-c:hover .nav-logo-btn{background:rgba(255,255,255,0.08);border-color:#fff}
-.nav-logo-btn img{width:56px;height:56px;object-fit:contain;filter:brightness(0) invert(1);transition:filter .25s ease,width .3s ease,height .3s ease;}
-.site-header--scrolled .nav-logo-btn{width:56px;height:56px;}
-.site-header--scrolled .nav-logo-btn img{width:48px;height:48px;}
+.nav-logo-btn img{width:46px;height:46px;object-fit:contain;filter:brightness(0) invert(1);transition:filter .25s ease,width .3s ease,height .3s ease;}
+.site-header--scrolled .nav-logo-btn{width:46px;height:46px;}
+.site-header--scrolled .nav-logo-btn img{width:40px;height:40px;}
 /* Adaptive: on a light hero (only while transparent/not scrolled) the brand + burger go black */
 .site-header--onlight:not(.site-header--scrolled) .nav-topbar-inner,
 .site-header--onlight:not(.site-header--scrolled) .nav-brand-name,
@@ -1105,7 +1101,7 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
   .nav-links{display:none}
   /* Mobile navbar: compact, constant height */
   .nav-inner{display:flex;justify-content:space-between;min-height:84px;gap:8px}
-  .nav-brand-c{gap:10px}
+  .nav-brand-c{flex-direction:row;align-items:center;gap:10px}
   .nav-brand-name{font-size:.96rem;letter-spacing:.02em}
   .nav-brand-sub{font-size:.39rem;letter-spacing:.04em}
   .nav-topbar-inner{font-size:.58rem;letter-spacing:.1em;padding:6px 12px}

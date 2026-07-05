@@ -272,10 +272,6 @@ export function Navbar() {
         </nav>
       </header>
 
-      {/* Progressive dissolve/blur zone at the very top: page content fades away
-          as it scrolls up under the transparent navbar. Sits above content, below the navbar. */}
-      <div className={`nav-fade${fadeOn ? ' nav-fade--on' : ''}`} aria-hidden="true" />
-
       {/* ── FULLSCREEN MENU OVERLAY ── */}
       <div
         className={`fs-menu${menuOpen ? ' fs-menu--open' : ''}`}
