@@ -499,13 +499,10 @@ export function EventPickerWheel({ events, locale = 'nl', className = '', storeK
 
   return (
     <section className={`w-full ${className}`}>
-      {/* Bright-green glowing button — sits right under the "Score your tickets" kicker */}
-      <button onClick={open} className="cal-cta mb-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-lg transition-transform hover:scale-[1.01]">
+      {/* Bright-green glowing button — the only thing shown on the page; opens the full calendar */}
+      <button onClick={open} className="cal-cta flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-lg transition-transform hover:scale-[1.01]">
         <CalendarDays size={20} /> {L.openCal}
       </button>
-
-      {/* Inline calendar — same complex layout as the full view, with an expand arrow */}
-      <PickerRows events={events} locale={locale} persistKey={storeKey} onExpand={open} />
 
       {mounted && full && createPortal(
         <div className="fixed inset-0 z-[300] flex flex-col bg-white">
