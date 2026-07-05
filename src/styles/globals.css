@@ -56,11 +56,10 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .topbar a{color:var(--black);text-decoration:underline}
 /* Fixed site header = topbar strip + navbar. --nav-h is the single source of truth
    for how far page content must sit below it (used across every page). */
-.site-header{position:fixed;top:0;left:0;width:100%;z-index:60;background:linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,.12) 65%, transparent);transition:background .3s ease}
-.site-header--scrolled{background:transparent}
+.site-header{position:fixed;top:0;left:0;width:100%;z-index:60;background:transparent}
 .nav-topbar{background:transparent;border-bottom:none;transition:background .3s ease}
 .site-header--scrolled .nav-topbar{background:#0D0509}
-.nav-topbar-inner{display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 14px;font-family:var(--font-display),sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.9);text-align:center;line-height:1.2;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.nav-topbar-inner{display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 14px;font-family:var(--font-display),sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;text-align:center;line-height:1.2;-webkit-text-stroke:.5px #000;paint-order:stroke fill;text-shadow:none}
 .nav-topbar-inner svg{width:14px;height:14px;flex-shrink:0;display:block}
 .nav{
   position:relative;
@@ -96,18 +95,18 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 /* Centered brand: small logo + stacked wordmark */
 .nav-brand-c{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:13px;text-decoration:none;min-width:0}
 .nav-brand-text{display:flex;flex-direction:column;justify-content:center;line-height:1.1;min-width:0}
-.nav-brand-name{font-family:var(--font-display), sans-serif;font-weight:600;font-size:.9rem;letter-spacing:.03em;text-transform:uppercase;color:#fff;white-space:nowrap;line-height:1;text-shadow:0 1px 6px rgba(0,0,0,.5)}
-.nav-brand-sub{font-family:var(--font-display), sans-serif;font-weight:700;font-size:.48rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.8);white-space:nowrap;margin-top:3px;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.nav-brand-name{font-family:var(--font-display), sans-serif;font-weight:600;font-size:.9rem;letter-spacing:.03em;text-transform:uppercase;color:#fff;white-space:nowrap;line-height:1;-webkit-text-stroke:.9px #000;paint-order:stroke fill;text-shadow:none}
+.nav-brand-sub{font-family:var(--font-display), sans-serif;font-weight:700;font-size:.48rem;letter-spacing:.06em;text-transform:uppercase;color:#fff;white-space:nowrap;margin-top:3px;-webkit-text-stroke:.55px #000;paint-order:stroke fill;text-shadow:none}
 .nav-logo-btn{width:64px;height:64px;border-radius:50%;border:1px solid transparent;background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;cursor:pointer;flex-shrink:0;}
 .nav-brand-c:hover .nav-logo-btn{background:rgba(255,255,255,0.08);border-color:#fff}
-.nav-logo-btn img{width:56px;height:56px;object-fit:contain;filter:brightness(0) invert(1) drop-shadow(0 1px 4px rgba(0,0,0,.5));}
+.nav-logo-btn img{width:56px;height:56px;object-fit:contain;filter:brightness(0) invert(1) drop-shadow(.8px 0 0 #000) drop-shadow(-.8px 0 0 #000) drop-shadow(0 .8px 0 #000) drop-shadow(0 -.8px 0 #000);}
 .site-header--scrolled .nav-logo-btn{width:56px;height:56px;}
 .site-header--scrolled .nav-logo-btn img{width:48px;height:48px;}
 .logo-spin{transform-origin:50% 50%;will-change:transform;}
 .burger{width:62px;height:62px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;cursor:pointer;flex-shrink:0}
 .burger:hover{background:rgba(255,255,255,0.08);border-color:#fff}
 .burger-lines{width:28px;height:16px;display:flex;flex-direction:column;justify-content:space-between}
-.burger-lines span{display:block;width:100%;height:2px;background-color:#fff;border-radius:2px;transition:0.2s;box-shadow:0 1px 3px rgba(0,0,0,.45)}
+.burger-lines span{display:block;width:100%;height:2px;background-color:#fff;border-radius:2px;transition:0.2s;box-shadow:0 0 0 .6px rgba(0,0,0,.9)}
 .wa-btn{width:52px;height:52px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;display:flex;align-items:center;justify-content:center;color:#25D366;transition:all 0.2s ease;cursor:pointer;flex-shrink:0}
 .wa-btn:hover{background:rgba(37,211,102,0.12);border-color:#25D366}
 .wa-btn svg{width:26px;height:26px;display:block}
