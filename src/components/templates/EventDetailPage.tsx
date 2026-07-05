@@ -248,7 +248,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
   const hasTimes = !!(startAt || endAt)
 
   return (
-    <div className="bg-white text-black min-h-screen pt-[76px] md:pt-[120px]">
+    <div className="bg-white text-black min-h-screen pt-[var(--nav-h)]">
       {/* Hero */}
       <section className="relative flex h-[46vh] w-full flex-col justify-end overflow-hidden rounded-b-[28px] md:h-[58vh]" aria-label={`${eventName} hero`}>
         {eventCover && (

@@ -175,7 +175,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
         </div>
       )}
 
-      <div className="relative z-10 pt-[108px] md:pt-[128px] pb-2 flex flex-col items-center text-center px-4">
+      <div className="relative z-10 pt-[calc(var(--nav-h)+16px)] pb-2 flex flex-col items-center text-center px-4">
         <p className="text-[11px] md:text-xs font-black uppercase tracking-[0.3em] text-black/40 mb-2">Ibiza Agenda {format(today, 'yyyy')}</p>
         <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-none uppercase m-0 tracking-tight drop-shadow-sm">EVENTS</h1>
         <p className="text-sm md:text-base text-black/50 font-medium mt-3 max-w-md">{dict.cal_subtitle || 'Ontdek wat er vandaag, deze week en deze maand te doen is op het eiland.'}</p>

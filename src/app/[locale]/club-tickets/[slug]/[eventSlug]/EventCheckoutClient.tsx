@@ -132,7 +132,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
   }
 
   return (
-    <div className="theme-monaco-vip min-h-screen bg-neutral-50 pb-28 pt-[76px] md:pt-[120px] text-black">
+    <div className="theme-monaco-vip min-h-screen bg-neutral-50 pb-28 pt-[var(--nav-h)] text-black">
       {/* Hero Section — full-bleed, flush against the navbar */}
       <div className="relative h-[46vh] w-full overflow-hidden rounded-b-[28px] bg-neutral-900 md:h-[58vh]">
         <Image src={imageUrl} alt={selectedDateObj.eventName || ''} fill className="object-cover" priority sizes="100vw" />

@@ -63,7 +63,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </div>
 
         {/* Spacer Top (Fixed to push text up) */}
-        <div className="h-[100px] md:h-[140px] w-full shrink-0" />
+        <div className="h-[var(--nav-h)] w-full shrink-0" />
 
         <div className="relative z-20 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4">
           <HeroTypewriter
