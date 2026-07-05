@@ -116,15 +116,8 @@ export default function EventsExplorer({ events, locale }: Props) {
     return clubEvents.filter(e => e.date === ds).length
   }, [clubEvents])
 
-  // Events in current range (drives the tiles)
-  const rangeEvents = useMemo(() => {
-    const eff = period === 'day' && activeDay ? [activeDay] : null
-    return clubEvents.filter(e => {
-      if (eff) return eff.includes(e.date)
-      if (activeDay) return e.date === activeDay
-      return e.date >= rangeStartStr && e.date <= rangeEndStr
-    })
-  }, [clubEvents, period, activeDay, rangeStartStr, rangeEndStr])
+  // Tiles show ALL upcoming events (the picker above handles day/week/month browsing)
+  const rangeEvents = clubEvents
 
   // Grouped by date
   const grouped = useMemo(() => {
@@ -177,57 +170,6 @@ export default function EventsExplorer({ events, locale }: Props) {
       )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-24">
-
-        {/* ── Period selector (Airbnb-style sliding pill) ── */}
-        <div className="mb-5">
-          <div className="relative grid grid-cols-4 rounded-full border border-black/10 bg-black/[0.04] p-1.5">
-            <span
-              className="absolute top-1.5 bottom-1.5 rounded-full bg-ibiza-green shadow-lg transition-all duration-300 ease-out"
-              style={{ left: `calc(${periodIdx * 25}% + 6px)`, width: 'calc(25% - 12px)' }}
-            />
-            {periods.map(p => (
-              <button
-                key={p.key}
-                onClick={() => changePeriod(p.key)}
-                className={`relative z-10 rounded-full py-3 text-center text-xs font-black uppercase tracking-wide leading-none transition-colors sm:text-sm ${period === p.key ? 'text-velvet-obsidian' : 'text-black/55 hover:text-black'}`}
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* ── Day-of-week strip ── */}
-        {showStrip && (
-          <div className="mb-8 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {period !== 'day' && (
-              <button
-                onClick={() => setActiveDay(null)}
-                className={`shrink-0 rounded-2xl border px-4 py-3 text-sm font-bold transition ${!activeDay ? 'border-ibiza-green bg-ibiza-green text-velvet-obsidian' : 'border-black/10 bg-white text-black/60 hover:border-black/40 hover:text-black'}`}
-              >
-                {T.whole(period === 'week' ? T.week : T.month)}
-              </button>
-            )}
-            {stripDays.map(d => {
-              const ds = format(d, 'yyyy-MM-dd')
-              const past = ds < todayStr
-              const cnt = countForDay(ds)
-              const on = activeDay === ds
-              return (
-                <button
-                  key={ds}
-                  disabled={past}
-                  onClick={() => setActiveDay(on ? (period === 'day' ? ds : null) : ds)}
-                  className={`flex shrink-0 flex-col items-center rounded-2xl border px-4 py-2.5 transition ${on ? 'border-ibiza-green bg-ibiza-green text-velvet-obsidian' : past ? 'cursor-not-allowed border-black/5 bg-transparent text-black/25' : 'border-black/10 bg-white text-black hover:border-black/40'}`}
-                >
-                  <span className={`text-[10px] font-bold uppercase tracking-wide ${on ? 'text-velvet-obsidian/70' : 'text-black/40'}`}>{format(d, 'EEE', { locale: loc })}</span>
-                  <span className="text-xl font-black leading-tight">{format(d, 'd')}</span>
-                  <span className={`mt-0.5 h-1.5 w-1.5 rounded-full ${cnt > 0 ? (on ? 'bg-velvet-obsidian' : 'bg-ibiza-green') : 'bg-transparent'}`} />
-                </button>
-              )
-            })}
-          </div>
-        )}
 
         {/* ── Section label (Deals-of-the-Day style) ── */}
         <div className="mb-8 flex items-center justify-between border-b border-black/10 pb-4">
