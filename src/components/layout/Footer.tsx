@@ -80,13 +80,14 @@ export function Footer() {
       <div className="wrap">
         <div className="foot-grid">
           <div>
-            <Link className="logo" href={base} style={{ alignItems: 'flex-start' }}>
-              <span className="mark">
-                <img src="/logo-clean.png" alt="Ibiza mi Vida logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            <Link className="foot-brand-c" href={base}>
+              <span className="foot-logo">
+                <img src="/logo-clean.png" alt="Ibiza mi Vida logo" />
               </span>
               <span className="foot-brand">
                 <strong>IBIZA MI VIDA</strong>
-                <span className="foot-brand-sub">TICKETS · PRIVATE BOATS · RENTAL</span>
+                <span className="foot-brand-sub">TICKETS · PRIVATE BOATS</span>
+                <span className="foot-brand-sub">RENTAL · EVENTS</span>
               </span>
             </Link>
             <p style={{ marginTop: '16px', fontSize: '.86rem', color: '#555555', maxWidth: '280px' }}>

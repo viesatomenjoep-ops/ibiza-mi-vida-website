@@ -274,12 +274,12 @@ export default function ClubTicketsClient({
                             onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML = '<span class="text-[9px] font-bold text-black uppercase truncate">Logo</span>' }}
                           />
                         ) : (
-                          <span className={`font-bold text-[10px] ${isActive ? 'text-ibiza-green' : 'text-black/80'}`}>
+                          <span className="font-bold text-[10px] text-black">
                             {v.name.substring(0, 3).toUpperCase()}
                           </span>
                         )}
                       </button>
-                      <span className={`text-[9px] uppercase font-bold tracking-wider text-center mt-2 max-w-[80px] truncate ${isActive ? 'text-ibiza-green font-black' : 'text-black/60'}`}>
+                      <span className={`text-[9px] uppercase tracking-wider text-center mt-2 max-w-[80px] truncate text-black ${isActive ? 'font-black' : 'font-bold'}`}>
                         {v.name}
                       </span>
                     </div>

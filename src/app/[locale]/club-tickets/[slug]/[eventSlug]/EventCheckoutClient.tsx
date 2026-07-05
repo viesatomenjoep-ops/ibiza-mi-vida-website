@@ -159,9 +159,10 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
       <div className="mx-auto max-w-7xl px-4 mt-6 md:mt-8">
         <button
           onClick={handleCheckout}
-          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green py-5 text-lg font-black uppercase tracking-wider text-velvet-obsidian shadow-lg transition-all hover:scale-[1.01] hover:brightness-95 md:text-xl"
+          className="flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-ibiza-green bg-black/5 p-4 font-serif text-lg font-black text-black shadow-md transition-colors hover:bg-ibiza-green/10 md:p-5 md:text-xl"
         >
-          {S.bookOn} · €{priceNum.toFixed(2)} <ExternalLink size={22} />
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green/15 text-ibiza-green"><Ticket size={18} /></span>
+          {S.bookOn} · €{priceNum.toFixed(2)}
         </button>
       </div>
 
@@ -323,9 +324,10 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
 
             <button
               onClick={handleCheckout}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green py-5 text-lg font-black uppercase tracking-wider text-velvet-obsidian shadow-lg transition-all hover:scale-[1.02] hover:brightness-95 md:py-6 md:text-xl"
+              className="flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-ibiza-green bg-black/5 p-4 font-serif text-lg font-black text-black shadow-md transition-colors hover:bg-ibiza-green/10 md:p-5 md:text-xl"
             >
-              {S.bookOn} <ExternalLink size={22} />
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green/15 text-ibiza-green"><Ticket size={18} /></span>
+              {S.bookOn} · €{priceNum.toFixed(2)}
             </button>
             <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs font-semibold text-black/50">
               <Lock size={12} /> {S.secure}

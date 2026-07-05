@@ -281,9 +281,10 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
       <div className="mx-auto max-w-7xl px-4 mt-6 md:mt-8 md:px-8">
         <a
           href="#tickets"
-          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green py-5 text-lg font-black uppercase tracking-wider text-black shadow-lg transition-all hover:scale-[1.01] hover:brightness-95 md:text-xl"
+          className="flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-ibiza-green bg-black/5 p-4 font-serif text-lg font-black text-black shadow-md transition-colors hover:bg-ibiza-green/10 md:p-5 md:text-xl"
         >
-          <Ticket size={22} /> {checkoutLabel}
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green/15 text-ibiza-green"><Ticket size={18} /></span>
+          {checkoutLabel}
         </a>
       </div>
 
@@ -526,9 +527,10 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
         </div>
         <a
           href="#tickets"
-          className="inline-flex items-center gap-2 rounded-full bg-ibiza-green px-8 py-3.5 font-black uppercase tracking-wider text-black shadow-lg transition-all hover:brightness-95 active:scale-95"
+          className="inline-flex items-center gap-2 rounded-full border-2 border-ibiza-green bg-black/5 px-6 py-3 font-serif font-black text-black transition-colors hover:bg-ibiza-green/10"
         >
-          <Ticket size={18} /> {checkoutLabel}
+          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-ibiza-green/15 text-ibiza-green"><Ticket size={16} /></span>
+          {checkoutLabel}
         </a>
       </div>
     </div>
