@@ -88,7 +88,7 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .nav-brand{display:flex;align-items:center;gap:14px;text-decoration:none;flex-shrink:0}
 .nav-brand-text{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;line-height:1.05}
 .nav-brand-name{font-family:var(--font-display), sans-serif;font-weight:900;font-size:1.95rem;letter-spacing:.01em;text-transform:uppercase;color:#fff;white-space:nowrap;line-height:1}
-.nav-brand-sub{font-family:var(--font-display), sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.72);white-space:nowrap;margin-top:4px}
+.nav-brand-sub{font-family:var(--font-display), sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.03em;text-transform:uppercase;color:rgba(255,255,255,.72);white-space:nowrap;margin-top:4px}
 .nav-logo-btn{width:100px;height:100px;border-radius:50%;border:1px solid transparent;background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;cursor:pointer;flex-shrink:0;}
 .nav-brand:hover .nav-logo-btn{background:rgba(255,255,255,0.08);border-color:#fff}
 .nav-logo-btn img{width:86px;height:86px;object-fit:contain;filter:brightness(0) invert(1);}
@@ -165,7 +165,7 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .fs-logo img{width:54px;height:54px;object-fit:contain;filter:brightness(0) invert(1);}
 .fs-brand{display:flex;flex-direction:column;align-items:center;text-align:center;line-height:1.05}
 .fs-brand-name{font-family:var(--font-display),sans-serif;font-weight:900;font-size:1.75rem;letter-spacing:.01em;text-transform:uppercase;color:#fff;line-height:1}
-.fs-brand-sub{font-family:var(--font-display),sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-top:4px}
+.fs-brand-sub{font-family:var(--font-display),sans-serif;font-weight:700;font-size:.64rem;letter-spacing:.03em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-top:4px}
 
 /* Scrollable nav */
 .fs-nav{
@@ -1083,7 +1083,7 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
   .nav-brand{gap:10px}
   .nav-lang{display:none}
   .nav-brand-name{font-size:1.43rem;letter-spacing:.01em}
-  .nav-brand-sub{font-size:.62rem;letter-spacing:.08em}
+  .nav-brand-sub{font-size:.5rem;letter-spacing:.02em}
   .nav-logo-btn,.nav--scrolled .nav-logo-btn{width:64px;height:64px}
   .nav-logo-btn img,.nav--scrolled .nav-logo-btn img{width:54px;height:54px}
   .logo{flex-direction:row;gap:10px}
