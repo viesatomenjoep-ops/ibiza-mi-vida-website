@@ -107,14 +107,12 @@ export function Navbar() {
     <>
       <nav className={`nav ${isScrolled ? 'nav--scrolled' : ''}`}>
         <div className="wrap nav-inner">
-          <Link className="nav-brand" href={base} aria-label="IBZMV">
-            <span className="nav-logo-btn">
-              <img ref={logoRef} className="logo-spin" src="/logo-clean.png" alt="IBZMV logo" />
-            </span>
-            <span className="nav-brand-text">
-              <span className="nav-brand-name">IBIZA MI VIDA</span>
-              <span className="nav-brand-sub">TICKETS · PRIVATE BOATS · RENTAL</span>
-            </span>
+          <Link className="nav-logo-btn" href={base} aria-label="IBIZA MI VIDA">
+            <img ref={logoRef} className="logo-spin" src="/logo-clean.png" alt="IBIZA MI VIDA logo" />
+          </Link>
+          <Link className="nav-wordmark" href={base}>
+            <span className="nav-brand-name">IBIZA MI VIDA</span>
+            <span className="nav-brand-sub">TICKETS · PRIVATE BOATS · RENTAL</span>
           </Link>
           <div className="nav-actions">
             <span className="nav-lang"><LanguageSelector /></span>
