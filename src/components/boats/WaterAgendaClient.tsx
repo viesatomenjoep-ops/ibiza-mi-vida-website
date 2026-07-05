@@ -283,23 +283,8 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
             </div>
           )}
 
-          {/* Search + (month nav in month mode) */}
+          {/* Month nav in month mode */}
           <div className="w-full flex flex-wrap items-center justify-center gap-2">
-            <div className="relative">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-black/30" />
-              <input
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={L.searchPlaceholder}
-                className="w-56 md:w-72 rounded-full border border-black/10 bg-white pl-8 pr-8 py-1.5 text-xs font-medium text-black placeholder:text-black/30 focus:outline-none focus:border-black transition-all"
-              />
-              {searchQuery && (
-                <button onClick={() => setSearchQuery('')} aria-label="Zoekopdracht wissen" className="absolute right-2.5 top-1/2 -translate-y-1/2 text-black/30 hover:text-black">
-                  <X size={14} />
-                </button>
-              )}
-            </div>
-
             {quickFilter === 'month' && (
               <div className="flex items-center gap-1.5">
                 <button onClick={() => shiftMonth(-1)} disabled={!canPrev} className="w-8 h-8 rounded-full border border-black/10 bg-white flex items-center justify-center text-black/60 enabled:hover:border-black enabled:hover:text-black disabled:opacity-30 transition-all"><ChevronLeft size={16} /></button>
