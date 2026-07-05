@@ -221,9 +221,8 @@ export default function ClubTicketsClient({
           <div className="wrap">
             <div className="mb-5">
               <div className="text-xs font-black tracking-widest uppercase text-ibiza-green mb-1">Score your tickets</div>
-              <h2 className="font-serif text-3xl md:text-4xl font-black text-black tracking-tight">Open de kalender</h2>
             </div>
-            <EventPickerWheel events={pickerEvents} locale={locale} />
+            <EventPickerWheel events={pickerEvents} locale={locale} storeKey="clubtickets" />
           </div>
         </section>
       )}

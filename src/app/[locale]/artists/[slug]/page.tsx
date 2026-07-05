@@ -237,18 +237,18 @@ export default async function ArtistPage({ params }: Props) {
   const spotifyDetails = getSpotifyEmbedDetails(artist.slug);
 
   return (
-    <div className="theme-monaco-vip bg-[var(--color-paper)] text-[var(--color-ink)] min-h-screen pb-24">
+    <div className="theme-monaco-vip bg-[#E14D68] text-white min-h-screen pb-24">
       
       {/* Hero Section */}
-      <section className="relative h-[360px] md:h-[440px] overflow-hidden flex items-center justify-center text-center px-4 rounded-b-[36px] bg-black">
+      <section className="relative h-[440px] md:h-[560px] overflow-hidden flex items-center justify-center text-center px-4 rounded-b-[36px] bg-black">
         <Image
           src={headerImage}
           alt={artist.name}
           fill
           priority
-          className="object-cover object-center opacity-60"
+          className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-paper)] via-[var(--color-paper)]/75 to-[var(--color-paper)]/30 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/15 z-10" />
         
         <div className="relative z-20 max-w-3xl mx-auto text-white pt-32">
           {artist.venueName ? (

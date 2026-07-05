@@ -1179,6 +1179,11 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 .mcat-ico svg{width:26px;height:26px}
 .mcat-label{font-size:.55rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#fff;text-align:center;line-height:1.15;max-width:92px}
 
+/* Glowing "Open the calendar" CTA */
+.cal-cta{position:relative;animation:calGlow 1.9s ease-in-out infinite}
+@keyframes calGlow{0%,100%{box-shadow:0 0 0 0 rgba(20,255,0,.45),0 6px 18px rgba(20,255,0,.25)}50%{box-shadow:0 0 26px 7px rgba(20,255,0,.55),0 6px 22px rgba(20,255,0,.4)}}
+@media (prefers-reduced-motion:reduce){.cal-cta{animation:none}}
+
 /* ===== Category iris-reveal tiles (desktop + mobile) =====
    Closed: glassy white-bordered circle with text. Tap → photo irises open. Tap again → navigate. */
 .creveal-row{display:flex;justify-content:center;align-items:flex-start;gap:14px;width:100%;max-width:310px;margin:0 auto;padding:6px 10px}

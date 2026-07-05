@@ -28,18 +28,18 @@ const DF: Record<string, any> = { nl, en: enUS, de, es, fr }
 
 const LABELS: Record<string, {
   day: string; week: string; month: string; from: string; lineup: string;
-  view: string; none: string; open: string; book: string; pickClub: string; pickDate: string; seeLineup: string; weekN: string
+  view: string; none: string; open: string; book: string; pickClub: string; pickDate: string; seeLineup: string; weekN: string; openCal: string
 }> = {
-  en: { day: 'Day', week: 'Week', month: 'Month', from: 'From', lineup: 'Line-up', view: 'View event', none: 'No events', open: 'Spin to your night', book: 'View & book', pickClub: 'Club', pickDate: 'Date', seeLineup: 'See line-up', weekN: 'Week' },
-  nl: { day: 'Dag', week: 'Week', month: 'Maand', from: 'Vanaf', lineup: 'Line-up', view: 'Bekijk event', none: 'Geen events', open: 'Draai naar jouw avond', book: 'Bekijk & boek', pickClub: 'Club', pickDate: 'Datum', seeLineup: 'Bekijk line-up', weekN: 'Week' },
-  de: { day: 'Tag', week: 'Woche', month: 'Monat', from: 'Ab', lineup: 'Line-up', view: 'Event ansehen', none: 'Keine Events', open: 'Dreh zu deiner Nacht', book: 'Ansehen & buchen', pickClub: 'Club', pickDate: 'Datum', seeLineup: 'Line-up ansehen', weekN: 'Woche' },
-  es: { day: 'Día', week: 'Semana', month: 'Mes', from: 'Desde', lineup: 'Line-up', view: 'Ver evento', none: 'Sin eventos', open: 'Gira hacia tu noche', book: 'Ver y reservar', pickClub: 'Club', pickDate: 'Fecha', seeLineup: 'Ver line-up', weekN: 'Semana' },
-  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', from: 'Dès', lineup: 'Line-up', view: 'Voir', none: 'Aucun événement', open: 'Tourne vers ta nuit', book: 'Voir & réserver', pickClub: 'Club', pickDate: 'Date', seeLineup: 'Voir le line-up', weekN: 'Semaine' },
+  en: { day: 'Day', week: 'Week', month: 'Month', from: 'From', lineup: 'Line-up', view: 'View event', none: 'No events', open: 'Spin to your night', book: 'View & book', pickClub: 'Club', pickDate: 'Date', seeLineup: 'See line-up', weekN: 'Week', openCal: 'Open the calendar' },
+  nl: { day: 'Dag', week: 'Week', month: 'Maand', from: 'Vanaf', lineup: 'Line-up', view: 'Bekijk event', none: 'Geen events', open: 'Draai naar jouw avond', book: 'Bekijk & boek', pickClub: 'Club', pickDate: 'Datum', seeLineup: 'Bekijk line-up', weekN: 'Week', openCal: 'Open de kalender' },
+  de: { day: 'Tag', week: 'Woche', month: 'Monat', from: 'Ab', lineup: 'Line-up', view: 'Event ansehen', none: 'Keine Events', open: 'Dreh zu deiner Nacht', book: 'Ansehen & buchen', pickClub: 'Club', pickDate: 'Datum', seeLineup: 'Line-up ansehen', weekN: 'Woche', openCal: 'Kalender öffnen' },
+  es: { day: 'Día', week: 'Semana', month: 'Mes', from: 'Desde', lineup: 'Line-up', view: 'Ver evento', none: 'Sin eventos', open: 'Gira hacia tu noche', book: 'Ver y reservar', pickClub: 'Club', pickDate: 'Fecha', seeLineup: 'Ver line-up', weekN: 'Semana', openCal: 'Abrir el calendario' },
+  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', from: 'Dès', lineup: 'Line-up', view: 'Voir', none: 'Aucun événement', open: 'Tourne vers ta nuit', book: 'Voir & réserver', pickClub: 'Club', pickDate: 'Date', seeLineup: 'Voir le line-up', weekN: 'Semaine', openCal: 'Ouvrir le calendrier' },
 }
 
 // ── Vertical iOS-style wheel (compact) ────────────────────────────────────────
-function Wheel({ count, rowH, visible, onIndex, render }: {
-  count: number; rowH: number; visible: number; onIndex?: (i: number) => void; render: (i: number, active: boolean) => React.ReactNode
+function Wheel({ count, rowH, visible, onIndex, render, initialIndex = 0 }: {
+  count: number; rowH: number; visible: number; onIndex?: (i: number) => void; render: (i: number, active: boolean) => React.ReactNode; initialIndex?: number
 }) {
   const H = rowH * visible
   const PAD = H / 2 - rowH / 2
@@ -67,6 +67,11 @@ function Wheel({ count, rowH, visible, onIndex, render }: {
 
   const onScroll = () => { cancelAnimationFrame(raf.current); raf.current = requestAnimationFrame(apply) }
   useEffect(() => { last.current = -1; requestAnimationFrame(apply) }, [count, apply])
+  useEffect(() => {
+    const el = scrollRef.current
+    if (el && initialIndex > 0 && initialIndex < count) { el.scrollTop = initialIndex * rowH; last.current = -1; requestAnimationFrame(apply) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="relative select-none" style={{ height: H }}>
@@ -85,8 +90,8 @@ function Wheel({ count, rowH, visible, onIndex, render }: {
 }
 
 // ── Horizontal iOS-style wheel (full-screen agenda) ───────────────────────────
-function WheelH({ count, itemW, itemH, onIndex, render }: {
-  count: number; itemW: number; itemH: number; onIndex?: (i: number) => void; render: (i: number, active: boolean) => React.ReactNode
+function WheelH({ count, itemW, itemH, onIndex, render, initialIndex = 0 }: {
+  count: number; itemW: number; itemH: number; onIndex?: (i: number) => void; render: (i: number, active: boolean) => React.ReactNode; initialIndex?: number
 }) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const rowRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -112,6 +117,11 @@ function WheelH({ count, itemW, itemH, onIndex, render }: {
 
   const onScroll = () => { cancelAnimationFrame(raf.current); raf.current = requestAnimationFrame(apply) }
   useEffect(() => { last.current = -1; requestAnimationFrame(apply) }, [count, apply])
+  useEffect(() => {
+    const el = scrollRef.current
+    if (el && initialIndex > 0 && initialIndex < count) { el.scrollLeft = initialIndex * itemW; last.current = -1; requestAnimationFrame(apply) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const step = (dir: number) => { const el = scrollRef.current; if (el) el.scrollBy({ left: dir * itemW, behavior: 'smooth' }) }
 
@@ -135,11 +145,20 @@ function WheelH({ count, itemW, itemH, onIndex, render }: {
 }
 
 // ── Shared data hook for the picker ───────────────────────────────────────────
-function usePickerData(events: PickerEvent[], locale: string) {
+function usePickerData(events: PickerEvent[], locale: string, persistKey?: string) {
   const todayStr = useMemo(() => format(startOfDay(new Date()), 'yyyy-MM-dd'), [])
-  const [period, setPeriod] = useState<Period>('week')
-  const [clubIdx, setClubIdx] = useState(0)
-  const [dateIdx, setDateIdx] = useState(0)
+  const saved = useRef<{ period?: Period; clubIdx?: number; dateIdx?: number }>(
+    (() => { if (persistKey && typeof window !== 'undefined') { try { return JSON.parse(sessionStorage.getItem('epw:' + persistKey) || '{}') } catch { return {} } } return {} })()
+  ).current
+  const [period, setPeriod] = useState<Period>(saved.period || 'week')
+  const [clubIdx, setClubIdx] = useState<number>(saved.clubIdx ?? 0)
+  const [dateIdx, setDateIdx] = useState<number>(saved.dateIdx ?? 0)
+
+  useEffect(() => {
+    if (persistKey && typeof window !== 'undefined') {
+      try { sessionStorage.setItem('epw:' + persistKey, JSON.stringify({ period, clubIdx, dateIdx })) } catch {}
+    }
+  }, [persistKey, period, clubIdx, dateIdx])
 
   const clubs = useMemo(() => {
     const map = new Map<string, { slug: string; name: string; logo?: string }>()
@@ -196,7 +215,7 @@ function usePickerData(events: PickerEvent[], locale: string) {
       .sort((a, b) => a.date.localeCompare(b.date))
   }, [events, club, dateItem])
 
-  return { period, setPeriod, clubs, club, clubIdx, setClubIdx, dateItems, dateIdx, setDateIdx, ev, dateItem, windowEvents }
+  return { period, setPeriod, clubs, club, clubIdx, setClubIdx, dateItems, dateIdx, setDateIdx, ev, dateItem, windowEvents, initialClubIdx: saved.clubIdx ?? 0, initialDateIdx: saved.dateIdx ?? 0 }
 }
 
 function PeriodTabs({ period, setPeriod, locale }: { period: Period; setPeriod: (p: Period) => void; locale: string }) {
@@ -230,22 +249,21 @@ function InfoCta({ ev, locale, fmt }: { ev: PickerEvent; locale: string; fmt: (i
   )
 }
 
-// ── Event mini-card with "See line-up" (→ event detail page) ──────────────────
+// ── Event mini-card (whole card → event detail / line-up page) ────────────────
 function EventMini({ e, locale, fmt }: { e: PickerEvent; locale: string; fmt: (iso: string, p: string) => string }) {
-  const L = LABELS[locale] || LABELS.en
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-black/10 bg-white p-2.5 shadow-sm">
-      <Link href={e.href} className="relative h-16 w-24 shrink-0 overflow-hidden rounded-xl bg-neutral-900">
-        {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover" /> : null}
-        {e.price > 0 && <span className="absolute left-1 top-1 rounded bg-ibiza-green px-1.5 py-0.5 text-[10px] font-black text-black">€{e.price}</span>}
-      </Link>
+    <Link href={e.href} className="group flex items-center gap-3 rounded-2xl border border-black/10 bg-white p-3 shadow-sm transition-colors hover:border-ibiza-green">
+      <span className="relative h-24 w-36 shrink-0 overflow-hidden rounded-xl bg-neutral-900">
+        {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+        {e.price > 0 && <span className="absolute left-1.5 top-1.5 rounded bg-ibiza-green px-2 py-0.5 text-[11px] font-black text-black">€{e.price}</span>}
+      </span>
       <div className="min-w-0 flex-1">
-        <div className="truncate font-serif text-base font-black text-black">{e.eventName}</div>
-        <div className="truncate text-xs font-semibold capitalize text-black/50">{fmt(e.date, 'EEEE d MMM')}</div>
-        {e.lineUp && <div className="mt-0.5 flex items-center gap-1 truncate text-[11px] text-black/45"><Music size={11} className="shrink-0 text-ibiza-green" /> {e.lineUp}</div>}
+        <div className="line-clamp-2 font-serif text-lg font-black leading-tight text-black">{e.eventName}</div>
+        <div className="mt-0.5 truncate text-xs font-semibold capitalize text-black/50">{fmt(e.date, 'EEEE d MMM')}</div>
+        {e.lineUp && <div className="mt-1 flex items-center gap-1 truncate text-[11px] text-black/45"><Music size={11} className="shrink-0 text-ibiza-green" /> {e.lineUp}</div>}
       </div>
-      <Link href={e.href} className="shrink-0 rounded-full bg-ibiza-green px-3.5 py-2.5 text-[11px] font-black uppercase tracking-wide text-black transition-all hover:brightness-95">{L.seeLineup}</Link>
-    </div>
+      <ChevronRight size={20} className="shrink-0 text-ibiza-green" />
+    </Link>
   )
 }
 
@@ -359,22 +377,27 @@ function PickerColumns({ events, locale }: { events: PickerEvent[]; locale: stri
 }
 
 // ── Full-screen agenda (horizontal strips) ────────────────────────────────────
-function PickerRows({ events, locale }: { events: PickerEvent[]; locale: string }) {
+function PickerRows({ events, locale, persistKey }: { events: PickerEvent[]; locale: string; persistKey?: string }) {
   const L = LABELS[locale] || LABELS.en
   const loc = DF[locale] || enUS
   const fmt = (iso: string, p: string) => { try { const d = parseISO(iso); return isValid(d) ? format(d, p, { locale: loc }) : '' } catch { return '' } }
-  const { period, setPeriod, clubs, club, setClubIdx, dateItems, setDateIdx, ev, windowEvents } = usePickerData(events, locale)
+  const { period, setPeriod, clubs, club, setClubIdx, dateItems, setDateIdx, ev, windowEvents, initialClubIdx, initialDateIdx } = usePickerData(events, locale, persistKey)
+  // Only restore the saved date index on the very first mount; after the user interacts,
+  // switching club/period resets the date wheel to the start.
+  const ready = useRef(false)
+  useEffect(() => { const t = setTimeout(() => { ready.current = true }, 500); return () => clearTimeout(t) }, [])
+  const changePeriod = (p: Period) => { setPeriod(p); if (ready.current) setDateIdx(0) }
 
   if (clubs.length === 0) return <div className="p-10 text-center text-sm font-semibold text-black/40">{L.none}</div>
 
   return (
     <div className="w-full">
-      <PeriodTabs period={period} setPeriod={setPeriod} locale={locale} />
+      <PeriodTabs period={period} setPeriod={changePeriod} locale={locale} />
 
       {/* Clubs strip (horizontal) */}
       <div className="mb-3 rounded-3xl border border-black/10 bg-white p-2 shadow-sm">
         <div className="px-3 pb-1 pt-1 text-[10px] font-black uppercase tracking-widest text-black/35">{L.pickClub}</div>
-        <WheelH count={clubs.length} itemW={128} itemH={104} onIndex={(i) => { setClubIdx(i); setDateIdx(0) }} render={(i, active) => {
+        <WheelH count={clubs.length} itemW={128} itemH={104} initialIndex={initialClubIdx} onIndex={(i) => { setClubIdx(i); if (ready.current) setDateIdx(0) }} render={(i, active) => {
           const c = clubs[i]
           return (
             <div className="flex flex-col items-center gap-1.5">
@@ -388,7 +411,7 @@ function PickerRows({ events, locale }: { events: PickerEvent[]; locale: string 
       {/* Dates strip (horizontal) */}
       <div className="mb-3 rounded-3xl border border-black/10 bg-white p-2 shadow-sm">
         <div className="px-3 pb-1 pt-1 text-[10px] font-black uppercase tracking-widest text-black/35">{L.pickDate}</div>
-        <WheelH key={`${club?.slug}-${period}`} count={dateItems.length} itemW={period === 'week' ? 128 : 96} itemH={104} onIndex={(i) => setDateIdx(i)} render={(i, active) => {
+        <WheelH key={`${club?.slug}-${period}`} count={dateItems.length} itemW={period === 'week' ? 128 : 96} itemH={104} initialIndex={ready.current ? 0 : initialDateIdx} onIndex={(i) => setDateIdx(i)} render={(i, active) => {
           const d = dateItems[i]; if (!d) return null
           return (
             <div className="flex flex-col items-center justify-center leading-none">
@@ -400,30 +423,33 @@ function PickerRows({ events, locale }: { events: PickerEvent[]; locale: string 
         }} />
       </div>
 
-      {/* Big reactive event bar (focused day) */}
-      {ev ? (
+      {/* Horizontal event carousel — swipe left/right through all events of the window */}
+      {windowEvents.length > 0 ? (
         <>
-          <Link href={ev.href} className="group block overflow-hidden rounded-3xl border border-black/10 shadow-lg">
-            <div className="relative aspect-[16/8] w-full bg-neutral-900 md:aspect-[16/6]">
-              {ev.image ? <img key={ev.id} src={ev.image} alt={ev.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
-              {ev.price > 0 && <span className="absolute right-3 top-3 rounded-lg bg-ibiza-green px-3 py-1 text-sm font-black text-black">€{ev.price}</span>}
-              <div className="absolute inset-x-0 bottom-0 p-5">
-                <div className="font-serif text-2xl font-black leading-tight text-white line-clamp-2 md:text-4xl">{ev.eventName}</div>
-                <div className="mt-1 text-sm font-semibold text-white/75">{ev.clubName} · <span className="capitalize">{fmt(ev.date, 'EEEE d MMMM')}</span></div>
-              </div>
-            </div>
-          </Link>
-          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-            <Link href={ev.href} className="flex flex-1 items-center justify-center gap-2 rounded-2xl border-2 border-ibiza-green bg-ibiza-green/10 px-6 py-3.5 font-serif text-base font-black uppercase tracking-wide text-black transition-colors hover:bg-ibiza-green/20">
-              <Music size={18} /> {L.seeLineup}
-            </Link>
-            <Link href={ev.href} className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-3.5 font-serif text-base font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95">
-              <Ticket size={18} /> {L.book}{ev.price > 0 ? ` · €${ev.price}` : ''}
-            </Link>
+          <div className="hide-scrollbar -mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-2">
+            {windowEvents.map(e => (
+              <Link key={e.id} href={e.href} className="group block w-[86%] shrink-0 snap-center overflow-hidden rounded-3xl border border-black/10 shadow-lg sm:w-[72%]">
+                <div className="relative aspect-[16/10] w-full bg-neutral-900 sm:aspect-[16/8]">
+                  {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                  {e.price > 0 && <span className="absolute right-3 top-3 rounded-lg bg-ibiza-green px-3 py-1 text-sm font-black text-black">€{e.price}</span>}
+                  <div className="absolute inset-x-0 bottom-0 p-5">
+                    <div className="font-serif text-2xl font-black leading-tight text-white line-clamp-2 md:text-3xl">{e.eventName}</div>
+                    <div className="mt-1 text-sm font-semibold text-white/75">{e.clubName} · <span className="capitalize">{fmt(e.date, 'EEEE d MMMM')}</span></div>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
 
-          {/* Week / Month → all events of the window, grouped per day (scrollable) */}
+          {/* Book CTA for the focused event */}
+          {ev && (
+            <Link href={ev.href} className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95">
+              <Ticket size={20} /> {L.book}{ev.price > 0 ? ` · €${ev.price}` : ''}
+            </Link>
+          )}
+
+          {/* Week / Month → all events grouped per day (bigger images, whole card opens the line-up) */}
           {period !== 'day' && (
             <div className="mt-6">
               <WindowList events={windowEvents} period={period} locale={locale} fmt={fmt} />
@@ -436,11 +462,22 @@ function PickerRows({ events, locale }: { events: PickerEvent[]; locale: string 
 }
 
 // ── Public component: compact picker + "Open calendar" full-screen ────────────
-export function EventPickerWheel({ events, locale = 'nl', className = '' }: { events: PickerEvent[]; locale?: string; className?: string }) {
+export function EventPickerWheel({ events, locale = 'nl', className = '', storeKey = 'agenda' }: { events: PickerEvent[]; locale?: string; className?: string; storeKey?: string }) {
   const L = LABELS[locale] || LABELS.en
+  const fullKey = `epw:${storeKey}:full`
   const [full, setFull] = useState(false)
   const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
+
+  // Restore the open agenda after navigating to an event and pressing back
+  useEffect(() => {
+    setMounted(true)
+    try { if (sessionStorage.getItem(fullKey) === '1') setFull(true) } catch {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const open = () => { setFull(true); try { sessionStorage.setItem(fullKey, '1') } catch {} }
+  const close = () => { setFull(false); try { sessionStorage.removeItem(fullKey) } catch {} }
+
   useEffect(() => {
     if (!full) return
     const prev = document.body.style.overflow
@@ -452,19 +489,20 @@ export function EventPickerWheel({ events, locale = 'nl', className = '' }: { ev
     <section className={`w-full ${className}`}>
       <PickerColumns events={events} locale={locale} />
 
-      <button onClick={() => setFull(true)} className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-ibiza-green bg-ibiza-green/10 px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black transition-colors hover:bg-ibiza-green/20">
-        <CalendarDays size={20} /> {L.open}
+      {/* Bright-green glowing button that opens the calendar */}
+      <button onClick={open} className="cal-cta mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-lg transition-transform hover:scale-[1.01]">
+        <CalendarDays size={20} /> {L.openCal}
       </button>
 
       {mounted && full && createPortal(
         <div className="fixed inset-0 z-[300] flex flex-col bg-white">
           <div className="flex items-center justify-between border-b border-black/10 px-5 py-4">
             <h2 className="font-serif text-xl font-black text-black md:text-2xl">Ibiza Calendar</h2>
-            <button onClick={() => setFull(false)} aria-label="Close" className="grid h-11 w-11 place-items-center rounded-full bg-black/5 text-black hover:bg-black/10"><X size={22} /></button>
+            <button onClick={close} aria-label="Close" className="grid h-11 w-11 place-items-center rounded-full bg-black/5 text-black hover:bg-black/10"><X size={22} /></button>
           </div>
           <div className="flex-1 overflow-y-auto px-4 py-6 md:px-6">
             <div className="mx-auto w-full max-w-3xl">
-              <PickerRows events={events} locale={locale} />
+              <PickerRows events={events} locale={locale} persistKey={storeKey} />
             </div>
           </div>
         </div>,

@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { MapPin, ArrowLeft, Check, Info, Camera, HelpCircle, Ticket, Clock, Music, Sparkles, Navigation, AlertCircle, Utensils, Anchor, Waves } from 'lucide-react'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
+import { EventCheckoutButton } from './EventCheckoutButton'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
 import { EventDatePicker, PickerLabels } from './EventDatePicker'
 import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
@@ -198,6 +199,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
   const S = SECTION_I18N[locale] || SECTION_I18N.en
   const bcp = BCP[locale] || 'en-GB'
   const checkoutLabel = ({ en: 'Checkout', nl: 'Afrekenen', de: 'Zur Kasse', es: 'Finalizar compra', fr: 'Commander' } as Record<string, string>)[locale] || 'Checkout'
+  const checkoutAff = (eventDates.find(d => (d as any).affLink)?.affLink || eventDates[0]?.affLink || '') as string
 
   const eventName = eventDetail?.name || eventDates[0]?.eventName || 'Event'
   const eventCover = eventDetail?.cover || eventDetail?.logo || club.cover || club.picture || ''
@@ -279,13 +281,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
 
       {/* Full-width Checkout button directly under the event image */}
       <div className="mx-auto max-w-7xl px-4 mt-6 md:mt-8 md:px-8">
-        <a
-          href="#tickets"
-          className="flex w-full items-center gap-3 rounded-2xl border border-black/10 bg-black/5 p-4 font-serif text-lg font-black uppercase text-black shadow-md transition-colors hover:bg-white md:p-5 md:text-xl"
-        >
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Ticket size={18} /></span>
-          {checkoutLabel}
-        </a>
+        <EventCheckoutButton affLink={checkoutAff} locale={locale} label={checkoutLabel} variant="full" />
       </div>
 
       <div className="mx-auto max-w-7xl px-4 py-10 pb-32 md:px-8">
@@ -525,13 +521,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           <span className="text-xs font-bold uppercase tracking-wider text-black/50">{t.event_from_price || 'From'}</span>
           <span className="text-xl font-black text-black">{eventDates[0]?.prices || '€30'}</span>
         </div>
-        <a
-          href="#tickets"
-          className="inline-flex items-center gap-2.5 rounded-2xl border border-black/10 bg-black/5 px-5 py-3 font-serif font-black uppercase text-black shadow-sm transition-colors hover:bg-white"
-        >
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Ticket size={18} /></span>
-          {checkoutLabel}
-        </a>
+        <EventCheckoutButton affLink={checkoutAff} locale={locale} label={checkoutLabel} variant="pill" />
       </div>
     </div>
   )

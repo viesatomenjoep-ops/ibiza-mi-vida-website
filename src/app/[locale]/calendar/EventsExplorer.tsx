@@ -171,9 +171,8 @@ export default function EventsExplorer({ events, locale }: Props) {
         <section className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-6 pt-1">
           <div className="mb-4">
             <div className="text-xs font-black tracking-widest uppercase text-ibiza-green mb-1">Score your tickets</div>
-            <h2 className="font-serif text-2xl md:text-4xl font-black text-black tracking-tight">Open de kalender</h2>
           </div>
-          <EventPickerWheel events={pickerEvents} locale={locale} />
+          <EventPickerWheel events={pickerEvents} locale={locale} storeKey="calendar" />
         </section>
       )}
 
