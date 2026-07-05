@@ -75,15 +75,17 @@ export function Navbar() {
   ]
 
   const [isScrolled, setIsScrolled] = useState(false)
+  const [fadeOn, setFadeOn] = useState(false)
   const [onLight, setOnLight] = useState(false)
   const logoRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => { setMenuOpen(false) }, [pathname])
 
-  // Shrink navbar on scroll
+  // Shrink navbar on scroll + activate the top dissolve/blur zone as soon as you scroll a touch
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > Math.max(120, window.innerHeight * 0.55))
+      setFadeOn(window.scrollY > 20)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
@@ -114,6 +116,37 @@ export function Navbar() {
       } catch { return null } // cross-origin taint → give up
     }
 
+    // Fallback for pages without a hero image: read the solid background colour
+    // sitting directly under the navbar and judge its brightness.
+    const solidBgBrightness = (navH: number): number | null => {
+      const x = Math.round(window.innerWidth / 2)
+      const y = Math.round(navH + 6)
+      let el = document.elementFromPoint(x, y) as HTMLElement | null
+      while (el && el !== document.documentElement) {
+        const bg = getComputedStyle(el).backgroundColor
+        const m = bg.match(/rgba?\(([^)]+)\)/)
+        if (m) {
+          const p = m[1].split(',').map(s => parseFloat(s))
+          const a = p[3] === undefined ? 1 : p[3]
+          if (a > 0.5) return 0.299 * p[0] + 0.587 * p[1] + 0.114 * p[2]
+        }
+        el = el.parentElement
+      }
+      // Nothing opaque found → assume the page's own (usually white) background.
+      const bodyBg = getComputedStyle(document.body).backgroundColor
+      const bm = bodyBg.match(/rgba?\(([^)]+)\)/)
+      if (bm) {
+        const p = bm[1].split(',').map(s => parseFloat(s))
+        return 0.299 * p[0] + 0.587 * p[1] + 0.114 * p[2]
+      }
+      return null
+    }
+
+    const applyFallback = (navH: number) => {
+      const b = solidBgBrightness(navH)
+      setOnLight(b !== null ? b > 150 : false)
+    }
+
     const measure = () => {
       if (cancelled) return
       // Only relevant while transparent (not scrolled). When scrolled the navbar is solid dark.
@@ -132,12 +165,12 @@ export function Navbar() {
           hero = m; break
         }
       }
-      if (!hero) { setOnLight(false); return }
+      if (!hero) { applyFallback(navH); return }
 
       const isImg = hero.tagName === 'IMG'
       const nw = isImg ? (hero as HTMLImageElement).naturalWidth : (hero as HTMLVideoElement).videoWidth
       const nh = isImg ? (hero as HTMLImageElement).naturalHeight : (hero as HTMLVideoElement).videoHeight
-      if (!nw || !nh) { setOnLight(false); return }
+      if (!nw || !nh) { applyFallback(navH); return }
       const stripH = Math.max(1, Math.round(nh * 0.22)) // top strip behind the navbar
 
       // Try the live element first.
@@ -151,13 +184,15 @@ export function Navbar() {
           if (cancelled) return
           const l = brightnessFromDraw((ctx, w, h) => ctx.drawImage(probe, 0, 0, probe.naturalWidth, Math.max(1, Math.round(probe.naturalHeight * 0.22)), 0, 0, w, h))
           if (l !== null) setOnLight(l > 150)
+          else applyFallback(navH)
         }
+        probe.onerror = () => { if (!cancelled) applyFallback(navH) }
         probe.src = (hero as HTMLImageElement).currentSrc || (hero as HTMLImageElement).src
         return
       }
 
       if (lum !== null) setOnLight(lum > 150)
-      else setOnLight(false)
+      else applyFallback(navH)
     }
 
     measure()
@@ -236,6 +271,10 @@ export function Navbar() {
           </div>
         </nav>
       </header>
+
+      {/* Progressive dissolve/blur zone at the very top: page content fades away
+          as it scrolls up under the transparent navbar. Sits above content, below the navbar. */}
+      <div className={`nav-fade${fadeOn ? ' nav-fade--on' : ''}`} aria-hidden="true" />
 
       {/* ── FULLSCREEN MENU OVERLAY ── */}
       <div
