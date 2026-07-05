@@ -77,10 +77,46 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
         {/* Buttons & Badge at the bottom */}
         <div className="relative z-20 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 pt-10 pb-8 md:pt-16 md:pb-12">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full px-4 max-w-3xl">
+          {/* Desktop: text buttons */}
+          <div className="hidden md:flex md:flex-row items-center justify-center gap-4 w-full px-4 max-w-3xl">
             <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
             <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
             <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/private-boat-charters`}>{translations.nav_private_boat}</Link>
+          </div>
+
+          {/* Mobile: animated category icons */}
+          <div className="mcat-row md:hidden">
+            <Link href={`${base}/calendar`} className="mcat" aria-label={translations.home_full_calendar}>
+              <span className="mcat-ico mcat-cal" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none">
+                  <rect x="8" y="12" width="32" height="28" rx="5" stroke="#fff" strokeWidth="3" />
+                  <line x1="8" y1="20" x2="40" y2="20" stroke="#fff" strokeWidth="3" />
+                  <line x1="16" y1="8" x2="16" y2="14" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+                  <line x1="32" y1="8" x2="32" y2="14" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+                  <circle className="mcat-cal-dot" cx="24" cy="30" r="4" fill="#14FF00" />
+                </svg>
+              </span>
+              <span className="mcat-label">{translations.home_full_calendar}</span>
+            </Link>
+
+            <Link href={`${base}/club-tickets`} className="mcat" aria-label={translations.home_clubs_venues}>
+              <span className="mcat-ico mcat-eq" aria-hidden="true"><i /><i /><i /><i /></span>
+              <span className="mcat-label">{translations.home_clubs_venues}</span>
+            </Link>
+
+            <Link href={`${base}/private-boat-charters`} className="mcat" aria-label={translations.nav_private_boat}>
+              <span className="mcat-ico mcat-boat" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none">
+                  <g className="mcat-boat-hull">
+                    <line x1="24" y1="10" x2="24" y2="30" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+                    <path d="M24 12 L34 27 L24 27 Z" fill="#14FF00" />
+                    <path d="M9 29 H39 L34 38 H14 Z" fill="#fff" />
+                  </g>
+                  <path className="mcat-boat-wave" d="M2 41 q5 -4 10 0 t10 0 t10 0 t10 0 t10 0" stroke="#14FF00" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+                </svg>
+              </span>
+              <span className="mcat-label">{translations.nav_private_boat}</span>
+            </Link>
           </div>
         </div>
 
