@@ -132,8 +132,8 @@ export function Navbar() {
               <span className="nav-logo-btn">
                 <img ref={logoRef} className="logo-spin" src="/logo-clean.png" alt="IBIZA MI VIDA logo" />
               </span>
-              <span className="nav-brand-text">
-                <span className="nav-brand-name">IBIZA MI VIDA</span>
+              <span className="nav-brand-name">IBIZA MI VIDA</span>
+              <span className="nav-brand-subs">
                 <span className="nav-brand-sub">TICKETS · PRIVATE BOATS</span>
                 <span className="nav-brand-sub">RENTAL · EVENTS</span>
               </span>
