@@ -7,6 +7,7 @@ import {
 } from 'date-fns';
 import { nl, enUS, de, es, fr } from 'date-fns/locale';
 import { Search, X, Calendar, ChevronRight, ChevronLeft, Ship, Ticket } from 'lucide-react';
+import { EventPickerWheel, type PickerEvent } from '@/components/events/EventPickerWheel';
 
 // ── i18n labels (en, nl, de, es, fr) ──
 interface AgendaLabels {
@@ -78,6 +79,26 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
   const L = getLabels(locale);
   const today = useMemo(() => new Date(), []);
   const todayStr = format(today, 'yyyy-MM-dd');
+
+  // Normalised events for the ClubTickets-style calendar picker
+  const pickerEvents: PickerEvent[] = useMemo(() => events.map(e => {
+    const mv = venues.find(v => v.slug === e.venueSlug);
+    const m = String(e.prices || '').match(/\d+([.,]\d+)?/);
+    return {
+      id: `${e.id}-${e.eventSlug}`,
+      clubSlug: e.venueSlug || '',
+      clubName: e.venueName || '',
+      clubLogo: mv?.whitelogo || e.venueLogo || mv?.logo || mv?.picture || '',
+      eventSlug: e.eventSlug || '',
+      eventName: e.eventName || e.name || '',
+      image: e.eventCover || e.eventLogo || e.venueCover || '',
+      date: e.date || '',
+      price: m ? parseFloat(m[0].replace(',', '.')) : 0,
+      lineUp: e.lineUp || '',
+      href: `/${locale}/${basePath || 'club-tickets'}/${e.venueSlug}/${e.eventSlug}`,
+      affLink: e.affLink || '',
+    };
+  }), [events, venues, locale, basePath]);
 
   const [quickFilter, setQuickFilter] = useState<QuickFilter>('today');
   const [activeMonth, setActiveMonth] = useState(format(today, 'yyyy-MM'));
@@ -198,6 +219,14 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
         <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-none uppercase m-0 tracking-tight drop-shadow-sm">{title}</h1>
         <p className="text-sm md:text-base text-black/50 font-medium mt-3 max-w-md">{subtitle}</p>
       </div>
+
+      {/* ── ClubTickets-style calendar picker ── */}
+      {pickerEvents.length > 0 && (
+        <section className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4 pb-2">
+          <div className="text-xs font-black tracking-widest uppercase text-ibiza-green mb-3">Score your tickets</div>
+          <EventPickerWheel events={pickerEvents} locale={locale} storeKey={basePath || 'water'} />
+        </section>
+      )}
 
       {/* ── Tactical control bar (sticky) ── */}
       <div className="sticky top-[70px] md:top-[84px] z-40 mt-5 bg-neutral-50/95 backdrop-blur-md border-y border-black/5">

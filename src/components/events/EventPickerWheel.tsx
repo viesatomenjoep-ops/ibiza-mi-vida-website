@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { format, parseISO, isValid, startOfDay, startOfWeek, addDays, endOfMonth } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
-import { Ticket, Music, ChevronRight, ChevronLeft, CalendarDays, X } from 'lucide-react'
+import { Ticket, Music, ChevronRight, ChevronLeft, CalendarDays, X, Maximize2 } from 'lucide-react'
 
 export interface PickerEvent {
   id: string
@@ -28,13 +28,13 @@ const DF: Record<string, any> = { nl, en: enUS, de, es, fr }
 
 const LABELS: Record<string, {
   day: string; week: string; month: string; from: string; lineup: string;
-  view: string; none: string; open: string; book: string; pickClub: string; pickDate: string; seeLineup: string; weekN: string; openCal: string
+  view: string; none: string; open: string; book: string; pickClub: string; pickDate: string; seeLineup: string; weekN: string; openCal: string; close: string
 }> = {
-  en: { day: 'Day', week: 'Week', month: 'Month', from: 'From', lineup: 'Line-up', view: 'View event', none: 'No events', open: 'Spin to your night', book: 'View & book', pickClub: 'Club', pickDate: 'Date', seeLineup: 'See line-up', weekN: 'Week', openCal: 'Open the calendar' },
-  nl: { day: 'Dag', week: 'Week', month: 'Maand', from: 'Vanaf', lineup: 'Line-up', view: 'Bekijk event', none: 'Geen events', open: 'Draai naar jouw avond', book: 'Bekijk & boek', pickClub: 'Club', pickDate: 'Datum', seeLineup: 'Bekijk line-up', weekN: 'Week', openCal: 'Open de kalender' },
-  de: { day: 'Tag', week: 'Woche', month: 'Monat', from: 'Ab', lineup: 'Line-up', view: 'Event ansehen', none: 'Keine Events', open: 'Dreh zu deiner Nacht', book: 'Ansehen & buchen', pickClub: 'Club', pickDate: 'Datum', seeLineup: 'Line-up ansehen', weekN: 'Woche', openCal: 'Kalender öffnen' },
-  es: { day: 'Día', week: 'Semana', month: 'Mes', from: 'Desde', lineup: 'Line-up', view: 'Ver evento', none: 'Sin eventos', open: 'Gira hacia tu noche', book: 'Ver y reservar', pickClub: 'Club', pickDate: 'Fecha', seeLineup: 'Ver line-up', weekN: 'Semana', openCal: 'Abrir el calendario' },
-  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', from: 'Dès', lineup: 'Line-up', view: 'Voir', none: 'Aucun événement', open: 'Tourne vers ta nuit', book: 'Voir & réserver', pickClub: 'Club', pickDate: 'Date', seeLineup: 'Voir le line-up', weekN: 'Semaine', openCal: 'Ouvrir le calendrier' },
+  en: { day: 'Day', week: 'Week', month: 'Month', from: 'From', lineup: 'Line-up', view: 'View event', none: 'No events', open: 'Spin to your night', book: 'View & book', pickClub: 'Club', pickDate: 'Date', seeLineup: 'See line-up', weekN: 'Week', openCal: 'Open the calendar', close: 'Close' },
+  nl: { day: 'Dag', week: 'Week', month: 'Maand', from: 'Vanaf', lineup: 'Line-up', view: 'Bekijk event', none: 'Geen events', open: 'Draai naar jouw avond', book: 'Bekijk & boek', pickClub: 'Club', pickDate: 'Datum', seeLineup: 'Bekijk line-up', weekN: 'Week', openCal: 'Open de kalender', close: 'Sluiten' },
+  de: { day: 'Tag', week: 'Woche', month: 'Monat', from: 'Ab', lineup: 'Line-up', view: 'Event ansehen', none: 'Keine Events', open: 'Dreh zu deiner Nacht', book: 'Ansehen & buchen', pickClub: 'Club', pickDate: 'Datum', seeLineup: 'Line-up ansehen', weekN: 'Woche', openCal: 'Kalender öffnen', close: 'Schließen' },
+  es: { day: 'Día', week: 'Semana', month: 'Mes', from: 'Desde', lineup: 'Line-up', view: 'Ver evento', none: 'Sin eventos', open: 'Gira hacia tu noche', book: 'Ver y reservar', pickClub: 'Club', pickDate: 'Fecha', seeLineup: 'Ver line-up', weekN: 'Semana', openCal: 'Abrir el calendario', close: 'Cerrar' },
+  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', from: 'Dès', lineup: 'Line-up', view: 'Voir', none: 'Aucun événement', open: 'Tourne vers ta nuit', book: 'Voir & réserver', pickClub: 'Club', pickDate: 'Date', seeLineup: 'Voir le line-up', weekN: 'Semaine', openCal: 'Ouvrir le calendrier', close: 'Fermer' },
 }
 
 // ── Vertical iOS-style wheel (compact) ────────────────────────────────────────
@@ -131,8 +131,8 @@ function WheelH({ count, itemW, itemH, onIndex, render, initialIndex = 0 }: {
       <div className="pointer-events-none absolute inset-y-1 left-1/2 z-0 -translate-x-1/2 rounded-2xl border-2 border-ibiza-green/70 bg-ibiza-green/5" style={{ width: itemW }} />
       <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-16 bg-gradient-to-r from-white to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-16 bg-gradient-to-l from-white to-transparent" />
-      <button type="button" aria-label="Previous" onClick={() => step(-1)} className="absolute left-1 top-1/2 z-30 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white text-black shadow-md transition-colors hover:bg-ibiza-green"><ChevronLeft size={20} /></button>
-      <button type="button" aria-label="Next" onClick={() => step(1)} className="absolute right-1 top-1/2 z-30 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white text-black shadow-md transition-colors hover:bg-ibiza-green"><ChevronRight size={20} /></button>
+      <button type="button" aria-label="Previous" onClick={() => step(-1)} className="absolute left-1 top-1/2 z-30 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white text-black shadow-md transition-colors hover:bg-ibiza-green md:grid"><ChevronLeft size={20} /></button>
+      <button type="button" aria-label="Next" onClick={() => step(1)} className="absolute right-1 top-1/2 z-30 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white text-black shadow-md transition-colors hover:bg-ibiza-green md:grid"><ChevronRight size={20} /></button>
       <div ref={scrollRef} onScroll={onScroll} className="hide-scrollbar flex h-full items-center overflow-x-auto" style={{ scrollSnapType: 'x mandatory', perspective: '1100px', paddingLeft: pad, paddingRight: pad }}>
         {Array.from({ length: count }).map((_, i) => (
           <div key={i} ref={(el) => { rowRefs.current[i] = el }} className="flex shrink-0 items-center justify-center" style={{ width: itemW, scrollSnapAlign: 'center', transformStyle: 'preserve-3d', willChange: 'transform, opacity' }}>
@@ -377,7 +377,7 @@ function PickerColumns({ events, locale }: { events: PickerEvent[]; locale: stri
 }
 
 // ── Full-screen agenda (horizontal strips) ────────────────────────────────────
-function PickerRows({ events, locale, persistKey }: { events: PickerEvent[]; locale: string; persistKey?: string }) {
+function PickerRows({ events, locale, persistKey, full, onExpand }: { events: PickerEvent[]; locale: string; persistKey?: string; full?: boolean; onExpand?: () => void }) {
   const L = LABELS[locale] || LABELS.en
   const loc = DF[locale] || enUS
   const fmt = (iso: string, p: string) => { try { const d = parseISO(iso); return isValid(d) ? format(d, p, { locale: loc }) : '' } catch { return '' } }
@@ -426,20 +426,29 @@ function PickerRows({ events, locale, persistKey }: { events: PickerEvent[]; loc
       {/* Horizontal event carousel — swipe left/right through all events of the window */}
       {windowEvents.length > 0 ? (
         <>
-          <div className="hide-scrollbar -mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-2">
-            {windowEvents.map(e => (
-              <Link key={e.id} href={e.href} className="group block w-[86%] shrink-0 snap-center overflow-hidden rounded-3xl border border-black/10 shadow-lg sm:w-[72%]">
-                <div className="relative aspect-[16/10] w-full bg-neutral-900 sm:aspect-[16/8]">
-                  {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
-                  {e.price > 0 && <span className="absolute right-3 top-3 rounded-lg bg-ibiza-green px-3 py-1 text-sm font-black text-black">€{e.price}</span>}
-                  <div className="absolute inset-x-0 bottom-0 p-5">
-                    <div className="font-serif text-2xl font-black leading-tight text-white line-clamp-2 md:text-3xl">{e.eventName}</div>
-                    <div className="mt-1 text-sm font-semibold text-white/75">{e.clubName} · <span className="capitalize">{fmt(e.date, 'EEEE d MMMM')}</span></div>
+          <div className="relative">
+            <div className="hide-scrollbar -mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-2">
+              {windowEvents.map(e => (
+                <Link key={e.id} href={e.href} className="group block w-[86%] shrink-0 snap-center overflow-hidden rounded-3xl border border-black/10 shadow-lg sm:w-[72%]">
+                  <div className="relative aspect-[16/10] w-full bg-neutral-900 sm:aspect-[16/8]">
+                    {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                    {e.price > 0 && <span className="absolute right-3 top-3 rounded-lg bg-ibiza-green px-3 py-1 text-sm font-black text-black">€{e.price}</span>}
+                    <div className="absolute inset-x-0 bottom-0 p-5 pr-16">
+                      <div className="font-serif text-2xl font-black leading-tight text-white line-clamp-2 md:text-3xl">{e.eventName}</div>
+                      <div className="mt-1 text-sm font-semibold text-white/75">{e.clubName} · <span className="capitalize">{fmt(e.date, 'EEEE d MMMM')}</span></div>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
+            </div>
+
+            {/* Expand-to-full-view arrow — bottom of the event image (not near the price) */}
+            {onExpand && (
+              <button type="button" onClick={onExpand} aria-label={L.openCal} className="absolute bottom-4 right-4 z-20 grid h-11 w-11 place-items-center rounded-full bg-ibiza-green text-black shadow-lg transition-transform hover:scale-110">
+                <Maximize2 size={20} />
+              </button>
+            )}
           </div>
 
           {/* Book CTA for the focused event */}
@@ -449,8 +458,8 @@ function PickerRows({ events, locale, persistKey }: { events: PickerEvent[]; loc
             </Link>
           )}
 
-          {/* Week / Month → all events grouped per day (bigger images, whole card opens the line-up) */}
-          {period !== 'day' && (
+          {/* Full view only: all events grouped per day (bigger images, whole card opens the line-up) */}
+          {full && period !== 'day' && (
             <div className="mt-6">
               <WindowList events={windowEvents} period={period} locale={locale} fmt={fmt} />
             </div>
@@ -487,22 +496,23 @@ export function EventPickerWheel({ events, locale = 'nl', className = '', storeK
 
   return (
     <section className={`w-full ${className}`}>
-      <PickerColumns events={events} locale={locale} />
-
-      {/* Bright-green glowing button that opens the calendar */}
-      <button onClick={open} className="cal-cta mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-lg transition-transform hover:scale-[1.01]">
+      {/* Bright-green glowing button — sits right under the "Score your tickets" kicker */}
+      <button onClick={open} className="cal-cta mb-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-lg transition-transform hover:scale-[1.01]">
         <CalendarDays size={20} /> {L.openCal}
       </button>
+
+      {/* Inline calendar — same complex layout as the full view, with an expand arrow */}
+      <PickerRows events={events} locale={locale} persistKey={storeKey} onExpand={open} />
 
       {mounted && full && createPortal(
         <div className="fixed inset-0 z-[300] flex flex-col bg-white">
           <div className="flex items-center justify-between border-b border-black/10 px-5 py-4">
             <h2 className="font-serif text-xl font-black text-black md:text-2xl">Ibiza Calendar</h2>
-            <button onClick={close} aria-label="Close" className="grid h-11 w-11 place-items-center rounded-full bg-black/5 text-black hover:bg-black/10"><X size={22} /></button>
+            <button onClick={close} aria-label="Close" className="inline-flex items-center gap-2 rounded-full bg-black/5 px-4 py-2.5 text-sm font-black uppercase tracking-wide text-black hover:bg-black/10"><X size={18} /> {L.close}</button>
           </div>
           <div className="flex-1 overflow-y-auto px-4 py-6 md:px-6">
             <div className="mx-auto w-full max-w-3xl">
-              <PickerRows events={events} locale={locale} persistKey={storeKey} />
+              <PickerRows events={events} locale={locale} persistKey={storeKey} full />
             </div>
           </div>
         </div>,

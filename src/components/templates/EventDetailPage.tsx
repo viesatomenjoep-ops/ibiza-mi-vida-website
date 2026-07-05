@@ -258,16 +258,6 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian via-velvet-obsidian/50 to-transparent" />
 
-        <div className="absolute left-4 top-4 z-10">
-          <Link
-            href={`/${locale}/${basePath}/${club.slug}`}
-            className="inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 font-sans text-sm font-semibold text-black shadow-sm backdrop-blur-sm transition-colors hover:bg-white"
-          >
-            <ArrowLeft size={14} />
-            {t.event_back_to || 'Back to'} {club.name}
-          </Link>
-        </div>
-
         <div className="relative z-10 w-full px-6 pb-8 md:px-10 md:pb-10">
           <h1 className="font-serif text-4xl font-bold text-white drop-shadow-lg md:text-5xl lg:text-6xl">{eventName}</h1>
           <div className="mt-4 flex flex-wrap gap-4 font-bold text-white/90">
