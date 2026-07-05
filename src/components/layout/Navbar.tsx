@@ -107,11 +107,14 @@ export function Navbar() {
     <>
       <nav className={`nav ${isScrolled ? 'nav--scrolled' : ''}`}>
         <div className="wrap nav-inner">
-          <Link className="nav-brand" href={base} aria-label="Ibiza mi Vida">
+          <Link className="nav-brand" href={base} aria-label="IBZMV">
             <span className="nav-logo-btn">
-              <img ref={logoRef} className="logo-spin" src="/logo-clean.png" alt="Ibiza mi Vida logo" />
+              <img ref={logoRef} className="logo-spin" src="/logo-clean.png" alt="IBZMV logo" />
             </span>
-            <span className="nav-brand-name">Ibizamivida</span>
+            <span className="nav-brand-text">
+              <span className="nav-brand-name">IBZMV</span>
+              <span className="nav-brand-sub">tickets and more</span>
+            </span>
           </Link>
           <div className="nav-links">
             <Link href={`${base}/calendar`}>Events</Link>
@@ -155,8 +158,11 @@ export function Navbar() {
 
         {/* Logo in overlay */}
         <div className="fs-logo">
-          <img src="/logo-clean.png" alt="Ibiza mi Vida" />
-          <span>Ibiza mi Vida</span>
+          <img src="/logo-clean.png" alt="IBZMV" />
+          <span className="fs-brand">
+            <span className="fs-brand-name">IBZMV</span>
+            <span className="fs-brand-sub">tickets and more</span>
+          </span>
         </div>
 
         {/* Spotify player — between the logo and the categories */}
