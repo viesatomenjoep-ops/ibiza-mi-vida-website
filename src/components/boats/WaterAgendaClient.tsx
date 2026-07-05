@@ -233,7 +233,7 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
         <div className="w-full max-w-7xl mx-auto px-4 py-3 md:py-4 flex flex-col items-center gap-3">
 
           {/* Time range segmented control */}
-          <div className="w-full overflow-x-auto hide-scrollbar">
+          <div className="w-full overflow-x-auto overflow-y-hidden hide-scrollbar touch-pan-x overscroll-x-contain">
             <div className="flex md:justify-center gap-2 min-w-max mx-auto">
               {timeTabs.map(tab => {
                 const active = quickFilter === tab.key;
@@ -254,7 +254,7 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
 
           {/* Operator selector (tactical — right under the time tabs) */}
           {activeVenues.length > 1 && (
-            <div className="w-full overflow-x-auto hide-scrollbar">
+            <div className="w-full overflow-x-auto overflow-y-hidden hide-scrollbar touch-pan-x overscroll-x-contain">
               <div className="flex md:justify-center items-center gap-2 min-w-max mx-auto">
                 <button
                   onClick={() => setSelectedVenue(null)}

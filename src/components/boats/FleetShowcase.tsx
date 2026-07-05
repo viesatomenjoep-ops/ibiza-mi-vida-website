@@ -433,29 +433,6 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <div className="relative">
-                <Euro className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40" size={15} />
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  value={priceDraft}
-                  onChange={e => setPriceDraft(e.target.value)}
-                  onKeyDown={e => { if (e.key === 'Enter') applyDraft(); }}
-                  placeholder={isPriceActive ? maxPrice.toLocaleString(bcp) : P.placeholder}
-                  className="w-32 rounded-full border border-black/10 bg-white py-2.5 pl-8 pr-3 text-sm font-semibold text-black placeholder-black/40 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-ibiza-green"
-                />
-              </div>
-              <button
-                onClick={applyDraft}
-                className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-bold transition-all ${
-                  priceLocked && isPriceActive ? 'bg-ibiza-green text-black shadow-sm' : 'bg-black text-white hover:brightness-110'
-                }`}
-              >
-                {priceLocked && isPriceActive ? <Lock size={14} /> : <LockOpen size={14} />}
-                {priceLocked && isPriceActive ? P.locked : P.lock}
-              </button>
-            </div>
           </div>
 
           {/* The range slider */}
@@ -510,26 +487,8 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
         </div>
       </section>
 
-      {/* Marina filter + search — now below the budget slider */}
       <section className="mx-auto max-w-6xl px-4 pt-4">
-        <div className="flex flex-col gap-4 rounded-3xl border border-black/10 bg-neutral-50 p-5 md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-wrap justify-center gap-2.5 md:justify-start">
-            <FilterTab active={marina === 'all'} onClick={() => setMarina('all')}>{T.allMarinas}</FilterTab>
-            {marinas.map(m => (
-              <FilterTab key={m} active={marina === m} onClick={() => setMarina(m)}>{m}</FilterTab>
-            ))}
-          </div>
-          <div className="relative w-full md:w-80">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/40" size={18} />
-            <input
-              className="w-full rounded-full border border-black/10 bg-white py-3.5 pl-11 pr-4 text-sm text-black placeholder-black/40 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-ibiza-green"
-              placeholder={T.searchPlaceholder}
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="mt-4 px-1 text-sm font-semibold text-black/50">{T.boatsCount(filtered.length)}</div>
+        <div className="px-1 text-sm font-semibold text-black/50">{T.boatsCount(filtered.length)}</div>
       </section>
 
       {/* Grid */}

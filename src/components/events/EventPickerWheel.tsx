@@ -122,6 +122,16 @@ function WheelH({ count, itemW, itemH, onIndex, render, initialIndex = 0 }: {
     if (el && initialIndex > 0 && initialIndex < count) { el.scrollLeft = initialIndex * itemW; last.current = -1; requestAnimationFrame(apply) }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  // Re-render once the container is actually laid out (fixes empty wheels inside the modal/portal)
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+    const rerun = () => { last.current = -1; requestAnimationFrame(apply) }
+    const ro = new ResizeObserver(rerun)
+    ro.observe(el)
+    const timers = [40, 140, 320].map(ms => setTimeout(rerun, ms))
+    return () => { ro.disconnect(); timers.forEach(clearTimeout) }
+  }, [apply])
 
   const step = (dir: number) => { const el = scrollRef.current; if (el) el.scrollBy({ left: dir * itemW, behavior: 'smooth' }) }
 
@@ -395,9 +405,9 @@ function PickerRows({ events, locale, persistKey, full, onExpand }: { events: Pi
       <PeriodTabs period={period} setPeriod={changePeriod} locale={locale} />
 
       {/* Desktop: two compact strips stacked on the left, event image beside them. Mobile: stacked. */}
-      <div className="md:grid md:grid-cols-[1fr_1.15fr] md:items-stretch md:gap-4">
+      <div className="md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] md:items-stretch md:gap-4">
         {/* Left column — the two strips */}
-        <div className="flex flex-col gap-3">
+        <div className="flex min-w-0 flex-col gap-3">
           {/* Clubs strip */}
           <div className="rounded-3xl border border-black/10 bg-white p-2 shadow-sm">
             <div className="px-3 pb-1 pt-1 text-[10px] font-black uppercase tracking-widest text-black/35">{L.pickClub}</div>
@@ -428,7 +438,7 @@ function PickerRows({ events, locale, persistKey, full, onExpand }: { events: Pi
         </div>
 
         {/* Right column — event image / carousel */}
-        <div className="mt-3 md:mt-0">
+        <div className="mt-3 min-w-0 md:mt-0">
           {windowEvents.length > 0 ? (
             <div className="relative h-full">
               <div className="hide-scrollbar -mx-1 flex h-full snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-1">
@@ -500,7 +510,7 @@ export function EventPickerWheel({ events, locale = 'nl', className = '', storeK
   return (
     <section className={`w-full ${className}`}>
       {/* Bright-green glowing button — the only thing shown on the page; opens the full calendar */}
-      <button onClick={open} className="cal-cta flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-lg transition-transform hover:scale-[1.01]">
+      <button onClick={open} className="cal-cta flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-black bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-lg transition-transform hover:scale-[1.01]">
         <CalendarDays size={20} /> {L.openCal}
       </button>
 
