@@ -399,8 +399,9 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
         .fleet-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #14FF00; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; }
         .fleet-range:disabled::-webkit-slider-thumb { cursor: not-allowed; border-color: #9ca3af; }
       ` }} />
-      {/* Hero — boat image as a full-bleed background behind the header AND the category selector */}
-      <section className="relative w-full overflow-hidden">
+      {/* Hero — boat image as a full-bleed background; on mobile it fills the first viewport so the
+          budget bar only appears once you scroll down. */}
+      <section className="relative w-full overflow-hidden flex min-h-[88vh] flex-col justify-end md:block md:min-h-0">
         <Image src="/fleet/cover.jpeg" alt="Ibiza private boat charter" fill priority sizes="100vw" className="object-cover object-center" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/75" />
         <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-4 px-4 pt-[calc(var(--nav-h)+16px)] pb-12 text-center md:pb-16">
