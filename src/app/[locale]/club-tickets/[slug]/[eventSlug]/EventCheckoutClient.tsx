@@ -6,6 +6,8 @@ import {
   Calendar, MapPin, ExternalLink, Ticket, CheckCircle2, Lock, Clock, Music, Info,
   Sparkles, Navigation, AlertCircle, Utensils, Anchor, Waves, Check,
 } from 'lucide-react'
+import { format, parseISO, isValid } from 'date-fns'
+import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import type { CTEventDate, CTEvent } from '@/lib/clubtickets'
 import { stripHtml } from '@/lib/html-utils'
 import { parseCTDescription } from '@/lib/ct-description'
@@ -84,40 +86,44 @@ function Accordion({ icon, title, children }: { icon: React.ReactNode; title: st
 export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent, locale }: Props) {
   const S = SEC_I18N[locale] || SEC_I18N.en
 
-  const BCP: Record<string, string> = { en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' }
+  // date-fns format uses bundled locale data → identical on server & client (no hydration mismatch)
+  const DF_LOC: Record<string, any> = { nl, en: enUS, de, es, fr }
   let dateFormatted = ''
   try {
     if (selectedDateObj?.date) {
-      const d = new Date(selectedDateObj.date)
-      if (!isNaN(d.getTime())) {
-        // timeZone:'UTC' keeps server + client output identical (no hydration mismatch)
-        dateFormatted = d.toLocaleDateString(BCP[locale] || 'nl-NL', {
-          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
-        })
-      }
+      const d = parseISO(String(selectedDateObj.date))
+      if (isValid(d)) dateFormatted = format(d, 'EEEE d MMMM yyyy', { locale: DF_LOC[locale] || enUS })
     }
   } catch (err) {
     console.error('Invalid date format:', selectedDateObj?.date, err)
   }
 
-  // Parse price
+  // Parse price (guard against NaN / non-finite → would break €{...}.toFixed)
   let priceNum = 50
-  if (selectedDateObj?.prices !== null && selectedDateObj?.prices !== undefined) {
-    if (typeof selectedDateObj.prices === 'number') {
-      priceNum = selectedDateObj.prices
-    } else if (typeof selectedDateObj.prices === 'string') {
-      const match = selectedDateObj.prices.match(/\d+([.,]\d+)?/)
+  const rawPrice = (selectedDateObj as any)?.prices
+  if (rawPrice !== null && rawPrice !== undefined) {
+    if (typeof rawPrice === 'number') {
+      priceNum = rawPrice
+    } else if (typeof rawPrice === 'string') {
+      const match = rawPrice.match(/\d+([.,]\d+)?/)
       if (match) priceNum = parseFloat(match[0].replace(',', '.'))
     }
   }
+  if (!Number.isFinite(priceNum)) priceNum = 50
 
-  const rawImg = (selectedDateObj as any)?.image || (selectedDateObj as any)?.eventCover
-  const imageUrl = rawImg && rawImg.trim() ? rawImg : '/hi-ibiza-2026/FB_IMG_1779623220486.jpg'
+  // Only pass a valid absolute/relative URL to next/image — a malformed src throws a
+  // client-side exception that crashes the whole page.
+  const rawImg = ((selectedDateObj as any)?.image || (selectedDateObj as any)?.eventCover || '').toString().trim()
+  const imageUrl = /^(https?:\/\/|\/)\S+$/.test(rawImg) ? rawImg : '/hi-ibiza-2026/FB_IMG_1779623220486.jpg'
 
-  const artists = formatLineUp(selectedDateObj.lineUp)
-  const desc = parseCTDescription(fullEvent?.description)
+  // Parsers are wrapped so malformed API HTML can never crash the render.
+  let artists: string[] = []
+  let desc: ReturnType<typeof parseCTDescription> = { hasStructure: false, intro: [], chips: [], sections: [], itinerary: [] }
+  let important: string[] = []
+  try { artists = formatLineUp(selectedDateObj.lineUp) } catch { artists = [] }
+  try { desc = parseCTDescription(fullEvent?.description) } catch { /* keep empty */ }
+  try { important = parseImportant(fullEvent?.requirements) } catch { important = [] }
   const hasAbout = desc.intro.length > 0 || desc.chips.length > 0 || desc.sections.length > 0 || desc.itinerary.length > 0
-  const important = parseImportant(fullEvent?.requirements)
   const startAt = (fullEvent as any)?.startAt
   const endAt = (fullEvent as any)?.endAt
 
@@ -126,7 +132,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
   }
 
   return (
-    <div className="theme-monaco-vip min-h-screen bg-neutral-50 pb-28 pt-[70px] md:pt-[104px] text-black">
+    <div className="theme-monaco-vip min-h-screen bg-neutral-50 pb-28 pt-[88px] md:pt-[132px] text-black">
       {/* Hero Section */}
       <div className="relative mx-auto h-[46vh] w-[calc(100%-24px)] max-w-7xl overflow-hidden rounded-[28px] bg-neutral-900 md:h-[58vh]">
         <Image src={imageUrl} alt={selectedDateObj.eventName || ''} fill className="object-cover" priority sizes="100vw" />

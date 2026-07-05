@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { GlobalSearch } from './GlobalSearch'
 import { LanguageSelector, LOCALES } from './LanguageSelector'
 import { SpotifyButton } from './SpotifyButton'
 
@@ -108,8 +107,11 @@ export function Navbar() {
     <>
       <nav className={`nav ${isScrolled ? 'nav--scrolled' : ''}`}>
         <div className="wrap nav-inner">
-          <Link className="nav-logo-btn" href={base}>
-            <img ref={logoRef} className="logo-spin" src="/logo-clean.png" alt="Ibiza mi Vida logo" />
+          <Link className="nav-brand" href={base} aria-label="Ibiza mi Vida">
+            <span className="nav-logo-btn">
+              <img ref={logoRef} className="logo-spin" src="/logo-clean.png" alt="Ibiza mi Vida logo" />
+            </span>
+            <span className="nav-brand-name">Ibizamivida</span>
           </Link>
           <div className="nav-links">
             <Link href={`${base}/calendar`}>Events</Link>
@@ -118,7 +120,6 @@ export function Navbar() {
           </div>
           <div className="nav-actions">
             <LanguageSelector />
-            <GlobalSearch locale={currentLocale.code} />
             <button
               className="burger"
               aria-label="Menu openen"
