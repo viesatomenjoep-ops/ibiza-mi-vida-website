@@ -34,6 +34,7 @@ export function Navbar() {
   const isClubCat = CLUB_CAT_SEGMENTS.some(seg => pathname.startsWith(`${base}/${seg}`) || pathname.startsWith(`/${seg}`))
   // Private Boat Charters: dark hero — force the whole navbar white and drop the top partner strip.
   const isPrivateBoat = pathname.startsWith(`${base}/private-boat-charters`) || pathname.startsWith('/private-boat-charters')
+  const isHome = pathname === base || pathname === `${base}/` || pathname === '/'
   const t = dicts[currentLocale.code] || dicts['en']
 
   const NAV_CATEGORIES = [
@@ -240,7 +241,7 @@ export function Navbar() {
       <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${onLight ? 'site-header--onlight' : ''} ${isPrivateBoat ? 'site-header--forcewhite' : ''}`}>
         {/* Topbar strip: official ticket partner — at the top everywhere EXCEPT the
             ClubTickets categories, where it is shown as a fixed bottom bar instead. */}
-        {!isClubCat && !isPrivateBoat && (
+        {!isClubCat && !isPrivateBoat && !(isHome && fadeOn) && (
           <div className="nav-topbar">
             <span className="nav-topbar-inner">
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -281,8 +282,9 @@ export function Navbar() {
         </nav>
       </header>
 
-      {/* Fixed bottom "official ticket partner" bar — only on ClubTickets categories */}
-      {isClubCat && (
+      {/* Fixed bottom "official ticket partner" bar — on ClubTickets categories, and on the
+          homepage once you start scrolling (it drops from the top so the navbar gets slimmer). */}
+      {(isClubCat || (isHome && fadeOn)) && (
         <div className="nav-partner-bottom" aria-label="Official ticket partner">
           <span className="nav-topbar-inner">
             <svg viewBox="0 0 24 24" aria-hidden="true">
