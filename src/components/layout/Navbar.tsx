@@ -32,6 +32,8 @@ export function Navbar() {
   // to a fixed bottom bar here; everywhere else it stays at the top.
   const CLUB_CAT_SEGMENTS = ['club-tickets', 'clubs', 'artists', 'calendar', 'deals-of-the-day']
   const isClubCat = CLUB_CAT_SEGMENTS.some(seg => pathname.startsWith(`${base}/${seg}`) || pathname.startsWith(`/${seg}`))
+  // Private Boat Charters: dark hero — force the whole navbar white and drop the top partner strip.
+  const isPrivateBoat = pathname.startsWith(`${base}/private-boat-charters`) || pathname.startsWith('/private-boat-charters')
   const t = dicts[currentLocale.code] || dicts['en']
 
   const NAV_CATEGORIES = [
@@ -235,10 +237,10 @@ export function Navbar() {
 
   return (
     <>
-      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${onLight ? 'site-header--onlight' : ''}`}>
+      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${onLight ? 'site-header--onlight' : ''} ${isPrivateBoat ? 'site-header--forcewhite' : ''}`}>
         {/* Topbar strip: official ticket partner — at the top everywhere EXCEPT the
             ClubTickets categories, where it is shown as a fixed bottom bar instead. */}
-        {!isClubCat && (
+        {!isClubCat && !isPrivateBoat && (
           <div className="nav-topbar">
             <span className="nav-topbar-inner">
               <svg viewBox="0 0 24 24" aria-hidden="true">

@@ -66,6 +66,14 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         {/* Spacer Top (Fixed to push text up) */}
         <div className="h-[var(--nav-h)] w-full shrink-0" />
 
+        {/* Slogan — directly under the navbar */}
+        <div className="relative z-20 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 pt-4 md:pt-6">
+          <HeroTypewriter
+            title={translations.home_hero_title || 'Ibiza mi Vida'}
+            subtitle={translations.home_hero_subtitle || 'Entertainment · Boat · Nightlife — Reimagined'}
+          />
+        </div>
+
         {/* Spacer Middle */}
         <div className="flex-1 w-full" />
 
@@ -76,13 +84,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             <CategoryReveal base={base} translations={translations} />
           </div>
 
-          {/* Slogan now sits directly above the slider, where the categories used to be */}
-          <div className="relative z-20 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 mb-5 md:mb-6">
-            <HeroTypewriter
-              title={translations.home_hero_title || 'Ibiza mi Vida'}
-              subtitle={translations.home_hero_subtitle || 'Entertainment · Boat · Nightlife — Reimagined'}
-            />
-          </div>
           <ClubLogoSlider
             clubLogos={clubLogos}
             base={base}
