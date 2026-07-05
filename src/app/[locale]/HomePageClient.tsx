@@ -131,7 +131,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             locale={locale}
             showLegend
             speed={0.3}
-            className="w-full bg-transparent pt-4 pb-1 border-t border-white/10"
+            className="w-full bg-transparent pt-4 pb-1"
           />
         </div>
       </header>
