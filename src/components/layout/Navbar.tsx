@@ -75,6 +75,7 @@ export function Navbar() {
   ]
 
   const [isScrolled, setIsScrolled] = useState(false)
+  const [onLight, setOnLight] = useState(false)
   const logoRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => { setMenuOpen(false) }, [pathname])
@@ -88,6 +89,88 @@ export function Navbar() {
     handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Detect whether the hero behind the transparent navbar is light or dark,
+  // so the logo + wordmark can flip to black on light backgrounds and stay white on dark ones.
+  useEffect(() => {
+    let cancelled = false
+
+    const brightnessFromDraw = (draw: (ctx: CanvasRenderingContext2D, w: number, h: number) => void): number | null => {
+      try {
+        const w = 32, h = 12
+        const c = document.createElement('canvas')
+        c.width = w; c.height = h
+        const ctx = c.getContext('2d', { willReadFrequently: true })
+        if (!ctx) return null
+        draw(ctx, w, h)
+        const data = ctx.getImageData(0, 0, w, h).data
+        let sum = 0, n = 0
+        for (let i = 0; i < data.length; i += 4) {
+          if (data[i + 3] < 10) continue // skip transparent
+          sum += 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]
+          n++
+        }
+        return n ? sum / n : null
+      } catch { return null } // cross-origin taint → give up
+    }
+
+    const measure = () => {
+      if (cancelled) return
+      // Only relevant while transparent (not scrolled). When scrolled the navbar is solid dark.
+      if (window.scrollY > Math.max(120, window.innerHeight * 0.55)) { setOnLight(false); return }
+
+      const header = document.querySelector('.site-header') as HTMLElement | null
+      const navH = header?.offsetHeight || 120
+
+      // Find the top-most full-width media (img/video) sitting behind the navbar.
+      const medias = Array.from(document.querySelectorAll('img, video')) as (HTMLImageElement | HTMLVideoElement)[]
+      let hero: HTMLImageElement | HTMLVideoElement | null = null
+      for (const m of medias) {
+        if (m === logoRef.current) continue
+        const r = m.getBoundingClientRect()
+        if (r.top <= navH * 0.5 && r.bottom > navH * 0.6 && r.width > window.innerWidth * 0.55 && r.height > 120) {
+          hero = m; break
+        }
+      }
+      if (!hero) { setOnLight(false); return }
+
+      const isImg = hero.tagName === 'IMG'
+      const nw = isImg ? (hero as HTMLImageElement).naturalWidth : (hero as HTMLVideoElement).videoWidth
+      const nh = isImg ? (hero as HTMLImageElement).naturalHeight : (hero as HTMLVideoElement).videoHeight
+      if (!nw || !nh) { setOnLight(false); return }
+      const stripH = Math.max(1, Math.round(nh * 0.22)) // top strip behind the navbar
+
+      // Try the live element first.
+      let lum = brightnessFromDraw((ctx, w, h) => ctx.drawImage(hero as CanvasImageSource, 0, 0, nw, stripH, 0, 0, w, h))
+
+      if (lum === null && isImg) {
+        // Tainted (cross-origin without CORS). Retry with an anonymous request (works for Cloudinary etc.).
+        const probe = new Image()
+        probe.crossOrigin = 'anonymous'
+        probe.onload = () => {
+          if (cancelled) return
+          const l = brightnessFromDraw((ctx, w, h) => ctx.drawImage(probe, 0, 0, probe.naturalWidth, Math.max(1, Math.round(probe.naturalHeight * 0.22)), 0, 0, w, h))
+          if (l !== null) setOnLight(l > 150)
+        }
+        probe.src = (hero as HTMLImageElement).currentSrc || (hero as HTMLImageElement).src
+        return
+      }
+
+      if (lum !== null) setOnLight(lum > 150)
+      else setOnLight(false)
+    }
+
+    measure()
+    window.addEventListener('scroll', measure, { passive: true })
+    window.addEventListener('resize', measure)
+    const iv = setInterval(measure, 700) // catch late-loading hero media
+    return () => {
+      cancelled = true
+      window.removeEventListener('scroll', measure)
+      window.removeEventListener('resize', measure)
+      clearInterval(iv)
+    }
+  }, [pathname])
 
   // Spin the logo fluidly as you scroll (rAF-eased toward a scroll-driven angle)
   useEffect(() => {
@@ -113,7 +196,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''}`}>
+      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${onLight ? 'site-header--onlight' : ''}`}>
         {/* Topbar strip: official ticket partner */}
         <div className="nav-topbar">
           <span className="nav-topbar-inner">
