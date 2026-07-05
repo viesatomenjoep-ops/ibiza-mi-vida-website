@@ -14,6 +14,14 @@ import fr from '@/dictionaries/fr.json'
 
 const dicts: Record<string, any> = { en, nl, es, de, fr }
 
+const OFFICIAL_PARTNER: Record<string, string> = {
+  en: 'Official ticket partner',
+  nl: 'Officiële ticketpartner',
+  de: 'Offizieller Ticketpartner',
+  es: 'Socio oficial de entradas',
+  fr: 'Partenaire officiel de billetterie',
+}
+
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [openCat, setOpenCat] = useState<string | null>('events') // default open
@@ -113,6 +121,13 @@ export function Navbar() {
           <Link className="nav-wordmark" href={base}>
             <span className="nav-brand-name">IBIZA MI VIDA</span>
             <span className="nav-brand-sub">TICKETS · PRIVATE BOATS · RENTAL</span>
+            <span className="nav-brand-cert">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="11" fill="#14FF00" />
+                <path d="M7 12.5l3.2 3.2L17 9" stroke="#0D0509" strokeWidth="2.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {OFFICIAL_PARTNER[currentLocale.code] || OFFICIAL_PARTNER.en}
+            </span>
           </Link>
           <div className="nav-actions">
             <span className="nav-lang"><LanguageSelector /></span>
