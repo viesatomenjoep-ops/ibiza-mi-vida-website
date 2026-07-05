@@ -140,9 +140,6 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
 
         <div className="absolute bottom-0 left-0 z-10 w-full p-6 md:p-12">
           <div className="mx-auto flex max-w-7xl flex-col items-start gap-4">
-            <span className="rounded-full bg-ibiza-green px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-black shadow-sm md:text-sm">
-              Official Tickets
-            </span>
             <h1 className="font-serif text-4xl font-black leading-tight text-white drop-shadow-lg md:text-6xl lg:text-7xl">
               {selectedDateObj.eventName}
             </h1>
