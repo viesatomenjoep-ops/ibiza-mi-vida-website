@@ -154,7 +154,7 @@ export function ClubLogoSlider({
       `}</style>
 
       {showLegend && hasTracker && (
-        <div className="mb-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 px-4 text-[11px] font-semibold uppercase tracking-wider text-white/70">
+        <div className="mb-3 hidden md:flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 px-4 text-[11px] font-semibold uppercase tracking-wider text-white/70">
           <span className="flex items-center gap-1.5 text-white/90">
             <span className={`inline-flex h-2 w-2 rounded-full ${anyLive ? 'cls-glow' : ''}`} style={{ background: DOT_COLORS.orange }} />
             {L.live}

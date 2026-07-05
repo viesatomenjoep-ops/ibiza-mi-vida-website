@@ -75,17 +75,17 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         {/* Spacer Middle */}
         <div className="flex-1 w-full" />
 
-        {/* Buttons & Badge at the bottom */}
-        <div className="relative z-20 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 pt-10 pb-8 md:pt-16 md:pb-12">
-          {/* Desktop: text buttons */}
-          <div className="hidden md:flex md:flex-row items-center justify-center gap-4 w-full px-4 max-w-3xl">
-            <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
-            <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
-            <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full w-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/private-boat-charters`}>{translations.nav_private_boat}</Link>
-          </div>
+        {/* Desktop: text buttons (hidden on mobile) */}
+        <div className="relative z-20 hidden md:flex md:flex-row items-center justify-center gap-4 w-full max-w-3xl mx-auto px-4 md:pt-16 md:pb-12">
+          <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/calendar`}>{translations.home_full_calendar}</Link>
+          <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/club-tickets`}>{translations.home_clubs_venues}</Link>
+          <Link className="bg-transparent border-2 border-white text-white font-black uppercase tracking-widest px-8 py-3 rounded-full md:w-auto hover:border-ibiza-green hover:text-ibiza-green active:border-ibiza-green active:text-ibiza-green transition-colors text-center shadow-lg hover:scale-105" href={`${base}/private-boat-charters`}>{translations.nav_private_boat}</Link>
+        </div>
 
-          {/* Mobile: animated category icons */}
-          <div className="mcat-row md:hidden">
+        {/* ── HORIZONTAL LOGO MARQUEE BAR ── */}
+        <div className="w-full relative z-20 mt-auto pt-8 pb-2 md:pt-10 md:pb-3">
+          {/* Mobile: animated category icons — directly above the slider */}
+          <div className="mcat-row md:hidden mb-4">
             <Link href={`${base}/calendar`} className="mcat" aria-label={translations.home_full_calendar}>
               <span className="mcat-ico mcat-cal" aria-hidden="true">
                 <svg viewBox="0 0 48 48" fill="none">
@@ -108,20 +108,14 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
               <span className="mcat-ico mcat-boat" aria-hidden="true">
                 <svg viewBox="0 0 48 48" fill="none">
                   <g className="mcat-boat-hull">
-                    {/* hull */}
                     <path d="M6 30 H41 L36 36 H11 Z" fill="#fff" />
-                    {/* green waterline stripe */}
                     <path d="M9 33 H36.5" stroke="#14FF00" strokeWidth="1.6" strokeLinecap="round" />
-                    {/* main deck cabin */}
                     <path d="M12 30 V24 H31 L34.5 30 Z" fill="#fff" />
-                    {/* upper bridge */}
                     <path d="M15 24 V20 H25 L28 24 Z" fill="#fff" />
-                    {/* windows */}
                     <rect x="14" y="25.6" width="3" height="2.6" rx="0.6" fill="#14FF00" />
                     <rect x="19" y="25.6" width="3" height="2.6" rx="0.6" fill="#14FF00" />
                     <rect x="24" y="25.6" width="3.4" height="2.6" rx="0.6" fill="#14FF00" />
                     <rect x="17.5" y="21" width="6" height="2.2" rx="0.6" fill="#14FF00" />
-                    {/* antenna */}
                     <line x1="20" y1="20" x2="20" y2="15" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" />
                   </g>
                   <path className="mcat-boat-wave" d="M2 41 q5 -4 10 0 t10 0 t10 0 t10 0 t10 0" stroke="#14FF00" strokeWidth="2.5" fill="none" strokeLinecap="round" />
@@ -130,10 +124,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
               <span className="mcat-label">{translations.nav_private_boat}</span>
             </Link>
           </div>
-        </div>
-
-        {/* ── HORIZONTAL LOGO MARQUEE BAR ── */}
-        <div className="w-full relative z-20 mt-auto pt-8 pb-2 md:pt-10 md:pb-3">
           <ClubLogoSlider
             clubLogos={clubLogos}
             base={base}
