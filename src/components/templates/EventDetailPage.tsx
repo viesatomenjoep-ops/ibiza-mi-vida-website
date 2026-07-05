@@ -259,7 +259,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
         <div className="absolute left-4 top-4 z-10">
           <Link
             href={`/${locale}/${basePath}/${club.slug}`}
-            className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-sans text-sm text-ibiza-sand backdrop-blur-sm transition-colors hover:bg-white/20"
+            className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-sans text-sm text-white backdrop-blur-sm transition-colors hover:bg-white/20"
           >
             <ArrowLeft size={14} />
             {t.event_back_to || 'Back to'} {club.name}
@@ -267,8 +267,8 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
         </div>
 
         <div className="relative z-10 w-full px-6 pb-8 md:px-10 md:pb-10">
-          <h1 className="font-serif text-4xl font-bold text-ibiza-sand md:text-5xl lg:text-6xl">{eventName}</h1>
-          <div className="mt-4 flex flex-wrap gap-4 font-bold text-ibiza-sand/80">
+          <h1 className="font-serif text-4xl font-bold text-white drop-shadow-lg md:text-5xl lg:text-6xl">{eventName}</h1>
+          <div className="mt-4 flex flex-wrap gap-4 font-bold text-white/90">
             <Link href={`/${locale}/${basePath}/${club.slug}`} className="flex items-center gap-1.5 transition-colors hover:text-white">
               <MapPin size={16} className="text-ibiza-green" />
               {club.name}
@@ -319,10 +319,10 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           {/* Line-up (collapsible) */}
           {hasLineup && (
             <AnimatedSection delay={130}>
-              <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
-                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green text-black"><Music size={22} /></span> {S.lineup}</span>
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
+              <details className="group rounded-2xl border border-black/10 bg-black/5 p-4 shadow-md transition-colors open:border-ibiza-green/40 open:bg-white md:p-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-xl">
+                  <span className="flex items-center gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Music size={22} /></span> {S.lineup}</span>
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-black/15 text-xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <div className="mt-5 flex flex-col gap-5">
                   {lineupDates.map((d, i) => (
@@ -345,10 +345,10 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           {/* Times (collapsible) */}
           {hasTimes && (
             <AnimatedSection delay={160}>
-              <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
-                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green text-black"><Clock size={22} /></span> {S.times}</span>
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
+              <details className="group rounded-2xl border border-black/10 bg-black/5 p-4 shadow-md transition-colors open:border-ibiza-green/40 open:bg-white md:p-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-xl">
+                  <span className="flex items-center gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Clock size={22} /></span> {S.times}</span>
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-black/15 text-xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <div className="mt-5 flex flex-wrap gap-3">
                   {startAt && (
@@ -371,10 +371,10 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           {/* About (collapsible, richly structured) */}
           {hasAbout && (
             <AnimatedSection delay={180}>
-              <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
-                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green text-black"><Info size={22} /></span> {T.aboutTitle(eventName)}</span>
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
+              <details className="group rounded-2xl border border-black/10 bg-black/5 p-4 shadow-md transition-colors open:border-ibiza-green/40 open:bg-white md:p-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-xl">
+                  <span className="flex items-center gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Info size={22} /></span> {T.aboutTitle(eventName)}</span>
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-black/15 text-xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
 
                 {/* Quick-fact chips */}
@@ -456,10 +456,10 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           {/* Important information (collapsible) */}
           {important.length > 0 && (
             <AnimatedSection delay={200}>
-              <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
-                  <span className="flex items-center gap-3"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green text-black"><Check size={22} /></span> {T.importantTitle}</span>
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
+              <details className="group rounded-2xl border border-black/10 bg-black/5 p-4 shadow-md transition-colors open:border-ibiza-green/40 open:bg-white md:p-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-xl">
+                  <span className="flex items-center gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Check size={22} /></span> {T.importantTitle}</span>
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-black/15 text-xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <ul className="mt-5 flex flex-col gap-3">
                   {important.map((line, i) => (

@@ -70,15 +70,15 @@ function formatLineUp(lineUp?: string): string[] {
 // ── reusable collapsed accordion (light "Deals of the Day" style) ──────────────
 function Accordion({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode; tint?: boolean }) {
   return (
-    <details className="group rounded-[28px] border border-black/10 bg-black/5 p-6 shadow-lg transition-colors open:border-ibiza-green/40 open:bg-white md:p-8">
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-2xl font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-3xl">
+    <details className="group rounded-2xl border border-black/10 bg-black/5 p-4 shadow-md transition-colors open:border-ibiza-green/40 open:bg-white md:p-5">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-xl">
         <span className="flex items-center gap-3">
-          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-ibiza-green text-black">{icon}</span>
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black">{icon}</span>
           {title}
         </span>
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/15 text-2xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
+        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-black/15 text-xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
       </summary>
-      <div className="mt-6">{children}</div>
+      <div className="mt-4">{children}</div>
     </details>
   )
 }
