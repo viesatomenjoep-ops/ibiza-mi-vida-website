@@ -82,7 +82,7 @@ export function Navbar() {
   // Shrink navbar on scroll
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      setIsScrolled(window.scrollY > Math.max(120, window.innerHeight * 0.55))
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
@@ -113,7 +113,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className="site-header">
+      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''}`}>
         {/* Topbar strip: official ticket partner */}
         <div className="nav-topbar">
           <span className="nav-topbar-inner">
@@ -125,7 +125,7 @@ export function Navbar() {
           </span>
         </div>
 
-        <nav className={`nav ${isScrolled ? 'nav--scrolled' : ''}`}>
+        <nav className="nav">
           <div className="wrap nav-inner">
             {/* Left: logo + wordmark */}
             <Link className="nav-brand-c" href={base} aria-label="IBIZA MI VIDA">
@@ -134,7 +134,8 @@ export function Navbar() {
               </span>
               <span className="nav-brand-text">
                 <span className="nav-brand-name">IBIZA MI VIDA</span>
-                <span className="nav-brand-sub">TICKETS · PRIVATE BOATS · RENTAL</span>
+                <span className="nav-brand-sub">TICKETS · PRIVATE BOATS</span>
+                <span className="nav-brand-sub">RENTAL · EVENTS</span>
               </span>
             </Link>
 
