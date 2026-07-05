@@ -3,9 +3,9 @@
 import { useMemo, useRef, useState, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
-import { format, parseISO, isValid, startOfDay, startOfWeek, addDays } from 'date-fns'
+import { format, parseISO, isValid, startOfDay, startOfWeek, addDays, endOfMonth } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
-import { Ticket, Music, ChevronRight, CalendarDays, X } from 'lucide-react'
+import { Ticket, Music, ChevronRight, ChevronLeft, CalendarDays, X } from 'lucide-react'
 
 export interface PickerEvent {
   id: string
@@ -28,13 +28,13 @@ const DF: Record<string, any> = { nl, en: enUS, de, es, fr }
 
 const LABELS: Record<string, {
   day: string; week: string; month: string; from: string; lineup: string;
-  view: string; none: string; open: string; book: string; pickClub: string; pickDate: string
+  view: string; none: string; open: string; book: string; pickClub: string; pickDate: string; seeLineup: string; weekN: string
 }> = {
-  en: { day: 'Day', week: 'Week', month: 'Month', from: 'From', lineup: 'Line-up', view: 'View event', none: 'No events', open: 'Spin to your night', book: 'View & book', pickClub: 'Club', pickDate: 'Date' },
-  nl: { day: 'Dag', week: 'Week', month: 'Maand', from: 'Vanaf', lineup: 'Line-up', view: 'Bekijk event', none: 'Geen events', open: 'Draai naar jouw avond', book: 'Bekijk & boek', pickClub: 'Club', pickDate: 'Datum' },
-  de: { day: 'Tag', week: 'Woche', month: 'Monat', from: 'Ab', lineup: 'Line-up', view: 'Event ansehen', none: 'Keine Events', open: 'Dreh zu deiner Nacht', book: 'Ansehen & buchen', pickClub: 'Club', pickDate: 'Datum' },
-  es: { day: 'Día', week: 'Semana', month: 'Mes', from: 'Desde', lineup: 'Line-up', view: 'Ver evento', none: 'Sin eventos', open: 'Gira hacia tu noche', book: 'Ver y reservar', pickClub: 'Club', pickDate: 'Fecha' },
-  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', from: 'Dès', lineup: 'Line-up', view: 'Voir', none: 'Aucun événement', open: 'Tourne vers ta nuit', book: 'Voir & réserver', pickClub: 'Club', pickDate: 'Date' },
+  en: { day: 'Day', week: 'Week', month: 'Month', from: 'From', lineup: 'Line-up', view: 'View event', none: 'No events', open: 'Spin to your night', book: 'View & book', pickClub: 'Club', pickDate: 'Date', seeLineup: 'See line-up', weekN: 'Week' },
+  nl: { day: 'Dag', week: 'Week', month: 'Maand', from: 'Vanaf', lineup: 'Line-up', view: 'Bekijk event', none: 'Geen events', open: 'Draai naar jouw avond', book: 'Bekijk & boek', pickClub: 'Club', pickDate: 'Datum', seeLineup: 'Bekijk line-up', weekN: 'Week' },
+  de: { day: 'Tag', week: 'Woche', month: 'Monat', from: 'Ab', lineup: 'Line-up', view: 'Event ansehen', none: 'Keine Events', open: 'Dreh zu deiner Nacht', book: 'Ansehen & buchen', pickClub: 'Club', pickDate: 'Datum', seeLineup: 'Line-up ansehen', weekN: 'Woche' },
+  es: { day: 'Día', week: 'Semana', month: 'Mes', from: 'Desde', lineup: 'Line-up', view: 'Ver evento', none: 'Sin eventos', open: 'Gira hacia tu noche', book: 'Ver y reservar', pickClub: 'Club', pickDate: 'Fecha', seeLineup: 'Ver line-up', weekN: 'Semana' },
+  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', from: 'Dès', lineup: 'Line-up', view: 'Voir', none: 'Aucun événement', open: 'Tourne vers ta nuit', book: 'Voir & réserver', pickClub: 'Club', pickDate: 'Date', seeLineup: 'Voir le line-up', weekN: 'Semaine' },
 }
 
 // ── Vertical iOS-style wheel (compact) ────────────────────────────────────────
@@ -113,12 +113,16 @@ function WheelH({ count, itemW, itemH, onIndex, render }: {
   const onScroll = () => { cancelAnimationFrame(raf.current); raf.current = requestAnimationFrame(apply) }
   useEffect(() => { last.current = -1; requestAnimationFrame(apply) }, [count, apply])
 
+  const step = (dir: number) => { const el = scrollRef.current; if (el) el.scrollBy({ left: dir * itemW, behavior: 'smooth' }) }
+
   const pad = `calc(50% - ${itemW / 2}px)`
   return (
     <div className="relative select-none" style={{ height: itemH }}>
       <div className="pointer-events-none absolute inset-y-1 left-1/2 z-0 -translate-x-1/2 rounded-2xl border-2 border-ibiza-green/70 bg-ibiza-green/5" style={{ width: itemW }} />
       <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-16 bg-gradient-to-r from-white to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-16 bg-gradient-to-l from-white to-transparent" />
+      <button type="button" aria-label="Previous" onClick={() => step(-1)} className="absolute left-1 top-1/2 z-30 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white text-black shadow-md transition-colors hover:bg-ibiza-green"><ChevronLeft size={20} /></button>
+      <button type="button" aria-label="Next" onClick={() => step(1)} className="absolute right-1 top-1/2 z-30 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-black/10 bg-white text-black shadow-md transition-colors hover:bg-ibiza-green"><ChevronRight size={20} /></button>
       <div ref={scrollRef} onScroll={onScroll} className="hide-scrollbar flex h-full items-center overflow-x-auto" style={{ scrollSnapType: 'x mandatory', perspective: '1100px', paddingLeft: pad, paddingRight: pad }}>
         {Array.from({ length: count }).map((_, i) => (
           <div key={i} ref={(el) => { rowRefs.current[i] = el }} className="flex shrink-0 items-center justify-center" style={{ width: itemW, scrollSnapAlign: 'center', transformStyle: 'preserve-3d', willChange: 'transform, opacity' }}>
@@ -149,8 +153,9 @@ function usePickerData(events: PickerEvent[], locale: string) {
   //  • day   → one item per event day
   //  • week  → one item per Mon–Sun week that has events (pick a whole week at a glance)
   //  • month → one item per month (season runs ~Apr–Oct, from the real events)
-  const dateItems = useMemo(() => {
-    if (!club) return [] as { key: string; ev: PickerEvent; top: string; mid: string; bottom: string }[]
+  type DItem = { key: string; ev: PickerEvent; top: string; mid: string; bottom: string; start: string; end: string }
+  const dateItems = useMemo<DItem[]>(() => {
+    if (!club) return []
     const all = events
       .filter(e => e.clubSlug === club.slug && /^\d{4}-\d{2}-\d{2}/.test(e.date) && e.date >= todayStr)
       .sort((a, b) => a.date.localeCompare(b.date))
@@ -159,26 +164,39 @@ function usePickerData(events: PickerEvent[], locale: string) {
 
     if (period === 'day') {
       const seen = new Set<string>()
-      const out: { key: string; ev: PickerEvent; top: string; mid: string; bottom: string }[] = []
-      all.forEach(e => { if (!seen.has(e.date)) { seen.add(e.date); out.push({ key: e.date, ev: e, top: f(e.date, 'EEE'), mid: f(e.date, 'd'), bottom: f(e.date, 'MMM') }) } })
+      const out: DItem[] = []
+      all.forEach(e => { if (!seen.has(e.date)) { seen.add(e.date); out.push({ key: e.date, ev: e, top: f(e.date, 'EEE'), mid: f(e.date, 'd'), bottom: f(e.date, 'MMM'), start: e.date, end: e.date }) } })
       return out
     }
     if (period === 'week') {
       const map = new Map<string, PickerEvent>()
       all.forEach(e => { const wk = format(startOfWeek(parseISO(e.date), { weekStartsOn: 1 }), 'yyyy-MM-dd'); if (!map.has(wk)) map.set(wk, e) })
       return Array.from(map.entries()).map(([wk, e]) => {
-        const mon = parseISO(wk); const fri = addDays(mon, 4)
-        return { key: wk, ev: e, top: f(wk, 'MMM'), mid: `${format(mon, 'd')}–${format(fri, 'd')}`, bottom: 'WEEK' }
+        const mon = parseISO(wk); const sun = addDays(mon, 6); const fri = addDays(mon, 4)
+        return { key: wk, ev: e, top: f(wk, 'MMM'), mid: `${format(mon, 'd')}–${format(fri, 'd')}`, bottom: 'WEEK', start: wk, end: format(sun, 'yyyy-MM-dd') }
       })
     }
     // month
     const map = new Map<string, PickerEvent>()
     all.forEach(e => { const mk = e.date.slice(0, 7); if (!map.has(mk)) map.set(mk, e) })
-    return Array.from(map.entries()).map(([mk, e]) => ({ key: mk, ev: e, top: f(e.date, 'yyyy'), mid: f(e.date, 'MMM'), bottom: '' }))
+    return Array.from(map.entries()).map(([mk, e]) => {
+      const start = `${mk}-01`
+      return { key: mk, ev: e, top: f(e.date, 'yyyy'), mid: f(e.date, 'MMM'), bottom: '', start, end: format(endOfMonth(parseISO(start)), 'yyyy-MM-dd') }
+    })
   }, [events, club, period, todayStr, locale])
 
-  const ev = dateItems[Math.min(dateIdx, dateItems.length - 1)]?.ev
-  return { period, setPeriod, clubs, club, clubIdx, setClubIdx, dateItems, dateIdx, setDateIdx, ev }
+  const dateItem = dateItems[Math.min(dateIdx, dateItems.length - 1)]
+  const ev = dateItem?.ev
+
+  // All events for the selected club within the selected window (day/week/month)
+  const windowEvents = useMemo(() => {
+    if (!club || !dateItem) return [] as PickerEvent[]
+    return events
+      .filter(e => e.clubSlug === club.slug && e.date >= dateItem.start && e.date <= dateItem.end)
+      .sort((a, b) => a.date.localeCompare(b.date))
+  }, [events, club, dateItem])
+
+  return { period, setPeriod, clubs, club, clubIdx, setClubIdx, dateItems, dateIdx, setDateIdx, ev, dateItem, windowEvents }
 }
 
 function PeriodTabs({ period, setPeriod, locale }: { period: Period; setPeriod: (p: Period) => void; locale: string }) {
@@ -209,6 +227,76 @@ function InfoCta({ ev, locale, fmt }: { ev: PickerEvent; locale: string; fmt: (i
         <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-ibiza-green px-3 py-1 text-xs font-black uppercase tracking-wider text-black">{L.book} <ChevronRight size={14} /></span>
       </div>
     </Link>
+  )
+}
+
+// ── Event mini-card with "See line-up" (→ event detail page) ──────────────────
+function EventMini({ e, locale, fmt }: { e: PickerEvent; locale: string; fmt: (iso: string, p: string) => string }) {
+  const L = LABELS[locale] || LABELS.en
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border border-black/10 bg-white p-2.5 shadow-sm">
+      <Link href={e.href} className="relative h-16 w-24 shrink-0 overflow-hidden rounded-xl bg-neutral-900">
+        {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover" /> : null}
+        {e.price > 0 && <span className="absolute left-1 top-1 rounded bg-ibiza-green px-1.5 py-0.5 text-[10px] font-black text-black">€{e.price}</span>}
+      </Link>
+      <div className="min-w-0 flex-1">
+        <div className="truncate font-serif text-base font-black text-black">{e.eventName}</div>
+        <div className="truncate text-xs font-semibold capitalize text-black/50">{fmt(e.date, 'EEEE d MMM')}</div>
+        {e.lineUp && <div className="mt-0.5 flex items-center gap-1 truncate text-[11px] text-black/45"><Music size={11} className="shrink-0 text-ibiza-green" /> {e.lineUp}</div>}
+      </div>
+      <Link href={e.href} className="shrink-0 rounded-full bg-ibiza-green px-3.5 py-2.5 text-[11px] font-black uppercase tracking-wide text-black transition-all hover:brightness-95">{L.seeLineup}</Link>
+    </div>
+  )
+}
+
+// Grouped list of all window events (per day for week, per week→day for month)
+function WindowList({ events, period, locale, fmt }: { events: PickerEvent[]; period: Period; locale: string; fmt: (iso: string, p: string) => string }) {
+  const L = LABELS[locale] || LABELS.en
+  if (events.length === 0) return <div className="rounded-2xl border border-black/10 bg-black/5 p-6 text-center text-sm font-semibold text-black/40">{L.none}</div>
+
+  const byDay = (list: PickerEvent[]) => {
+    const groups: { date: string; items: PickerEvent[] }[] = []
+    list.forEach(e => { const g = groups.find(x => x.date === e.date); if (g) g.items.push(e); else groups.push({ date: e.date, items: [e] }) })
+    return groups
+  }
+
+  if (period === 'month') {
+    // group by ISO week
+    const weeks: { key: string; label: string; items: PickerEvent[] }[] = []
+    events.forEach(e => {
+      const wk = format(startOfWeek(parseISO(e.date), { weekStartsOn: 1 }), 'yyyy-MM-dd')
+      const g = weeks.find(x => x.key === wk)
+      if (g) g.items.push(e)
+      else weeks.push({ key: wk, label: `${L.weekN} ${weeks.length + 1}`, items: [e] })
+    })
+    return (
+      <div className="flex flex-col gap-5">
+        {weeks.map(w => (
+          <div key={w.key}>
+            <div className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-widest text-ibiza-green">
+              <CalendarDays size={14} /> {w.label} · {fmt(w.key, 'd MMM')}
+            </div>
+            <div className="flex flex-col gap-2.5">
+              {byDay(w.items).map(g => g.items.map(e => <EventMini key={e.id} e={e} locale={locale} fmt={fmt} />))}
+            </div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  // week → group by day
+  return (
+    <div className="flex flex-col gap-4">
+      {byDay(events).map(g => (
+        <div key={g.date}>
+          <div className="mb-1.5 text-xs font-black uppercase tracking-widest capitalize text-black/50">{fmt(g.date, 'EEEE d MMMM')}</div>
+          <div className="flex flex-col gap-2.5">
+            {g.items.map(e => <EventMini key={e.id} e={e} locale={locale} fmt={fmt} />)}
+          </div>
+        </div>
+      ))}
+    </div>
   )
 }
 
@@ -275,7 +363,7 @@ function PickerRows({ events, locale }: { events: PickerEvent[]; locale: string 
   const L = LABELS[locale] || LABELS.en
   const loc = DF[locale] || enUS
   const fmt = (iso: string, p: string) => { try { const d = parseISO(iso); return isValid(d) ? format(d, p, { locale: loc }) : '' } catch { return '' } }
-  const { period, setPeriod, clubs, club, setClubIdx, dateItems, setDateIdx, ev } = usePickerData(events, locale)
+  const { period, setPeriod, clubs, club, setClubIdx, dateItems, setDateIdx, ev, windowEvents } = usePickerData(events, locale)
 
   if (clubs.length === 0) return <div className="p-10 text-center text-sm font-semibold text-black/40">{L.none}</div>
 
@@ -312,7 +400,7 @@ function PickerRows({ events, locale }: { events: PickerEvent[]; locale: string 
         }} />
       </div>
 
-      {/* Big reactive event bar */}
+      {/* Big reactive event bar (focused day) */}
       {ev ? (
         <>
           <Link href={ev.href} className="group block overflow-hidden rounded-3xl border border-black/10 shadow-lg">
@@ -326,9 +414,21 @@ function PickerRows({ events, locale }: { events: PickerEvent[]; locale: string 
               </div>
             </div>
           </Link>
-          <Link href={ev.href} className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95">
-            <Ticket size={20} /> {L.book}{ev.price > 0 ? ` · €${ev.price}` : ''}
-          </Link>
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+            <Link href={ev.href} className="flex flex-1 items-center justify-center gap-2 rounded-2xl border-2 border-ibiza-green bg-ibiza-green/10 px-6 py-3.5 font-serif text-base font-black uppercase tracking-wide text-black transition-colors hover:bg-ibiza-green/20">
+              <Music size={18} /> {L.seeLineup}
+            </Link>
+            <Link href={ev.href} className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-3.5 font-serif text-base font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95">
+              <Ticket size={18} /> {L.book}{ev.price > 0 ? ` · €${ev.price}` : ''}
+            </Link>
+          </div>
+
+          {/* Week / Month → all events of the window, grouped per day (scrollable) */}
+          {period !== 'day' && (
+            <div className="mt-6">
+              <WindowList events={windowEvents} period={period} locale={locale} fmt={fmt} />
+            </div>
+          )}
         </>
       ) : <div className="grid h-40 place-items-center rounded-3xl border border-black/10 text-sm font-semibold text-black/40">{L.none}</div>}
     </div>
