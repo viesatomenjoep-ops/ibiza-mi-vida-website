@@ -28,7 +28,10 @@ export function Navbar() {
   const pathname = usePathname()
   const currentLocale = LOCALES.find(l => pathname.startsWith(`/${l.code}/`) || pathname === `/${l.code}`) || LOCALES[0]
   const base = `/${currentLocale.code}`
-  const isHome = pathname === base || pathname === `${base}/` || pathname === '/'
+  // ClubTickets ecosystem (clubs, events, artists) — the official-partner strip moves
+  // to a fixed bottom bar here; everywhere else it stays at the top.
+  const CLUB_CAT_SEGMENTS = ['club-tickets', 'clubs', 'artists', 'calendar', 'deals-of-the-day']
+  const isClubCat = CLUB_CAT_SEGMENTS.some(seg => pathname.startsWith(`${base}/${seg}`) || pathname.startsWith(`/${seg}`))
   const t = dicts[currentLocale.code] || dicts['en']
 
   const NAV_CATEGORIES = [
@@ -233,9 +236,9 @@ export function Navbar() {
   return (
     <>
       <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${onLight ? 'site-header--onlight' : ''}`}>
-        {/* Topbar strip: official ticket partner — hidden on the homepage,
-            where it is shown under the hero slider instead. */}
-        {!isHome && (
+        {/* Topbar strip: official ticket partner — at the top everywhere EXCEPT the
+            ClubTickets categories, where it is shown as a fixed bottom bar instead. */}
+        {!isClubCat && (
           <div className="nav-topbar">
             <span className="nav-topbar-inner">
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -275,6 +278,19 @@ export function Navbar() {
           </div>
         </nav>
       </header>
+
+      {/* Fixed bottom "official ticket partner" bar — only on ClubTickets categories */}
+      {isClubCat && (
+        <div className="nav-partner-bottom" aria-label="Official ticket partner">
+          <span className="nav-topbar-inner">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="11" fill="#14FF00" />
+              <path d="M7 12.5l3.2 3.2L17 9" stroke="#0D0509" strokeWidth="2.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            {OFFICIAL_PARTNER[currentLocale.code] || OFFICIAL_PARTNER.en}
+          </span>
+        </div>
+      )}
 
       {/* ── FULLSCREEN MENU OVERLAY ── */}
       <div

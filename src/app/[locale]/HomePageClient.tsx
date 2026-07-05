@@ -8,14 +8,6 @@ import { Calendar, MapPin, Music } from 'lucide-react';
 import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 import { HeroTypewriter } from '@/components/ui/HeroTypewriter';
 
-const OFFICIAL_PARTNER: Record<string, string> = {
-  en: 'Official ticket partner',
-  nl: 'Officiële ticketpartner',
-  de: 'Offizieller Ticketpartner',
-  es: 'Socio oficial de entradas',
-  fr: 'Partenaire officiel de billetterie',
-};
-
 interface HomePageProps {
   locale?: string;
   translations?: any;
@@ -86,56 +78,21 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           <div className="mcat-row md:hidden">
             <Link href={`${base}/calendar`} className="mcat" aria-label={translations.home_full_calendar}>
               <span className="mcat-ico" aria-hidden="true">
-                <svg viewBox="0 0 48 48" fill="none">
-                  <rect x="7" y="12" width="34" height="29" rx="5" fill="#fff" />
-                  <path d="M7 17a5 5 0 0 1 5-5h24a5 5 0 0 1 5 5v3H7Z" fill="#14FF00" />
-                  <line x1="15" y1="8" x2="15" y2="15" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
-                  <line x1="33" y1="8" x2="33" y2="15" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
-                  <g fill="#0D0509">
-                    <circle cx="15" cy="28" r="1.7" /><circle cx="24" cy="28" r="1.7" /><circle cx="33" cy="28" r="1.7" />
-                    <circle cx="15" cy="35" r="1.7" /><circle cx="33" cy="35" r="1.7" />
-                  </g>
-                  <circle cx="24" cy="35" r="3.4" fill="#14FF00" />
-                </svg>
+                <img src="/icons/cat-kalender.jpg" alt="" width={44} height={44} />
               </span>
               <span className="mcat-label">{translations.home_full_calendar}</span>
             </Link>
 
             <Link href={`${base}/club-tickets`} className="mcat" aria-label={translations.home_clubs_venues}>
               <span className="mcat-ico" aria-hidden="true">
-                <svg viewBox="0 0 48 48" fill="none">
-                  <line x1="24" y1="4" x2="24" y2="11" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" />
-                  <circle cx="24" cy="27" r="15" fill="#fff" />
-                  <g stroke="#0D0509" strokeWidth="1.1" opacity="0.55">
-                    <line x1="9" y1="27" x2="39" y2="27" />
-                    <line x1="11" y1="20" x2="37" y2="20" />
-                    <line x1="11" y1="34" x2="37" y2="34" />
-                    <line x1="24" y1="12" x2="24" y2="42" />
-                    <path d="M17 13c3 14 3 14 0 28" />
-                    <path d="M31 13c-3 14-3 14 0 28" />
-                  </g>
-                  <circle cx="19" cy="23" r="1.7" fill="#14FF00" />
-                  <circle cx="29" cy="31" r="1.7" fill="#14FF00" />
-                  <circle cx="28" cy="20" r="1.2" fill="#14FF00" />
-                </svg>
+                <img src="/icons/cat-club.jpg" alt="" width={44} height={44} />
               </span>
               <span className="mcat-label">{translations.home_clubs_venues}</span>
             </Link>
 
             <Link href={`${base}/private-boat-charters`} className="mcat" aria-label={translations.nav_private_boat}>
               <span className="mcat-ico" aria-hidden="true">
-                <svg viewBox="0 0 48 48" fill="none">
-                  <path d="M6 30h36l-5 7H11Z" fill="#fff" />
-                  <path d="M12 30v-7h21l4 7Z" fill="#fff" />
-                  <path d="M15 23v-5h12l4 5Z" fill="#fff" />
-                  <g fill="#14FF00">
-                    <rect x="14.5" y="25" width="3.2" height="2.6" rx="0.6" />
-                    <rect x="19" y="25" width="3.2" height="2.6" rx="0.6" />
-                    <rect x="23.5" y="25" width="3.2" height="2.6" rx="0.6" />
-                    <rect x="18" y="19.4" width="6" height="2.4" rx="0.6" />
-                  </g>
-                  <path d="M4 40q5-3 10 0t10 0 10 0 10 0" stroke="#14FF00" strokeWidth="2.4" fill="none" strokeLinecap="round" />
-                </svg>
+                <img src="/icons/cat-boot.jpg" alt="" width={44} height={44} />
               </span>
               <span className="mcat-label">{translations.nav_private_boat}</span>
             </Link>
@@ -163,15 +120,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             speed={0.3}
             className="w-full bg-transparent pt-2 pb-1"
           />
-
-          {/* Official ticket partner — right under the slider, visible at first glance */}
-          <div className="mt-1.5 flex items-center justify-center gap-2 px-4 text-white">
-            <svg viewBox="0 0 24 24" aria-hidden="true" className="w-3.5 h-3.5 shrink-0">
-              <circle cx="12" cy="12" r="11" fill="#14FF00" />
-              <path d="M7 12.5l3.2 3.2L17 9" stroke="#0D0509" strokeWidth="2.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            <span className="text-[11px] font-bold uppercase tracking-[0.16em]">{OFFICIAL_PARTNER[locale] || OFFICIAL_PARTNER.en}</span>
-          </div>
         </div>
       </header>
 
