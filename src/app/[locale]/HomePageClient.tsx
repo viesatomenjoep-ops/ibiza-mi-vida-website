@@ -108,9 +108,21 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
               <span className="mcat-ico mcat-boat" aria-hidden="true">
                 <svg viewBox="0 0 48 48" fill="none">
                   <g className="mcat-boat-hull">
-                    <line x1="24" y1="10" x2="24" y2="30" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
-                    <path d="M24 12 L34 27 L24 27 Z" fill="#14FF00" />
-                    <path d="M9 29 H39 L34 38 H14 Z" fill="#fff" />
+                    {/* hull */}
+                    <path d="M6 30 H41 L36 36 H11 Z" fill="#fff" />
+                    {/* green waterline stripe */}
+                    <path d="M9 33 H36.5" stroke="#14FF00" strokeWidth="1.6" strokeLinecap="round" />
+                    {/* main deck cabin */}
+                    <path d="M12 30 V24 H31 L34.5 30 Z" fill="#fff" />
+                    {/* upper bridge */}
+                    <path d="M15 24 V20 H25 L28 24 Z" fill="#fff" />
+                    {/* windows */}
+                    <rect x="14" y="25.6" width="3" height="2.6" rx="0.6" fill="#14FF00" />
+                    <rect x="19" y="25.6" width="3" height="2.6" rx="0.6" fill="#14FF00" />
+                    <rect x="24" y="25.6" width="3.4" height="2.6" rx="0.6" fill="#14FF00" />
+                    <rect x="17.5" y="21" width="6" height="2.2" rx="0.6" fill="#14FF00" />
+                    {/* antenna */}
+                    <line x1="20" y1="20" x2="20" y2="15" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" />
                   </g>
                   <path className="mcat-boat-wave" d="M2 41 q5 -4 10 0 t10 0 t10 0 t10 0 t10 0" stroke="#14FF00" strokeWidth="2.5" fill="none" strokeLinecap="round" />
                 </svg>
