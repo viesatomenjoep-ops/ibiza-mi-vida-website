@@ -88,10 +88,12 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
       id: `${e.id}-${e.eventSlug}`,
       clubSlug: e.venueSlug || '',
       clubName: e.venueName || '',
-      clubLogo: mv?.whitelogo || e.venueLogo || mv?.logo || mv?.picture || '',
+      // Only real logos here — a photo forced to brightness-0 becomes an ugly black square,
+      // so if there's no proper logo we leave it empty and the UI shows clean initials.
+      clubLogo: mv?.whitelogo || mv?.logo || e.venueLogo || '',
       eventSlug: e.eventSlug || '',
       eventName: e.eventName || e.name || '',
-      image: e.eventCover || e.eventLogo || e.venueCover || '',
+      image: e.eventCover || e.eventLogo || e.venueCover || mv?.cover || mv?.picture || mv?.logo || '',
       date: e.date || '',
       price: m ? parseFloat(m[0].replace(',', '.')) : 0,
       lineUp: e.lineUp || '',
@@ -251,37 +253,6 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
               })}
             </div>
           </div>
-
-          {/* Operator selector (tactical — right under the time tabs) */}
-          {activeVenues.length > 1 && (
-            <div className="w-full overflow-x-auto overflow-y-hidden hide-scrollbar touch-pan-x overscroll-x-contain">
-              <div className="flex md:justify-center items-center gap-2 min-w-max mx-auto">
-                <button
-                  onClick={() => setSelectedVenue(null)}
-                  className={`flex items-center gap-2 rounded-full pl-2 pr-4 py-1.5 border transition-all whitespace-nowrap ${!selectedVenue ? 'bg-black text-white border-black shadow' : 'bg-white text-black/60 border-black/10 hover:border-black hover:text-black'}`}
-                >
-                  <span className={`w-7 h-7 rounded-full flex items-center justify-center ${!selectedVenue ? 'bg-white/15' : 'bg-black/5'}`}><Ship size={14} strokeWidth={2.5} /></span>
-                  <span className="text-[11px] font-black uppercase tracking-widest">{L.allOperators}</span>
-                </button>
-                {activeVenues.map(v => {
-                  const vImg = v.logo || v.picture || v.whitelogo || v.cover;
-                  const active = selectedVenue === v.slug;
-                  return (
-                    <button
-                      key={v.slug}
-                      onClick={() => setSelectedVenue(active ? null : v.slug)}
-                      className={`flex items-center gap-2 rounded-full pl-1.5 pr-4 py-1.5 border transition-all whitespace-nowrap ${active ? 'bg-ibiza-green text-black border-ibiza-green shadow-[0_0_12px_rgba(20,255,0,0.35)]' : 'bg-white text-black/60 border-black/10 hover:border-black hover:text-black'}`}
-                    >
-                      <span className="w-7 h-7 rounded-full overflow-hidden bg-white border border-black/10 flex items-center justify-center shrink-0">
-                        {vImg ? <img src={vImg} alt={v.name} className="w-full h-full object-contain p-0.5" /> : <span className="text-[10px] font-black">{v.name.slice(0, 2)}</span>}
-                      </span>
-                      <span className="text-[11px] font-black uppercase tracking-widest max-w-[140px] truncate">{v.name}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
 
           {/* Month nav in month mode */}
           <div className="w-full flex flex-wrap items-center justify-center gap-2">

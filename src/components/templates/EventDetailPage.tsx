@@ -252,9 +252,9 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
 
   return (
     <div className="bg-white text-black min-h-screen">
-      <BackButton locale={locale} fallbackHref={`/${locale}/${basePath}/${club.slug}`} />
       {/* Hero */}
       <section className="relative flex h-[46vh] w-full flex-col justify-end overflow-hidden rounded-b-[28px] md:h-[58vh]" aria-label={`${eventName} hero`}>
+        <BackButton locale={locale} fallbackHref={`/${locale}/${basePath}/${club.slug}`} />
         {eventCover && (
           <Image src={eventCover} alt={eventName} fill priority className="object-cover object-center" sizes="100vw" quality={85} />
         )}

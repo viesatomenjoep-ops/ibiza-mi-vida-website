@@ -401,7 +401,7 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
       ` }} />
       {/* Hero — boat image as a full-bleed background; on mobile it fills the first viewport so the
           budget bar only appears once you scroll down. */}
-      <section className="relative w-full overflow-hidden flex min-h-[88vh] flex-col justify-end md:block md:min-h-0">
+      <section className="relative w-full overflow-hidden flex min-h-[97vh] flex-col justify-end md:block md:min-h-0">
         <Image src="/fleet/cover.jpeg" alt="Ibiza private boat charter" fill priority sizes="100vw" className="object-cover object-center" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/75" />
         <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-4 px-4 pt-[calc(var(--nav-h)+16px)] pb-12 text-center md:pb-16">

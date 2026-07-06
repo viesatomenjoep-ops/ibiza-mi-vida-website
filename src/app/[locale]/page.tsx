@@ -60,7 +60,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
         clubLogo: venueLogoBySlug.get(d.venueSlug || '') || d.venueLogo || '',
         eventSlug: d.eventSlug || '',
         eventName: d.eventName || d.name || '',
-        image: d.eventCover || d.eventLogo || '',
+        image: d.eventCover || d.eventLogo || d.venueCover || venueLogoBySlug.get(d.venueSlug || '') || '',
         date: d.date || '',
         price: m ? parseFloat(m[0].replace(',', '.')) : 0,
         lineUp: d.lineUp || '',

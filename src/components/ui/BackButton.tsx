@@ -34,7 +34,7 @@ export function BackButton({ locale = 'nl', fallbackHref }: { locale?: string; f
       type="button"
       onClick={goBack}
       aria-label={label}
-      className="fixed right-3 top-[calc(var(--nav-h)+56px)] z-[120] inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white/90 px-3.5 py-2 text-sm font-black uppercase tracking-wide text-black shadow-md backdrop-blur-md transition-all hover:bg-ibiza-green md:right-5"
+      className="absolute bottom-3 right-3 z-30 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/55 px-3.5 py-2 text-sm font-black uppercase tracking-wide text-white shadow-lg backdrop-blur-md transition-all hover:bg-ibiza-green hover:text-black md:bottom-4 md:right-4"
     >
       <ArrowLeft size={17} strokeWidth={2.5} />
       {label}

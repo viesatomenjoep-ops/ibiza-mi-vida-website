@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { format, parseISO, isValid, startOfDay, startOfWeek, addDays, endOfMonth, startOfMonth, addMonths } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
-import { Ticket, Music, ChevronRight, ChevronLeft, CalendarDays, X, Maximize2, Share2 } from 'lucide-react'
+import { Ticket, Music, ChevronRight, ChevronLeft, CalendarDays, X, Maximize2, Share2, Plus, Check, ShoppingCart, Trash2 } from 'lucide-react'
 
 export interface PickerEvent {
   id: string
@@ -575,7 +575,51 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
 
   // "I'm flexible" → every upcoming event for the club
   const clubAll = useMemo(() => (club ? events.filter(e => e.clubSlug === club.slug && e.date >= todayStr).sort((a, b) => a.date.localeCompare(b.date)) : []), [events, club, todayStr])
-  const shown = flexible ? clubAll : windowEvents
+
+  // ── Calendar (multi-date select) + shopping cart ────────────────────────────
+  const CAL = ({
+    nl: { pickTitle: 'Kies je datum(s)', pickSub: 'Tik dagen aan — meerdere mag', month: 'Hele maand', clearSel: 'Wissen', confirm: 'Bevestig', days: 'dagen', day: 'dag', open: 'Open', add: 'In mandje', added: 'Toegevoegd', cart: 'Mandje', tickets: 'Naar tickets', cartNote: 'Elk event reken je af bij ClubTickets', allEvents: 'Toon alle events', chosen: 'Gekozen' },
+    en: { pickTitle: 'Pick your date(s)', pickSub: 'Tap days — you can pick several', month: 'Whole month', clearSel: 'Clear', confirm: 'Confirm', days: 'days', day: 'day', open: 'Open', add: 'Add', added: 'Added', cart: 'Cart', tickets: 'Get tickets', cartNote: 'Each event is checked out on ClubTickets', allEvents: 'Show all events', chosen: 'Chosen' },
+    de: { pickTitle: 'Wähle dein(e) Datum', pickSub: 'Tippe Tage an — mehrere möglich', month: 'Ganzer Monat', clearSel: 'Löschen', confirm: 'Bestätigen', days: 'Tage', day: 'Tag', open: 'Öffnen', add: 'Hinzufügen', added: 'Hinzugefügt', cart: 'Warenkorb', tickets: 'Tickets', cartNote: 'Jedes Event wird bei ClubTickets bezahlt', allEvents: 'Alle Events zeigen', chosen: 'Gewählt' },
+    es: { pickTitle: 'Elige tu(s) fecha(s)', pickSub: 'Toca días — puedes elegir varios', month: 'Mes entero', clearSel: 'Borrar', confirm: 'Confirmar', days: 'días', day: 'día', open: 'Abrir', add: 'Añadir', added: 'Añadido', cart: 'Cesta', tickets: 'Entradas', cartNote: 'Cada evento se paga en ClubTickets', allEvents: 'Ver todos los eventos', chosen: 'Elegido' },
+    fr: { pickTitle: 'Choisis ta/tes date(s)', pickSub: 'Touche des jours — plusieurs possibles', month: 'Tout le mois', clearSel: 'Effacer', confirm: 'Confirmer', days: 'jours', day: 'jour', open: 'Ouvrir', add: 'Ajouter', added: 'Ajouté', cart: 'Panier', tickets: 'Billets', cartNote: 'Chaque événement se règle sur ClubTickets', allEvents: 'Voir tous les événements', chosen: 'Choisi' },
+  } as Record<string, any>)[locale] || {} as any
+
+  const clubDateSet = useMemo(() => { const s = new Set<string>(); clubAll.forEach(e => s.add(e.date)); return s }, [clubAll])
+  const clubDateCounts = useMemo(() => { const m: Record<string, number> = {}; clubAll.forEach(e => { m[e.date] = (m[e.date] || 0) + 1 }); return m }, [clubAll])
+  const firstEventMonth = useMemo(() => (clubAll[0] ? clubAll[0].date.slice(0, 7) : todayStr.slice(0, 7)), [clubAll, todayStr])
+  const lastEventMonth = useMemo(() => (clubAll.length ? clubAll[clubAll.length - 1].date.slice(0, 7) : firstEventMonth), [clubAll, firstEventMonth])
+
+  const [selectedDates, setSelectedDates] = useState<string[]>([])
+  const [monthAnchor, setMonthAnchor] = useState<string>(firstEventMonth)
+  // Reset the calendar view + selection whenever the chosen club changes
+  useEffect(() => { setMonthAnchor(firstEventMonth); setSelectedDates([]) /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [club?.slug])
+
+  const weekdays = useMemo(() => Array.from({ length: 7 }, (_, i) => fmt(format(addDays(startOfWeek(new Date(), { weekStartsOn: 1 }), i), 'yyyy-MM-dd'), 'EEEEEE')), [locale])
+  const monthCells = useMemo(() => {
+    const gridStart = startOfWeek(startOfMonth(parseISO(monthAnchor + '-01')), { weekStartsOn: 1 })
+    return Array.from({ length: 42 }, (_, i) => format(addDays(gridStart, i), 'yyyy-MM-dd'))
+  }, [monthAnchor])
+  const shiftMonth = (dir: number) => setMonthAnchor(format(addMonths(parseISO(monthAnchor + '-01'), dir), 'yyyy-MM'))
+  const toggleDate = (iso: string) => setSelectedDates(prev => (prev.includes(iso) ? prev.filter(x => x !== iso) : [...prev, iso].sort()))
+  const selectWholeMonth = () => setSelectedDates(prev => Array.from(new Set([...prev, ...clubAll.filter(e => e.date.slice(0, 7) === monthAnchor).map(e => e.date)])).sort())
+
+  const resultEvents = useMemo(() => (flexible || selectedDates.length === 0 ? clubAll : clubAll.filter(e => selectedDates.includes(e.date))), [flexible, selectedDates, clubAll])
+  const resultGroups = useMemo(() => {
+    const g: { date: string; items: PickerEvent[] }[] = []
+    resultEvents.forEach(e => { const f = g.find(x => x.date === e.date); if (f) f.items.push(e); else g.push({ date: e.date, items: [e] }) })
+    return g
+  }, [resultEvents])
+
+  // Cart (persisted across the session)
+  const [cart, setCart] = useState<PickerEvent[]>([])
+  const cartLoaded = useRef(false)
+  useEffect(() => { if (typeof window === 'undefined') { cartLoaded.current = true; return } try { const c = JSON.parse(sessionStorage.getItem('epwCart') || '[]'); if (Array.isArray(c)) setCart(c) } catch {} cartLoaded.current = true }, [])
+  useEffect(() => { if (!cartLoaded.current || typeof window === 'undefined') return; try { sessionStorage.setItem('epwCart', JSON.stringify(cart)) } catch {} }, [cart])
+  const [showCart, setShowCart] = useState(false)
+  const inCart = (id: string) => cart.some(c => c.id === id)
+  const toggleCart = (e: PickerEvent) => setCart(prev => (prev.some(c => c.id === e.id) ? prev.filter(c => c.id !== e.id) : [...prev, e]))
+  const cartTotal = cart.reduce((s, e) => s + (e.price || 0), 0)
 
   // ── Deeplink: read once, then keep the URL in sync (write-only, no navigation) ──
   const urlDone = useRef(false)
@@ -603,7 +647,7 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
   if (clubs.length === 0) return null
 
   const dateLabel = dateItem ? `${dateItem.top} ${dateItem.mid} ${dateItem.bottom}`.trim() : ''
-  const bg = step === 0 ? (clubAll[0]?.image) : (dateItem?.ev?.image || shown[0]?.image)
+  const bg = step === 0 ? (clubAll[0]?.image) : (resultEvents[0]?.image || clubAll[0]?.image)
 
   const StepChip = ({ i, label, value, done }: { i: 0 | 1 | 2; label: string; value?: string; done: boolean }) => (
     <button
@@ -633,8 +677,8 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
       {/* Progress header */}
       <div className="relative z-10 flex items-center gap-2 border-b border-black/5 bg-white/70 p-3 backdrop-blur-sm">
         <StepChip i={0} label={T.club} value={step > 0 ? club?.name : undefined} done={step > 0} />
-        <StepChip i={1} label={T.date} value={step > 1 ? (flexible ? T.allEvents : dateLabel) : undefined} done={step > 1} />
-        <StepChip i={2} label={T.events} value={step === 2 ? String(shown.length) : undefined} done={false} />
+        <StepChip i={1} label={T.date} value={step > 1 ? (flexible || selectedDates.length === 0 ? T.allEvents : `${selectedDates.length} ${selectedDates.length === 1 ? CAL.day : CAL.days}`) : undefined} done={step > 1} />
+        <StepChip i={2} label={T.events} value={step === 2 ? String(resultEvents.length) : undefined} done={false} />
       </div>
 
       {/* ── STEP 0: CLUB — all clubs at a glance, tap to open ── */}
@@ -669,95 +713,141 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
         </div>
       )}
 
-      {/* ── STEP 1: DATE ── */}
+      {/* ── STEP 1: DATE — full expandable calendar, multi-select ── */}
       {step === 1 && (
-        <div className="relative z-10 flex flex-1 flex-col">
-          <div className="px-5 pt-6 text-center">
-            <h3 className="font-serif text-2xl font-black text-black md:text-3xl">{T.s2}</h3>
-            <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-black/40">{club?.name} · {T.swipeDate}</p>
+        <div className="relative z-10 flex flex-col">
+          <div className="px-5 pt-5 text-center">
+            <h3 className="font-serif text-2xl font-black text-black md:text-3xl">{CAL.pickTitle}</h3>
+            <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-black/40">{club?.name} · {CAL.pickSub}</p>
           </div>
-          <div className="px-4 pt-4">
-            <PeriodTabs period={period} setPeriod={(p) => { setPeriod(p); if (ready.current) setDateIdx(0) }} locale={locale} />
+
+          {/* month navigator */}
+          <div className="flex items-center justify-between px-4 pt-4">
+            <button type="button" onClick={() => shiftMonth(-1)} disabled={monthAnchor <= firstEventMonth} className="grid h-10 w-10 place-items-center rounded-full border border-black/10 bg-white text-black shadow-sm transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronLeft size={20} /></button>
+            <span className="font-serif text-lg font-black capitalize text-black md:text-xl">{fmt(monthAnchor + '-01', 'MMMM yyyy')}</span>
+            <button type="button" onClick={() => shiftMonth(1)} disabled={monthAnchor >= lastEventMonth} className="grid h-10 w-10 place-items-center rounded-full border border-black/10 bg-white text-black shadow-sm transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronRight size={20} /></button>
           </div>
-          <div className="flex items-stretch justify-center pt-1">
-            {dateItems.length > 0 ? (
-              <div className="w-full">
-                <TopWheel key={`${club?.slug}-${period}`} count={dateItems.length} rowH={104} height={460} onIndex={(i) => setDateIdx(i)} render={(i, active) => {
-                  const d = dateItems[i]; if (!d) return null
-                  const e = d.ev; const cnt = dateCounts[d.key] || 0
-                  return (
-                    <div className={`mx-auto flex w-[92%] items-center gap-3 rounded-3xl px-4 transition-colors ${active ? 'bg-ibiza-green/10 py-2.5 ring-1 ring-ibiza-green/40' : ''}`}>
-                      <span className="flex w-16 shrink-0 flex-col items-center justify-center leading-none">
-                        <span className={`text-[11px] font-black uppercase tracking-wide ${active ? 'text-black/55' : 'text-black/35'}`}>{d.top}</span>
-                        <span className={`font-serif font-black ${period === 'week' ? 'text-2xl' : 'text-4xl'} ${active ? 'text-black' : 'text-black/60'}`}>{d.mid}</span>
-                        <span className="text-[11px] font-black uppercase tracking-wide text-ibiza-green">{d.bottom}</span>
-                      </span>
-                      <span className="relative h-20 min-w-0 flex-1 overflow-hidden rounded-2xl bg-neutral-900 shadow-md">
-                        {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover" /> : null}
-                        <span className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                        {cnt > 1 && <span className="absolute left-1.5 top-1.5 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-black text-white">{cnt} {T.events.toLowerCase()}</span>}
-                        {e.price > 0 && <span className="absolute right-1.5 top-1.5 rounded bg-ibiza-green px-1.5 py-0.5 text-[10px] font-black text-black">€{e.price}</span>}
-                        <span className="absolute inset-x-0 bottom-0 p-2"><span className="line-clamp-1 font-serif text-sm font-black text-white">{e.eventName}</span></span>
-                      </span>
-                    </div>
-                  )
-                }} />
-              </div>
-            ) : <div className="p-8 text-center text-sm font-semibold text-black/40">{L.none}</div>}
+
+          {/* weekday header */}
+          <div className="grid grid-cols-7 gap-1 px-4 pt-3 text-center text-[10px] font-black uppercase tracking-wide text-black/40">
+            {weekdays.map((w, i) => <span key={i}>{w}</span>)}
           </div>
-          <button type="button" onClick={() => { setFlexible(true); setStep(2) }} className="mx-4 mb-1 rounded-xl py-2 text-xs font-black uppercase tracking-wide text-black/45 underline decoration-black/20 underline-offset-4 transition-colors hover:text-ibiza-green">
-            {T.flexible}
-          </button>
-          <div className="flex gap-2 p-4 pt-2">
+          {/* day grid */}
+          <div className="grid grid-cols-7 gap-1 px-4 pt-1">
+            {monthCells.map((iso, idx) => {
+              const inMonth = iso.slice(0, 7) === monthAnchor
+              const has = clubDateSet.has(iso)
+              const sel = selectedDates.includes(iso)
+              const past = iso < todayStr
+              const cnt = clubDateCounts[iso] || 0
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  disabled={!has || past}
+                  onClick={() => toggleDate(iso)}
+                  className={`relative flex aspect-square flex-col items-center justify-center rounded-xl text-sm font-black transition-all ${sel ? 'bg-ibiza-green text-black shadow-sm ring-2 ring-ibiza-green' : has && !past ? 'bg-black/[0.04] text-black hover:bg-ibiza-green/25' : 'text-black/20'} ${!inMonth ? 'opacity-40' : ''}`}
+                >
+                  {Number(iso.slice(8, 10))}
+                  {has && !past && !sel && <span className="absolute bottom-1.5 h-1 w-1 rounded-full bg-ibiza-green" />}
+                  {sel && cnt > 1 && <span className="absolute bottom-1 text-[8px] font-black">{cnt}</span>}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* quick actions */}
+          <div className="flex flex-wrap items-center gap-2 px-4 pt-3">
+            <button type="button" onClick={selectWholeMonth} className="rounded-full border border-black/10 bg-white px-3 py-1.5 text-[11px] font-black uppercase tracking-wide text-black transition-colors hover:bg-ibiza-green">{CAL.month}</button>
+            {selectedDates.length > 0 && <button type="button" onClick={() => setSelectedDates([])} className="rounded-full border border-black/10 bg-white px-3 py-1.5 text-[11px] font-black uppercase tracking-wide text-black/60 transition-colors hover:bg-black/5">{CAL.clearSel} ({selectedDates.length})</button>}
+            <button type="button" onClick={() => { setFlexible(true); setStep(2) }} className="ml-auto text-[11px] font-black uppercase tracking-wide text-black/45 underline decoration-black/20 underline-offset-4 transition-colors hover:text-ibiza-green">{CAL.allEvents}</button>
+          </div>
+
+          {/* footer */}
+          <div className="flex gap-2 p-4 pt-3">
             <button type="button" onClick={() => setStep(0)} className="flex shrink-0 items-center justify-center gap-1.5 rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-black uppercase tracking-wide text-black transition-colors hover:bg-black/5">
               <ChevronLeft size={18} /> {T.back}
             </button>
-            <button type="button" onClick={() => { setFlexible(false); setStep(2) }} disabled={dateItems.length === 0} className="flex flex-1 items-center justify-center gap-2.5 rounded-2xl bg-ibiza-green px-7 py-4 font-serif text-xl font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95 disabled:opacity-40">
-              {T.nextEvents} <ChevronRight size={22} />
+            <button type="button" onClick={() => { setFlexible(false); setStep(2) }} disabled={selectedDates.length === 0} className="flex flex-1 items-center justify-center gap-2.5 rounded-2xl bg-ibiza-green px-7 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95 disabled:opacity-40 md:text-xl">
+              {CAL.confirm}{selectedDates.length > 0 ? ` · ${selectedDates.length} ${selectedDates.length === 1 ? CAL.day : CAL.days}` : ''} <ChevronRight size={20} />
             </button>
           </div>
         </div>
       )}
 
-      {/* ── STEP 2: EVENTS ── */}
+      {/* ── STEP 2: EVENTS — date-ordered, each with Open + add-to-cart ── */}
       {step === 2 && (
-        <div className="relative z-10 flex flex-1 flex-col">
+        <div className="relative z-10 flex flex-col">
           <div className="relative px-5 pt-6 text-center">
             <h3 className="font-serif text-2xl font-black text-black md:text-3xl">{club?.name}</h3>
-            <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-black/40 capitalize">{flexible ? T.allEvents : (dateItem ? (period === 'day' ? fmt(dateItem.start, 'EEEE d MMMM') : `${fmt(dateItem.start, 'd MMM')} – ${fmt(dateItem.end, 'd MMM')}`) : '')}</p>
+            <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-black/40">{flexible || selectedDates.length === 0 ? T.allEvents : `${selectedDates.length} ${selectedDates.length === 1 ? CAL.day : CAL.days} ${CAL.chosen.toLowerCase()}`}</p>
             <button type="button" onClick={share} className="absolute right-4 top-5 inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white px-3 py-1.5 text-[11px] font-black uppercase tracking-wide text-black transition-colors hover:bg-ibiza-green">
               <Share2 size={13} /> {copied ? T.shared : T.share}
             </button>
           </div>
-          <div className="max-h-[52svh] overflow-y-auto p-4">
-            {shown.length > 0 ? (
-              <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
-                {shown.map(e => (
-                  <Link key={e.id} href={e.href} className="group flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg">
-                    <span className="relative aspect-[16/9] w-full bg-neutral-900">
-                      {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
-                      <span className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
-                      {e.price > 0 && <span className="absolute right-2.5 top-2.5 rounded-lg bg-ibiza-green px-2.5 py-0.5 text-sm font-black text-black">€{e.price}</span>}
-                      {e.clubLogo && <span className="absolute left-2.5 top-2.5 grid h-9 w-9 place-items-center overflow-hidden rounded-lg bg-white/90 p-1"><img src={e.clubLogo} alt="" className="max-h-full max-w-full object-contain [filter:brightness(0)]" /></span>}
-                      <span className="absolute inset-x-0 bottom-0 p-3">
-                        <span className="line-clamp-2 font-serif text-lg font-black leading-tight text-white">{e.eventName}</span>
-                        <span className="block text-xs font-semibold text-white/75 capitalize">{fmt(e.date, 'EEE d MMM')}</span>
-                      </span>
-                    </span>
-                    <span className="flex items-center justify-between gap-2 p-3">
-                      {e.lineUp ? <span className="flex min-w-0 items-center gap-1.5 text-xs font-semibold text-black/55"><Music size={13} className="shrink-0 text-ibiza-green" /> <span className="truncate">{e.lineUp}</span></span> : <span />}
-                      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-ibiza-green px-3 py-1.5 text-xs font-black uppercase tracking-wide text-black">{L.book} <ChevronRight size={13} /></span>
-                    </span>
-                  </Link>
-                ))}
+          <div className="max-h-[46svh] space-y-4 overflow-y-auto p-4">
+            {resultGroups.length > 0 ? resultGroups.map(g => (
+              <div key={g.date}>
+                <div className="mb-2 text-xs font-black uppercase tracking-widest capitalize text-black/50">{fmt(g.date, 'EEEE d MMMM')}</div>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {g.items.map(e => (
+                    <div key={e.id} className="flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-md">
+                      <div className="relative aspect-[16/9] w-full bg-neutral-900">
+                        {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover" /> : null}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                        {e.clubLogo && <span className="absolute left-2.5 top-2.5 grid h-9 w-9 place-items-center overflow-hidden rounded-lg bg-white/90 p-1"><img src={e.clubLogo} alt="" className="max-h-full max-w-full object-contain [filter:brightness(0)]" /></span>}
+                        <div className="absolute inset-x-0 bottom-0 p-3">
+                          <div className="line-clamp-2 font-serif text-lg font-black leading-tight text-white">{e.eventName}</div>
+                          {e.lineUp && <div className="line-clamp-1 text-[11px] font-semibold text-white/70">{e.lineUp}</div>}
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between gap-2 p-3">
+                        <div className="min-w-0">
+                          {e.price > 0 && <div className="font-serif text-lg font-black leading-none text-black">€{e.price}</div>}
+                          <Link href={e.href} className="mt-1 inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-wide text-ibiza-green underline decoration-ibiza-green/40 underline-offset-2 hover:decoration-ibiza-green">{CAL.open} <ChevronRight size={11} /></Link>
+                        </div>
+                        <button type="button" onClick={() => toggleCart(e)} className={`inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-2 text-[11px] font-black uppercase tracking-wide transition-colors ${inCart(e.id) ? 'bg-black text-white' : 'bg-ibiza-green text-black hover:brightness-95'}`}>
+                          {inCart(e.id) ? <>{CAL.added} <Check size={13} /></> : <>{CAL.add} <Plus size={13} /></>}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ) : <div className="grid h-full min-h-[200px] place-items-center rounded-3xl border border-black/10 text-center text-sm font-semibold text-black/40">{T.none}</div>}
+            )) : <div className="grid h-full min-h-[160px] place-items-center rounded-3xl border border-black/10 text-center text-sm font-semibold text-black/40">{T.none}</div>}
           </div>
-          <div className="flex gap-2 p-4">
+
+          {/* cart */}
+          {cart.length > 0 && (
+            <div className="border-t border-black/10 p-3">
+              <button type="button" onClick={() => setShowCart(v => !v)} className="flex w-full items-center justify-between rounded-2xl bg-black px-4 py-3 text-white transition-colors hover:bg-black/90">
+                <span className="flex items-center gap-2 text-sm font-black uppercase tracking-wide"><ShoppingCart size={16} /> {CAL.cart} · {cart.length}</span>
+                <span className="flex items-center gap-2">{cartTotal > 0 && <span className="font-serif text-lg font-black">€{cartTotal}</span>}<ChevronRight size={16} className={`transition-transform ${showCart ? 'rotate-90' : ''}`} /></span>
+              </button>
+              {showCart && (
+                <div className="mt-2 rounded-2xl border border-black/10 bg-white p-2">
+                  <p className="px-2 py-1 text-[11px] font-semibold text-black/45">{CAL.cartNote}</p>
+                  {cart.map(e => (
+                    <div key={e.id} className="flex items-center gap-2 rounded-xl p-2 hover:bg-black/5">
+                      <span className="h-11 w-16 shrink-0 overflow-hidden rounded-lg bg-neutral-900">{e.image ? <img src={e.image} alt="" className="h-full w-full object-cover" /> : null}</span>
+                      <span className="min-w-0 flex-1">
+                        <span className="line-clamp-1 text-xs font-black text-black">{e.eventName}</span>
+                        <span className="block text-[10px] font-semibold capitalize text-black/50">{fmt(e.date, 'EEE d MMM')}{e.price > 0 ? ` · €${e.price}` : ''}</span>
+                      </span>
+                      <Link href={e.href} className="shrink-0 rounded-full bg-ibiza-green px-2.5 py-1.5 text-[10px] font-black uppercase tracking-wide text-black">{CAL.tickets}</Link>
+                      <button type="button" onClick={() => toggleCart(e)} aria-label="remove" className="shrink-0 grid h-7 w-7 place-items-center rounded-full text-black/40 hover:bg-black/10 hover:text-black"><Trash2 size={14} /></button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="flex gap-2 p-4 pt-2">
             <button type="button" onClick={() => setStep(1)} className="flex flex-1 items-center justify-center gap-1.5 rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-black uppercase tracking-wide text-black transition-colors hover:bg-black/5">
               <ChevronLeft size={18} /> {T.back}
             </button>
-            <button type="button" onClick={() => { setStep(0); setClubIdx(0); setDateIdx(0); setFlexible(false) }} className="flex shrink-0 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-black uppercase tracking-wide text-black/60 transition-colors hover:bg-black/5">
+            <button type="button" onClick={() => { setStep(0); setClubIdx(0); setSelectedDates([]); setFlexible(false) }} className="flex shrink-0 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-black uppercase tracking-wide text-black/60 transition-colors hover:bg-black/5">
               {T.startOver}
             </button>
           </div>
@@ -786,9 +876,9 @@ export function HomeCalendarLauncher({ events, locale = 'nl', persistKey = 'home
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex w-full items-center justify-center gap-2.5 rounded-2xl border-2 border-black bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95 md:text-xl"
+        className="mx-auto flex w-full max-w-[220px] items-center justify-center gap-2 rounded-xl border-2 border-black bg-ibiza-green px-4 py-2.5 font-serif text-sm font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95"
       >
-        <CalendarDays size={20} /> {L.openCal}
+        <CalendarDays size={16} /> {L.openCal}
       </button>
 
       {open && mounted && createPortal(
