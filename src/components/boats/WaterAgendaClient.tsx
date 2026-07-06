@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import {
   format, addDays, addMonths, isToday, isTomorrow, isSameMonth, isSameDay,
-  startOfWeek, endOfWeek, startOfMonth, endOfMonth, eachDayOfInterval, parseISO,
+  startOfWeek, endOfWeek, startOfMonth, endOfMonth, eachDayOfInterval, parseISO, isValid,
 } from 'date-fns';
 import { nl, enUS, de, es, fr } from 'date-fns/locale';
 import { Search, X, Calendar, ChevronRight, ChevronLeft, Ship, Ticket } from 'lucide-react';
@@ -65,6 +65,9 @@ interface WaterAgendaClientProps {
 }
 
 const getLoc = (locale: string) => ({ nl, de, es, fr, en: enUS }[locale] || enUS);
+
+const GALLERY_TITLE: Record<string, string> = { nl: 'Alle events', en: 'All events', de: 'Alle Events', es: 'Todos los eventos', fr: 'Tous les événements' };
+const fmtGallery = (iso: string, locale: string) => { try { const d = parseISO(iso); return isValid(d) ? format(d, 'EEE d MMM', { locale: getLoc(locale) }) : ''; } catch { return ''; } };
 type QuickFilter = 'today' | 'tomorrow' | 'week' | 'month' | 'all';
 
 const priceShort = (p?: string) => {
@@ -227,6 +230,32 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
         <section className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pt-4 pb-6">
           <div className="text-xs font-black tracking-widest uppercase text-ibiza-green mb-3">Score your tickets</div>
           <HomeCalendarLauncher events={pickerEvents} locale={locale} persistKey={`planner-${basePath || 'water'}`} variant="company" />
+        </section>
+      )}
+
+      {/* ── Promo gallery: every event of this category, from today onward ── */}
+      {pickerEvents.length > 0 && (
+        <section className="relative z-10 mx-auto max-w-4xl px-4 pb-24 pt-2">
+          <div className="mb-4 flex items-center gap-3">
+            <h2 className="font-serif text-2xl md:text-3xl font-black text-black">{GALLERY_TITLE[locale] || GALLERY_TITLE.en}</h2>
+            <span className="h-px flex-1 bg-black/10" />
+          </div>
+          <div className="flex flex-col gap-4">
+            {[...pickerEvents].sort((a, b) => a.date.localeCompare(b.date)).map(e => (
+              <a key={e.id} href={e.href} className="group relative block overflow-hidden rounded-3xl border border-black/10 bg-neutral-900 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl">
+                <div className="relative aspect-[16/9] w-full sm:aspect-[21/9]">
+                  {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                  {e.price > 0 && <span className="absolute right-3 top-3 rounded-lg bg-ibiza-green px-3 py-1 text-sm font-black text-black">€{e.price}</span>}
+                  <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
+                    <div className="text-[11px] font-black uppercase tracking-widest text-ibiza-green">{fmtGallery(e.date, locale)}</div>
+                    <div className="mt-0.5 line-clamp-2 font-serif text-xl md:text-2xl font-black leading-tight text-white">{e.eventName}</div>
+                    <div className="mt-0.5 text-sm font-semibold text-white/70">{e.clubName}</div>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
         </section>
       )}
 
