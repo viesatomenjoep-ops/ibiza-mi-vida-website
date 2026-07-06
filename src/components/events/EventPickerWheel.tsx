@@ -231,10 +231,10 @@ function usePickerData(events: PickerEvent[], locale: string, persistKey?: strin
 function PeriodTabs({ period, setPeriod, locale }: { period: Period; setPeriod: (p: Period) => void; locale: string }) {
   const L = LABELS[locale] || LABELS.en
   return (
-    <div className="mb-3 flex justify-center">
-      <div className="inline-flex rounded-full bg-black/5 p-1">
+    <div className="mb-3">
+      <div className="flex w-full rounded-full bg-black/5 p-1">
         {(['day', 'week', 'month'] as Period[]).map(p => (
-          <button key={p} onClick={() => setPeriod(p)} className={`rounded-full px-4 py-2 text-xs font-black uppercase tracking-wider transition-all md:px-5 md:text-sm ${period === p ? 'bg-ibiza-green text-black shadow-sm' : 'text-black/50 hover:text-black'}`}>{L[p]}</button>
+          <button key={p} onClick={() => setPeriod(p)} className={`flex-1 rounded-full px-4 py-2.5 text-xs font-black uppercase tracking-wider transition-all md:text-sm ${period === p ? 'bg-ibiza-green text-black shadow-sm' : 'text-black/50 hover:text-black'}`}>{L[p]}</button>
         ))}
       </div>
     </div>
