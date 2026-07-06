@@ -3,7 +3,7 @@
 import { useMemo, useRef, useState, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
-import { format, parseISO, isValid, startOfDay, startOfWeek, addDays, endOfMonth } from 'date-fns'
+import { format, parseISO, isValid, startOfDay, startOfWeek, addDays, endOfMonth, startOfMonth, addMonths } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { Ticket, Music, ChevronRight, ChevronLeft, CalendarDays, X, Maximize2 } from 'lucide-react'
 
@@ -549,6 +549,170 @@ function PickerRows({ events, locale, persistKey, full, onExpand }: { events: Pi
   )
 }
 
+// ── Desktop agenda: week bar + carousel, day/month drill, cards grid, remembered ─
+function DesktopAgenda({ events, locale, persistKey }: { events: PickerEvent[]; locale: string; persistKey?: string }) {
+  const loc = DF[locale] || enUS
+  const fmt = (iso: string, p: string) => { try { const d = parseISO(iso); return isValid(d) ? format(d, p, { locale: loc }) : '' } catch { return '' } }
+  const TXT = ({
+    en: { whole: 'Whole week', view: 'View this event', month: 'Month', week: 'Week', none: 'No events', from: 'From', wk: 'Week' },
+    nl: { whole: 'Hele week', view: 'Bekijk dit event', month: 'Maand', week: 'Week', none: 'Geen events', from: 'Vanaf', wk: 'Week' },
+    de: { whole: 'Ganze Woche', view: 'Event ansehen', month: 'Monat', week: 'Woche', none: 'Keine Events', from: 'Ab', wk: 'Woche' },
+    es: { whole: 'Semana completa', view: 'Ver este evento', month: 'Mes', week: 'Semana', none: 'Sin eventos', from: 'Desde', wk: 'Semana' },
+    fr: { whole: 'Toute la semaine', view: 'Voir cet événement', month: 'Mois', week: 'Semaine', none: 'Aucun événement', from: 'Dès', wk: 'Semaine' },
+  } as Record<string, any>)[locale] || {} as any
+
+  const monday = (d: Date) => startOfWeek(d, { weekStartsOn: 1 })
+  const todayStr = useMemo(() => format(startOfDay(new Date()), 'yyyy-MM-dd'), [])
+
+  const upcoming = useMemo(
+    () => events.filter(e => /^\d{4}-\d{2}-\d{2}/.test(e.date) && e.date >= todayStr).sort((a, b) => a.date.localeCompare(b.date)),
+    [events, todayStr]
+  )
+  const firstMondayStr = useMemo(() => upcoming.length ? format(monday(parseISO(upcoming[0].date)), 'yyyy-MM-dd') : format(monday(new Date()), 'yyyy-MM-dd'), [upcoming])
+  const lastMondayStr = useMemo(() => upcoming.length ? format(monday(parseISO(upcoming[upcoming.length - 1].date)), 'yyyy-MM-dd') : firstMondayStr, [upcoming, firstMondayStr])
+
+  const saved = useRef<{ view?: 'week' | 'month'; weekStart?: string; selectedDay?: string | null; monthAnchor?: string }>(
+    (() => { if (persistKey && typeof window !== 'undefined') { try { return JSON.parse(sessionStorage.getItem('epwD:' + persistKey) || '{}') } catch { return {} } } return {} })()
+  ).current
+
+  const [view, setView] = useState<'week' | 'month'>(saved.view || 'week')
+  const [weekStart, setWeekStart] = useState<string>(saved.weekStart || firstMondayStr)
+  const [selectedDay, setSelectedDay] = useState<string | null>(saved.selectedDay ?? null)
+  const [monthAnchor, setMonthAnchor] = useState<string>(saved.monthAnchor || (saved.weekStart || firstMondayStr).slice(0, 7))
+
+  useEffect(() => {
+    if (persistKey && typeof window !== 'undefined') {
+      try { sessionStorage.setItem('epwD:' + persistKey, JSON.stringify({ view, weekStart, selectedDay, monthAnchor })) } catch {}
+    }
+  }, [persistKey, view, weekStart, selectedDay, monthAnchor])
+
+  const weekDays = useMemo(() => Array.from({ length: 7 }, (_, i) => format(addDays(parseISO(weekStart), i), 'yyyy-MM-dd')), [weekStart])
+  const weekEndStr = weekDays[6]
+  const countForDay = (ds: string) => upcoming.filter(e => e.date === ds).length
+
+  const windowEvents = useMemo(() => {
+    if (selectedDay) return upcoming.filter(e => e.date === selectedDay)
+    return upcoming.filter(e => e.date >= weekStart && e.date <= weekEndStr)
+  }, [upcoming, selectedDay, weekStart, weekEndStr])
+
+  // Month view → weeks (Mon–Sun) overlapping the anchored month
+  const monthWeeks = useMemo(() => {
+    const m0 = startOfMonth(parseISO(monthAnchor + '-01'))
+    const mEnd = endOfMonth(m0)
+    const out: { start: string; end: string; count: number }[] = []
+    let cur = monday(m0)
+    while (cur <= mEnd) {
+      const s = format(cur, 'yyyy-MM-dd'); const e = format(addDays(cur, 6), 'yyyy-MM-dd')
+      out.push({ start: s, end: e, count: upcoming.filter(ev => ev.date >= s && ev.date <= e).length })
+      cur = addDays(cur, 7)
+    }
+    return out
+  }, [monthAnchor, upcoming])
+
+  const shiftWeek = (dir: number) => {
+    const next = format(addDays(parseISO(weekStart), dir * 7), 'yyyy-MM-dd')
+    if (next < firstMondayStr || next > lastMondayStr) return
+    setWeekStart(next); setSelectedDay(null)
+  }
+  const shiftMonth = (dir: number) => {
+    setMonthAnchor(format(addMonths(parseISO(monthAnchor + '-01'), dir), 'yyyy-MM'))
+  }
+  const openWeek = (s: string) => { setWeekStart(s); setSelectedDay(null); setView('week') }
+
+  return (
+    <div className="w-full">
+      {/* View toggle */}
+      <div className="mb-5 flex items-center justify-center gap-2">
+        <div className="inline-flex rounded-full bg-black/5 p-1">
+          <button onClick={() => setView('week')} className={`rounded-full px-6 py-2.5 text-sm font-black uppercase tracking-wider transition-all ${view === 'week' ? 'bg-ibiza-green text-black shadow-sm' : 'text-black/50 hover:text-black'}`}>{TXT.week}</button>
+          <button onClick={() => setView('month')} className={`rounded-full px-6 py-2.5 text-sm font-black uppercase tracking-wider transition-all ${view === 'month' ? 'bg-ibiza-green text-black shadow-sm' : 'text-black/50 hover:text-black'}`}>{TXT.month}</button>
+        </div>
+      </div>
+
+      {view === 'week' ? (
+        <>
+          {/* Week carousel bar: Mon–Sun */}
+          <div className="mb-6 flex items-center gap-3">
+            <button onClick={() => shiftWeek(-1)} disabled={weekStart <= firstMondayStr} className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-black shadow-sm transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronLeft size={22} /></button>
+            <div className="grid flex-1 grid-cols-8 gap-2">
+              <button onClick={() => setSelectedDay(null)} className={`flex flex-col items-center justify-center rounded-2xl border px-2 py-3 transition-all ${!selectedDay ? 'border-ibiza-green bg-ibiza-green text-black' : 'border-black/10 bg-white text-black/60 hover:border-black/30'}`}>
+                <span className="text-[10px] font-black uppercase tracking-wide">{TXT.whole}</span>
+                <span className="font-serif text-lg font-black leading-none">{fmt(weekStart, 'd')}–{fmt(weekEndStr, 'd')}</span>
+                <span className="text-[10px] font-black uppercase text-ibiza-green">{fmt(weekEndStr, 'MMM')}</span>
+              </button>
+              {weekDays.map(ds => {
+                const on = selectedDay === ds; const cnt = countForDay(ds); const past = ds < todayStr
+                return (
+                  <button key={ds} disabled={past} onClick={() => setSelectedDay(on ? null : ds)} className={`flex flex-col items-center justify-center rounded-2xl border px-2 py-3 transition-all ${on ? 'border-ibiza-green bg-ibiza-green text-black' : past ? 'cursor-not-allowed border-black/5 text-black/25' : 'border-black/10 bg-white text-black hover:border-black/30'}`}>
+                    <span className="text-[10px] font-black uppercase tracking-wide text-black/50">{fmt(ds, 'EEE')}</span>
+                    <span className="font-serif text-xl font-black leading-none">{fmt(ds, 'd')}</span>
+                    <span className={`mt-1 h-1.5 w-1.5 rounded-full ${cnt > 0 ? (on ? 'bg-black' : 'bg-ibiza-green') : 'bg-transparent'}`} />
+                  </button>
+                )
+              })}
+            </div>
+            <button onClick={() => shiftWeek(1)} disabled={weekStart >= lastMondayStr} className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-black shadow-sm transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronRight size={22} /></button>
+          </div>
+
+          {/* Cards grid — all clubs stacked */}
+          {windowEvents.length > 0 ? (
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {windowEvents.map(e => <AgendaCard key={e.id} e={e} fmt={fmt} view={TXT.view} />)}
+            </div>
+          ) : <div className="grid h-40 place-items-center rounded-3xl border border-black/10 text-sm font-semibold text-black/40">{TXT.none}</div>}
+        </>
+      ) : (
+        <>
+          {/* Month carousel */}
+          <div className="mb-6 flex items-center justify-center gap-4">
+            <button onClick={() => shiftMonth(-1)} className="grid h-11 w-11 place-items-center rounded-full border border-black/10 bg-white text-black shadow-sm transition-colors hover:bg-ibiza-green"><ChevronLeft size={22} /></button>
+            <div className="min-w-[220px] text-center font-serif text-2xl font-black capitalize text-black">{fmt(monthAnchor + '-01', 'MMMM yyyy')}</div>
+            <button onClick={() => shiftMonth(1)} className="grid h-11 w-11 place-items-center rounded-full border border-black/10 bg-white text-black shadow-sm transition-colors hover:bg-ibiza-green"><ChevronRight size={22} /></button>
+          </div>
+          {/* Week blocks (Mon–Sun) */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {monthWeeks.map((w, i) => (
+              <button key={w.start} onClick={() => openWeek(w.start)} className="flex items-center justify-between rounded-2xl border border-black/10 bg-white p-5 text-left shadow-sm transition-all hover:border-ibiza-green hover:shadow-md">
+                <div>
+                  <div className="text-xs font-black uppercase tracking-widest text-ibiza-green">{TXT.wk} {i + 1}</div>
+                  <div className="mt-1 font-serif text-xl font-black capitalize text-black">{fmt(w.start, 'd MMM')} – {fmt(w.end, 'd MMM')}</div>
+                </div>
+                <div className="flex flex-col items-end">
+                  <span className="font-serif text-3xl font-black text-black">{w.count}</span>
+                  <span className="text-[10px] font-black uppercase tracking-wide text-black/40">events</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+function AgendaCard({ e, fmt, view }: { e: PickerEvent; fmt: (iso: string, p: string) => string; view: string }) {
+  return (
+    <div className="flex flex-col overflow-hidden rounded-2xl border border-black/10 bg-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg">
+      <div className="relative aspect-[16/10] w-full bg-neutral-900">
+        {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover" /> : null}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+        {e.price > 0 && <span className="absolute right-2.5 top-2.5 rounded-lg bg-ibiza-green px-2.5 py-0.5 text-sm font-black text-black">€{e.price}</span>}
+        {e.clubLogo && <span className="absolute left-2.5 top-2.5 grid h-10 w-10 place-items-center overflow-hidden rounded-xl bg-white/90 p-1"><img src={e.clubLogo} alt="" className="max-h-full max-w-full object-contain [filter:brightness(0)]" /></span>}
+        <div className="absolute inset-x-0 bottom-0 p-3">
+          <div className="font-serif text-lg font-black leading-tight text-white line-clamp-2">{e.eventName}</div>
+          <div className="text-xs font-semibold text-white/75">{e.clubName} · <span className="capitalize">{fmt(e.date, 'EEE d MMM')}</span></div>
+        </div>
+      </div>
+      <div className="flex flex-1 flex-col gap-2 p-3.5">
+        {e.lineUp ? <div className="flex items-start gap-1.5 text-xs font-semibold leading-snug text-black/60 line-clamp-2"><Music size={13} className="mt-0.5 shrink-0 text-ibiza-green" /> {e.lineUp}</div> : <div className="text-xs text-black/30">—</div>}
+        <Link href={e.href} className="mt-auto flex items-center justify-center gap-2 rounded-xl bg-ibiza-green px-4 py-2.5 font-serif text-sm font-black uppercase tracking-wide text-black transition-all hover:brightness-95">
+          <Ticket size={16} /> {view}{e.price > 0 ? ` · €${e.price}` : ''}
+        </Link>
+      </div>
+    </div>
+  )
+}
+
 // ── Public component: compact picker + "Open calendar" full-screen ────────────
 export function EventPickerWheel({ events, locale = 'nl', className = '', storeKey = 'agenda' }: { events: PickerEvent[]; locale?: string; className?: string; storeKey?: string }) {
   const L = LABELS[locale] || LABELS.en
@@ -587,8 +751,13 @@ export function EventPickerWheel({ events, locale = 'nl', className = '', storeK
             <button onClick={close} aria-label="Close" className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3.5 py-2 text-sm font-black uppercase tracking-wide text-black hover:bg-black/10"><X size={18} /> {L.close}</button>
           </div>
           <div className="flex-1 overflow-y-auto px-4 py-3 md:px-8 md:py-8">
-            <div className="mx-auto w-full max-w-3xl md:max-w-6xl">
-              <PickerRows events={events} locale={locale} persistKey={storeKey} full />
+            <div className="mx-auto w-full max-w-3xl md:max-w-7xl">
+              <div className="hidden md:block">
+                <DesktopAgenda events={events} locale={locale} persistKey={storeKey} />
+              </div>
+              <div className="md:hidden">
+                <PickerRows events={events} locale={locale} persistKey={storeKey} full />
+              </div>
             </div>
           </div>
         </div>,
