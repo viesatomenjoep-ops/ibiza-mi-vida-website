@@ -660,7 +660,9 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
   const lastEventMonth = useMemo(() => (dateSource.length ? dateSource[dateSource.length - 1].date.slice(0, 7) : firstEventMonth), [dateSource, firstEventMonth])
 
   const [selectedDates, setSelectedDates] = useState<string[]>([])
+  const [selectedClubs, setSelectedClubs] = useState<string[]>([])
   const [monthAnchor, setMonthAnchor] = useState<string>(firstEventMonth)
+  const toggleClub = (slug: string) => setSelectedClubs(prev => (prev.includes(slug) ? prev.filter(x => x !== slug) : [...prev, slug]))
 
   // Clubs / operators that actually have an event on the chosen dates
   const entityList = useMemo(() => {
@@ -668,7 +670,12 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
     const slugs = new Set(events.filter(e => selectedDates.includes(e.date)).map(e => e.clubSlug))
     return clubs.filter(c => slugs.has(c.slug))
   }, [clubs, selectedDates, events])
+  // Drop any picked club that no longer has an event on the (new) chosen dates
+  useEffect(() => {
+    setSelectedClubs(prev => { const ok = new Set(entityList.map(c => c.slug)); const next = prev.filter(s => ok.has(s)); return next.length === prev.length ? prev : next })
+  }, [entityList])
   const entCount = (slug: string) => (selectedDates.length ? events.filter(e => e.clubSlug === slug && selectedDates.includes(e.date)).length : (clubCounts[slug] || 0))
+  const clubSummary = entityAll ? T.allEvents : (selectedClubs.length === 1 ? (clubs.find(c => c.slug === selectedClubs[0])?.name || '') : `${selectedClubs.length} ${CAL.chosen.toLowerCase()}`)
 
   const weekdays = useMemo(() => Array.from({ length: 7 }, (_, i) => fmt(format(addDays(startOfWeek(new Date(), { weekStartsOn: 1 }), i), 'yyyy-MM-dd'), 'EEEEEE')), [locale])
   const monthCells = useMemo(() => {
@@ -698,10 +705,11 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
   const endDrag = () => { dragState.current.active = false }
 
   const resultEvents = useMemo(() => {
-    let base = entityAll ? allUpcoming : (club ? allUpcoming.filter(e => e.clubSlug === club.slug) : allUpcoming)
+    let base = allUpcoming
+    if (!entityAll && selectedClubs.length) base = base.filter(e => selectedClubs.includes(e.clubSlug))
     if (!flexible && selectedDates.length) base = base.filter(e => selectedDates.includes(e.date))
     return [...base].sort((a, b) => a.date.localeCompare(b.date))
-  }, [entityAll, allUpcoming, club, flexible, selectedDates])
+  }, [entityAll, allUpcoming, selectedClubs, flexible, selectedDates])
   const resultGroups = useMemo(() => {
     const g: { date: string; items: PickerEvent[] }[] = []
     resultEvents.forEach(e => { const f = g.find(x => x.date === e.date); if (f) f.items.push(e); else g.push({ date: e.date, items: [e] }) })
@@ -768,7 +776,7 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
           const label = p === 'entity' ? entChip : p === 'date' ? T.date : T.events
           const datesVal = flexible || selectedDates.length === 0 ? T.allEvents : `${selectedDates.length} ${selectedDates.length === 1 ? CAL.day : CAL.days}`
           const value = step > i
-            ? (p === 'entity' ? (entityAll ? T.allEvents : club?.name) : p === 'date' ? datesVal : undefined)
+            ? (p === 'entity' ? clubSummary : p === 'date' ? datesVal : undefined)
             : (p === 'events' && step === i ? String(resultEvents.length) : undefined)
           return <StepChip key={p} i={i as 0 | 1 | 2} label={label} value={value} done={step > i} />
         })}
@@ -785,9 +793,9 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
             <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
               {entityList.map(c => {
                 const cnt = entCount(c.slug)
-                const sel = club?.slug === c.slug
+                const sel = selectedClubs.includes(c.slug)
                 const img = clubImageBySlug[c.slug]
-                const tap = () => { const idx = clubs.findIndex(x => x.slug === c.slug); setClubIdx(idx >= 0 ? idx : 0); setEntityAll(false); if (!isCompany) setDateIdx(0); goNext() }
+                const tap = () => { const idx = clubs.findIndex(x => x.slug === c.slug); setClubIdx(idx >= 0 ? idx : 0); setEntityAll(false); toggleClub(c.slug) }
                 if (isCompany) {
                   // Photo tile: activity image as the backdrop, name + count on top
                   return (
@@ -824,16 +832,17 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
               })}
             </div>
           </div>
-          {step > 0 && (
-            <div className="flex gap-2 px-4 py-3">
+          <div className="flex flex-col gap-2 px-4 py-3">
+            <button type="button" onClick={() => { setEntityAll(true); goNext() }} className="text-[11px] font-black uppercase tracking-wide text-black/45 underline decoration-black/20 underline-offset-4 transition-colors hover:text-ibiza-green">{allTitle.replace(' · Ibiza', '')}</button>
+            <div className="flex gap-2">
               <button type="button" onClick={goPrev} className="flex shrink-0 items-center justify-center gap-1 rounded-xl border border-black/10 bg-white px-3.5 py-2.5 text-xs font-black uppercase tracking-wide text-black transition-colors hover:bg-black/5">
                 <ChevronLeft size={15} /> {T.back}
               </button>
-              <button type="button" onClick={() => { setEntityAll(true); goNext() }} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-ibiza-green px-5 py-2.5 font-serif text-sm font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95">
-                {CAL.allEvents} <ChevronRight size={16} />
+              <button type="button" onClick={() => { setEntityAll(false); goNext() }} disabled={selectedClubs.length === 0} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-ibiza-green px-5 py-2.5 font-serif text-sm font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95 disabled:opacity-40">
+                {CAL.confirm}{selectedClubs.length > 0 ? ` · ${selectedClubs.length}` : ''} <ChevronRight size={16} />
               </button>
             </div>
-          )}
+          </div>
         </div>
       )}
 
@@ -914,7 +923,7 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
       {panel === 'events' && (
         <div className="relative z-10 flex flex-col">
           <div className="relative px-5 pt-6 text-center">
-            <h3 className="font-serif text-2xl font-black text-black md:text-3xl">{entityAll ? allTitle.replace(' · Ibiza', '') : club?.name}</h3>
+            <h3 className="font-serif text-2xl font-black text-black md:text-3xl">{clubSummary}</h3>
             <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-black/40">{flexible || selectedDates.length === 0 ? T.allEvents : `${selectedDates.length} ${selectedDates.length === 1 ? CAL.day : CAL.days} ${CAL.chosen.toLowerCase()}`}</p>
             <button type="button" onClick={share} className="absolute right-4 top-5 inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white px-3 py-1.5 text-[11px] font-black uppercase tracking-wide text-black transition-colors hover:bg-ibiza-green">
               <Share2 size={13} /> {copied ? T.shared : T.share}
@@ -954,7 +963,7 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
             <button type="button" onClick={() => { setEntityAll(false); goPrev() }} className="flex flex-1 items-center justify-center gap-1.5 rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-black uppercase tracking-wide text-black transition-colors hover:bg-black/5">
               <ChevronLeft size={18} /> {T.back}
             </button>
-            <button type="button" onClick={() => { setStep(0); setClubIdx(0); setSelectedDates([]); setFlexible(false); setEntityAll(false) }} className="flex shrink-0 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-black uppercase tracking-wide text-black/60 transition-colors hover:bg-black/5">
+            <button type="button" onClick={() => { setStep(0); setClubIdx(0); setSelectedDates([]); setSelectedClubs([]); setFlexible(false); setEntityAll(false) }} className="flex shrink-0 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-black uppercase tracking-wide text-black/60 transition-colors hover:bg-black/5">
               {T.startOver}
             </button>
           </div>
