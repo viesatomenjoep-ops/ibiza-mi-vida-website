@@ -163,6 +163,64 @@ function WheelH({ count, itemW, itemH, onIndex, render, initialIndex = 0 }: {
   )
 }
 
+// ── Top-anchored wheel: the active item sits near the TOP (big), items below shrink
+//    and fade away toward the bottom. Used for the date step of the planner. ─────────
+function TopWheel({ count, rowH, height, onIndex, render, initialIndex = 0 }: {
+  count: number; rowH: number; height: number; onIndex?: (i: number) => void; render: (i: number, active: boolean) => React.ReactNode; initialIndex?: number
+}) {
+  const ANCHOR = rowH * 0.85              // where the active row is centred (near the top)
+  const padTop = ANCHOR - rowH / 2
+  const padBottom = height - ANCHOR - rowH / 2
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const rowRefs = useRef<(HTMLDivElement | null)[]>([])
+  const raf = useRef(0)
+  const last = useRef(-1)
+  const [act, setAct] = useState(0)
+
+  const apply = useCallback(() => {
+    const el = scrollRef.current
+    if (!el) return
+    const s = el.scrollTop / rowH
+    const near = Math.max(0, Math.min(count - 1, Math.round(s)))
+    for (let i = 0; i < count; i++) {
+      const row = rowRefs.current[i]
+      if (!row) continue
+      const d = i - s                     // 0 = at anchor, >0 below, <0 above
+      let scale: number, opacity: number
+      if (d < 0) { scale = Math.max(0.5, 1 + d * 0.12); opacity = Math.max(0, 1 + d * 1.5) }        // above → shrink + fade out fast
+      else { scale = Math.max(0.5, 1.32 - d * 0.3); opacity = Math.max(0.12, 1 - d * 0.24) }         // below → big to small, fading
+      row.style.transform = `scale(${scale.toFixed(3)})`
+      row.style.opacity = opacity.toFixed(3)
+      row.style.zIndex = String(500 - Math.round(Math.abs(d) * 10))
+    }
+    if (near !== last.current) { const first = last.current === -1; last.current = near; setAct(near); onIndex?.(near); if (!first) haptic() }
+  }, [count, rowH, onIndex])
+
+  const onScroll = () => { cancelAnimationFrame(raf.current); raf.current = requestAnimationFrame(apply) }
+  useEffect(() => { last.current = -1; requestAnimationFrame(apply) }, [count, apply])
+  useEffect(() => {
+    const el = scrollRef.current
+    if (el && initialIndex > 0 && initialIndex < count) { el.scrollTop = initialIndex * rowH; last.current = -1; requestAnimationFrame(apply) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return (
+    <div className="relative select-none" style={{ height }}>
+      {/* green selection band near the TOP (right under the tabs) */}
+      <div className="pointer-events-none absolute inset-x-1 z-0 rounded-2xl border-2 border-ibiza-green/70 bg-ibiza-green/5" style={{ top: padTop, height: rowH }} />
+      {/* items vanish downward */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-white via-white/85 to-transparent" style={{ height: rowH * 1.8 }} />
+      <div ref={scrollRef} onScroll={onScroll} className="hide-scrollbar h-full overflow-y-auto" style={{ scrollSnapType: 'y mandatory', scrollPaddingTop: padTop, paddingTop: padTop, paddingBottom: padBottom }}>
+        {Array.from({ length: count }).map((_, i) => (
+          <div key={i} ref={(el) => { rowRefs.current[i] = el }} className="flex items-center justify-center px-1" style={{ height: rowH, scrollSnapAlign: 'start', transformOrigin: 'center center', willChange: 'transform, opacity' }}>
+            {render(i, i === act)}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // ── Shared data hook for the picker ───────────────────────────────────────────
 function usePickerData(events: PickerEvent[], locale: string, persistKey?: string) {
   const todayStr = useMemo(() => format(startOfDay(new Date()), 'yyyy-MM-dd'), [])
@@ -621,25 +679,25 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
           <div className="px-4 pt-4">
             <PeriodTabs period={period} setPeriod={(p) => { setPeriod(p); if (ready.current) setDateIdx(0) }} locale={locale} />
           </div>
-          <div className="flex items-center justify-center py-1">
+          <div className="flex items-stretch justify-center pt-1">
             {dateItems.length > 0 ? (
               <div className="w-full">
-                <Wheel key={`${club?.slug}-${period}`} count={dateItems.length} rowH={80} visible={5} onIndex={(i) => { setDateIdx(i); if (ready.current && i !== dateBase.current) scheduleAdvance(2, 1500) }} render={(i, active) => {
+                <TopWheel key={`${club?.slug}-${period}`} count={dateItems.length} rowH={104} height={460} onIndex={(i) => setDateIdx(i)} render={(i, active) => {
                   const d = dateItems[i]; if (!d) return null
                   const e = d.ev; const cnt = dateCounts[d.key] || 0
                   return (
-                    <div className={`mx-auto flex w-[90%] items-center gap-3 rounded-3xl px-4 transition-all ${active ? 'bg-ibiza-green/10 py-2 shadow-sm ring-1 ring-ibiza-green/40' : ''}`}>
+                    <div className={`mx-auto flex w-[92%] items-center gap-3 rounded-3xl px-4 transition-colors ${active ? 'bg-ibiza-green/10 py-2.5 ring-1 ring-ibiza-green/40' : ''}`}>
                       <span className="flex w-16 shrink-0 flex-col items-center justify-center leading-none">
-                        <span className={`text-[11px] font-black uppercase tracking-wide ${active ? 'text-black/50' : 'text-black/30'}`}>{d.top}</span>
-                        <span className={`font-serif font-black ${period === 'week' ? 'text-xl' : 'text-4xl'} ${active ? 'text-black' : 'text-black/60'}`}>{d.mid}</span>
+                        <span className={`text-[11px] font-black uppercase tracking-wide ${active ? 'text-black/55' : 'text-black/35'}`}>{d.top}</span>
+                        <span className={`font-serif font-black ${period === 'week' ? 'text-2xl' : 'text-4xl'} ${active ? 'text-black' : 'text-black/60'}`}>{d.mid}</span>
                         <span className="text-[11px] font-black uppercase tracking-wide text-ibiza-green">{d.bottom}</span>
                       </span>
-                      <span className="relative h-16 min-w-0 flex-1 overflow-hidden rounded-2xl bg-neutral-900">
+                      <span className="relative h-20 min-w-0 flex-1 overflow-hidden rounded-2xl bg-neutral-900 shadow-md">
                         {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover" /> : null}
                         <span className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                         {cnt > 1 && <span className="absolute left-1.5 top-1.5 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-black text-white">{cnt} {T.events.toLowerCase()}</span>}
                         {e.price > 0 && <span className="absolute right-1.5 top-1.5 rounded bg-ibiza-green px-1.5 py-0.5 text-[10px] font-black text-black">€{e.price}</span>}
-                        <span className="absolute inset-x-0 bottom-0 p-2"><span className="line-clamp-1 font-serif text-xs font-black text-white">{e.eventName}</span></span>
+                        <span className="absolute inset-x-0 bottom-0 p-2"><span className="line-clamp-1 font-serif text-sm font-black text-white">{e.eventName}</span></span>
                       </span>
                     </div>
                   )

@@ -42,10 +42,15 @@ export default async function Home({ params }: { params: { locale: string } }) {
     if (isYesterday && rec.lastNight.length < 3) rec.lastNight.push(item);
   }
 
-  // Full set of upcoming events for the homepage calendar picker (all clubs)
+  // Full set of upcoming events for the homepage calendar picker.
+  // Only REAL nightclubs (venue type 'clubbing') — boats, ferries, day trips and
+  // activities (e.g. Thera, Beach Hopper) are filtered out of the homepage planner.
   const venueLogoBySlug = new Map(allVenues.map(v => [v.slug, v.whitelogo || v.picture || '']));
+  const clubbingSlugs = new Set(
+    allVenues.filter(v => ((v as any).type?.slug || '') === 'clubbing').map(v => v.slug)
+  );
   const pickerEvents = allDates
-    .filter(d => /^\d{4}-\d{2}-\d{2}/.test(d.date || '') && (d.date || '') >= todayStr)
+    .filter(d => /^\d{4}-\d{2}-\d{2}/.test(d.date || '') && (d.date || '') >= todayStr && clubbingSlugs.has(d.venueSlug || ''))
     .map(d => {
       const m = String(d.prices || '').match(/\d+([.,]\d+)?/);
       return {
@@ -64,7 +69,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
     });
 
   const upcomingDates = allDates
-    .filter(d => d.date >= todayStr)
+    .filter(d => d.date >= todayStr && clubbingSlugs.has(d.venueSlug || ''))
     .slice(0, 10)
     .map(d => ({
       id: d.id,

@@ -101,6 +101,9 @@ export function ClubLogoSlider({
   const dragStartX = useRef(0);
   const dragStartOffset = useRef(0);
   const dragMoved = useRef(false);
+  const velRef = useRef(0);        // instantaneous drag velocity (px/frame)
+  const prevMoveX = useRef(0);
+  const momentumRef = useRef(0);   // fling momentum that decays after release
   const [now, setNow] = useState<Date | null>(null);
 
   // Compute status only on the client (avoids hydration mismatch) + refresh each minute.
@@ -123,8 +126,17 @@ export function ClubLogoSlider({
     const play = () => {
       if (!isDragging.current && track) {
         const unit = unitRef.current;
-        offsetRef.current -= speed;
-        if (unit && -offsetRef.current >= unit) offsetRef.current += unit;
+        // Fling momentum takes over right after a swipe, then eases back into the steady auto-scroll.
+        if (Math.abs(momentumRef.current) > 0.3) {
+          offsetRef.current += momentumRef.current;
+          momentumRef.current *= 0.94;
+        } else {
+          offsetRef.current -= speed;
+        }
+        if (unit) {
+          while (offsetRef.current <= -unit) offsetRef.current += unit;
+          while (offsetRef.current > 0) offsetRef.current -= unit;
+        }
         track.style.transform = `translate3d(${offsetRef.current}px,0,0)`;
       }
       animationId = requestAnimationFrame(play);
@@ -150,6 +162,9 @@ export function ClubLogoSlider({
     hasCapture.current = false;
     dragStartX.current = e.clientX;
     dragStartOffset.current = offsetRef.current;
+    prevMoveX.current = e.clientX;
+    velRef.current = 0;
+    momentumRef.current = 0;       // stop any residual fling when grabbed again
   };
   const onPointerMove = (e: React.PointerEvent) => {
     if (!isDragging.current) return;
@@ -160,6 +175,8 @@ export function ClubLogoSlider({
       dragMoved.current = true;
       if (!hasCapture.current) { try { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); hasCapture.current = true; } catch {} }
     }
+    velRef.current = e.clientX - prevMoveX.current;   // px since last move ≈ velocity
+    prevMoveX.current = e.clientX;
     let off = dragStartOffset.current + dx;
     const u = unitRef.current;
     if (u) { while (off <= -u) off += u; while (off > 0) off -= u; }
@@ -169,6 +186,8 @@ export function ClubLogoSlider({
   const onPointerUp = (e: React.PointerEvent) => {
     isDragging.current = false;
     if (hasCapture.current) { try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch {} hasCapture.current = false; }
+    // Fling: carry the release velocity into a decaying momentum for a fluid glide.
+    if (dragMoved.current) momentumRef.current = Math.max(-60, Math.min(60, velRef.current * 1.4));
   };
   // Swallow the click that follows a real drag so logos don't navigate mid-swipe.
   const onClickCapture = (e: React.MouseEvent) => {
