@@ -214,7 +214,7 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
   return (
     <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-x-clip">
       {/* Header */}
-      <div className="relative z-10 pt-[calc(var(--nav-h)-3vh)] pb-2 flex flex-col items-center text-center px-4">
+      <div className="relative z-10 pt-[calc(var(--nav-h)+28px)] pb-2 flex flex-col items-center text-center px-4">
         <p className="text-[11px] md:text-xs font-black uppercase tracking-[0.3em] text-black/40 mb-2">{kicker || `Ibiza Agenda ${format(today, 'yyyy')}`}</p>
         <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-none uppercase m-0 tracking-tight drop-shadow-sm">{title}</h1>
         <p className="text-sm md:text-base text-black/50 font-medium mt-3 max-w-md">{subtitle}</p>

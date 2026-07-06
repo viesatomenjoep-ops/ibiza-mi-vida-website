@@ -19,7 +19,7 @@ export function EventCheckoutButton({ affLink, locale = 'nl', label, variant = '
 
   const go = () => {
     setOpen(false)
-    if (affLink) window.open(affLink, '_blank', 'noopener,noreferrer')
+    if (affLink) window.open(affLink, '_blank')
   }
 
   const cls = variant === 'pill'

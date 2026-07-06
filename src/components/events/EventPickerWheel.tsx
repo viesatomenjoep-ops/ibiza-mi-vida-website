@@ -328,8 +328,8 @@ function WindowList({ events, period, locale, fmt }: { events: PickerEvent[]; pe
   )
 }
 
-// ── Compact picker (vertical columns) ─────────────────────────────────────────
-function PickerColumns({ events, locale }: { events: PickerEvent[]; locale: string }) {
+// ── Compact picker (vertical columns) — iPhone-style CLUB | DATE | EVENT slider ─
+export function PickerColumns({ events, locale }: { events: PickerEvent[]; locale: string }) {
   const L = LABELS[locale] || LABELS.en
   const loc = DF[locale] || enUS
   const fmt = (iso: string, p: string) => { try { const d = parseISO(iso); return isValid(d) ? format(d, p, { locale: loc }) : '' } catch { return '' } }
@@ -341,7 +341,7 @@ function PickerColumns({ events, locale }: { events: PickerEvent[]; locale: stri
     <div className="w-full">
       <PeriodTabs period={period} setPeriod={setPeriod} locale={locale} />
       <div className="overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg">
-        <div className="grid grid-cols-[1fr_1fr_1.5fr] items-stretch">
+        <div className="grid grid-cols-[1fr_1fr_2fr] items-stretch">
           <div className="border-r border-black/5">
             <div className="border-b border-black/5 py-2 text-center text-[10px] font-black uppercase tracking-widest text-black/35">{L.pickClub}</div>
             <Wheel count={clubs.length} rowH={66} visible={3} onIndex={(i) => { setClubIdx(i); setDateIdx(0) }} render={(i, active) => {
@@ -468,8 +468,8 @@ function PickerRows({ events, locale, persistKey, full, onExpand }: { events: Pi
 
       {/* Book CTA for the focused event */}
       {windowEvents.length > 0 && ev && (
-        <Link href={ev.href} className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-3.5 font-serif text-lg font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95">
-          <Ticket size={20} /> {L.book}{ev.price > 0 ? ` · €${ev.price}` : ''}
+        <Link href={ev.href} className="mt-3 flex w-full items-center justify-center gap-2.5 rounded-2xl bg-ibiza-green px-7 py-4 font-serif text-xl font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95">
+          <Ticket size={22} /> {L.book}{ev.price > 0 ? ` · €${ev.price}` : ''}
         </Link>
       )}
 

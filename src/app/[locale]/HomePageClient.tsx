@@ -8,6 +8,7 @@ import { Calendar, MapPin, Music } from 'lucide-react';
 import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 import { HeroTypewriter } from '@/components/ui/HeroTypewriter';
 import { CategoryReveal } from '@/components/ui/CategoryReveal';
+import { PickerColumns, type PickerEvent } from '@/components/events/EventPickerWheel';
 
 interface HomePageProps {
   locale?: string;
@@ -29,6 +30,28 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
     // Shuffle deterministically so columns look varied
     return clubs.length > 0 ? clubs : allVenues;
   }, [allVenues]);
+
+  // iPhone-style CLUB | DATE | EVENT slider for the upcoming-events section (mobile)
+  const pickerEvents: PickerEvent[] = useMemo(() => {
+    const logoBySlug = new Map<string, string>(allVenues.map((v: any) => [v.slug, v.whitelogo || v.picture || '']));
+    return (upcomingDates || []).map((d: any) => {
+      const venue = d.ct_venues; const event = d.ct_events;
+      const m = String(d.prices || '').match(/\d+([.,]\d+)?/);
+      return {
+        id: String(d.id),
+        clubSlug: venue?.slug || '',
+        clubName: venue?.name || '',
+        clubLogo: logoBySlug.get(venue?.slug) || venue?.whitelogo || venue?.picture || '',
+        eventSlug: event?.slug || '',
+        eventName: event?.name || d.name || '',
+        image: event?.cover || event?.logo || '',
+        date: d.date || '',
+        price: m ? parseFloat(m[0].replace(',', '.')) : 0,
+        lineUp: d.lineUp || '',
+        href: `${base}/club-tickets/${venue?.slug}/${event?.slug}`,
+      };
+    });
+  }, [upcomingDates, allVenues, base]);
 
   // Column config: 4 columns (was 10 — reduces image requests from 300→~60)
   const LIFT_COLS = 4;
@@ -113,7 +136,14 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+            {/* Mobile: iPhone-style CLUB · DATE · EVENT slider */}
+            {pickerEvents.length > 0 && (
+              <div className="md:hidden mb-2">
+                <PickerColumns events={pickerEvents} locale={locale} />
+              </div>
+            )}
+
+            <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
               {upcomingDates.map((dateObj) => {
                 const venue = dateObj.ct_venues;
                 const event = dateObj.ct_events;
