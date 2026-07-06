@@ -115,6 +115,13 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
               </div>
             )}
 
+            <div className="mb-6 flex items-center gap-4">
+              <h3 className="shrink-0 font-serif text-2xl font-bold tracking-tight text-neutral-900 md:text-3xl">
+                {({ nl: 'Uitgelichte events', en: 'Featured events', es: 'Eventos destacados', de: 'Ausgewählte Events', fr: 'Événements en vedette' } as Record<string, string>)[locale] || 'Featured events'}
+              </h3>
+              <span className="h-px flex-1 bg-black/10" />
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {upcomingDates.map((dateObj) => {
                 const venue = dateObj.ct_venues;
