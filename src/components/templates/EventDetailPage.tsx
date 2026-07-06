@@ -6,6 +6,7 @@ import { EventCheckoutButton } from './EventCheckoutButton'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
 import { EventDatePicker, PickerLabels } from './EventDatePicker'
 import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
+import { BackButton } from '@/components/ui/BackButton'
 import { stripHtml } from '@/lib/html-utils'
 import { parseCTDescription } from '@/lib/ct-description'
 
@@ -251,6 +252,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
 
   return (
     <div className="bg-white text-black min-h-screen">
+      <BackButton locale={locale} fallbackHref={`/${locale}/${basePath}/${club.slug}`} />
       {/* Hero */}
       <section className="relative flex h-[46vh] w-full flex-col justify-end overflow-hidden rounded-b-[28px] md:h-[58vh]" aria-label={`${eventName} hero`}>
         {eventCover && (

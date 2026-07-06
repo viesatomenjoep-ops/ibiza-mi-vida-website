@@ -12,6 +12,7 @@ import type { CTEventDate, CTEvent } from '@/lib/clubtickets'
 import { stripHtml } from '@/lib/html-utils'
 import { parseCTDescription } from '@/lib/ct-description'
 import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
+import { BackButton } from '@/components/ui/BackButton'
 
 interface Props {
   selectedDateObj: CTEventDate
@@ -135,6 +136,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
 
   return (
     <div className="theme-monaco-vip min-h-screen bg-neutral-50 pb-28 text-black">
+      <BackButton locale={locale} fallbackHref={`/${locale}/calendar`} />
       {/* Hero Section — full-bleed, flush against the navbar */}
       <div className="relative h-[46vh] w-full overflow-hidden rounded-b-[28px] bg-neutral-900 md:h-[58vh]">
         <Image src={imageUrl} alt={selectedDateObj.eventName || ''} fill className="object-cover" priority sizes="100vw" />
