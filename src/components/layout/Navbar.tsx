@@ -240,7 +240,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${onLight ? 'site-header--onlight' : ''} ${isPrivateBoat ? 'site-header--forcewhite' : ''}`}>
+      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${onLight ? 'site-header--onlight' : ''} ${isPrivateBoat && !fadeOn ? 'site-header--forcewhite' : ''}`}>
         {/* Topbar strip: official ticket partner — at the top everywhere EXCEPT the
             ClubTickets categories, where it is shown as a fixed bottom bar instead. */}
         {!isClubCat && !isPrivateBoat && !(isHome && fadeOn) && (
