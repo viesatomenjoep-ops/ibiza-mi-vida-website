@@ -129,7 +129,7 @@ export function ClubLogoSlider({
         // Fling momentum takes over right after a swipe, then eases back into the steady auto-scroll.
         if (Math.abs(momentumRef.current) > 0.3) {
           offsetRef.current += momentumRef.current;
-          momentumRef.current *= 0.94;
+          momentumRef.current *= 0.88;
         } else {
           offsetRef.current -= speed;
         }
@@ -175,7 +175,8 @@ export function ClubLogoSlider({
       dragMoved.current = true;
       if (!hasCapture.current) { try { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); hasCapture.current = true; } catch {} }
     }
-    velRef.current = e.clientX - prevMoveX.current;   // px since last move ≈ velocity
+    // Smoothed velocity so a jittery last frame can't cause a big fling.
+    velRef.current = velRef.current * 0.7 + (e.clientX - prevMoveX.current) * 0.3;
     prevMoveX.current = e.clientX;
     let off = dragStartOffset.current + dx;
     const u = unitRef.current;
@@ -186,8 +187,9 @@ export function ClubLogoSlider({
   const onPointerUp = (e: React.PointerEvent) => {
     isDragging.current = false;
     if (hasCapture.current) { try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch {} hasCapture.current = false; }
-    // Fling: carry the release velocity into a decaying momentum for a fluid glide.
-    if (dragMoved.current) momentumRef.current = Math.max(-60, Math.min(60, velRef.current * 1.4));
+    // Gentle glide: a small, quickly-decaying carry-over so it follows the thumb and
+    // eases to a stop instead of shooting off to one side.
+    if (dragMoved.current) momentumRef.current = Math.max(-14, Math.min(14, velRef.current * 0.5));
   };
   // Swallow the click that follows a real drag so logos don't navigate mid-swipe.
   const onClickCapture = (e: React.MouseEvent) => {
