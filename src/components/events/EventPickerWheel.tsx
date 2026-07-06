@@ -477,6 +477,13 @@ const PLANNER_TXT: Record<string, {
 export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner', syncUrl = false }: { events: PickerEvent[]; locale: string; persistKey?: string; syncUrl?: boolean }) {
   const L = LABELS[locale] || LABELS.en
   const T = PLANNER_TXT[locale] || PLANNER_TXT.en
+  const CT = ({
+    nl: { allClubs: 'Alle clubs · Ibiza', tap: 'Tik op een club om te openen' },
+    en: { allClubs: 'All clubs · Ibiza', tap: 'Tap a club to open it' },
+    de: { allClubs: 'Alle Clubs · Ibiza', tap: 'Tippe auf einen Club' },
+    es: { allClubs: 'Todos los clubs · Ibiza', tap: 'Toca un club para abrirlo' },
+    fr: { allClubs: 'Tous les clubs · Ibiza', tap: 'Touche un club pour l’ouvrir' },
+  } as Record<string, { allClubs: string; tap: string }>)[locale] || { allClubs: 'All clubs · Ibiza', tap: 'Tap a club to open it' }
   const loc = DF[locale] || enUS
   const fmt = (iso: string, p: string) => { try { const d = parseISO(iso); return isValid(d) ? format(d, p, { locale: loc }) : '' } catch { return '' } }
   const todayStr = useMemo(() => format(startOfDay(new Date()), 'yyyy-MM-dd'), [])
@@ -556,7 +563,7 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
   )
 
   return (
-    <div className="relative flex min-h-[70svh] w-full flex-col overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-xl">
+    <div className="relative flex w-full flex-col overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-xl">
       {/* Ambient blurred backdrop — makes each step feel alive */}
       {bg && (
         <div className="pointer-events-none absolute inset-0 z-0">
@@ -572,33 +579,34 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
         <StepChip i={2} label={T.events} value={step === 2 ? String(shown.length) : undefined} done={false} />
       </div>
 
-      {/* ── STEP 0: CLUB ── */}
+      {/* ── STEP 0: CLUB — all clubs at a glance, tap to open ── */}
       {step === 0 && (
-        <div className="relative z-10 flex flex-1 flex-col">
-          <div className="px-5 pt-6 text-center">
-            <h3 className="font-serif text-2xl font-black text-black md:text-3xl">{T.s1}</h3>
-            <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-black/40">{T.swipeClub}</p>
+        <div className="relative z-10 flex flex-col">
+          <div className="px-5 pt-5 text-center">
+            <h3 className="font-serif text-2xl font-black text-black md:text-3xl">{CT.allClubs}</h3>
+            <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-black/40">{CT.tap}</p>
           </div>
-          <div className="flex flex-1 items-center justify-center py-4">
-            <div className="w-full">
-              <Wheel count={clubs.length} rowH={116} visible={5} initialIndex={initialClubIdx} jumpTo={clubJump} onIndex={(i) => { setClubIdx(i); if (ready.current) { setDateIdx(0); if (i !== clubBase.current) scheduleAdvance(1, 1300) } }} render={(i, active) => {
-                const c = clubs[i]; const cnt = clubCounts[c.slug] || 0
+          <div className="max-h-[44svh] overflow-y-auto px-3 py-4">
+            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+              {clubs.map((c, i) => {
+                const cnt = clubCounts[c.slug] || 0
+                const sel = i === clubIdx
                 return (
-                  <div className={`relative mx-auto flex w-[86%] flex-col items-center justify-center gap-1.5 rounded-3xl transition-all ${active ? 'bg-ibiza-green/10 py-3 shadow-sm ring-1 ring-ibiza-green/40' : ''}`}>
-                    <span className="grid h-14 w-full place-items-center">
-                      {c.logo ? <img src={c.logo} alt="" className={`object-contain [filter:brightness(0)] ${active ? 'max-h-14 max-w-[70%]' : 'max-h-10 max-w-[55%]'}`} /> : <span className={`font-black text-black ${active ? 'text-2xl' : 'text-lg'}`}>{c.name.slice(0, 3).toUpperCase()}</span>}
+                  <button
+                    key={c.slug}
+                    type="button"
+                    onClick={() => { setClubIdx(i); setDateIdx(0); setStep(1) }}
+                    className={`group flex flex-col items-center justify-center gap-2 rounded-2xl border p-4 transition-all hover:-translate-y-0.5 hover:border-ibiza-green hover:shadow-md ${sel ? 'border-ibiza-green bg-ibiza-green/10' : 'border-black/10 bg-white'}`}
+                  >
+                    <span className="grid h-12 w-full place-items-center">
+                      {c.logo ? <img src={c.logo} alt={c.name} className="max-h-11 max-w-[80%] object-contain [filter:brightness(0)] transition-transform group-hover:scale-105" /> : <span className="text-lg font-black text-black">{c.name.slice(0, 3).toUpperCase()}</span>}
                     </span>
-                    <span className={`px-2 text-center font-bold leading-tight line-clamp-1 ${active ? 'text-base text-black' : 'text-sm text-black/45'}`}>{c.name}</span>
-                    {active && cnt > 0 && <span className="rounded-full bg-ibiza-green px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wide text-black">{cnt} {T.events.toLowerCase()}</span>}
-                  </div>
+                    <span className="line-clamp-1 text-center text-xs font-bold leading-tight text-black">{c.name}</span>
+                    {cnt > 0 && <span className="rounded-full bg-ibiza-green/90 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-black">{cnt} {T.events.toLowerCase()}</span>}
+                  </button>
                 )
-              }} />
+              })}
             </div>
-          </div>
-          <div className="p-4">
-            <button type="button" onClick={() => setStep(1)} className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-ibiza-green px-7 py-4 font-serif text-xl font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95">
-              {T.nextDate} <ChevronRight size={22} />
-            </button>
           </div>
         </div>
       )}
@@ -613,10 +621,10 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
           <div className="px-4 pt-4">
             <PeriodTabs period={period} setPeriod={(p) => { setPeriod(p); if (ready.current) setDateIdx(0) }} locale={locale} />
           </div>
-          <div className="flex flex-1 items-center justify-center py-2">
+          <div className="flex items-center justify-center py-1">
             {dateItems.length > 0 ? (
               <div className="w-full">
-                <Wheel key={`${club?.slug}-${period}`} count={dateItems.length} rowH={96} visible={5} onIndex={(i) => { setDateIdx(i); if (ready.current && i !== dateBase.current) scheduleAdvance(2, 1500) }} render={(i, active) => {
+                <Wheel key={`${club?.slug}-${period}`} count={dateItems.length} rowH={80} visible={5} onIndex={(i) => { setDateIdx(i); if (ready.current && i !== dateBase.current) scheduleAdvance(2, 1500) }} render={(i, active) => {
                   const d = dateItems[i]; if (!d) return null
                   const e = d.ev; const cnt = dateCounts[d.key] || 0
                   return (
@@ -663,7 +671,7 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
               <Share2 size={13} /> {copied ? T.shared : T.share}
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="max-h-[52svh] overflow-y-auto p-4">
             {shown.length > 0 ? (
               <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
                 {shown.map(e => (

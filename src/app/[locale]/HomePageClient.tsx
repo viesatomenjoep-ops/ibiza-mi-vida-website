@@ -102,17 +102,15 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (
         <>
-        {/* Full-screen stepped planner: Club → Datum → Events (one screen tall) */}
+        {/* Stepped planner: Club → Datum → Events */}
         {pickerEvents.length > 0 && (
-          <section className="flex min-h-[100svh] flex-col bg-white text-neutral-900 border-t border-black/5 px-4 py-6 md:py-8">
-            <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col">
+          <section className="bg-white text-neutral-900 border-t border-black/5 px-4 py-8">
+            <div className="mx-auto w-full max-w-3xl">
               <div className="mb-5">
                 <div className="text-xs font-bold tracking-widest uppercase text-neutral-400 mb-2">{translations.home_live_from_calendar}</div>
                 <h2 className="text-4xl md:text-5xl font-serif font-bold text-neutral-900 tracking-tight">{translations.home_upcoming_parties}</h2>
               </div>
-              <div className="flex flex-1">
-                <HomePlanner events={pickerEvents} locale={locale} persistKey="homeplanner" syncUrl />
-              </div>
+              <HomePlanner events={pickerEvents} locale={locale} persistKey="homeplanner" syncUrl />
             </div>
           </section>
         )}
