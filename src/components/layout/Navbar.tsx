@@ -43,7 +43,6 @@ export function Navbar() {
       label: t.nav_events_tickets || 'Events & Tickets',
       items: [
         { label: t.nav_ibiza_calendar || 'Ibiza Calendar', href: '/calendar' },
-        { label: t.nav_deals || 'Deals of the Day', href: '/deals-of-the-day' },
         { label: t.nav_artists || 'Artiesten', href: '/artists' },
         { label: t.nav_clubs_ibiza || 'Clubs Ibiza', href: '/clubs' },
       ],
