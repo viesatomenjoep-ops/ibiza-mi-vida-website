@@ -6,6 +6,7 @@ import { Calendar, MapPin, Music } from 'lucide-react'
 import { format } from 'date-fns'
 import { nl, enUS, de, es } from 'date-fns/locale'
 import { getArtist, getArtistDates } from '@/lib/clubtickets'
+import { BackButton } from '@/components/ui/BackButton'
 import { supabase } from '@/lib/supabase/client'
 
 export const revalidate = 3600
@@ -238,7 +239,7 @@ export default async function ArtistPage({ params }: Props) {
 
   return (
     <div className="theme-monaco-vip bg-[#E14D68] text-white min-h-screen pb-24">
-      
+      <BackButton locale={params.locale} fallbackHref={`/${params.locale}/artists`} variant="top" />
       {/* Hero Section */}
       <section className="relative h-[440px] md:h-[560px] overflow-hidden flex items-center justify-center text-center px-4 rounded-b-[36px] bg-black">
         <Image
