@@ -15,11 +15,12 @@ interface HomePageProps {
   translations?: any;
   featuredClubs?: any[];
   upcomingDates?: any[];
+  pickerEvents?: PickerEvent[];
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
   liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
 }
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], allVenues = [], liveByClub = {} }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], allVenues = [], liveByClub = {} }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -31,27 +32,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
     return clubs.length > 0 ? clubs : allVenues;
   }, [allVenues]);
 
-  // iPhone-style CLUB | DATE | EVENT slider for the upcoming-events section (mobile)
-  const pickerEvents: PickerEvent[] = useMemo(() => {
-    const logoBySlug = new Map<string, string>(allVenues.map((v: any) => [v.slug, v.whitelogo || v.picture || '']));
-    return (upcomingDates || []).map((d: any) => {
-      const venue = d.ct_venues; const event = d.ct_events;
-      const m = String(d.prices || '').match(/\d+([.,]\d+)?/);
-      return {
-        id: String(d.id),
-        clubSlug: venue?.slug || '',
-        clubName: venue?.name || '',
-        clubLogo: logoBySlug.get(venue?.slug) || venue?.whitelogo || venue?.picture || '',
-        eventSlug: event?.slug || '',
-        eventName: event?.name || d.name || '',
-        image: event?.cover || event?.logo || '',
-        date: d.date || '',
-        price: m ? parseFloat(m[0].replace(',', '.')) : 0,
-        lineUp: d.lineUp || '',
-        href: `${base}/club-tickets/${venue?.slug}/${event?.slug}`,
-      };
-    });
-  }, [upcomingDates, allVenues, base]);
 
   // Column config: 4 columns (was 10 — reduces image requests from 300→~60)
   const LIFT_COLS = 4;

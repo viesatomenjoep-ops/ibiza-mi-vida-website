@@ -42,6 +42,27 @@ export default async function Home({ params }: { params: { locale: string } }) {
     if (isYesterday && rec.lastNight.length < 3) rec.lastNight.push(item);
   }
 
+  // Full set of upcoming events for the homepage calendar picker (all clubs)
+  const venueLogoBySlug = new Map(allVenues.map(v => [v.slug, v.whitelogo || v.picture || '']));
+  const pickerEvents = allDates
+    .filter(d => /^\d{4}-\d{2}-\d{2}/.test(d.date || '') && (d.date || '') >= todayStr)
+    .map(d => {
+      const m = String(d.prices || '').match(/\d+([.,]\d+)?/);
+      return {
+        id: `${d.id}-${d.eventSlug}`,
+        clubSlug: d.venueSlug || '',
+        clubName: d.venueName || '',
+        clubLogo: venueLogoBySlug.get(d.venueSlug || '') || d.venueLogo || '',
+        eventSlug: d.eventSlug || '',
+        eventName: d.eventName || d.name || '',
+        image: d.eventCover || d.eventLogo || '',
+        date: d.date || '',
+        price: m ? parseFloat(m[0].replace(',', '.')) : 0,
+        lineUp: d.lineUp || '',
+        href: `/${params.locale}/club-tickets/${d.venueSlug}/${d.eventSlug}`,
+      };
+    });
+
   const upcomingDates = allDates
     .filter(d => d.date >= todayStr)
     .slice(0, 10)
@@ -68,6 +89,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
       translations={dict}
       featuredClubs={featuredClubs}
       upcomingDates={upcomingDates}
+      pickerEvents={pickerEvents}
       liveByClub={liveByClub}
       allVenues={allVenues.map(v => ({
         slug: v.slug,
