@@ -8,7 +8,7 @@ import {
 } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { MapPin, Calendar } from 'lucide-react'
-import { EventPickerWheel, type PickerEvent } from '@/components/events/EventPickerWheel'
+import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface ExEvent {
@@ -39,11 +39,11 @@ const T_I18N: Record<string, {
   events: (n: number) => string; noEvents: string; tickets: string; view: string; lineupMore: string;
   today: string; tomorrow: string; upcoming: string;
 }> = {
-  en: { title: 'EVENTS', sub: 'Discover what’s on across Ibiza — slide through the dates and grab your tickets.', day: 'Day', week: 'Week', month: 'Month', year: 'Year', whole: p => `All ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, noEvents: 'No events for this selection.', tickets: 'Tickets', view: 'View', lineupMore: 'more', today: 'Today', tomorrow: 'Tomorrow', upcoming: 'All upcoming events' },
-  nl: { title: 'EVENTS', sub: 'Ontdek wat er speelt op Ibiza — schuif door de data en scoor je tickets.', day: 'Dag', week: 'Week', month: 'Maand', year: 'Jaar', whole: p => `Hele ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, noEvents: 'Geen events voor deze selectie.', tickets: 'Tickets', view: 'Bekijk', lineupMore: 'meer', today: 'Vandaag', tomorrow: 'Morgen', upcoming: 'Alle aankomende events' },
-  de: { title: 'EVENTS', sub: 'Entdecke, was auf Ibiza los ist — wische durch die Daten und sichere dir deine Tickets.', day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', whole: p => `Ganze ${p}`, events: n => `${n} ${n === 1 ? 'Event' : 'Events'}`, noEvents: 'Keine Events für diese Auswahl.', tickets: 'Tickets', view: 'Ansehen', lineupMore: 'mehr', today: 'Heute', tomorrow: 'Morgen', upcoming: 'Alle kommenden Events' },
-  es: { title: 'EVENTS', sub: 'Descubre qué hay en Ibiza — desliza por las fechas y consigue tus entradas.', day: 'Día', week: 'Semana', month: 'Mes', year: 'Año', whole: p => `Todo el/la ${p}`, events: n => `${n} ${n === 1 ? 'evento' : 'eventos'}`, noEvents: 'No hay eventos para esta selección.', tickets: 'Entradas', view: 'Ver', lineupMore: 'más', today: 'Hoy', tomorrow: 'Mañana', upcoming: 'Todos los próximos eventos' },
-  fr: { title: 'EVENTS', sub: 'Découvrez ce qui se passe à Ibiza — faites défiler les dates et prenez vos billets.', day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Année', whole: p => `Tout le/la ${p}`, events: n => `${n} ${n === 1 ? 'événement' : 'événements'}`, noEvents: 'Aucun événement pour cette sélection.', tickets: 'Billets', view: 'Voir', lineupMore: 'plus', today: 'Aujourd’hui', tomorrow: 'Demain', upcoming: 'Tous les événements à venir' },
+  en: { title: 'Club Tickets Ibiza', sub: 'Discover what’s on across Ibiza — slide through the dates and grab your tickets.', day: 'Day', week: 'Week', month: 'Month', year: 'Year', whole: p => `All ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, noEvents: 'No events for this selection.', tickets: 'Tickets', view: 'View', lineupMore: 'more', today: 'Today', tomorrow: 'Tomorrow', upcoming: 'All upcoming events' },
+  nl: { title: 'Club Tickets Ibiza', sub: 'Ontdek wat er speelt op Ibiza — schuif door de data en scoor je tickets.', day: 'Dag', week: 'Week', month: 'Maand', year: 'Jaar', whole: p => `Hele ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, noEvents: 'Geen events voor deze selectie.', tickets: 'Tickets', view: 'Bekijk', lineupMore: 'meer', today: 'Vandaag', tomorrow: 'Morgen', upcoming: 'Alle aankomende events' },
+  de: { title: 'Club Tickets Ibiza', sub: 'Entdecke, was auf Ibiza los ist — wische durch die Daten und sichere dir deine Tickets.', day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', whole: p => `Ganze ${p}`, events: n => `${n} ${n === 1 ? 'Event' : 'Events'}`, noEvents: 'Keine Events für diese Auswahl.', tickets: 'Tickets', view: 'Ansehen', lineupMore: 'mehr', today: 'Heute', tomorrow: 'Morgen', upcoming: 'Alle kommenden Events' },
+  es: { title: 'Club Tickets Ibiza', sub: 'Descubre qué hay en Ibiza — desliza por las fechas y consigue tus entradas.', day: 'Día', week: 'Semana', month: 'Mes', year: 'Año', whole: p => `Todo el/la ${p}`, events: n => `${n} ${n === 1 ? 'evento' : 'eventos'}`, noEvents: 'No hay eventos para esta selección.', tickets: 'Entradas', view: 'Ver', lineupMore: 'más', today: 'Hoy', tomorrow: 'Mañana', upcoming: 'Todos los próximos eventos' },
+  fr: { title: 'Club Tickets Ibiza', sub: 'Découvrez ce qui se passe à Ibiza — faites défiler les dates et prenez vos billets.', day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Année', whole: p => `Tout le/la ${p}`, events: n => `${n} ${n === 1 ? 'événement' : 'événements'}`, noEvents: 'Aucun événement pour cette sélection.', tickets: 'Billets', view: 'Voir', lineupMore: 'plus', today: 'Aujourd’hui', tomorrow: 'Demain', upcoming: 'Tous les événements à venir' },
 }
 const getLoc = (l: string) => ({ nl, de, es, fr, en: enUS } as Record<string, Locale>)[l] || enUS
 type Locale = typeof enUS
@@ -70,22 +70,26 @@ export default function EventsExplorer({ events, locale }: Props) {
   const [activeDay, setActiveDay] = useState<string | null>(null)
 
   // Normalised events for the iOS-style picker wheel
-  const pickerEvents: PickerEvent[] = useMemo(() => events.map(e => {
-    const m = String(e.prices || '').match(/\d+([.,]\d+)?/)
-    return {
-      id: e.id,
-      clubSlug: e.ct_venues?.slug || '',
-      clubName: e.ct_venues?.name || '',
-      clubLogo: e.ct_venues?.whitelogo || e.ct_venues?.picture || '',
-      eventSlug: e.ct_events?.slug || '',
-      eventName: e.ct_events?.name || e.name || '',
-      image: e.ct_events?.cover || e.ct_events?.logo || '',
-      date: e.date || '',
-      price: m ? parseFloat(m[0].replace(',', '.')) : 0,
-      lineUp: e.lineUp || '',
-      href: `/${locale}/club-tickets/${e.ct_venues?.slug}/${e.ct_events?.slug}`,
-    }
-  }), [events, locale])
+  const pickerEvents: PickerEvent[] = useMemo(() => events
+    .filter(e => e.ct_venues?.type_slug === 'clubbing' && (e.date || '') >= todayStr)
+    .map(e => {
+      const m = String(e.prices || '').match(/\d+([.,]\d+)?/)
+      return {
+        id: e.id,
+        clubSlug: e.ct_venues?.slug || '',
+        clubName: e.ct_venues?.name || '',
+        // real logos only — a photo forced to brightness-0 becomes a black square
+        clubLogo: e.ct_venues?.whitelogo || '',
+        eventSlug: e.ct_events?.slug || '',
+        eventName: e.ct_events?.name || e.name || '',
+        image: e.ct_events?.cover || e.ct_events?.logo || e.ct_venues?.picture || '',
+        date: e.date || '',
+        price: m ? parseFloat(m[0].replace(',', '.')) : 0,
+        lineUp: e.lineUp || '',
+        href: `/${locale}/club-tickets/${e.ct_venues?.slug}/${e.ct_events?.slug}`,
+        affLink: (e as any).affLink || '',
+      }
+    }), [events, locale, todayStr])
 
   // Only clubbing events, upcoming
   const clubEvents = useMemo(
@@ -165,7 +169,7 @@ export default function EventsExplorer({ events, locale }: Props) {
           <div className="mb-4">
             <div className="text-xs font-black tracking-widest uppercase text-ibiza-green mb-1">Score your tickets</div>
           </div>
-          <EventPickerWheel events={pickerEvents} locale={locale} storeKey="calendar" />
+          <HomeCalendarLauncher events={pickerEvents} locale={locale} persistKey="calendar" />
         </section>
       )}
 
