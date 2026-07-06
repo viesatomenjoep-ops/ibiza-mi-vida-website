@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { format, parseISO, isValid, startOfDay, startOfWeek, addDays, endOfMonth, startOfMonth, addMonths } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
-import { Ticket, Music, ChevronRight, ChevronLeft, CalendarDays, X, Maximize2 } from 'lucide-react'
+import { Ticket, Music, ChevronRight, ChevronLeft, CalendarDays, X, Maximize2, Share2 } from 'lucide-react'
 
 export interface PickerEvent {
   id: string
@@ -37,9 +37,12 @@ const LABELS: Record<string, {
   fr: { day: 'Jour', week: 'Semaine', month: 'Mois', from: 'Dès', lineup: 'Line-up', view: 'Voir', none: 'Aucun événement', open: 'Tourne vers ta nuit', book: 'Voir & réserver', pickClub: 'Club', pickDate: 'Date', seeLineup: 'Voir le line-up', weekN: 'Semaine', openCal: 'Ouvrir le calendrier', close: 'Fermer' },
 }
 
+// Light haptic tick on wheel snap (Android/where supported; silently no-ops elsewhere)
+const haptic = () => { try { if (typeof navigator !== 'undefined' && (navigator as any).vibrate) (navigator as any).vibrate(7) } catch {} }
+
 // ── Vertical iOS-style wheel (compact) ────────────────────────────────────────
-function Wheel({ count, rowH, visible, onIndex, render, initialIndex = 0 }: {
-  count: number; rowH: number; visible: number; onIndex?: (i: number) => void; render: (i: number, active: boolean) => React.ReactNode; initialIndex?: number
+function Wheel({ count, rowH, visible, onIndex, render, initialIndex = 0, jumpTo }: {
+  count: number; rowH: number; visible: number; onIndex?: (i: number) => void; render: (i: number, active: boolean) => React.ReactNode; initialIndex?: number; jumpTo?: number | null
 }) {
   const H = rowH * visible
   const PAD = H / 2 - rowH / 2
@@ -62,7 +65,7 @@ function Wheel({ count, rowH, visible, onIndex, render, initialIndex = 0 }: {
       row.style.transform = `scale(${Math.max(0.68, 1 - ad * 0.13).toFixed(3)}) rotateX(${Math.max(-60, Math.min(60, -d * 22)).toFixed(1)}deg)`
       row.style.opacity = Math.max(0.22, 1 - ad * 0.3).toFixed(3)
     }
-    if (near !== last.current) { last.current = near; setAct(near); onIndex?.(near) }
+    if (near !== last.current) { const first = last.current === -1; last.current = near; setAct(near); onIndex?.(near); if (!first) haptic() }
   }, [count, rowH, onIndex])
 
   const onScroll = () => { cancelAnimationFrame(raf.current); raf.current = requestAnimationFrame(apply) }
@@ -72,6 +75,12 @@ function Wheel({ count, rowH, visible, onIndex, render, initialIndex = 0 }: {
     if (el && initialIndex > 0 && initialIndex < count) { el.scrollTop = initialIndex * rowH; last.current = -1; requestAnimationFrame(apply) }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  // Deeplink / programmatic jump
+  useEffect(() => {
+    const el = scrollRef.current
+    if (el && jumpTo != null && jumpTo >= 0 && jumpTo < count) { el.scrollTop = jumpTo * rowH; last.current = -1; requestAnimationFrame(apply) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jumpTo])
 
   return (
     <div className="relative select-none" style={{ height: H }}>
@@ -112,7 +121,7 @@ function WheelH({ count, itemW, itemH, onIndex, render, initialIndex = 0 }: {
       row.style.transform = `scale(${Math.max(0.66, 1 - ad * 0.12).toFixed(3)}) rotateY(${Math.max(-55, Math.min(55, -d * 24)).toFixed(1)}deg)`
       row.style.opacity = Math.max(0.22, 1 - ad * 0.28).toFixed(3)
     }
-    if (near !== last.current) { last.current = near; setAct(near); onIndex?.(near) }
+    if (near !== last.current) { const first = last.current === -1; last.current = near; setAct(near); onIndex?.(near); if (!first) haptic() }
   }, [count, itemW, onIndex])
 
   const onScroll = () => { cancelAnimationFrame(raf.current); raf.current = requestAnimationFrame(apply) }
@@ -456,27 +465,80 @@ export function HomeUpcomingPicker({ events, locale = 'nl' }: { events: PickerEv
 const PLANNER_TXT: Record<string, {
   s1: string; s2: string; s3: string; nextDate: string; nextEvents: string; back: string;
   club: string; date: string; events: string; none: string; swipeClub: string; swipeDate: string; pickPeriod: string; startOver: string;
+  flexible: string; allEvents: string; share: string; shared: string;
 }> = {
-  nl: { s1: 'Kies je club', s2: 'Wanneer ben je op Ibiza?', s3: 'Jouw events', nextDate: 'Kies je datum', nextEvents: 'Bekijk de events', back: 'Terug', club: 'Club', date: 'Datum', events: 'Events', none: 'Geen events in deze periode', swipeClub: 'Swipe om je club te kiezen', swipeDate: 'Swipe om je moment te kiezen', pickPeriod: 'Dag · Week · Maand', startOver: 'Opnieuw' },
-  en: { s1: 'Pick your club', s2: 'When are you in Ibiza?', s3: 'Your events', nextDate: 'Pick your date', nextEvents: 'View the events', back: 'Back', club: 'Club', date: 'Date', events: 'Events', none: 'No events in this period', swipeClub: 'Swipe to pick your club', swipeDate: 'Swipe to pick your moment', pickPeriod: 'Day · Week · Month', startOver: 'Start over' },
-  de: { s1: 'Wähle deinen Club', s2: 'Wann bist du auf Ibiza?', s3: 'Deine Events', nextDate: 'Datum wählen', nextEvents: 'Events ansehen', back: 'Zurück', club: 'Club', date: 'Datum', events: 'Events', none: 'Keine Events in diesem Zeitraum', swipeClub: 'Wische, um deinen Club zu wählen', swipeDate: 'Wische, um deinen Moment zu wählen', pickPeriod: 'Tag · Woche · Monat', startOver: 'Neu starten' },
-  es: { s1: 'Elige tu club', s2: '¿Cuándo estás en Ibiza?', s3: 'Tus eventos', nextDate: 'Elige tu fecha', nextEvents: 'Ver los eventos', back: 'Atrás', club: 'Club', date: 'Fecha', events: 'Eventos', none: 'No hay eventos en este periodo', swipeClub: 'Desliza para elegir tu club', swipeDate: 'Desliza para elegir tu momento', pickPeriod: 'Día · Semana · Mes', startOver: 'Empezar de nuevo' },
-  fr: { s1: 'Choisis ton club', s2: 'Quand es-tu à Ibiza ?', s3: 'Tes événements', nextDate: 'Choisir ta date', nextEvents: 'Voir les événements', back: 'Retour', club: 'Club', date: 'Date', events: 'Événements', none: 'Aucun événement sur cette période', swipeClub: 'Glisse pour choisir ton club', swipeDate: 'Glisse pour choisir ton moment', pickPeriod: 'Jour · Semaine · Mois', startOver: 'Recommencer' },
+  nl: { s1: 'Kies je club', s2: 'Wanneer ben je op Ibiza?', s3: 'Jouw events', nextDate: 'Kies je datum', nextEvents: 'Bekijk de events', back: 'Terug', club: 'Club', date: 'Datum', events: 'Events', none: 'Geen events in deze periode', swipeClub: 'Swipe om je club te kiezen', swipeDate: 'Swipe om je moment te kiezen', pickPeriod: 'Dag · Week · Maand', startOver: 'Opnieuw', flexible: 'Ik weet het nog niet — toon alles', allEvents: 'Alle events', share: 'Deel', shared: 'Link gekopieerd' },
+  en: { s1: 'Pick your club', s2: 'When are you in Ibiza?', s3: 'Your events', nextDate: 'Pick your date', nextEvents: 'View the events', back: 'Back', club: 'Club', date: 'Date', events: 'Events', none: 'No events in this period', swipeClub: 'Swipe to pick your club', swipeDate: 'Swipe to pick your moment', pickPeriod: 'Day · Week · Month', startOver: 'Start over', flexible: "Not sure yet — show everything", allEvents: 'All events', share: 'Share', shared: 'Link copied' },
+  de: { s1: 'Wähle deinen Club', s2: 'Wann bist du auf Ibiza?', s3: 'Deine Events', nextDate: 'Datum wählen', nextEvents: 'Events ansehen', back: 'Zurück', club: 'Club', date: 'Datum', events: 'Events', none: 'Keine Events in diesem Zeitraum', swipeClub: 'Wische, um deinen Club zu wählen', swipeDate: 'Wische, um deinen Moment zu wählen', pickPeriod: 'Tag · Woche · Monat', startOver: 'Neu starten', flexible: 'Noch unsicher — alles zeigen', allEvents: 'Alle Events', share: 'Teilen', shared: 'Link kopiert' },
+  es: { s1: 'Elige tu club', s2: '¿Cuándo estás en Ibiza?', s3: 'Tus eventos', nextDate: 'Elige tu fecha', nextEvents: 'Ver los eventos', back: 'Atrás', club: 'Club', date: 'Fecha', events: 'Eventos', none: 'No hay eventos en este periodo', swipeClub: 'Desliza para elegir tu club', swipeDate: 'Desliza para elegir tu momento', pickPeriod: 'Día · Semana · Mes', startOver: 'Empezar de nuevo', flexible: 'Aún no lo sé — mostrar todo', allEvents: 'Todos los eventos', share: 'Compartir', shared: 'Enlace copiado' },
+  fr: { s1: 'Choisis ton club', s2: 'Quand es-tu à Ibiza ?', s3: 'Tes événements', nextDate: 'Choisir ta date', nextEvents: 'Voir les événements', back: 'Retour', club: 'Club', date: 'Date', events: 'Événements', none: 'Aucun événement sur cette période', swipeClub: 'Glisse pour choisir ton club', swipeDate: 'Glisse pour choisir ton moment', pickPeriod: 'Jour · Semaine · Mois', startOver: 'Recommencer', flexible: "Pas encore sûr — tout afficher", allEvents: 'Tous les événements', share: 'Partager', shared: 'Lien copié' },
 }
 
-export function HomePlanner({ events, locale = 'nl' }: { events: PickerEvent[]; locale: string }) {
+export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner', syncUrl = false }: { events: PickerEvent[]; locale: string; persistKey?: string; syncUrl?: boolean }) {
   const L = LABELS[locale] || LABELS.en
   const T = PLANNER_TXT[locale] || PLANNER_TXT.en
   const loc = DF[locale] || enUS
   const fmt = (iso: string, p: string) => { try { const d = parseISO(iso); return isValid(d) ? format(d, p, { locale: loc }) : '' } catch { return '' } }
-  const { period, setPeriod, clubs, club, clubIdx, setClubIdx, dateItems, dateIdx, setDateIdx, dateItem, windowEvents, initialClubIdx } = usePickerData(events, locale, 'homeplanner')
+  const todayStr = useMemo(() => format(startOfDay(new Date()), 'yyyy-MM-dd'), [])
+  const { period, setPeriod, clubs, club, clubIdx, setClubIdx, dateItems, dateIdx, setDateIdx, dateItem, windowEvents, initialClubIdx } = usePickerData(events, locale, persistKey)
   const [step, setStep] = useState<0 | 1 | 2>(0)
+  const [flexible, setFlexible] = useState(false)
+  const [clubJump, setClubJump] = useState<number | null>(null)
+  const [copied, setCopied] = useState(false)
   const ready = useRef(false)
   useEffect(() => { const t = setTimeout(() => { ready.current = true }, 500); return () => clearTimeout(t) }, [])
+
+  // Auto-advance: after the user settles on a NEW choice, glide to the next step
+  const advRef = useRef<any>(null)
+  const clubBase = useRef(clubIdx)
+  const dateBase = useRef(dateIdx)
+  useEffect(() => { clearTimeout(advRef.current); if (step === 0) { clubBase.current = clubIdx; setFlexible(false) } if (step === 1) dateBase.current = dateIdx /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [step])
+  useEffect(() => () => clearTimeout(advRef.current), [])
+  const scheduleAdvance = (to: 1 | 2, delay: number) => { clearTimeout(advRef.current); advRef.current = setTimeout(() => setStep(s => (s === to - 1 ? to : s)), delay) }
+
+  // Events per club / per date window → count badges
+  const clubCounts = useMemo(() => {
+    const m: Record<string, number> = {}
+    events.filter(e => e.date >= todayStr).forEach(e => { m[e.clubSlug] = (m[e.clubSlug] || 0) + 1 })
+    return m
+  }, [events, todayStr])
+  const dateCounts = useMemo(() => {
+    const m: Record<string, number> = {}
+    if (club) dateItems.forEach(d => { m[d.key] = events.filter(e => e.clubSlug === club.slug && e.date >= d.start && e.date <= d.end).length })
+    return m
+  }, [dateItems, club, events])
+
+  // "I'm flexible" → every upcoming event for the club
+  const clubAll = useMemo(() => (club ? events.filter(e => e.clubSlug === club.slug && e.date >= todayStr).sort((a, b) => a.date.localeCompare(b.date)) : []), [events, club, todayStr])
+  const shown = flexible ? clubAll : windowEvents
+
+  // ── Deeplink: read once, then keep the URL in sync (write-only, no navigation) ──
+  const urlDone = useRef(false)
+  useEffect(() => {
+    if (!syncUrl || urlDone.current || typeof window === 'undefined' || clubs.length === 0) return
+    urlDone.current = true
+    const q = new URLSearchParams(window.location.search)
+    const cs = q.get('club'); if (cs) { const idx = clubs.findIndex(c => c.slug === cs); if (idx >= 0) { setClubIdx(idx); setClubJump(idx) } }
+    const pr = q.get('period'); if (pr === 'day' || pr === 'week' || pr === 'month') setPeriod(pr)
+    const st = Number(q.get('step')); if (st >= 0 && st <= 2) setStep(st as 0 | 1 | 2)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [syncUrl, clubs])
+  useEffect(() => {
+    if (!syncUrl || typeof window === 'undefined' || !urlDone.current) return
+    const p = new URLSearchParams(window.location.search)
+    if (club) p.set('club', club.slug); p.set('period', period); p.set('step', String(step))
+    window.history.replaceState(null, '', `${window.location.pathname}?${p.toString()}`)
+  }, [syncUrl, club, period, step])
+
+  const share = async () => {
+    if (typeof window === 'undefined') return
+    try { await navigator.clipboard.writeText(window.location.href); setCopied(true); setTimeout(() => setCopied(false), 1800) } catch {}
+  }
 
   if (clubs.length === 0) return null
 
   const dateLabel = dateItem ? `${dateItem.top} ${dateItem.mid} ${dateItem.bottom}`.trim() : ''
+  const bg = step === 0 ? (clubAll[0]?.image) : (dateItem?.ev?.image || shown[0]?.image)
 
   const StepChip = ({ i, label, value, done }: { i: 0 | 1 | 2; label: string; value?: string; done: boolean }) => (
     <button
@@ -495,30 +557,39 @@ export function HomePlanner({ events, locale = 'nl' }: { events: PickerEvent[]; 
 
   return (
     <div className="relative flex min-h-[70svh] w-full flex-col overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-xl">
+      {/* Ambient blurred backdrop — makes each step feel alive */}
+      {bg && (
+        <div className="pointer-events-none absolute inset-0 z-0">
+          <img src={bg} alt="" className="h-full w-full scale-125 object-cover opacity-[0.12] blur-2xl" />
+          <div className="absolute inset-0 bg-white/40" />
+        </div>
+      )}
+
       {/* Progress header */}
-      <div className="flex items-center gap-2 border-b border-black/5 p-3">
+      <div className="relative z-10 flex items-center gap-2 border-b border-black/5 bg-white/70 p-3 backdrop-blur-sm">
         <StepChip i={0} label={T.club} value={step > 0 ? club?.name : undefined} done={step > 0} />
-        <StepChip i={1} label={T.date} value={step > 1 ? dateLabel : undefined} done={step > 1} />
-        <StepChip i={2} label={T.events} value={step === 2 ? String(windowEvents.length) : undefined} done={false} />
+        <StepChip i={1} label={T.date} value={step > 1 ? (flexible ? T.allEvents : dateLabel) : undefined} done={step > 1} />
+        <StepChip i={2} label={T.events} value={step === 2 ? String(shown.length) : undefined} done={false} />
       </div>
 
       {/* ── STEP 0: CLUB ── */}
       {step === 0 && (
-        <div className="flex flex-1 flex-col">
+        <div className="relative z-10 flex flex-1 flex-col">
           <div className="px-5 pt-6 text-center">
             <h3 className="font-serif text-2xl font-black text-black md:text-3xl">{T.s1}</h3>
             <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-black/40">{T.swipeClub}</p>
           </div>
           <div className="flex flex-1 items-center justify-center py-4">
             <div className="w-full">
-              <Wheel count={clubs.length} rowH={116} visible={5} initialIndex={initialClubIdx} onIndex={(i) => { setClubIdx(i); if (ready.current) setDateIdx(0) }} render={(i, active) => {
-                const c = clubs[i]
+              <Wheel count={clubs.length} rowH={116} visible={5} initialIndex={initialClubIdx} jumpTo={clubJump} onIndex={(i) => { setClubIdx(i); if (ready.current) { setDateIdx(0); if (i !== clubBase.current) scheduleAdvance(1, 1300) } }} render={(i, active) => {
+                const c = clubs[i]; const cnt = clubCounts[c.slug] || 0
                 return (
-                  <div className={`mx-auto flex w-[86%] flex-col items-center justify-center gap-1.5 rounded-3xl transition-all ${active ? 'bg-ibiza-green/10 py-3 shadow-sm ring-1 ring-ibiza-green/40' : ''}`}>
+                  <div className={`relative mx-auto flex w-[86%] flex-col items-center justify-center gap-1.5 rounded-3xl transition-all ${active ? 'bg-ibiza-green/10 py-3 shadow-sm ring-1 ring-ibiza-green/40' : ''}`}>
                     <span className="grid h-14 w-full place-items-center">
                       {c.logo ? <img src={c.logo} alt="" className={`object-contain [filter:brightness(0)] ${active ? 'max-h-14 max-w-[70%]' : 'max-h-10 max-w-[55%]'}`} /> : <span className={`font-black text-black ${active ? 'text-2xl' : 'text-lg'}`}>{c.name.slice(0, 3).toUpperCase()}</span>}
                     </span>
                     <span className={`px-2 text-center font-bold leading-tight line-clamp-1 ${active ? 'text-base text-black' : 'text-sm text-black/45'}`}>{c.name}</span>
+                    {active && cnt > 0 && <span className="rounded-full bg-ibiza-green px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wide text-black">{cnt} {T.events.toLowerCase()}</span>}
                   </div>
                 )
               }} />
@@ -534,7 +605,7 @@ export function HomePlanner({ events, locale = 'nl' }: { events: PickerEvent[]; 
 
       {/* ── STEP 1: DATE ── */}
       {step === 1 && (
-        <div className="flex flex-1 flex-col">
+        <div className="relative z-10 flex flex-1 flex-col">
           <div className="px-5 pt-6 text-center">
             <h3 className="font-serif text-2xl font-black text-black md:text-3xl">{T.s2}</h3>
             <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-black/40">{club?.name} · {T.swipeDate}</p>
@@ -545,9 +616,9 @@ export function HomePlanner({ events, locale = 'nl' }: { events: PickerEvent[]; 
           <div className="flex flex-1 items-center justify-center py-2">
             {dateItems.length > 0 ? (
               <div className="w-full">
-                <Wheel key={`${club?.slug}-${period}`} count={dateItems.length} rowH={96} visible={5} onIndex={(i) => setDateIdx(i)} render={(i, active) => {
+                <Wheel key={`${club?.slug}-${period}`} count={dateItems.length} rowH={96} visible={5} onIndex={(i) => { setDateIdx(i); if (ready.current && i !== dateBase.current) scheduleAdvance(2, 1500) }} render={(i, active) => {
                   const d = dateItems[i]; if (!d) return null
-                  const e = d.ev
+                  const e = d.ev; const cnt = dateCounts[d.key] || 0
                   return (
                     <div className={`mx-auto flex w-[90%] items-center gap-3 rounded-3xl px-4 transition-all ${active ? 'bg-ibiza-green/10 py-2 shadow-sm ring-1 ring-ibiza-green/40' : ''}`}>
                       <span className="flex w-16 shrink-0 flex-col items-center justify-center leading-none">
@@ -558,6 +629,7 @@ export function HomePlanner({ events, locale = 'nl' }: { events: PickerEvent[]; 
                       <span className="relative h-16 min-w-0 flex-1 overflow-hidden rounded-2xl bg-neutral-900">
                         {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover" /> : null}
                         <span className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                        {cnt > 1 && <span className="absolute left-1.5 top-1.5 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-black text-white">{cnt} {T.events.toLowerCase()}</span>}
                         {e.price > 0 && <span className="absolute right-1.5 top-1.5 rounded bg-ibiza-green px-1.5 py-0.5 text-[10px] font-black text-black">€{e.price}</span>}
                         <span className="absolute inset-x-0 bottom-0 p-2"><span className="line-clamp-1 font-serif text-xs font-black text-white">{e.eventName}</span></span>
                       </span>
@@ -567,11 +639,14 @@ export function HomePlanner({ events, locale = 'nl' }: { events: PickerEvent[]; 
               </div>
             ) : <div className="p-8 text-center text-sm font-semibold text-black/40">{L.none}</div>}
           </div>
-          <div className="flex gap-2 p-4">
+          <button type="button" onClick={() => { setFlexible(true); setStep(2) }} className="mx-4 mb-1 rounded-xl py-2 text-xs font-black uppercase tracking-wide text-black/45 underline decoration-black/20 underline-offset-4 transition-colors hover:text-ibiza-green">
+            {T.flexible}
+          </button>
+          <div className="flex gap-2 p-4 pt-2">
             <button type="button" onClick={() => setStep(0)} className="flex shrink-0 items-center justify-center gap-1.5 rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-black uppercase tracking-wide text-black transition-colors hover:bg-black/5">
               <ChevronLeft size={18} /> {T.back}
             </button>
-            <button type="button" onClick={() => setStep(2)} disabled={dateItems.length === 0} className="flex flex-1 items-center justify-center gap-2.5 rounded-2xl bg-ibiza-green px-7 py-4 font-serif text-xl font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95 disabled:opacity-40">
+            <button type="button" onClick={() => { setFlexible(false); setStep(2) }} disabled={dateItems.length === 0} className="flex flex-1 items-center justify-center gap-2.5 rounded-2xl bg-ibiza-green px-7 py-4 font-serif text-xl font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95 disabled:opacity-40">
               {T.nextEvents} <ChevronRight size={22} />
             </button>
           </div>
@@ -580,15 +655,18 @@ export function HomePlanner({ events, locale = 'nl' }: { events: PickerEvent[]; 
 
       {/* ── STEP 2: EVENTS ── */}
       {step === 2 && (
-        <div className="flex flex-1 flex-col">
-          <div className="px-5 pt-6 text-center">
+        <div className="relative z-10 flex flex-1 flex-col">
+          <div className="relative px-5 pt-6 text-center">
             <h3 className="font-serif text-2xl font-black text-black md:text-3xl">{club?.name}</h3>
-            <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-black/40 capitalize">{dateItem ? (period === 'day' ? fmt(dateItem.start, 'EEEE d MMMM') : `${fmt(dateItem.start, 'd MMM')} – ${fmt(dateItem.end, 'd MMM')}`) : ''}</p>
+            <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-black/40 capitalize">{flexible ? T.allEvents : (dateItem ? (period === 'day' ? fmt(dateItem.start, 'EEEE d MMMM') : `${fmt(dateItem.start, 'd MMM')} – ${fmt(dateItem.end, 'd MMM')}`) : '')}</p>
+            <button type="button" onClick={share} className="absolute right-4 top-5 inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white px-3 py-1.5 text-[11px] font-black uppercase tracking-wide text-black transition-colors hover:bg-ibiza-green">
+              <Share2 size={13} /> {copied ? T.shared : T.share}
+            </button>
           </div>
           <div className="flex-1 overflow-y-auto p-4">
-            {windowEvents.length > 0 ? (
+            {shown.length > 0 ? (
               <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
-                {windowEvents.map(e => (
+                {shown.map(e => (
                   <Link key={e.id} href={e.href} className="group flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg">
                     <span className="relative aspect-[16/9] w-full bg-neutral-900">
                       {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
@@ -613,7 +691,7 @@ export function HomePlanner({ events, locale = 'nl' }: { events: PickerEvent[]; 
             <button type="button" onClick={() => setStep(1)} className="flex flex-1 items-center justify-center gap-1.5 rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-black uppercase tracking-wide text-black transition-colors hover:bg-black/5">
               <ChevronLeft size={18} /> {T.back}
             </button>
-            <button type="button" onClick={() => { setStep(0); setClubIdx(0); setDateIdx(0) }} className="flex shrink-0 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-black uppercase tracking-wide text-black/60 transition-colors hover:bg-black/5">
+            <button type="button" onClick={() => { setStep(0); setClubIdx(0); setDateIdx(0); setFlexible(false) }} className="flex shrink-0 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-black uppercase tracking-wide text-black/60 transition-colors hover:bg-black/5">
               {T.startOver}
             </button>
           </div>

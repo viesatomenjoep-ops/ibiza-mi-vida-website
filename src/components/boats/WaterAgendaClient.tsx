@@ -7,7 +7,7 @@ import {
 } from 'date-fns';
 import { nl, enUS, de, es, fr } from 'date-fns/locale';
 import { Search, X, Calendar, ChevronRight, ChevronLeft, Ship, Ticket } from 'lucide-react';
-import { EventPickerWheel, type PickerEvent } from '@/components/events/EventPickerWheel';
+import { EventPickerWheel, HomePlanner, type PickerEvent } from '@/components/events/EventPickerWheel';
 
 // ── i18n labels (en, nl, de, es, fr) ──
 interface AgendaLabels {
@@ -222,9 +222,12 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
 
       {/* ── ClubTickets-style calendar picker ── */}
       {pickerEvents.length > 0 && (
-        <section className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4 pb-2">
+        <section className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pt-4 pb-2">
           <div className="text-xs font-black tracking-widest uppercase text-ibiza-green mb-3">Score your tickets</div>
-          <EventPickerWheel events={pickerEvents} locale={locale} storeKey={basePath || 'water'} />
+          <HomePlanner events={pickerEvents} locale={locale} persistKey={`planner-${basePath || 'water'}`} />
+          <div className="mt-4">
+            <EventPickerWheel events={pickerEvents} locale={locale} storeKey={basePath || 'water'} />
+          </div>
         </section>
       )}
 

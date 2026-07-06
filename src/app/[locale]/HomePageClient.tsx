@@ -111,7 +111,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                 <h2 className="text-4xl md:text-5xl font-serif font-bold text-neutral-900 tracking-tight">{translations.home_upcoming_parties}</h2>
               </div>
               <div className="flex flex-1">
-                <HomePlanner events={pickerEvents} locale={locale} />
+                <HomePlanner events={pickerEvents} locale={locale} persistKey="homeplanner" syncUrl />
               </div>
             </div>
           </section>
