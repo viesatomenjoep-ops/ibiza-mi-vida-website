@@ -413,24 +413,36 @@ export function HomeUpcomingPicker({ events, locale = 'nl' }: { events: PickerEv
 
       <PeriodTabs period={period} setPeriod={setPeriod} locale={locale} />
 
-      {/* Vertical synchronized wheel — EVENT | DATE | PRICE, scroll up/down (lift effect) */}
+      {/* Vertical synchronized wheel — CLUB | DATE (narrow) | EVENT (2×, promo image + name + price) */}
       <div className="overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg">
-        <div className="grid grid-cols-[2fr_1fr_1fr] gap-2 border-b border-black/5 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-black/35">
-          <span>Event</span><span className="text-center">{L.pickDate}</span><span className="text-right">€</span>
+        <div className="grid grid-cols-[0.85fr_0.85fr_2.4fr] gap-2 border-b border-black/5 px-3 py-2.5 text-[10px] font-black uppercase tracking-widest text-black/35">
+          <span className="text-center">{L.pickClub}</span><span className="text-center">{L.pickDate}</span><span className="pl-1">Event</span>
         </div>
         {dateItems.length > 0 ? (
-          <Wheel key={`${club?.slug}-${period}`} count={dateItems.length} rowH={74} visible={5} onIndex={(i) => setDateIdx(i)} render={(i, active) => {
+          <Wheel key={`${club?.slug}-${period}`} count={dateItems.length} rowH={80} visible={5} onIndex={(i) => setDateIdx(i)} render={(i, active) => {
             const d = dateItems[i]; if (!d) return null
             const e = d.ev
             return (
-              <Link href={e.href} className="grid w-full grid-cols-[2fr_1fr_1fr] items-center gap-2 px-4">
-                <span className={`truncate font-serif text-sm font-black leading-tight ${active ? 'text-black' : 'text-black/55'}`}>{e.eventName}</span>
-                <span className="flex flex-col items-center justify-center leading-none">
-                  <span className="text-[10px] font-black uppercase tracking-wide text-black/40">{d.top}</span>
-                  <span className="font-serif text-lg font-black text-black">{d.mid}</span>
-                  <span className="text-[10px] font-black uppercase tracking-wide text-ibiza-green">{d.bottom}</span>
+              <Link href={e.href} className="grid w-full grid-cols-[0.85fr_0.85fr_2.4fr] items-center gap-2 px-3">
+                {/* Club */}
+                <span className="grid h-full place-items-center">
+                  {e.clubLogo ? <img src={e.clubLogo} alt="" className="max-h-8 max-w-full object-contain [filter:brightness(0)]" /> : <span className="text-[10px] font-black text-black/70">{e.clubName.slice(0, 3).toUpperCase()}</span>}
                 </span>
-                <span className="text-right font-serif text-base font-black text-black">{e.price > 0 ? `€${e.price}` : '—'}</span>
+                {/* Date (small) */}
+                <span className="flex flex-col items-center justify-center leading-none">
+                  <span className="text-[9px] font-black uppercase tracking-wide text-black/40">{d.top}</span>
+                  <span className={`font-serif text-base font-black ${active ? 'text-black' : 'text-black/60'}`}>{d.mid}</span>
+                  <span className="text-[9px] font-black uppercase tracking-wide text-ibiza-green">{d.bottom}</span>
+                </span>
+                {/* Event (big) — promo image + name/artist + price */}
+                <span className="relative h-[62px] w-full overflow-hidden rounded-xl bg-neutral-900">
+                  {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover" /> : null}
+                  <span className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                  {e.price > 0 && <span className="absolute right-1.5 top-1.5 rounded bg-ibiza-green px-1.5 py-0.5 text-[10px] font-black text-black">€{e.price}</span>}
+                  <span className="absolute inset-x-0 bottom-0 p-1.5">
+                    <span className="line-clamp-2 font-serif text-[11px] font-black leading-tight text-white">{e.eventName}</span>
+                  </span>
+                </span>
               </Link>
             )
           }} />
