@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { format, parseISO, isValid, startOfDay, startOfWeek, addDays, endOfMonth, startOfMonth, addMonths } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
-import { Ticket, Music, ChevronRight, ChevronLeft, CalendarDays, X, Maximize2, Share2, Plus, Check, ShoppingCart, Trash2 } from 'lucide-react'
+import { Ticket, Music, ChevronRight, ChevronLeft, CalendarDays, X, Maximize2, Share2 } from 'lucide-react'
 
 export interface PickerEvent {
   id: string
@@ -532,6 +532,43 @@ const PLANNER_TXT: Record<string, {
   fr: { s1: 'Choisis ton club', s2: 'Quand es-tu à Ibiza ?', s3: 'Tes événements', nextDate: 'Choisir ta date', nextEvents: 'Voir les événements', back: 'Retour', club: 'Club', date: 'Date', events: 'Événements', none: 'Aucun événement sur cette période', swipeClub: 'Glisse pour choisir ton club', swipeDate: 'Glisse pour choisir ton moment', pickPeriod: 'Jour · Semaine · Mois', startOver: 'Recommencer', flexible: "Pas encore sûr — tout afficher", allEvents: 'Tous les événements', share: 'Partager', shared: 'Lien copié' },
 }
 
+// ── Per-event checkout button + confirmation dialog ───────────────────────────
+function PlannerCheckout({ e, locale }: { e: PickerEvent; locale: string }) {
+  const [open, setOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  const T = ({
+    nl: { checkout: 'Afrekenen', title: 'Wil je afrekenen?', sub: 'Je gaat naar ClubTickets om je tickets te betalen.', pay: 'Betalen', cancel: 'Annuleren' },
+    en: { checkout: 'Checkout', title: 'Ready to check out?', sub: 'You’ll continue to ClubTickets to pay for your tickets.', pay: 'Pay now', cancel: 'Cancel' },
+    de: { checkout: 'Bezahlen', title: 'Zur Kasse?', sub: 'Du wirst zu ClubTickets weitergeleitet, um deine Tickets zu bezahlen.', pay: 'Jetzt zahlen', cancel: 'Abbrechen' },
+    es: { checkout: 'Pagar', title: '¿Quieres pagar?', sub: 'Irás a ClubTickets para pagar tus entradas.', pay: 'Pagar ahora', cancel: 'Cancelar' },
+    fr: { checkout: 'Payer', title: 'Passer au paiement ?', sub: 'Tu seras redirigé vers ClubTickets pour payer tes billets.', pay: 'Payer', cancel: 'Annuler' },
+  } as Record<string, any>)[locale] || {} as any
+  const go = () => { setOpen(false); const url = e.affLink || e.href; if (typeof window !== 'undefined') window.open(url, '_blank') }
+  return (
+    <>
+      <button type="button" onClick={() => setOpen(true)} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-ibiza-green px-4 py-2 text-[11px] font-black uppercase tracking-wide text-black transition-all hover:brightness-95">
+        {T.checkout} <Ticket size={13} />
+      </button>
+      {open && mounted && createPortal(
+        <div className="fixed inset-0 z-[400] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm" onClick={() => setOpen(false)}>
+          <div className="w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-2xl" onClick={ev => ev.stopPropagation()}>
+            <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-ibiza-green text-black"><Ticket size={26} /></span>
+            <h4 className="mt-4 font-serif text-xl font-black text-black">{T.title}</h4>
+            <p className="mt-1 text-sm font-medium text-black/55">{e.eventName}</p>
+            <p className="mt-2 text-xs font-medium text-black/45">{T.sub}</p>
+            <div className="mt-5 flex gap-2">
+              <button type="button" onClick={() => setOpen(false)} className="flex-1 rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm font-black uppercase tracking-wide text-black/60 transition-colors hover:bg-black/5">{T.cancel}</button>
+              <button type="button" onClick={go} className="flex flex-[1.5] items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-4 py-3 font-serif text-base font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95">{T.pay}{e.price > 0 ? ` · €${e.price}` : ''} <Ticket size={16} /></button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+    </>
+  )
+}
+
 export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner', syncUrl = false }: { events: PickerEvent[]; locale: string; persistKey?: string; syncUrl?: boolean }) {
   const L = LABELS[locale] || LABELS.en
   const T = PLANNER_TXT[locale] || PLANNER_TXT.en
@@ -611,15 +648,6 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
     return g
   }, [resultEvents])
 
-  // Cart (persisted across the session)
-  const [cart, setCart] = useState<PickerEvent[]>([])
-  const cartLoaded = useRef(false)
-  useEffect(() => { if (typeof window === 'undefined') { cartLoaded.current = true; return } try { const c = JSON.parse(sessionStorage.getItem('epwCart') || '[]'); if (Array.isArray(c)) setCart(c) } catch {} cartLoaded.current = true }, [])
-  useEffect(() => { if (!cartLoaded.current || typeof window === 'undefined') return; try { sessionStorage.setItem('epwCart', JSON.stringify(cart)) } catch {} }, [cart])
-  const [showCart, setShowCart] = useState(false)
-  const inCart = (id: string) => cart.some(c => c.id === id)
-  const toggleCart = (e: PickerEvent) => setCart(prev => (prev.some(c => c.id === e.id) ? prev.filter(c => c.id !== e.id) : [...prev, e]))
-  const cartTotal = cart.reduce((s, e) => s + (e.price || 0), 0)
 
   // ── Deeplink: read once, then keep the URL in sync (write-only, no navigation) ──
   const urlDone = useRef(false)
@@ -806,9 +834,7 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
                           {e.price > 0 && <div className="font-serif text-lg font-black leading-none text-black">€{e.price}</div>}
                           <Link href={e.href} className="mt-1 inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-wide text-ibiza-green underline decoration-ibiza-green/40 underline-offset-2 hover:decoration-ibiza-green">{CAL.open} <ChevronRight size={11} /></Link>
                         </div>
-                        <button type="button" onClick={() => toggleCart(e)} className={`inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-2 text-[11px] font-black uppercase tracking-wide transition-colors ${inCart(e.id) ? 'bg-black text-white' : 'bg-ibiza-green text-black hover:brightness-95'}`}>
-                          {inCart(e.id) ? <>{CAL.added} <Check size={13} /></> : <>{CAL.add} <Plus size={13} /></>}
-                        </button>
+                        <PlannerCheckout e={e} locale={locale} />
                       </div>
                     </div>
                   ))}
@@ -816,32 +842,6 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
               </div>
             )) : <div className="grid h-full min-h-[160px] place-items-center rounded-3xl border border-black/10 text-center text-sm font-semibold text-black/40">{T.none}</div>}
           </div>
-
-          {/* cart */}
-          {cart.length > 0 && (
-            <div className="border-t border-black/10 p-3">
-              <button type="button" onClick={() => setShowCart(v => !v)} className="flex w-full items-center justify-between rounded-2xl bg-black px-4 py-3 text-white transition-colors hover:bg-black/90">
-                <span className="flex items-center gap-2 text-sm font-black uppercase tracking-wide"><ShoppingCart size={16} /> {CAL.cart} · {cart.length}</span>
-                <span className="flex items-center gap-2">{cartTotal > 0 && <span className="font-serif text-lg font-black">€{cartTotal}</span>}<ChevronRight size={16} className={`transition-transform ${showCart ? 'rotate-90' : ''}`} /></span>
-              </button>
-              {showCart && (
-                <div className="mt-2 rounded-2xl border border-black/10 bg-white p-2">
-                  <p className="px-2 py-1 text-[11px] font-semibold text-black/45">{CAL.cartNote}</p>
-                  {cart.map(e => (
-                    <div key={e.id} className="flex items-center gap-2 rounded-xl p-2 hover:bg-black/5">
-                      <span className="h-11 w-16 shrink-0 overflow-hidden rounded-lg bg-neutral-900">{e.image ? <img src={e.image} alt="" className="h-full w-full object-cover" /> : null}</span>
-                      <span className="min-w-0 flex-1">
-                        <span className="line-clamp-1 text-xs font-black text-black">{e.eventName}</span>
-                        <span className="block text-[10px] font-semibold capitalize text-black/50">{fmt(e.date, 'EEE d MMM')}{e.price > 0 ? ` · €${e.price}` : ''}</span>
-                      </span>
-                      <Link href={e.href} className="shrink-0 rounded-full bg-ibiza-green px-2.5 py-1.5 text-[10px] font-black uppercase tracking-wide text-black">{CAL.tickets}</Link>
-                      <button type="button" onClick={() => toggleCart(e)} aria-label="remove" className="shrink-0 grid h-7 w-7 place-items-center rounded-full text-black/40 hover:bg-black/10 hover:text-black"><Trash2 size={14} /></button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
 
           <div className="flex gap-2 p-4 pt-2">
             <button type="button" onClick={() => setStep(1)} className="flex flex-1 items-center justify-center gap-1.5 rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm font-black uppercase tracking-wide text-black transition-colors hover:bg-black/5">

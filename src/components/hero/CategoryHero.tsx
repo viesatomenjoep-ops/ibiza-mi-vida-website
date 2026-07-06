@@ -62,8 +62,8 @@ export function CategoryHero({
         <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none" />
       </div>
 
-      {/* Content */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 md:px-8">
+      {/* Content — pushed below the navbar so the title/subtitle never sit under it */}
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 md:px-8 pt-[calc(var(--nav-h)+28px)]">
         <div className="w-full max-w-5xl mx-auto flex flex-col items-center">
           {eyebrow && (
             <h2 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.3em] text-white/90 mb-3 md:mb-4 drop-shadow-md">

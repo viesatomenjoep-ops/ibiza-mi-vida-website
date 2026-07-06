@@ -65,6 +65,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
         price: m ? parseFloat(m[0].replace(',', '.')) : 0,
         lineUp: d.lineUp || '',
         href: `/${params.locale}/club-tickets/${d.venueSlug}/${d.eventSlug}`,
+        affLink: d.affLink || '',
       };
     });
 
