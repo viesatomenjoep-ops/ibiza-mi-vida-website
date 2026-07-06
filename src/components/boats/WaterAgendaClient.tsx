@@ -7,7 +7,7 @@ import {
 } from 'date-fns';
 import { nl, enUS, de, es, fr } from 'date-fns/locale';
 import { Search, X, Calendar, ChevronRight, ChevronLeft, Ship, Ticket } from 'lucide-react';
-import { HomePlanner, type PickerEvent } from '@/components/events/EventPickerWheel';
+import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel';
 
 // ── i18n labels (en, nl, de, es, fr) ──
 interface AgendaLabels {
@@ -222,107 +222,13 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
         <p className="text-sm md:text-base text-black/50 font-medium mt-3 max-w-md">{subtitle}</p>
       </div>
 
-      {/* ── ClubTickets-style calendar picker ── */}
+      {/* ── New-style stepped calendar (identical to the homepage) ── */}
       {pickerEvents.length > 0 && (
-        <section className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pt-4 pb-2">
+        <section className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pt-4 pb-6">
           <div className="text-xs font-black tracking-widest uppercase text-ibiza-green mb-3">Score your tickets</div>
-          <HomePlanner events={pickerEvents} locale={locale} persistKey={`planner-${basePath || 'water'}`} />
+          <HomeCalendarLauncher events={pickerEvents} locale={locale} persistKey={`planner-${basePath || 'water'}`} variant="company" />
         </section>
       )}
-
-      {/* ── Tactical control bar (sticky) ── */}
-      <div className="sticky top-[70px] md:top-[84px] z-40 mt-5 bg-neutral-50/95 backdrop-blur-md border-y border-black/5">
-        <div className="w-full max-w-7xl mx-auto px-4 py-3 md:py-4 flex flex-col items-center gap-3">
-
-          {/* Time range segmented control */}
-          <div className="w-full overflow-x-auto overflow-y-hidden hide-scrollbar touch-pan-x overscroll-x-contain">
-            <div className="flex md:justify-center gap-2 min-w-max mx-auto">
-              {timeTabs.map(tab => {
-                const active = quickFilter === tab.key;
-                return (
-                  <button
-                    key={tab.key}
-                    onClick={() => setQuickFilter(tab.key)}
-                    aria-pressed={active}
-                    className={`group flex items-center gap-2 rounded-full px-4 md:px-5 py-2.5 text-xs md:text-sm font-black uppercase tracking-widest border-2 transition-all whitespace-nowrap ${active ? 'bg-black text-white border-black shadow-lg scale-[1.03]' : 'bg-white text-black/55 border-black/10 hover:border-black hover:text-black'}`}
-                  >
-                    {tab.label}
-                    <span className={`text-[10px] leading-none font-black rounded-full px-1.5 py-1 min-w-[20px] text-center ${active ? 'bg-white/20 text-white' : 'bg-black/5 text-black/40 group-hover:bg-black/10'}`}>{tab.count}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Month nav in month mode */}
-          <div className="w-full flex flex-wrap items-center justify-center gap-2">
-            {quickFilter === 'month' && (
-              <div className="flex items-center gap-1.5">
-                <button onClick={() => shiftMonth(-1)} disabled={!canPrev} className="w-8 h-8 rounded-full border border-black/10 bg-white flex items-center justify-center text-black/60 enabled:hover:border-black enabled:hover:text-black disabled:opacity-30 transition-all"><ChevronLeft size={16} /></button>
-                <div className="min-w-[120px] text-center text-xs font-black uppercase tracking-widest text-black">{format(monthDate, 'MMMM yyyy', { locale: loc })}</div>
-                <button onClick={() => shiftMonth(1)} disabled={!canNext} className="w-8 h-8 rounded-full border border-black/10 bg-white flex items-center justify-center text-black/60 enabled:hover:border-black enabled:hover:text-black disabled:opacity-30 transition-all"><ChevronRight size={16} /></button>
-              </div>
-            )}
-          </div>
-
-          {/* Month quick-jump pills */}
-          {quickFilter === 'month' && months.length > 1 && (
-            <div className="w-full overflow-x-auto hide-scrollbar">
-              <div className="flex md:justify-center gap-2 min-w-max mx-auto pt-0.5">
-                {months.map(mo => {
-                  let label = mo;
-                  try { const [y, m] = mo.split('-').map(Number); label = format(new Date(y, m - 1, 1), 'MMM yy', { locale: loc }).toUpperCase(); } catch {}
-                  const active = activeMonth === mo;
-                  return (
-                    <button
-                      key={mo}
-                      onClick={() => { setActiveMonth(mo); setSelectedDay(null); }}
-                      className={`px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest border transition-all whitespace-nowrap ${active ? 'bg-black text-white border-black' : 'bg-white text-neutral-500 border-neutral-200 hover:border-black hover:text-black'}`}
-                    >
-                      {label}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* ── Content ── */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 pb-24 pt-6">
-        {quickFilter === 'month' ? (
-          <MonthGrid
-            gridDays={gridDays}
-            monthDate={monthDate}
-            todayStr={todayStr}
-            dayEvents={dayEvents}
-            selectedDay={detailDay}
-            onSelectDay={setSelectedDay}
-            loc={loc}
-            moreLabel={L.more}
-          />
-        ) : (
-          listGroups.length === 0 ? (
-            <EmptyState locale={locale} />
-          ) : (
-            listGroups.map(g => (
-              <DayBlock key={g.date} date={g.date} items={g.items} label={dateLabel(g.date)} isToday={g.date === todayStr} locale={locale} basePath={basePath} />
-            ))
-          )
-        )}
-
-        {/* Day detail below the month grid */}
-        {quickFilter === 'month' && (
-          detailDay ? (
-            <div className="mt-4">
-              <DayBlock date={detailDay} items={dayEvents(detailDay)} label={dateLabel(detailDay)} isToday={detailDay === todayStr} locale={locale} basePath={basePath} />
-            </div>
-          ) : (
-            <div className="mt-8"><EmptyState locale={locale} /></div>
-          )
-        )}
-      </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
         .hide-scrollbar::-webkit-scrollbar { display: none; }

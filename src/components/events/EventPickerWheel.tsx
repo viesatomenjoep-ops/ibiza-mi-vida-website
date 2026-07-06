@@ -572,9 +572,17 @@ function PlannerCheckout({ e, locale }: { e: PickerEvent; locale: string }) {
   )
 }
 
-export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner', syncUrl = false }: { events: PickerEvent[]; locale: string; persistKey?: string; syncUrl?: boolean }) {
+export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner', syncUrl = false, variant = 'club' }: { events: PickerEvent[]; locale: string; persistKey?: string; syncUrl?: boolean; variant?: 'club' | 'company' }) {
   const L = LABELS[locale] || LABELS.en
   const T = PLANNER_TXT[locale] || PLANNER_TXT.en
+  const isCompany = variant === 'company'
+  const ENT = ({
+    nl: { chip: 'Aanbieder', all: 'Alle aanbieders · Ibiza', tap: 'Tik op een aanbieder om te openen' },
+    en: { chip: 'Company', all: 'All companies · Ibiza', tap: 'Tap a company to open it' },
+    de: { chip: 'Anbieter', all: 'Alle Anbieter · Ibiza', tap: 'Tippe auf einen Anbieter' },
+    es: { chip: 'Compañía', all: 'Todas las compañías · Ibiza', tap: 'Toca una compañía para abrirla' },
+    fr: { chip: 'Compagnie', all: 'Toutes les compagnies · Ibiza', tap: 'Touche une compagnie pour l’ouvrir' },
+  } as Record<string, { chip: string; all: string; tap: string }>)[locale] || { chip: 'Company', all: 'All companies · Ibiza', tap: 'Tap a company to open it' }
   const CT = ({
     nl: { allClubs: 'Alle clubs · Ibiza', tap: 'Tik op een club om te openen' },
     en: { allClubs: 'All clubs · Ibiza', tap: 'Tap a club to open it' },
@@ -582,6 +590,9 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
     es: { allClubs: 'Todos los clubs · Ibiza', tap: 'Toca un club para abrirlo' },
     fr: { allClubs: 'Tous les clubs · Ibiza', tap: 'Touche un club pour l’ouvrir' },
   } as Record<string, { allClubs: string; tap: string }>)[locale] || { allClubs: 'All clubs · Ibiza', tap: 'Tap a club to open it' }
+  const entChip = isCompany ? ENT.chip : T.club
+  const allTitle = isCompany ? ENT.all : CT.allClubs
+  const tapText = isCompany ? ENT.tap : CT.tap
   const loc = DF[locale] || enUS
   const fmt = (iso: string, p: string) => { try { const d = parseISO(iso); return isValid(d) ? format(d, p, { locale: loc }) : '' } catch { return '' } }
   const todayStr = useMemo(() => format(startOfDay(new Date()), 'yyyy-MM-dd'), [])
@@ -707,7 +718,7 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
 
       {/* Progress header */}
       <div className="relative z-10 flex items-center gap-2 border-b border-black/5 bg-white/70 p-3 backdrop-blur-sm">
-        <StepChip i={0} label={T.club} value={step > 0 ? club?.name : undefined} done={step > 0} />
+        <StepChip i={0} label={entChip} value={step > 0 ? club?.name : undefined} done={step > 0} />
         <StepChip i={1} label={T.date} value={step > 1 ? (flexible || selectedDates.length === 0 ? T.allEvents : `${selectedDates.length} ${selectedDates.length === 1 ? CAL.day : CAL.days}`) : undefined} done={step > 1} />
         <StepChip i={2} label={T.events} value={step === 2 ? String(resultEvents.length) : undefined} done={false} />
       </div>
@@ -716,8 +727,8 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
       {step === 0 && (
         <div className="relative z-10 flex flex-col">
           <div className="px-5 pt-5 text-center">
-            <h3 className="font-serif text-2xl font-black text-black md:text-3xl">{CT.allClubs}</h3>
-            <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-black/40">{CT.tap}</p>
+            <h3 className="font-serif text-2xl font-black text-black md:text-3xl">{allTitle}</h3>
+            <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-black/40">{tapText}</p>
           </div>
           <div className="max-h-[44svh] overflow-y-auto px-3 py-4">
             <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
@@ -820,7 +831,7 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
             {resultGroups.length > 0 ? resultGroups.map(g => (
               <div key={g.date}>
                 <div className="mb-2 text-xs font-black uppercase tracking-widest capitalize text-black/50">{fmt(g.date, 'EEEE d MMMM')}</div>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="flex flex-col gap-3">
                   {g.items.map(e => (
                     <div key={e.id} className="flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-md">
                       <div className="relative aspect-[16/9] w-full bg-neutral-900">
@@ -861,7 +872,7 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
 }
 
 // ── "Open the calendar" button → full-screen stepped planner (with Exit) ──────
-export function HomeCalendarLauncher({ events, locale = 'nl', persistKey = 'homeplanner' }: { events: PickerEvent[]; locale: string; persistKey?: string }) {
+export function HomeCalendarLauncher({ events, locale = 'nl', persistKey = 'homeplanner', variant = 'club' }: { events: PickerEvent[]; locale: string; persistKey?: string; variant?: 'club' | 'company' }) {
   const L = LABELS[locale] || LABELS.en
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -894,7 +905,7 @@ export function HomeCalendarLauncher({ events, locale = 'nl', persistKey = 'home
           </div>
           <div className="flex-1 overflow-y-auto px-4 py-4 md:px-8 md:py-8">
             <div className="mx-auto w-full max-w-3xl">
-              <HomePlanner events={events} locale={locale} persistKey={persistKey} syncUrl />
+              <HomePlanner events={events} locale={locale} persistKey={persistKey} variant={variant} syncUrl />
             </div>
           </div>
         </div>,
