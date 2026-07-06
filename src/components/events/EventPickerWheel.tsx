@@ -544,6 +544,8 @@ function PlannerCheckout({ e, locale }: { e: PickerEvent; locale: string }) {
     es: { checkout: 'Pagar', title: '¿Quieres pagar?', sub: 'Irás a ClubTickets para pagar tus entradas.', pay: 'Pagar ahora', cancel: 'Cancelar' },
     fr: { checkout: 'Payer', title: 'Passer au paiement ?', sub: 'Tu seras redirigé vers ClubTickets pour payer tes billets.', pay: 'Payer', cancel: 'Annuler' },
   } as Record<string, any>)[locale] || {} as any
+  const dloc = DF[locale] || enUS
+  const dateStr = (() => { try { const d = parseISO(e.date); return isValid(d) ? format(d, 'EEEE d MMMM', { locale: dloc }) : '' } catch { return '' } })()
   const go = () => { setOpen(false); const url = e.affLink || e.href; if (typeof window !== 'undefined') window.open(url, '_blank') }
   return (
     <>
@@ -555,7 +557,8 @@ function PlannerCheckout({ e, locale }: { e: PickerEvent; locale: string }) {
           <div className="w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-2xl" onClick={ev => ev.stopPropagation()}>
             <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-ibiza-green text-black"><Ticket size={26} /></span>
             <h4 className="mt-4 font-serif text-xl font-black text-black">{T.title}</h4>
-            <p className="mt-1 text-sm font-medium text-black/55">{e.eventName}</p>
+            <p className="mt-1 text-sm font-black text-black">{e.eventName}</p>
+            {dateStr && <p className="text-xs font-semibold capitalize text-ibiza-green">{dateStr}</p>}
             <p className="mt-2 text-xs font-medium text-black/45">{T.sub}</p>
             <div className="mt-5 flex gap-2">
               <button type="button" onClick={() => setOpen(false)} className="flex-1 rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm font-black uppercase tracking-wide text-black/60 transition-colors hover:bg-black/5">{T.cancel}</button>
