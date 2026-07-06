@@ -767,6 +767,50 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
   )
 }
 
+// ── "Open the calendar" button → full-screen stepped planner (with Exit) ──────
+export function HomeCalendarLauncher({ events, locale = 'nl', persistKey = 'homeplanner' }: { events: PickerEvent[]; locale: string; persistKey?: string }) {
+  const L = LABELS[locale] || LABELS.en
+  const [open, setOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [open])
+
+  if (events.length === 0) return null
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="flex w-full items-center justify-center gap-2.5 rounded-2xl border-2 border-black bg-ibiza-green px-6 py-4 font-serif text-lg font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95 md:text-xl"
+      >
+        <CalendarDays size={20} /> {L.openCal}
+      </button>
+
+      {open && mounted && createPortal(
+        <div className="fixed inset-0 z-[300] flex flex-col bg-white">
+          <div className="flex items-center justify-between border-b border-black/10 px-4 py-2.5 md:px-6 md:py-4">
+            <span className="font-serif text-lg font-black uppercase tracking-wide text-black md:text-2xl">Ibiza Calendar</span>
+            <button type="button" onClick={() => setOpen(false)} aria-label={L.close} className="inline-flex items-center gap-2 rounded-full bg-black/5 px-4 py-2 text-sm font-black uppercase tracking-wide text-black transition-colors hover:bg-black/10">
+              <X size={18} /> {L.close}
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto px-4 py-4 md:px-8 md:py-8">
+            <div className="mx-auto w-full max-w-3xl">
+              <HomePlanner events={events} locale={locale} persistKey={persistKey} syncUrl />
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+    </>
+  )
+}
+
 // ── Full-screen agenda (horizontal strips) ────────────────────────────────────
 function PickerRows({ events, locale, persistKey, full, onExpand }: { events: PickerEvent[]; locale: string; persistKey?: string; full?: boolean; onExpand?: () => void }) {
   const L = LABELS[locale] || LABELS.en

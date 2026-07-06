@@ -8,7 +8,7 @@ import { Calendar, MapPin, Music } from 'lucide-react';
 import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 import { HeroTypewriter } from '@/components/ui/HeroTypewriter';
 import { CategoryReveal } from '@/components/ui/CategoryReveal';
-import { HomePlanner, type PickerEvent } from '@/components/events/EventPickerWheel';
+import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel';
 
 interface HomePageProps {
   locale?: string;
@@ -110,7 +110,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                 <div className="text-xs font-bold tracking-widest uppercase text-neutral-400 mb-2">{translations.home_live_from_calendar}</div>
                 <h2 className="text-4xl md:text-5xl font-serif font-bold text-neutral-900 tracking-tight">{translations.home_upcoming_parties}</h2>
               </div>
-              <HomePlanner events={pickerEvents} locale={locale} persistKey="homeplanner" syncUrl />
+              <HomeCalendarLauncher events={pickerEvents} locale={locale} persistKey="homeplanner" />
             </div>
           </section>
         )}
