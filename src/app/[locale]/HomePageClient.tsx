@@ -8,7 +8,7 @@ import { Calendar, MapPin, Music } from 'lucide-react';
 import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 import { HeroTypewriter } from '@/components/ui/HeroTypewriter';
 import { CategoryReveal } from '@/components/ui/CategoryReveal';
-import { PickerColumns, type PickerEvent } from '@/components/events/EventPickerWheel';
+import { HomeUpcomingPicker, type PickerEvent } from '@/components/events/EventPickerWheel';
 
 interface HomePageProps {
   locale?: string;
@@ -136,10 +136,10 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
               </Link>
             </div>
 
-            {/* Mobile: iPhone-style CLUB · DATE · EVENT slider */}
+            {/* Mobile: club selector + vertical EVENT · DATE · PRICE lift slider */}
             {pickerEvents.length > 0 && (
               <div className="md:hidden mb-2">
-                <PickerColumns events={pickerEvents} locale={locale} />
+                <HomeUpcomingPicker events={pickerEvents} locale={locale} />
               </div>
             )}
 

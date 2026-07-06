@@ -386,6 +386,60 @@ export function PickerColumns({ events, locale }: { events: PickerEvent[]; local
   )
 }
 
+// ── Homepage upcoming picker: big horizontal club selector + vertical EVENT|DATE|PRICE lift ─
+export function HomeUpcomingPicker({ events, locale = 'nl' }: { events: PickerEvent[]; locale: string }) {
+  const L = LABELS[locale] || LABELS.en
+  const loc = DF[locale] || enUS
+  const fmt = (iso: string, p: string) => { try { const d = parseISO(iso); return isValid(d) ? format(d, p, { locale: loc }) : '' } catch { return '' } }
+  const { period, setPeriod, clubs, club, initialClubIdx, setClubIdx, dateItems, setDateIdx } = usePickerData(events, locale)
+
+  if (clubs.length === 0) return null
+
+  return (
+    <div className="w-full">
+      {/* Big horizontal club selector — swipe to pick a club */}
+      <div className="mb-3 rounded-3xl border border-black/10 bg-white p-2 shadow-sm">
+        <div className="px-3 pb-1 pt-1 text-[10px] font-black uppercase tracking-widest text-black/35">{L.pickClub}</div>
+        <WheelH count={clubs.length} itemW={150} itemH={122} initialIndex={initialClubIdx} onIndex={(i) => { setClubIdx(i); setDateIdx(0) }} render={(i, active) => {
+          const c = clubs[i]
+          return (
+            <div className="flex flex-col items-center gap-2">
+              <span className="grid h-14 w-full place-items-center">{c.logo ? <img src={c.logo} alt="" className="max-h-12 max-w-[85%] object-contain [filter:brightness(0)]" /> : <span className="text-base font-black text-black">{c.name.slice(0, 3).toUpperCase()}</span>}</span>
+              <span className={`px-1 text-center text-xs font-bold leading-tight line-clamp-1 ${active ? 'text-black' : 'text-black/45'}`}>{c.name}</span>
+            </div>
+          )
+        }} />
+      </div>
+
+      <PeriodTabs period={period} setPeriod={setPeriod} locale={locale} />
+
+      {/* Vertical synchronized wheel — EVENT | DATE | PRICE, scroll up/down (lift effect) */}
+      <div className="overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg">
+        <div className="grid grid-cols-[2fr_1fr_1fr] gap-2 border-b border-black/5 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-black/35">
+          <span>Event</span><span className="text-center">{L.pickDate}</span><span className="text-right">€</span>
+        </div>
+        {dateItems.length > 0 ? (
+          <Wheel key={`${club?.slug}-${period}`} count={dateItems.length} rowH={74} visible={5} onIndex={(i) => setDateIdx(i)} render={(i, active) => {
+            const d = dateItems[i]; if (!d) return null
+            const e = d.ev
+            return (
+              <Link href={e.href} className="grid w-full grid-cols-[2fr_1fr_1fr] items-center gap-2 px-4">
+                <span className={`truncate font-serif text-sm font-black leading-tight ${active ? 'text-black' : 'text-black/55'}`}>{e.eventName}</span>
+                <span className="flex flex-col items-center justify-center leading-none">
+                  <span className="text-[10px] font-black uppercase tracking-wide text-black/40">{d.top}</span>
+                  <span className="font-serif text-lg font-black text-black">{d.mid}</span>
+                  <span className="text-[10px] font-black uppercase tracking-wide text-ibiza-green">{d.bottom}</span>
+                </span>
+                <span className="text-right font-serif text-base font-black text-black">{e.price > 0 ? `€${e.price}` : '—'}</span>
+              </Link>
+            )
+          }} />
+        ) : <div className="p-8 text-center text-sm font-semibold text-black/40">{L.none}</div>}
+      </div>
+    </div>
+  )
+}
+
 // ── Full-screen agenda (horizontal strips) ────────────────────────────────────
 function PickerRows({ events, locale, persistKey, full, onExpand }: { events: PickerEvent[]; locale: string; persistKey?: string; full?: boolean; onExpand?: () => void }) {
   const L = LABELS[locale] || LABELS.en
