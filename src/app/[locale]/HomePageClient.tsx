@@ -8,7 +8,7 @@ import { Calendar, MapPin, Music } from 'lucide-react';
 import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 import { HeroTypewriter } from '@/components/ui/HeroTypewriter';
 import { CategoryReveal } from '@/components/ui/CategoryReveal';
-import { HomeUpcomingPicker, type PickerEvent } from '@/components/events/EventPickerWheel';
+import { HomePlanner, type PickerEvent } from '@/components/events/EventPickerWheel';
 
 interface HomePageProps {
   locale?: string;
@@ -101,20 +101,24 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (
+        <>
+        {/* Full-screen stepped planner: Club → Datum → Events (one screen tall) */}
+        {pickerEvents.length > 0 && (
+          <section className="flex min-h-[100svh] flex-col bg-white text-neutral-900 border-t border-black/5 px-4 py-6 md:py-8">
+            <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col">
+              <div className="mb-5">
+                <div className="text-xs font-bold tracking-widest uppercase text-neutral-400 mb-2">{translations.home_live_from_calendar}</div>
+                <h2 className="text-4xl md:text-5xl font-serif font-bold text-neutral-900 tracking-tight">{translations.home_upcoming_parties}</h2>
+              </div>
+              <div className="flex flex-1">
+                <HomePlanner events={pickerEvents} locale={locale} />
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className="pb-12 pt-6 md:pb-16 md:pt-8 bg-white text-neutral-900 border-t border-black/5">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="mb-8">
-              <div className="text-xs font-bold tracking-widest uppercase text-neutral-400 mb-2">{translations.home_live_from_calendar}</div>
-              <h2 className="text-4xl md:text-5xl font-serif font-bold text-neutral-900 tracking-tight">{translations.home_upcoming_parties}</h2>
-            </div>
-
-            {/* Club selector + vertical EVENT · DATE · PRICE lift slider (mobile + desktop, full width) */}
-            {pickerEvents.length > 0 && (
-              <div className="mb-8 w-full">
-                <HomeUpcomingPicker events={pickerEvents} locale={locale} />
-              </div>
-            )}
-
             <div className="mb-6 flex items-center gap-4">
               <h3 className="shrink-0 font-serif text-2xl font-bold tracking-tight text-neutral-900 md:text-3xl">
                 {({ nl: 'Uitgelichte events', en: 'Featured events', es: 'Eventos destacados', de: 'Ausgewählte Events', fr: 'Événements en vedette' } as Record<string, string>)[locale] || 'Featured events'}
@@ -180,6 +184,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             </div>
           </div>
         </section>
+        </>
       )}
 
       {/* FEATURED CLUBS — premium card grid */}
