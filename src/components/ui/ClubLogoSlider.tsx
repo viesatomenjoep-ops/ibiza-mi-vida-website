@@ -141,19 +141,25 @@ export function ClubLogoSlider({
   }, [clubLogos, speed]);
 
   // Manual drag (pointer = mouse + touch) — swipe left/right by hand; auto resumes on release.
+  // We only capture the pointer AFTER a real horizontal drag starts, so a simple tap still
+  // fires the click on the <Link> (important for tap-to-open on mobile).
+  const hasCapture = useRef(false);
   const onPointerDown = (e: React.PointerEvent) => {
     isDragging.current = true;
     dragMoved.current = false;
+    hasCapture.current = false;
     dragStartX.current = e.clientX;
     dragStartOffset.current = offsetRef.current;
-    try { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); } catch {}
   };
   const onPointerMove = (e: React.PointerEvent) => {
     if (!isDragging.current) return;
     const track = trackRef.current;
     if (!track) return;
     const dx = e.clientX - dragStartX.current;
-    if (Math.abs(dx) > 4) dragMoved.current = true;
+    if (Math.abs(dx) > 6) {
+      dragMoved.current = true;
+      if (!hasCapture.current) { try { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); hasCapture.current = true; } catch {} }
+    }
     let off = dragStartOffset.current + dx;
     const u = unitRef.current;
     if (u) { while (off <= -u) off += u; while (off > 0) off -= u; }
@@ -162,7 +168,7 @@ export function ClubLogoSlider({
   };
   const onPointerUp = (e: React.PointerEvent) => {
     isDragging.current = false;
-    try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch {}
+    if (hasCapture.current) { try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch {} hasCapture.current = false; }
   };
   // Swallow the click that follows a real drag so logos don't navigate mid-swipe.
   const onClickCapture = (e: React.MouseEvent) => {
@@ -227,17 +233,17 @@ export function ClubLogoSlider({
                 <Link
                   href={`${base}/${basePath}/${club.slug}`}
                   key={`${club.slug}-${idx}`}
-                  className="inline-flex items-center justify-center px-8 opacity-80 hover:opacity-100 transition-opacity"
+                  className="inline-flex items-center justify-center px-6 md:px-8 opacity-80 hover:opacity-100 transition-opacity"
                   draggable={false}
                   aria-label={live.status ? `${club.name} — live` : club.name}
                 >
-                  {/* Wrapper is the positioning context so the badge anchors to the logo, inside the padded row */}
-                  <span className="relative inline-flex items-center justify-center">
+                  {/* Fixed box so every logo occupies the same footprint (equal visual size) */}
+                  <span className="relative inline-flex h-9 w-24 md:h-11 md:w-32 items-center justify-center">
                     <StatusBadge status={live.status} count={live.count} />
                     <img
                       src={club.whitelogo || club.picture}
                       alt={club.name}
-                      className="h-5 md:h-6 w-auto object-contain brightness-0 invert drop-shadow-md pointer-events-none"
+                      className="max-h-full max-w-full object-contain brightness-0 invert drop-shadow-md pointer-events-none"
                       loading="lazy"
                       decoding="async"
                     />

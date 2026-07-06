@@ -93,7 +93,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             liveByClub={liveByClub}
             locale={locale}
             showLegend
-            speed={0.3}
+            speed={0.65}
             className="w-full bg-transparent pt-2 pb-1"
           />
         </div>
