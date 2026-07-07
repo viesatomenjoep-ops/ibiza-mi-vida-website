@@ -85,7 +85,7 @@ function DealsRow({ items, locale, dir = 1 }: { items: Deal[]; locale: string; d
         if (dir === 1 && el.scrollLeft + el.clientWidth + 6 >= el.scrollWidth) el.scrollTo({ left: 0, behavior: 'smooth' })
         else if (dir === -1 && el.scrollLeft <= 6) el.scrollTo({ left: el.scrollWidth, behavior: 'smooth' })
         else el.scrollBy({ left: step, behavior: 'smooth' })
-      }, 2700)
+      }, 1350)
     }, startDelay)
     return () => { clearTimeout(startTimer); clearInterval(iv) }
   }, [items.length, dir])
