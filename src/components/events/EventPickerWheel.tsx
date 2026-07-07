@@ -929,14 +929,14 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
               <Share2 size={13} /> {copied ? T.shared : T.share}
             </button>
           </div>
-          <div className="max-h-[46svh] space-y-4 overflow-y-auto p-4">
+          <div className="max-h-[46svh] space-y-4 overflow-y-auto p-4 md:max-h-[58svh]">
             {resultGroups.length > 0 ? resultGroups.map(g => (
               <div key={g.date}>
                 <div className="mb-2 text-xs font-black uppercase tracking-widest capitalize text-black/50">{fmt(g.date, 'EEEE d MMMM')}</div>
                 <div className="flex flex-col gap-3">
                   {g.items.map(e => (
                     <div key={e.id} className="flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-md">
-                      <div className="relative aspect-[16/9] w-full bg-neutral-900">
+                      <div className="relative aspect-[16/9] w-full bg-neutral-900 md:aspect-auto md:h-40 lg:h-44">
                         {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover" /> : null}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
                         {e.clubLogo && <span className="absolute left-2.5 top-2.5 grid h-9 w-9 place-items-center overflow-hidden rounded-lg bg-white/90 p-1"><img src={e.clubLogo} alt="" className="max-h-full max-w-full object-contain [filter:brightness(0)]" /></span>}
