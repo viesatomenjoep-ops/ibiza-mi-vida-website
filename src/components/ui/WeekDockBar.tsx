@@ -22,6 +22,7 @@ export function WeekDockBar({
   imageFor,
   variant = 'red',
   imagePool = [],
+  photoDim = true,
 }: {
   eventDates: string[]
   weekStart: string
@@ -32,6 +33,7 @@ export function WeekDockBar({
   imageFor?: (iso: string) => string
   variant?: 'red' | 'photo'
   imagePool?: string[]
+  photoDim?: boolean
 }) {
   const L = getLoc(locale)
   const todayStr = useMemo(() => format(new Date(), 'yyyy-MM-dd'), [])
@@ -91,12 +93,14 @@ export function WeekDockBar({
                 style={variant === 'red' ? { backgroundColor: '#E14D68' } : { backgroundColor: '#111' }}
                 className={`relative flex h-12 flex-col items-center justify-center overflow-hidden rounded-lg leading-none transition-all sm:h-14 ${on ? (variant === 'photo' ? 'ring-2 ring-ibiza-green' : 'ring-2 ring-black') : ''} ${disabled ? 'opacity-30' : 'active:scale-95'}`}
               >
-                {variant === 'photo' && photoBg && <img src={photoBg} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover blur-[2px] transition-opacity duration-700" />}
-                {variant === 'photo' && <span className="absolute inset-0 bg-black/55" />}
+                {variant === 'photo' && photoBg && <img src={photoBg} alt="" className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${photoDim ? 'scale-110 blur-[2px]' : ''}`} />}
+                {variant === 'photo' && photoDim && <span className="absolute inset-0 bg-black/55" />}
+                {/* subtle gradient at the bottom keeps the pure-white text readable even on bright photos */}
+                {variant === 'photo' && !photoDim && <span className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/25" />}
                 <span className="relative flex flex-col items-center">
-                  <span className="text-[9px] font-black uppercase text-white/90 drop-shadow">{format(d, 'EEEEE', { locale: L })}</span>
-                  <span className="font-serif text-base font-black text-white drop-shadow">{format(d, 'd')}</span>
-                  {hv && !on && <span className="mt-0.5 h-1 w-1 rounded-full bg-white" />}
+                  <span className="text-[9px] font-black uppercase text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]">{format(d, 'EEEEE', { locale: L })}</span>
+                  <span className="font-serif text-base font-black text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]">{format(d, 'd')}</span>
+                  {hv && !on && <span className="mt-0.5 h-1 w-1 rounded-full bg-white [box-shadow:0_0_3px_rgba(0,0,0,0.8)]" />}
                 </span>
               </button>
             )

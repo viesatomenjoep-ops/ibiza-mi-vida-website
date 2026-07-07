@@ -129,7 +129,12 @@ export default function EventsExplorer({ events, locale }: Props) {
     const ds = pickerEvents.map(e => e.date).filter(d => d >= todayStr).sort()[0] || todayStr
     return format(startOfWeek(parseISO(ds), { weekStartsOn: 1 }), 'yyyy-MM-dd')
   })
-  useEffect(() => { if (activeDay && listRef.current) listRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, [activeDay])
+  useEffect(() => {
+    if (!activeDay || !listRef.current) return
+    const el = listRef.current
+    const t = setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 90)
+    return () => clearTimeout(t)
+  }, [activeDay])
 
   // Tiles: all upcoming events, or just the day picked in the dock
   const rangeEvents = activeDay ? clubEvents.filter(e => e.date === activeDay) : clubEvents
@@ -184,7 +189,7 @@ export default function EventsExplorer({ events, locale }: Props) {
         </section>
       )}
 
-      <div ref={listRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 16px)' }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-40">
+      <div ref={listRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 12px)', minHeight: activeDay ? 'calc(100svh - var(--nav-h))' : undefined }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-40">
 
         {/* ── Section label (Deals-of-the-Day style) ── */}
         <div className="mb-8 flex items-center justify-between border-b border-black/10 pb-4">
@@ -302,6 +307,7 @@ export default function EventsExplorer({ events, locale }: Props) {
           setActiveDay={setActiveDay}
           locale={locale}
           variant="photo"
+          photoDim={false}
           imageFor={(iso) => imgByDate.get(iso) || ''}
           imagePool={imagePool}
         />
