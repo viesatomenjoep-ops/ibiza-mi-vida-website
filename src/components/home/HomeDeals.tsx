@@ -130,9 +130,9 @@ export function HomeDeals({ deals, locale = 'nl' }: { deals: DealsData; locale: 
   return (
     <section id="deals" className="scroll-mt-24 bg-white px-4 py-6 md:py-8">
       <div className="mx-auto w-full max-w-7xl">
-        <div className="mb-5">
+        <div className="mb-5 flex flex-col items-center text-center">
           <h2 className="font-serif text-[1.625rem] font-black leading-none tracking-tight text-neutral-900">{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
-          <p className="mt-1 text-sm font-medium text-neutral-500">{SECTION_SUB[locale] || SECTION_SUB.en}</p>
+          <p className="mt-1.5 max-w-md text-sm font-medium text-neutral-500">{SECTION_SUB[locale] || SECTION_SUB.en}</p>
         </div>
 
         <div className="flex flex-col gap-8">
