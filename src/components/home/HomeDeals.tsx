@@ -44,23 +44,22 @@ const TICKETS: Record<string, string> = { nl: 'Bekijk', en: 'View', de: 'Ansehen
 function DealTile({ d, locale }: { d: Deal; locale: string }) {
   const inner = (
     <>
-      {/* Photo on top — shorter so two categories fit in one glance */}
-      <div className="relative aspect-[16/9] w-full bg-neutral-900">
-        {d.image ? <img src={d.image} alt={d.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+      {/* Left half — the event photo (uniform cut for every tile) */}
+      <div className="relative h-full w-[55%] shrink-0 bg-neutral-900">
+        {d.image ? <img src={d.image} alt={d.title} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
       </div>
-      {/* Everything below the photo: date, title, price, view */}
-      <div className="flex flex-1 flex-col gap-0.5 p-2.5" style={{ backgroundColor: '#E14D68' }}>
-        <div className="text-[9px] font-black uppercase tracking-widest text-white/85">{d.dateLabel}</div>
-        <div className="line-clamp-2 font-serif text-[13px] font-black leading-tight text-white">{d.title}</div>
-        <div className="line-clamp-1 text-[10px] font-semibold text-white/75">{d.sub}</div>
-        <div className="mt-auto flex items-center justify-between gap-2 pt-1">
-          {d.price > 0 ? <span className="rounded-full bg-white px-2 py-0.5 text-xs font-black text-black">€{d.price}{d.priceLabel || ''}</span> : <span />}
-          <span className="inline-flex items-center gap-0.5 text-[9px] font-black uppercase tracking-wide text-white">{TICKETS[locale] || TICKETS.en} <ChevronRight size={11} /></span>
+      {/* Right half — smaller red panel: price top-right, info, subtle "View" */}
+      <div className="flex w-[45%] flex-col justify-between p-2.5" style={{ backgroundColor: '#E14D68' }}>
+        {d.price > 0 ? <span className="self-end rounded-full bg-white px-2 py-0.5 text-[11px] font-black text-black">€{d.price}{d.priceLabel || ''}</span> : <span className="h-4" />}
+        <div className="min-w-0">
+          <div className="line-clamp-2 font-serif text-[12px] font-black leading-tight text-white">{d.title}</div>
+          <div className="mt-0.5 line-clamp-1 text-[9px] font-bold uppercase tracking-wide text-white/80">{d.dateLabel}</div>
         </div>
+        <span className="inline-flex items-center gap-1 self-start rounded-full border border-white/50 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white transition-colors group-hover:bg-white group-hover:text-[#E14D68]">{TICKETS[locale] || TICKETS.en} <ChevronRight size={10} /></span>
       </div>
     </>
   )
-  const cls = 'group flex shrink-0 basis-[47%] snap-start flex-col overflow-hidden rounded-2xl border border-black/10 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl sm:basis-[31%] lg:basis-[23%]'
+  const cls = 'group flex h-28 shrink-0 basis-[47%] snap-start overflow-hidden rounded-2xl border border-black/10 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl sm:h-32 sm:basis-[31%] lg:basis-[23%]'
   if (d.ext) return <a data-tile href={d.ext} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>
   return <Link data-tile href={d.href || '#'} className={cls}>{inner}</Link>
 }
@@ -126,15 +125,11 @@ export function HomeDeals({ deals, locale = 'nl' }: { deals: DealsData; locale: 
   if (rows.length === 0) return null
 
   return (
-    <section className="bg-white px-4 py-10 md:py-14">
+    <section className="bg-white px-4 py-6 md:py-8">
       <div className="mx-auto w-full max-w-7xl">
-        <div className="mb-8">
-          <div className="flex items-center gap-2">
-            <img src="/logo-clean.png" alt="" className="h-8 w-8 shrink-0 object-contain" />
-            <span style={{ fontFamily: 'var(--font-display), sans-serif', fontWeight: 600, fontSize: '1.17rem', letterSpacing: '.03em', textTransform: 'uppercase', color: '#E14D68' }}>Ibiza mi vida</span>
-          </div>
-          <h2 className="mt-3 font-serif text-xl font-black tracking-tight text-neutral-900">{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
-          <p className="mt-3 text-sm font-medium text-neutral-500">{SECTION_SUB[locale] || SECTION_SUB.en}</p>
+        <div className="mb-5">
+          <h2 className="font-serif text-xl font-black tracking-tight text-neutral-900">{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
+          <p className="mt-1 text-sm font-medium text-neutral-500">{SECTION_SUB[locale] || SECTION_SUB.en}</p>
         </div>
 
         <div className="flex flex-col gap-8">
