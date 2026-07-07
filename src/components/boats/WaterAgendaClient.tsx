@@ -124,7 +124,7 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
     const sorted = [...pickerEvents].sort((a, b) => a.date.localeCompare(b.date));
     return dockDay ? sorted.filter(e => e.date === dockDay) : sorted;
   }, [pickerEvents, dockDay]);
-  React.useEffect(() => { if (dockDay && galleryRef.current) galleryRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, [dockDay]);
+  React.useEffect(() => { if (!dockDay || !galleryRef.current) return; const el = galleryRef.current; const t = setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 90); return () => clearTimeout(t); }, [dockDay]);
 
   const weekStart = format(startOfWeek(today, { weekStartsOn: 1 }), 'yyyy-MM-dd');
   const weekEnd = format(endOfWeek(today, { weekStartsOn: 1 }), 'yyyy-MM-dd');
@@ -243,7 +243,7 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
 
       {/* ── Promo gallery: every event of this category, from today onward ── */}
       {pickerEvents.length > 0 && (
-        <section ref={galleryRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 16px)' }} className="relative z-10 mx-auto max-w-4xl px-4 pb-40 pt-2">
+        <section ref={galleryRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 8px)', minHeight: dockDay ? 'calc(100svh - var(--nav-h))' : undefined }} className="relative z-10 mx-auto max-w-4xl px-4 pb-40 pt-2">
           <div className="mb-4 flex items-center gap-3">
             <h2 className="font-serif text-2xl md:text-3xl font-black text-black">{title} events</h2>
             <span className="h-px flex-1 bg-black/10" />
