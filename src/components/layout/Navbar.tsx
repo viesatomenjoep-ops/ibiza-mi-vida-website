@@ -332,6 +332,7 @@ export function Navbar() {
           {NAV_CATEGORIES.map((cat, ci) => (
             <div
               key={cat.id}
+              data-cat={cat.id}
               className={`fs-cat${openCat === cat.id ? ' fs-cat--open' : ''}`}
               style={{ '--ci': ci } as React.CSSProperties}
             >
