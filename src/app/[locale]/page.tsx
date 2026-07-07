@@ -76,7 +76,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
   const priceOf = (s: any) => { const m = String(s || '').match(/\d+([.,]\d+)?/); return m ? parseFloat(m[0].replace(',', '.')) : 0 }
   // Which of our own category pages exists per venue type (so water/land deals open
   // OUR event page first, then the user clicks through to ClubTickets to pay).
-  const BASEPATH_BY_TYPE: Record<string, string> = { activities: 'activities', 'formentera-day-trip': 'ferry-formentera' }
+  const BASEPATH_BY_TYPE: Record<string, string> = { activities: 'activities', 'formentera-day-trip': 'ferry-formentera', boat: 'boat-trip' }
   const dealFrom = (d: any, kind: 'clubs' | 'water' | 'land') => {
     const vtype = typeBySlug.get(d.venueSlug || '') || ''
     const basePath = kind === 'clubs' ? 'club-tickets' : BASEPATH_BY_TYPE[vtype]
