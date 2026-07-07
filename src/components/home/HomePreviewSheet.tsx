@@ -67,8 +67,9 @@ export function HomePreviewSheet({
             <X size={16} strokeWidth={2.5} />
           </button>
 
-          {/* Category label + CTA, clear of the dock */}
-          <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center px-5 text-center" style={{ paddingBottom: DOCK_CLEARANCE }}>
+          {/* Category label + CTA — kept high in the image so it's always visible,
+              and vertically centred above the dock on every device */}
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-5 text-center" style={{ paddingBottom: DOCK_CLEARANCE }}>
             <span
               className="mb-3 inline-flex items-center gap-2 rounded-full px-3 py-1 font-serif text-[11px] font-black uppercase tracking-wide"
               style={{ backgroundColor: cat.bg, color: cat.fg }}
