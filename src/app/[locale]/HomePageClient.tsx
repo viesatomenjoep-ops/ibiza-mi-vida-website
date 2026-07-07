@@ -103,7 +103,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         {deals && <div className="border-t border-black/5"><HomeDeals deals={deals} locale={locale} /></div>}
 
         {/* Club logo marquee — moved here, between Deals of the Day and Featured events */}
-        <div className="bg-black py-4 border-t border-white/10">
+        <Reveal className="bg-black py-4 border-t border-white/10">
           <img src="/logo-white.png" alt="Ibiza mi vida" className="mx-auto mb-3 h-12 w-auto object-contain md:h-14" />
           <ClubLogoSlider
             clubLogos={clubLogos}
@@ -114,7 +114,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             speed={0.9}
             className="w-full bg-transparent"
           />
-        </div>
+        </Reveal>
 
         <section className="pb-12 pt-6 md:pb-16 md:pt-8 bg-white text-neutral-900 border-t border-black/5">
           <div className="max-w-7xl mx-auto px-4">
@@ -188,7 +188,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       {/* FEATURED CLUBS — premium card grid */}
       {featuredClubs.length > 0 && (
         <section className="py-8 md:py-12" style={{ background: '#0a0a0a' }}>
-          <div className="max-w-7xl mx-auto px-4">
+          <Reveal className="max-w-7xl mx-auto px-4">
 
             {/* Section header */}
             <div className="flex items-center justify-between mb-6">
@@ -262,13 +262,13 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                 {translations.home_view_all_clubs}
               </Link>
             </div>
-          </div>
+          </Reveal>
         </section>
       )}
 
       {/* CATEGORIES GRID */}
       <section className="section bg-white text-neutral-900">
-        <div className="wrap">
+        <Reveal className="wrap">
           <div className="section-head">
             <div>
               <span className="kicker !text-neutral-900">{translations.home_discover_all}</span>
@@ -294,7 +294,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
               <span className="arrow">→</span>
             </Link>
           </div>
-        </div>
+        </Reveal>
       </section>
     </div>
   );
