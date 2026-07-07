@@ -216,7 +216,7 @@ function waLink(boat: Boat, T: FleetLabels) {
 function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; locale: string; onOpen: () => void }) {
   const p = boat.price;
   return (
-    <article id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 20px)' }} className="group grid grid-cols-1 md:grid-cols-2 overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
+    <article id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="group grid grid-cols-1 md:grid-cols-2 overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
       {/* Photo */}
       <button
         onClick={onOpen}
