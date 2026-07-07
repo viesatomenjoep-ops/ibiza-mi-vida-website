@@ -23,7 +23,7 @@ export function HomePreviewStage({
   }, [])
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden px-6 text-center" style={{ paddingTop: '1vh', paddingBottom: 168 }}>
+    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden px-6 text-center" style={{ paddingTop: '1vh', paddingBottom: 92 }}>
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center">
         {/* Hairline separator */}
@@ -47,7 +47,7 @@ export function HomePreviewStage({
           peaking in the middle so it flows into the dock */}
       <svg
         className="pointer-events-none absolute inset-x-0 z-0 w-full"
-        style={{ bottom: 80, height: 'clamp(26px, 5vh, 52px)', opacity: arcOpacity, transition: 'opacity .15s linear' }}
+        style={{ bottom: 22, height: 'clamp(26px, 5vh, 52px)', opacity: arcOpacity, transition: 'opacity .15s linear' }}
         viewBox="0 0 400 44"
         preserveAspectRatio="none"
         aria-hidden="true"
