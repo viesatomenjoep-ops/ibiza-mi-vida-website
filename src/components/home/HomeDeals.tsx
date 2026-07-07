@@ -48,14 +48,14 @@ function DealTile({ d, locale }: { d: Deal; locale: string }) {
       <div className="relative h-full w-[55%] shrink-0 bg-neutral-900">
         {d.image ? <img src={d.image} alt={d.title} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
       </div>
-      {/* Right half — smaller red panel: price top-right, info, subtle "View" */}
-      <div className="flex w-[45%] flex-col justify-between p-2.5" style={{ backgroundColor: '#E14D68' }}>
-        {d.price > 0 ? <span className="self-end rounded-full bg-white px-2 py-0.5 text-[11px] font-black text-black">€{d.price}{d.priceLabel || ''}</span> : <span className="h-4" />}
-        <div className="min-w-0">
-          <div className="line-clamp-2 font-serif text-[12px] font-black leading-tight text-white">{d.title}</div>
-          <div className="mt-0.5 line-clamp-1 text-[9px] font-bold uppercase tracking-wide text-white/80">{d.dateLabel}</div>
+      {/* Right half — red panel: price top-left, event text + date centred & filling, subtle "View" */}
+      <div className="flex w-[45%] flex-col gap-1 p-2.5 text-center" style={{ backgroundColor: '#E14D68' }}>
+        {d.price > 0 ? <span className="self-start rounded-full bg-white px-2 py-0.5 text-[11px] font-black text-black">€{d.price}{d.priceLabel || ''}</span> : <span className="h-4" />}
+        <div className="flex min-w-0 flex-1 flex-col items-center justify-center">
+          <div className="line-clamp-3 font-serif text-[12px] font-black leading-tight text-white">{d.title}</div>
+          <div className="mt-1 line-clamp-1 text-[9px] font-bold uppercase tracking-wide text-white/85">{d.dateLabel}</div>
         </div>
-        <span className="inline-flex items-center gap-1 self-start rounded-full border border-white/50 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white transition-colors group-hover:bg-white group-hover:text-[#E14D68]">{TICKETS[locale] || TICKETS.en} <ChevronRight size={10} /></span>
+        <span className="mx-auto inline-flex items-center gap-1 rounded-full border border-white/50 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white transition-colors group-hover:bg-white group-hover:text-[#E14D68]">{TICKETS[locale] || TICKETS.en} <ChevronRight size={10} /></span>
       </div>
     </>
   )
