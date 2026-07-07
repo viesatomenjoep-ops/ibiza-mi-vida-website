@@ -109,7 +109,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
       price: b.price.low,
       priceLabel: '/dag',
       dateLabel: dLabel(todayStr),
-      href: `/${params.locale}/private-boat-charters`,
+      href: `/${params.locale}/private-boat-charters#boat-${b.slug}`,
     })),
   }
 
