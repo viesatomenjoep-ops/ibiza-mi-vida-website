@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { LOCALES } from './LanguageSelector'
 import { SpotifyButton } from './SpotifyButton'
+import { MenuYachtSlider } from './MenuYachtSlider'
+import { FLEET } from '@/data/fleet'
 
 import en from '@/dictionaries/en.json'
 import nl from '@/dictionaries/nl.json'
@@ -13,6 +15,7 @@ import de from '@/dictionaries/de.json'
 import fr from '@/dictionaries/fr.json'
 
 const dicts: Record<string, any> = { en, nl, es, de, fr }
+const YACHT_IMAGES = FLEET.map(b => b.image).filter(Boolean)
 
 const OFFICIAL_PARTNER: Record<string, string> = {
   en: 'Official ticket partner',
@@ -371,6 +374,9 @@ export function Navbar() {
               </div>
             </div>
           ))}
+
+          {/* Yacht photo slider — fills the space down to the language selector */}
+          <MenuYachtSlider images={YACHT_IMAGES} />
         </nav>
 
         {/* Footer row */}
