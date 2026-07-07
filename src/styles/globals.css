@@ -1203,6 +1203,14 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 .fs-spotify-btn{border-color:rgba(0,0,0,.16);background:rgba(0,0,0,.03);}
 .fs-spotify-btn:hover,.fs-spotify-btn[aria-expanded="true"]{border-color:#1ED760;background:rgba(30,215,96,.12);}
 
+/* Homepage 5-tile selector dock — premium sheen + lift */
+.hdock-tile{position:relative;overflow:hidden;transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease,filter .2s ease}
+.hdock-tile::before{content:'';position:absolute;top:0;left:-130%;width:75%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-18deg);transition:left .6s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+.hdock-tile--light::before{background:linear-gradient(120deg,transparent,rgba(0,0,0,.12),transparent)}
+.hdock-tile:hover::before,.hdock-tile:focus-visible::before{left:135%}
+.hdock-tile:hover{transform:translateY(-4px);filter:brightness(1.07)}
+.hdock-tile:active{transform:translateY(0) scale(.96)}
+
 /* Cinematic hero title — fades + settles in like the old After Effects intro */
 @keyframes heroFadeIn{
   0%{opacity:0;transform:translateY(16px) scale(1.02);filter:blur(8px);letter-spacing:.4em}

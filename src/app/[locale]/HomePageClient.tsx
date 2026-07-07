@@ -9,6 +9,7 @@ import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel';
 import { HomeDeals, type DealsData } from '@/components/home/HomeDeals';
 import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
+import { HomeSelectorDock } from '@/components/home/HomeSelectorDock';
 import { Reveal } from '@/components/ui/Reveal';
 
 interface HomePageProps {
@@ -21,6 +22,21 @@ interface HomePageProps {
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
   liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
 }
+
+const HERO_HEADLINE: Record<string, string> = {
+  nl: 'Jouw exclusieve sleutel tot Ibiza.',
+  en: 'Your exclusive key to Ibiza.',
+  es: 'Tu llave exclusiva a Ibiza.',
+  de: 'Dein exklusiver Schlüssel zu Ibiza.',
+  fr: 'Votre clé exclusive pour Ibiza.',
+};
+const HERO_SUBLINE: Record<string, string> = {
+  nl: 'Van privéjachten tot de beste clubs en unieke activiteiten. Boek jouw ultieme eilandervaring op één platform.',
+  en: 'From private yachts to the best clubs and unique activities. Book your ultimate island experience on one platform.',
+  es: 'Desde yates privados hasta los mejores clubs y actividades únicas. Reserva tu experiencia isleña definitiva en una sola plataforma.',
+  de: 'Von Privatyachten bis zu den besten Clubs und einzigartigen Aktivitäten. Buche dein ultimatives Inselerlebnis auf einer Plattform.',
+  fr: 'Des yachts privés aux meilleurs clubs et activités uniques. Réservez votre expérience insulaire ultime sur une seule plateforme.',
+};
 
 export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, allVenues = [], liveByClub = {} }: HomePageProps) {
   const base = `/${locale}`;
@@ -49,12 +65,13 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
   return (
     <div className="theme-monaco-vip is-home bg-white text-[var(--color-ink)] min-h-screen">
 
-      {/* ── HERO — top half white (navbar), bottom half video filling to the fold.
-          The video is object-cover (full size, cropped through the middle) and the
-          fade-in title + live legend + slider are overlaid at the top of the video. ── */}
+      {/* ── HERO — top half is the video (under the navbar), bottom half white.
+          The video is object-cover (full size, cut through the middle). Just under
+          the navbar sit the logo slider + one-line live legend; the fade-in
+          "Ibiza, your island" title sits lower in the video. ── */}
       <header className="relative w-full overflow-hidden bg-white text-black" style={{ height: '100svh' }}>
-        {/* Bottom-half video — fills its area on every device, cut through the middle */}
-        <div className="absolute inset-x-0 bottom-0 overflow-hidden bg-black" style={{ height: '50svh' }}>
+        {/* Top-half video — fills its area on every device, cut through the middle */}
+        <div className="absolute inset-x-0 top-0 overflow-hidden bg-black" style={{ height: '50svh' }}>
           <video
             src="/achtergrond-homepage.mp4#t=4"
             poster="/hi-ibiza-2026/FB_IMG_1779623220486.jpg"
@@ -67,20 +84,31 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             style={{ objectPosition: 'center', filter: 'brightness(0.55) contrast(2) saturate(1.05)' }}
             className="absolute inset-0 h-full w-full object-cover"
           />
-          {/* Legibility gradient — darker at the top where the text sits */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 via-black/15 to-black/35" />
+          {/* Legibility gradient — darker at top (under navbar) and bottom */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/65 via-black/10 to-black/45" />
 
-          {/* Overlay content anchored at the top of the video */}
-          <div className="absolute inset-x-0 top-0 z-10 flex flex-col items-center px-4 pt-6 text-center md:pt-9">
-            <h2 className="hero-fade-title font-serif text-2xl font-medium uppercase leading-[1.05] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-3xl md:text-[2.6rem]">
-              Ibiza,<span className="ml-2 font-light italic tracking-normal text-white/95">your island</span>
+          {/* Logo slider + one-line legend — just under the navbar */}
+          <div className="absolute inset-x-0 top-0 z-10 w-full" style={{ paddingTop: 'calc(var(--nav-h) + 6px)' }}>
+            <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />
+          </div>
+
+          {/* Cinematic title — the full tagline fades + settles in like the AE intro */}
+          <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center px-5 pb-6 text-center md:pb-9">
+            <span className="hero-fade-title font-serif text-[10px] font-bold uppercase tracking-[0.32em] text-white/80 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] md:text-[11px]">
+              Ibiza, your island
+            </span>
+            <h2 className="hero-fade-title mt-2 max-w-2xl font-serif text-[1.5rem] font-medium leading-[1.08] text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.75)] sm:text-3xl md:text-[2.5rem]">
+              {HERO_HEADLINE[locale] || HERO_HEADLINE.en}
             </h2>
-            <div className="mt-5 w-full md:mt-6">
-              <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend className="w-full bg-transparent" speed={0.7} />
-            </div>
+            <p className="hero-fade-sub mt-2.5 max-w-xl text-[0.8rem] font-medium leading-snug text-white/85 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] sm:text-sm md:text-base">
+              {HERO_SUBLINE[locale] || HERO_SUBLINE.en}
+            </p>
           </div>
         </div>
       </header>
+
+      {/* ── Fixed bottom dock — five equal selector tiles (like the week bar) ── */}
+      <HomeSelectorDock base={base} locale={locale} />
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (
@@ -281,6 +309,9 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           </div>
         </Reveal>
       </section>
+
+      {/* Spacer so the fixed selector dock never hides the last content */}
+      <div aria-hidden className="w-full" style={{ height: '84px' }} />
     </div>
   );
 }

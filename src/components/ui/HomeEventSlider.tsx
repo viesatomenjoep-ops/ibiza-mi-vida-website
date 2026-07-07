@@ -46,6 +46,7 @@ export function HomeEventSlider({
   className = 'w-full relative z-20 bg-transparent py-2',
   speed = 0.7,
   onLight = false,
+  legendWide = false,
 }: {
   events: PickerEvent[]
   liveByClub?: Record<string, LiveRecord>
@@ -54,6 +55,7 @@ export function HomeEventSlider({
   className?: string
   speed?: number
   onLight?: boolean
+  legendWide?: boolean
 }) {
   const trackRef = useRef<HTMLDivElement>(null)
   const offsetRef = useRef(0)
@@ -130,10 +132,13 @@ export function HomeEventSlider({
       <style>{`@keyframes hesPing{75%,100%{transform:scale(2.2);opacity:0}}.hes-ping{animation:hesPing 1.4s cubic-bezier(0,0,.2,1) infinite}`}</style>
 
       {showLegend && hasTracker && (
-        <div className={`mb-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 px-4 text-[10px] font-semibold uppercase tracking-wider md:text-[11px] ${onLight ? 'text-black/55' : 'text-white/70'}`}>
-          <span className={`flex items-center gap-1.5 ${onLight ? 'text-black' : 'text-white/90'}`}><span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.orange }} /> {L.live}</span>
-          <span className="flex items-center gap-1.5"><span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.green }} /> {L.tonight}</span>
-          <span className="flex items-center gap-1.5"><span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.red }} /> {L.last}</span>
+        <div
+          className={`mb-4 flex w-full items-center font-semibold uppercase ${onLight ? 'text-black/55' : 'text-white/75'} ${legendWide ? 'flex-nowrap justify-between gap-1.5 px-3 tracking-normal whitespace-nowrap sm:px-5' : 'flex-wrap justify-center gap-x-4 gap-y-1.5 px-4 text-[10px] tracking-wider md:text-[11px]'}`}
+          style={legendWide ? { fontSize: 'clamp(8px, 2.7vw, 12px)' } : undefined}
+        >
+          <span className={`flex items-center gap-1.5 ${onLight ? 'text-black' : 'text-white'}`}><span className="inline-flex h-2 w-2 shrink-0 rounded-full" style={{ background: DOT_COLORS.orange }} /> {L.live}</span>
+          <span className="flex items-center gap-1.5"><span className="inline-flex h-2 w-2 shrink-0 rounded-full" style={{ background: DOT_COLORS.green }} /> {L.tonight}</span>
+          <span className="flex items-center gap-1.5"><span className="inline-flex h-2 w-2 shrink-0 rounded-full" style={{ background: DOT_COLORS.red }} /> {L.last}</span>
         </div>
       )}
 
