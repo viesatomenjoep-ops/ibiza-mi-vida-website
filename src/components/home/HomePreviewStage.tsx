@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 // Resting state of the hero's white area — the tagline, framed by a black arc
 // just above the five selectors that mirrors the arc coming down from the video,
@@ -13,13 +13,19 @@ export function HomePreviewStage({
   headline: string
   subline: string
 }) {
-  // The black arc gradually fades out as you scroll down.
-  const [arcOpacity, setArcOpacity] = useState(1)
+  // The black arc gradually fades out as you scroll down — updated directly on the
+  // DOM via rAF so it never triggers a React re-render (keeps scrolling smooth).
+  const arcRef = useRef<SVGSVGElement>(null)
   useEffect(() => {
-    const onScroll = () => setArcOpacity(Math.max(0, Math.min(1, 1 - window.scrollY / 240)))
-    onScroll()
+    let raf = 0
+    const apply = () => {
+      raf = 0
+      if (arcRef.current) arcRef.current.style.opacity = String(Math.max(0, Math.min(1, 1 - window.scrollY / 240)))
+    }
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(apply) }
+    apply()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => { window.removeEventListener('scroll', onScroll); if (raf) cancelAnimationFrame(raf) }
   }, [])
 
   return (
@@ -46,8 +52,9 @@ export function HomePreviewStage({
       {/* Black arc just above the five selectors — same shape as the video arc,
           peaking in the middle so it flows into the dock */}
       <svg
+        ref={arcRef}
         className="pointer-events-none absolute inset-x-0 z-0 w-full"
-        style={{ bottom: 22, height: 'clamp(26px, 5vh, 52px)', opacity: arcOpacity, transition: 'opacity .15s linear' }}
+        style={{ bottom: 22, height: 'clamp(26px, 5vh, 52px)' }}
         viewBox="0 0 400 44"
         preserveAspectRatio="none"
         aria-hidden="true"
