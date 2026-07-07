@@ -64,6 +64,7 @@ export function HomeEventSlider({
   const prevMoveX = useRef(0)
   const momentumRef = useRef(0)
   const hasCapture = useRef(false)
+  const pausedUntil = useRef(0)
   const [now, setNow] = useState<Date | null>(null)
 
   useEffect(() => { setNow(new Date()); const id = setInterval(() => setNow(new Date()), 60000); return () => clearInterval(id) }, [])
@@ -78,6 +79,7 @@ export function HomeEventSlider({
       if (!isDragging.current && track) {
         const unit = unitRef.current
         if (Math.abs(momentumRef.current) > 0.3) { offsetRef.current += momentumRef.current; momentumRef.current *= 0.9 }
+        else if (Date.now() < pausedUntil.current) { /* you control it — auto-scroll paused after your swipe */ }
         else offsetRef.current -= speed
         if (unit) { while (offsetRef.current <= -unit) offsetRef.current += unit; while (offsetRef.current > 0) offsetRef.current -= unit }
         track.style.transform = `translate3d(${offsetRef.current}px,0,0)`
@@ -111,7 +113,7 @@ export function HomeEventSlider({
   const onPointerUp = (e: React.PointerEvent) => {
     isDragging.current = false
     if (hasCapture.current) { try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId) } catch {}; hasCapture.current = false }
-    if (dragMoved.current) momentumRef.current = Math.max(-16, Math.min(16, velRef.current * 0.6))
+    if (dragMoved.current) { momentumRef.current = Math.max(-16, Math.min(16, velRef.current * 0.6)); pausedUntil.current = Date.now() + 4000 }
   }
   const onClickCapture = (e: React.MouseEvent) => { if (dragMoved.current) { e.preventDefault(); e.stopPropagation(); dragMoved.current = false } }
 
@@ -124,7 +126,7 @@ export function HomeEventSlider({
       <style>{`@keyframes hesPing{75%,100%{transform:scale(2.2);opacity:0}}.hes-ping{animation:hesPing 1.4s cubic-bezier(0,0,.2,1) infinite}`}</style>
 
       {showLegend && hasTracker && (
-        <div className="mb-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 px-4 text-[10px] font-semibold uppercase tracking-wider text-white/70 md:text-[11px]">
+        <div className="mb-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 px-4 text-[10px] font-semibold uppercase tracking-wider text-white/70 md:text-[11px]">
           <span className="flex items-center gap-1.5 text-white/90"><span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.orange }} /> {L.live}</span>
           <span className="flex items-center gap-1.5"><span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.green }} /> {L.tonight}</span>
           <span className="flex items-center gap-1.5"><span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.red }} /> {L.last}</span>

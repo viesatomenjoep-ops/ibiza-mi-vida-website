@@ -992,9 +992,9 @@ export function HomeCalendarLauncher({ events, locale = 'nl', persistKey = 'home
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="mx-auto flex w-full max-w-[220px] items-center justify-center gap-2 rounded-xl border-2 border-black bg-ibiza-green px-4 py-2.5 font-serif text-sm font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95"
+        className="mx-auto flex w-full max-w-[150px] items-center justify-center gap-1.5 rounded-lg border-2 border-black bg-ibiza-green px-3 py-1.5 font-serif text-[11px] font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95"
       >
-        <CalendarDays size={16} /> {L.openCal}
+        <CalendarDays size={13} /> {L.openCal}
       </button>
 
       {open && mounted && createPortal(

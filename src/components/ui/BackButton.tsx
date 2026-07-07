@@ -29,7 +29,7 @@ export function BackButton({ locale = 'nl', fallbackHref, variant = 'hero' }: { 
   const [shown, setShown] = useState(false)
   const hideTimer = useRef<any>(null)
   useEffect(() => {
-    const reveal = () => { setShown(true); clearTimeout(hideTimer.current); hideTimer.current = setTimeout(() => setShown(false), 2200) }
+    const reveal = () => { setShown(true); clearTimeout(hideTimer.current); hideTimer.current = setTimeout(() => setShown(false), 400) }
     window.addEventListener('scroll', reveal, { passive: true })
     window.addEventListener('wheel', reveal, { passive: true })
     window.addEventListener('touchmove', reveal, { passive: true })
@@ -60,7 +60,7 @@ export function BackButton({ locale = 'nl', fallbackHref, variant = 'hero' }: { 
       type="button"
       onClick={goBack}
       aria-label={label}
-      className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-black uppercase tracking-wide shadow-lg transition-all duration-300 ${shown ? 'opacity-100 translate-y-0' : 'pointer-events-none -translate-y-1 opacity-0'} ${cls}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-black uppercase tracking-wide shadow-lg transition-all duration-150 ${shown ? 'opacity-100 translate-y-0' : 'pointer-events-none -translate-y-1 opacity-0'} ${cls}`}
     >
       <ArrowLeft size={17} strokeWidth={2.5} />
       {label}

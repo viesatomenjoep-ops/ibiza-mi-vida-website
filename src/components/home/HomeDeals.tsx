@@ -3,6 +3,7 @@
 import { useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
+import { Reveal } from '@/components/ui/Reveal'
 
 export interface Deal {
   id: string
@@ -132,14 +133,14 @@ export function HomeDeals({ deals, locale = 'nl' }: { deals: DealsData; locale: 
         </div>
 
         <div className="flex flex-col gap-8">
-          {rows.map(({ key, items, dir }) => (
-            <div key={key}>
+          {rows.map(({ key, items, dir }, ri) => (
+            <Reveal key={key} delay={ri * 120}>
               <div className="mb-3 flex items-center gap-3">
                 <h3 className="shrink-0 font-serif text-xl font-black tracking-tight text-neutral-900">{CAT_TITLE[key][locale] || CAT_TITLE[key].en}</h3>
                 <span className="h-px flex-1 bg-black/10" />
               </div>
               <DealsRow items={items} locale={locale} dir={dir} />
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

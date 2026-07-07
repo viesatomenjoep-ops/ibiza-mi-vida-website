@@ -11,6 +11,7 @@ import { CategoryReveal } from '@/components/ui/CategoryReveal';
 import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel';
 import { HomeDeals, type DealsData } from '@/components/home/HomeDeals';
 import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
+import { Reveal } from '@/components/ui/Reveal';
 
 interface HomePageProps {
   locale?: string;
@@ -84,14 +85,14 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <div className="flex-1 w-full" />
 
         {/* ── SLOGAN (were at the top) + HORIZONTAL LOGO MARQUEE BAR ── */}
-        <div className="w-full relative z-20 mt-auto pt-8 pb-2 md:pt-10 md:pb-3">
+        <div className="w-full relative z-20 mt-auto pt-8 pb-6 md:pt-10 md:pb-8">
           {/* Three category tiles with click-to-reveal photo effect (desktop + mobile) */}
           <div className="mb-6 md:mb-8">
             <CategoryReveal base={base} translations={translations} />
           </div>
 
-          {/* Live ClubTickets events — logo + name + live dot, tap to open the event */}
-          <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend className="w-full bg-transparent pt-2 pb-1" speed={0.7} />
+          {/* Live ClubTickets events — sits centred at the bottom of the hero video */}
+          <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend className="w-full bg-transparent pt-3 pb-2" speed={0.7} />
         </div>
       </header>
 
@@ -125,15 +126,13 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {upcomingDates.map((dateObj) => {
+              {upcomingDates.map((dateObj, di) => {
                 const venue = dateObj.ct_venues;
                 const event = dateObj.ct_events;
                 const image = event?.cover || event?.logo;
                 
                 return (
-                  <Link 
-                    href={`${base}/club-tickets/${venue?.slug || 'club'}/${event?.slug || 'event'}`} 
-                    key={dateObj.id} 
+                  <Reveal key={dateObj.id} delay={(di % 3) * 110} as={Link as any} href={`${base}/club-tickets/${venue?.slug || 'club'}/${event?.slug || 'event'}`}
                     className="bg-white rounded-[24px] p-4 flex gap-5 items-center hover:shadow-lg transition-shadow group border border-black/5"
                   >
                     <div className="w-24 h-24 md:w-32 md:h-32 rounded-[18px] bg-ibiza-mint relative overflow-hidden shrink-0 shadow-inner">
@@ -169,7 +168,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                     <div className="hidden sm:flex shrink-0 w-12 h-12 rounded-full bg-ibiza-mint items-center justify-center group-hover:bg-ibiza-green transition-colors text-neutral-900 mr-2">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </div>
-                  </Link>
+                  </Reveal>
                 );
               })}
             </div>

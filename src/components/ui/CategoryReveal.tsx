@@ -1,13 +1,16 @@
 'use client'
 
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 type Cat = { href: string; img: string; aria: string; label: React.ReactNode }
 
 export function CategoryReveal({ base, translations = {} }: { base: string; translations?: any }) {
   // null = all closed (text). Otherwise the href of the tile that is opened (photo revealed).
   const [open, setOpen] = useState<string | null>(null)
+  // Stagger the three circles in one-by-one on first load.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { const t = setTimeout(() => setMounted(true), 80); return () => clearTimeout(t) }, [])
 
   const clubsLabel = (translations.home_clubs_venues || 'Clubs & Venues')
     .split(/\s*&\s*|\s+(?:en|and|y|et)\s+/i)
@@ -24,7 +27,7 @@ export function CategoryReveal({ base, translations = {} }: { base: string; tran
 
   return (
     <div className="creveal-row">
-      {cats.map((c) => {
+      {cats.map((c, i) => {
         const isOpen = open === c.href
         return (
           <Link
@@ -32,6 +35,11 @@ export function CategoryReveal({ base, translations = {} }: { base: string; tran
             href={c.href}
             aria-label={c.aria}
             className={`creveal${isOpen ? ' is-open' : ''}`}
+            style={{
+              opacity: mounted ? 1 : 0,
+              transform: mounted ? 'none' : 'translateY(20px) scale(0.94)',
+              transition: `opacity .6s cubic-bezier(.21,.5,.32,1) ${i * 180}ms, transform .6s cubic-bezier(.21,.5,.32,1) ${i * 180}ms`,
+            }}
             onClick={(e) => {
               // First tap: reveal the photo. Second tap (already open): let the Link navigate.
               if (open !== c.href) {

@@ -104,6 +104,7 @@ export function ClubLogoSlider({
   const velRef = useRef(0);        // instantaneous drag velocity (px/frame)
   const prevMoveX = useRef(0);
   const momentumRef = useRef(0);   // fling momentum that decays after release
+  const pausedUntil = useRef(0);   // pause auto-scroll for a bit after a manual swipe
   const [now, setNow] = useState<Date | null>(null);
 
   // Compute status only on the client (avoids hydration mismatch) + refresh each minute.
@@ -130,6 +131,8 @@ export function ClubLogoSlider({
         if (Math.abs(momentumRef.current) > 0.3) {
           offsetRef.current += momentumRef.current;
           momentumRef.current *= 0.88;
+        } else if (Date.now() < pausedUntil.current) {
+          /* you control it — auto-scroll paused after your swipe */
         } else {
           offsetRef.current -= speed;
         }
@@ -189,7 +192,7 @@ export function ClubLogoSlider({
     if (hasCapture.current) { try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch {} hasCapture.current = false; }
     // Gentle glide: a small, quickly-decaying carry-over so it follows the thumb and
     // eases to a stop instead of shooting off to one side.
-    if (dragMoved.current) momentumRef.current = Math.max(-14, Math.min(14, velRef.current * 0.5));
+    if (dragMoved.current) { momentumRef.current = Math.max(-14, Math.min(14, velRef.current * 0.5)); pausedUntil.current = Date.now() + 4000; }
   };
   // Swallow the click that follows a real drag so logos don't navigate mid-swipe.
   const onClickCapture = (e: React.MouseEvent) => {
