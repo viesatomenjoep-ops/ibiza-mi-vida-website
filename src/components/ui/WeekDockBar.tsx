@@ -56,54 +56,77 @@ export function WeekDockBar({
   const [tick, setTick] = useState(0)
   useEffect(() => { if (variant !== 'photo') return; const id = setInterval(() => setTick(t => t + 1), 7000); return () => clearInterval(id) }, [variant])
 
-  // Swipe left/right across the day tiles to change the week (mobile-friendly)
-  const swipe = useRef({ x: 0, consumed: false })
-  const onDown = (e: React.PointerEvent) => { swipe.current = { x: e.clientX, consumed: false } }
-  const onUp = (e: React.PointerEvent) => {
-    const dx = e.clientX - swipe.current.x
-    if (Math.abs(dx) > 45) { shift(dx < 0 ? 1 : -1); swipe.current.consumed = true }
+  // Weeks as swipeable pages — the tiles physically slide with your thumb
+  const weeks = useMemo(() => {
+    const out: string[] = []; let c = parseISO(firstMonday); let g = 0
+    while (format(c, 'yyyy-MM-dd') <= lastMonday && g < 80) { out.push(format(c, 'yyyy-MM-dd')); c = addDays(c, 7); g++ }
+    return out.length ? out : [firstMonday]
+  }, [firstMonday, lastMonday])
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const scrollTimer = useRef<any>(null)
+  // Keep the carousel aligned to the controlled weekStart (e.g. when arrows are used)
+  useEffect(() => {
+    const el = scrollRef.current; if (!el) return
+    const idx = Math.max(0, weeks.indexOf(weekStart))
+    const target = idx * el.clientWidth
+    if (Math.abs(el.scrollLeft - target) > 4) el.scrollTo({ left: target, behavior: 'smooth' })
+  }, [weekStart, weeks])
+  const onScroll = () => {
+    const el = scrollRef.current; if (!el) return
+    clearTimeout(scrollTimer.current)
+    scrollTimer.current = setTimeout(() => {
+      const idx = Math.round(el.scrollLeft / el.clientWidth)
+      const w = weeks[Math.max(0, Math.min(weeks.length - 1, idx))]
+      if (w && w !== weekStart) { setWeekStart(w); setActiveDay(null) }
+    }, 110)
   }
-  const onClickCapture = (e: React.MouseEvent) => { if (swipe.current.consumed) { e.preventDefault(); e.stopPropagation(); swipe.current.consumed = false } }
+  const shiftTo = (dir: number) => {
+    const i = weeks.indexOf(weekStart)
+    const w = weeks[Math.max(0, Math.min(weeks.length - 1, (i < 0 ? 0 : i) + dir))]
+    if (w) { setWeekStart(w); setActiveDay(null) }
+  }
+
+  const renderTile = (ds: string, i: number) => {
+    const d = parseISO(ds)
+    const past = ds < todayStr
+    const hv = has(ds)
+    const on = activeDay === ds
+    const disabled = past || !hv
+    const photoBg = variant === 'photo' ? (imageFor?.(ds) || imagePool[(i + tick) % Math.max(1, imagePool.length)] || '') : ''
+    return (
+      <button
+        key={ds}
+        type="button"
+        disabled={disabled}
+        onClick={() => setActiveDay(on ? null : ds)}
+        style={variant === 'red' ? { backgroundColor: '#E14D68' } : { backgroundColor: '#111' }}
+        className={`relative flex h-12 flex-col items-center justify-center overflow-hidden rounded-lg leading-none transition-all sm:h-14 ${on ? (variant === 'photo' ? 'ring-2 ring-ibiza-green' : 'ring-2 ring-black') : ''} ${disabled ? 'opacity-30' : 'active:scale-95'}`}
+      >
+        {variant === 'photo' && photoBg && <img src={photoBg} alt="" className={`absolute inset-0 h-full w-full object-cover ${photoDim ? 'scale-110 blur-[2px]' : ''}`} />}
+        {variant === 'photo' && photoDim && <span className="absolute inset-0 bg-black/55" />}
+        {variant === 'photo' && !photoDim && <span className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/25" />}
+        <span className="relative flex flex-col items-center">
+          <span className="text-[9px] font-black uppercase text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]">{format(d, 'EEEEE', { locale: L })}</span>
+          <span className="font-serif text-base font-black text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]">{format(d, 'd')}</span>
+          {hv && !on && <span className="mt-0.5 h-1 w-1 rounded-full bg-white [box-shadow:0_0_3px_rgba(0,0,0,0.8)]" />}
+        </span>
+      </button>
+    )
+  }
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[55] border-t border-black/10 bg-white/95 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] backdrop-blur-md">
       <div className="mx-auto w-full max-w-3xl px-2 pt-1.5" style={{ paddingBottom: 'max(6px, env(safe-area-inset-bottom))' }}>
         <div className="mb-1.5 flex items-center justify-center gap-3">
-          <button type="button" aria-label="prev" onClick={() => shift(-1)} disabled={weekStart <= firstMonday} className="grid h-7 w-7 place-items-center rounded-full border border-black/10 bg-white text-black transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronLeft size={16} /></button>
+          <button type="button" aria-label="prev" onClick={() => shiftTo(-1)} disabled={weekStart <= firstMonday} className="grid h-7 w-7 place-items-center rounded-full border border-black/10 bg-white text-black transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronLeft size={16} /></button>
           <span className="text-[15px] font-black uppercase tracking-wide text-black">{cap(format(parseISO(weekStart), 'd MMM', { locale: L }))} – {cap(format(parseISO(weekEnd), 'd MMM', { locale: L }))}</span>
-          <button type="button" aria-label="next" onClick={() => shift(1)} disabled={weekStart >= lastMonday} className="grid h-7 w-7 place-items-center rounded-full border border-black/10 bg-white text-black transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronRight size={16} /></button>
+          <button type="button" aria-label="next" onClick={() => shiftTo(1)} disabled={weekStart >= lastMonday} className="grid h-7 w-7 place-items-center rounded-full border border-black/10 bg-white text-black transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronRight size={16} /></button>
         </div>
-        {/* Seven full-width blocks (swipe left/right to change week) */}
-        <div className="grid grid-cols-7 gap-1 select-none" style={{ touchAction: 'pan-y' }} onPointerDown={onDown} onPointerUp={onUp} onClickCapture={onClickCapture}>
-          {days.map((ds, i) => {
-            const d = parseISO(ds)
-            const past = ds < todayStr
-            const hv = has(ds)
-            const on = activeDay === ds
-            const disabled = past || !hv
-            const photoBg = variant === 'photo'
-              ? (imageFor?.(ds) || imagePool[(i + tick) % Math.max(1, imagePool.length)] || '')
-              : ''
-            return (
-              <button
-                key={ds}
-                type="button"
-                disabled={disabled}
-                onClick={() => setActiveDay(on ? null : ds)}
-                style={variant === 'red' ? { backgroundColor: '#E14D68' } : { backgroundColor: '#111' }}
-                className={`relative flex h-12 flex-col items-center justify-center overflow-hidden rounded-lg leading-none transition-all sm:h-14 ${on ? (variant === 'photo' ? 'ring-2 ring-ibiza-green' : 'ring-2 ring-black') : ''} ${disabled ? 'opacity-30' : 'active:scale-95'}`}
-              >
-                {variant === 'photo' && photoBg && <img src={photoBg} alt="" className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${photoDim ? 'scale-110 blur-[2px]' : ''}`} />}
-                {variant === 'photo' && photoDim && <span className="absolute inset-0 bg-black/55" />}
-                {/* subtle gradient at the bottom keeps the pure-white text readable even on bright photos */}
-                {variant === 'photo' && !photoDim && <span className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/25" />}
-                <span className="relative flex flex-col items-center">
-                  <span className="text-[9px] font-black uppercase text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]">{format(d, 'EEEEE', { locale: L })}</span>
-                  <span className="font-serif text-base font-black text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]">{format(d, 'd')}</span>
-                  {hv && !on && <span className="mt-0.5 h-1 w-1 rounded-full bg-white [box-shadow:0_0_3px_rgba(0,0,0,0.8)]" />}
-                </span>
-              </button>
-            )
+        {/* Swipeable weeks — the 7 blocks slide with the thumb, snapping per week */}
+        <div ref={scrollRef} onScroll={onScroll} className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {weeks.map(ws => {
+            const wd = Array.from({ length: 7 }, (_, i) => format(addDays(parseISO(ws), i), 'yyyy-MM-dd'))
+            return <div key={ws} className="grid min-w-full shrink-0 snap-center grid-cols-7 gap-1">{wd.map((ds, i) => renderTile(ds, i))}</div>
           })}
         </div>
       </div>

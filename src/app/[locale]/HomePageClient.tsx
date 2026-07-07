@@ -282,7 +282,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
               <strong>{translations.home_cat_calendar}</strong>
               <span className="arrow">→</span>
             </Link>
-            <Link href={`${base}/club-tickets`} className="cat">
+            <Link href={`${base}/clubs`} className="cat">
               <span className="num">02</span>
               <strong>{translations.home_cat_clubs_venues}</strong>
               <span className="arrow">→</span>
