@@ -10,6 +10,8 @@ import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/Even
 import { HomeDeals, type DealsData } from '@/components/home/HomeDeals';
 import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
 import { HomeSelectorDock } from '@/components/home/HomeSelectorDock';
+import { HomePreviewStage } from '@/components/home/HomePreviewStage';
+import type { CatKey } from '@/components/home/homeCategories';
 import { Reveal } from '@/components/ui/Reveal';
 
 interface HomePageProps {
@@ -19,6 +21,7 @@ interface HomePageProps {
   upcomingDates?: any[];
   pickerEvents?: PickerEvent[];
   deals?: DealsData;
+  previewPools?: Record<CatKey, string[]>;
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
   liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
 }
@@ -38,11 +41,22 @@ const HERO_SUBLINE: Record<string, string> = {
   fr: 'Des yachts privés aux meilleurs clubs et activités uniques. Réservez votre expérience insulaire ultime sur une seule plateforme.',
 };
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, allVenues = [], liveByClub = {} }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, previewPools, allVenues = [], liveByClub = {} }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
   const [selectedCategory, setSelectedCategory] = useState('club-tickets');
+
+  // Homepage preview stage — tapping a dock tile shows a random image for that
+  // category in the white area, with a "see all" button.
+  const [previewCat, setPreviewCat] = useState<CatKey | null>(null);
+  const [previewImg, setPreviewImg] = useState('');
+  const pickPreview = (key: CatKey) => {
+    const pool = previewPools?.[key] || [];
+    const img = pool.length ? pool[Math.floor(Math.random() * pool.length)] : '';
+    setPreviewCat(key);
+    setPreviewImg(img);
+  };
 
   const clubLogos = useMemo(() => {
     const clubs = allVenues.filter(v => v.typeSlug === 'clubbing');
@@ -66,12 +80,12 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
     <div className="theme-monaco-vip is-home bg-white text-[var(--color-ink)] min-h-screen">
 
       {/* ── HERO — top half is the video (under the navbar), bottom half white.
-          The video is object-cover (full size, cut through the middle). Just under
-          the navbar sit the logo slider + one-line live legend; the fade-in
-          "Ibiza, your island" title sits lower in the video. ── */}
-      <header className="relative w-full overflow-hidden bg-white text-black" style={{ height: '100svh' }}>
+          The video is object-cover (full size, cut through the middle). The live
+          slider + one-line legend sit at the BOTTOM of the video; the white area
+          below is an interactive preview stage driven by the fixed selector dock. ── */}
+      <header className="relative flex w-full flex-col overflow-hidden bg-white text-black" style={{ height: '100svh' }}>
         {/* Top-half video — fills its area on every device, cut through the middle */}
-        <div className="absolute inset-x-0 top-0 overflow-hidden bg-black" style={{ height: '50svh' }}>
+        <div className="relative w-full shrink-0 overflow-hidden bg-black" style={{ height: '50svh' }}>
           <video
             src="/achtergrond-homepage.mp4#t=4"
             poster="/hi-ibiza-2026/FB_IMG_1779623220486.jpg"
@@ -84,31 +98,31 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             style={{ objectPosition: 'center', filter: 'brightness(0.55) contrast(2) saturate(1.05)' }}
             className="absolute inset-0 h-full w-full object-cover"
           />
-          {/* Legibility gradient — darker at top (under navbar) and bottom */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/65 via-black/10 to-black/45" />
+          {/* Legibility gradient — darker at the bottom where the slider sits */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/45 via-black/10 to-black/75" />
 
-          {/* Logo slider + one-line legend — just under the navbar */}
-          <div className="absolute inset-x-0 top-0 z-10 w-full" style={{ paddingTop: 'calc(var(--nav-h) + 6px)' }}>
+          {/* Logo slider + one-line legend — at the BOTTOM of the video */}
+          <div className="absolute inset-x-0 bottom-0 z-10 w-full pb-3 md:pb-4">
             <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />
           </div>
+        </div>
 
-          {/* Cinematic title — the full tagline fades + settles in like the AE intro */}
-          <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center px-5 pb-6 text-center md:pb-9">
-            <span className="hero-fade-title font-serif text-[10px] font-bold uppercase tracking-[0.32em] text-white/80 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] md:text-[11px]">
-              Ibiza, your island
-            </span>
-            <h2 className="hero-fade-title mt-2 max-w-2xl font-serif text-[1.5rem] font-medium leading-[1.08] text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.75)] sm:text-3xl md:text-[2.5rem]">
-              {HERO_HEADLINE[locale] || HERO_HEADLINE.en}
-            </h2>
-            <p className="hero-fade-sub mt-2.5 max-w-xl text-[0.8rem] font-medium leading-snug text-white/85 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] sm:text-sm md:text-base">
-              {HERO_SUBLINE[locale] || HERO_SUBLINE.en}
-            </p>
-          </div>
+        {/* Bottom-half white — interactive preview stage (tagline / random image) */}
+        <div className="relative w-full flex-1 bg-white">
+          <HomePreviewStage
+            base={base}
+            locale={locale}
+            selected={previewCat}
+            image={previewImg}
+            headline={HERO_HEADLINE[locale] || HERO_HEADLINE.en}
+            subline={HERO_SUBLINE[locale] || HERO_SUBLINE.en}
+            onClose={() => setPreviewCat(null)}
+          />
         </div>
       </header>
 
       {/* ── Fixed bottom dock — five equal selector tiles (like the week bar) ── */}
-      <HomeSelectorDock base={base} locale={locale} />
+      <HomeSelectorDock locale={locale} selected={previewCat} onSelect={pickPreview} />
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (
