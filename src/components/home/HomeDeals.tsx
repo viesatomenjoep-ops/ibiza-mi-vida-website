@@ -44,41 +44,52 @@ const TICKETS: Record<string, string> = { nl: 'Bekijk', en: 'View', de: 'Ansehen
 function DealTile({ d, locale }: { d: Deal; locale: string }) {
   const inner = (
     <>
-      <div className="relative bg-neutral-900">
+      {/* Photo on top */}
+      <div className="relative aspect-[4/3] w-full bg-neutral-900">
         {d.image ? <img src={d.image} alt={d.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
       </div>
-      <div className="relative flex flex-col justify-center gap-1 border-l-2 border-dashed border-white/40 p-3" style={{ backgroundColor: '#E14D68' }}>
-        <div className="text-[10px] font-black uppercase tracking-widest text-white/80">{d.dateLabel}</div>
-        <div className="line-clamp-2 font-serif text-sm font-black leading-tight text-white">{d.title}</div>
-        <div className="line-clamp-1 text-[11px] font-semibold text-white/75">{d.sub}</div>
-        {d.price > 0 && <span className="mt-1 w-fit rounded-full bg-white px-2.5 py-0.5 text-sm font-black text-black">€{d.price}{d.priceLabel || ''}</span>}
-        <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wide text-white">{TICKETS[locale] || TICKETS.en} <ChevronRight size={12} /></span>
+      {/* Everything below the photo: date, full title, price, view */}
+      <div className="flex flex-1 flex-col gap-1 p-3" style={{ backgroundColor: '#E14D68' }}>
+        <div className="text-[10px] font-black uppercase tracking-widest text-white/85">{d.dateLabel}</div>
+        <div className="font-serif text-sm font-black leading-tight text-white">{d.title}</div>
+        <div className="text-[11px] font-semibold text-white/75">{d.sub}</div>
+        <div className="mt-auto flex items-center justify-between gap-2 pt-1.5">
+          {d.price > 0 ? <span className="rounded-full bg-white px-2.5 py-0.5 text-sm font-black text-black">€{d.price}{d.priceLabel || ''}</span> : <span />}
+          <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wide text-white">{TICKETS[locale] || TICKETS.en} <ChevronRight size={12} /></span>
+        </div>
       </div>
     </>
   )
-  const cls = 'group grid shrink-0 basis-[47%] snap-start grid-cols-2 overflow-hidden rounded-2xl border border-black/10 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl [&>div:first-child]:aspect-square'
+  const cls = 'group flex shrink-0 basis-[47%] snap-start flex-col overflow-hidden rounded-2xl border border-black/10 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl sm:basis-[31%] lg:basis-[23%]'
   if (d.ext) return <a data-tile href={d.ext} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>
   return <Link data-tile href={d.href || '#'} className={cls}>{inner}</Link>
 }
 
-function DealsRow({ items, locale }: { items: Deal[]; locale: string }) {
+function DealsRow({ items, locale, dir = 1 }: { items: Deal[]; locale: string; dir?: 1 | -1 }) {
   const ref = useRef<HTMLDivElement>(null)
   const drag = useRef({ active: false, startX: 0, startLeft: 0, moved: false })
   const pausedUntil = useRef(0)
 
-  // Auto-advance every 8s (loops back to the start), pauses briefly after interaction
+  // Auto-advance ~2.7s (3× faster). `dir` sets the travel direction per row; loops at the edge.
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    const iv = setInterval(() => {
-      if (Date.now() < pausedUntil.current) return
-      const tile = el.querySelector('[data-tile]') as HTMLElement | null
-      const step = tile ? tile.offsetWidth + 16 : el.clientWidth * 0.5
-      if (el.scrollLeft + el.clientWidth + 6 >= el.scrollWidth) el.scrollTo({ left: 0, behavior: 'smooth' })
-      else el.scrollBy({ left: step, behavior: 'smooth' })
-    }, 8000)
-    return () => clearInterval(iv)
-  }, [items.length])
+    if (dir === -1) el.scrollLeft = el.scrollWidth // start rtl rows at the end
+    let iv: any
+    // Stagger each row's start so they don't all move in lock-step
+    const startDelay = Math.floor(Math.random() * 2200)
+    const startTimer = setTimeout(() => {
+      iv = setInterval(() => {
+        if (Date.now() < pausedUntil.current) return
+        const tile = el.querySelector('[data-tile]') as HTMLElement | null
+        const step = (tile ? tile.offsetWidth + 16 : el.clientWidth * 0.5) * dir
+        if (dir === 1 && el.scrollLeft + el.clientWidth + 6 >= el.scrollWidth) el.scrollTo({ left: 0, behavior: 'smooth' })
+        else if (dir === -1 && el.scrollLeft <= 6) el.scrollTo({ left: el.scrollWidth, behavior: 'smooth' })
+        else el.scrollBy({ left: step, behavior: 'smooth' })
+      }, 2700)
+    }, startDelay)
+    return () => { clearTimeout(startTimer); clearInterval(iv) }
+  }, [items.length, dir])
 
   const onDown = (e: React.PointerEvent) => { const el = ref.current; if (!el) return; drag.current = { active: true, startX: e.clientX, startLeft: el.scrollLeft, moved: false }; pausedUntil.current = Date.now() + 12000 }
   const onMove = (e: React.PointerEvent) => { const el = ref.current; if (!el || !drag.current.active) return; const dx = e.clientX - drag.current.startX; if (Math.abs(dx) > 4) drag.current.moved = true; el.scrollLeft = drag.current.startLeft - dx }
@@ -103,18 +114,18 @@ function DealsRow({ items, locale }: { items: Deal[]; locale: string }) {
 }
 
 export function HomeDeals({ deals, locale = 'nl' }: { deals: DealsData; locale: string }) {
-  const rows: { key: keyof DealsData; items: Deal[] }[] = ([
-    { key: 'clubs', items: deals.clubs },
-    { key: 'water', items: deals.water },
-    { key: 'land', items: deals.land },
-    { key: 'boats', items: deals.boats },
+  const rows: { key: keyof DealsData; items: Deal[]; dir: 1 | -1 }[] = ([
+    { key: 'clubs', items: deals.clubs, dir: 1 },   // left → right
+    { key: 'water', items: deals.water, dir: -1 },  // right → left
+    { key: 'land', items: deals.land, dir: 1 },     // left → right
+    { key: 'boats', items: deals.boats, dir: -1 },  // right → left
   ] as const).filter(r => r.items && r.items.length > 0) as any
 
   if (rows.length === 0) return null
 
   return (
     <section className="bg-white px-4 py-10 md:py-14">
-      <div className="mx-auto w-full max-w-5xl">
+      <div className="mx-auto w-full max-w-7xl">
         <div className="mb-6">
           <div className="text-xs font-bold uppercase tracking-widest text-neutral-400">Ibiza mi vida</div>
           <h2 className="font-serif text-4xl font-bold tracking-tight text-neutral-900 md:text-5xl">{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
@@ -122,13 +133,13 @@ export function HomeDeals({ deals, locale = 'nl' }: { deals: DealsData; locale: 
         </div>
 
         <div className="flex flex-col gap-8">
-          {rows.map(({ key, items }) => (
+          {rows.map(({ key, items, dir }) => (
             <div key={key}>
               <div className="mb-3 flex items-center gap-3">
                 <h3 className="shrink-0 font-serif text-xl font-black tracking-tight text-neutral-900">{CAT_TITLE[key][locale] || CAT_TITLE[key].en}</h3>
                 <span className="h-px flex-1 bg-black/10" />
               </div>
-              <DealsRow items={items} locale={locale} />
+              <DealsRow items={items} locale={locale} dir={dir} />
             </div>
           ))}
         </div>

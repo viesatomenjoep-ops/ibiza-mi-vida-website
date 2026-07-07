@@ -108,11 +108,12 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
         <section className="pb-12 pt-6 md:pb-16 md:pt-8 bg-white text-neutral-900 border-t border-black/5">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="mb-6 flex items-center gap-4">
+            <div className="mb-6 flex flex-wrap items-center gap-4">
               <h3 className="shrink-0 font-serif text-2xl font-bold tracking-tight text-neutral-900 md:text-3xl">
                 {({ nl: 'Uitgelichte events', en: 'Featured events', es: 'Eventos destacados', de: 'Ausgewählte Events', fr: 'Événements en vedette' } as Record<string, string>)[locale] || 'Featured events'}
               </h3>
               <span className="h-px flex-1 bg-black/10" />
+              {pickerEvents.length > 0 && <div className="shrink-0"><HomeCalendarLauncher events={pickerEvents} locale={locale} persistKey="homeplanner" /></div>}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
