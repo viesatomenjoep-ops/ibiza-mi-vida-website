@@ -48,7 +48,7 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
 
   return (
     <div className="theme-monaco-vip min-h-screen bg-neutral-50 relative">
-      <section className="pt-[calc(var(--nav-h)-3vh)] pb-2 relative z-10 flex flex-col items-center text-center px-4">
+      <section className="pt-[calc(var(--nav-h)+12px)] pb-2 relative z-10 flex flex-col items-center text-center px-4">
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
           <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
             {translations.title}

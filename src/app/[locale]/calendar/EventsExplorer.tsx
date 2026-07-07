@@ -166,7 +166,7 @@ export default function EventsExplorer({ events, locale }: Props) {
     <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-hidden">
 
       {/* ── Header (house style) ── */}
-      <section className="pt-[calc(var(--nav-h)-3vh)] pb-0 relative z-10 flex flex-col items-center text-center px-4">
+      <section className="pt-[calc(var(--nav-h)+12px)] pb-0 relative z-10 flex flex-col items-center text-center px-4">
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
           <div className="flex flex-col gap-1 text-center mb-0">
             <h1 className="text-4xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
