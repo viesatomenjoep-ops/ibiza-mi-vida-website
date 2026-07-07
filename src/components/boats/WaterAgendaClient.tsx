@@ -9,6 +9,7 @@ import { nl, enUS, de, es, fr } from 'date-fns/locale';
 import { Search, X, Calendar, ChevronRight, ChevronLeft, Ship, Ticket } from 'lucide-react';
 import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel';
 import { WeekDockBar } from '@/components/ui/WeekDockBar';
+import { ScrollCue } from '@/components/ui/ScrollCue';
 
 // ── i18n labels (en, nl, de, es, fr) ──
 interface AgendaLabels {
@@ -244,6 +245,7 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
       {/* ── Promo gallery: every event of this category, from today onward ── */}
       {pickerEvents.length > 0 && (
         <section ref={galleryRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 8px)', minHeight: dockDay ? 'calc(100svh - var(--nav-h))' : undefined }} className="relative z-10 mx-auto max-w-4xl px-4 pb-40 pt-2">
+          {dockDay && <ScrollCue className="mb-2" />}
           <div className="mb-4 flex items-center gap-3">
             <h2 className="font-serif text-2xl md:text-3xl font-black text-black">{title} events</h2>
             <span className="h-px flex-1 bg-black/10" />

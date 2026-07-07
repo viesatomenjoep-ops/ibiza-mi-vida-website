@@ -3,6 +3,7 @@
 import React, { useMemo, useState, useCallback, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { WeekDockBar } from '@/components/ui/WeekDockBar'
+import { ScrollCue } from '@/components/ui/ScrollCue'
 import {
   format, addDays, startOfWeek, endOfWeek, startOfMonth, endOfMonth,
   startOfDay, eachDayOfInterval, parseISO, isToday, isTomorrow,
@@ -187,6 +188,9 @@ export default function EventsExplorer({ events, locale }: Props) {
 
 
       <div ref={listRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 32px)', minHeight: activeDay ? 'calc(100svh - var(--nav-h))' : undefined }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-40">
+
+        {/* Scroll-down cue — appears once a day is picked in the dock */}
+        {activeDay && <ScrollCue className="mb-2" />}
 
         {/* ── Section label (Deals-of-the-Day style) ── */}
         <div className="mb-8 flex items-center justify-between border-b border-black/10 pb-4">

@@ -33,13 +33,13 @@ export function HomePreviewStage({
         className={`absolute inset-0 flex flex-col items-center justify-center px-6 text-center transition-opacity duration-500 ${cat ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
         style={{ paddingBottom: DOCK_CLEARANCE }}
       >
-        <span className="font-serif text-[10px] font-bold uppercase tracking-[0.32em] text-black/55 md:text-[11px]">
-          Ibiza, your island
+        <span className="font-serif text-[1.625rem] font-black leading-none tracking-tight text-neutral-900">
+          Ibiza Mi Vida
         </span>
-        <h2 className="mt-2 max-w-2xl font-serif text-[1.5rem] font-medium leading-[1.08] text-black sm:text-3xl md:text-[2.4rem]">
+        <h2 className="mt-2.5 max-w-3xl font-serif text-[2.25rem] font-black leading-[1.05] text-black sm:text-[2.7rem] md:text-[3.5rem]">
           {headline}
         </h2>
-        <p className="mt-2.5 max-w-xl text-[0.82rem] font-medium leading-snug text-black/60 sm:text-sm md:text-base">
+        <p className="mt-3.5 max-w-2xl text-[1.2rem] font-bold leading-snug text-black/70 sm:text-[1.3rem] md:text-[1.5rem]">
           {subline}
         </p>
       </div>

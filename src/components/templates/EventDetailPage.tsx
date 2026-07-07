@@ -7,6 +7,7 @@ import { CTVenue, CTEventDate } from '@/lib/clubtickets'
 import { EventDatePicker, PickerLabels } from './EventDatePicker'
 import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
 import { BackButton } from '@/components/ui/BackButton'
+import { ScrollCue } from '@/components/ui/ScrollCue'
 import { stripHtml } from '@/lib/html-utils'
 import { parseCTDescription } from '@/lib/ct-description'
 
@@ -281,6 +282,8 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
 
       <div className="mx-auto max-w-7xl px-4 py-10 pb-32 md:px-8">
         <div className="flex flex-col gap-12">
+          {/* Scroll-down cue — when this event has several dates to browse */}
+          {eventDates.length > 1 && <ScrollCue className="-mb-6" />}
           {/* Dates + tickets */}
           <div id="tickets">
             <AnimatedSection delay={100} className="flex flex-col gap-6">
