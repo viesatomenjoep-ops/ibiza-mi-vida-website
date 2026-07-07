@@ -48,16 +48,11 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
 
   return (
     <div className="theme-monaco-vip min-h-screen bg-neutral-50 relative">
-      <section className="pt-[calc(var(--nav-h)-3vh)] pb-4 relative z-10 flex flex-col items-center text-center px-4">
-        <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
-          <div className="flex flex-col gap-2 text-center mb-2">
-            <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
-              {translations.title}
-            </h1>
-            <p className="font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-2">
-              {translations.description}
-            </p>
-          </div>
+      <section className="pt-[calc(var(--nav-h)-3vh)] pb-2 relative z-10 flex flex-col items-center text-center px-4">
+        <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
+          <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
+            {translations.title}
+          </h1>
         </div>
       </section>
 
@@ -185,17 +180,17 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
           <div className="grid grid-cols-3 gap-1.5">
             {tabs.map(t => {
               const on = filter === t.key;
+              // All clubs = red, Day clubs = black, Night clubs = electric blue (palette match)
+              const bg = t.key === 'all' ? '#E14D68' : t.key === 'day' ? '#111111' : '#00A3FF';
               return (
                 <button
                   key={t.key}
                   type="button"
                   onClick={() => setFilter(t.key)}
-                  style={{ backgroundColor: '#111' }}
-                  className={`relative flex h-14 items-center justify-center overflow-hidden rounded-lg transition-all active:scale-95 ${on ? 'ring-2 ring-ibiza-green' : ''}`}
+                  style={{ backgroundColor: bg }}
+                  className={`relative flex h-14 items-center justify-center overflow-hidden rounded-lg transition-all active:scale-95 ${on ? 'ring-[3px] ring-ibiza-green ring-offset-1 ring-offset-white' : ''}`}
                 >
-                  {t.img && <img src={t.img} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover blur-[2px]" />}
-                  <span className="absolute inset-0 bg-black/55" />
-                  <span className="relative font-serif text-sm font-black uppercase tracking-wide text-white drop-shadow">{t.label}</span>
+                  <span className="relative px-1 text-center font-serif text-sm font-black uppercase tracking-wide text-white drop-shadow">{t.label}</span>
                 </button>
               );
             })}
