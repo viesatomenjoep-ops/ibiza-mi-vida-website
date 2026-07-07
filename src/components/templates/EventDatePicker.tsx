@@ -6,7 +6,7 @@ import {
   startOfDay, eachDayOfInterval, parseISO, isToday, isTomorrow,
 } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
-import { CalendarDays } from 'lucide-react'
+import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react'
 import { EventTicketSelector } from './EventTicketSelector'
 
 type Period = 'day' | 'week' | 'month' | 'year'
@@ -62,94 +62,66 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
     [dates, todayStr]
   )
 
-  const [period, setPeriod] = useState<Period>('week')
   const [activeDay, setActiveDay] = useState<string | null>(null)
 
-  const { rangeStartStr, rangeEndStr, stripDays, showStrip } = useMemo(() => {
-    let s = today, e = today, strip = true
-    if (period === 'day') { s = today; e = addDays(today, 13) }
-    else if (period === 'week') { s = startOfWeek(today, { weekStartsOn: 1 }); e = endOfWeek(today, { weekStartsOn: 1 }) }
-    else if (period === 'month') { s = startOfMonth(today); e = endOfMonth(today) }
-    else { s = today; e = addDays(today, 365); strip = false }
-    return {
-      rangeStartStr: format(s, 'yyyy-MM-dd'),
-      rangeEndStr: format(e, 'yyyy-MM-dd'),
-      stripDays: strip ? eachDayOfInterval({ start: s, end: e }) : [],
-      showStrip: strip,
-    }
-  }, [period, today])
+  const monday = useCallback((dt: Date) => startOfWeek(dt, { weekStartsOn: 1 }), [])
+  const firstMonday = useMemo(() => format(monday(parseISO(upcoming[0]?.date || todayStr)), 'yyyy-MM-dd'), [upcoming, todayStr, monday])
+  const lastMonday = useMemo(() => format(monday(parseISO(upcoming[upcoming.length - 1]?.date || todayStr)), 'yyyy-MM-dd'), [upcoming, todayStr, monday])
+  const [weekStart, setWeekStart] = useState<string>(firstMonday)
 
-  const changePeriod = useCallback((p: Period) => {
-    setPeriod(p)
-    setActiveDay(p === 'day' ? todayStr : null)
-  }, [todayStr])
-
+  const weekDays = useMemo(() => Array.from({ length: 7 }, (_, i) => format(addDays(parseISO(weekStart), i), 'yyyy-MM-dd')), [weekStart])
+  const weekEnd = weekDays[6]
   const countForDay = useCallback((ds: string) => upcoming.filter(d => d.date === ds).length, [upcoming])
+  const shiftWeek = (dir: number) => {
+    const nx = format(addDays(parseISO(weekStart), dir * 7), 'yyyy-MM-dd')
+    if (nx < firstMonday || nx > lastMonday) return
+    setWeekStart(nx); setActiveDay(null)
+  }
 
-  const visible = useMemo(() => {
-    return upcoming.filter(d => {
-      if (activeDay) return d.date === activeDay
-      return d.date >= rangeStartStr && d.date <= rangeEndStr
-    })
-  }, [upcoming, activeDay, rangeStartStr, rangeEndStr])
+  const visible = useMemo(
+    () => upcoming.filter(d => (activeDay ? d.date === activeDay : d.date >= weekStart && d.date <= weekEnd)),
+    [upcoming, activeDay, weekStart, weekEnd]
+  )
 
-  const periods: { key: Period; label: string }[] = [
-    { key: 'day', label: L.day }, { key: 'week', label: L.week },
-    { key: 'month', label: L.month }, { key: 'year', label: L.year },
-  ]
-  const periodIdx = periods.findIndex(p => p.key === period)
   const bcp = ({ en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' } as Record<string, string>)[locale] || 'en-GB'
+  const capMonth = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 
   return (
     <div className="flex flex-col gap-5">
-      {/* Period selector (sliding pill) */}
-      <div className="relative grid grid-cols-4 rounded-full border border-black/10 bg-black/[0.04] p-1.5">
-        <span
-          className="absolute top-1.5 bottom-1.5 rounded-full bg-ibiza-green shadow-lg transition-all duration-300 ease-out"
-          style={{ left: `calc(${periodIdx * 25}% + 6px)`, width: 'calc(25% - 12px)' }}
-        />
-        {periods.map(p => (
-          <button
-            key={p.key}
-            onClick={() => changePeriod(p.key)}
-            className={`relative z-10 rounded-full py-3 text-center text-xs font-black uppercase tracking-wide leading-none transition-colors sm:text-sm ${period === p.key ? 'text-velvet-obsidian' : 'text-black/55 hover:text-black'}`}
-          >
-            {p.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Day strip */}
-      {showStrip && (
-        <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {period !== 'day' && (
-            <button
-              onClick={() => setActiveDay(null)}
-              className={`shrink-0 rounded-2xl border px-4 py-3 text-sm font-bold transition ${!activeDay ? 'border-ibiza-green bg-ibiza-green text-velvet-obsidian' : 'border-black/10 bg-white text-black/60 hover:border-black/40 hover:text-black'}`}
-            >
-              {period === 'week' ? L.wholeWeek : L.wholeMonth}
-            </button>
-          )}
-          {stripDays.map(d => {
-            const ds = format(d, 'yyyy-MM-dd')
+      {/* Week navigator + 7-day image tiles (swipe weeks with the arrows) */}
+      <div className="flex items-center gap-2">
+        <button type="button" onClick={() => shiftWeek(-1)} disabled={weekStart <= firstMonday} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-black shadow-sm transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronLeft size={20} /></button>
+        <div className="grid flex-1 grid-cols-7 gap-1 sm:gap-1.5">
+          {weekDays.map(ds => {
+            const d = parseISO(ds)
             const past = ds < todayStr
             const cnt = countForDay(ds)
             const on = activeDay === ds
+            const disabled = past || cnt === 0
             return (
               <button
                 key={ds}
-                disabled={past || cnt === 0}
-                onClick={() => setActiveDay(on ? (period === 'day' ? ds : null) : ds)}
-                className={`flex shrink-0 flex-col items-center rounded-2xl border px-4 py-2.5 transition ${on ? 'border-ibiza-green bg-ibiza-green text-velvet-obsidian' : past || cnt === 0 ? 'cursor-not-allowed border-black/5 bg-transparent text-black/25' : 'border-black/10 bg-white text-black hover:border-black/40'}`}
+                type="button"
+                disabled={disabled}
+                onClick={() => setActiveDay(on ? null : ds)}
+                className={`relative flex aspect-[3/4] flex-col items-center justify-center overflow-hidden rounded-xl transition-all ${on ? 'ring-2 ring-ibiza-green' : ''} ${disabled ? 'opacity-40' : 'hover:-translate-y-0.5 hover:shadow-md'}`}
               >
-                <span className={`text-[10px] font-bold uppercase tracking-wide ${on ? 'text-velvet-obsidian/70' : 'text-black/40'}`}>{format(d, 'EEE', { locale: loc })}</span>
-                <span className="text-xl font-black leading-tight">{format(d, 'd')}</span>
-                <span className={`mt-0.5 h-1.5 w-1.5 rounded-full ${cnt > 0 ? (on ? 'bg-velvet-obsidian' : 'bg-ibiza-green') : 'bg-transparent'}`} />
+                {eventCover ? <img src={eventCover} alt="" className="absolute inset-0 h-full w-full object-cover" /> : null}
+                <span className={`absolute inset-0 ${on ? 'bg-ibiza-green/70' : disabled ? 'bg-black/60' : 'bg-black/45'}`} />
+                <span className="relative flex flex-col items-center leading-none">
+                  <span className={`text-[9px] font-black uppercase tracking-wide ${on ? 'text-black/70' : 'text-white/80'}`}>{format(d, 'EEEEE', { locale: loc })}</span>
+                  <span className={`font-serif text-lg font-black sm:text-xl ${on ? 'text-black' : 'text-white'}`}>{format(d, 'd')}</span>
+                  <span className={`mt-1 h-1.5 w-1.5 rounded-full ${cnt > 0 ? (on ? 'bg-black' : 'bg-ibiza-green') : 'bg-transparent'}`} />
+                </span>
               </button>
             )
           })}
         </div>
-      )}
+        <button type="button" onClick={() => shiftWeek(1)} disabled={weekStart >= lastMonday} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-black shadow-sm transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronRight size={20} /></button>
+      </div>
+      <div className="-mt-2 text-center text-xs font-black uppercase tracking-widest text-black/45">
+        {capMonth(format(parseISO(weekStart), 'd MMM', { locale: loc }))} – {capMonth(format(parseISO(weekEnd), 'd MMM', { locale: loc }))}
+      </div>
 
       {/* Date tiles */}
       {visible.length === 0 ? (
@@ -164,8 +136,11 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
             const d = parseISO(dateObj.date)
             const dayTag = isToday(d) ? L.today : isTomorrow(d) ? L.tomorrow : format(d, 'EEE', { locale: loc })
             return (
-              <div key={`${dateObj.id}-${idx}`} className="group flex flex-col justify-between gap-4 rounded-2xl border border-black/10 bg-white p-5 transition-all hover:border-ibiza-green/40 hover:shadow-md sm:flex-row sm:items-center">
-                <div className="flex w-full flex-col gap-1 sm:w-2/3">
+              <div key={`${dateObj.id}-${idx}`} className="group flex flex-col justify-between gap-4 overflow-hidden rounded-2xl border border-black/10 bg-white p-4 transition-all hover:border-ibiza-green/40 hover:shadow-md sm:flex-row sm:items-center sm:p-5">
+                <span className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-xl bg-neutral-900 sm:aspect-square sm:h-24 sm:w-24">
+                  {eventCover ? <img src={eventCover} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+                </span>
+                <div className="flex w-full flex-col gap-1 sm:flex-1">
                   <span className="font-serif text-xl font-bold text-black transition-colors group-hover:text-ibiza-green">{dateObj.eventName || eventName}</span>
                   <span className="flex items-center gap-2 text-sm font-medium text-black/60">
                     <span className="shrink-0 rounded-md bg-ibiza-green/15 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-ibiza-green">{dayTag}</span>
