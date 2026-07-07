@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { format, parseISO, isValid, startOfDay, startOfWeek, addDays, endOfMonth, startOfMonth, addMonths } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { Ticket, Music, ChevronRight, ChevronLeft, CalendarDays, X, Maximize2, Share2 } from 'lucide-react'
+import { ScrollCue } from '@/components/ui/ScrollCue'
 
 export interface PickerEvent {
   id: string
@@ -929,6 +930,8 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
               <Share2 size={13} /> {copied ? T.shared : T.share}
             </button>
           </div>
+          {/* Scroll-down cue — you have a selection of events to browse */}
+          {resultGroups.length > 0 && <ScrollCue className="mt-1" />}
           <div className="max-h-[46svh] space-y-4 overflow-y-auto p-4 md:max-h-[58svh]">
             {resultGroups.length > 0 ? resultGroups.map(g => (
               <div key={g.date}>
