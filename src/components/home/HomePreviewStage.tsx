@@ -42,18 +42,13 @@ export function HomePreviewStage({
         {/* Hairline separator */}
         <span className="mb-4 block h-px w-10 bg-black/20" />
 
-        {/* Ibiza Mi Vida — centered, uppercase, thin weight */}
-        <span className="font-serif text-[2.73rem] font-light uppercase leading-none tracking-tight text-neutral-900">
-          Ibiza Mi Vida
-        </span>
-
-        {/* Headline — centered, two lines, uppercase */}
-        <h2 className="mt-3.5 max-w-[12em] font-serif text-[2.03rem] font-black uppercase leading-[1.05] text-black sm:text-[2.37rem] md:text-[3.04rem]">
+        {/* Headline — centered, two lines, uppercase, 30% smaller */}
+        <h2 className="max-w-[12em] font-serif text-[1.42rem] font-black uppercase leading-[1.05] text-black sm:text-[1.66rem] md:text-[2.13rem]">
           {headline}
         </h2>
 
-        {/* Subtitle — centered */}
-        <p className="mt-3 max-w-lg text-[1.37rem] font-bold leading-snug text-black/70 sm:text-[1.5rem] md:text-[1.69rem]">
+        {/* Subtitle — centered, 30% smaller */}
+        <p className="mt-3 max-w-lg text-[0.96rem] font-bold leading-snug text-black/70 sm:text-[1.05rem] md:text-[1.18rem]">
           {subline}
         </p>
 

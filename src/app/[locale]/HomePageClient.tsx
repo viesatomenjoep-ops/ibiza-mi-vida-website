@@ -87,7 +87,9 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           slider + one-line legend sit at the BOTTOM of the video; the white area
           below is an interactive preview stage driven by the fixed selector dock. ── */}
       <header className="relative flex w-full flex-col overflow-hidden bg-white text-black" style={{ height: '100svh' }}>
-        {/* Top-half video — fills its area on every device, cut through the middle */}
+        {/* Top-half video — fills its area on every device, cut through the middle.
+            A soft arc at the bottom lets the black video curve down into the white,
+            echoing the decorative arcs below. */}
         <div className="relative w-full shrink-0 overflow-hidden bg-black" style={{ height: '50svh' }}>
           <video
             src="/achtergrond-homepage.mp4#t=4"
@@ -104,8 +106,13 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           {/* Legibility gradient — darker at the bottom where the slider sits */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/45 via-black/10 to-black/75" />
 
+          {/* Arc divider — the black video curves down into the white below */}
+          <svg className="pointer-events-none absolute inset-x-0 bottom-[-1px] z-20 w-full" viewBox="0 0 400 30" preserveAspectRatio="none" style={{ height: '3.4vh' }} aria-hidden="true">
+            <path d="M0,30 L0,0 Q200,30 400,0 L400,30 Z" fill="#ffffff" />
+          </svg>
+
           {/* Logo slider + one-line legend — a little higher up on the video */}
-          <div className="absolute inset-x-0 bottom-0 z-10 w-full pb-7 md:pb-9">
+          <div className="absolute inset-x-0 bottom-0 z-30 w-full pb-9 md:pb-11">
             <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />
           </div>
         </div>
