@@ -11,6 +11,7 @@ import { HomeDeals, type DealsData } from '@/components/home/HomeDeals';
 import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
 import { HomeSelectorDock } from '@/components/home/HomeSelectorDock';
 import { HomePreviewStage } from '@/components/home/HomePreviewStage';
+import { HomePreviewSheet } from '@/components/home/HomePreviewSheet';
 import type { CatKey } from '@/components/home/homeCategories';
 import { Reveal } from '@/components/ui/Reveal';
 
@@ -52,6 +53,8 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
   const [previewCat, setPreviewCat] = useState<CatKey | null>(null);
   const [previewImg, setPreviewImg] = useState('');
   const pickPreview = (key: CatKey) => {
+    // Tap the active tile again to close; otherwise open with a fresh random image.
+    if (previewCat === key) { setPreviewCat(null); return; }
     const pool = previewPools?.[key] || [];
     const img = pool.length ? pool[Math.floor(Math.random() * pool.length)] : '';
     setPreviewCat(key);
@@ -107,21 +110,23 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           </div>
         </div>
 
-        {/* Bottom-half white — interactive preview stage (tagline / random image) */}
+        {/* Bottom-half white — the resting tagline */}
         <div className="relative w-full flex-1 bg-white">
           <HomePreviewStage
-            base={base}
-            locale={locale}
-            selected={previewCat}
-            image={previewImg}
             headline={HERO_HEADLINE[locale] || HERO_HEADLINE.en}
             subline={HERO_SUBLINE[locale] || HERO_SUBLINE.en}
-            onClose={() => setPreviewCat(null)}
           />
         </div>
       </header>
 
-      {/* ── Fixed bottom dock — five equal selector tiles (like the week bar) ── */}
+      {/* ── Slide-up preview sheet (works anywhere on the page) + fixed dock ── */}
+      <HomePreviewSheet
+        base={base}
+        locale={locale}
+        selected={previewCat}
+        image={previewImg}
+        onClose={() => setPreviewCat(null)}
+      />
       <HomeSelectorDock locale={locale} selected={previewCat} onSelect={pickPreview} />
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
