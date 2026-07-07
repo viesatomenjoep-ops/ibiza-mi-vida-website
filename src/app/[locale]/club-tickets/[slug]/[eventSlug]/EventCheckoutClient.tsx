@@ -140,7 +140,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
       <div className="relative h-[46vh] w-full overflow-hidden rounded-b-[28px] bg-neutral-900 md:h-[58vh]">
         <Image src={imageUrl} alt={selectedDateObj.eventName || ''} fill unoptimized className="object-cover" priority sizes="100vw" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
-        <BackButton locale={locale} fallbackHref={`/${locale}/calendar`} />
+        <BackButton locale={locale} fallbackHref={`/${locale}/calendar`} variant="top" />
 
         <div className="absolute bottom-0 left-0 z-10 w-full p-6 md:p-12">
           <div className="mx-auto flex max-w-7xl flex-col items-start gap-4">

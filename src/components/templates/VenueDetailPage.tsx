@@ -198,7 +198,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
           className="object-cover object-center mix-blend-overlay opacity-60"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#14221E]/90 via-transparent to-transparent z-10" />
-        <BackButton locale={locale} fallbackHref={`/${locale}/clubs`} />
+        <BackButton locale={locale} fallbackHref={`/${locale}/clubs`} variant="top" />
 
         <div className="relative z-20 w-full max-w-7xl mx-auto px-4 pb-8 flex items-end gap-5 text-white">
           <div className="w-[88px] h-[88px] rounded-[22px] bg-white/95 shrink-0 flex items-center justify-center p-2 text-velvet-obsidian text-center text-xs font-bold shadow-lg">
