@@ -10,6 +10,7 @@ import { HeroTypewriter } from '@/components/ui/HeroTypewriter';
 import { CategoryReveal } from '@/components/ui/CategoryReveal';
 import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel';
 import { HomeDeals, type DealsData } from '@/components/home/HomeDeals';
+import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
 
 interface HomePageProps {
   locale?: string;
@@ -89,15 +90,8 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             <CategoryReveal base={base} translations={translations} />
           </div>
 
-          <ClubLogoSlider
-            clubLogos={clubLogos}
-            base={base}
-            liveByClub={liveByClub}
-            locale={locale}
-            showLegend
-            speed={0.9}
-            className="w-full bg-transparent pt-2 pb-1"
-          />
+          {/* Live ClubTickets events — name + small club logo, tap to open the event */}
+          <HomeEventSlider events={pickerEvents} className="w-full bg-transparent pt-2 pb-1" speed={0.7} />
         </div>
       </header>
 
@@ -105,6 +99,19 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       {upcomingDates.length > 0 && (
         <>
         {deals && <div className="border-t border-black/5"><HomeDeals deals={deals} locale={locale} /></div>}
+
+        {/* Club logo marquee — moved here, between Deals of the Day and Featured events */}
+        <div className="bg-black py-4 border-t border-white/10">
+          <ClubLogoSlider
+            clubLogos={clubLogos}
+            base={base}
+            liveByClub={liveByClub}
+            locale={locale}
+            showLegend
+            speed={0.9}
+            className="w-full bg-transparent"
+          />
+        </div>
 
         <section className="pb-12 pt-6 md:pb-16 md:pt-8 bg-white text-neutral-900 border-t border-black/5">
           <div className="max-w-7xl mx-auto px-4">
