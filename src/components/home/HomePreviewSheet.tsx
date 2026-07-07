@@ -41,7 +41,7 @@ export function HomePreviewSheet({
       aria-hidden={!open}
       className="fixed inset-x-0 bottom-0 z-[54] overflow-hidden bg-black"
       style={{
-        height: '68svh',
+        height: '60svh',
         transform: open ? 'translateY(0)' : 'translateY(112%)',
         transition: 'transform .6s cubic-bezier(.16,.72,.24,1)',
         boxShadow: open ? '0 -22px 50px rgba(0,0,0,0.4)' : 'none',
