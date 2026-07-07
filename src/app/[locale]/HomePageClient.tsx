@@ -116,7 +116,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <section className="pb-12 pt-6 md:pb-16 md:pt-8 bg-white text-neutral-900 border-t border-black/5">
           <div className="max-w-7xl mx-auto px-4">
             <div className="mb-6 flex flex-wrap items-center gap-4">
-              <h3 className="shrink-0 font-serif text-2xl font-bold tracking-tight text-neutral-900 md:text-3xl">
+              <h3 className="shrink-0 font-serif text-xl font-black tracking-tight text-neutral-900">
                 {({ nl: 'Uitgelichte events', en: 'Featured events', es: 'Eventos destacados', de: 'Ausgewählte Events', fr: 'Événements en vedette' } as Record<string, string>)[locale] || 'Featured events'}
               </h3>
               <span className="h-px flex-1 bg-black/10" />
@@ -200,14 +200,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                   color: 'rgba(255,255,255,0.4)',
                   marginBottom: '8px',
                 }}></div>
-                <h2 style={{
-                  fontSize: 'clamp(28px, 5vw, 48px)',
-                  fontWeight: 900,
-                  color: '#fff',
-                  letterSpacing: '-0.02em',
-                  fontFamily: 'var(--display, sans-serif)',
-                  margin: 0,
-                }}>{translations.home_popular_clubs}</h2>
+                <h2 className="m-0 font-serif text-xl font-black tracking-tight text-white">{translations.home_popular_clubs}</h2>
               </div>
               <Link
                 href={`${base}/club-tickets`}

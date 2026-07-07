@@ -130,7 +130,7 @@ export function HomeDeals({ deals, locale = 'nl' }: { deals: DealsData; locale: 
       <div className="mx-auto w-full max-w-7xl">
         <div className="mb-6">
           <div className="text-xs font-bold uppercase tracking-widest text-neutral-400">Ibiza mi vida</div>
-          <h2 className="font-serif text-xl font-bold uppercase tracking-tight text-neutral-900 sm:text-2xl md:text-3xl">{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
+          <h2 className="font-serif text-xl font-black tracking-tight text-neutral-900">{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
           <p className="mt-1 text-sm font-medium text-neutral-500">{SECTION_SUB[locale] || SECTION_SUB.en}</p>
         </div>
 
