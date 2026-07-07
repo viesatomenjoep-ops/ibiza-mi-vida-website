@@ -14,8 +14,8 @@ export function HomePreviewStage({
 }) {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center px-6 text-center md:px-10" style={{ paddingBottom: 92 }}>
-      {/* Ibiza Mi Vida — centered, uppercase */}
-      <span className="font-serif text-[2.73rem] font-black uppercase leading-none tracking-tight text-neutral-900">
+      {/* Ibiza Mi Vida — centered, uppercase, thin weight */}
+      <span className="font-serif text-[2.73rem] font-light uppercase leading-none tracking-tight text-neutral-900">
         Ibiza Mi Vida
       </span>
 

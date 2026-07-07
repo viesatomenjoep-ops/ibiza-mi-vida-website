@@ -216,63 +216,63 @@ function waLink(boat: Boat, T: FleetLabels) {
 function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; locale: string; onOpen: () => void }) {
   const p = boat.price;
   return (
-    <article id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="group grid grid-cols-1 md:grid-cols-2 overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
+    <article id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="group flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
       {/* Photo */}
       <button
         onClick={onOpen}
-        className="relative h-52 md:h-full min-h-[200px] md:min-h-0 w-full overflow-hidden cursor-zoom-in"
+        className="relative aspect-[4/3] w-full overflow-hidden cursor-zoom-in"
         aria-label={T.enlarge}
       >
         <Image
           src={boat.image}
           alt={`${boat.model} ${boat.name}`}
           fill
-          sizes="(max-width: 768px) 100vw, 40vw"
+          unoptimized
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:bg-gradient-to-r" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
         {/* Spec badges */}
-        <div className="absolute top-4 left-4 flex gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-black/70 px-3 py-1.5 text-xs font-bold text-white backdrop-blur-sm ring-1 ring-white/15">
-            <Users size={13} className="text-ibiza-green" /> {boat.pax} PAX
+        <div className="absolute top-3 left-3 flex gap-1.5">
+          <span className="inline-flex items-center gap-1 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm ring-1 ring-white/15">
+            <Users size={12} className="text-ibiza-green" /> {boat.pax}
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-black/70 px-3 py-1.5 text-xs font-bold text-white backdrop-blur-sm ring-1 ring-white/15">
-            <Ruler size={13} className="text-ibiza-green" /> {boat.length} M
+          <span className="inline-flex items-center gap-1 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm ring-1 ring-white/15">
+            <Ruler size={12} className="text-ibiza-green" /> {boat.length}M
           </span>
         </div>
         {/* Enlarge hint */}
-        <span className="absolute bottom-4 right-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/70 text-white opacity-0 backdrop-blur-sm ring-1 ring-white/15 transition-opacity group-hover:opacity-100">
-          <Maximize2 size={16} />
+        <span className="absolute bottom-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/70 text-white opacity-0 backdrop-blur-sm ring-1 ring-white/15 transition-opacity group-hover:opacity-100">
+          <Maximize2 size={15} />
         </span>
       </button>
 
       {/* Info / price panel */}
-      <div className="flex flex-col p-5 md:p-4">
-        <div className="mb-1 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-black/50">
-          <MapPin size={12} className="text-ibiza-green" /> {boat.marina}
+      <div className="flex flex-1 flex-col p-4">
+        <div className="mb-0.5 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-black/50">
+          <MapPin size={11} className="text-ibiza-green" /> {boat.marina}
         </div>
-        <h3 className="font-serif text-xl font-bold leading-tight text-black">
+        <h3 className="font-serif text-base font-bold leading-tight text-black">
           {boat.model}{boat.name && <span className="text-ibiza-green"> {boat.name}</span>}
         </h3>
 
         {/* Seasonal prices */}
-        <div className="mt-3.5 space-y-1.5 border-t border-black/10 pt-3">
+        <div className="mt-2.5 space-y-1 border-t border-black/10 pt-2.5">
           <PriceRow label={T.seasonLow} note={T.seasonLowNote} value={p.low} T={T} locale={locale} />
           {p.mid != null && <PriceRow label={T.seasonMid} note={boat.category === 'motorboat' ? T.seasonMidNoteCompact : T.seasonMidNote} value={p.mid} T={T} locale={locale} />}
           <PriceRow label={T.seasonHigh} note={p.highWindow || T.seasonHighNote} value={p.high} T={T} locale={locale} highlight />
         </div>
 
         {/* Includes */}
-        <div className="mt-3.5">
-          <div className="mb-1.5 text-[11px] font-bold uppercase tracking-wider text-black/40">{T.includedTitle}</div>
-          <div className="flex flex-wrap gap-1.5">
+        <div className="mt-2.5">
+          <div className="flex flex-wrap gap-1">
             {boatIncludes(boat).map(inc => (
-              <span key={inc} className="inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-1 text-[11px] font-medium text-black/70 ring-1 ring-black/5">
+              <span key={inc} className="inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-medium text-black/70 ring-1 ring-black/5">
                 <span className="text-ibiza-green">{INCLUDE_ICON[inc]}</span> {T.includes[inc]}
               </span>
             ))}
           </div>
-          <p className="mt-2 text-[11px] italic text-black/40">{boat.captainIncluded ? T.fuelNote : T.fuelNoteCaptain(boat.captainExtra ?? 180)}</p>
+          <p className="mt-2 text-[10px] italic text-black/40">{boat.captainIncluded ? T.fuelNote : T.fuelNoteCaptain(boat.captainExtra ?? 180)}</p>
         </div>
 
         {/* WhatsApp inquiry */}
@@ -280,9 +280,9 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
           href={waLink(boat, T)}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-ibiza-green px-6 py-2.5 font-bold text-black transition-all hover:brightness-95 active:scale-[0.98]"
+          className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-ibiza-green px-4 py-2 text-sm font-bold text-black transition-all hover:brightness-95 active:scale-[0.98]"
         >
-          <MessageCircle size={18} /> {T.inquire}
+          <MessageCircle size={16} /> {T.inquire}
         </a>
       </div>
     </article>
@@ -330,7 +330,7 @@ function Lightbox({ boats, index, onClose, onNav }: { boats: Boat[]; index: numb
       </button>
       <div className="relative w-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
         <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
-          <Image src={boat.image} alt={`${boat.model} ${boat.name}`} fill sizes="90vw" className="object-contain" priority />
+          <Image src={boat.image} alt={`${boat.model} ${boat.name}`} fill unoptimized sizes="90vw" className="object-contain" priority />
         </div>
         <div className="mt-4 text-center text-white">
           <h3 className="font-serif text-2xl font-bold">{boat.model}{boat.name && <span className="text-ibiza-green"> {boat.name}</span>}</h3>
@@ -504,9 +504,9 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
       </section>
 
       {/* Grid */}
-      <section className="mx-auto max-w-5xl px-4 pb-10 pt-6">
+      <section className="mx-auto max-w-7xl px-4 pb-10 pt-6">
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filtered.map(boat => (
               <BoatCard key={boat.slug} boat={boat} T={T} locale={locale} onOpen={() => openAt(boat.slug)} />
             ))}
