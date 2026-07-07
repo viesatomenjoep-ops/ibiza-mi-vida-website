@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft } from 'lucide-react'
 
 const LABELS: Record<string, string> = {
@@ -24,6 +25,22 @@ export function BackButton({ locale = 'nl', fallbackHref, variant = 'hero' }: { 
   const router = useRouter()
   const label = LABELS[locale] || LABELS.en
 
+  // Hidden on load; reveals when you scroll or swipe, then fades away when you stop.
+  const [shown, setShown] = useState(false)
+  const hideTimer = useRef<any>(null)
+  useEffect(() => {
+    const reveal = () => { setShown(true); clearTimeout(hideTimer.current); hideTimer.current = setTimeout(() => setShown(false), 2200) }
+    window.addEventListener('scroll', reveal, { passive: true })
+    window.addEventListener('wheel', reveal, { passive: true })
+    window.addEventListener('touchmove', reveal, { passive: true })
+    return () => {
+      clearTimeout(hideTimer.current)
+      window.removeEventListener('scroll', reveal)
+      window.removeEventListener('wheel', reveal)
+      window.removeEventListener('touchmove', reveal)
+    }
+  }, [])
+
   const goBack = () => {
     if (typeof window !== 'undefined' && window.history.length > 1) {
       router.back()
@@ -43,7 +60,7 @@ export function BackButton({ locale = 'nl', fallbackHref, variant = 'hero' }: { 
       type="button"
       onClick={goBack}
       aria-label={label}
-      className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-black uppercase tracking-wide shadow-lg transition-all ${cls}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-black uppercase tracking-wide shadow-lg transition-all duration-300 ${shown ? 'opacity-100 translate-y-0' : 'pointer-events-none -translate-y-1 opacity-0'} ${cls}`}
     >
       <ArrowLeft size={17} strokeWidth={2.5} />
       {label}
