@@ -202,8 +202,11 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
   const checkoutLabel = ({ en: 'Checkout', nl: 'Afrekenen', de: 'Zur Kasse', es: 'Finalizar compra', fr: 'Commander' } as Record<string, string>)[locale] || 'Checkout'
   const checkoutAff = (eventDates.find(d => (d as any).affLink)?.affLink || eventDates[0]?.affLink || '') as string
 
-  const eventName = eventDetail?.name || eventDates[0]?.eventName || 'Event'
-  const eventCover = eventDetail?.cover || eventDetail?.logo || club.cover || club.picture || ''
+  const d0 = eventDates[0] as any
+  const eventName = eventDetail?.name || d0?.eventName || 'Event'
+  // Prefer the per-event image from the ClubTickets dates feed (always populated),
+  // then the venue's event object, then the venue photo — so no event renders blank.
+  const eventCover = d0?.eventCover || eventDetail?.cover || d0?.eventLogo || eventDetail?.logo || d0?.venueCover || club.cover || club.picture || ''
   const description = eventDetail?.description || club.description || ''
 
   const R = ROUTE_I18N[locale] || ROUTE_I18N.en
@@ -214,7 +217,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
 
   // Gallery — unique, real photos (skip transparent logos).
   const gallery = Array.from(new Set([
-    eventDetail?.cover, club.cover, eventDetail?.logo, club.picture,
+    d0?.eventCover, eventDetail?.cover, club.cover, d0?.eventLogo, eventDetail?.logo, d0?.venueCover, club.picture,
   ].filter(Boolean) as string[]))
 
   const formatLineUp = (lineUp?: string) => {
