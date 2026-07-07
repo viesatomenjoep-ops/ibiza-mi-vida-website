@@ -1033,7 +1033,9 @@ footer .logo strong{color:#000000;font-family:var(--font-display), sans-serif}
 /* Footer brand: same stacked structure as the navbar/hamburger, but 50% bigger */
 .foot-brand-c{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:5px;text-decoration:none}
 .foot-logo{width:59px;height:59px;display:flex;align-items:center;justify-content:flex-start;flex-shrink:0}
-.foot-logo img{width:59px;height:59px;object-fit:contain;filter:brightness(0)}
+.foot-logo img{width:59px;height:59px;object-fit:contain;filter:brightness(0);animation:footLogoSpin 26s linear infinite}
+@keyframes footLogoSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.foot-logo img{animation:none}}
 .foot-brand{display:flex;flex-direction:column;align-items:flex-start;text-align:left;line-height:1.05}
 .foot-brand strong{font-family:var(--font-display), sans-serif;font-weight:600;font-size:1.22rem;letter-spacing:.03em;text-transform:uppercase;color:#000000}
 .foot-brand-sub{font-family:var(--font-display), sans-serif;font-weight:700;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:#111111;margin-top:2px}
