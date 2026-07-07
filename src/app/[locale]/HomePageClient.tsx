@@ -98,14 +98,14 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             preload="auto"
             onLoadedMetadata={(e) => { const v = e.currentTarget; if (v.duration > 4) v.currentTime = 4 }}
             onEnded={(e) => { const v = e.currentTarget; v.currentTime = 4; v.play().catch(() => {}) }}
-            style={{ objectPosition: 'center', filter: 'brightness(0.55) contrast(2) saturate(1.05)' }}
+            style={{ objectPosition: 'center 42%', filter: 'brightness(0.55) contrast(2) saturate(1.05)' }}
             className="absolute inset-0 h-full w-full object-cover"
           />
           {/* Legibility gradient — darker at the bottom where the slider sits */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/45 via-black/10 to-black/75" />
 
-          {/* Logo slider + one-line legend — at the BOTTOM of the video */}
-          <div className="absolute inset-x-0 bottom-0 z-10 w-full pb-3 md:pb-4">
+          {/* Logo slider + one-line legend — a little higher up on the video */}
+          <div className="absolute inset-x-0 bottom-0 z-10 w-full pb-7 md:pb-9">
             <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />
           </div>
         </div>
