@@ -34,73 +34,66 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
     });
   }, [venues, filter, search]);
 
+  // Autocomplete suggestions for the standalone search box
+  const suggestions = useMemo(
+    () => (search.trim() ? venues.filter(v => v.name.toLowerCase().includes(search.toLowerCase())).slice(0, 6) : []),
+    [venues, search]
+  );
+  const pickImg = (pred: (v: any) => boolean) => { const v = venues.find(pred); return v?.cover || v?.picture || ''; };
+  const tabs: { key: 'all' | 'day' | 'night'; label: string; img: string }[] = [
+    { key: 'all', label: translations.allClubs, img: pickImg(() => true) },
+    { key: 'day', label: 'Day Clubs', img: pickImg(v => v.is_day_club) },
+    { key: 'night', label: 'Night Clubs', img: pickImg(v => !v.is_day_club) },
+  ];
+
   return (
     <div className="theme-monaco-vip min-h-screen bg-neutral-50 relative">
       <section className="pt-[calc(var(--nav-h)-3vh)] pb-4 relative z-10 flex flex-col items-center text-center px-4">
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
-          <div className="flex flex-col gap-2 text-center mb-4">
+          <div className="flex flex-col gap-2 text-center mb-2">
             <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
               {translations.title}
             </h1>
-            <p className="font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-6">
+            <p className="font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-2">
               {translations.description}
             </p>
           </div>
         </div>
       </section>
 
-      <section className="relative z-10 pb-24 mt-8">
+      <section className="relative z-10 pb-40 mt-2">
         <div className="wrap">
-          
-        {/* Filters and Search Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12 bg-black/5 p-4 rounded-3xl backdrop-blur-sm border border-black/10">
-          
-          <div className="flex flex-wrap justify-center gap-3">
-            <button
-              onClick={() => setFilter('all')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
-                filter === 'all'
-                  ? 'bg-black text-white shadow-lg'
-                  : 'bg-white hover:bg-black/5 text-black/70 hover:text-black border border-black/10'
-              }`}
-            >
-              {translations.allClubs}
-            </button>
-            <button
-              onClick={() => setFilter('day')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
-                filter === 'day'
-                  ? 'bg-black text-white shadow-lg'
-                  : 'bg-white hover:bg-black/5 text-black/70 hover:text-black border border-black/10'
-              }`}
-            >
-              <Sun size={15} />
-              Day Clubs
-            </button>
-            <button
-              onClick={() => setFilter('night')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
-                filter === 'night'
-                  ? 'bg-black text-white shadow-lg'
-                  : 'bg-white hover:bg-black/5 text-black/70 hover:text-black border border-black/10'
-              }`}
-            >
-              <Moon size={15} />
-              Night Clubs
-            </button>
-          </div>
 
-          {/* Search Box */}
-          <div className="relative w-full md:w-72 lg:w-96">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/40" size={18} />
-            <input
-              type="text"
-              placeholder={translations.searchPlaceholder}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white border border-black/10 rounded-full py-3.5 pl-12 pr-4 text-sm text-black placeholder-black/40 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all shadow-sm"
-            />
-          </div>
+        {/* Standalone club search — with live suggestions */}
+        <div className="relative mx-auto mb-10 w-full max-w-xl">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/40" size={18} />
+          <input
+            type="text"
+            placeholder={translations.searchPlaceholder}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full bg-white border border-black/10 rounded-full py-3.5 pl-12 pr-4 text-sm text-black placeholder-black/40 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all shadow-sm"
+          />
+          {suggestions.length > 0 && (
+            <div className="absolute left-0 right-0 top-full z-30 mt-2 overflow-hidden rounded-2xl border border-black/10 bg-white shadow-2xl">
+              {suggestions.map(v => (
+                <Link
+                  key={v.id}
+                  href={`/${locale}/club-tickets/${v.slug}`}
+                  className="flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-black/5"
+                >
+                  <span className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-lg bg-neutral-900">
+                    {(v.whitelogo || v.cover || v.picture) ? <img src={v.whitelogo || v.cover || v.picture} alt="" className="max-h-full max-w-full object-contain" /> : null}
+                  </span>
+                  <span className="flex-1 truncate font-serif text-sm font-bold text-black">{v.name}</span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-black/5 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-black/50">
+                    {v.is_day_club ? <Sun size={10} /> : <Moon size={10} />}
+                    {v.is_day_club ? 'Day' : 'Night'}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Clubs Grid */}
@@ -109,7 +102,7 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
             const imageUrl = venue.cover || venue.picture || 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800&q=80';
             return (
               <Link
-                href={`/${(typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'en')}/club-tickets/${venue.slug}`}
+                href={`/${locale}/club-tickets/${venue.slug}`}
                 key={venue.id}
                 className="group relative flex min-h-[420px] flex-col justify-end overflow-hidden rounded-[32px] border border-white/5 bg-black/40 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
               >
@@ -185,6 +178,30 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
 
       {/* Club logo slider — below the tiles, above the private-yacht CTA */}
       <ClubLogoSlider clubLogos={venues} base={`/${locale}`} />
+
+      {/* Fixed bottom dock — three category blocks (same style as the week bar) */}
+      <div className="fixed bottom-0 left-0 right-0 z-[55] border-t border-black/10 bg-white/95 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] backdrop-blur-md">
+        <div className="mx-auto w-full max-w-3xl px-2 pt-2" style={{ paddingBottom: 'max(8px, env(safe-area-inset-bottom))' }}>
+          <div className="grid grid-cols-3 gap-1.5">
+            {tabs.map(t => {
+              const on = filter === t.key;
+              return (
+                <button
+                  key={t.key}
+                  type="button"
+                  onClick={() => setFilter(t.key)}
+                  style={{ backgroundColor: '#111' }}
+                  className={`relative flex h-14 items-center justify-center overflow-hidden rounded-lg transition-all active:scale-95 ${on ? 'ring-2 ring-ibiza-green' : ''}`}
+                >
+                  {t.img && <img src={t.img} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover blur-[2px]" />}
+                  <span className="absolute inset-0 bg-black/55" />
+                  <span className="relative font-serif text-sm font-black uppercase tracking-wide text-white drop-shadow">{t.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
