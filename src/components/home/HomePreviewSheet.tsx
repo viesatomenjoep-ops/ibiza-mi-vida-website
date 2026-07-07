@@ -6,7 +6,7 @@ import { X, ArrowRight } from 'lucide-react'
 import { HOME_CATEGORIES, type CatKey } from './homeCategories'
 
 // Clearance so the CTA never hides behind the fixed selector dock.
-const DOCK_CLEARANCE = 92
+const DOCK_CLEARANCE = 104
 
 /**
  * A fixed panel that glides up from above the selector dock and shows a random,
@@ -41,7 +41,7 @@ export function HomePreviewSheet({
       aria-hidden={!open}
       className="fixed inset-x-0 bottom-0 z-[54] overflow-hidden bg-black"
       style={{
-        height: '56svh',
+        height: '68svh',
         transform: open ? 'translateY(0)' : 'translateY(112%)',
         transition: 'transform .6s cubic-bezier(.16,.72,.24,1)',
         boxShadow: open ? '0 -22px 50px rgba(0,0,0,0.4)' : 'none',

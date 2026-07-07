@@ -13,23 +13,21 @@ export function HomePreviewStage({
   subline: string
 }) {
   return (
-    <div className="flex h-full w-full flex-col px-6 md:px-10" style={{ paddingBottom: 92 }}>
-      {/* Ibiza Mi Vida — centered, in the middle of the upper space */}
-      <div className="flex flex-1 items-center justify-center">
-        <span className="font-serif text-[1.625rem] font-black leading-none tracking-tight text-neutral-900">
-          Ibiza Mi Vida
-        </span>
-      </div>
+    <div className="flex h-full w-full flex-col items-center justify-center px-6 text-center md:px-10" style={{ paddingBottom: 92 }}>
+      {/* Ibiza Mi Vida — centered */}
+      <span className="font-serif text-[1.625rem] font-black leading-none tracking-tight text-neutral-900">
+        Ibiza Mi Vida
+      </span>
 
-      {/* Headline + subtitle — left aligned, pushed toward the tiles */}
-      <div className="w-full text-left">
-        <h2 className="max-w-[10em] font-serif text-[1.7rem] font-black leading-[1.04] text-black sm:text-[2rem] md:text-[2.6rem]">
-          {headline}
-        </h2>
-        <p className="mt-3 max-w-lg text-[1.05rem] font-bold leading-snug text-black/70 sm:text-[1.15rem] md:text-[1.3rem]">
-          {subline}
-        </p>
-      </div>
+      {/* Headline — centered, two lines, 30% smaller */}
+      <h2 className="mt-3.5 max-w-[10em] font-serif text-[1.2rem] font-black leading-[1.05] text-black sm:text-[1.4rem] md:text-[1.8rem]">
+        {headline}
+      </h2>
+
+      {/* Subtitle — unchanged, centered */}
+      <p className="mt-3 max-w-lg text-[1.05rem] font-bold leading-snug text-black/70 sm:text-[1.15rem] md:text-[1.3rem]">
+        {subline}
+      </p>
     </div>
   )
 }
