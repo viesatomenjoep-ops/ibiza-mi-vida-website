@@ -46,7 +46,8 @@ export function HomePreviewSheet({
       aria-hidden={!open}
       className="fixed inset-x-0 bottom-0 z-[54] overflow-hidden bg-transparent"
       style={{
-        height: '52svh',
+        // Reaches up to the video (sides overlap slightly) so there's no white gap.
+        height: '54svh',
         transform: open ? 'translateY(0)' : 'translateY(112%)',
         transition: 'transform .6s cubic-bezier(.16,.72,.24,1)',
         pointerEvents: open ? 'auto' : 'none',
@@ -57,7 +58,7 @@ export function HomePreviewSheet({
       <svg aria-hidden width="0" height="0" style={{ position: 'absolute' }}>
         <defs>
           <clipPath id="hpsArcUp" clipPathUnits="objectBoundingBox">
-            <path d="M0,0 L0,1 L1,1 L1,0 Q0.5,0.18 0,0 Z" />
+            <path d="M0,0 L0,1 L1,1 L1,0 Q0.5,0.07 0,0 Z" />
           </clipPath>
         </defs>
       </svg>

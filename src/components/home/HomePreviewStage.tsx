@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 // Resting state of the hero's white area — the tagline, framed by a black arc
 // just above the five selectors that mirrors the arc coming down from the video,
 // so the whole thing flows together. The category image preview lives in
@@ -11,6 +13,15 @@ export function HomePreviewStage({
   headline: string
   subline: string
 }) {
+  // The black arc gradually fades out as you scroll down.
+  const [arcOpacity, setArcOpacity] = useState(1)
+  useEffect(() => {
+    const onScroll = () => setArcOpacity(Math.max(0, Math.min(1, 1 - window.scrollY / 240)))
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden px-6 text-center" style={{ paddingTop: '3.6vh', paddingBottom: 124 }}>
       {/* Content */}
@@ -36,7 +47,7 @@ export function HomePreviewStage({
           peaking in the middle so it flows into the dock */}
       <svg
         className="pointer-events-none absolute inset-x-0 z-0 w-full"
-        style={{ bottom: 80, height: 'clamp(26px, 5vh, 52px)' }}
+        style={{ bottom: 80, height: 'clamp(26px, 5vh, 52px)', opacity: arcOpacity, transition: 'opacity .15s linear' }}
         viewBox="0 0 400 44"
         preserveAspectRatio="none"
         aria-hidden="true"
