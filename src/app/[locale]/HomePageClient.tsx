@@ -186,20 +186,12 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       {/* FEATURED CLUBS — premium card grid */}
       {featuredClubs.length > 0 && (
-        <section className="py-16 md:py-24" style={{ background: '#0a0a0a' }}>
+        <section className="py-8 md:py-12" style={{ background: '#0a0a0a' }}>
           <div className="max-w-7xl mx-auto px-4">
 
             {/* Section header */}
-            <div className="flex items-end justify-between mb-10">
+            <div className="flex items-center justify-between mb-6">
               <div>
-                <div style={{
-                  fontSize: '11px',
-                  fontWeight: 800,
-                  letterSpacing: '.14em',
-                  textTransform: 'uppercase',
-                  color: 'rgba(255,255,255,0.4)',
-                  marginBottom: '8px',
-                }}></div>
                 <h2 className="m-0 font-serif text-xl font-black tracking-tight text-white">{translations.home_popular_clubs}</h2>
               </div>
               <Link
@@ -279,7 +271,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           <div className="section-head">
             <div>
               <span className="kicker !text-neutral-900">{translations.home_discover_all}</span>
-              <h2 className="text-neutral-900" style={{ marginTop: '12px' }}>{translations.home_popular_on_ibiza}</h2>
+              <h2 className="text-neutral-900 !font-serif !text-xl !font-black !tracking-tight" style={{ marginTop: '12px' }}>{translations.home_popular_on_ibiza}</h2>
             </div>
           </div>
           

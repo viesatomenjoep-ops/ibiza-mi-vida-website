@@ -128,10 +128,13 @@ export function HomeDeals({ deals, locale = 'nl' }: { deals: DealsData; locale: 
   return (
     <section className="bg-white px-4 py-10 md:py-14">
       <div className="mx-auto w-full max-w-7xl">
-        <div className="mb-6">
-          <div className="text-xs font-bold uppercase tracking-widest text-neutral-400">Ibiza mi vida</div>
-          <h2 className="font-serif text-xl font-black tracking-tight text-neutral-900">{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
-          <p className="mt-1 text-sm font-medium text-neutral-500">{SECTION_SUB[locale] || SECTION_SUB.en}</p>
+        <div className="mb-8">
+          <div className="flex items-center gap-2">
+            <img src="/logo-clean.png" alt="" className="h-6 w-6 shrink-0 object-contain" />
+            <span className="font-serif text-xl font-black tracking-tight" style={{ color: '#E14D68' }}>Ibiza mi vida</span>
+          </div>
+          <h2 className="mt-3 font-serif text-xl font-black tracking-tight text-neutral-900">{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
+          <p className="mt-3 text-sm font-medium text-neutral-500">{SECTION_SUB[locale] || SECTION_SUB.en}</p>
         </div>
 
         <div className="flex flex-col gap-8">
