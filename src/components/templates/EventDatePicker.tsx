@@ -6,8 +6,9 @@ import {
   startOfDay, eachDayOfInterval, parseISO, isToday, isTomorrow,
 } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
-import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react'
+import { CalendarDays } from 'lucide-react'
 import { EventTicketSelector } from './EventTicketSelector'
+import { WeekDockBar } from '@/components/ui/WeekDockBar'
 
 type Period = 'day' | 'week' | 'month' | 'year'
 type Locale = typeof enUS
@@ -88,10 +89,10 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
 
   // When a day is picked, glide the matching event(s) into view (feels like it "opens")
   const tilesRef = useRef<HTMLDivElement>(null)
-  useEffect(() => { if (activeDay && tilesRef.current) tilesRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' }) }, [activeDay])
+  useEffect(() => { if (activeDay && tilesRef.current) tilesRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, [activeDay])
 
   return (
-    <div ref={tilesRef} className="flex flex-col gap-5">
+    <div ref={tilesRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 16px)' }} className="flex flex-col gap-5">
 
       {/* Date tiles */}
       {visible.length === 0 ? (
@@ -145,47 +146,19 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
         </div>
       )}
 
-      {/* Spacer so the fixed bottom bar never covers the last tile */}
-      <div className="h-32" />
+      {/* Spacer so the fixed bottom dock never covers the last tile */}
+      <div className="h-36" />
 
-      {/* ── Fixed bottom week bar — permanent, like the navbar but at the bottom ── */}
-      <div className="fixed bottom-0 left-0 right-0 z-[55] border-t border-black/10 bg-white/95 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] backdrop-blur-md">
-        <div className="mx-auto w-full max-w-3xl px-3 pt-2" style={{ paddingBottom: 'max(8px, env(safe-area-inset-bottom))' }}>
-          <div className="mb-1.5 text-center text-[10px] font-black uppercase tracking-widest text-black/45">
-            {capMonth(format(parseISO(weekStart), 'd MMM', { locale: loc }))} – {capMonth(format(parseISO(weekEnd), 'd MMM', { locale: loc }))}
-          </div>
-          <div className="flex items-center gap-2">
-            <button type="button" aria-label="prev" onClick={() => shiftWeek(-1)} disabled={weekStart <= firstMonday} className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-black transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronLeft size={18} /></button>
-            <div className="grid flex-1 grid-cols-7 gap-1.5">
-              {weekDays.map(ds => {
-                const d = parseISO(ds)
-                const past = ds < todayStr
-                const cnt = countForDay(ds)
-                const on = activeDay === ds
-                const disabled = past || cnt === 0
-                return (
-                  <button
-                    key={ds}
-                    type="button"
-                    disabled={disabled}
-                    onClick={() => setActiveDay(on ? null : ds)}
-                    className={`relative flex aspect-square flex-col items-center justify-center overflow-hidden rounded-xl transition-all ${on ? 'ring-2 ring-ibiza-green' : ''} ${disabled ? 'opacity-40' : 'active:scale-95 hover:-translate-y-0.5'}`}
-                  >
-                    {eventCover ? <img src={eventCover} alt="" className="absolute inset-0 h-full w-full object-cover" /> : null}
-                    <span className={`absolute inset-0 ${on ? 'bg-ibiza-green/75' : disabled ? 'bg-black/60' : 'bg-black/45'}`} />
-                    <span className="relative flex flex-col items-center leading-none">
-                      <span className={`text-[8px] font-black uppercase tracking-wide ${on ? 'text-black/70' : 'text-white/80'}`}>{format(d, 'EEEEE', { locale: loc })}</span>
-                      <span className={`font-serif text-base font-black sm:text-lg ${on ? 'text-black' : 'text-white'}`}>{format(d, 'd')}</span>
-                      <span className={`mt-0.5 h-1 w-1 rounded-full ${cnt > 0 ? (on ? 'bg-black' : 'bg-ibiza-green') : 'bg-transparent'}`} />
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-            <button type="button" aria-label="next" onClick={() => shiftWeek(1)} disabled={weekStart >= lastMonday} className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-black transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronRight size={18} /></button>
-          </div>
-        </div>
-      </div>
+      {/* Fixed bottom week dock — present at every step of the category */}
+      <WeekDockBar
+        eventDates={upcoming.map(d => d.date)}
+        weekStart={weekStart}
+        setWeekStart={setWeekStart}
+        activeDay={activeDay}
+        setActiveDay={setActiveDay}
+        locale={locale}
+        imageFor={() => eventCover}
+      />
     </div>
   )
 }

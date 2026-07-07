@@ -8,6 +8,7 @@ import {
 import { nl, enUS, de, es, fr } from 'date-fns/locale';
 import { Search, X, Calendar, ChevronRight, ChevronLeft, Ship, Ticket } from 'lucide-react';
 import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel';
+import { WeekDockBar } from '@/components/ui/WeekDockBar';
 
 // ── i18n labels (en, nl, de, es, fr) ──
 interface AgendaLabels {
@@ -110,6 +111,20 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
   const [selectedVenue, setSelectedVenue] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
+
+  // Fixed bottom week dock (same feature as the event detail page)
+  const galleryRef = React.useRef<HTMLDivElement>(null);
+  const imgByDate = useMemo(() => { const m = new Map<string, string>(); pickerEvents.forEach(e => { if (!m.has(e.date) && e.image) m.set(e.date, e.image); }); return m; }, [pickerEvents]);
+  const [dockWeekStart, setDockWeekStart] = useState<string>(() => {
+    const ds = pickerEvents.map(e => e.date).filter(d => d >= todayStr).sort()[0] || todayStr;
+    return format(startOfWeek(parseISO(ds), { weekStartsOn: 1 }), 'yyyy-MM-dd');
+  });
+  const [dockDay, setDockDay] = useState<string | null>(null);
+  const galleryEvents = useMemo(() => {
+    const sorted = [...pickerEvents].sort((a, b) => a.date.localeCompare(b.date));
+    return dockDay ? sorted.filter(e => e.date === dockDay) : sorted;
+  }, [pickerEvents, dockDay]);
+  React.useEffect(() => { if (dockDay && galleryRef.current) galleryRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, [dockDay]);
 
   const weekStart = format(startOfWeek(today, { weekStartsOn: 1 }), 'yyyy-MM-dd');
   const weekEnd = format(endOfWeek(today, { weekStartsOn: 1 }), 'yyyy-MM-dd');
@@ -235,26 +250,25 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
 
       {/* ── Promo gallery: every event of this category, from today onward ── */}
       {pickerEvents.length > 0 && (
-        <section className="relative z-10 mx-auto max-w-4xl px-4 pb-24 pt-2">
+        <section ref={galleryRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 16px)' }} className="relative z-10 mx-auto max-w-4xl px-4 pb-40 pt-2">
           <div className="mb-4 flex items-center gap-3">
             <h2 className="font-serif text-2xl md:text-3xl font-black text-black">{GALLERY_TITLE[locale] || GALLERY_TITLE.en}</h2>
             <span className="h-px flex-1 bg-black/10" />
           </div>
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
-            {[...pickerEvents].sort((a, b) => a.date.localeCompare(b.date)).map(e => (
+            {galleryEvents.map(e => (
               <a key={e.id} href={e.href} className="group flex h-28 overflow-hidden rounded-2xl border border-black/10 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl sm:h-32">
-                {/* Left half — the event photo (uniform cut) */}
+                {/* Left half — the photo, with price top-left and CTA bottom, both on the image */}
                 <div className="relative h-full w-[55%] shrink-0 bg-neutral-900">
                   {e.image ? <img src={e.image} alt={e.eventName} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+                  <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10" />
+                  {e.price > 0 && <span className="absolute left-1.5 top-1.5 rounded-full bg-white px-2 py-0.5 text-[11px] font-black text-black shadow">€{e.price}</span>}
+                  <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 rounded-full bg-black/55 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white backdrop-blur-sm transition-colors group-hover:bg-ibiza-green group-hover:text-black">{L.tickets} <ChevronRight size={10} /></span>
                 </div>
-                {/* Right half — red panel: price top-left, event + date centred, subtle CTA */}
-                <div className="flex w-[45%] flex-col gap-1 p-2.5 text-center" style={{ backgroundColor: '#E14D68' }}>
-                  {e.price > 0 ? <span className="self-start rounded-full bg-white px-2 py-0.5 text-[11px] font-black text-black">€{e.price}</span> : <span className="h-4" />}
-                  <div className="flex min-w-0 flex-1 flex-col items-center justify-center">
-                    <div className="line-clamp-3 font-serif text-[12px] font-black leading-tight text-white">{e.eventName}</div>
-                    <div className="mt-1 line-clamp-1 text-[9px] font-bold uppercase tracking-wide text-white/85">{fmtGallery(e.date, locale)}</div>
-                  </div>
-                  <span className="mx-auto inline-flex items-center gap-1 rounded-full border border-white/50 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white transition-colors group-hover:bg-white group-hover:text-[#E14D68]">{L.tickets} <ChevronRight size={10} /></span>
+                {/* Right half — red panel: event name + date, centred */}
+                <div className="flex w-[45%] flex-col items-center justify-center gap-1 p-2.5 text-center" style={{ backgroundColor: '#E14D68' }}>
+                  <div className="line-clamp-3 font-serif text-[12px] font-black leading-tight text-white">{e.eventName}</div>
+                  <div className="line-clamp-1 text-[9px] font-bold uppercase tracking-wide text-white/85">{fmtGallery(e.date, locale)}</div>
                 </div>
               </a>
             ))}
@@ -270,6 +284,19 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
           -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
         }
       `}} />
+
+      {/* Fixed bottom week dock — pick a day to open that day's events */}
+      {pickerEvents.length > 0 && (
+        <WeekDockBar
+          eventDates={pickerEvents.map(e => e.date)}
+          weekStart={dockWeekStart}
+          setWeekStart={setDockWeekStart}
+          activeDay={dockDay}
+          setActiveDay={setDockDay}
+          locale={locale}
+          imageFor={(iso) => imgByDate.get(iso) || ''}
+        />
+      )}
     </div>
   );
 }

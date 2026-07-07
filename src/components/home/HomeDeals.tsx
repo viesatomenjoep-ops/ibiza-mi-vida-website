@@ -44,18 +44,17 @@ const TICKETS: Record<string, string> = { nl: 'Bekijk', en: 'View', de: 'Ansehen
 function DealTile({ d, locale }: { d: Deal; locale: string }) {
   const inner = (
     <>
-      {/* Left half — the event photo (uniform cut for every tile) */}
+      {/* Left half — the photo, with price top-left and "View" bottom, both on the image */}
       <div className="relative h-full w-[55%] shrink-0 bg-neutral-900">
         {d.image ? <img src={d.image} alt={d.title} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+        <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10" />
+        {d.price > 0 && <span className="absolute left-1.5 top-1.5 rounded-full bg-white px-2 py-0.5 text-[11px] font-black text-black shadow">€{d.price}{d.priceLabel || ''}</span>}
+        <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 rounded-full bg-black/55 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white backdrop-blur-sm transition-colors group-hover:bg-ibiza-green group-hover:text-black">{TICKETS[locale] || TICKETS.en} <ChevronRight size={10} /></span>
       </div>
-      {/* Right half — red panel: price top-left, event text + date centred & filling, subtle "View" */}
-      <div className="flex w-[45%] flex-col gap-1 p-2.5 text-center" style={{ backgroundColor: '#E14D68' }}>
-        {d.price > 0 ? <span className="self-start rounded-full bg-white px-2 py-0.5 text-[11px] font-black text-black">€{d.price}{d.priceLabel || ''}</span> : <span className="h-4" />}
-        <div className="flex min-w-0 flex-1 flex-col items-center justify-center">
-          <div className="line-clamp-3 font-serif text-[12px] font-black leading-tight text-white">{d.title}</div>
-          <div className="mt-1 line-clamp-1 text-[9px] font-bold uppercase tracking-wide text-white/85">{d.dateLabel}</div>
-        </div>
-        <span className="mx-auto inline-flex items-center gap-1 rounded-full border border-white/50 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white transition-colors group-hover:bg-white group-hover:text-[#E14D68]">{TICKETS[locale] || TICKETS.en} <ChevronRight size={10} /></span>
+      {/* Right half — red panel: event name + date, centred */}
+      <div className="flex w-[45%] flex-col items-center justify-center gap-1 p-2.5 text-center" style={{ backgroundColor: '#E14D68' }}>
+        <div className="line-clamp-3 font-serif text-[12px] font-black leading-tight text-white">{d.title}</div>
+        <div className="line-clamp-1 text-[9px] font-bold uppercase tracking-wide text-white/85">{d.dateLabel}</div>
       </div>
     </>
   )
