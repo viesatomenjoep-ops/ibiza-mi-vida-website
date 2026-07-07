@@ -12,7 +12,7 @@ export function HomePreviewStage({
   subline: string
 }) {
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden px-6 text-center" style={{ paddingBottom: 92 }}>
+    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden px-6 text-center" style={{ paddingTop: '3.6vh', paddingBottom: 124 }}>
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center">
         {/* Hairline separator */}

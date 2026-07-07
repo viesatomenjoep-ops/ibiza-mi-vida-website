@@ -29,8 +29,13 @@ export function HomePreviewSheet({
   // Keep the last shown content mounted while sliding out.
   const [shownKey, setShownKey] = useState<CatKey | null>(selected)
   const [shownImg, setShownImg] = useState(image)
+  // Oval (upward-arc) top only when opened at the very top of the homepage.
+  const [atTop, setAtTop] = useState(false)
   useEffect(() => {
-    if (selected) { setShownKey(selected); setShownImg(image) }
+    if (selected) {
+      setShownKey(selected); setShownImg(image)
+      setAtTop(typeof window !== 'undefined' && window.scrollY < 40)
+    }
   }, [selected, image])
 
   const open = !!selected
@@ -39,26 +44,28 @@ export function HomePreviewSheet({
   return (
     <div
       aria-hidden={!open}
-      className="fixed inset-x-0 bottom-0 z-[54] overflow-hidden bg-black"
+      className="fixed inset-x-0 bottom-0 z-[54] overflow-hidden bg-transparent"
       style={{
         height: '52svh',
-        // Oval top so the image flows up in the same shape as the white area.
-        borderTopLeftRadius: '50% 40px',
-        borderTopRightRadius: '50% 40px',
         transform: open ? 'translateY(0)' : 'translateY(112%)',
         transition: 'transform .6s cubic-bezier(.16,.72,.24,1)',
-        boxShadow: open ? '0 -22px 50px rgba(0,0,0,0.4)' : 'none',
         pointerEvents: open ? 'auto' : 'none',
       }}
     >
       {cat && (
         <>
+          {/* Image layer — an upward-arc (oval) top at page-top, straight otherwise */}
+          <div
+            className="absolute inset-0 overflow-hidden"
+            style={{ clipPath: atTop ? 'ellipse(120% 100% at 50% 100%)' : 'none', boxShadow: '0 -22px 50px rgba(0,0,0,0.4)' }}
+          >
           {shownImg ? (
             <img key={`${cat.key}-${shownImg}`} src={shownImg} alt="" className="absolute inset-0 h-full w-full object-cover" />
           ) : (
             <div className="absolute inset-0" style={{ background: cat.bg }} />
           )}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/45" />
+          </div>
 
           {/* Close */}
           <button
