@@ -30,7 +30,7 @@ export function ScrollProgress() {
   if (!isHome) return null
 
   return (
-    <div className="pointer-events-none fixed left-0 z-[80] h-[6px] w-full" style={{ top: 'var(--nav-h)' }}>
+    <div className="pointer-events-none fixed bottom-[34px] left-0 z-[80] h-[6px] w-full">
       <div
         className="h-full rounded-r-full"
         style={{ width: `${pct}%`, backgroundColor: '#E14D68', transition: 'width 120ms ease-out', boxShadow: '0 0 10px rgba(225,77,104,0.7)' }}

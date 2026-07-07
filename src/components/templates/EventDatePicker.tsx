@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo, useState, useCallback } from 'react'
+import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react'
 import {
   format, addDays, startOfWeek, endOfWeek, startOfMonth, endOfMonth,
   startOfDay, eachDayOfInterval, parseISO, isToday, isTomorrow,
@@ -86,42 +86,12 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
   const bcp = ({ en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' } as Record<string, string>)[locale] || 'en-GB'
   const capMonth = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 
+  // When a day is picked, glide the matching event(s) into view (feels like it "opens")
+  const tilesRef = useRef<HTMLDivElement>(null)
+  useEffect(() => { if (activeDay && tilesRef.current) tilesRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' }) }, [activeDay])
+
   return (
-    <div className="flex flex-col gap-5">
-      {/* Week navigator + 7-day image tiles (swipe weeks with the arrows) */}
-      <div className="flex items-center gap-2">
-        <button type="button" onClick={() => shiftWeek(-1)} disabled={weekStart <= firstMonday} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-black shadow-sm transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronLeft size={20} /></button>
-        <div className="grid flex-1 grid-cols-7 gap-1 sm:gap-1.5">
-          {weekDays.map(ds => {
-            const d = parseISO(ds)
-            const past = ds < todayStr
-            const cnt = countForDay(ds)
-            const on = activeDay === ds
-            const disabled = past || cnt === 0
-            return (
-              <button
-                key={ds}
-                type="button"
-                disabled={disabled}
-                onClick={() => setActiveDay(on ? null : ds)}
-                className={`relative flex aspect-[3/4] flex-col items-center justify-center overflow-hidden rounded-xl transition-all ${on ? 'ring-2 ring-ibiza-green' : ''} ${disabled ? 'opacity-40' : 'hover:-translate-y-0.5 hover:shadow-md'}`}
-              >
-                {eventCover ? <img src={eventCover} alt="" className="absolute inset-0 h-full w-full object-cover" /> : null}
-                <span className={`absolute inset-0 ${on ? 'bg-ibiza-green/70' : disabled ? 'bg-black/60' : 'bg-black/45'}`} />
-                <span className="relative flex flex-col items-center leading-none">
-                  <span className={`text-[9px] font-black uppercase tracking-wide ${on ? 'text-black/70' : 'text-white/80'}`}>{format(d, 'EEEEE', { locale: loc })}</span>
-                  <span className={`font-serif text-lg font-black sm:text-xl ${on ? 'text-black' : 'text-white'}`}>{format(d, 'd')}</span>
-                  <span className={`mt-1 h-1.5 w-1.5 rounded-full ${cnt > 0 ? (on ? 'bg-black' : 'bg-ibiza-green') : 'bg-transparent'}`} />
-                </span>
-              </button>
-            )
-          })}
-        </div>
-        <button type="button" onClick={() => shiftWeek(1)} disabled={weekStart >= lastMonday} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-black shadow-sm transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronRight size={20} /></button>
-      </div>
-      <div className="-mt-2 text-center text-xs font-black uppercase tracking-widest text-black/45">
-        {capMonth(format(parseISO(weekStart), 'd MMM', { locale: loc }))} – {capMonth(format(parseISO(weekEnd), 'd MMM', { locale: loc }))}
-      </div>
+    <div ref={tilesRef} className="flex flex-col gap-5">
 
       {/* Date tiles */}
       {visible.length === 0 ? (
@@ -174,6 +144,48 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
           })}
         </div>
       )}
+
+      {/* Spacer so the fixed bottom bar never covers the last tile */}
+      <div className="h-32" />
+
+      {/* ── Fixed bottom week bar — permanent, like the navbar but at the bottom ── */}
+      <div className="fixed bottom-0 left-0 right-0 z-[55] border-t border-black/10 bg-white/95 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] backdrop-blur-md">
+        <div className="mx-auto w-full max-w-3xl px-3 pt-2" style={{ paddingBottom: 'max(8px, env(safe-area-inset-bottom))' }}>
+          <div className="mb-1.5 text-center text-[10px] font-black uppercase tracking-widest text-black/45">
+            {capMonth(format(parseISO(weekStart), 'd MMM', { locale: loc }))} – {capMonth(format(parseISO(weekEnd), 'd MMM', { locale: loc }))}
+          </div>
+          <div className="flex items-center gap-2">
+            <button type="button" aria-label="prev" onClick={() => shiftWeek(-1)} disabled={weekStart <= firstMonday} className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-black transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronLeft size={18} /></button>
+            <div className="grid flex-1 grid-cols-7 gap-1.5">
+              {weekDays.map(ds => {
+                const d = parseISO(ds)
+                const past = ds < todayStr
+                const cnt = countForDay(ds)
+                const on = activeDay === ds
+                const disabled = past || cnt === 0
+                return (
+                  <button
+                    key={ds}
+                    type="button"
+                    disabled={disabled}
+                    onClick={() => setActiveDay(on ? null : ds)}
+                    className={`relative flex aspect-square flex-col items-center justify-center overflow-hidden rounded-xl transition-all ${on ? 'ring-2 ring-ibiza-green' : ''} ${disabled ? 'opacity-40' : 'active:scale-95 hover:-translate-y-0.5'}`}
+                  >
+                    {eventCover ? <img src={eventCover} alt="" className="absolute inset-0 h-full w-full object-cover" /> : null}
+                    <span className={`absolute inset-0 ${on ? 'bg-ibiza-green/75' : disabled ? 'bg-black/60' : 'bg-black/45'}`} />
+                    <span className="relative flex flex-col items-center leading-none">
+                      <span className={`text-[8px] font-black uppercase tracking-wide ${on ? 'text-black/70' : 'text-white/80'}`}>{format(d, 'EEEEE', { locale: loc })}</span>
+                      <span className={`font-serif text-base font-black sm:text-lg ${on ? 'text-black' : 'text-white'}`}>{format(d, 'd')}</span>
+                      <span className={`mt-0.5 h-1 w-1 rounded-full ${cnt > 0 ? (on ? 'bg-black' : 'bg-ibiza-green') : 'bg-transparent'}`} />
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+            <button type="button" aria-label="next" onClick={() => shiftWeek(1)} disabled={weekStart >= lastMonday} className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-black transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronRight size={18} /></button>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
