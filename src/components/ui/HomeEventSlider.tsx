@@ -45,6 +45,7 @@ export function HomeEventSlider({
   showLegend = false,
   className = 'w-full relative z-20 bg-transparent py-2',
   speed = 0.7,
+  onLight = false,
 }: {
   events: PickerEvent[]
   liveByClub?: Record<string, LiveRecord>
@@ -52,6 +53,7 @@ export function HomeEventSlider({
   showLegend?: boolean
   className?: string
   speed?: number
+  onLight?: boolean
 }) {
   const trackRef = useRef<HTMLDivElement>(null)
   const offsetRef = useRef(0)
@@ -128,8 +130,8 @@ export function HomeEventSlider({
       <style>{`@keyframes hesPing{75%,100%{transform:scale(2.2);opacity:0}}.hes-ping{animation:hesPing 1.4s cubic-bezier(0,0,.2,1) infinite}`}</style>
 
       {showLegend && hasTracker && (
-        <div className="mb-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 px-4 text-[10px] font-semibold uppercase tracking-wider text-white/70 md:text-[11px]">
-          <span className="flex items-center gap-1.5 text-white/90"><span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.orange }} /> {L.live}</span>
+        <div className={`mb-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 px-4 text-[10px] font-semibold uppercase tracking-wider md:text-[11px] ${onLight ? 'text-black/55' : 'text-white/70'}`}>
+          <span className={`flex items-center gap-1.5 ${onLight ? 'text-black' : 'text-white/90'}`}><span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.orange }} /> {L.live}</span>
           <span className="flex items-center gap-1.5"><span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.green }} /> {L.tonight}</span>
           <span className="flex items-center gap-1.5"><span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.red }} /> {L.last}</span>
         </div>
@@ -167,9 +169,9 @@ export function HomeEventSlider({
                       <span className="relative inline-flex h-2.5 w-2.5 rounded-full ring-1 ring-black/30" style={{ background: DOT_COLORS[status] }} />
                     </span>
                   )}
-                  {e.clubLogo ? <img src={e.clubLogo} alt="" className="pointer-events-none max-h-6 max-w-full object-contain brightness-0 invert" loading="lazy" /> : <span className="text-[10px] font-black text-white">{e.clubName.slice(0, 3).toUpperCase()}</span>}
+                  {e.clubLogo ? <img src={e.clubLogo} alt="" className={`pointer-events-none max-h-6 max-w-full object-contain ${onLight ? 'brightness-0' : 'brightness-0 invert'}`} loading="lazy" /> : <span className={`text-[10px] font-black ${onLight ? 'text-black' : 'text-white'}`}>{e.clubName.slice(0, 3).toUpperCase()}</span>}
                 </span>
-                <span className="whitespace-nowrap text-sm font-bold text-white drop-shadow">{e.eventName}</span>
+                <span className={`whitespace-nowrap text-sm font-bold ${onLight ? 'text-black' : 'text-white drop-shadow'}`}>{e.eventName}</span>
               </Link>
             )
           })}

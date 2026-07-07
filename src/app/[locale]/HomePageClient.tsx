@@ -49,10 +49,16 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
   return (
     <div className="theme-monaco-vip is-home bg-white text-[var(--color-ink)] min-h-screen">
 
-      {/* ── HERO — white branding block on top, half-height video below ── */}
+      {/* ── HERO — white band with the live slider on top, half-height video below ── */}
       <header className="relative w-full overflow-hidden bg-white text-black">
         {/* Fixed-navbar spacer */}
         <div className="h-[var(--nav-h)] w-full shrink-0" />
+
+        {/* Live ClubTickets events slider — just under the navbar, black on white,
+            with equal white space above and below */}
+        <div className="w-full py-7 md:py-9">
+          <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend onLight className="w-full bg-transparent" speed={0.7} />
+        </div>
 
         {/* Half-video band — portrait 3:4 clipped to its top half (aspect 3/2),
             full width, never zoomed or cropped horizontally */}
@@ -69,15 +75,8 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             style={{ filter: 'brightness(0.5) contrast(2.1) saturate(1.1)' }}
             className="absolute left-0 top-0 block h-auto w-full"
           />
-          {/* Soft fade into the dark slider band below */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent" />
         </div>
       </header>
-
-      {/* Live ClubTickets events slider — directly under the hero, nothing between */}
-      <section className="bg-black pt-5 pb-6 md:pt-6 md:pb-8">
-        <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend className="w-full bg-transparent" speed={0.7} />
-      </section>
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (
