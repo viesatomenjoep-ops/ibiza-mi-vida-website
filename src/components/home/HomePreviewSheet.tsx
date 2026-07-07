@@ -52,12 +52,21 @@ export function HomePreviewSheet({
         pointerEvents: open ? 'auto' : 'none',
       }}
     >
+      {/* Concave arc clip — sides high, dips in the centre, so the image top flows
+          with the video's bottom edge. Responsive via objectBoundingBox. */}
+      <svg aria-hidden width="0" height="0" style={{ position: 'absolute' }}>
+        <defs>
+          <clipPath id="hpsArcUp" clipPathUnits="objectBoundingBox">
+            <path d="M0,0 L0,1 L1,1 L1,0 Q0.5,0.18 0,0 Z" />
+          </clipPath>
+        </defs>
+      </svg>
       {cat && (
         <>
-          {/* Image layer — an upward-arc (oval) top at page-top, straight otherwise */}
+          {/* Image layer — a concave (sides-up) arc top at page-top, straight otherwise */}
           <div
             className="absolute inset-0 overflow-hidden"
-            style={{ clipPath: atTop ? 'ellipse(120% 100% at 50% 100%)' : 'none', boxShadow: '0 -22px 50px rgba(0,0,0,0.4)' }}
+            style={{ clipPath: atTop ? 'url(#hpsArcUp)' : 'none', boxShadow: '0 -22px 50px rgba(0,0,0,0.4)' }}
           >
           {shownImg ? (
             <img key={`${cat.key}-${shownImg}`} src={shownImg} alt="" className="absolute inset-0 h-full w-full object-cover" />
