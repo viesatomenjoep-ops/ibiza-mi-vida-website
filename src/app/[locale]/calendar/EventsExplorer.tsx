@@ -179,12 +179,6 @@ export default function EventsExplorer({ events, locale }: Props) {
         </div>
       </section>
 
-      {/* ── Open-the-calendar launcher (tight under the title) ── */}
-      {pickerEvents.length > 0 && (
-        <section className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-5 pt-2">
-          <HomeCalendarLauncher events={pickerEvents} locale={locale} persistKey="calendar" />
-        </section>
-      )}
 
       <div ref={listRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 12px)', minHeight: activeDay ? 'calc(100svh - var(--nav-h))' : undefined }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-40">
 
@@ -307,6 +301,7 @@ export default function EventsExplorer({ events, locale }: Props) {
           photoDim={false}
           imageFor={(iso) => imgByDate.get(iso) || ''}
           imagePool={imagePool}
+          agenda={<HomeCalendarLauncher events={pickerEvents} locale={locale} persistKey="calendar" compact />}
         />
       )}
     </div>

@@ -105,6 +105,7 @@ export function ClubLogoSlider({
   const prevMoveX = useRef(0);
   const momentumRef = useRef(0);   // fling momentum that decays after release
   const pausedUntil = useRef(0);   // pause auto-scroll for a bit after a manual swipe
+  const lastVibe = useRef(0);
   const [now, setNow] = useState<Date | null>(null);
 
   // Compute status only on the client (avoids hydration mismatch) + refresh each minute.
@@ -181,6 +182,7 @@ export function ClubLogoSlider({
     // Smoothed velocity so a jittery last frame can't cause a big fling.
     velRef.current = velRef.current * 0.7 + (e.clientX - prevMoveX.current) * 0.3;
     prevMoveX.current = e.clientX;
+    if (dragMoved.current) { const n = Date.now(); if (n - lastVibe.current > 80) { lastVibe.current = n; try { (navigator as any).vibrate?.(5); } catch {} } }
     let off = dragStartOffset.current + dx;
     const u = unitRef.current;
     if (u) { while (off <= -u) off += u; while (off > 0) off -= u; }

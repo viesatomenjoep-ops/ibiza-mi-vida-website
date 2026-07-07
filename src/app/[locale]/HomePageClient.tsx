@@ -63,7 +63,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             preload="auto"
             onLoadedMetadata={(e) => { const v = e.currentTarget; if (v.duration > 4) v.currentTime = 4 }}
             onEnded={(e) => { const v = e.currentTarget; v.currentTime = 4; v.play().catch(() => {}) }}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover opacity-70"
           />
           <div className="absolute inset-0 bg-black/40 z-10"></div>
           {/* Gradients to fade out the top and bottom of the video */}

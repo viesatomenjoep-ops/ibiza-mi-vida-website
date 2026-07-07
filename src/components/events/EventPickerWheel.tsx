@@ -974,8 +974,9 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
 }
 
 // ── "Open the calendar" button → full-screen stepped planner (with Exit) ──────
-export function HomeCalendarLauncher({ events, locale = 'nl', persistKey = 'homeplanner', variant = 'club' }: { events: PickerEvent[]; locale: string; persistKey?: string; variant?: 'club' | 'company' }) {
+export function HomeCalendarLauncher({ events, locale = 'nl', persistKey = 'homeplanner', variant = 'club', compact = false }: { events: PickerEvent[]; locale: string; persistKey?: string; variant?: 'club' | 'company'; compact?: boolean }) {
   const L = LABELS[locale] || LABELS.en
+  const agendaLabel = ({ nl: 'Agenda', en: 'Agenda', de: 'Kalender', es: 'Agenda', fr: 'Agenda' } as Record<string, string>)[locale] || 'Agenda'
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
@@ -989,13 +990,23 @@ export function HomeCalendarLauncher({ events, locale = 'nl', persistKey = 'home
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="mx-auto flex w-full max-w-[150px] items-center justify-center gap-1.5 rounded-lg border-2 border-black bg-ibiza-green px-3 py-1.5 font-serif text-[11px] font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95"
-      >
-        <CalendarDays size={13} /> {L.openCal}
-      </button>
+      {compact ? (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="inline-flex items-center gap-1.5 rounded-full bg-black px-3 py-1 text-[11px] font-black uppercase tracking-wide text-white shadow-sm transition-all hover:bg-black/85"
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-ibiza-green" /> {agendaLabel}
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="mx-auto flex w-full max-w-[150px] items-center justify-center gap-1.5 rounded-lg border-2 border-black bg-ibiza-green px-3 py-1.5 font-serif text-[11px] font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95"
+        >
+          <CalendarDays size={13} /> {L.openCal}
+        </button>
+      )}
 
       {open && mounted && createPortal(
         <div className="fixed inset-0 z-[300] flex flex-col bg-white">

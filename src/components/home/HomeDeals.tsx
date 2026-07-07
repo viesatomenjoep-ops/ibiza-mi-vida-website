@@ -68,6 +68,8 @@ function DealsRow({ items, locale, dir = 1 }: { items: Deal[]; locale: string; d
   const ref = useRef<HTMLDivElement>(null)
   const drag = useRef({ active: false, startX: 0, startLeft: 0, moved: false })
   const pausedUntil = useRef(0)
+  const lastVibe = useRef(0)
+  const buzz = () => { const n = Date.now(); if (n - lastVibe.current > 80) { lastVibe.current = n; try { (navigator as any).vibrate?.(5) } catch {} } }
 
   // Auto-advance ~2.7s (3× faster). `dir` sets the travel direction per row; loops at the edge.
   useEffect(() => {
@@ -85,7 +87,7 @@ function DealsRow({ items, locale, dir = 1 }: { items: Deal[]; locale: string; d
         if (dir === 1 && el.scrollLeft + el.clientWidth + 6 >= el.scrollWidth) el.scrollTo({ left: 0, behavior: 'smooth' })
         else if (dir === -1 && el.scrollLeft <= 6) el.scrollTo({ left: el.scrollWidth, behavior: 'smooth' })
         else el.scrollBy({ left: step, behavior: 'smooth' })
-      }, 1350)
+      }, 2000)
     }, startDelay)
     return () => { clearTimeout(startTimer); clearInterval(iv) }
   }, [items.length, dir])
@@ -102,8 +104,9 @@ function DealsRow({ items, locale, dir = 1 }: { items: Deal[]; locale: string; d
       ref={ref}
       className="hide-scrollbar -mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto px-1 pb-2 md:cursor-grab md:active:cursor-grabbing"
       style={{ touchAction: 'pan-x pan-y' }}
+      onTouchMove={buzz}
       onPointerDown={onDown}
-      onPointerMove={onMove}
+      onPointerMove={(e) => { onMove(e); if (drag.current.moved) buzz() }}
       onPointerUp={onUp}
       onPointerLeave={onUp}
       onPointerCancel={onUp}

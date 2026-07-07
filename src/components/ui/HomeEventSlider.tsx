@@ -65,6 +65,7 @@ export function HomeEventSlider({
   const momentumRef = useRef(0)
   const hasCapture = useRef(false)
   const pausedUntil = useRef(0)
+  const lastVibe = useRef(0)
   const [now, setNow] = useState<Date | null>(null)
 
   useEffect(() => { setNow(new Date()); const id = setInterval(() => setNow(new Date()), 60000); return () => clearInterval(id) }, [])
@@ -104,6 +105,7 @@ export function HomeEventSlider({
     if (Math.abs(dx) > 6) { dragMoved.current = true; if (!hasCapture.current) { try { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); hasCapture.current = true } catch {} } }
     velRef.current = velRef.current * 0.7 + (e.clientX - prevMoveX.current) * 0.3
     prevMoveX.current = e.clientX
+    if (dragMoved.current) { const n = Date.now(); if (n - (lastVibe.current || 0) > 80) { lastVibe.current = n; try { (navigator as any).vibrate?.(5) } catch {} } }
     let off = dragStartOffset.current + dx
     const u = unitRef.current
     if (u) { while (off <= -u) off += u; while (off > 0) off -= u }

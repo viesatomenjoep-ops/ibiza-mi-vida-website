@@ -23,6 +23,7 @@ export function WeekDockBar({
   variant = 'red',
   imagePool = [],
   photoDim = true,
+  agenda,
 }: {
   eventDates: string[]
   weekStart: string
@@ -34,6 +35,7 @@ export function WeekDockBar({
   variant?: 'red' | 'photo'
   imagePool?: string[]
   photoDim?: boolean
+  agenda?: React.ReactNode
 }) {
   const L = getLoc(locale)
   const todayStr = useMemo(() => format(new Date(), 'yyyy-MM-dd'), [])
@@ -122,6 +124,7 @@ export function WeekDockBar({
           <span className="text-[15px] font-black uppercase tracking-wide text-black">{cap(format(parseISO(weekStart), 'd MMM', { locale: L }))} – {cap(format(parseISO(weekEnd), 'd MMM', { locale: L }))}</span>
           <button type="button" aria-label="next" onClick={() => shiftTo(1)} disabled={weekStart >= lastMonday} className="grid h-7 w-7 place-items-center rounded-full border border-black/10 bg-white text-black transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronRight size={16} /></button>
         </div>
+        {agenda && <div className="mb-1.5 flex justify-center">{agenda}</div>}
         {/* Swipeable weeks — the 7 blocks slide with the thumb, snapping per week */}
         <div ref={scrollRef} onScroll={onScroll} className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {weeks.map(ws => {

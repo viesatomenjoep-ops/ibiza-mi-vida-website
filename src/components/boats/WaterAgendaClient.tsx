@@ -240,13 +240,6 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
         <p className="text-sm md:text-base text-black/50 font-medium mt-3 max-w-md">{subtitle}</p>
       </div>
 
-      {/* ── New-style stepped calendar (identical to the homepage) ── */}
-      {pickerEvents.length > 0 && (
-        <section className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pt-4 pb-6">
-          <div className="text-xs font-black tracking-widest uppercase text-ibiza-green mb-3">Score your tickets</div>
-          <HomeCalendarLauncher events={pickerEvents} locale={locale} persistKey={`planner-${basePath || 'water'}`} variant="company" />
-        </section>
-      )}
 
       {/* ── Promo gallery: every event of this category, from today onward ── */}
       {pickerEvents.length > 0 && (
@@ -295,6 +288,7 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
           setActiveDay={setDockDay}
           locale={locale}
           imageFor={(iso) => imgByDate.get(iso) || ''}
+          agenda={<HomeCalendarLauncher events={pickerEvents} locale={locale} persistKey={`planner-${basePath || 'water'}`} variant="company" compact />}
         />
       )}
     </div>
