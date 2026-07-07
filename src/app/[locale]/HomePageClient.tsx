@@ -86,7 +86,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           The video is object-cover (full size, cut through the middle). The live
           slider + one-line legend sit at the BOTTOM of the video; the white area
           below is an interactive preview stage driven by the fixed selector dock. ── */}
-      <header className="relative flex w-full flex-col overflow-hidden bg-white text-black" style={{ height: '82svh' }}>
+      <header className="relative flex w-full flex-col overflow-hidden bg-white text-black" style={{ height: '100svh' }}>
         {/* Top-half video — fills its area on every device, cut through the middle.
             A soft arc at the bottom lets the black video curve down into the white,
             echoing the decorative arcs below. */}

@@ -29,7 +29,7 @@ export function HomePreviewStage({
   }, [])
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden px-6 text-center" style={{ paddingTop: '1vh', paddingBottom: 92 }}>
+    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden px-6 text-center" style={{ paddingTop: '1vh', paddingBottom: 168 }}>
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center">
         {/* Hairline separator */}
@@ -54,7 +54,7 @@ export function HomePreviewStage({
       <svg
         ref={arcRef}
         className="pointer-events-none absolute inset-x-0 z-0 w-full"
-        style={{ bottom: 22, height: 'clamp(26px, 5vh, 52px)' }}
+        style={{ bottom: 80, height: 'clamp(26px, 5vh, 52px)' }}
         viewBox="0 0 400 44"
         preserveAspectRatio="none"
         aria-hidden="true"
