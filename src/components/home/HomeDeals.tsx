@@ -71,25 +71,12 @@ function DealsRow({ items, locale, dir = 1 }: { items: Deal[]; locale: string; d
   const lastVibe = useRef(0)
   const buzz = () => { const n = Date.now(); if (n - lastVibe.current > 80) { lastVibe.current = n; try { (navigator as any).vibrate?.(5) } catch {} } }
 
-  // Auto-advance ~2.7s (3× faster). `dir` sets the travel direction per row; loops at the edge.
+  // Manual only — the rows no longer auto-scroll. `dir` just sets the initial
+  // resting position so right-to-left rows start at their far end.
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    if (dir === -1) el.scrollLeft = el.scrollWidth // start rtl rows at the end
-    let iv: any
-    // Stagger each row's start so they don't all move in lock-step
-    const startDelay = Math.floor(Math.random() * 2200)
-    const startTimer = setTimeout(() => {
-      iv = setInterval(() => {
-        if (Date.now() < pausedUntil.current) return
-        const tile = el.querySelector('[data-tile]') as HTMLElement | null
-        const step = (tile ? tile.offsetWidth + 16 : el.clientWidth * 0.5) * dir
-        if (dir === 1 && el.scrollLeft + el.clientWidth + 6 >= el.scrollWidth) el.scrollTo({ left: 0, behavior: 'smooth' })
-        else if (dir === -1 && el.scrollLeft <= 6) el.scrollTo({ left: el.scrollWidth, behavior: 'smooth' })
-        else el.scrollBy({ left: step, behavior: 'smooth' })
-      }, 2000)
-    }, startDelay)
-    return () => { clearTimeout(startTimer); clearInterval(iv) }
+    if (dir === -1) el.scrollLeft = el.scrollWidth
   }, [items.length, dir])
 
   // Mouse only — on touch we let the browser handle it (horizontal swipe scrolls the

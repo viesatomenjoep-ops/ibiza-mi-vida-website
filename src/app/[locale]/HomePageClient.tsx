@@ -6,8 +6,6 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Calendar, MapPin, Music } from 'lucide-react';
 import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
-import { HeroTypewriter } from '@/components/ui/HeroTypewriter';
-import { CategoryReveal } from '@/components/ui/CategoryReveal';
 import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel';
 import { HomeDeals, type DealsData } from '@/components/home/HomeDeals';
 import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
@@ -23,6 +21,21 @@ interface HomePageProps {
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
   liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
 }
+
+const HERO_HEADLINE: Record<string, string> = {
+  nl: 'Jouw exclusieve sleutel tot Ibiza.',
+  en: 'Your exclusive key to Ibiza.',
+  es: 'Tu llave exclusiva a Ibiza.',
+  de: 'Dein exklusiver Schlüssel zu Ibiza.',
+  fr: 'Votre clé exclusive pour Ibiza.',
+};
+const HERO_SUBLINE: Record<string, string> = {
+  nl: 'Van privéjachten tot de beste clubs en unieke activiteiten. Boek jouw ultieme eilandervaring op één platform.',
+  en: 'From private yachts to the best clubs and unique activities. Book your ultimate island experience on one platform.',
+  es: 'Desde yates privados hasta los mejores clubs y actividades únicas. Reserva tu experiencia isleña definitiva en una sola plataforma.',
+  de: 'Von Privatyachten bis zu den besten Clubs und einzigartigen Aktivitäten. Buche dein ultimatives Inselerlebnis auf einer Plattform.',
+  fr: 'Des yachts privés aux meilleurs clubs et activités uniques. Réservez votre expérience insulaire ultime sur une seule plateforme.',
+};
 
 export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, allVenues = [], liveByClub = {} }: HomePageProps) {
   const base = `/${locale}`;
@@ -51,9 +64,40 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
   return (
     <div className="theme-monaco-vip is-home bg-white text-[var(--color-ink)] min-h-screen">
 
-      <header className="hero bg-black relative min-h-[90vh] md:min-h-screen flex flex-col items-center justify-between overflow-hidden w-full">
-        {/* ── VIDEO BACKGROUND ── */}
-        <div className="absolute inset-0 w-full h-full z-0">
+      {/* ── HERO — white branding block on top, half-height video below ── */}
+      <header className="relative w-full overflow-hidden bg-white text-black">
+        {/* Fixed-navbar spacer */}
+        <div className="h-[var(--nav-h)] w-full shrink-0" />
+
+        {/* White branding block */}
+        <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-5 pt-2 pb-9 text-center md:pt-4 md:pb-12">
+          <img
+            src="/logo-clean.png"
+            alt="Ibiza mi Vida"
+            style={{ filter: 'brightness(0)' }}
+            className="h-16 w-auto object-contain md:h-20"
+          />
+          <div className="mt-3 font-serif text-[1.35rem] font-black uppercase tracking-[.14em] text-black md:text-2xl">
+            Ibiza mi Vida
+          </div>
+          <div className="mt-2.5 flex items-center gap-2.5 text-[10px] font-bold uppercase tracking-[.24em] text-black/50 md:text-[11px]">
+            <span>Tickets</span>
+            <span className="text-black/25">·</span>
+            <span>Private Boats</span>
+            <span className="text-black/25">·</span>
+            <span>Rental</span>
+          </div>
+          <h1 className="mt-7 font-serif text-[2rem] font-black leading-[1.05] tracking-tight text-black md:text-5xl">
+            {HERO_HEADLINE[locale] || HERO_HEADLINE.en}
+          </h1>
+          <p className="mt-4 max-w-xl text-[0.95rem] font-medium leading-relaxed text-black/55 md:text-base">
+            {HERO_SUBLINE[locale] || HERO_SUBLINE.en}
+          </p>
+        </div>
+
+        {/* Half-video band — portrait 3:4 clipped to its top half (aspect 3/2),
+            full width, never zoomed or cropped horizontally */}
+        <div className="relative w-full overflow-hidden bg-black" style={{ aspectRatio: '3 / 2', maxHeight: '72vh' }}>
           <video
             src="/achtergrond-homepage.mp4#t=4"
             poster="/hi-ibiza-2026/FB_IMG_1779623220486.jpg"
@@ -64,39 +108,17 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             onLoadedMetadata={(e) => { const v = e.currentTarget; if (v.duration > 4) v.currentTime = 4 }}
             onEnded={(e) => { const v = e.currentTarget; v.currentTime = 4; v.play().catch(() => {}) }}
             style={{ filter: 'brightness(0.5) contrast(2.1) saturate(1.1)' }}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute left-0 top-0 block h-auto w-full"
           />
-          <div className="absolute inset-0 bg-black/25 z-10"></div>
-          {/* Gradients to fade out the top and bottom of the video */}
-          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 to-transparent z-10 pointer-events-none"></div>
-        </div>
-
-        {/* Spacer Top (Fixed to push text up) */}
-        <div className="h-[var(--nav-h)] w-full shrink-0" />
-
-        {/* Slogan — directly under the navbar */}
-        <div className="relative z-20 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto px-4 pt-4 md:pt-6">
-          <HeroTypewriter
-            title={translations.home_hero_title || 'Ibiza mi Vida'}
-            subtitle={translations.home_hero_subtitle || 'Entertainment · Boat · Nightlife — Reimagined'}
-          />
-        </div>
-
-        {/* Spacer Middle */}
-        <div className="flex-1 w-full" />
-
-        {/* ── SLOGAN (were at the top) + HORIZONTAL LOGO MARQUEE BAR ── */}
-        <div className="w-full relative z-20 mt-auto pt-8 pb-6 md:pt-10 md:pb-8">
-          {/* Three category tiles with click-to-reveal photo effect (desktop + mobile) */}
-          <div className="mb-6 md:mb-8">
-            <CategoryReveal base={base} translations={translations} />
-          </div>
-
-          {/* Live ClubTickets events — sits centred at the bottom of the hero video */}
-          <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend className="w-full bg-transparent pt-3 pb-2" speed={0.7} />
+          {/* Soft fade into the dark slider band below */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent" />
         </div>
       </header>
+
+      {/* Live ClubTickets events slider — directly under the hero, nothing between */}
+      <section className="bg-black pt-5 pb-6 md:pt-6 md:pb-8">
+        <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend className="w-full bg-transparent" speed={0.7} />
+      </section>
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (
