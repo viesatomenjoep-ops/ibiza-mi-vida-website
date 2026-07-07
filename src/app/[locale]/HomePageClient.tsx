@@ -49,20 +49,12 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
   return (
     <div className="theme-monaco-vip is-home bg-white text-[var(--color-ink)] min-h-screen">
 
-      {/* ── HERO — white band with the live slider on top, half-height video below ── */}
-      <header className="relative w-full overflow-hidden bg-white text-black">
-        {/* Fixed-navbar spacer */}
-        <div className="h-[var(--nav-h)] w-full shrink-0" />
-
-        {/* Live ClubTickets events slider — just under the navbar, black on white,
-            with equal white space above and below */}
-        <div className="w-full py-7 md:py-9">
-          <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend onLight className="w-full bg-transparent" speed={0.7} />
-        </div>
-
-        {/* Half-video band — portrait 3:4 clipped to its top half (aspect 3/2),
-            full width, never zoomed or cropped horizontally */}
-        <div className="relative w-full overflow-hidden bg-black" style={{ aspectRatio: '3 / 2', maxHeight: '72vh' }}>
+      {/* ── HERO — top half white (navbar), bottom half video filling to the fold.
+          The video is object-cover (full size, cropped through the middle) and the
+          fade-in title + live legend + slider are overlaid at the top of the video. ── */}
+      <header className="relative w-full overflow-hidden bg-white text-black" style={{ height: '100svh' }}>
+        {/* Bottom-half video — fills its area on every device, cut through the middle */}
+        <div className="absolute inset-x-0 bottom-0 overflow-hidden bg-black" style={{ height: '50svh' }}>
           <video
             src="/achtergrond-homepage.mp4#t=4"
             poster="/hi-ibiza-2026/FB_IMG_1779623220486.jpg"
@@ -72,9 +64,21 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             preload="auto"
             onLoadedMetadata={(e) => { const v = e.currentTarget; if (v.duration > 4) v.currentTime = 4 }}
             onEnded={(e) => { const v = e.currentTarget; v.currentTime = 4; v.play().catch(() => {}) }}
-            style={{ filter: 'brightness(0.5) contrast(2.1) saturate(1.1)' }}
-            className="absolute left-0 top-0 block h-auto w-full"
+            style={{ objectPosition: 'center', filter: 'brightness(0.55) contrast(2) saturate(1.05)' }}
+            className="absolute inset-0 h-full w-full object-cover"
           />
+          {/* Legibility gradient — darker at the top where the text sits */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 via-black/15 to-black/35" />
+
+          {/* Overlay content anchored at the top of the video */}
+          <div className="absolute inset-x-0 top-0 z-10 flex flex-col items-center px-4 pt-6 text-center md:pt-9">
+            <h2 className="hero-fade-title font-serif text-2xl font-medium uppercase leading-[1.05] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-3xl md:text-[2.6rem]">
+              Ibiza,<span className="ml-2 font-light italic tracking-normal text-white/95">your island</span>
+            </h2>
+            <div className="mt-5 w-full md:mt-6">
+              <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend className="w-full bg-transparent" speed={0.7} />
+            </div>
+          </div>
         </div>
       </header>
 
