@@ -102,6 +102,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
         {/* Club logo marquee — moved here, between Deals of the Day and Featured events */}
         <div className="bg-black py-4 border-t border-white/10">
+          <img src="/logo-white.png" alt="Ibiza mi vida" className="mx-auto mb-3 h-12 w-auto object-contain md:h-14" />
           <ClubLogoSlider
             clubLogos={clubLogos}
             base={base}
@@ -116,7 +117,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <section className="pb-12 pt-6 md:pb-16 md:pt-8 bg-white text-neutral-900 border-t border-black/5">
           <div className="max-w-7xl mx-auto px-4">
             <div className="mb-6 flex flex-wrap items-center gap-4">
-              <h3 className="shrink-0 font-serif text-xl font-black tracking-tight text-neutral-900">
+              <h3 className="shrink-0 font-serif text-[1.625rem] font-black tracking-tight text-neutral-900">
                 {({ nl: 'Uitgelichte events', en: 'Featured events', es: 'Eventos destacados', de: 'Ausgewählte Events', fr: 'Événements en vedette' } as Record<string, string>)[locale] || 'Featured events'}
               </h3>
               <span className="h-px flex-1 bg-black/10" />
@@ -192,7 +193,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             {/* Section header */}
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="m-0 font-serif text-xl font-black tracking-tight text-white">{translations.home_popular_clubs}</h2>
+                <h2 className="m-0 font-serif text-[1.625rem] font-black tracking-tight text-white">{translations.home_popular_clubs}</h2>
               </div>
               <Link
                 href={`${base}/club-tickets`}
@@ -271,7 +272,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           <div className="section-head">
             <div>
               <span className="kicker !text-neutral-900">{translations.home_discover_all}</span>
-              <h2 className="text-neutral-900 !font-serif !text-xl !font-black !tracking-tight" style={{ marginTop: '12px' }}>{translations.home_popular_on_ibiza}</h2>
+              <h2 className="text-neutral-900 !font-serif !text-[1.625rem] !font-black !tracking-tight" style={{ marginTop: '12px' }}>{translations.home_popular_on_ibiza}</h2>
             </div>
           </div>
           

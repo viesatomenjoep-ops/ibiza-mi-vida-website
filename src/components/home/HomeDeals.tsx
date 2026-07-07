@@ -128,7 +128,7 @@ export function HomeDeals({ deals, locale = 'nl' }: { deals: DealsData; locale: 
     <section className="bg-white px-4 py-6 md:py-8">
       <div className="mx-auto w-full max-w-7xl">
         <div className="mb-5">
-          <h2 className="font-serif text-xl font-black tracking-tight text-neutral-900">{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
+          <h2 className="font-serif text-[1.625rem] font-black leading-none tracking-tight text-neutral-900">{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
           <p className="mt-1 text-sm font-medium text-neutral-500">{SECTION_SUB[locale] || SECTION_SUB.en}</p>
         </div>
 
