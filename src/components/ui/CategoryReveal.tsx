@@ -38,7 +38,7 @@ export function CategoryReveal({ base, translations = {} }: { base: string; tran
             style={{
               opacity: mounted ? 1 : 0,
               transform: mounted ? 'none' : 'translateY(20px) scale(0.94)',
-              transition: `opacity .6s cubic-bezier(.21,.5,.32,1) ${i * 180}ms, transform .6s cubic-bezier(.21,.5,.32,1) ${i * 180}ms`,
+              transition: `opacity 2.8s cubic-bezier(.16,.7,.3,1) ${i * 450}ms, transform 2.8s cubic-bezier(.16,.7,.3,1) ${i * 450}ms`,
             }}
             onClick={(e) => {
               // First tap: reveal the photo. Second tap (already open): let the Link navigate.
