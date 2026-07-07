@@ -180,7 +180,7 @@ export default function EventsExplorer({ events, locale }: Props) {
       </section>
 
 
-      <div ref={listRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 12px)', minHeight: activeDay ? 'calc(100svh - var(--nav-h))' : undefined }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-40">
+      <div ref={listRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 32px)', minHeight: activeDay ? 'calc(100svh - var(--nav-h))' : undefined }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-40">
 
         {/* ── Section label (Deals-of-the-Day style) ── */}
         <div className="mb-8 flex items-center justify-between border-b border-black/10 pb-4">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, ArrowRight, Sun, Moon } from 'lucide-react';
@@ -20,6 +20,15 @@ interface ClubsClientProps {
 export default function ClubsClient({ venues, translations, locale }: ClubsClientProps) {
   const [filter, setFilter] = useState<'all' | 'day' | 'night'>('all');
   const [search, setSearch] = useState('');
+
+  // When a category is picked in the bottom dock, glide to the top so the title +
+  // the fresh grid are perfectly framed in one glance.
+  const firstFilter = useRef(true);
+  useEffect(() => {
+    if (firstFilter.current) { firstFilter.current = false; return; }
+    const t = setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 60);
+    return () => clearTimeout(t);
+  }, [filter]);
 
   const filteredVenues = useMemo(() => {
     return venues.filter(v => {
