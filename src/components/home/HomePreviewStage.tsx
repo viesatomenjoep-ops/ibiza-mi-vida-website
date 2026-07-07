@@ -14,13 +14,13 @@ export function HomePreviewStage({
 }) {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center px-6 text-center md:px-10" style={{ paddingBottom: 92 }}>
-      {/* Ibiza Mi Vida — centered */}
-      <span className="font-serif text-[1.625rem] font-black leading-none tracking-tight text-neutral-900">
+      {/* Ibiza Mi Vida — centered, uppercase, 30% larger */}
+      <span className="font-serif text-[2.1rem] font-black uppercase leading-none tracking-tight text-neutral-900">
         Ibiza Mi Vida
       </span>
 
-      {/* Headline — centered, two lines, 30% smaller */}
-      <h2 className="mt-3.5 max-w-[10em] font-serif text-[1.2rem] font-black leading-[1.05] text-black sm:text-[1.4rem] md:text-[1.8rem]">
+      {/* Headline — centered, two lines, uppercase, 30% larger */}
+      <h2 className="mt-3.5 max-w-[12em] font-serif text-[1.56rem] font-black uppercase leading-[1.05] text-black sm:text-[1.82rem] md:text-[2.34rem]">
         {headline}
       </h2>
 
