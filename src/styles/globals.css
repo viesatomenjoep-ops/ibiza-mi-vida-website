@@ -1220,3 +1220,9 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 .mcat-boat-hull{transform-origin:24px 34px;animation:mcatBob 4s ease-in-out infinite}
 @keyframes mcatBob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-2px) rotate(2deg)}}
 @media (prefers-reduced-motion:reduce){.mcat-cal svg,.mcat-cal-dot,.mcat-eq i,.mcat-boat-hull,.mcat-boat-wave{animation:none!important}}
+
+/* Prevent iOS Safari from auto-zooming when focusing a form field:
+   any input/select/textarea under 16px triggers the zoom, so force 16px on small screens. */
+@media (max-width: 640px) {
+  input, select, textarea { font-size: 16px !important; }
+}
