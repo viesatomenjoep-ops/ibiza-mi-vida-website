@@ -1188,12 +1188,15 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 .fs-logo img{filter:brightness(0);}
 .fs-brand-name{color:#000;}
 .fs-brand-sub{color:rgba(0,0,0,.6);}
-/* No empty white gap between the brand row and the first colour bar */
-.fs-nav{padding-top:0;display:flex;flex-direction:column;}
-/* Yacht photo slider — fills the space below the category bars */
-.fs-yachts{position:relative;flex:1 1 auto;min-height:170px;overflow:hidden;cursor:pointer;background:#000;}
-.fs-yachts img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .55s ease;}
-.fs-yachts img.is-active{opacity:1;}
+/* No empty white gap between the brand row and the first colour bar; tiles run
+   flush from the category line down to the language selector */
+.fs-nav{padding:0;display:flex;flex-direction:column;}
+/* Yacht photo tiles — five across the full width, flush to the line above */
+.fs-yachts{position:relative;flex:1 1 auto;min-height:180px;display:flex;overflow:hidden;background:#000;}
+.fs-ytile{position:relative;flex:1 1 0;min-width:0;overflow:hidden;cursor:pointer;border-left:1px solid rgba(255,255,255,.4);}
+.fs-ytile:first-child{border-left:none;}
+.fs-ytile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:fsYFade .6s ease both;}
+@keyframes fsYFade{from{opacity:0}to{opacity:1}}
 /* Each category block gets its own brand colour, with pure-white text */
 .fs-cat{border-bottom-color:rgba(255,255,255,.14);}
 .fs-cat[data-cat="events"]{background:#E14D68;}

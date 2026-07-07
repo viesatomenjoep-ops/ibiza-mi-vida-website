@@ -2,32 +2,46 @@
 
 import { useEffect, useState } from 'react'
 
-/**
- * Fills the empty space in the fullscreen menu (below the category bars, above
- * the language selector) with a crossfading slider of yacht photos — images
- * only, no text. Auto-advances, and a tap jumps quickly to the next photo.
- */
-export function MenuYachtSlider({ images }: { images: string[] }) {
-  const [i, setI] = useState(0)
+function randOther(len: number, cur: number) {
+  if (len < 2) return 0
+  let n = cur
+  while (n === cur) n = Math.floor(Math.random() * len)
+  return n
+}
 
+/** One tile that keeps swapping to a random yacht photo with a soft fade. */
+function YachtTile({ pool, delay }: { pool: string[]; delay: number }) {
+  const [idx, setIdx] = useState(() => Math.floor(Math.random() * pool.length))
   useEffect(() => {
-    if (images.length < 2) return
-    const id = setInterval(() => setI(p => (p + 1) % images.length), 3500)
+    if (pool.length < 2) return
+    const id = setInterval(() => setIdx(i => randOther(pool.length, i)), 2600 + delay)
     return () => clearInterval(id)
-  }, [images.length])
-
-  if (images.length === 0) return null
-
+  }, [pool.length, delay])
   return (
     <div
-      className="fs-yachts"
+      className="fs-ytile"
       role="button"
       tabIndex={0}
-      aria-label="Yachts"
-      onClick={() => setI(p => (p + 1) % images.length)}
+      aria-label="Yacht"
+      onClick={() => setIdx(i => randOther(pool.length, i))}
     >
-      {images.map((src, idx) => (
-        <img key={src + idx} src={src} alt="" loading="lazy" className={idx === i ? 'is-active' : ''} />
+      {/* key forces a remount so the fade-in animation replays on every change */}
+      <img key={idx} src={pool[idx]} alt="" loading="lazy" />
+    </div>
+  )
+}
+
+/**
+ * Five yacht-photo tiles across the full width of the menu, each cycling through
+ * random yacht images on its own rhythm with a soft fade — images only, no text,
+ * with thin divider lines between them. Flush against the category line above.
+ */
+export function MenuYachtSlider({ images }: { images: string[] }) {
+  if (images.length === 0) return null
+  return (
+    <div className="fs-yachts">
+      {Array.from({ length: 5 }, (_, i) => (
+        <YachtTile key={i} pool={images} delay={i * 480} />
       ))}
     </div>
   )

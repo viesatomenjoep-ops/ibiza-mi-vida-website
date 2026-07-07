@@ -15,7 +15,8 @@ import de from '@/dictionaries/de.json'
 import fr from '@/dictionaries/fr.json'
 
 const dicts: Record<string, any> = { en, nl, es, de, fr }
-const YACHT_IMAGES = FLEET.map(b => b.image).filter(Boolean)
+const YACHT_ONLY = FLEET.filter(b => (b as any).category === 'yacht').map(b => b.image).filter(Boolean)
+const YACHT_IMAGES = YACHT_ONLY.length >= 5 ? YACHT_ONLY : FLEET.map(b => b.image).filter(Boolean)
 
 const OFFICIAL_PARTNER: Record<string, string> = {
   en: 'Official ticket partner',
