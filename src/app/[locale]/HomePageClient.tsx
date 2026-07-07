@@ -22,21 +22,6 @@ interface HomePageProps {
   liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
 }
 
-const HERO_HEADLINE: Record<string, string> = {
-  nl: 'Jouw exclusieve sleutel tot Ibiza.',
-  en: 'Your exclusive key to Ibiza.',
-  es: 'Tu llave exclusiva a Ibiza.',
-  de: 'Dein exklusiver Schlüssel zu Ibiza.',
-  fr: 'Votre clé exclusive pour Ibiza.',
-};
-const HERO_SUBLINE: Record<string, string> = {
-  nl: 'Van privéjachten tot de beste clubs en unieke activiteiten. Boek jouw ultieme eilandervaring op één platform.',
-  en: 'From private yachts to the best clubs and unique activities. Book your ultimate island experience on one platform.',
-  es: 'Desde yates privados hasta los mejores clubs y actividades únicas. Reserva tu experiencia isleña definitiva en una sola plataforma.',
-  de: 'Von Privatyachten bis zu den besten Clubs und einzigartigen Aktivitäten. Buche dein ultimatives Inselerlebnis auf einer Plattform.',
-  fr: 'Des yachts privés aux meilleurs clubs et activités uniques. Réservez votre expérience insulaire ultime sur une seule plateforme.',
-};
-
 export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, allVenues = [], liveByClub = {} }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
@@ -68,32 +53,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       <header className="relative w-full overflow-hidden bg-white text-black">
         {/* Fixed-navbar spacer */}
         <div className="h-[var(--nav-h)] w-full shrink-0" />
-
-        {/* White branding block */}
-        <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-5 pt-2 pb-9 text-center md:pt-4 md:pb-12">
-          <img
-            src="/logo-clean.png"
-            alt="Ibiza mi Vida"
-            style={{ filter: 'brightness(0)' }}
-            className="h-16 w-auto object-contain md:h-20"
-          />
-          <div className="mt-3 font-serif text-[1.35rem] font-black uppercase tracking-[.14em] text-black md:text-2xl">
-            Ibiza mi Vida
-          </div>
-          <div className="mt-2.5 flex items-center gap-2.5 text-[10px] font-bold uppercase tracking-[.24em] text-black/50 md:text-[11px]">
-            <span>Tickets</span>
-            <span className="text-black/25">·</span>
-            <span>Private Boats</span>
-            <span className="text-black/25">·</span>
-            <span>Rental</span>
-          </div>
-          <h1 className="mt-7 font-serif text-[2rem] font-black leading-[1.05] tracking-tight text-black md:text-5xl">
-            {HERO_HEADLINE[locale] || HERO_HEADLINE.en}
-          </h1>
-          <p className="mt-4 max-w-xl text-[0.95rem] font-medium leading-relaxed text-black/55 md:text-base">
-            {HERO_SUBLINE[locale] || HERO_SUBLINE.en}
-          </p>
-        </div>
 
         {/* Half-video band — portrait 3:4 clipped to its top half (aspect 3/2),
             full width, never zoomed or cropped horizontally */}
