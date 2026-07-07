@@ -22,13 +22,14 @@ export function HomePreviewStage({
           </radialGradient>
         </defs>
         <rect x="0" y="0" width="400" height="320" fill="url(#hps-glow)" />
-        {/* Concentric arcs rising from the bottom centre */}
-        <g fill="none" strokeWidth="1">
-          <circle cx="200" cy="378" r="150" stroke="#000000" strokeOpacity="0.05" />
-          <circle cx="200" cy="378" r="205" stroke="#E14D68" strokeOpacity="0.11" />
-          <circle cx="200" cy="378" r="262" stroke="#00A3FF" strokeOpacity="0.09" />
-          <circle cx="200" cy="378" r="320" stroke="#14C800" strokeOpacity="0.10" />
-          <circle cx="200" cy="378" r="378" stroke="#000000" strokeOpacity="0.04" />
+        {/* Concentric arcs rising from the bottom centre — top & bottom arcs pitch
+            black, the middle three in blue / red / green */}
+        <g fill="none">
+          <circle cx="200" cy="378" r="150" stroke="#000000" strokeOpacity="1" strokeWidth="1.7" />
+          <circle cx="200" cy="378" r="205" stroke="#00A3FF" strokeOpacity="0.9" strokeWidth="1.3" />
+          <circle cx="200" cy="378" r="262" stroke="#E14D68" strokeOpacity="0.9" strokeWidth="1.3" />
+          <circle cx="200" cy="378" r="320" stroke="#14C800" strokeOpacity="0.9" strokeWidth="1.3" />
+          <circle cx="200" cy="378" r="378" stroke="#000000" strokeOpacity="1" strokeWidth="1.7" />
         </g>
         {/* Fine floating dots */}
         <circle cx="52" cy="58" r="2.4" fill="#14C800" fillOpacity="0.5" />
@@ -48,7 +49,7 @@ export function HomePreviewStage({
         </h2>
 
         {/* Subtitle — centered, 30% smaller */}
-        <p className="mt-3 max-w-lg text-[0.96rem] font-bold leading-snug text-black/70 sm:text-[1.05rem] md:text-[1.18rem]">
+        <p className="mt-3 max-w-lg text-[0.96rem] font-bold leading-snug text-black sm:text-[1.05rem] md:text-[1.18rem]">
           {subline}
         </p>
 

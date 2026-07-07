@@ -1220,6 +1220,9 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 /* Homepage preview stage — image reveal */
 @keyframes hpsFade{0%{opacity:0;transform:scale(1.04)}100%{opacity:1;transform:scale(1)}}
 .hps-fade{animation:hpsFade .55s cubic-bezier(.16,.7,.3,1) both}
+/* Diagonal fill — image sweeps up from the bottom-left corner (used at page top) */
+@keyframes hpsDiag{0%{clip-path:polygon(0% 100%,0% 100%,0% 100%,0% 100%);opacity:.5}100%{clip-path:polygon(0% 0%,100% 0%,100% 100%,0% 100%);opacity:1}}
+.hps-diag{animation:hpsDiag .72s cubic-bezier(.16,.72,.24,1) both}
 @keyframes hpsCta{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
 .hps-cta{animation:hpsCta .5s cubic-bezier(.16,.7,.3,1) .15s both}
 
