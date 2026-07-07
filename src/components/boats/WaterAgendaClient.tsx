@@ -252,7 +252,7 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
       {pickerEvents.length > 0 && (
         <section ref={galleryRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 16px)' }} className="relative z-10 mx-auto max-w-4xl px-4 pb-40 pt-2">
           <div className="mb-4 flex items-center gap-3">
-            <h2 className="font-serif text-2xl md:text-3xl font-black text-black">{GALLERY_TITLE[locale] || GALLERY_TITLE.en}</h2>
+            <h2 className="font-serif text-2xl md:text-3xl font-black text-black">{title} events</h2>
             <span className="h-px flex-1 bg-black/10" />
           </div>
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
