@@ -29,7 +29,7 @@ export function BackButton({ locale = 'nl', fallbackHref, variant = 'hero' }: { 
   const [shown, setShown] = useState(false)
   const hideTimer = useRef<any>(null)
   useEffect(() => {
-    const reveal = () => { setShown(true); clearTimeout(hideTimer.current); hideTimer.current = setTimeout(() => setShown(false), 650) }
+    const reveal = () => { setShown(true); clearTimeout(hideTimer.current); hideTimer.current = setTimeout(() => setShown(false), 1300) }
     window.addEventListener('scroll', reveal, { passive: true })
     window.addEventListener('wheel', reveal, { passive: true })
     window.addEventListener('touchmove', reveal, { passive: true })

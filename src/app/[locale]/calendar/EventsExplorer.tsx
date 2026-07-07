@@ -139,11 +139,17 @@ export default function EventsExplorer({ events, locale }: Props) {
   // Tiles: all upcoming events, or just the day picked in the dock
   const rangeEvents = activeDay ? clubEvents.filter(e => e.date === activeDay) : clubEvents
 
-  // Grouped by date
+  // Grouped by date — shuffled per day, with the biggest clubs favoured toward the
+  // top (in random order among themselves), so it's never always "Universe first".
   const grouped = useMemo(() => {
+    const TOP = ['unvrs-ibiza', 'hi-ibiza', 'ushuaia-ibiza']
     const m: Record<string, ExEvent[]> = {}
     rangeEvents.forEach(e => { (m[e.date] ||= []).push(e) })
-    Object.values(m).forEach(a => a.sort((x, y) => (x.ct_venues?.name || '').localeCompare(y.ct_venues?.name || '')))
+    Object.values(m).forEach(a => {
+      // shuffle first, then a stable sort that only lifts the top clubs above the rest
+      for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]] }
+      a.sort((x, y) => (TOP.includes(x.ct_venues?.slug || '') ? 0 : 1) - (TOP.includes(y.ct_venues?.slug || '') ? 0 : 1))
+    })
     return m
   }, [rangeEvents])
   const dateKeys = useMemo(() => Object.keys(grouped).sort(), [grouped])
