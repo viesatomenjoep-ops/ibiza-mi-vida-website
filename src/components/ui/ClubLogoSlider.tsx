@@ -131,7 +131,7 @@ export function ClubLogoSlider({
         // Fling momentum takes over right after a swipe, then eases back into the steady auto-scroll.
         if (Math.abs(momentumRef.current) > 0.3) {
           offsetRef.current += momentumRef.current;
-          momentumRef.current *= 0.88;
+          momentumRef.current *= 0.95;
         } else if (Date.now() < pausedUntil.current) {
           /* you control it — auto-scroll paused after your swipe */
         } else {
@@ -180,9 +180,9 @@ export function ClubLogoSlider({
       if (!hasCapture.current) { try { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); hasCapture.current = true; } catch {} }
     }
     // Smoothed velocity so a jittery last frame can't cause a big fling.
-    velRef.current = velRef.current * 0.7 + (e.clientX - prevMoveX.current) * 0.3;
+    velRef.current = velRef.current * 0.45 + (e.clientX - prevMoveX.current) * 0.55;
     prevMoveX.current = e.clientX;
-    if (dragMoved.current) { const n = Date.now(); if (n - lastVibe.current > 80) { lastVibe.current = n; try { (navigator as any).vibrate?.(5); } catch {} } }
+    if (dragMoved.current) { const n = Date.now(); if (n - lastVibe.current > 55) { lastVibe.current = n; try { (navigator as any).vibrate?.(6); } catch {} } }
     let off = dragStartOffset.current + dx;
     const u = unitRef.current;
     if (u) { while (off <= -u) off += u; while (off > 0) off -= u; }
@@ -194,7 +194,7 @@ export function ClubLogoSlider({
     if (hasCapture.current) { try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch {} hasCapture.current = false; }
     // Gentle glide: a small, quickly-decaying carry-over so it follows the thumb and
     // eases to a stop instead of shooting off to one side.
-    if (dragMoved.current) { momentumRef.current = Math.max(-14, Math.min(14, velRef.current * 0.5)); pausedUntil.current = Date.now() + 4000; }
+    if (dragMoved.current) { momentumRef.current = Math.max(-75, Math.min(75, velRef.current * 1.8)); pausedUntil.current = Date.now() + 4000; }
   };
   // Swallow the click that follows a real drag so logos don't navigate mid-swipe.
   const onClickCapture = (e: React.MouseEvent) => {
@@ -242,6 +242,7 @@ export function ClubLogoSlider({
           maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
           touchAction: 'pan-y',
         }}
+        onTouchMove={() => { const n = Date.now(); if (n - lastVibe.current > 55) { lastVibe.current = n; try { (navigator as any).vibrate?.(6); } catch {} } }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}

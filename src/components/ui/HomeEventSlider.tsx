@@ -79,7 +79,7 @@ export function HomeEventSlider({
     const play = () => {
       if (!isDragging.current && track) {
         const unit = unitRef.current
-        if (Math.abs(momentumRef.current) > 0.3) { offsetRef.current += momentumRef.current; momentumRef.current *= 0.9 }
+        if (Math.abs(momentumRef.current) > 0.3) { offsetRef.current += momentumRef.current; momentumRef.current *= 0.95 }
         else if (Date.now() < pausedUntil.current) { /* you control it — auto-scroll paused after your swipe */ }
         else offsetRef.current -= speed
         if (unit) { while (offsetRef.current <= -unit) offsetRef.current += unit; while (offsetRef.current > 0) offsetRef.current -= unit }
@@ -103,9 +103,9 @@ export function HomeEventSlider({
     const track = trackRef.current; if (!track) return
     const dx = e.clientX - dragStartX.current
     if (Math.abs(dx) > 6) { dragMoved.current = true; if (!hasCapture.current) { try { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); hasCapture.current = true } catch {} } }
-    velRef.current = velRef.current * 0.7 + (e.clientX - prevMoveX.current) * 0.3
+    velRef.current = velRef.current * 0.45 + (e.clientX - prevMoveX.current) * 0.55
     prevMoveX.current = e.clientX
-    if (dragMoved.current) { const n = Date.now(); if (n - (lastVibe.current || 0) > 80) { lastVibe.current = n; try { (navigator as any).vibrate?.(5) } catch {} } }
+    if (dragMoved.current) { const n = Date.now(); if (n - (lastVibe.current || 0) > 55) { lastVibe.current = n; try { (navigator as any).vibrate?.(6) } catch {} } }
     let off = dragStartOffset.current + dx
     const u = unitRef.current
     if (u) { while (off <= -u) off += u; while (off > 0) off -= u }
@@ -115,7 +115,7 @@ export function HomeEventSlider({
   const onPointerUp = (e: React.PointerEvent) => {
     isDragging.current = false
     if (hasCapture.current) { try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId) } catch {}; hasCapture.current = false }
-    if (dragMoved.current) { momentumRef.current = Math.max(-16, Math.min(16, velRef.current * 0.6)); pausedUntil.current = Date.now() + 4000 }
+    if (dragMoved.current) { momentumRef.current = Math.max(-75, Math.min(75, velRef.current * 1.8)); pausedUntil.current = Date.now() + 4000 }
   }
   const onClickCapture = (e: React.MouseEvent) => { if (dragMoved.current) { e.preventDefault(); e.stopPropagation(); dragMoved.current = false } }
 
@@ -142,6 +142,7 @@ export function HomeEventSlider({
           maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
           touchAction: 'pan-y',
         }}
+        onTouchMove={() => { const n = Date.now(); if (n - (lastVibe.current || 0) > 55) { lastVibe.current = n; try { (navigator as any).vibrate?.(6) } catch {} } }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
