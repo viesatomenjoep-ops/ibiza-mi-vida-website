@@ -33,7 +33,7 @@ export function Footer() {
       title: t.nav_events_tickets || 'Events & Tickets',
       links: [
         { href: `${base}/calendar`, label: t.nav_ibiza_calendar || 'Ibiza Calendar' },
-        { href: `${base}/deals-of-the-day`, label: t.nav_deals || 'Deals of the Day' },
+        { href: `${base}#deals`, label: t.nav_deals || 'Deals of the Day' },
         { href: `${base}/artists`, label: t.nav_artists || 'Artiesten' },
         { href: `${base}/club-tickets`, label: t.nav_club_tickets || 'Club Tickets' },
         { href: `${base}/clubs`, label: t.nav_clubs_ibiza || 'Clubs Ibiza' },

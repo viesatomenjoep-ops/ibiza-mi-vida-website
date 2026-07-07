@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo, useRef } from 'react'
+import React, { useMemo, useRef, useState, useEffect } from 'react'
 import { format, addDays, startOfWeek, parseISO } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
@@ -20,6 +20,8 @@ export function WeekDockBar({
   setActiveDay,
   locale = 'nl',
   imageFor,
+  variant = 'red',
+  imagePool = [],
 }: {
   eventDates: string[]
   weekStart: string
@@ -28,6 +30,8 @@ export function WeekDockBar({
   setActiveDay: (d: string | null) => void
   locale?: string
   imageFor?: (iso: string) => string
+  variant?: 'red' | 'photo'
+  imagePool?: string[]
 }) {
   const L = getLoc(locale)
   const todayStr = useMemo(() => format(new Date(), 'yyyy-MM-dd'), [])
@@ -46,6 +50,10 @@ export function WeekDockBar({
   }
   const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 
+  // Photo variant: gently rotate the blurred backdrops over time (live feel)
+  const [tick, setTick] = useState(0)
+  useEffect(() => { if (variant !== 'photo') return; const id = setInterval(() => setTick(t => t + 1), 7000); return () => clearInterval(id) }, [variant])
+
   // Swipe left/right across the day tiles to change the week (mobile-friendly)
   const swipe = useRef({ x: 0, consumed: false })
   const onDown = (e: React.PointerEvent) => { swipe.current = { x: e.clientX, consumed: false } }
@@ -63,26 +71,33 @@ export function WeekDockBar({
           <span className="text-[15px] font-black uppercase tracking-wide text-black">{cap(format(parseISO(weekStart), 'd MMM', { locale: L }))} – {cap(format(parseISO(weekEnd), 'd MMM', { locale: L }))}</span>
           <button type="button" aria-label="next" onClick={() => shift(1)} disabled={weekStart >= lastMonday} className="grid h-7 w-7 place-items-center rounded-full border border-black/10 bg-white text-black transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronRight size={16} /></button>
         </div>
-        {/* Seven full-width red blocks (swipe left/right to change week) */}
+        {/* Seven full-width blocks (swipe left/right to change week) */}
         <div className="grid grid-cols-7 gap-1 select-none" style={{ touchAction: 'pan-y' }} onPointerDown={onDown} onPointerUp={onUp} onClickCapture={onClickCapture}>
-          {days.map(ds => {
+          {days.map((ds, i) => {
             const d = parseISO(ds)
             const past = ds < todayStr
             const hv = has(ds)
             const on = activeDay === ds
             const disabled = past || !hv
+            const photoBg = variant === 'photo'
+              ? (imageFor?.(ds) || imagePool[(i + tick) % Math.max(1, imagePool.length)] || '')
+              : ''
             return (
               <button
                 key={ds}
                 type="button"
                 disabled={disabled}
                 onClick={() => setActiveDay(on ? null : ds)}
-                style={{ backgroundColor: '#E14D68' }}
-                className={`relative flex h-12 flex-col items-center justify-center rounded-lg leading-none transition-all sm:h-14 ${on ? 'ring-2 ring-black' : ''} ${disabled ? 'opacity-30' : 'active:scale-95'}`}
+                style={variant === 'red' ? { backgroundColor: '#E14D68' } : { backgroundColor: '#111' }}
+                className={`relative flex h-12 flex-col items-center justify-center overflow-hidden rounded-lg leading-none transition-all sm:h-14 ${on ? (variant === 'photo' ? 'ring-2 ring-ibiza-green' : 'ring-2 ring-black') : ''} ${disabled ? 'opacity-30' : 'active:scale-95'}`}
               >
-                <span className="text-[9px] font-black uppercase text-white/90">{format(d, 'EEEEE', { locale: L })}</span>
-                <span className="font-serif text-base font-black text-white">{format(d, 'd')}</span>
-                {hv && !on && <span className="mt-0.5 h-1 w-1 rounded-full bg-white" />}
+                {variant === 'photo' && photoBg && <img src={photoBg} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover blur-[2px] transition-opacity duration-700" />}
+                {variant === 'photo' && <span className="absolute inset-0 bg-black/55" />}
+                <span className="relative flex flex-col items-center">
+                  <span className="text-[9px] font-black uppercase text-white/90 drop-shadow">{format(d, 'EEEEE', { locale: L })}</span>
+                  <span className="font-serif text-base font-black text-white drop-shadow">{format(d, 'd')}</span>
+                  {hv && !on && <span className="mt-0.5 h-1 w-1 rounded-full bg-white" />}
+                </span>
               </button>
             )
           })}

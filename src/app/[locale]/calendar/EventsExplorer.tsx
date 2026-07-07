@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useMemo, useState, useCallback } from 'react'
+import React, { useMemo, useState, useCallback, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import { WeekDockBar } from '@/components/ui/WeekDockBar'
 import {
   format, addDays, startOfWeek, endOfWeek, startOfMonth, endOfMonth,
   startOfDay, eachDayOfInterval, parseISO, isToday, isTomorrow,
@@ -120,8 +121,18 @@ export default function EventsExplorer({ events, locale }: Props) {
     return clubEvents.filter(e => e.date === ds).length
   }, [clubEvents])
 
-  // Tiles show ALL upcoming events (the picker above handles day/week/month browsing)
-  const rangeEvents = clubEvents
+  // Fixed bottom week dock (blurred event photos) — day-select filters the list
+  const listRef = useRef<HTMLDivElement>(null)
+  const imgByDate = useMemo(() => { const m = new Map<string, string>(); pickerEvents.forEach(e => { if (!m.has(e.date) && e.image) m.set(e.date, e.image) }); return m }, [pickerEvents])
+  const imagePool = useMemo(() => Array.from(new Set(pickerEvents.map(e => e.image).filter(Boolean))).slice(0, 12) as string[], [pickerEvents])
+  const [dockWeekStart, setDockWeekStart] = useState<string>(() => {
+    const ds = pickerEvents.map(e => e.date).filter(d => d >= todayStr).sort()[0] || todayStr
+    return format(startOfWeek(parseISO(ds), { weekStartsOn: 1 }), 'yyyy-MM-dd')
+  })
+  useEffect(() => { if (activeDay && listRef.current) listRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, [activeDay])
+
+  // Tiles: all upcoming events, or just the day picked in the dock
+  const rangeEvents = activeDay ? clubEvents.filter(e => e.date === activeDay) : clubEvents
 
   // Grouped by date
   const grouped = useMemo(() => {
@@ -173,7 +184,7 @@ export default function EventsExplorer({ events, locale }: Props) {
         </section>
       )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-24">
+      <div ref={listRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 16px)' }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-40">
 
         {/* ── Section label (Deals-of-the-Day style) ── */}
         <div className="mb-8 flex items-center justify-between border-b border-black/10 pb-4">
@@ -280,6 +291,21 @@ export default function EventsExplorer({ events, locale }: Props) {
           </div>
         )}
       </div>
+
+      {/* Fixed bottom week dock — blurred event photos, white text; pick a day to open it */}
+      {pickerEvents.length > 0 && (
+        <WeekDockBar
+          eventDates={pickerEvents.map(e => e.date)}
+          weekStart={dockWeekStart}
+          setWeekStart={setDockWeekStart}
+          activeDay={activeDay}
+          setActiveDay={setActiveDay}
+          locale={locale}
+          variant="photo"
+          imageFor={(iso) => imgByDate.get(iso) || ''}
+          imagePool={imagePool}
+        />
+      )}
     </div>
   )
 }
