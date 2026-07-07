@@ -242,19 +242,19 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
           </div>
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
             {[...pickerEvents].sort((a, b) => a.date.localeCompare(b.date)).map(e => (
-              <a key={e.id} href={e.href} className="group grid grid-cols-2 overflow-hidden rounded-2xl border border-black/10 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl">
-                {/* Left half — the event photo */}
-                <div className="relative aspect-square bg-neutral-900">
-                  {e.image ? <img src={e.image} alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/10" />
+              <a key={e.id} href={e.href} className="group flex h-28 overflow-hidden rounded-2xl border border-black/10 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl sm:h-32">
+                {/* Left half — the event photo (uniform cut) */}
+                <div className="relative h-full w-[55%] shrink-0 bg-neutral-900">
+                  {e.image ? <img src={e.image} alt={e.eventName} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
                 </div>
-                {/* Right half — category-red ticket stub with price */}
-                <div className="relative flex flex-col justify-center gap-1 border-l-2 border-dashed border-white/40 p-3" style={{ backgroundColor: '#E14D68' }}>
-                  <div className="text-[10px] font-black uppercase tracking-widest text-white/80">{fmtGallery(e.date, locale)}</div>
-                  <div className="line-clamp-3 font-serif text-sm font-black leading-tight text-white">{e.eventName}</div>
-                  <div className="line-clamp-1 text-[11px] font-semibold text-white/75">{e.clubName}</div>
-                  {e.price > 0 && <span className="mt-1 w-fit rounded-full bg-white px-2.5 py-0.5 text-sm font-black text-black">€{e.price}</span>}
-                  <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wide text-white">{L.tickets} <ChevronRight size={12} /></span>
+                {/* Right half — red panel: price top-left, event + date centred, subtle CTA */}
+                <div className="flex w-[45%] flex-col gap-1 p-2.5 text-center" style={{ backgroundColor: '#E14D68' }}>
+                  {e.price > 0 ? <span className="self-start rounded-full bg-white px-2 py-0.5 text-[11px] font-black text-black">€{e.price}</span> : <span className="h-4" />}
+                  <div className="flex min-w-0 flex-1 flex-col items-center justify-center">
+                    <div className="line-clamp-3 font-serif text-[12px] font-black leading-tight text-white">{e.eventName}</div>
+                    <div className="mt-1 line-clamp-1 text-[9px] font-bold uppercase tracking-wide text-white/85">{fmtGallery(e.date, locale)}</div>
+                  </div>
+                  <span className="mx-auto inline-flex items-center gap-1 rounded-full border border-white/50 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white transition-colors group-hover:bg-white group-hover:text-[#E14D68]">{L.tickets} <ChevronRight size={10} /></span>
                 </div>
               </a>
             ))}
