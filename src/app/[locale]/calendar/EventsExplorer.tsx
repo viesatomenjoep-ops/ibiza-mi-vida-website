@@ -166,25 +166,22 @@ export default function EventsExplorer({ events, locale }: Props) {
     <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-hidden">
 
       {/* ── Header (house style) ── */}
-      <section className="pt-[calc(var(--nav-h)-3vh)] pb-2 md:pb-6 relative z-10 flex flex-col items-center text-center px-4">
+      <section className="pt-[calc(var(--nav-h)-3vh)] pb-0 relative z-10 flex flex-col items-center text-center px-4">
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
-          <div className="flex flex-col gap-2 text-center mb-0 md:mb-4">
+          <div className="flex flex-col gap-1 text-center mb-0">
             <h1 className="text-4xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
               {T.title}
             </h1>
-            <p className="hidden md:block font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-4">
+            <p className="hidden md:block font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-2">
               {T.sub}
             </p>
           </div>
         </div>
       </section>
 
-      {/* ── iOS-style event picker wheel ── */}
+      {/* ── Open-the-calendar launcher (tight under the title) ── */}
       {pickerEvents.length > 0 && (
-        <section className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-6 pt-1">
-          <div className="mb-4">
-            <div className="text-xs font-black tracking-widest uppercase text-ibiza-green mb-1">Score your tickets</div>
-          </div>
+        <section className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-5 pt-2">
           <HomeCalendarLauncher events={pickerEvents} locale={locale} persistKey="calendar" />
         </section>
       )}
