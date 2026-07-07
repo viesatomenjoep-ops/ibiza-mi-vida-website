@@ -130,13 +130,14 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
           <p className="font-semibold text-black/50">{L.noDates}</p>
         </div>
       ) : (
-        <div className="flex flex-col gap-3">
+        <div key={activeDay || weekStart} className="flex flex-col gap-3">
+          <style>{`@keyframes dpSlide{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}`}</style>
           {visible.map((dateObj, idx) => {
             const line = formatLineUp(dateObj.lineUp)
             const d = parseISO(dateObj.date)
             const dayTag = isToday(d) ? L.today : isTomorrow(d) ? L.tomorrow : format(d, 'EEE', { locale: loc })
             return (
-              <div key={`${dateObj.id}-${idx}`} className="group flex flex-col justify-between gap-4 overflow-hidden rounded-2xl border border-black/10 bg-white p-4 transition-all hover:border-ibiza-green/40 hover:shadow-md sm:flex-row sm:items-center sm:p-5">
+              <div key={`${dateObj.id}-${idx}`} style={{ animation: 'dpSlide .35s ease-out backwards', animationDelay: `${idx * 60}ms` }} className="group flex flex-col justify-between gap-4 overflow-hidden rounded-2xl border border-black/10 bg-white p-4 transition-all hover:border-ibiza-green/40 hover:shadow-md sm:flex-row sm:items-center sm:p-5">
                 <span className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-xl bg-neutral-900 sm:aspect-square sm:h-24 sm:w-24">
                   {eventCover ? <img src={eventCover} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
                 </span>

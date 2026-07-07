@@ -510,14 +510,6 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
         </div>
       </div>
 
-      {/* Floating checkout bar (server-friendly anchor) */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between border-t border-black/10 bg-white/95 p-4 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] backdrop-blur-md">
-        <div className="flex flex-col">
-          <span className="text-xs font-bold uppercase tracking-wider text-black/50">{t.event_from_price || 'From'}</span>
-          <span className="text-xl font-black text-black">{eventDates[0]?.prices || '€30'}</span>
-        </div>
-        <EventCheckoutButton affLink={checkoutAff} locale={locale} label={checkoutLabel} variant="pill" />
-      </div>
     </div>
   )
 }

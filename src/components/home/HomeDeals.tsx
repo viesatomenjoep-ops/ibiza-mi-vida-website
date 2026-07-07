@@ -130,8 +130,8 @@ export function HomeDeals({ deals, locale = 'nl' }: { deals: DealsData; locale: 
       <div className="mx-auto w-full max-w-7xl">
         <div className="mb-8">
           <div className="flex items-center gap-2">
-            <img src="/logo-clean.png" alt="" className="h-6 w-6 shrink-0 object-contain" />
-            <span className="font-serif text-xl font-black tracking-tight" style={{ color: '#E14D68' }}>Ibiza mi vida</span>
+            <img src="/logo-clean.png" alt="" className="h-8 w-8 shrink-0 object-contain" />
+            <span style={{ fontFamily: 'var(--font-display), sans-serif', fontWeight: 600, fontSize: '1.17rem', letterSpacing: '.03em', textTransform: 'uppercase', color: '#E14D68' }}>Ibiza mi vida</span>
           </div>
           <h2 className="mt-3 font-serif text-xl font-black tracking-tight text-neutral-900">{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
           <p className="mt-3 text-sm font-medium text-neutral-500">{SECTION_SUB[locale] || SECTION_SUB.en}</p>
