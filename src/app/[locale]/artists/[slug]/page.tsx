@@ -247,6 +247,7 @@ export default async function ArtistPage({ params }: Props) {
           alt={artist.name}
           fill
           priority
+          unoptimized
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/15 z-10" />
@@ -292,7 +293,7 @@ export default async function ArtistPage({ params }: Props) {
                 >
                   <div className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-xl overflow-hidden bg-ibiza-mint relative flex items-center justify-center">
                     {date.eventCover ? (
-                      <Image src={date.eventCover || ''} alt={date.name || 'Event'} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                      <Image src={date.eventCover || ''} alt={date.name || 'Event'} fill unoptimized className="object-cover group-hover:scale-110 transition-transform duration-500" />
                     ) : (
                       <Music className="text-ibiza-green opacity-50" size={32} />
                     )}

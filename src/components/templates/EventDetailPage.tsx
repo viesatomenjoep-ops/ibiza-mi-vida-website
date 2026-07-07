@@ -259,7 +259,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
       <section className="relative flex h-[46vh] w-full flex-col justify-end overflow-hidden rounded-b-[28px] md:h-[58vh]" aria-label={`${eventName} hero`}>
         <BackButton locale={locale} fallbackHref={`/${locale}/${basePath}/${club.slug}`} />
         {eventCover && (
-          <Image src={eventCover} alt={eventName} fill priority className="object-cover object-center" sizes="100vw" quality={85} />
+          <Image src={eventCover} alt={eventName} fill priority unoptimized className="object-cover object-center" sizes="100vw" quality={85} />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian via-velvet-obsidian/50 to-transparent" />
 
@@ -474,7 +474,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
               <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:gap-4">
                 {gallery.map((src, i) => (
                   <div key={i} className={`relative overflow-hidden rounded-2xl bg-neutral-100 ${i === 0 ? 'col-span-2 aspect-[16/10] md:col-span-2 md:row-span-2' : 'aspect-[4/3]'}`}>
-                    <Image src={src} alt={`${eventName} ${i + 1}`} fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover transition-transform duration-700 hover:scale-105" />
+                    <Image src={src} alt={`${eventName} ${i + 1}`} fill unoptimized sizes="(max-width: 768px) 50vw, 33vw" className="object-cover transition-transform duration-700 hover:scale-105" />
                   </div>
                 ))}
               </div>
