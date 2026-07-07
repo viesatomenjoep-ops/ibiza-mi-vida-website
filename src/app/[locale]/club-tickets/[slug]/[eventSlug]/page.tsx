@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { supabase } from '@/lib/supabase/client'
+import { getAllDates } from '@/lib/clubtickets'
 import { EventCheckoutClient } from './EventCheckoutClient'
 
 export const revalidate = 3600
@@ -55,6 +56,18 @@ export default async function EventPage({ params }: Props) {
   // Choose the first upcoming date as the selected date
   const selectedDateRow = allDates[0];
 
+  // Supabase covers are sometimes empty → fall back to the ClubTickets feed (which has
+  // a cover for every event) so the hero image never renders black.
+  let ctImage = ''
+  if (!eventGrp.cover && !eventGrp.logo) {
+    try {
+      const ctDates = await getAllDates(params.locale)
+      const match = ctDates.find(d => d.eventSlug === eventGrp.slug || (d.venueSlug === eventGrp.ct_venues?.slug && d.eventName === eventGrp.name))
+      ctImage = match?.eventCover || match?.eventLogo || match?.venueCover || ''
+    } catch {}
+  }
+  const heroImage = eventGrp.cover || eventGrp.logo || ctImage || ''
+
   const mappedSelectedDate = {
     id: selectedDateRow.id,
     eventId: eventGrp.id,
@@ -67,7 +80,7 @@ export default async function EventPage({ params }: Props) {
     prices: selectedDateRow.prices,
     lineUp: selectedDateRow.raw_lineup,
     affLink: selectedDateRow.aff_link,
-    image: eventGrp.cover || eventGrp.logo
+    image: heroImage
   };
 
   const mappedAllDates = allDates.map(d => ({
@@ -82,7 +95,7 @@ export default async function EventPage({ params }: Props) {
     prices: d.prices,
     lineUp: d.raw_lineup,
     affLink: d.aff_link,
-    image: eventGrp.cover || eventGrp.logo
+    image: heroImage
   }));
 
   const fullEvent = {
