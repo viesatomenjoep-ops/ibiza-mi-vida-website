@@ -29,18 +29,12 @@ export function HomePreviewSheet({
   // Keep the last shown content mounted while sliding out.
   const [shownKey, setShownKey] = useState<CatKey | null>(selected)
   const [shownImg, setShownImg] = useState(image)
-  // Diagonal fill only when opened at the very top of the homepage (fills the white).
-  const [diag, setDiag] = useState(false)
   useEffect(() => {
-    if (selected) {
-      setShownKey(selected); setShownImg(image)
-      setDiag(typeof window !== 'undefined' && window.scrollY < 40)
-    }
+    if (selected) { setShownKey(selected); setShownImg(image) }
   }, [selected, image])
 
   const open = !!selected
   const cat = HOME_CATEGORIES.find(c => c.key === shownKey) || null
-  const closedTransform = diag ? 'translate3d(-4%, 112%, 0)' : 'translate3d(0, 112%, 0)'
 
   return (
     <div
@@ -48,7 +42,10 @@ export function HomePreviewSheet({
       className="fixed inset-x-0 bottom-0 z-[54] overflow-hidden bg-black"
       style={{
         height: '52svh',
-        transform: open ? 'translate3d(0,0,0)' : closedTransform,
+        // Oval top so the image flows up in the same shape as the white area.
+        borderTopLeftRadius: '50% 40px',
+        borderTopRightRadius: '50% 40px',
+        transform: open ? 'translateY(0)' : 'translateY(112%)',
         transition: 'transform .6s cubic-bezier(.16,.72,.24,1)',
         boxShadow: open ? '0 -22px 50px rgba(0,0,0,0.4)' : 'none',
         pointerEvents: open ? 'auto' : 'none',
@@ -57,7 +54,7 @@ export function HomePreviewSheet({
       {cat && (
         <>
           {shownImg ? (
-            <img key={`${cat.key}-${shownImg}`} src={shownImg} alt="" className={`${diag ? 'hps-diag' : 'hps-fade'} absolute inset-0 h-full w-full object-cover`} />
+            <img key={`${cat.key}-${shownImg}`} src={shownImg} alt="" className="absolute inset-0 h-full w-full object-cover" />
           ) : (
             <div className="absolute inset-0" style={{ background: cat.bg }} />
           )}
