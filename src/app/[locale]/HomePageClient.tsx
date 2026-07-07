@@ -54,14 +54,15 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       <header className="hero bg-black relative min-h-[90vh] md:min-h-screen flex flex-col items-center justify-between overflow-hidden w-full">
         {/* ── VIDEO BACKGROUND ── */}
         <div className="absolute inset-0 w-full h-full z-0">
-          <video 
-            src="/achtergrond-homepage.mp4" 
+          <video
+            src="/achtergrond-homepage.mp4#t=10"
             poster="/hi-ibiza-2026/FB_IMG_1779623220486.jpg"
-            autoPlay 
-            loop 
-            muted 
+            autoPlay
+            muted
             playsInline
             preload="auto"
+            onLoadedMetadata={(e) => { const v = e.currentTarget; if (v.duration > 10) v.currentTime = 10 }}
+            onEnded={(e) => { const v = e.currentTarget; v.currentTime = 10; v.play().catch(() => {}) }}
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/40 z-10"></div>
