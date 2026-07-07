@@ -1,20 +1,55 @@
 'use client'
 
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 import type { PickerEvent } from '@/components/events/EventPickerWheel'
 
+type LiveEvent = { name: string; slug?: string }
+type LiveRecord = { today: LiveEvent[]; lastNight: LiveEvent[]; isDayClub: boolean }
+type Status = 'green' | 'orange' | 'red' | null
+
+const DOT_COLORS: Record<Exclude<Status, null>, string> = { green: '#22e07a', orange: '#ff9f1c', red: '#ff3b3b' }
+const LEGEND: Record<string, { live: string; tonight: string; last: string }> = {
+  en: { live: 'Live now on Ibiza', tonight: 'Party today', last: 'Last-minute entry' },
+  nl: { live: 'Nu live op Ibiza', tonight: 'Feest vandaag', last: 'Last-minute entree' },
+  de: { live: 'Jetzt live auf Ibiza', tonight: 'Party heute', last: 'Last-Minute-Einlass' },
+  es: { live: 'En directo en Ibiza', tonight: 'Fiesta hoy', last: 'Entrada de última hora' },
+  fr: { live: 'En direct à Ibiza', tonight: 'Fête aujourd’hui', last: 'Entrée de dernière minute' },
+}
+
+function computeStatus(live: LiveRecord | undefined, now: Date): Status {
+  if (!live) return null
+  const h = now.getHours() + now.getMinutes() / 60
+  const todayCount = live.today.length
+  if (live.isDayClub) {
+    if (todayCount === 0) return null
+    if (h < 14) return 'green'
+    if (h < 21) return 'orange'
+    if (h < 23) return 'red'
+    return null
+  }
+  if (h < 6 && live.lastNight.length > 0) return h < 3 ? 'orange' : 'red'
+  if (todayCount > 0) return h >= 23 ? 'orange' : 'green'
+  return null
+}
+
 /**
- * Horizontal marquee of live ClubTickets events (event name + small club logo).
- * Auto-scrolls, is draggable by thumb/mouse (left↔right), and each item links
- * straight to the event page. Vertical swipes still scroll the page.
+ * Horizontal marquee of live ClubTickets events — just the club logo + event name
+ * (no card behind it), each with a live status dot. Auto-scrolls, draggable by
+ * thumb/mouse, taps through to the event page. Vertical swipes still scroll the page.
  */
 export function HomeEventSlider({
   events,
+  liveByClub,
+  locale = 'nl',
+  showLegend = false,
   className = 'w-full relative z-20 bg-transparent py-2',
   speed = 0.7,
 }: {
   events: PickerEvent[]
+  liveByClub?: Record<string, LiveRecord>
+  locale?: string
+  showLegend?: boolean
   className?: string
   speed?: number
 }) {
@@ -29,6 +64,9 @@ export function HomeEventSlider({
   const prevMoveX = useRef(0)
   const momentumRef = useRef(0)
   const hasCapture = useRef(false)
+  const [now, setNow] = useState<Date | null>(null)
+
+  useEffect(() => { setNow(new Date()); const id = setInterval(() => setNow(new Date()), 60000); return () => clearInterval(id) }, [])
 
   useEffect(() => {
     const track = trackRef.current
@@ -78,9 +116,21 @@ export function HomeEventSlider({
   const onClickCapture = (e: React.MouseEvent) => { if (dragMoved.current) { e.preventDefault(); e.stopPropagation(); dragMoved.current = false } }
 
   if (!events || events.length === 0) return null
+  const L = LEGEND[locale] || LEGEND.en
+  const hasTracker = !!liveByClub && Object.keys(liveByClub).length > 0
 
   return (
     <div className={className}>
+      <style>{`@keyframes hesPing{75%,100%{transform:scale(2.2);opacity:0}}.hes-ping{animation:hesPing 1.4s cubic-bezier(0,0,.2,1) infinite}`}</style>
+
+      {showLegend && hasTracker && (
+        <div className="mb-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 px-4 text-[10px] font-semibold uppercase tracking-wider text-white/70 md:text-[11px]">
+          <span className="flex items-center gap-1.5 text-white/90"><span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.orange }} /> {L.live}</span>
+          <span className="flex items-center gap-1.5"><span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.green }} /> {L.tonight}</span>
+          <span className="flex items-center gap-1.5"><span className="inline-flex h-2 w-2 rounded-full" style={{ background: DOT_COLORS.red }} /> {L.last}</span>
+        </div>
+      )}
+
       <div
         className="w-full cursor-grab select-none overflow-hidden active:cursor-grabbing"
         style={{
@@ -96,19 +146,28 @@ export function HomeEventSlider({
         onClickCapture={onClickCapture}
       >
         <div ref={trackRef} className="flex w-max items-center py-1 will-change-transform">
-          {[...events, ...events, ...events, ...events].map((e, idx) => (
-            <Link
-              key={`${e.id}-${idx}`}
-              href={e.href}
-              draggable={false}
-              className="mx-2 inline-flex shrink-0 items-center gap-2.5 rounded-full border border-white/15 bg-white/5 py-1.5 pl-2 pr-4 backdrop-blur-sm transition-colors hover:border-white/40 hover:bg-white/10"
-            >
-              <span className="grid h-7 w-9 shrink-0 place-items-center">
-                {e.clubLogo ? <img src={e.clubLogo} alt="" className="max-h-6 max-w-full object-contain brightness-0 invert pointer-events-none" loading="lazy" /> : <span className="text-[10px] font-black text-white">{e.clubName.slice(0, 3).toUpperCase()}</span>}
-              </span>
-              <span className="whitespace-nowrap text-sm font-bold text-white">{e.eventName}</span>
-            </Link>
-          ))}
+          {[...events, ...events, ...events, ...events].map((e, idx) => {
+            const status = hasTracker && now ? computeStatus(liveByClub![e.clubSlug], now) : null
+            return (
+              <Link
+                key={`${e.id}-${idx}`}
+                href={e.href}
+                draggable={false}
+                className="mx-3 inline-flex shrink-0 items-center gap-2.5 opacity-90 transition-opacity hover:opacity-100 md:mx-4"
+              >
+                <span className="relative inline-flex h-7 w-9 shrink-0 items-center justify-center">
+                  {status && (
+                    <span className="absolute -right-1 -top-1 z-10 flex h-2.5 w-2.5">
+                      {status !== 'green' && <span className="hes-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: DOT_COLORS[status] }} />}
+                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full ring-1 ring-black/30" style={{ background: DOT_COLORS[status] }} />
+                    </span>
+                  )}
+                  {e.clubLogo ? <img src={e.clubLogo} alt="" className="pointer-events-none max-h-6 max-w-full object-contain brightness-0 invert" loading="lazy" /> : <span className="text-[10px] font-black text-white">{e.clubName.slice(0, 3).toUpperCase()}</span>}
+                </span>
+                <span className="whitespace-nowrap text-sm font-bold text-white drop-shadow">{e.eventName}</span>
+              </Link>
+            )
+          })}
         </div>
       </div>
     </div>

@@ -90,8 +90,8 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             <CategoryReveal base={base} translations={translations} />
           </div>
 
-          {/* Live ClubTickets events — name + small club logo, tap to open the event */}
-          <HomeEventSlider events={pickerEvents} className="w-full bg-transparent pt-2 pb-1" speed={0.7} />
+          {/* Live ClubTickets events — logo + name + live dot, tap to open the event */}
+          <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend className="w-full bg-transparent pt-2 pb-1" speed={0.7} />
         </div>
       </header>
 
