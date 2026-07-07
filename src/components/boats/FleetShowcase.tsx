@@ -7,6 +7,7 @@ import {
   MapPin, Maximize2, X, ChevronLeft, ChevronRight, Check, Euro, Lock, LockOpen, SlidersHorizontal,
 } from 'lucide-react';
 import { FLEET, FLEET_FROM_PRICE, boatIncludes, type Boat, type FleetInclude, type FleetCategory } from '@/data/fleet';
+import { BackButton } from '@/components/ui/BackButton';
 
 /** WhatsApp business number (digits only). */
 const WHATSAPP = '34600000000';
@@ -392,6 +393,7 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
 
   return (
     <div className="min-h-screen bg-white text-black">
+      <BackButton locale={locale} fallbackHref={`/${locale}`} variant="top" />
       <style dangerouslySetInnerHTML={{ __html: `
         .fleet-range { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 9999px; outline: none; cursor: pointer; }
         .fleet-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #14FF00; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; transition: transform .15s ease; }
