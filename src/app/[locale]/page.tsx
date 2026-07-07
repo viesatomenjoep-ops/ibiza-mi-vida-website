@@ -74,16 +74,24 @@ export default async function Home({ params }: { params: { locale: string } }) {
   const typeBySlug = new Map(allVenues.map(v => [v.slug, (v as any).type?.slug || '']))
   const dLabel = (iso: string) => { try { return new Date(iso).toLocaleDateString(params.locale === 'nl' ? 'nl-NL' : params.locale === 'es' ? 'es-ES' : params.locale === 'de' ? 'de-DE' : params.locale === 'fr' ? 'fr-FR' : 'en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) } catch { return '' } }
   const priceOf = (s: any) => { const m = String(s || '').match(/\d+([.,]\d+)?/); return m ? parseFloat(m[0].replace(',', '.')) : 0 }
-  const dealFrom = (d: any, kind: 'clubs' | 'water' | 'land') => ({
-    id: `${d.id}-${d.eventSlug}`,
-    title: d.eventName || d.name || '',
-    sub: d.venueName || '',
-    image: d.eventCover || d.eventLogo || d.venueCover || '',
-    price: priceOf(d.prices),
-    dateLabel: dLabel(d.date),
-    href: kind === 'clubs' ? `/${params.locale}/club-tickets/${d.venueSlug}/${d.eventSlug}` : undefined,
-    ext: kind !== 'clubs' ? (d.affLink || '') : undefined,
-  })
+  // Which of our own category pages exists per venue type (so water/land deals open
+  // OUR event page first, then the user clicks through to ClubTickets to pay).
+  const BASEPATH_BY_TYPE: Record<string, string> = { activities: 'activities', 'formentera-day-trip': 'ferry-formentera' }
+  const dealFrom = (d: any, kind: 'clubs' | 'water' | 'land') => {
+    const vtype = typeBySlug.get(d.venueSlug || '') || ''
+    const basePath = kind === 'clubs' ? 'club-tickets' : BASEPATH_BY_TYPE[vtype]
+    const internal = basePath ? `/${params.locale}/${basePath}/${d.venueSlug}/${d.eventSlug}` : undefined
+    return {
+      id: `${d.id}-${d.eventSlug}`,
+      title: d.eventName || d.name || '',
+      sub: d.venueName || '',
+      image: d.eventCover || d.eventLogo || d.venueCover || '',
+      price: priceOf(d.prices),
+      dateLabel: dLabel(d.date),
+      href: internal,
+      ext: internal ? undefined : (d.affLink || ''),
+    }
+  }
   const upcomingSorted = allDates.filter(d => (d.date || '') >= todayStr).sort((a, b) => (a.date || '').localeCompare(b.date || ''))
   const bucket = (pred: (t: string) => boolean, kind: 'clubs' | 'water' | 'land') => {
     const out: any[] = []; const seen = new Set<string>()
