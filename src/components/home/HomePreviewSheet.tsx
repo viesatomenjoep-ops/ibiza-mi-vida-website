@@ -41,7 +41,7 @@ export function HomePreviewSheet({
       aria-hidden={!open}
       className="fixed inset-x-0 bottom-0 z-[54] overflow-hidden bg-black"
       style={{
-        height: '60svh',
+        height: '48svh',
         transform: open ? 'translateY(0)' : 'translateY(112%)',
         transition: 'transform .6s cubic-bezier(.16,.72,.24,1)',
         boxShadow: open ? '0 -22px 50px rgba(0,0,0,0.4)' : 'none',
@@ -62,26 +62,27 @@ export function HomePreviewSheet({
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full border border-white/30 bg-black/40 text-white backdrop-blur-md transition-colors hover:bg-black/60"
+            className="absolute right-3 top-3 z-30 grid h-9 w-9 place-items-center rounded-full border border-white/30 bg-black/40 text-white backdrop-blur-md transition-colors hover:bg-black/60"
           >
             <X size={16} strokeWidth={2.5} />
           </button>
 
-          {/* Category label + CTA — kept high in the image so it's always visible,
-              and vertically centred above the dock on every device */}
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-5 text-center" style={{ paddingBottom: DOCK_CLEARANCE }}>
+          {/* Category label + CTA — kept high in the image, always visible. The
+              container itself passes clicks through (so the × stays clickable);
+              only the pill + button are interactive. */}
+          <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-5 text-center" style={{ paddingBottom: DOCK_CLEARANCE }}>
             <span
-              className="mb-3 inline-flex items-center gap-2 rounded-full px-3 py-1 font-serif text-[11px] font-black uppercase tracking-wide"
+              className="mb-2.5 inline-flex items-center gap-2 rounded-full px-2.5 py-0.5 font-serif text-[10px] font-black uppercase tracking-wide sm:text-[11px]"
               style={{ backgroundColor: cat.bg, color: cat.fg }}
             >
               {cat.label[locale] || cat.label.en}
             </span>
             <Link
               href={`${base}${cat.href}`}
-              className="hps-cta group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-black uppercase tracking-wide text-black shadow-xl transition-transform active:scale-95"
+              className="hps-cta group pointer-events-auto inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[11px] font-black uppercase tracking-wide text-black shadow-xl transition-transform active:scale-95 sm:gap-2 sm:px-6 sm:py-3 sm:text-sm"
             >
               {cat.allLabel[locale] || cat.allLabel.en}
-              <ArrowRight size={16} strokeWidth={2.6} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+              <ArrowRight size={14} strokeWidth={2.6} className="transition-transform duration-200 group-hover:translate-x-0.5 sm:h-4 sm:w-4" />
             </Link>
           </div>
         </>
