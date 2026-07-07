@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Oswald, Outfit } from 'next/font/google'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
+import { ScrollProgress } from '@/components/ui/ScrollProgress'
 
 import '@/styles/globals.css'
 
@@ -58,6 +59,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <CartDrawer />
+          <ScrollProgress />
         </CartProvider>
       </body>
     </html>
