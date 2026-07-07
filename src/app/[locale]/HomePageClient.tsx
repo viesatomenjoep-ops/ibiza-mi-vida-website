@@ -9,6 +9,7 @@ import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 import { HeroTypewriter } from '@/components/ui/HeroTypewriter';
 import { CategoryReveal } from '@/components/ui/CategoryReveal';
 import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel';
+import { HomeDeals, type DealsData } from '@/components/home/HomeDeals';
 
 interface HomePageProps {
   locale?: string;
@@ -16,11 +17,12 @@ interface HomePageProps {
   featuredClubs?: any[];
   upcomingDates?: any[];
   pickerEvents?: PickerEvent[];
+  deals?: DealsData;
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
   liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
 }
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], allVenues = [], liveByClub = {} }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, allVenues = [], liveByClub = {} }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -114,6 +116,8 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             </div>
           </section>
         )}
+
+        {deals && <div className="border-t border-black/5"><HomeDeals deals={deals} locale={locale} /></div>}
 
         <section className="pb-12 pt-6 md:pb-16 md:pt-8 bg-white text-neutral-900 border-t border-black/5">
           <div className="max-w-7xl mx-auto px-4">

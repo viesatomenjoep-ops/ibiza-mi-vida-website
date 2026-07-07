@@ -2,6 +2,7 @@ import React from 'react'
 import { getVenues, getAllDates } from '@/lib/clubtickets'
 import { getDictionary } from '@/lib/dictionary'
 import HomePageClient from './HomePageClient'
+import { FLEET } from '@/data/fleet'
 
 export const revalidate = 3600
 
@@ -69,6 +70,49 @@ export default async function Home({ params }: { params: { locale: string } }) {
       };
     });
 
+  // ── Deals of the Day: soonest upcoming events per category (+ private boats) ──
+  const typeBySlug = new Map(allVenues.map(v => [v.slug, (v as any).type?.slug || '']))
+  const dLabel = (iso: string) => { try { return new Date(iso).toLocaleDateString(params.locale === 'nl' ? 'nl-NL' : params.locale === 'es' ? 'es-ES' : params.locale === 'de' ? 'de-DE' : params.locale === 'fr' ? 'fr-FR' : 'en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) } catch { return '' } }
+  const priceOf = (s: any) => { const m = String(s || '').match(/\d+([.,]\d+)?/); return m ? parseFloat(m[0].replace(',', '.')) : 0 }
+  const dealFrom = (d: any, kind: 'clubs' | 'water' | 'land') => ({
+    id: `${d.id}-${d.eventSlug}`,
+    title: d.eventName || d.name || '',
+    sub: d.venueName || '',
+    image: d.eventCover || d.eventLogo || d.venueCover || '',
+    price: priceOf(d.prices),
+    dateLabel: dLabel(d.date),
+    href: kind === 'clubs' ? `/${params.locale}/club-tickets/${d.venueSlug}/${d.eventSlug}` : undefined,
+    ext: kind !== 'clubs' ? (d.affLink || '') : undefined,
+  })
+  const upcomingSorted = allDates.filter(d => (d.date || '') >= todayStr).sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+  const bucket = (pred: (t: string) => boolean, kind: 'clubs' | 'water' | 'land') => {
+    const out: any[] = []; const seen = new Set<string>()
+    for (const d of upcomingSorted) {
+      const t = typeBySlug.get(d.venueSlug || '') || ''
+      if (!pred(t)) continue
+      const key = d.venueSlug + '|' + d.eventSlug
+      if (seen.has(key)) continue
+      seen.add(key); out.push(dealFrom(d, kind))
+      if (out.length >= 8) break
+    }
+    return out
+  }
+  const deals = {
+    clubs: bucket(t => t === 'clubbing', 'clubs'),
+    water: bucket(t => t === 'boat' || t === 'formentera-day-trip', 'water'),
+    land: bucket(t => t === 'activities', 'land'),
+    boats: FLEET.slice(0, 6).map(b => ({
+      id: b.slug,
+      title: b.name ? `${b.name} · ${b.model}` : b.model,
+      sub: b.marina,
+      image: b.image,
+      price: b.price.low,
+      priceLabel: '/dag',
+      dateLabel: dLabel(todayStr),
+      href: `/${params.locale}/private-boat-charters`,
+    })),
+  }
+
   const upcomingDates = allDates
     .filter(d => d.date >= todayStr && clubbingSlugs.has(d.venueSlug || ''))
     .slice(0, 10)
@@ -96,6 +140,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
       featuredClubs={featuredClubs}
       upcomingDates={upcomingDates}
       pickerEvents={pickerEvents}
+      deals={deals}
       liveByClub={liveByClub}
       allVenues={allVenues.map(v => ({
         slug: v.slug,
