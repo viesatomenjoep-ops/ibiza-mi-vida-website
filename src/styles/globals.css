@@ -157,23 +157,23 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 
 /* Backdrop */
 .fs-backdrop{
-  position:fixed;inset:0;z-index:89;background:rgba(0,0,0,.4);
+  position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;z-index:89;background:rgba(0,0,0,.4);
   backdrop-filter:blur(4px);
 }
 
-/* Overlay panel */
+/* Overlay panel — opens below the navbar, revealing gradually from top to bottom */
 .fs-menu{
-  position:fixed;inset:0;z-index:90;
+  position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;z-index:90;
   background:#0a0a0a;
   display:flex;flex-direction:column;
   padding:0;
   overflow:hidden;
-  /* Entry animation */
-  transform:translateX(100%);
-  transition:transform .25s cubic-bezier(.76,0,.24,1);
-  will-change:transform;
+  /* Entry animation — reveal downward */
+  clip-path:inset(0 0 100% 0);
+  transition:clip-path .44s cubic-bezier(.22,1,.36,1);
+  will-change:clip-path;
 }
-.fs-menu--open{transform:translateX(0);}
+.fs-menu--open{clip-path:inset(0 0 0 0);}
 
 /* Close button */
 .fs-close{
@@ -1182,16 +1182,9 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 .mcat-ico svg{width:26px;height:26px}
 .mcat-label{font-size:.55rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#fff;text-align:center;line-height:1.15;max-width:92px}
 
-/* ===== Premium WHITE fullscreen menu — black items ===== */
-.fs-menu{background:#ffffff;}
-.fs-close{border-color:rgba(0,0,0,.14);color:#111;}
-.fs-close:hover{border-color:rgba(0,0,0,.45);background:rgba(0,0,0,.05);}
-.fs-logo{border-bottom-color:rgba(0,0,0,.08);padding-bottom:12px;}
-.fs-logo img{filter:brightness(0);}
-.fs-brand-name{color:#000;}
-.fs-brand-sub{color:rgba(0,0,0,.6);}
-/* No empty white gap between the brand row and the first colour bar; tiles run
-   flush from the category line down to the language selector */
+/* ===== Fullscreen menu — dark, colour category bars ===== */
+.fs-menu{background:#0a0a0a;}
+/* Category bars run flush from the top (below the navbar) to the language selector */
 .fs-nav{padding:0;display:flex;flex-direction:column;}
 /* Yacht photo tiles — five across the full width, flush to the line above */
 .fs-yachts{position:relative;flex:1 1 auto;min-height:180px;display:flex;overflow:hidden;background:#000;}
@@ -1213,11 +1206,9 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 .fs-item:hover{color:#fff;border-left-color:#fff;padding-left:56px;}
 .fs-item:hover .fs-item-arrow{color:#fff;}
 .fs-item-arrow{color:rgba(255,255,255,.7);}
-.fs-footer{border-top-color:rgba(0,0,0,.08);}
-.fs-lang{border-color:rgba(0,0,0,.16);color:rgba(0,0,0,.55);}
-.fs-lang:hover,.fs-lang.active{border-color:#000;color:#000;background:rgba(0,0,0,.06);}
-.fs-spotify-btn{border-color:rgba(0,0,0,.16);background:rgba(0,0,0,.03);}
-.fs-spotify-btn:hover,.fs-spotify-btn[aria-expanded="true"]{border-color:#1ED760;background:rgba(30,215,96,.12);}
+.fs-footer{border-top-color:rgba(255,255,255,.1);background:#0a0a0a;}
+.fs-lang{border-color:rgba(255,255,255,.18);color:rgba(255,255,255,.6);}
+.fs-lang:hover,.fs-lang.active{border-color:#fff;color:#fff;background:rgba(255,255,255,.08);}
 
 /* Homepage preview stage — image reveal */
 @keyframes hpsFade{0%{opacity:0;transform:scale(1.04)}100%{opacity:1;transform:scale(1)}}

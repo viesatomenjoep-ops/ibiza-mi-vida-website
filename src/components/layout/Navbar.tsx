@@ -273,16 +273,22 @@ export function Navbar() {
               </span>
             </Link>
 
-            {/* Right: hamburger */}
+            {/* Right: hamburger — toggles the menu, becomes an X when open */}
             <button
               className="burger"
-              aria-label="Menu openen"
+              aria-label={menuOpen ? 'Menu sluiten' : 'Menu openen'}
               aria-expanded={menuOpen}
-              onClick={() => setMenuOpen(true)}
+              onClick={() => setMenuOpen(v => !v)}
             >
-              <div className="burger-lines">
-                <span /><span /><span />
-              </div>
+              {menuOpen ? (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <path d="M18 6 6 18M6 6l12 12" />
+                </svg>
+              ) : (
+                <div className="burger-lines">
+                  <span /><span /><span />
+                </div>
+              )}
             </button>
           </div>
         </nav>
@@ -310,27 +316,6 @@ export function Navbar() {
         aria-modal="true"
         aria-label="Navigatiemenu"
       >
-        {/* Close button */}
-        <button
-          className="fs-close"
-          aria-label="Menu sluiten"
-          onClick={() => setMenuOpen(false)}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-            <path d="M18 6 6 18M6 6l12 12" />
-          </svg>
-        </button>
-
-        {/* Logo in overlay */}
-        <div className="fs-logo">
-          <img src="/logo-clean.png" alt="IBZMV" />
-          <span className="fs-brand">
-            <span className="fs-brand-name">IBIZA MI VIDA</span>
-            <span className="fs-brand-sub">TICKETS · PRIVATE BOATS</span>
-            <span className="fs-brand-sub">RENTAL · EVENTS</span>
-          </span>
-        </div>
-
         {/* Categories */}
         <nav className="fs-nav" aria-label="Hoofdnavigatie">
           {NAV_CATEGORIES.map((cat, ci) => (

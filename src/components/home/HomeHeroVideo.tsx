@@ -5,7 +5,7 @@ import { useState, type CSSProperties } from 'react'
 // Background clips that play one after another, looping (first clip always first).
 const VIDEOS = ['/videos/anyma-1.mp4', '/videos/anyma-2.mp4', '/videos/calvin.mp4']
 // Per-clip framing — clip one sits ~30% higher (crops a bit off the top).
-const POSITIONS = ['center 80%', 'center', 'center']
+const POSITIONS = ['center 96%', 'center', 'center']
 
 export function HomeHeroVideo({ className, style }: { className?: string; style?: CSSProperties }) {
   const [i, setI] = useState(0)

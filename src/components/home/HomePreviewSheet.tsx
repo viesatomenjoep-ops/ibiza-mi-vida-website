@@ -57,7 +57,7 @@ export function HomePreviewSheet({
             style={{ boxShadow: '0 -22px 50px rgba(0,0,0,0.4)' }}
           >
           {shownImg ? (
-            <img key={`${cat.key}-${shownImg}`} src={shownImg} alt="" className="absolute inset-0 h-full w-full object-contain" />
+            <img key={`${cat.key}-${shownImg}`} src={shownImg} alt="" className="absolute inset-0 h-full w-full object-cover" />
           ) : (
             <div className="absolute inset-0" style={{ background: cat.bg }} />
           )}
