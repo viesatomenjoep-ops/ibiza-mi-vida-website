@@ -1221,10 +1221,11 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 
 /* Ticket-stub divider — dashed line with a punched notch on each side */
 .ticket-divider{position:relative;height:22px;width:100%}
-.ticket-divider .tk-line{position:absolute;left:16px;right:16px;top:50%;transform:translateY(-50%);border-top:2px dashed rgba(255,255,255,.55)}
-.ticket-divider::before,.ticket-divider::after{content:'';position:absolute;top:50%;transform:translateY(-50%);width:16px;height:16px;border-radius:50%;background:#ffffff}
-.ticket-divider::before{left:-8px}
-.ticket-divider::after{right:-8px}
+.ticket-divider .tk-line{position:absolute;left:18px;right:18px;top:50%;transform:translateY(-50%);border-top:2px dashed rgba(255,255,255,.55)}
+.ticket-divider .tk-disc{position:absolute;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:#fff;border:1.5px solid rgba(0,0,0,.22);display:grid;place-items:center;overflow:hidden;z-index:2}
+.ticket-divider .tk-disc img{width:66%;height:66%;object-fit:contain;filter:brightness(0);opacity:.8}
+.ticket-divider .tk-disc-l{left:-13px}
+.ticket-divider .tk-disc-r{right:-13px}
 
 /* Deals cover-flow tiles — glossy sweep on hover */
 .deal-card{transition:box-shadow .25s ease}
