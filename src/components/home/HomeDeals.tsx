@@ -59,7 +59,7 @@ function DealTile({ d, locale }: { d: Deal; locale: string }) {
       </div>
     </>
   )
-  const cls = 'group flex h-28 shrink-0 basis-[47%] snap-start overflow-hidden rounded-2xl border border-black/10 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl sm:h-32 sm:basis-[31%] lg:basis-[23%]'
+  const cls = 'group flex h-44 shrink-0 basis-[90%] snap-center overflow-hidden rounded-2xl border border-black/10 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl sm:h-52 sm:basis-[74%] lg:basis-[52%]'
   if (d.ext) return <a data-tile href={d.ext} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>
   return <Link data-tile href={d.href || '#'} className={cls}>{inner}</Link>
 }
@@ -115,9 +115,9 @@ export function HomeDeals({ deals, locale = 'nl', onDark = false }: { deals: Dea
   if (rows.length === 0) return null
 
   return (
-    <section id="deals" className={`scroll-mt-24 px-4 py-6 md:py-8 ${onDark ? '' : 'bg-white'}`}>
+    <section id="deals" className={`scroll-mt-24 px-4 pt-3 pb-8 md:pt-4 md:pb-10 ${onDark ? '' : 'bg-white'}`}>
       <div className="mx-auto w-full max-w-7xl">
-        <div className="mb-5 flex flex-col items-center text-center">
+        <div className="mb-4 flex flex-col items-center text-center">
           <h2 className={`font-serif text-[1.625rem] font-black leading-none tracking-tight ${onDark ? 'text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]' : 'text-neutral-900'}`}>{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
           <p className={`mt-1.5 max-w-md text-sm font-medium ${onDark ? 'text-white/80' : 'text-neutral-500'}`}>{SECTION_SUB[locale] || SECTION_SUB.en}</p>
         </div>
@@ -125,9 +125,10 @@ export function HomeDeals({ deals, locale = 'nl', onDark = false }: { deals: Dea
         <div className="flex flex-col gap-8">
           {rows.map(({ key, items, dir }, ri) => (
             <Reveal key={key} delay={ri * 120}>
-              <div className="mb-3 flex items-center gap-3">
-                <h3 className={`shrink-0 font-serif text-xl font-black tracking-tight ${onDark ? 'text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]' : 'text-neutral-900'}`}>{CAT_TITLE[key][locale] || CAT_TITLE[key].en}</h3>
-                <span className={`h-px flex-1 ${onDark ? 'bg-white/25' : 'bg-black/10'}`} />
+              <div className="mb-3 flex items-center justify-center gap-3">
+                <span className={`h-px w-8 ${onDark ? 'bg-white/25' : 'bg-black/15'}`} />
+                <h3 className={`shrink-0 text-center font-serif text-xl font-black tracking-tight ${onDark ? 'text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]' : 'text-neutral-900'}`}>{CAT_TITLE[key][locale] || CAT_TITLE[key].en}</h3>
+                <span className={`h-px w-8 ${onDark ? 'bg-white/25' : 'bg-black/15'}`} />
               </div>
               <DealsRow items={items} locale={locale} dir={dir} />
             </Reveal>
