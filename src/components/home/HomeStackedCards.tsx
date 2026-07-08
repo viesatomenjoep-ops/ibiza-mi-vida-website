@@ -55,7 +55,6 @@ const CONTENT: Record<CatKey, { href: string; title: Record<string, string>; tex
 
 const ORDER: CatKey[] = ['clubs', 'boats', 'land', 'water']
 const TOPS = [104, 128, 152, 176]
-const HEAD: Record<string, string> = { nl: 'Ontdek Ibiza', en: 'Discover Ibiza', es: 'Descubre Ibiza', de: 'Entdecke Ibiza', fr: 'Découvrez Ibiza' }
 const CTA: Record<string, string> = { nl: 'Bekijk alles', en: 'View all', es: 'Ver todo', de: 'Alles ansehen', fr: 'Tout voir' }
 
 export function HomeStackedCards({ deals, base = '/nl', locale = 'nl' }: { deals?: DealsData; base?: string; locale?: string }) {
@@ -69,10 +68,6 @@ export function HomeStackedCards({ deals, base = '/nl', locale = 'nl' }: { deals
   return (
     <section className="w-full bg-neutral-100 px-4 py-10 md:py-14">
       <div className="mx-auto w-full max-w-6xl">
-        <h2 className="mb-8 text-center font-serif text-[1.75rem] font-black uppercase tracking-tight text-neutral-900 md:text-4xl">
-          {HEAD[locale] || HEAD.en}
-        </h2>
-
         {/* Flex column — NO overflow:hidden on this wrapper (would break sticky) */}
         <div className="flex flex-col gap-[26px]">
           {ORDER.map((key, i) => {

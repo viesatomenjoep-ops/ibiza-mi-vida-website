@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { Calendar, MapPin, Music } from 'lucide-react';
 import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel';
-import { HomeDeals, type DealsData } from '@/components/home/HomeDeals';
+import { type DealsData } from '@/components/home/HomeDeals';
 import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
 import { HomeSelectorDock } from '@/components/home/HomeSelectorDock';
 import { HomeHeroVideo } from '@/components/home/HomeHeroVideo';
@@ -128,14 +128,10 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       {/* Sticky stacked cards — the 4 category showcases */}
       <HomeStackedCards deals={deals} base={base} locale={locale} />
 
-      {/* Deals of the Day — light-grey section, right under the slider */}
-      {deals && (
-        <div className="w-full bg-neutral-100">
-          <HomeDeals
-            deals={deals}
-            locale={locale}
-            slider={<HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} onLight className="w-full bg-transparent" speed={0.7} />}
-          />
+      {/* Live event slider — the price/date category tile carousels were removed */}
+      {deals && pickerEvents.length > 0 && (
+        <div className="w-full bg-neutral-100 py-6 md:py-8">
+          <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} onLight className="w-full bg-transparent" speed={0.7} />
         </div>
       )}
 

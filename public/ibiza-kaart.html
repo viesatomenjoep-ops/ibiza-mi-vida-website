@@ -25,7 +25,7 @@
   .ibz-coords-row .ibz-dot { width: 6px; height: 6px; border-radius: 50%; background: #1B1917; display: inline-block; margin-right: 8px; }
 
   /* De kaart vult de volledige breedte en de beschikbare hoogte */
-  .ibz-frame { position: relative; flex: 1 1 auto; min-height: 0; background: #1B1917; overflow: hidden; border: 1px solid rgba(27,25,23,.15); }
+  .ibz-frame { position: relative; flex: 1 1 auto; min-height: 0; background: #1B1917; overflow: hidden; border: 1px solid rgba(27,25,23,.15); border-radius: 38px; }
   #ibz-map { position: absolute; inset: 0; }
   .maplibregl-canvas { cursor: default !important; }
 
@@ -109,10 +109,6 @@
     <div id="ibz-map"></div>
     <div class="ibz-hud">
       <div class="ibz-hud-grid"></div>
-      <div class="ibz-corner tl"></div>
-      <div class="ibz-corner tr"></div>
-      <div class="ibz-corner bl"></div>
-      <div class="ibz-corner br"></div>
       <div class="ibz-vignette"></div>
       <div class="ibz-readout"><span class="ibz-pulse"></span><span id="ibz-coords">EIVISSA · 12 CLUBS</span></div>
     </div>
