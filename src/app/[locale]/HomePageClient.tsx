@@ -82,29 +82,31 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
   return (
     <div className="theme-monaco-vip is-home bg-white text-[var(--color-ink)] min-h-screen">
 
-      {/* ── HERO — the complete (contained) video sits between the navbar and the
-          live slider; Deals of the Day follows right under the slider. ── */}
-      <header className="relative w-full overflow-hidden bg-black text-white">
-        <div className="w-full" style={{ height: 'var(--nav-h)' }} />
-        {/* Complete video — shown in full (object-contain) */}
-        <div className="relative w-full" style={{ height: '62svh' }}>
-          <HomeHeroVideo
-            style={{ objectPosition: 'center', filter: 'brightness(0.9) contrast(1.25) saturate(1.05)' }}
-            className="absolute inset-0 h-full w-full object-contain"
-          />
-          {/* Tagline over the video */}
-          <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center">
-            <h2 className="max-w-[12em] font-serif text-[1.7rem] font-black uppercase leading-[1.06] text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.85)] sm:text-3xl md:text-[2.7rem]">
-              {HERO_HEADLINE[locale] || HERO_HEADLINE.en}
-            </h2>
-            <p className="mt-4 max-w-xl text-[0.95rem] font-semibold leading-snug text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] sm:text-base md:text-lg">
-              {HERO_SUBLINE[locale] || HERO_SUBLINE.en}
-            </p>
-          </div>
+      {/* ── HERO — the video fills the whole first screen (behind the navbar, down to
+          the dock), object-cover so it's completely filling. ── */}
+      <header className="relative w-full overflow-hidden bg-black text-white" style={{ height: '100svh' }}>
+        <HomeHeroVideo
+          style={{ objectPosition: 'center', filter: 'brightness(0.62) contrast(1.5) saturate(1.05)' }}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {/* Legibility gradient */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/35 via-black/15 to-black/70" />
+        {/* Extra dark band under the navbar so the brand, partner strip and
+            hamburger stay white and readable over any bright video frame */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] bg-gradient-to-b from-black/70 to-transparent" style={{ height: 'calc(var(--nav-h) + 40px)' }} />
+
+        {/* Tagline over the video */}
+        <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center" style={{ paddingBottom: '20vh' }}>
+          <h2 className="max-w-[12em] font-serif text-[1.7rem] font-black uppercase leading-[1.06] text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.85)] sm:text-3xl md:text-[2.7rem]">
+            {HERO_HEADLINE[locale] || HERO_HEADLINE.en}
+          </h2>
+          <p className="mt-4 max-w-xl text-[0.95rem] font-semibold leading-snug text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] sm:text-base md:text-lg">
+            {HERO_SUBLINE[locale] || HERO_SUBLINE.en}
+          </p>
         </div>
 
-        {/* Live slider + one-line legend — just under the video */}
-        <div className="w-full pt-1 pb-3">
+        {/* Live slider + one-line legend — just above the dock */}
+        <div className="pointer-events-auto absolute inset-x-0 bottom-0 z-20 w-full" style={{ paddingBottom: 'calc(92px + env(safe-area-inset-bottom))' }}>
           <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />
         </div>
       </header>
