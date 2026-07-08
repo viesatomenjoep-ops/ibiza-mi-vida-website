@@ -95,23 +95,14 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       </header>
 
-      {/* Deals of the Day — right under the slider, over a SECOND video that
-          shows again as you scroll down */}
+      {/* Deals of the Day — light-grey section, right under the slider */}
       {deals && (
-        <div className="relative w-full overflow-hidden bg-black">
-          <HomeHeroVideo
-            style={{ objectPosition: 'center', filter: 'brightness(0.55) contrast(1.7) saturate(1.05)' }}
-            className="absolute inset-0 h-full w-full object-cover"
+        <div className="w-full bg-neutral-100">
+          <HomeDeals
+            deals={deals}
+            locale={locale}
+            slider={<HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide onLight className="w-full bg-transparent" speed={0.7} />}
           />
-          <div className="pointer-events-none absolute inset-0 bg-black/45" />
-          <div className="relative z-10">
-            <HomeDeals
-              deals={deals}
-              locale={locale}
-              onDark
-              slider={<HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />}
-            />
-          </div>
         </div>
       )}
 
@@ -132,12 +123,13 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <>
 
         {/* Club logo marquee — just the logos (no live dots, no legend, no brand logo) */}
-        <Reveal className="flex items-center bg-black py-3 border-t border-white/10">
+        <Reveal className="flex items-center bg-neutral-100 py-3 border-t border-black/10">
           <ClubLogoSlider
             clubLogos={clubLogos}
             base={base}
             locale={locale}
             speed={0.9}
+            onLight
             className="w-full bg-transparent"
           />
         </Reveal>

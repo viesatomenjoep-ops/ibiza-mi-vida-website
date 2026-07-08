@@ -40,9 +40,9 @@ const CAT_TITLE: Record<string, Record<string, string>> = {
   boats: { nl: 'Private boats', en: 'Private boats', de: 'Private Boote', es: 'Barcos privados', fr: 'Bateaux privés' },
 }
 // Ticket-stub divider with a small Ibiza Mi Vida logo badge on each side.
-function TicketDivider({ className = '' }: { className?: string }) {
+function TicketDivider({ className = '', light = false }: { className?: string; light?: boolean }) {
   return (
-    <div className={`ticket-divider ${className}`}>
+    <div className={`ticket-divider ${light ? 'ticket-divider--light' : ''} ${className}`}>
       <span className="tk-line" />
     </div>
   )
@@ -138,10 +138,10 @@ export function HomeDeals({ deals, locale = 'nl', onDark = false, slider }: { de
   if (rows.length === 0) return null
 
   return (
-    <section id="deals" className={`scroll-mt-24 px-4 pt-3 pb-8 md:pt-4 md:pb-10 ${onDark ? '' : 'bg-white'}`}>
+    <section id="deals" className="scroll-mt-24 px-4 pt-3 pb-8 md:pt-4 md:pb-10">
       <div className="mx-auto w-full max-w-7xl">
         {/* Ticket-stub divider between the live slider and Deals of the Day */}
-        {onDark && <TicketDivider className="mb-5" />}
+        <TicketDivider className="mb-5" light={!onDark} />
         <div className="mb-4 flex flex-col items-center text-center">
           <h2 className={`font-serif text-[1.625rem] font-black leading-none tracking-tight ${onDark ? 'text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]' : 'text-neutral-900'}`}>{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
           <p className={`mt-1.5 max-w-md text-sm font-medium ${onDark ? 'text-white/80' : 'text-neutral-500'}`}>{SECTION_SUB[locale] || SECTION_SUB.en}</p>
@@ -154,9 +154,7 @@ export function HomeDeals({ deals, locale = 'nl', onDark = false, slider }: { de
           {rows.map(({ key, items }, ri) => (
             <Reveal key={key} delay={ri * 120}>
               {/* Ticket-stub divider between the category sections */}
-              {ri > 0 && (onDark
-                ? <TicketDivider className="mb-6" />
-                : <div className="mb-6 -mx-4 h-px bg-black/10" />)}
+              {ri > 0 && <TicketDivider className="mb-6" light={!onDark} />}
               <div className="mb-3 flex items-center justify-center gap-3">
                 <span className={`h-px w-8 ${onDark ? 'bg-white/25' : 'bg-black/15'}`} />
                 <h3 className={`shrink-0 text-center font-serif text-3xl font-black tracking-tight ${onDark ? 'text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]' : 'text-neutral-900'}`}>{CAT_TITLE[key][locale] || CAT_TITLE[key].en}</h3>

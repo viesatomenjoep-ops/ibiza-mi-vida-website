@@ -18,6 +18,8 @@ interface ClubLogoSliderProps {
   showLegend?: boolean;
   /** Auto-scroll speed in px per frame (lower = slower). Default 0.5 */
   speed?: number;
+  /** Dark logos for use on a light background */
+  onLight?: boolean;
 }
 
 const LEGEND: Record<string, { live: string; tonight: string; last: string; now: string }> = {
@@ -93,6 +95,7 @@ export function ClubLogoSlider({
   locale = 'en',
   showLegend = false,
   speed = 0.5,
+  onLight = false,
 }: ClubLogoSliderProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const offsetRef = useRef(0);
@@ -270,7 +273,7 @@ export function ClubLogoSlider({
                     <img
                       src={club.whitelogo || club.picture}
                       alt={club.name}
-                      className="max-h-full max-w-full object-contain brightness-0 invert drop-shadow-md pointer-events-none"
+                      className={`max-h-full max-w-full object-contain drop-shadow-md pointer-events-none ${onLight ? 'brightness-0' : 'brightness-0 invert'}`}
                       loading="lazy"
                       decoding="async"
                     />
