@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { X, ArrowRight } from 'lucide-react'
+import { X } from 'lucide-react'
 import { HOME_CATEGORIES, type CatKey } from './homeCategories'
 
 // Clearance so the CTA never hides behind the fixed selector dock.
@@ -78,18 +78,13 @@ export function HomePreviewSheet({
               container itself passes clicks through (so the × stays clickable);
               only the pill + button are interactive. */}
           <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-5 text-center" style={{ paddingBottom: DOCK_CLEARANCE }}>
-            <span
-              className="mb-2.5 inline-flex items-center gap-2 rounded-full px-2.5 py-0.5 font-serif text-[10px] font-black uppercase tracking-wide sm:text-[11px]"
+            {/* Just the (black) category label — 50% bigger, and it links to the page */}
+            <Link
+              href={`${base}${cat.href}`}
+              className="hps-cta pointer-events-auto inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-serif text-[15px] font-black uppercase tracking-wide shadow-xl transition-transform active:scale-95 sm:text-[17px]"
               style={{ backgroundColor: cat.bg, color: cat.fg }}
             >
               {cat.label[locale] || cat.label.en}
-            </span>
-            <Link
-              href={`${base}${cat.href}`}
-              className="hps-cta group pointer-events-auto inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[11px] font-black uppercase tracking-wide text-black shadow-xl transition-transform active:scale-95 sm:gap-2 sm:px-6 sm:py-3 sm:text-sm"
-            >
-              {cat.allLabel[locale] || cat.allLabel.en}
-              <ArrowRight size={14} strokeWidth={2.6} className="transition-transform duration-200 group-hover:translate-x-0.5 sm:h-4 sm:w-4" />
             </Link>
           </div>
         </>
