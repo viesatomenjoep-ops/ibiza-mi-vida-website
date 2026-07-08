@@ -154,18 +154,18 @@ export function HomeEventSlider({
                 key={`${e.id}-${idx}`}
                 href={e.href}
                 draggable={false}
-                className="mx-3 inline-flex shrink-0 items-center gap-2.5 opacity-90 transition-opacity hover:opacity-100 md:mx-4"
+                className="mx-4 inline-flex shrink-0 items-center gap-3.5 opacity-90 transition-opacity hover:opacity-100 md:mx-5"
               >
-                <span className="relative inline-flex h-7 w-9 shrink-0 items-center justify-center">
+                <span className="relative inline-flex h-[42px] w-14 shrink-0 items-center justify-center">
                   {status && (
-                    <span className="absolute -right-1 -top-1 z-10 flex h-2.5 w-2.5">
+                    <span className="absolute -right-1 -top-1 z-10 flex h-3 w-3">
                       {status !== 'green' && <span className="hes-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: DOT_COLORS[status] }} />}
-                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full ring-1 ring-black/30" style={{ background: DOT_COLORS[status] }} />
+                      <span className="relative inline-flex h-3 w-3 rounded-full ring-1 ring-black/30" style={{ background: DOT_COLORS[status] }} />
                     </span>
                   )}
-                  {e.clubLogo ? <img src={e.clubLogo} alt="" className={`pointer-events-none max-h-6 max-w-full object-contain ${onLight ? 'brightness-0' : 'brightness-0 invert'}`} loading="lazy" /> : <span className={`text-[10px] font-black ${onLight ? 'text-black' : 'text-white'}`}>{e.clubName.slice(0, 3).toUpperCase()}</span>}
+                  {e.clubLogo ? <img src={e.clubLogo} alt="" className={`pointer-events-none max-h-9 max-w-full object-contain ${onLight ? 'brightness-0' : 'brightness-0 invert'}`} loading="lazy" /> : <span className={`text-[15px] font-black ${onLight ? 'text-black' : 'text-white'}`}>{e.clubName.slice(0, 3).toUpperCase()}</span>}
                 </span>
-                <span className={`whitespace-nowrap text-sm font-bold ${onLight ? 'text-black' : 'text-white drop-shadow'}`}>{e.eventName}</span>
+                <span className={`whitespace-nowrap text-xl font-bold ${onLight ? 'text-black' : 'text-white drop-shadow'}`}>{e.eventName}</span>
               </Link>
             )
           })}
