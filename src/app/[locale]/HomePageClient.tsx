@@ -123,15 +123,12 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <>
         {deals && <div className="border-t border-black/5"><HomeDeals deals={deals} locale={locale} /></div>}
 
-        {/* Club logo marquee — moved here, between Deals of the Day and Featured events */}
-        <Reveal className="bg-black py-4 border-t border-white/10">
-          <img src="/logo-white.png" alt="Ibiza mi vida" className="mx-auto mb-3 h-12 w-auto object-contain md:h-14" />
+        {/* Club logo marquee — just the logos (no live dots, no legend, no brand logo) */}
+        <Reveal className="bg-black py-9 border-t border-white/10">
           <ClubLogoSlider
             clubLogos={clubLogos}
             base={base}
-            liveByClub={liveByClub}
             locale={locale}
-            showLegend
             speed={0.9}
             className="w-full bg-transparent"
           />
