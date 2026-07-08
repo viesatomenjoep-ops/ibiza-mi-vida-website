@@ -56,7 +56,7 @@ function DealTile({ d }: { d: Deal }) {
       </div>
     </>
   )
-  const cls = 'deal-card group relative block shrink-0 basis-[72%] snap-center overflow-hidden rounded-3xl border border-white/10 bg-neutral-900 shadow-xl sm:basis-[52%] lg:basis-[38%]'
+  const cls = 'deal-card group relative block shrink-0 basis-[92%] snap-center overflow-hidden rounded-3xl border border-white/10 bg-neutral-900 shadow-xl sm:basis-[70%] lg:basis-[50%]'
   const style = { aspectRatio: '3 / 4', willChange: 'transform, opacity' as const }
   if (d.ext) return <a data-tile href={d.ext} target="_blank" rel="noopener noreferrer" className={cls} style={style}>{inner}</a>
   return <Link data-tile href={d.href || '#'} className={cls} style={style}>{inner}</Link>
@@ -104,7 +104,7 @@ function DealsRow({ items }: { items: Deal[] }) {
   return (
     <div
       ref={ref}
-      className="hide-scrollbar flex snap-x snap-mandatory items-center gap-4 overflow-x-auto px-[14%] pb-4 pt-2 md:cursor-grab md:active:cursor-grabbing"
+      className="hide-scrollbar flex snap-x snap-mandatory items-center gap-4 overflow-x-auto px-[5%] pb-4 pt-2 md:cursor-grab md:active:cursor-grabbing"
       style={{ touchAction: 'pan-x pan-y', perspective: '1100px' }}
       onPointerDown={onDown}
       onPointerMove={onMove}
