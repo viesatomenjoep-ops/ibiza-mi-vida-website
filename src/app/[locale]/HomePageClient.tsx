@@ -151,7 +151,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           />
         </Reveal>
 
-        <section className="pb-12 pt-6 md:pb-16 md:pt-8 bg-white text-neutral-900 border-t border-black/5">
+        <section id="home-white-start" className="pb-12 pt-6 md:pb-16 md:pt-8 bg-white text-neutral-900 border-t border-black/5">
           <div className="max-w-7xl mx-auto px-4">
             <div className="mb-6 flex flex-wrap items-center gap-4">
               <h3 className="shrink-0 font-serif text-[1.625rem] font-black tracking-tight text-neutral-900">

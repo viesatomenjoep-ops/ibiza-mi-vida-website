@@ -131,6 +131,8 @@ export function HomeDeals({ deals, locale = 'nl', onDark = false }: { deals: Dea
   return (
     <section id="deals" className={`scroll-mt-24 px-4 pt-3 pb-8 md:pt-4 md:pb-10 ${onDark ? '' : 'bg-white'}`}>
       <div className="mx-auto w-full max-w-7xl">
+        {/* Ticket-stub divider between the live slider and Deals of the Day */}
+        {onDark && <div className="ticket-divider mb-5"><span className="tk-line" /></div>}
         <div className="mb-4 flex flex-col items-center text-center">
           <h2 className={`font-serif text-[1.625rem] font-black leading-none tracking-tight ${onDark ? 'text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]' : 'text-neutral-900'}`}>{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
           <p className={`mt-1.5 max-w-md text-sm font-medium ${onDark ? 'text-white/80' : 'text-neutral-500'}`}>{SECTION_SUB[locale] || SECTION_SUB.en}</p>
@@ -139,8 +141,10 @@ export function HomeDeals({ deals, locale = 'nl', onDark = false }: { deals: Dea
         <div className="flex flex-col gap-8">
           {rows.map(({ key, items }, ri) => (
             <Reveal key={key} delay={ri * 120}>
-              {/* Thin full-width divider between the category sections */}
-              {ri > 0 && <div className={`mb-6 -mx-4 h-px ${onDark ? 'bg-white/25' : 'bg-black/10'}`} />}
+              {/* Ticket-stub divider between the category sections */}
+              {ri > 0 && (onDark
+                ? <div className="ticket-divider mb-6"><span className="tk-line" /></div>
+                : <div className="mb-6 -mx-4 h-px bg-black/10" />)}
               <div className="mb-3 flex items-center justify-center gap-3">
                 <span className={`h-px w-8 ${onDark ? 'bg-white/25' : 'bg-black/15'}`} />
                 <h3 className={`shrink-0 text-center font-serif text-xl font-black tracking-tight ${onDark ? 'text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]' : 'text-neutral-900'}`}>{CAT_TITLE[key][locale] || CAT_TITLE[key].en}</h3>
