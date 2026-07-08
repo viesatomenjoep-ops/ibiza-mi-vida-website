@@ -53,13 +53,19 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
   const [previewCat, setPreviewCat] = useState<CatKey | null>(null);
   const [previewImg, setPreviewImg] = useState('');
   const pickPreview = (key: CatKey) => {
-    // Tap the active tile again to close; otherwise open with a fresh random image.
-    if (previewCat === key) { setPreviewCat(null); return; }
+    // Every tap (same or other tile) shows another ad from that category — keeps
+    // cycling through the events. Use the × to close.
     const pool = previewPools?.[key] || [];
-    const img = pool.length ? pool[Math.floor(Math.random() * pool.length)] : '';
+    let img = '';
+    if (pool.length) {
+      img = pool[Math.floor(Math.random() * pool.length)];
+      if (pool.length > 1 && img === previewImg) img = pool[(pool.indexOf(img) + 1) % pool.length];
+    }
     setPreviewCat(key);
     setPreviewImg(img);
   };
+  // Tap on the preview image itself also advances to the next ad.
+  const advancePreview = () => { if (previewCat) pickPreview(previewCat); };
 
   const clubLogos = useMemo(() => {
     const clubs = allVenues.filter(v => v.typeSlug === 'clubbing');
@@ -133,6 +139,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         selected={previewCat}
         image={previewImg}
         onClose={() => setPreviewCat(null)}
+        onAdvance={advancePreview}
       />
       <HomeSelectorDock locale={locale} selected={previewCat} onSelect={pickPreview} />
 

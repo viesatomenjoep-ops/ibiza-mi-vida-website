@@ -19,12 +19,14 @@ export function HomePreviewSheet({
   selected,
   image,
   onClose,
+  onAdvance,
 }: {
   base: string
   locale: string
   selected: CatKey | null
   image: string
   onClose: () => void
+  onAdvance?: () => void
 }) {
   // Keep the last shown content mounted while sliding out.
   const [shownKey, setShownKey] = useState<CatKey | null>(selected)
@@ -53,8 +55,11 @@ export function HomePreviewSheet({
           {/* Image layer — straight top; the full image fits inside the frame
               (centred, never cropped) */}
           <div
-            className="absolute inset-0 overflow-hidden bg-black"
+            className="absolute inset-0 cursor-pointer overflow-hidden bg-black"
             style={{ boxShadow: '0 -22px 50px rgba(0,0,0,0.4)' }}
+            onClick={onAdvance}
+            role="button"
+            aria-label="Next"
           >
           {shownImg ? (
             <img key={`${cat.key}-${shownImg}`} src={shownImg} alt="" className="absolute inset-0 h-full w-full object-cover" />
