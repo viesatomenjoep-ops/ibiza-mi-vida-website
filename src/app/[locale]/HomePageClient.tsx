@@ -13,6 +13,7 @@ import { HomeSelectorDock } from '@/components/home/HomeSelectorDock';
 import { HomeHeroVideo } from '@/components/home/HomeHeroVideo';
 import { HeroShowIntro } from '@/components/home/HeroShowIntro';
 import { HomeScrollHint } from '@/components/home/HomeScrollHint';
+import { HomeMapWidget } from '@/components/home/HomeMapWidget';
 import { HomePreviewSheet } from '@/components/home/HomePreviewSheet';
 import type { CatKey } from '@/components/home/homeCategories';
 import { Reveal } from '@/components/ui/Reveal';
@@ -53,6 +54,31 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
   };
   // Tap on the preview image itself also advances to the next ad.
   const advancePreview = () => { if (previewCat) pickPreview(previewCat); };
+
+  // Selector dock choreography: the 5 tiles show in the hero, slide away while the
+  // map section fills the screen (there the map has its own club selectors), then
+  // come back from the deals section down to the bottom of the page.
+  const [dockHidden, setDockHidden] = useState(false);
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const el = document.getElementById('ibiza-map-section');
+      const vh = window.innerHeight;
+      let hide = false;
+      if (el) {
+        const r = el.getBoundingClientRect();
+        // Hide while the map occupies the middle band of the viewport.
+        hide = r.top < vh * 0.6 && r.bottom > vh * 0.4;
+      }
+      setDockHidden(prev => (prev === hide ? prev : hide));
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); if (raf) cancelAnimationFrame(raf); };
+  }, []);
 
   const clubLogos = useMemo(() => {
     const clubs = allVenues.filter(v => v.typeSlug === 'clubbing');
@@ -96,15 +122,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       </header>
 
       {/* Interactive Ibiza map widget (standalone HTML) — just above Deals of the Day */}
-      <section className="w-full bg-[#EFEDEA]">
-        <iframe
-          src="/ibiza-kaart.html"
-          title="Ibiza kaart"
-          loading="lazy"
-          className="block w-full border-0"
-          style={{ height: 'min(120vh, 920px)' }}
-        />
-      </section>
+      <HomeMapWidget locale={locale} />
 
       {/* Deals of the Day — light-grey section, right under the slider */}
       {deals && (
@@ -126,7 +144,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         onClose={() => setPreviewCat(null)}
         onAdvance={advancePreview}
       />
-      <HomeSelectorDock locale={locale} selected={previewCat} onSelect={pickPreview} />
+      <HomeSelectorDock locale={locale} selected={previewCat} onSelect={pickPreview} hidden={dockHidden} />
       <HomeScrollHint locale={locale} />
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
