@@ -21,7 +21,8 @@ export function HomeHeroVideo({ className, style }: { className?: string; style?
       preload="auto"
       onEnded={next}
       onClick={next}
-      onCanPlay={(e) => { e.currentTarget.play().catch(() => {}) }}
+      onLoadedMetadata={(e) => { e.currentTarget.playbackRate = 0.66 }}
+      onCanPlay={(e) => { e.currentTarget.playbackRate = 0.66; e.currentTarget.play().catch(() => {}) }}
       className={className}
       style={{ ...style, objectPosition: POSITIONS[i] }}
     />
