@@ -86,9 +86,6 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [fadeOn, setFadeOn] = useState(false)
   const [onLight, setOnLight] = useState(false)
-  // Homepage: the navbar stays transparent until the first white section
-  // (Uitgelichte events) reaches it, then it turns white with black text.
-  const [whiteNav, setWhiteNav] = useState(false)
   const logoRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => { setMenuOpen(false) }, [pathname])
@@ -98,17 +95,11 @@ export function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > Math.max(120, window.innerHeight * 0.55))
       setFadeOn(window.scrollY > 20)
-      if (isHome) {
-        const sec = document.getElementById('home-white-start')
-        const header = document.querySelector('.site-header') as HTMLElement | null
-        const navH = header?.offsetHeight || 120
-        setWhiteNav(sec ? sec.getBoundingClientRect().top <= navH + 2 : false)
-      }
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [isHome])
+  }, [])
 
   // Detect whether the hero behind the transparent navbar is light or dark,
   // so the logo + wordmark can flip to black on light backgrounds and stay white on dark ones.
@@ -253,7 +244,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${(isHome ? whiteNav : fadeOn) ? 'site-header--fade' : ''} ${onLight ? 'site-header--onlight' : ''} ${isPrivateBoat && !fadeOn ? 'site-header--forcewhite' : ''}`}>
+      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${onLight ? 'site-header--onlight' : ''} ${isPrivateBoat && !fadeOn ? 'site-header--forcewhite' : ''}`}>
         {/* Topbar strip: official ticket partner — at the top everywhere EXCEPT the
             ClubTickets categories, where it is shown as a fixed bottom bar instead. */}
         {!isClubCat && !isPrivateBoat && !(isHome && fadeOn) && (
