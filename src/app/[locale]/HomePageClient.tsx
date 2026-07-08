@@ -10,7 +10,6 @@ import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/Even
 import { HomeDeals, type DealsData } from '@/components/home/HomeDeals';
 import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
 import { HomeSelectorDock } from '@/components/home/HomeSelectorDock';
-import { HomePreviewStage } from '@/components/home/HomePreviewStage';
 import { HomePreviewSheet } from '@/components/home/HomePreviewSheet';
 import type { CatKey } from '@/components/home/homeCategories';
 import { Reveal } from '@/components/ui/Reveal';
@@ -82,47 +81,37 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
   return (
     <div className="theme-monaco-vip is-home bg-white text-[var(--color-ink)] min-h-screen">
 
-      {/* ── HERO — top half is the video (under the navbar), bottom half white.
-          The video is object-cover (full size, cut through the middle). The live
-          slider + one-line legend sit at the BOTTOM of the video; the white area
-          below is an interactive preview stage driven by the fixed selector dock. ── */}
-      <header className="relative flex w-full flex-col overflow-hidden bg-white text-black" style={{ height: '100svh' }}>
-        {/* Top-half video — fills its area on every device, cut through the middle.
-            A soft arc at the bottom lets the black video curve down into the white,
-            echoing the decorative arcs below. */}
-        <div className="relative w-full shrink-0 overflow-hidden bg-black" style={{ height: '50svh' }}>
-          <video
-            src="/achtergrond-homepage.mp4#t=4"
-            poster="/hi-ibiza-2026/FB_IMG_1779623220486.jpg"
-            autoPlay
-            muted
-            playsInline
-            preload="auto"
-            onLoadedMetadata={(e) => { const v = e.currentTarget; if (v.duration > 4) v.currentTime = 4 }}
-            onEnded={(e) => { const v = e.currentTarget; v.currentTime = 4; v.play().catch(() => {}) }}
-            style={{ objectPosition: 'center 42%', filter: 'brightness(0.55) contrast(2) saturate(1.05)' }}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-          {/* Legibility gradient — darker at the bottom where the slider sits */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/45 via-black/10 to-black/75" />
+      {/* ── HERO — full-screen video up to the selector dock. The tagline is
+          centred in white; the live slider + legend sit just above the dock. ── */}
+      <header className="relative w-full overflow-hidden bg-black text-white" style={{ height: '100svh' }}>
+        <video
+          src="/achtergrond-homepage.mp4#t=4"
+          poster="/hi-ibiza-2026/FB_IMG_1779623220486.jpg"
+          autoPlay
+          muted
+          playsInline
+          preload="auto"
+          onLoadedMetadata={(e) => { const v = e.currentTarget; if (v.duration > 4) v.currentTime = 4 }}
+          onEnded={(e) => { const v = e.currentTarget; v.currentTime = 4; v.play().catch(() => {}) }}
+          style={{ objectPosition: 'center', filter: 'brightness(0.6) contrast(1.9) saturate(1.05)' }}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {/* Legibility gradient */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/75" />
 
-          {/* Arc divider — the black video curves down into the white below */}
-          <svg className="pointer-events-none absolute inset-x-0 bottom-[-1px] z-20 w-full" viewBox="0 0 400 30" preserveAspectRatio="none" style={{ height: '3.4vh' }} aria-hidden="true">
-            <path d="M0,30 L0,0 Q200,30 400,0 L400,30 Z" fill="#ffffff" />
-          </svg>
-
-          {/* Logo slider + one-line legend — a little higher up on the video */}
-          <div className="absolute inset-x-0 bottom-0 z-30 w-full pb-9 md:pb-11">
-            <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />
-          </div>
+        {/* Tagline — centred in the middle of the page, in white */}
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center">
+          <h2 className="max-w-[12em] font-serif text-[1.7rem] font-black uppercase leading-[1.06] text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.75)] sm:text-3xl md:text-[2.7rem]">
+            {HERO_HEADLINE[locale] || HERO_HEADLINE.en}
+          </h2>
+          <p className="mt-4 max-w-xl text-[0.95rem] font-semibold leading-snug text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)] sm:text-base md:text-lg">
+            {HERO_SUBLINE[locale] || HERO_SUBLINE.en}
+          </p>
         </div>
 
-        {/* Bottom-half white — the resting tagline */}
-        <div className="relative w-full flex-1 bg-white">
-          <HomePreviewStage
-            headline={HERO_HEADLINE[locale] || HERO_HEADLINE.en}
-            subline={HERO_SUBLINE[locale] || HERO_SUBLINE.en}
-          />
+        {/* Live slider + one-line legend — just above the selector dock */}
+        <div className="absolute inset-x-0 bottom-0 z-20 w-full" style={{ paddingBottom: 'calc(92px + env(safe-area-inset-bottom))' }}>
+          <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />
         </div>
       </header>
 
