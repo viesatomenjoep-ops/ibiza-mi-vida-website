@@ -129,10 +129,10 @@ function DealsRow({ items }: { items: Deal[] }) {
 
 export function HomeDeals({ deals, locale = 'nl', onDark = false }: { deals: DealsData; locale: string; onDark?: boolean }) {
   const rows: { key: keyof DealsData; items: Deal[]; dir: 1 | -1 }[] = ([
-    { key: 'clubs', items: deals.clubs, dir: 1 },   // left → right
-    { key: 'water', items: deals.water, dir: -1 },  // right → left
-    { key: 'land', items: deals.land, dir: 1 },     // left → right
-    { key: 'boats', items: deals.boats, dir: -1 },  // right → left
+    { key: 'clubs', items: deals.clubs, dir: 1 },   // Club Tickets Ibiza
+    { key: 'boats', items: deals.boats, dir: -1 },  // Private boats
+    { key: 'land', items: deals.land, dir: 1 },     // Op het land
+    { key: 'water', items: deals.water, dir: -1 },  // Op het water (bottom)
   ] as const).filter(r => r.items && r.items.length > 0) as any
 
   if (rows.length === 0) return null
