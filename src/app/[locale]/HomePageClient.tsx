@@ -111,10 +111,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           </p>
         </div>
 
-        {/* Live slider + one-line legend — a bit higher above the dock */}
-        <div className="pointer-events-auto absolute inset-x-0 bottom-0 z-20 w-full" style={{ paddingBottom: 'calc(124px + env(safe-area-inset-bottom))' }}>
-          <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />
-        </div>
       </header>
 
       {/* Deals of the Day — right under the slider, over a SECOND video that
@@ -127,6 +123,10 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           />
           <div className="pointer-events-none absolute inset-0 bg-black/45" />
           <div className="relative z-10">
+            {/* Live slider + legend — only visible once you scroll here, just above Deals */}
+            <div className="w-full pt-7 pb-1 md:pt-9">
+              <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />
+            </div>
             <HomeDeals deals={deals} locale={locale} onDark />
           </div>
         </div>
