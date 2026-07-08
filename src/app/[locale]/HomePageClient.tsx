@@ -82,35 +82,41 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
   return (
     <div className="theme-monaco-vip is-home bg-white text-[var(--color-ink)] min-h-screen">
 
-      {/* ── HERO — full-screen video up to the selector dock. The tagline is
-          centred in white; the live slider + legend sit just above the dock. ── */}
-      <header className="relative w-full overflow-hidden bg-black text-white" style={{ height: '100svh' }}>
+      {/* ── VIDEO BACKDROP — the clip runs from the top all the way down through
+          Deals of the Day (ending just above the second slider). ── */}
+      <div className="relative w-full overflow-hidden bg-black text-white">
         <HomeHeroVideo
           style={{ objectPosition: 'center', filter: 'brightness(0.6) contrast(1.9) saturate(1.05)' }}
           className="absolute inset-0 h-full w-full object-cover"
         />
         {/* Legibility gradient */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/75" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/70" />
         {/* Extra dark band under the navbar so the brand, partner strip and
             hamburger stay white and readable over any bright video frame */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] bg-gradient-to-b from-black/70 to-transparent" style={{ height: 'calc(var(--nav-h) + 40px)' }} />
 
-        {/* Tagline — centred, sitting a bit above the middle, in white.
-            pointer-events-none so a tap on the hero reaches the video (changes clip). */}
-        <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center" style={{ paddingBottom: '20vh' }}>
-          <h2 className="max-w-[12em] font-serif text-[1.7rem] font-black uppercase leading-[1.06] text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.75)] sm:text-3xl md:text-[2.7rem]">
-            {HERO_HEADLINE[locale] || HERO_HEADLINE.en}
-          </h2>
-          <p className="mt-4 max-w-xl text-[0.95rem] font-semibold leading-snug text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)] sm:text-base md:text-lg">
-            {HERO_SUBLINE[locale] || HERO_SUBLINE.en}
-          </p>
-        </div>
+        {/* Hero — full first screen. pointer-events-none so a tap reaches the video. */}
+        <header className="pointer-events-none relative z-10 w-full" style={{ height: '100svh' }}>
+          {/* Tagline — centred, sitting a bit above the middle, in white.
+              pointer-events-none so a tap on the hero reaches the video (changes clip). */}
+          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6 text-center" style={{ paddingBottom: '20vh' }}>
+            <h2 className="max-w-[12em] font-serif text-[1.7rem] font-black uppercase leading-[1.06] text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.75)] sm:text-3xl md:text-[2.7rem]">
+              {HERO_HEADLINE[locale] || HERO_HEADLINE.en}
+            </h2>
+            <p className="mt-4 max-w-xl text-[0.95rem] font-semibold leading-snug text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)] sm:text-base md:text-lg">
+              {HERO_SUBLINE[locale] || HERO_SUBLINE.en}
+            </p>
+          </div>
 
-        {/* Live slider + one-line legend — just above the selector dock */}
-        <div className="absolute inset-x-0 bottom-0 z-20 w-full" style={{ paddingBottom: 'calc(92px + env(safe-area-inset-bottom))' }}>
-          <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />
-        </div>
-      </header>
+          {/* Live slider + one-line legend — just above the selector dock */}
+          <div className="pointer-events-auto absolute inset-x-0 bottom-0 z-20 w-full" style={{ paddingBottom: 'calc(92px + env(safe-area-inset-bottom))' }}>
+            <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />
+          </div>
+        </header>
+
+        {/* Deals of the Day — over the video */}
+        {deals && <div className="relative z-10"><HomeDeals deals={deals} locale={locale} onDark /></div>}
+      </div>
 
       {/* ── Slide-up preview sheet (works anywhere on the page) + fixed dock ── */}
       <HomePreviewSheet
@@ -125,7 +131,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (
         <>
-        {deals && <div className="border-t border-black/5"><HomeDeals deals={deals} locale={locale} /></div>}
 
         {/* Club logo marquee — just the logos (no live dots, no legend, no brand logo) */}
         <Reveal className="flex items-center bg-black py-3 border-t border-white/10">

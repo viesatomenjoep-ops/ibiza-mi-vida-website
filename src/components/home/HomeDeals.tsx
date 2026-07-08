@@ -45,23 +45,21 @@ const TICKETS: Record<string, string> = { nl: 'Bekijk', en: 'View', de: 'Ansehen
 function DealTile({ d, locale }: { d: Deal; locale: string }) {
   const inner = (
     <>
-      {/* Full image, shown in its entirety on a dark stage */}
-      <div className="relative w-full overflow-hidden bg-neutral-950" style={{ aspectRatio: '4 / 3' }}>
-        {d.image ? <img src={d.image} alt={d.title} className="absolute inset-0 h-full w-full object-contain" /> : null}
-        {d.price > 0 && <span className="absolute left-3 top-3 rounded-full bg-white px-3 py-1 text-sm font-black text-black shadow-lg">€{d.price}{d.priceLabel || ''}</span>}
-        <span className="absolute bottom-3 right-3 inline-flex items-center gap-1 rounded-full bg-black/60 px-3 py-1 text-[11px] font-black uppercase tracking-wide text-white backdrop-blur-sm transition-colors group-hover:bg-ibiza-green group-hover:text-black">{TICKETS[locale] || TICKETS.en} <ChevronRight size={13} /></span>
+      {/* Left half — the photo, with price top-left and "View" bottom, both on the image */}
+      <div className="relative h-full w-[55%] shrink-0 bg-neutral-900">
+        {d.image ? <img src={d.image} alt={d.title} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+        <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10" />
+        {d.price > 0 && <span className="absolute left-1.5 top-1.5 rounded-full bg-white px-2 py-0.5 text-[11px] font-black text-black shadow">€{d.price}{d.priceLabel || ''}</span>}
+        <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 rounded-full bg-black/55 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white backdrop-blur-sm transition-colors group-hover:bg-ibiza-green group-hover:text-black">{TICKETS[locale] || TICKETS.en} <ChevronRight size={10} /></span>
       </div>
-      {/* Red info panel — event name + venue + date */}
-      <div className="flex flex-col gap-1.5 px-4 py-3.5" style={{ backgroundColor: '#E14D68' }}>
-        <div className="line-clamp-2 font-serif text-base font-black leading-tight text-white md:text-lg">{d.title}</div>
-        <div className="flex items-center justify-between gap-3">
-          {d.sub ? <span className="line-clamp-1 text-xs font-semibold text-white/85">{d.sub}</span> : <span />}
-          <span className="shrink-0 text-xs font-bold uppercase tracking-wide text-white">{d.dateLabel}</span>
-        </div>
+      {/* Right half — red panel: event name + date, centred */}
+      <div className="flex w-[45%] flex-col items-center justify-center gap-1 p-2.5 text-center" style={{ backgroundColor: '#E14D68' }}>
+        <div className="line-clamp-3 font-serif text-[12px] font-black leading-tight text-white">{d.title}</div>
+        <div className="line-clamp-1 text-[9px] font-bold uppercase tracking-wide text-white/85">{d.dateLabel}</div>
       </div>
     </>
   )
-  const cls = 'group flex flex-col shrink-0 basis-[86%] snap-center overflow-hidden rounded-3xl border border-black/10 shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-2xl sm:basis-[58%] lg:basis-[42%]'
+  const cls = 'group flex h-28 shrink-0 basis-[47%] snap-start overflow-hidden rounded-2xl border border-black/10 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl sm:h-32 sm:basis-[31%] lg:basis-[23%]'
   if (d.ext) return <a data-tile href={d.ext} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>
   return <Link data-tile href={d.href || '#'} className={cls}>{inner}</Link>
 }
@@ -106,7 +104,7 @@ function DealsRow({ items, locale, dir = 1 }: { items: Deal[]; locale: string; d
   )
 }
 
-export function HomeDeals({ deals, locale = 'nl' }: { deals: DealsData; locale: string }) {
+export function HomeDeals({ deals, locale = 'nl', onDark = false }: { deals: DealsData; locale: string; onDark?: boolean }) {
   const rows: { key: keyof DealsData; items: Deal[]; dir: 1 | -1 }[] = ([
     { key: 'clubs', items: deals.clubs, dir: 1 },   // left → right
     { key: 'water', items: deals.water, dir: -1 },  // right → left
@@ -117,19 +115,19 @@ export function HomeDeals({ deals, locale = 'nl' }: { deals: DealsData; locale: 
   if (rows.length === 0) return null
 
   return (
-    <section id="deals" className="scroll-mt-24 bg-white px-4 py-6 md:py-8">
+    <section id="deals" className={`scroll-mt-24 px-4 py-6 md:py-8 ${onDark ? '' : 'bg-white'}`}>
       <div className="mx-auto w-full max-w-7xl">
         <div className="mb-5 flex flex-col items-center text-center">
-          <h2 className="font-serif text-[1.625rem] font-black leading-none tracking-tight text-neutral-900">{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
-          <p className="mt-1.5 max-w-md text-sm font-medium text-neutral-500">{SECTION_SUB[locale] || SECTION_SUB.en}</p>
+          <h2 className={`font-serif text-[1.625rem] font-black leading-none tracking-tight ${onDark ? 'text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]' : 'text-neutral-900'}`}>{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
+          <p className={`mt-1.5 max-w-md text-sm font-medium ${onDark ? 'text-white/80' : 'text-neutral-500'}`}>{SECTION_SUB[locale] || SECTION_SUB.en}</p>
         </div>
 
         <div className="flex flex-col gap-8">
           {rows.map(({ key, items, dir }, ri) => (
             <Reveal key={key} delay={ri * 120}>
               <div className="mb-3 flex items-center gap-3">
-                <h3 className="shrink-0 font-serif text-xl font-black tracking-tight text-neutral-900">{CAT_TITLE[key][locale] || CAT_TITLE[key].en}</h3>
-                <span className="h-px flex-1 bg-black/10" />
+                <h3 className={`shrink-0 font-serif text-xl font-black tracking-tight ${onDark ? 'text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]' : 'text-neutral-900'}`}>{CAT_TITLE[key][locale] || CAT_TITLE[key].en}</h3>
+                <span className={`h-px flex-1 ${onDark ? 'bg-white/25' : 'bg-black/10'}`} />
               </div>
               <DealsRow items={items} locale={locale} dir={dir} />
             </Reveal>
