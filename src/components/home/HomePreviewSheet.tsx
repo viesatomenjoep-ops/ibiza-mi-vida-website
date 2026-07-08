@@ -56,13 +56,14 @@ export function HomePreviewSheet({
     >
       {cat && (
         <>
-          {/* Image layer — straight top */}
+          {/* Image layer — straight top; the full image fits inside the frame
+              (centred, never cropped) */}
           <div
-            className="absolute inset-0 overflow-hidden"
+            className="absolute inset-0 overflow-hidden bg-black"
             style={{ boxShadow: '0 -22px 50px rgba(0,0,0,0.4)' }}
           >
           {shownImg ? (
-            <img key={`${cat.key}-${shownImg}`} src={shownImg} alt="" className="absolute inset-0 h-full w-full object-cover" />
+            <img key={`${cat.key}-${shownImg}`} src={shownImg} alt="" className="absolute inset-0 h-full w-full object-contain" />
           ) : (
             <div className="absolute inset-0" style={{ background: cat.bg }} />
           )}
