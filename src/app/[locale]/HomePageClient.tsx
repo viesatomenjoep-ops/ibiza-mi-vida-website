@@ -10,6 +10,7 @@ import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/Even
 import { HomeDeals, type DealsData } from '@/components/home/HomeDeals';
 import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
 import { HomeSelectorDock } from '@/components/home/HomeSelectorDock';
+import { HomeHeroVideo } from '@/components/home/HomeHeroVideo';
 import { HomePreviewSheet } from '@/components/home/HomePreviewSheet';
 import type { CatKey } from '@/components/home/homeCategories';
 import { Reveal } from '@/components/ui/Reveal';
@@ -84,23 +85,15 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       {/* ── HERO — full-screen video up to the selector dock. The tagline is
           centred in white; the live slider + legend sit just above the dock. ── */}
       <header className="relative w-full overflow-hidden bg-black text-white" style={{ height: '100svh' }}>
-        <video
-          src="/achtergrond-homepage.mp4#t=4"
-          poster="/hi-ibiza-2026/FB_IMG_1779623220486.jpg"
-          autoPlay
-          muted
-          playsInline
-          preload="auto"
-          onLoadedMetadata={(e) => { const v = e.currentTarget; if (v.duration > 4) v.currentTime = 4 }}
-          onEnded={(e) => { const v = e.currentTarget; v.currentTime = 4; v.play().catch(() => {}) }}
+        <HomeHeroVideo
           style={{ objectPosition: 'center', filter: 'brightness(0.6) contrast(1.9) saturate(1.05)' }}
           className="absolute inset-0 h-full w-full object-cover"
         />
         {/* Legibility gradient */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/75" />
 
-        {/* Tagline — centred in the middle of the page, in white */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center">
+        {/* Tagline — centred, sitting a bit above the middle, in white */}
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center" style={{ paddingBottom: '20vh' }}>
           <h2 className="max-w-[12em] font-serif text-[1.7rem] font-black uppercase leading-[1.06] text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.75)] sm:text-3xl md:text-[2.7rem]">
             {HERO_HEADLINE[locale] || HERO_HEADLINE.en}
           </h2>

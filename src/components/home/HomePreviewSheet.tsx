@@ -46,28 +46,20 @@ export function HomePreviewSheet({
       aria-hidden={!open}
       className="fixed inset-x-0 bottom-0 z-[54] overflow-hidden bg-transparent"
       style={{
-        // Reaches up to the video (sides overlap slightly) so there's no white gap.
-        height: '54svh',
+        // At the top of the page the image opens all the way up to the navbar with a
+        // straight top; when scrolled it's a shorter slide-up.
+        height: atTop ? 'calc(100svh - var(--nav-h))' : '54svh',
         transform: open ? 'translateY(0)' : 'translateY(112%)',
         transition: 'transform .6s cubic-bezier(.16,.72,.24,1)',
         pointerEvents: open ? 'auto' : 'none',
       }}
     >
-      {/* Concave arc clip — sides high, dips in the centre, so the image top flows
-          with the video's bottom edge. Responsive via objectBoundingBox. */}
-      <svg aria-hidden width="0" height="0" style={{ position: 'absolute' }}>
-        <defs>
-          <clipPath id="hpsArcUp" clipPathUnits="objectBoundingBox">
-            <path d="M0,0 L0,1 L1,1 L1,0 Q0.5,0.07 0,0 Z" />
-          </clipPath>
-        </defs>
-      </svg>
       {cat && (
         <>
-          {/* Image layer — a concave (sides-up) arc top at page-top, straight otherwise */}
+          {/* Image layer — straight top */}
           <div
             className="absolute inset-0 overflow-hidden"
-            style={{ clipPath: atTop ? 'url(#hpsArcUp)' : 'none', boxShadow: '0 -22px 50px rgba(0,0,0,0.4)' }}
+            style={{ boxShadow: '0 -22px 50px rgba(0,0,0,0.4)' }}
           >
           {shownImg ? (
             <img key={`${cat.key}-${shownImg}`} src={shownImg} alt="" className="absolute inset-0 h-full w-full object-cover" />
