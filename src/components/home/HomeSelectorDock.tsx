@@ -25,10 +25,10 @@ export function HomeSelectorDock({
                 onClick={() => onSelect(t.key)}
                 aria-pressed={on}
                 aria-label={t.label[locale] || t.label.en}
-                className={`hdock-tile group flex h-16 items-center justify-center rounded-xl ${on ? 'ring-[3px] ring-ibiza-green ring-offset-1 ring-offset-white' : ''}`}
+                className={`hdock-tile group flex h-[52px] items-center justify-center rounded-xl ${on ? 'ring-[3px] ring-ibiza-green ring-offset-1 ring-offset-white' : ''}`}
                 style={{ backgroundColor: t.bg, color: t.fg, boxShadow: `0 6px 18px -6px ${t.glow}` }}
               >
-                <Icon size={34} strokeWidth={2} className="transition-transform duration-200 group-hover:-translate-y-0.5" />
+                <Icon size={27} strokeWidth={2} className="transition-transform duration-200 group-hover:-translate-y-0.5" />
               </button>
             )
           })}
