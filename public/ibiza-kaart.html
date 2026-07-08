@@ -38,8 +38,13 @@
   .ibz-corner.bl { bottom: 12px; left: 12px; border-bottom: 2px solid rgba(239,237,234,.85); border-left: 2px solid rgba(239,237,234,.85); }
   .ibz-corner.br { bottom: 12px; right: 12px; border-bottom: 2px solid rgba(239,237,234,.85); border-right: 2px solid rgba(239,237,234,.85); }
   .ibz-vignette { position: absolute; inset: 0; box-shadow: inset 0 0 90px rgba(27,25,23,.35); }
-  .ibz-readout { position: absolute; left: 12px; bottom: 12px; display: flex; align-items: center; gap: 8px; background: rgba(27,25,23,.72); color: #EFEDEA; padding: 6px 11px; font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: .12em; }
+  .ibz-readout { position: absolute; left: 12px; bottom: 12px; display: flex; align-items: center; gap: 8px; background: rgba(27,25,23,.78); color: #EFEDEA; padding: 6px 11px; font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: .12em; backdrop-filter: blur(6px); box-shadow: 0 10px 26px -12px rgba(0,0,0,.6); }
   .ibz-readout .ibz-pulse { width: 6px; height: 6px; border-radius: 50%; background: #EFEDEA; animation: ibzPulse 1.6s ease-in-out infinite; }
+  .ibz-readout.has-club { padding: 7px 14px 7px 7px; gap: 10px; }
+  .ibz-rd-badge { width: 28px; height: 28px; flex: 0 0 auto; border-radius: 7px; background: rgba(255,255,255,.14); display: grid; place-items: center; overflow: hidden; }
+  .ibz-rd-badge img { max-width: 78%; max-height: 64%; object-fit: contain; filter: brightness(0) invert(1); }
+  .ibz-rd-badge .ibz-ini { font-size: 9px; font-weight: 800; color: #EFEDEA; }
+  .ibz-rd-name { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 16px; letter-spacing: .01em; }
 
   /* Info-balk ONDER de kaart */
   .ibz-info { position: relative; overflow: hidden; margin-top: 12px; min-height: 78px; display: flex; align-items: center; gap: 16px; padding: 14px 16px; background: #FBFAF8; border: 1px solid rgba(27,25,23,.15); }
@@ -238,8 +243,19 @@
   function popMarker(m, i) { var el = m.getElement(); el.classList.add('is-popping'); el.style.animationDelay = ((i || 0) * 45) + 'ms'; el.addEventListener('animationend', function () { el.classList.remove('is-popping'); el.style.animationDelay = ''; }, { once: true }); }
   function clearMarkers() { (markers || []).forEach(function (m) { m.remove(); }); }
 
-  /* Info-balk verwijderd — de kaart toont geen club-informatie meer. */
-  function renderInfo() {}
+  /* Kleine balk op de kaart: toont logo + naam van de gekozen club. */
+  var readoutEl = document.querySelector('.ibz-readout');
+  function updateReadout(club) {
+    if (!readoutEl) return;
+    if (!club) {
+      readoutEl.classList.remove('has-club');
+      readoutEl.innerHTML = '<span class="ibz-pulse"></span><span>EIVISSA · ' + CLUBS.length + ' CLUBS</span>';
+      return;
+    }
+    readoutEl.classList.add('has-club');
+    readoutEl.innerHTML = '<span class="ibz-rd-badge">' + badgeInner(club) + '</span><span class="ibz-rd-name">' + club.name + '</span>';
+  }
+  function renderInfo(club) { updateReadout(club || null); }
 
   /* ================= ACTIES ================= */
   function focusClub(club) {
