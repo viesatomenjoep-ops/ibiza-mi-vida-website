@@ -11,6 +11,7 @@ import { HomeDeals, type DealsData } from '@/components/home/HomeDeals';
 import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
 import { HomeSelectorDock } from '@/components/home/HomeSelectorDock';
 import { HomeHeroVideo } from '@/components/home/HomeHeroVideo';
+import { HeroShowIntro } from '@/components/home/HeroShowIntro';
 import { HomePreviewSheet } from '@/components/home/HomePreviewSheet';
 import type { CatKey } from '@/components/home/homeCategories';
 import { Reveal } from '@/components/ui/Reveal';
@@ -26,21 +27,6 @@ interface HomePageProps {
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
   liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
 }
-
-const HERO_HEADLINE: Record<string, string> = {
-  nl: 'Jouw exclusieve sleutel tot Ibiza.',
-  en: 'Your exclusive key to Ibiza.',
-  es: 'Tu llave exclusiva a Ibiza.',
-  de: 'Dein exklusiver Schlüssel zu Ibiza.',
-  fr: 'Votre clé exclusive pour Ibiza.',
-};
-const HERO_SUBLINE: Record<string, string> = {
-  nl: 'Van privéjachten tot de beste clubs en unieke activiteiten. Boek jouw ultieme eilandervaring op één platform.',
-  en: 'From private yachts to the best clubs and unique activities. Book your ultimate island experience on one platform.',
-  es: 'Desde yates privados hasta los mejores clubs y actividades únicas. Reserva tu experiencia isleña definitiva en una sola plataforma.',
-  de: 'Von Privatyachten bis zu den besten Clubs und einzigartigen Aktivitäten. Buche dein ultimatives Inselerlebnis auf einer Plattform.',
-  fr: 'Des yachts privés aux meilleurs clubs et activités uniques. Réservez votre expérience insulaire ultime sur une seule plateforme.',
-};
 
 export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, previewPools, allVenues = [], liveByClub = {} }: HomePageProps) {
   const base = `/${locale}`;
@@ -101,14 +87,9 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             hamburger stay white and readable over any bright video frame */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] bg-gradient-to-b from-black/70 to-transparent" style={{ height: 'calc(var(--nav-h) + 40px)' }} />
 
-        {/* Tagline over the video */}
-        <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center" style={{ paddingBottom: '20vh' }}>
-          <h2 className="max-w-[12em] font-serif text-[1.7rem] font-black uppercase leading-[1.06] text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.85)] sm:text-3xl md:text-[2.7rem]">
-            {HERO_HEADLINE[locale] || HERO_HEADLINE.en}
-          </h2>
-          <p className="mt-4 max-w-xl text-[0.95rem] font-semibold leading-snug text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] sm:text-base md:text-lg">
-            {HERO_SUBLINE[locale] || HERO_SUBLINE.en}
-          </p>
+        {/* Animated show-intro over the video — three lines type in on a loop */}
+        <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center" style={{ paddingBottom: '14vh' }}>
+          <HeroShowIntro locale={locale} />
         </div>
 
       </header>
