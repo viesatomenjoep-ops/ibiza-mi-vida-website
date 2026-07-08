@@ -91,6 +91,9 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         />
         {/* Legibility gradient */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/75" />
+        {/* Extra dark band under the navbar so the brand, partner strip and
+            hamburger stay white and readable over any bright video frame */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] bg-gradient-to-b from-black/70 to-transparent" style={{ height: 'calc(var(--nav-h) + 40px)' }} />
 
         {/* Tagline — centred, sitting a bit above the middle, in white */}
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center" style={{ paddingBottom: '20vh' }}>

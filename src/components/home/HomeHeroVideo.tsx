@@ -2,8 +2,8 @@
 
 import { useEffect, useState, type CSSProperties } from 'react'
 
-// Three background clips that play one after another, looping.
-const VIDEOS = ['/videos/calvin.mp4', '/videos/anyma-1.mp4', '/videos/anyma-2.mp4']
+// Background clips that play one after another, looping.
+const VIDEOS = ['/videos/anyma-1.mp4', '/videos/anyma-2.mp4']
 
 export function HomeHeroVideo({ className, style }: { className?: string; style?: CSSProperties }) {
   // Deterministic first frame (avoids an SSR/hydration mismatch); pick a random
