@@ -13,7 +13,6 @@ import { HomeSelectorDock } from '@/components/home/HomeSelectorDock';
 import { HomeHeroVideo } from '@/components/home/HomeHeroVideo';
 import { HeroShowIntro } from '@/components/home/HeroShowIntro';
 import { HomeScrollHint } from '@/components/home/HomeScrollHint';
-import { HomeVenueMap } from '@/components/home/HomeVenueMap';
 import { HomePreviewSheet } from '@/components/home/HomePreviewSheet';
 import type { CatKey } from '@/components/home/homeCategories';
 import { Reveal } from '@/components/ui/Reveal';
@@ -96,8 +95,16 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       </header>
 
-      {/* Interactive black & white clubs map — just above Deals of the Day */}
-      <HomeVenueMap venues={allVenues} base={base} locale={locale} />
+      {/* Interactive Ibiza map widget (standalone HTML) — just above Deals of the Day */}
+      <section className="w-full bg-[#EFEDEA]">
+        <iframe
+          src="/ibiza-kaart.html"
+          title="Ibiza kaart"
+          loading="lazy"
+          className="block w-full border-0"
+          style={{ height: 'min(120vh, 920px)' }}
+        />
+      </section>
 
       {/* Deals of the Day — light-grey section, right under the slider */}
       {deals && (
