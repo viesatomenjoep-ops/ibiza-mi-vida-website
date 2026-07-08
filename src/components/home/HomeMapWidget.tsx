@@ -20,6 +20,7 @@ export function HomeMapWidget({ locale = 'nl' }: { locale?: string }) {
   const [open, setOpen] = useState(false)
   const [mobile, setMobile] = useState(false)
   const secRef = useRef<HTMLElement>(null)
+  const frameRef = useRef<HTMLIFrameElement>(null)
   const t = LABELS[locale] || LABELS.en
 
   useEffect(() => {
@@ -29,6 +30,13 @@ export function HomeMapWidget({ locale = 'nl' }: { locale?: string }) {
     return () => window.removeEventListener('resize', m)
   }, [])
 
+  // Zoom/pan is only allowed once the map is opened; collapsed it stays a
+  // click-to-navigate overview (so the page keeps scrolling normally).
+  const postInteractive = (on: boolean) => {
+    frameRef.current?.contentWindow?.postMessage({ type: 'ibz-interactive', on }, '*')
+  }
+  useEffect(() => { postInteractive(open) }, [open])
+
   // Compact by default; grows to a full view when opened.
   const height = open ? (mobile ? 760 : 680) : (mobile ? 500 : 440)
 
@@ -36,9 +44,11 @@ export function HomeMapWidget({ locale = 'nl' }: { locale?: string }) {
     <section ref={secRef} id="ibiza-map-section" className="w-full bg-[#EFEDEA]">
       <div className="relative mx-auto w-full max-w-6xl">
         <iframe
+          ref={frameRef}
           src="/ibiza-kaart.html"
           title="Ibiza clubs map"
           loading="lazy"
+          onLoad={() => postInteractive(open)}
           className="block w-full border-0 transition-[height] duration-500 ease-out"
           style={{ height }}
         />

@@ -189,14 +189,40 @@
   map.getCanvas().style.filter = LOOKS[MAP_LOOK] || 'none';
 
   var selected = false;
+  var interactiveOn = false;
+  var overviewZoom = 9;
+  // Iets ruimere grens om rond Ibiza + Formentera te kunnen pannen, maar niet de zee op.
+  var MAX_BOUNDS = [[1.02, 38.52], [1.78, 39.28]];
+
   map.on('load', function () {
     map.setTerrain({ source: 'dem', exaggeration: 1.15 });
     try { map.setSky({ 'sky-color': '#9EC1DA', 'horizon-color': '#EFEDEA', 'fog-color': '#EFEDEA', 'sky-horizon-blend': 0.5, 'horizon-fog-blend': 0.5, 'fog-ground-blend': 0.85 }); } catch (e) {}
+    try { overviewZoom = map.cameraForBounds(HOME_BOUNDS, { padding: PADDING }).zoom; } catch (e) {}
     showAllClubs(true);
   });
 
-  // Trage sfeer-rotatie in overzicht; stopt zodra een club gekozen is.
-  (function spin() { if (!selected && !map.isEasing()) { try { map.setBearing(map.getBearing() - 0.006); } catch (e) {} } requestAnimationFrame(spin); })();
+  // Trage sfeer-rotatie in overzicht; stopt zodra een club gekozen is of de kaart interactief is.
+  (function spin() { if (!selected && !interactiveOn && !map.isEasing()) { try { map.setBearing(map.getBearing() - 0.006); } catch (e) {} } requestAnimationFrame(spin); })();
+
+  // Wordt door de pagina aangestuurd: interactief zodra de kaart is uitgeklapt.
+  var HANDLERS = ['dragPan', 'scrollZoom', 'touchZoomRotate', 'doubleClickZoom', 'keyboard'];
+  function setInteractive(on) {
+    interactiveOn = !!on;
+    HANDLERS.forEach(function (h) { if (map[h]) { on ? map[h].enable() : map[h].disable(); } });
+    if (on) {
+      map.setMaxBounds(MAX_BOUNDS);
+      map.setMinZoom(Math.max(0, overviewZoom - 0.15)); // niet verder uitzoomen dan heel Ibiza
+      map.setMaxZoom(17);
+    } else {
+      map.setMinZoom(0);
+      map.setMaxBounds(null);
+      showAllClubs(); // terug naar het nette overzicht
+    }
+  }
+  window.addEventListener('message', function (e) {
+    var d = e && e.data;
+    if (d && d.type === 'ibz-interactive') setInteractive(!!d.on);
+  });
 
   /* ================= MARKERS ================= */
   var markers = null;
