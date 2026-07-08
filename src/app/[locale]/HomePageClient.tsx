@@ -12,6 +12,7 @@ import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
 import { HomeSelectorDock } from '@/components/home/HomeSelectorDock';
 import { HomeHeroVideo } from '@/components/home/HomeHeroVideo';
 import { HeroShowIntro } from '@/components/home/HeroShowIntro';
+import { HomeScrollHint } from '@/components/home/HomeScrollHint';
 import { HomePreviewSheet } from '@/components/home/HomePreviewSheet';
 import type { CatKey } from '@/components/home/homeCategories';
 import { Reveal } from '@/components/ui/Reveal';
@@ -124,6 +125,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         onAdvance={advancePreview}
       />
       <HomeSelectorDock locale={locale} selected={previewCat} onSelect={pickPreview} />
+      <HomeScrollHint locale={locale} />
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (

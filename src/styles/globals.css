@@ -157,23 +157,22 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 
 /* Backdrop */
 .fs-backdrop{
-  position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;z-index:89;background:rgba(0,0,0,.4);
+  position:fixed;inset:0;z-index:89;background:rgba(0,0,0,.4);
   backdrop-filter:blur(4px);
 }
 
-/* Overlay panel — opens below the navbar, revealing gradually from top to bottom */
+/* Overlay panel — full-screen, slides in from the right (covers the navbar) */
 .fs-menu{
-  position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;z-index:90;
+  position:fixed;inset:0;z-index:90;
   background:#0a0a0a;
   display:flex;flex-direction:column;
   padding:0;
   overflow:hidden;
-  /* Entry animation — reveal downward */
-  clip-path:inset(0 0 100% 0);
-  transition:clip-path .44s cubic-bezier(.22,1,.36,1);
-  will-change:clip-path;
+  transform:translateX(100%);
+  transition:transform .25s cubic-bezier(.76,0,.24,1);
+  will-change:transform;
 }
-.fs-menu--open{clip-path:inset(0 0 0 0);}
+.fs-menu--open{transform:translateX(0);}
 
 /* Close button */
 .fs-close{
