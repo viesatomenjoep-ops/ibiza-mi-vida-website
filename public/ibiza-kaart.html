@@ -113,11 +113,6 @@
     </div>
   </div>
 
-  <div class="ibz-info" id="ibz-info">
-    <div class="ibz-info-bg" id="ibz-info-bg"></div>
-    <div class="ibz-info-empty" id="ibz-info-empty">Tik op een club op de kaart of kies er één hieronder — bekijk de locatie &amp; tickets.</div>
-  </div>
-
   <div class="ibz-chips" id="ibz-chips"></div>
 </section>
 
@@ -217,33 +212,8 @@
   function popMarker(m, i) { var el = m.getElement(); el.classList.add('is-popping'); el.style.animationDelay = ((i || 0) * 45) + 'ms'; el.addEventListener('animationend', function () { el.classList.remove('is-popping'); el.style.animationDelay = ''; }, { once: true }); }
   function clearMarkers() { (markers || []).forEach(function (m) { m.remove(); }); }
 
-  /* ================= INFO-BALK ================= */
-  var infoEl = document.getElementById('ibz-info');
-  var infoBg = document.getElementById('ibz-info-bg');
-
-  function renderInfo(club) {
-    if (!club) {
-      infoEl.classList.remove('is-club'); infoBg.style.backgroundImage = '';
-      infoEl.innerHTML = '<div class="ibz-info-bg" id="ibz-info-bg"></div><div class="ibz-info-empty">Tik op een club op de kaart of kies er één hieronder — bekijk de locatie &amp; tickets.</div>';
-      infoBg = document.getElementById('ibz-info-bg');
-      return;
-    }
-    infoEl.classList.add('is-club');
-    infoEl.innerHTML =
-      '<div class="ibz-info-bg" style="opacity:1;' + (club.bg ? "background-image:url('" + club.bg + "');" : '') + '"></div>' +
-      '<div class="ibz-info-badge">' + badgeInner(club) + '</div>' +
-      '<div class="ibz-info-mid">' +
-        '<div class="ibz-info-name">' + club.name + '</div>' +
-        '<div class="ibz-info-area">' + club.area + ' · Ibiza</div>' +
-        '<div class="ibz-info-text">' + club.text + '</div>' +
-      '</div>' +
-      '<div class="ibz-info-actions">' +
-        '<a class="ibz-info-btn" href="' + ticketLink(club) + '" target="_top">TICKETS →</a>' +
-        '<button type="button" class="ibz-info-back" id="ibz-back">← Terug</button>' +
-      '</div>';
-    var back = document.getElementById('ibz-back');
-    if (back) back.addEventListener('click', function () { showAllClubs(); });
-  }
+  /* Info-balk verwijderd — de kaart toont geen club-informatie meer. */
+  function renderInfo() {}
 
   /* ================= ACTIES ================= */
   function focusClub(club) {
