@@ -151,18 +151,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       {upcomingDates.length > 0 && (
         <>
 
-        {/* Club logo marquee — just the logos (no live dots, no legend, no brand logo) */}
-        <Reveal className="flex items-center bg-neutral-100 py-3 border-t border-black/10">
-          <ClubLogoSlider
-            clubLogos={clubLogos}
-            base={base}
-            locale={locale}
-            speed={0.9}
-            onLight
-            className="w-full bg-transparent"
-          />
-        </Reveal>
-
         <section id="home-white-start" className="pb-12 pt-6 md:pb-16 md:pt-8 bg-white text-neutral-900 border-t border-black/5">
           <div className="max-w-7xl mx-auto px-4">
             <div className="mb-6 flex flex-wrap items-center gap-4">
@@ -231,6 +219,18 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </section>
         </>
       )}
+
+      {/* Club logo marquee — just the logos — right below "Volledige kalender", above Populaire clubs */}
+      <Reveal className="flex items-center bg-neutral-100 py-3 border-t border-b border-black/10">
+        <ClubLogoSlider
+          clubLogos={clubLogos}
+          base={base}
+          locale={locale}
+          speed={0.9}
+          onLight
+          className="w-full bg-transparent"
+        />
+      </Reveal>
 
       {/* FEATURED CLUBS — premium card grid */}
       {featuredClubs.length > 0 && (
