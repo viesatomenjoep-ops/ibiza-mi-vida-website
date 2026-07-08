@@ -13,6 +13,7 @@ import { HomeSelectorDock } from '@/components/home/HomeSelectorDock';
 import { HomeHeroVideo } from '@/components/home/HomeHeroVideo';
 import { HeroShowIntro } from '@/components/home/HeroShowIntro';
 import { HomeScrollHint } from '@/components/home/HomeScrollHint';
+import { HomeVenueMap } from '@/components/home/HomeVenueMap';
 import { HomePreviewSheet } from '@/components/home/HomePreviewSheet';
 import type { CatKey } from '@/components/home/homeCategories';
 import { Reveal } from '@/components/ui/Reveal';
@@ -95,13 +96,16 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       </header>
 
+      {/* Interactive black & white clubs map — just above Deals of the Day */}
+      <HomeVenueMap venues={allVenues} base={base} locale={locale} />
+
       {/* Deals of the Day — light-grey section, right under the slider */}
       {deals && (
         <div className="w-full bg-neutral-100">
           <HomeDeals
             deals={deals}
             locale={locale}
-            slider={<HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide onLight className="w-full bg-transparent" speed={0.7} />}
+            slider={<HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} onLight className="w-full bg-transparent" speed={0.7} />}
           />
         </div>
       )}

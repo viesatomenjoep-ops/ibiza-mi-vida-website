@@ -23,16 +23,6 @@ export interface DealsData {
   boats: Deal[]
 }
 
-const SECTION_TITLE: Record<string, string> = {
-  nl: 'Deals of the Day', en: 'Deals of the Day', de: 'Deals of the Day', es: 'Deals of the Day', fr: 'Deals of the Day',
-}
-const SECTION_SUB: Record<string, string> = {
-  nl: 'De beste deals van vandaag — sleep of wacht, ze wisselen vanzelf.',
-  en: "Today's best deals — swipe, or wait and they rotate.",
-  de: 'Die besten Deals von heute — wische oder warte, sie wechseln von selbst.',
-  es: 'Las mejores ofertas de hoy — desliza o espera, van rotando.',
-  fr: "Les meilleures offres du jour — glisse, ou attends, elles défilent.",
-}
 const CAT_TITLE: Record<string, Record<string, string>> = {
   clubs: { nl: 'Club Tickets Ibiza', en: 'Club Tickets Ibiza', de: 'Club Tickets Ibiza', es: 'Club Tickets Ibiza', fr: 'Club Tickets Ibiza' },
   water: { nl: 'Op het water', en: 'On the water', de: 'Auf dem Wasser', es: 'En el agua', fr: "Sur l'eau" },
@@ -140,15 +130,11 @@ export function HomeDeals({ deals, locale = 'nl', onDark = false, slider }: { de
   return (
     <section id="deals" className="scroll-mt-24 px-4 pt-3 pb-8 md:pt-4 md:pb-10">
       <div className="mx-auto w-full max-w-7xl">
-        {/* Ticket-stub divider between the live slider and Deals of the Day */}
-        <TicketDivider className="mb-5" light={!onDark} />
-        <div className="mb-4 flex flex-col items-center text-center">
-          <h2 className={`font-serif text-[1.625rem] font-black leading-none tracking-tight ${onDark ? 'text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]' : 'text-neutral-900'}`}>{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
-          <p className={`mt-1.5 max-w-md text-sm font-medium ${onDark ? 'text-white/80' : 'text-neutral-500'}`}>{SECTION_SUB[locale] || SECTION_SUB.en}</p>
-        </div>
+        {/* Ticket-stub divider at the top of the deals area */}
+        <TicketDivider className="mb-6" light={!onDark} />
 
-        {/* Live slider + legend — sits between the subtitle and the first category */}
-        {slider && <div className="my-10 md:my-14">{slider}</div>}
+        {/* Live slider (logos only) */}
+        {slider && <div className="mb-10 md:mb-14">{slider}</div>}
 
         <div className="flex flex-col gap-8">
           {rows.map(({ key, items }, ri) => (
