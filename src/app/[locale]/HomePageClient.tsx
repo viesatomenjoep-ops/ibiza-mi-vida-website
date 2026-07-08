@@ -109,8 +109,20 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </div>
       </header>
 
-      {/* Deals of the Day — right under the slider */}
-      {deals && <HomeDeals deals={deals} locale={locale} />}
+      {/* Deals of the Day — right under the slider, over a SECOND video that
+          shows again as you scroll down */}
+      {deals && (
+        <div className="relative w-full overflow-hidden bg-black">
+          <HomeHeroVideo
+            style={{ objectPosition: 'center', filter: 'brightness(0.55) contrast(1.7) saturate(1.05)' }}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-black/45" />
+          <div className="relative z-10">
+            <HomeDeals deals={deals} locale={locale} onDark />
+          </div>
+        </div>
+      )}
 
       {/* ── Slide-up preview sheet (works anywhere on the page) + fixed dock ── */}
       <HomePreviewSheet
