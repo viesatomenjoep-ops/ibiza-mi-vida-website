@@ -139,6 +139,8 @@ export function HomeDeals({ deals, locale = 'nl', onDark = false }: { deals: Dea
         <div className="flex flex-col gap-8">
           {rows.map(({ key, items }, ri) => (
             <Reveal key={key} delay={ri * 120}>
+              {/* Thin full-width divider between the category sections */}
+              {ri > 0 && <div className={`mb-6 -mx-4 h-px ${onDark ? 'bg-white/25' : 'bg-black/10'}`} />}
               <div className="mb-3 flex items-center justify-center gap-3">
                 <span className={`h-px w-8 ${onDark ? 'bg-white/25' : 'bg-black/15'}`} />
                 <h3 className={`shrink-0 text-center font-serif text-xl font-black tracking-tight ${onDark ? 'text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]' : 'text-neutral-900'}`}>{CAT_TITLE[key][locale] || CAT_TITLE[key].en}</h3>
