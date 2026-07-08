@@ -35,7 +35,7 @@ const SECTION_SUB: Record<string, string> = {
   fr: "Les meilleures offres du jour — glisse, ou attends, elles défilent.",
 }
 const CAT_TITLE: Record<string, Record<string, string>> = {
-  clubs: { nl: 'Clubs Ibiza', en: 'Ibiza Clubs', de: 'Ibiza Clubs', es: 'Clubs Ibiza', fr: 'Clubs Ibiza' },
+  clubs: { nl: 'Club Tickets Ibiza', en: 'Club Tickets Ibiza', de: 'Club Tickets Ibiza', es: 'Club Tickets Ibiza', fr: 'Club Tickets Ibiza' },
   water: { nl: 'Op het water', en: 'On the water', de: 'Auf dem Wasser', es: 'En el agua', fr: "Sur l'eau" },
   land: { nl: 'Op het land', en: 'On land', de: 'An Land', es: 'En tierra', fr: 'Sur terre' },
   boats: { nl: 'Private boats', en: 'Private boats', de: 'Private Boote', es: 'Barcos privados', fr: 'Bateaux privés' },

@@ -24,11 +24,11 @@ export function HomeSelectorDock({
                 type="button"
                 onClick={() => onSelect(t.key)}
                 aria-pressed={on}
-                className={`hdock-tile group flex h-16 flex-col items-center justify-center gap-1 rounded-xl px-1 text-center ${t.light ? 'hdock-tile--light border border-black/10' : ''} ${on ? 'ring-[3px] ring-ibiza-green ring-offset-1 ring-offset-white' : ''}`}
+                className={`hdock-tile group flex h-16 flex-col items-center justify-start gap-1 rounded-xl px-1 pt-2 text-center ${on ? 'ring-[3px] ring-ibiza-green ring-offset-1 ring-offset-white' : ''}`}
                 style={{ backgroundColor: t.bg, color: t.fg, boxShadow: `0 6px 18px -6px ${t.glow}` }}
               >
                 <Icon size={18} strokeWidth={2.4} className="shrink-0 transition-transform duration-200 group-hover:-translate-y-0.5" />
-                <span className="w-full truncate font-serif text-[10px] font-black uppercase leading-tight tracking-tight sm:text-[11px]">
+                <span className="w-full font-serif text-[10px] font-black uppercase leading-[1.05] tracking-tight sm:text-[11px]">
                   {t.label[locale] || t.label.en}
                 </span>
               </button>

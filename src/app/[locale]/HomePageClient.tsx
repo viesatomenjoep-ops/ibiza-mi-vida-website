@@ -95,8 +95,9 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             hamburger stay white and readable over any bright video frame */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] bg-gradient-to-b from-black/70 to-transparent" style={{ height: 'calc(var(--nav-h) + 40px)' }} />
 
-        {/* Tagline — centred, sitting a bit above the middle, in white */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center" style={{ paddingBottom: '20vh' }}>
+        {/* Tagline — centred, sitting a bit above the middle, in white.
+            pointer-events-none so a tap on the hero reaches the video (changes clip). */}
+        <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center" style={{ paddingBottom: '20vh' }}>
           <h2 className="max-w-[12em] font-serif text-[1.7rem] font-black uppercase leading-[1.06] text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.75)] sm:text-3xl md:text-[2.7rem]">
             {HERO_HEADLINE[locale] || HERO_HEADLINE.en}
           </h2>
@@ -127,7 +128,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         {deals && <div className="border-t border-black/5"><HomeDeals deals={deals} locale={locale} /></div>}
 
         {/* Club logo marquee — just the logos (no live dots, no legend, no brand logo) */}
-        <Reveal className="bg-black py-9 border-t border-white/10">
+        <Reveal className="flex items-center bg-black py-3 border-t border-white/10">
           <ClubLogoSlider
             clubLogos={clubLogos}
             base={base}

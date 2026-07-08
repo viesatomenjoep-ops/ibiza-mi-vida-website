@@ -29,13 +29,8 @@ export function HomePreviewSheet({
   // Keep the last shown content mounted while sliding out.
   const [shownKey, setShownKey] = useState<CatKey | null>(selected)
   const [shownImg, setShownImg] = useState(image)
-  // Oval (upward-arc) top only when opened at the very top of the homepage.
-  const [atTop, setAtTop] = useState(false)
   useEffect(() => {
-    if (selected) {
-      setShownKey(selected); setShownImg(image)
-      setAtTop(typeof window !== 'undefined' && window.scrollY < 40)
-    }
+    if (selected) { setShownKey(selected); setShownImg(image) }
   }, [selected, image])
 
   const open = !!selected
@@ -46,9 +41,8 @@ export function HomePreviewSheet({
       aria-hidden={!open}
       className="fixed inset-x-0 bottom-0 z-[54] overflow-hidden bg-transparent"
       style={{
-        // At the top of the page the image opens all the way up to the navbar with a
-        // straight top; when scrolled it's a shorter slide-up.
-        height: atTop ? 'calc(100svh - var(--nav-h))' : '54svh',
+        // Always opens all the way up to the navbar, filling the screen.
+        height: 'calc(100svh - var(--nav-h))',
         transform: open ? 'translateY(0)' : 'translateY(112%)',
         transition: 'transform .6s cubic-bezier(.16,.72,.24,1)',
         pointerEvents: open ? 'auto' : 'none',
