@@ -105,8 +105,8 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           </p>
         </div>
 
-        {/* Live slider + one-line legend — just above the dock */}
-        <div className="pointer-events-auto absolute inset-x-0 bottom-0 z-20 w-full" style={{ paddingBottom: 'calc(92px + env(safe-area-inset-bottom))' }}>
+        {/* Live slider + one-line legend — a bit higher above the dock */}
+        <div className="pointer-events-auto absolute inset-x-0 bottom-0 z-20 w-full" style={{ paddingBottom: 'calc(124px + env(safe-area-inset-bottom))' }}>
           <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />
         </div>
       </header>

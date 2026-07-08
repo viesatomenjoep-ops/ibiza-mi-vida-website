@@ -2,7 +2,6 @@
 
 import { useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
 import { Reveal } from '@/components/ui/Reveal'
 
 export interface Deal {
@@ -40,48 +39,64 @@ const CAT_TITLE: Record<string, Record<string, string>> = {
   land: { nl: 'Op het land', en: 'On land', de: 'An Land', es: 'En tierra', fr: 'Sur terre' },
   boats: { nl: 'Private boats', en: 'Private boats', de: 'Private Boote', es: 'Barcos privados', fr: 'Bateaux privés' },
 }
-const TICKETS: Record<string, string> = { nl: 'Bekijk', en: 'View', de: 'Ansehen', es: 'Ver', fr: 'Voir' }
-
-function DealTile({ d, locale }: { d: Deal; locale: string }) {
+// ── Cover-flow tile: a full event photo with name + venue + date at the bottom ──
+function DealTile({ d }: { d: Deal }) {
   const inner = (
     <>
-      {/* Left half — the photo, with price top-left and "View" bottom, both on the image */}
-      <div className="relative h-full w-[55%] shrink-0 bg-neutral-900">
-        {d.image ? <img src={d.image} alt={d.title} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
-        <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10" />
-        {d.price > 0 && <span className="absolute left-1.5 top-1.5 rounded-full bg-white px-2 py-0.5 text-[11px] font-black text-black shadow">€{d.price}{d.priceLabel || ''}</span>}
-        <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 rounded-full bg-black/55 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white backdrop-blur-sm transition-colors group-hover:bg-ibiza-green group-hover:text-black">{TICKETS[locale] || TICKETS.en} <ChevronRight size={10} /></span>
-      </div>
-      {/* Right half — red panel: event name + date, centred */}
-      <div className="flex w-[45%] flex-col items-center justify-center gap-1 p-2.5 text-center" style={{ backgroundColor: '#E14D68' }}>
-        <div className="line-clamp-3 font-serif text-[12px] font-black leading-tight text-white">{d.title}</div>
-        <div className="line-clamp-1 text-[9px] font-bold uppercase tracking-wide text-white/85">{d.dateLabel}</div>
+      {d.image ? <img src={d.image} alt={d.title} className="absolute inset-0 h-full w-full object-cover" /> : <div className="absolute inset-0 bg-neutral-800" />}
+      <span className="deal-sweep pointer-events-none absolute inset-0 z-[5]" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
+      {d.price > 0 && <span className="absolute left-3 top-3 z-10 rounded-full bg-white/95 px-3 py-1 text-sm font-black text-black shadow">€{d.price}{d.priceLabel || ''}</span>}
+      <div className="absolute inset-x-0 bottom-0 z-10 p-4">
+        <div className="line-clamp-2 font-serif text-lg font-black leading-tight text-white drop-shadow">{d.title}</div>
+        <div className="mt-1.5 flex items-center justify-between gap-2">
+          {d.sub ? <span className="line-clamp-1 text-xs font-semibold text-white/85">{d.sub}</span> : <span />}
+          <span className="shrink-0 rounded-full bg-ibiza-green px-2.5 py-1 text-[10px] font-black uppercase tracking-wide text-black">{d.dateLabel}</span>
+        </div>
       </div>
     </>
   )
-  const cls = 'group flex h-44 shrink-0 basis-[90%] snap-center overflow-hidden rounded-2xl border border-black/10 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl sm:h-52 sm:basis-[74%] lg:basis-[52%]'
-  if (d.ext) return <a data-tile href={d.ext} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>
-  return <Link data-tile href={d.href || '#'} className={cls}>{inner}</Link>
+  const cls = 'deal-card group relative block shrink-0 basis-[72%] snap-center overflow-hidden rounded-3xl border border-white/10 bg-neutral-900 shadow-xl sm:basis-[52%] lg:basis-[38%]'
+  const style = { aspectRatio: '3 / 4', willChange: 'transform, opacity' as const }
+  if (d.ext) return <a data-tile href={d.ext} target="_blank" rel="noopener noreferrer" className={cls} style={style}>{inner}</a>
+  return <Link data-tile href={d.href || '#'} className={cls} style={style}>{inner}</Link>
 }
 
-function DealsRow({ items, locale, dir = 1 }: { items: Deal[]; locale: string; dir?: 1 | -1 }) {
+function DealsRow({ items }: { items: Deal[] }) {
   const ref = useRef<HTMLDivElement>(null)
   const drag = useRef({ active: false, startX: 0, startLeft: 0, moved: false })
-  const pausedUntil = useRef(0)
-  const lastVibe = useRef(0)
-  const buzz = () => { const n = Date.now(); if (n - lastVibe.current > 80) { lastVibe.current = n; try { (navigator as any).vibrate?.(5) } catch {} } }
 
-  // Manual only — the rows no longer auto-scroll. `dir` just sets the initial
-  // resting position so right-to-left rows start at their far end.
+  // Cover-flow — the centre tile is upright & full-size; side tiles shrink, dim
+  // and tilt in perspective. Updated on scroll via rAF (no re-renders).
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    if (dir === -1) el.scrollLeft = el.scrollWidth
-  }, [items.length, dir])
+    const reduce = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduce) return
+    let raf = 0
+    const update = () => {
+      raf = 0
+      const rect = el.getBoundingClientRect()
+      const mid = rect.left + rect.width / 2
+      el.querySelectorAll<HTMLElement>('[data-tile]').forEach(t => {
+        const tr = t.getBoundingClientRect()
+        const d = Math.max(-1.3, Math.min(1.3, (tr.left + tr.width / 2 - mid) / rect.width))
+        const ad = Math.abs(d)
+        const scale = 1 - Math.min(0.26, ad * 0.42)
+        t.style.transform = `perspective(1100px) rotateY(${-d * 26}deg) scale(${scale})`
+        t.style.opacity = String(1 - Math.min(0.5, ad * 0.7))
+        t.style.zIndex = String(100 - Math.round(ad * 100))
+      })
+    }
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update) }
+    const t0 = setTimeout(update, 60)
+    el.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => { el.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); clearTimeout(t0); if (raf) cancelAnimationFrame(raf) }
+  }, [items.length])
 
-  // Mouse only — on touch we let the browser handle it (horizontal swipe scrolls the
-  // strip, vertical swipe scrolls the PAGE), so a thumb on a tile never traps the scroll.
-  const onDown = (e: React.PointerEvent) => { if (e.pointerType !== 'mouse') return; const el = ref.current; if (!el) return; drag.current = { active: true, startX: e.clientX, startLeft: el.scrollLeft, moved: false }; pausedUntil.current = Date.now() + 12000 }
+  // Mouse drag (desktop); touch uses native scroll with momentum.
+  const onDown = (e: React.PointerEvent) => { if (e.pointerType !== 'mouse') return; const el = ref.current; if (!el) return; drag.current = { active: true, startX: e.clientX, startLeft: el.scrollLeft, moved: false } }
   const onMove = (e: React.PointerEvent) => { if (e.pointerType !== 'mouse') return; const el = ref.current; if (!el || !drag.current.active) return; const dx = e.clientX - drag.current.startX; if (Math.abs(dx) > 4) drag.current.moved = true; el.scrollLeft = drag.current.startLeft - dx }
   const onUp = () => { drag.current.active = false; setTimeout(() => { drag.current.moved = false }, 0) }
   const onClickCapture = (e: React.MouseEvent) => { if (drag.current.moved) { e.preventDefault(); e.stopPropagation() } }
@@ -89,17 +104,16 @@ function DealsRow({ items, locale, dir = 1 }: { items: Deal[]; locale: string; d
   return (
     <div
       ref={ref}
-      className="hide-scrollbar -mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto px-1 pb-2 md:cursor-grab md:active:cursor-grabbing"
-      style={{ touchAction: 'pan-x pan-y' }}
-      onTouchMove={buzz}
+      className="hide-scrollbar flex snap-x snap-mandatory items-center gap-4 overflow-x-auto px-[14%] pb-4 pt-2 md:cursor-grab md:active:cursor-grabbing"
+      style={{ touchAction: 'pan-x pan-y', perspective: '1100px' }}
       onPointerDown={onDown}
-      onPointerMove={(e) => { onMove(e); if (drag.current.moved) buzz() }}
+      onPointerMove={onMove}
       onPointerUp={onUp}
       onPointerLeave={onUp}
       onPointerCancel={onUp}
       onClickCapture={onClickCapture}
     >
-      {items.map(d => <DealTile key={d.id} d={d} locale={locale} />)}
+      {items.map(d => <DealTile key={d.id} d={d} />)}
     </div>
   )
 }
@@ -123,14 +137,14 @@ export function HomeDeals({ deals, locale = 'nl', onDark = false }: { deals: Dea
         </div>
 
         <div className="flex flex-col gap-8">
-          {rows.map(({ key, items, dir }, ri) => (
+          {rows.map(({ key, items }, ri) => (
             <Reveal key={key} delay={ri * 120}>
               <div className="mb-3 flex items-center justify-center gap-3">
                 <span className={`h-px w-8 ${onDark ? 'bg-white/25' : 'bg-black/15'}`} />
                 <h3 className={`shrink-0 text-center font-serif text-xl font-black tracking-tight ${onDark ? 'text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]' : 'text-neutral-900'}`}>{CAT_TITLE[key][locale] || CAT_TITLE[key].en}</h3>
                 <span className={`h-px w-8 ${onDark ? 'bg-white/25' : 'bg-black/15'}`} />
               </div>
-              <DealsRow items={items} locale={locale} dir={dir} />
+              <DealsRow items={items} />
             </Reveal>
           ))}
         </div>
