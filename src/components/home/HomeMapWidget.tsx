@@ -29,8 +29,8 @@ export function HomeMapWidget({ locale = 'nl' }: { locale?: string }) {
     return () => window.removeEventListener('resize', m)
   }, [])
 
-  // Compact by default; grows upward-friendly when opened.
-  const height = open ? (mobile ? 780 : 640) : (mobile ? 500 : 360)
+  // Compact by default; grows to a full view when opened.
+  const height = open ? (mobile ? 760 : 680) : (mobile ? 500 : 440)
 
   return (
     <section ref={secRef} id="ibiza-map-section" className="w-full bg-[#EFEDEA]">

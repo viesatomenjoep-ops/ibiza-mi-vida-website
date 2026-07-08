@@ -8,11 +8,12 @@
   IBIZA KAART — losse widget (geen frameworks).
   Embed:  <iframe src="/ibiza-kaart.html" style="width:100%;height:520px;border:0" loading="lazy"></iframe>
   De kaart is NIET met de vinger te zoomen/pannen — je navigeert door op een club te tikken.
+  Standaard staat de kaart uitgezoomd op Ibiza + Formentera; tik een club → inzoomen.
   Clubs/logo's/coördinaten/tekst: de CLUBS-lijst in het script.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
 
 <style>
@@ -23,36 +24,10 @@
   .ibz-coords-row { display: flex; justify-content: space-between; font-size: 11px; letter-spacing: .22em; color: #8A857E; padding: 0 2px 12px; }
   .ibz-coords-row .ibz-dot { width: 6px; height: 6px; border-radius: 50%; background: #1B1917; display: inline-block; margin-right: 8px; }
 
-  /* Twee tegels naast elkaar: kaart + club-info (mobiel onder elkaar) */
-  .ibz-frame { position: relative; display: flex; flex: 1 1 auto; min-height: 0; background: #1B1917; overflow: hidden; border: 1px solid rgba(27,25,23,.15); }
-  .ibz-map-col { position: relative; flex: 1 1 50%; min-width: 0; overflow: hidden; }
+  /* De kaart vult de volledige breedte en de beschikbare hoogte */
+  .ibz-frame { position: relative; flex: 1 1 auto; min-height: 0; background: #1B1917; overflow: hidden; border: 1px solid rgba(27,25,23,.15); }
   #ibz-map { position: absolute; inset: 0; }
   .maplibregl-canvas { cursor: default !important; }
-
-  /* Info-tegel */
-  .ibz-info-col { position: relative; flex: 1 1 50%; min-width: 0; background: #FBFAF8; color: #1B1917; overflow: hidden; border-left: 1px solid rgba(27,25,23,.15); }
-  .ibz-info-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transform: scale(1.05); opacity: 0; transition: opacity .6s ease; }
-  .ibz-info-col.is-club .ibz-info-bg { opacity: 1; }
-  .ibz-info-col.is-club::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,14,13,.55), rgba(15,14,13,.86)); }
-  .ibz-info-inner { position: relative; z-index: 2; height: 100%; padding: 26px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 12px; }
-  .ibz-info-col.is-club .ibz-info-inner { color: #EFEDEA; }
-
-  .ibz-info-empty { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: #8A857E; line-height: 1.7; }
-  .ibz-info-badge { width: 72px; height: 72px; display: grid; place-items: center; background: rgba(27,25,23,.92); border: 1px solid rgba(255,255,255,.18); border-radius: 14px; overflow: hidden; }
-  .ibz-info-badge img { max-width: 74%; max-height: 62%; object-fit: contain; filter: brightness(0) invert(1); }
-  .ibz-info-name { font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(26px, 4.2vw, 38px); line-height: 1; }
-  .ibz-info-area { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; opacity: .8; }
-  .ibz-info-text { font-size: 13.5px; line-height: 1.55; max-width: 42ch; opacity: .92; }
-  .ibz-info-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
-  .ibz-info-btn { display: inline-flex; align-items: center; gap: 8px; background: #EFEDEA; color: #1B1917; text-decoration: none; padding: 12px 18px; font-size: 11px; letter-spacing: .16em; font-weight: 700; cursor: pointer; border: 0; }
-  .ibz-info-back { display: inline-flex; align-items: center; gap: 7px; background: transparent; color: #EFEDEA; border: 1px solid rgba(255,255,255,.5); padding: 12px 16px; font-size: 11px; letter-spacing: .14em; font-weight: 700; cursor: pointer; font-family: 'Archivo', sans-serif; }
-  .ibz-info-back:hover { background: rgba(255,255,255,.14); }
-
-  @media (max-width: 720px) {
-    .ibz-frame { flex-direction: column; }
-    .ibz-map-col { flex: 1 1 46%; height: auto; min-height: 0; }
-    .ibz-info-col { flex: 1 1 54%; height: auto; min-height: 0; border-left: 0; border-top: 1px solid rgba(27,25,23,.15); }
-  }
 
   /* HUD */
   .ibz-hud { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
@@ -66,21 +41,51 @@
   .ibz-readout { position: absolute; left: 12px; bottom: 12px; display: flex; align-items: center; gap: 8px; background: rgba(27,25,23,.72); color: #EFEDEA; padding: 6px 11px; font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: .12em; }
   .ibz-readout .ibz-pulse { width: 6px; height: 6px; border-radius: 50%; background: #EFEDEA; animation: ibzPulse 1.6s ease-in-out infinite; }
 
-  /* Chips (club-selectors met logo) */
-  .ibz-chips { display: flex; align-items: center; gap: 9px; margin-top: 14px; overflow-x: auto; padding: 4px 2px 8px; scrollbar-width: thin; }
+  /* Info-balk ONDER de kaart */
+  .ibz-info { position: relative; overflow: hidden; margin-top: 12px; min-height: 78px; display: flex; align-items: center; gap: 16px; padding: 14px 16px; background: #FBFAF8; border: 1px solid rgba(27,25,23,.15); }
+  .ibz-info-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity .5s ease; transform: scale(1.06); }
+  .ibz-info.is-club .ibz-info-bg { opacity: 1; }
+  .ibz-info.is-club::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,14,13,.9) 0%, rgba(15,14,13,.72) 45%, rgba(15,14,13,.4) 100%); }
+  .ibz-info-empty { position: relative; z-index: 2; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: #8A857E; }
+  .ibz-info-badge { position: relative; z-index: 2; width: 58px; height: 58px; flex: 0 0 auto; display: grid; place-items: center; background: rgba(27,25,23,.92); border: 1px solid rgba(255,255,255,.2); border-radius: 12px; overflow: hidden; }
+  .ibz-info-badge img { max-width: 76%; max-height: 62%; object-fit: contain; filter: brightness(0) invert(1); }
+  .ibz-info-badge .ibz-ini { color: #EFEDEA; font-weight: 800; font-size: 16px; letter-spacing: .04em; }
+  .ibz-info-mid { position: relative; z-index: 2; min-width: 0; flex: 1 1 auto; color: #EFEDEA; }
+  .ibz-info-name { font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(22px, 3vw, 30px); line-height: 1; }
+  .ibz-info-area { font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; opacity: .82; margin-top: 3px; }
+  .ibz-info-text { font-size: 12.5px; line-height: 1.45; opacity: .9; margin-top: 6px; max-width: 60ch; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .ibz-info-actions { position: relative; z-index: 2; flex: 0 0 auto; display: flex; align-items: center; gap: 9px; }
+  .ibz-info-btn { display: inline-flex; align-items: center; gap: 8px; background: #EFEDEA; color: #1B1917; text-decoration: none; padding: 11px 16px; font-size: 11px; letter-spacing: .14em; font-weight: 800; white-space: nowrap; }
+  .ibz-info-back { display: inline-flex; align-items: center; gap: 6px; background: transparent; color: #EFEDEA; border: 1px solid rgba(255,255,255,.55); padding: 11px 14px; font-size: 11px; letter-spacing: .12em; font-weight: 700; cursor: pointer; font-family: 'Archivo', sans-serif; white-space: nowrap; }
+  .ibz-info-back:hover { background: rgba(255,255,255,.15); }
+
+  @media (max-width: 640px) {
+    .ibz-info { flex-wrap: wrap; }
+    .ibz-info-text { display: none; }
+    .ibz-info-actions { width: 100%; }
+    .ibz-info-btn { flex: 1 1 auto; justify-content: center; }
+  }
+
+  /* Chips (club-selectors, horizontaal scrollbaar) */
+  .ibz-chips { display: flex; align-items: center; gap: 9px; margin-top: 12px; overflow-x: auto; padding: 4px 2px 6px; scrollbar-width: thin; }
   .ibz-chip, .ibz-allchip { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; border-radius: 999px; cursor: pointer; white-space: nowrap; transition: all .25s cubic-bezier(.16,1,.3,1); font-family: 'Archivo', sans-serif; }
-  .ibz-allchip { padding: 12px 20px; border: 1px solid #1B1917; background: #1B1917; color: #EFEDEA; font-size: 12px; font-weight: 700; letter-spacing: .18em; }
+  .ibz-allchip { padding: 12px 20px; border: 1px solid #1B1917; background: #1B1917; color: #EFEDEA; font-size: 12px; font-weight: 800; letter-spacing: .16em; }
   .ibz-allchip.is-active { outline: 2px solid #1B1917; outline-offset: 2px; }
-  .ibz-chip { padding: 9px 16px 9px 10px; border: 1px solid rgba(27,25,23,.22); background: #FBFAF8; color: #1B1917; font-size: 13px; font-weight: 600; letter-spacing: .04em; }
+  .ibz-chip { padding: 9px 16px 9px 9px; border: 1px solid rgba(27,25,23,.22); background: #FBFAF8; color: #1B1917; font-size: 13px; font-weight: 600; letter-spacing: .04em; }
   .ibz-chip:hover, .ibz-allchip:hover { transform: translateY(-2px); }
   .ibz-chip.is-active { background: #1B1917; color: #EFEDEA; border-color: #1B1917; }
   .ibz-chip-logo { width: 30px; height: 30px; border-radius: 50%; background: #1B1917; display: grid; place-items: center; overflow: hidden; flex: 0 0 auto; }
   .ibz-chip-logo img { max-width: 78%; max-height: 66%; object-fit: contain; filter: brightness(0) invert(1); }
+  .ibz-chip-logo .ibz-ini { color: #EFEDEA; font-weight: 800; font-size: 10.5px; }
+  .ibz-chip.is-active .ibz-chip-logo { background: #EFEDEA; }
+  .ibz-chip.is-active .ibz-chip-logo img { filter: none; }
+  .ibz-chip.is-active .ibz-chip-logo .ibz-ini { color: #1B1917; }
 
   /* Markers */
-  .ibz-marker { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: rgba(27,25,23,.92); border: 1.5px solid rgba(255,255,255,.55); cursor: pointer; box-shadow: 0 10px 26px -8px rgba(0,0,0,.6); transition: transform .25s cubic-bezier(.16,1,.3,1); overflow: hidden; }
+  .ibz-marker { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(27,25,23,.92); border: 1.5px solid rgba(255,255,255,.6); cursor: pointer; box-shadow: 0 10px 26px -8px rgba(0,0,0,.6); transition: transform .25s cubic-bezier(.16,1,.3,1); overflow: hidden; }
   .ibz-marker:hover { transform: scale(1.14); }
-  .ibz-marker img { max-width: 74%; max-height: 66%; object-fit: contain; filter: brightness(0) invert(1); }
+  .ibz-marker img { max-width: 74%; max-height: 64%; object-fit: contain; filter: brightness(0) invert(1); }
+  .ibz-marker .ibz-ini { color: #EFEDEA; font-weight: 800; font-size: 11px; letter-spacing: .02em; }
   .ibz-marker.is-popping { animation: ibzPop .55s cubic-bezier(.34,1.56,.64,1) both; }
 
   @keyframes ibzPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .45; transform: scale(.7); } }
@@ -92,26 +97,25 @@
 <section id="ibiza-map-widget">
   <div class="ibz-coords-row">
     <span>38.9800° N — 1.4000° E</span>
-    <span><span class="ibz-dot"></span>EIVISSA / BALEARIC ES</span>
+    <span><span class="ibz-dot"></span>EIVISSA · FORMENTERA</span>
   </div>
 
   <div class="ibz-frame">
-    <div class="ibz-map-col">
-      <div id="ibz-map"></div>
-      <div class="ibz-hud">
-        <div class="ibz-hud-grid"></div>
-        <div class="ibz-corner tl"></div>
-        <div class="ibz-corner tr"></div>
-        <div class="ibz-corner bl"></div>
-        <div class="ibz-corner br"></div>
-        <div class="ibz-vignette"></div>
-        <div class="ibz-readout"><span class="ibz-pulse"></span><span id="ibz-coords">EIVISSA · 8 CLUBS</span></div>
-      </div>
+    <div id="ibz-map"></div>
+    <div class="ibz-hud">
+      <div class="ibz-hud-grid"></div>
+      <div class="ibz-corner tl"></div>
+      <div class="ibz-corner tr"></div>
+      <div class="ibz-corner bl"></div>
+      <div class="ibz-corner br"></div>
+      <div class="ibz-vignette"></div>
+      <div class="ibz-readout"><span class="ibz-pulse"></span><span id="ibz-coords">EIVISSA · 12 CLUBS</span></div>
     </div>
-    <div class="ibz-info-col" id="ibz-info">
-      <div class="ibz-info-bg" id="ibz-info-bg"></div>
-      <div class="ibz-info-inner" id="ibz-info-inner"></div>
-    </div>
+  </div>
+
+  <div class="ibz-info" id="ibz-info">
+    <div class="ibz-info-bg" id="ibz-info-bg"></div>
+    <div class="ibz-info-empty" id="ibz-info-empty">Tik op een club op de kaart of kies er één hieronder — bekijk de locatie &amp; tickets.</div>
   </div>
 
   <div class="ibz-chips" id="ibz-chips"></div>
@@ -125,16 +129,25 @@
   var MAP_LOOK = 'ink'; // zwart-wit
   var V = 'https://media.clubtickets.com/migrated/venue/';
 
+  // Ibiza + Formentera altijd volledig in beeld in het overzicht:
+  var HOME_BOUNDS = [[1.19, 38.635], [1.605, 39.115]];
+
   var CLUBS = [
     { name: 'Hï Ibiza', slug: 'hi-ibiza', area: "Playa d'en Bossa", coords: [1.4046, 38.8862],
       logo: V + 'f158734e-05d3-42b6-9499-25c2acc00633.png', bg: V + '804a4a61-2357-4a8b-a6ef-08d26c09dcc2.png',
       text: "'s Werelds nummer 1-club op Playa d'en Bossa. Twee spectaculaire rooms, het legendarische Theatre en topresidencies van de grootste dj's ter wereld." },
     { name: 'Ushuaïa', slug: 'ushuaia-ibiza', area: "Playa d'en Bossa", coords: [1.4079, 38.8846],
       logo: V + 'dcadf125-c566-4cd4-9c6f-8726a139ac01.png', bg: V + 'd4664c57-5ad6-46cd-b897-d9744f95b3fb.jpg',
-      text: "Het iconische openluchtstadion aan Playa d'en Bossa. Overdag feesten onder de zon met wereldsterren op het hoofdpodium — dé Ibiza-ervaring." },
+      text: "Het iconische openluchtstadion aan Playa d'en Bossa. Overdag feesten onder de zon met wereldsterren op het hoofdpodium." },
     { name: 'UNVRS', slug: 'unvrs-ibiza', area: 'San Rafael', coords: [1.4095, 38.9520],
       logo: V + '940302ac-ef06-46bf-b76a-91d3b092b184.png', bg: V + '7e7d9db3-8285-4960-803d-0af0d4b49b58.jpg',
       text: 'De nieuwste hyperclub van Ibiza — een adembenemende arena, gebouwd voor de allergrootste nachten van het eiland.' },
+    { name: 'Pacha', ini: 'PA', area: 'Ibiza-Stad', coords: [1.4418, 38.9188],
+      text: 'Sinds 1973 hét symbool van Ibiza met zijn twee kersen. Glamour, house en de legendarische zondagen in het hart van de stad.' },
+    { name: 'Amnesia', ini: 'AM', area: 'San Rafael', coords: [1.4083, 38.9483],
+      text: 'Kathedraal van de dansmuziek met de beroemde Terrace. Thuisbasis van elrow, Pyramid en Cocoon — schuim, lasers en pure energie.' },
+    { name: 'DC-10', ini: 'DC10', area: 'Ses Salines', coords: [1.3963, 38.8746],
+      text: 'De rauwe, underground tempel bij de Salinas. Circoloco op maandag is wereldberoemd — puur, ongepolijst en legendarisch.' },
     { name: 'Eden', slug: 'eden-ibiza', area: 'San Antonio', coords: [1.3021, 38.9840],
       logo: V + '64a47a76-b2e0-4d80-86de-f2a6d201b322.png', bg: V + '45e24f34-25d8-40c4-9354-4326d43dce0b.png',
       text: 'Kloppend hart van San Antonio. State-of-the-art geluid en energieke nachten pal aan de beroemde Sunset Strip.' },
@@ -144,23 +157,26 @@
     { name: 'O Beach', slug: 'o-beach-ibiza', area: 'San Antonio Bay', coords: [1.2966, 38.9872],
       logo: V + 'e65f2e55-376a-4301-a4c7-64b94f17eca5.png', bg: V + '94badb86-d2e5-4679-bf18-02d3b7c15f9f.png',
       text: 'De ultieme dagclub aan de baai van San Antonio. Poolside luxe, dansers en topartiesten onder de Ibiza-zon.' },
+    { name: 'Cova Santa', ini: 'CS', area: 'San José', coords: [1.3487, 38.9319],
+      text: 'Magische openluchtlocatie rond een echte grot. Intieme nachten met house en techno onder de palmen en de sterren.' },
     { name: 'Lío', slug: 'lio', area: 'Marina Botafoch', coords: [1.4433, 38.9174],
       logo: V + '3338d173-1353-4dbe-84f8-cf6eacbf46c2.png', bg: V + '1ce0aa69-1bff-4a33-9a19-3446d03e0969.jpg',
-      text: 'Cabaret, diner en club in één aan Marina Botafoch. Glamour, live shows en uitzicht op de oude stad — puur spektakel.' },
+      text: 'Cabaret, diner en club in één aan Marina Botafoch. Glamour, live shows en uitzicht op de oude stad.' },
     { name: 'Ibiza Rocks', slug: 'ibiza-rocks', area: 'San Antonio', coords: [1.3062, 38.9808],
       logo: V + 'e73571a9-2343-4005-b32e-5088721c2112.png', bg: V + 'a1ff4628-a402-4af9-b840-5a437d01acdc.jpg',
       text: 'Het originele poolparty-hotel in San Antonio. Live optredens en dj-sets met je voeten aan het water.' }
   ];
 
-  function ticketLink(c) { return c.slug ? '/nl/club-tickets/' + c.slug : '#'; }
+  function ticketLink(c) { return c.slug ? '/nl/club-tickets/' + c.slug : '/nl/club-tickets'; }
+  function badgeInner(c) { return c.logo ? '<img src="' + c.logo + '" alt="' + c.name + '">' : '<span class="ibz-ini">' + (c.ini || c.name.slice(0, 2).toUpperCase()) + '</span>'; }
 
   /* ================= KAART — niet interactief (alleen navigeren via klik) ============== */
-  var PADDING = { top: 30, bottom: 30, left: 30, right: 30 };
+  var PADDING = { top: 28, bottom: 28, left: 28, right: 28 };
   var map = new maplibregl.Map({
     container: 'ibz-map',
-    bounds: [[1.205, 38.855], [1.605, 39.115]],   // enkel Ibiza — Formentera weggesneden
+    bounds: HOME_BOUNDS,
     fitBoundsOptions: { padding: PADDING },
-    interactive: false,                            // geen zoom/pan met vinger of muis
+    interactive: false,
     pitch: 0, bearing: 0, antialias: true,
     pixelRatio: Math.min((window.devicePixelRatio || 1) < 2 ? 2 : window.devicePixelRatio, 3),
     attributionControl: { compact: true },
@@ -179,14 +195,13 @@
 
   var selected = false;
   map.on('load', function () {
-    map.setTerrain({ source: 'dem', exaggeration: 1.2 });
-    try { map.setSky({ 'sky-color': '#9EC1DA', 'horizon-color': '#EFEDEA', 'fog-color': '#EFEDEA', 'sky-horizon-blend': 0.6, 'horizon-fog-blend': 0.6, 'fog-ground-blend': 0.85 }); } catch (e) {}
-    map.easeTo({ pitch: 50, bearing: -16, duration: 3600, essential: true });
-    showAllClubs();
+    map.setTerrain({ source: 'dem', exaggeration: 1.15 });
+    try { map.setSky({ 'sky-color': '#9EC1DA', 'horizon-color': '#EFEDEA', 'fog-color': '#EFEDEA', 'sky-horizon-blend': 0.5, 'horizon-fog-blend': 0.5, 'fog-ground-blend': 0.85 }); } catch (e) {}
+    showAllClubs(true);
   });
 
-  // Zeer trage sfeer-rotatie in overzicht; stopt zodra een club gekozen is.
-  (function spin() { if (!selected && !map.isEasing()) { try { map.setBearing(map.getBearing() - 0.008); } catch (e) {} } requestAnimationFrame(spin); })();
+  // Trage sfeer-rotatie in overzicht; stopt zodra een club gekozen is.
+  (function spin() { if (!selected && !map.isEasing()) { try { map.setBearing(map.getBearing() - 0.006); } catch (e) {} } requestAnimationFrame(spin); })();
 
   /* ================= MARKERS ================= */
   var markers = null;
@@ -194,38 +209,40 @@
     markers = CLUBS.map(function (club) {
       var el = document.createElement('button');
       el.type = 'button'; el.className = 'ibz-marker'; el.setAttribute('aria-label', club.name);
-      el.innerHTML = '<img src="' + club.logo + '" alt="' + club.name + '">';
+      el.innerHTML = badgeInner(club);
       el.addEventListener('click', function (e) { e.stopPropagation(); focusClub(club); });
       return new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat(club.coords);
     });
   }
-  function popMarker(m, i) { var el = m.getElement(); el.classList.add('is-popping'); el.style.animationDelay = ((i || 0) * 55) + 'ms'; el.addEventListener('animationend', function () { el.classList.remove('is-popping'); el.style.animationDelay = ''; }, { once: true }); }
+  function popMarker(m, i) { var el = m.getElement(); el.classList.add('is-popping'); el.style.animationDelay = ((i || 0) * 45) + 'ms'; el.addEventListener('animationend', function () { el.classList.remove('is-popping'); el.style.animationDelay = ''; }, { once: true }); }
   function clearMarkers() { (markers || []).forEach(function (m) { m.remove(); }); }
 
-  /* ================= INFO-TEGEL ================= */
-  var infoCol = document.getElementById('ibz-info');
+  /* ================= INFO-BALK ================= */
+  var infoEl = document.getElementById('ibz-info');
   var infoBg = document.getElementById('ibz-info-bg');
-  var infoInner = document.getElementById('ibz-info-inner');
 
   function renderInfo(club) {
     if (!club) {
-      infoCol.classList.remove('is-club'); infoBg.style.backgroundImage = '';
-      infoInner.innerHTML = '<div class="ibz-info-empty">Tik op een club op de kaart<br>of kies er één hieronder —<br>zie de locatie, sfeer &amp; tickets.</div>';
+      infoEl.classList.remove('is-club'); infoBg.style.backgroundImage = '';
+      infoEl.innerHTML = '<div class="ibz-info-bg" id="ibz-info-bg"></div><div class="ibz-info-empty">Tik op een club op de kaart of kies er één hieronder — bekijk de locatie &amp; tickets.</div>';
+      infoBg = document.getElementById('ibz-info-bg');
       return;
     }
-    infoCol.classList.add('is-club');
-    infoBg.style.backgroundImage = club.bg ? "url('" + club.bg + "')" : '';
-    infoInner.innerHTML =
-      '<div class="ibz-info-badge"><img src="' + club.logo + '" alt=""></div>' +
-      '<div class="ibz-info-name">' + club.name + '</div>' +
-      '<div class="ibz-info-area">' + club.area + ' · Ibiza</div>' +
-      '<div class="ibz-info-text">' + club.text + '</div>' +
+    infoEl.classList.add('is-club');
+    infoEl.innerHTML =
+      '<div class="ibz-info-bg" style="opacity:1;' + (club.bg ? "background-image:url('" + club.bg + "');" : '') + '"></div>' +
+      '<div class="ibz-info-badge">' + badgeInner(club) + '</div>' +
+      '<div class="ibz-info-mid">' +
+        '<div class="ibz-info-name">' + club.name + '</div>' +
+        '<div class="ibz-info-area">' + club.area + ' · Ibiza</div>' +
+        '<div class="ibz-info-text">' + club.text + '</div>' +
+      '</div>' +
       '<div class="ibz-info-actions">' +
-        '<a class="ibz-info-btn" href="' + ticketLink(club) + '" target="_top">BEKIJK TICKETS <span>→</span></a>' +
+        '<a class="ibz-info-btn" href="' + ticketLink(club) + '" target="_top">TICKETS →</a>' +
         '<button type="button" class="ibz-info-back" id="ibz-back">← Terug</button>' +
       '</div>';
     var back = document.getElementById('ibz-back');
-    if (back) back.addEventListener('click', showAllClubs);
+    if (back) back.addEventListener('click', function () { showAllClubs(); });
   }
 
   /* ================= ACTIES ================= */
@@ -236,19 +253,18 @@
     if (markers[i]) { markers[i].addTo(map); popMarker(markers[i], 0); }
     setActiveChip(club.name);
     renderInfo(club);
-    map.flyTo({ center: club.coords, zoom: 13.6, pitch: 60, bearing: -16, duration: 2200, essential: true, padding: PADDING });
+    map.flyTo({ center: club.coords, zoom: 13.7, pitch: 58, bearing: -14, duration: 2200, essential: true, padding: PADDING });
   }
 
-  function showAllClubs() {
+  function showAllClubs(initial) {
     if (!markers) buildMarkers();
     selected = false; clearMarkers();
     markers.forEach(function (m, i) { m.addTo(map); popMarker(m, i); });
     setActiveChip('ALL'); renderInfo(null);
-    map.easeTo({ center: [1.41, 38.98], zoom: map.getZoom(), pitch: 50, bearing: -16, duration: 1800, essential: true, padding: PADDING });
-    map.fitBounds([[1.205, 38.855], [1.605, 39.115]], { padding: PADDING, pitch: 50, bearing: -16, duration: 1800 });
+    map.fitBounds(HOME_BOUNDS, { padding: PADDING, pitch: 38, bearing: -12, duration: initial ? 0 : 1600 });
   }
 
-  /* ================= CHIPS (met logo) ================= */
+  /* ================= CHIPS ================= */
   var chipsWrap = document.getElementById('ibz-chips');
   var allBtn, clubBtns = [];
   function setActiveChip(name) { if (allBtn) allBtn.classList.toggle('is-active', name === 'ALL'); clubBtns.forEach(function (b) { b.classList.toggle('is-active', b.dataset.club === name); }); }
@@ -256,13 +272,13 @@
   function buildChips() {
     allBtn = document.createElement('button');
     allBtn.type = 'button'; allBtn.className = 'ibz-allchip'; allBtn.textContent = 'ALLE CLUBS';
-    allBtn.addEventListener('click', showAllClubs);
+    allBtn.addEventListener('click', function () { showAllClubs(); });
     chipsWrap.appendChild(allBtn);
 
     CLUBS.forEach(function (club) {
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'ibz-chip'; b.dataset.club = club.name;
-      b.innerHTML = '<span class="ibz-chip-logo"><img src="' + club.logo + '" alt=""></span><span>' + club.name + '</span>';
+      b.innerHTML = '<span class="ibz-chip-logo">' + badgeInner(club) + '</span><span>' + club.name + '</span>';
       b.addEventListener('click', function () { focusClub(club); });
       chipsWrap.appendChild(b); clubBtns.push(b);
     });
