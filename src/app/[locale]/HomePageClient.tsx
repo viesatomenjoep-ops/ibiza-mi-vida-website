@@ -104,11 +104,12 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           />
           <div className="pointer-events-none absolute inset-0 bg-black/45" />
           <div className="relative z-10">
-            {/* Live slider + legend — only visible once you scroll here, just above Deals */}
-            <div className="w-full pt-7 pb-1 md:pt-9">
-              <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />
-            </div>
-            <HomeDeals deals={deals} locale={locale} onDark />
+            <HomeDeals
+              deals={deals}
+              locale={locale}
+              onDark
+              slider={<HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} showLegend legendWide className="w-full bg-transparent" speed={0.7} />}
+            />
           </div>
         </div>
       )}

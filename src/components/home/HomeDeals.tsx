@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, type ReactNode } from 'react'
 import Link from 'next/link'
 import { Reveal } from '@/components/ui/Reveal'
 
@@ -127,7 +127,7 @@ function DealsRow({ items }: { items: Deal[] }) {
   )
 }
 
-export function HomeDeals({ deals, locale = 'nl', onDark = false }: { deals: DealsData; locale: string; onDark?: boolean }) {
+export function HomeDeals({ deals, locale = 'nl', onDark = false, slider }: { deals: DealsData; locale: string; onDark?: boolean; slider?: ReactNode }) {
   const rows: { key: keyof DealsData; items: Deal[]; dir: 1 | -1 }[] = ([
     { key: 'clubs', items: deals.clubs, dir: 1 },   // Club Tickets Ibiza
     { key: 'boats', items: deals.boats, dir: -1 },  // Private boats
@@ -146,6 +146,9 @@ export function HomeDeals({ deals, locale = 'nl', onDark = false }: { deals: Dea
           <h2 className={`font-serif text-[1.625rem] font-black leading-none tracking-tight ${onDark ? 'text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]' : 'text-neutral-900'}`}>{SECTION_TITLE[locale] || SECTION_TITLE.en}</h2>
           <p className={`mt-1.5 max-w-md text-sm font-medium ${onDark ? 'text-white/80' : 'text-neutral-500'}`}>{SECTION_SUB[locale] || SECTION_SUB.en}</p>
         </div>
+
+        {/* Live slider + legend — sits between the subtitle and the first category */}
+        {slider && <div className="my-10 md:my-14">{slider}</div>}
 
         <div className="flex flex-col gap-8">
           {rows.map(({ key, items }, ri) => (
