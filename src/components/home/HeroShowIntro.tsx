@@ -46,7 +46,7 @@ export function HeroShowIntro({ locale = 'nl' }: { locale?: string }) {
       if (cancelled) return
       ci++
       setText(line.slice(0, ci))
-      if (ci < line.length) timers.push(setTimeout(type, 45))
+      if (ci < line.length) timers.push(setTimeout(type, 90))
       else timers.push(setTimeout(() => { if (!cancelled) setI(p => (p + 1) % lines.length) }, 1700))
     }
     timers.push(setTimeout(type, 350))
