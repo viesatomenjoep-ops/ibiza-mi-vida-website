@@ -1,7 +1,6 @@
 import React from 'react'
 import { getVenues, getAllDates, getArtists } from '@/lib/clubtickets'
 import { getDictionary } from '@/lib/dictionary'
-import { pickTopDayEvents } from '@/lib/event-picks'
 import HomePageClient from './HomePageClient'
 import { FLEET } from '@/data/fleet'
 
@@ -132,72 +131,8 @@ export default async function Home({ params }: { params: { locale: string } }) {
     artists: (artistsList as any[]).map(a => a.image).filter(Boolean).slice(0, 40),
   }
 
-  // ── 3D ring carousel: SIX ARTISTS from the ClubTickets data ──
-  const shuffle = <T,>(arr: T[]): T[] => {
-    const c = [...arr]
-    for (let i = c.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[c[i], c[j]] = [c[j], c[i]]
-    }
-    return c
-  }
-  // The upcoming event each artist plays at (from their lineup mentions).
-  const eventForArtist = (name: string): string => {
-    const n = (name || '').toLowerCase()
-    if (!n) return ''
-    const hit = allDates.find(d => (d.date || '') >= todayStr && (d.lineUp || '').toLowerCase().includes(n))
-    return hit?.eventName || ''
-  }
-  const seenRingImg = new Set<string>()
-  const ringFinal = shuffle(
-    (artistsList as any[]).filter(a => a.image && !seenRingImg.has(a.image) && seenRingImg.add(a.image)),
-  )
-    .slice(0, 6)
-    .map(a => ({
-      image: a.image as string,
-      name: a.name as string,
-      href: `/${params.locale}/artists/${a.slug}`,
-      kind: 'artist' as const,
-      clubLogo: venueLogoBySlug.get(a.venueSlug || '') || '',
-      clubName: (a.venueName as string) || '',
-      eventName: eventForArtist(a.name),
-    }))
-
-  // ── Today's top 3 events for flip cards (Club Tickets data, rotates daily) ──
-  const flipSource = allDates
-    .filter((d) => clubbingSlugs.has(d.venueSlug || ''))
-    .map((d) => ({
-      id: String(d.id),
-      name: d.eventName || d.name || '',
-      date: d.date || '',
-      prices: d.prices || '',
-      lineUp: d.lineUp || '',
-      affLink: d.affLink || '',
-      ct_events: { name: d.eventName, slug: d.eventSlug, cover: d.eventCover, logo: d.eventLogo },
-      ct_venues: {
-        name: d.venueName,
-        slug: d.venueSlug,
-        whitelogo: venueLogoBySlug.get(d.venueSlug || '') || d.venueLogo || '',
-        picture: d.venueCover || '',
-      },
-    }))
-  const todayTopThree = pickTopDayEvents(flipSource, todayStr, 3)
-  const todayFlipCards = todayTopThree.map((ev) => ({
-    id: ev.id,
-    image: ev.ct_events?.cover || ev.ct_events?.logo || ev.ct_venues?.picture || '',
-    eventName: ev.ct_events?.name || ev.name,
-    clubName: ev.ct_venues?.name || '',
-    clubLogo: ev.ct_venues?.whitelogo || '',
-    clubSlug: ev.ct_venues?.slug || '',
-    lineUp: ev.lineUp || '',
-    prices: ev.prices || '',
-    href: `/${params.locale}/club-tickets/${ev.ct_venues?.slug}/${ev.ct_events?.slug}`,
-    affLink: ev.affLink || '',
-  }))
-  const todayFlipIds = new Set(todayFlipCards.map((c) => c.id))
-
   const upcomingDates = allDates
-    .filter((d) => d.date >= todayStr && clubbingSlugs.has(d.venueSlug || '') && !todayFlipIds.has(String(d.id)))
+    .filter(d => d.date >= todayStr && clubbingSlugs.has(d.venueSlug || ''))
     .slice(0, 10)
     .map(d => ({
       id: d.id,
@@ -214,7 +149,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
         name: d.venueName,
         slug: d.venueSlug
       }
-    }))
+    }));
 
   return (
     <HomePageClient 
@@ -224,8 +159,6 @@ export default async function Home({ params }: { params: { locale: string } }) {
       upcomingDates={upcomingDates}
       pickerEvents={[...pickerEvents].sort((a, b) => a.date.localeCompare(b.date)).slice(0, 250)}
       deals={deals}
-      ringItems={ringFinal}
-      todayFlipCards={todayFlipCards}
       previewPools={previewPools}
       liveByClub={liveByClub}
       allVenues={allVenues.map(v => ({

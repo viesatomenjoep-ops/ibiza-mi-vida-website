@@ -20,7 +20,6 @@ export default async function CalendarPage({
       date: d.date,
       prices: d.prices,
       lineUp: d.lineUp,
-      affLink: d.affLink || '',
       ct_events: {
         name: d.eventName,
         slug: d.eventSlug,
