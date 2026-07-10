@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import { optimizeCloudinaryVideo, cloudinaryVideoPoster } from '@/lib/cloudinary'
 
 interface CategoryHeroProps {
   title: string
@@ -37,6 +38,11 @@ export function CategoryHero({
   const accentColor = themeColors[colorTheme]
   const isHome = searchComponent != null
 
+  // Deliver the hero clip from Cloudinary with instant-load transforms and a
+  // first-frame poster so the hero paints immediately while the 4K clip streams.
+  const optimizedVideo = videoUrl ? optimizeCloudinaryVideo(videoUrl) : undefined
+  const videoPoster = videoUrl ? cloudinaryVideoPoster(videoUrl) : undefined
+
   return (
     <section
       className={`relative flex ${minHeight} w-full flex-col items-center justify-center text-center pt-24 md:pt-32 pb-16 md:pb-20`}
@@ -44,15 +50,16 @@ export function CategoryHero({
     >
       {/* Background Video for all categories */}
       <div className="fixed inset-0 z-[-1] bg-black overflow-hidden">
-        {videoUrl ? (
+        {optimizedVideo ? (
           <video 
             autoPlay 
             loop 
             muted 
             playsInline 
             preload="auto"
+            poster={videoPoster}
             className="absolute inset-0 w-full h-full object-cover opacity-90 scale-[1.15]" 
-            src={videoUrl} 
+            src={optimizedVideo} 
           />
         ) : (
           <Image src={backgroundImage} alt={title} fill className="object-cover opacity-60" />
