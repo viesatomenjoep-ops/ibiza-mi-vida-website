@@ -1,29 +1,21 @@
 'use client'
 
 import { useState, type CSSProperties } from 'react'
-import { cloudinaryVideo, optimizeCloudinaryVideo, cloudinaryVideoPoster } from '@/lib/cloudinary'
+import { cloudinaryVideo, optimizeCloudinaryVideo, cloudinaryVideoPoster, MEDIA } from '@/lib/cloudinary'
 
 // Background clips that play one after another, looping (first clip always first).
 //
-// To serve these from Cloudinary (instant, adaptive delivery instead of the
-// heavy local .mp4 files), set NEXT_PUBLIC_HOME_HERO_VIDEOS to a comma-separated
-// list of Cloudinary public ids or full delivery URLs, e.g.
-//   NEXT_PUBLIC_HOME_HERO_VIDEOS="home/anyma-1,home/anyma-2,home/calvin"
-// When unset, we fall back to the bundled /videos/*.mp4 files.
-const LOCAL_VIDEOS = ['/videos/anyma-1.mp4', '/videos/anyma-2.mp4', '/videos/calvin.mp4']
-
+// These are served from our Cloudinary cloud (instant, adaptive delivery). To
+// override, set NEXT_PUBLIC_HOME_HERO_VIDEOS to a comma-separated list of
+// Cloudinary public ids or full delivery URLs.
 function resolveSources(): string[] {
   const configured = process.env.NEXT_PUBLIC_HOME_HERO_VIDEOS
-  if (!configured) return LOCAL_VIDEOS
-  return configured
-    .split(',')
-    .map((s) => s.trim())
-    .filter(Boolean)
-    .map((entry) =>
-      entry.startsWith('http')
-        ? optimizeCloudinaryVideo(entry)
-        : cloudinaryVideo(entry),
-    )
+  const ids = configured
+    ? configured.split(',').map((s) => s.trim()).filter(Boolean)
+    : [...MEDIA.homeHero]
+  return ids.map((entry) =>
+    entry.startsWith('http') ? optimizeCloudinaryVideo(entry) : cloudinaryVideo(entry),
+  )
 }
 
 const VIDEOS = resolveSources()

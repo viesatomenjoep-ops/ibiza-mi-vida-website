@@ -1,6 +1,9 @@
 import React from 'react'
 import Image from 'next/image'
-import { optimizeCloudinaryVideo, cloudinaryVideoPoster } from '@/lib/cloudinary'
+import { cloudinaryVideo, optimizeCloudinaryVideo, cloudinaryVideoPoster, MEDIA } from '@/lib/cloudinary'
+
+// Default hero clip: the 4K Formentera drone footage, first 30s, from our cloud.
+const DEFAULT_HERO_VIDEO = cloudinaryVideo(MEDIA.formentera4k, { transform: 'so_30,du_30' })
 
 interface CategoryHeroProps {
   title: string
@@ -23,7 +26,7 @@ export function CategoryHero({
   colorTheme = 'rustic-terracotta',
   backgroundImage = '/fotos/hero-pattern.jpg',
   backgroundOpacity = 0.3,
-  videoUrl = 'https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4'
+  videoUrl = DEFAULT_HERO_VIDEO
 }: CategoryHeroProps) {
   
   // Dynamic color selection for the abstract shapes

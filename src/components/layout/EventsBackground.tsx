@@ -1,12 +1,10 @@
 'use client'
 
 import React from 'react'
-import { optimizeCloudinaryVideo, cloudinaryVideoPoster } from '@/lib/cloudinary'
+import { cloudinaryVideo, cloudinaryVideoPoster, MEDIA } from '@/lib/cloudinary'
 
-const RAW_VIDEO =
-  'https://res.cloudinary.com/daj1lyfgk/video/upload/v1783098563/zna3zmwypuqpikuatbqy.mp4'
-const VIDEO_SRC = optimizeCloudinaryVideo(RAW_VIDEO)
-const VIDEO_POSTER = cloudinaryVideoPoster(RAW_VIDEO)
+const VIDEO_SRC = cloudinaryVideo(MEDIA.eventsBackground)
+const VIDEO_POSTER = cloudinaryVideoPoster(VIDEO_SRC)
 
 export function EventsBackground() {
   return (

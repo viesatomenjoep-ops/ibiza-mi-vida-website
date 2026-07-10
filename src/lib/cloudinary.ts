@@ -18,7 +18,22 @@
 export const CLOUDINARY_CLOUD_NAME =
   process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ||
   process.env.CLOUDINARY_CLOUD_NAME ||
-  'daj1lyfgk'
+  'nd941t40'
+
+/**
+ * Public ids of the hero/background clips on our own Cloudinary cloud.
+ * These are populated by `scripts/upload-to-cloudinary.mjs` (run once with the
+ * Cloudinary API key) and referenced from the video components below.
+ */
+export const MEDIA = {
+  eventsBackground: 'ibiza-mi-vida/events-background',
+  formentera4k: 'ibiza-mi-vida/formentera-4k',
+  homeHero: [
+    'ibiza-mi-vida/home/anyma-1',
+    'ibiza-mi-vida/home/anyma-2',
+    'ibiza-mi-vida/home/calvin',
+  ],
+} as const
 
 const VIDEO_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload`
 const IMAGE_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload`
