@@ -1,5 +1,5 @@
 import React from 'react'
-import { getVenues, getAllDates, getArtists, getAllEvents } from '@/lib/clubtickets'
+import { getVenues, getAllDates, getArtists } from '@/lib/clubtickets'
 import { getDictionary } from '@/lib/dictionary'
 import { pickTopDayEvents } from '@/lib/event-picks'
 import HomePageClient from './HomePageClient'
@@ -132,7 +132,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
     artists: (artistsList as any[]).map(a => a.image).filter(Boolean).slice(0, 40),
   }
 
-  // ── 3D ring carousel: mix of ALL artists + ALL ClubTickets parties ──
+  // ── 3D ring carousel: SIX ARTISTS from the ClubTickets data ──
   const shuffle = <T,>(arr: T[]): T[] => {
     const c = [...arr]
     for (let i = c.length - 1; i > 0; i--) {
@@ -141,22 +141,27 @@ export default async function Home({ params }: { params: { locale: string } }) {
     }
     return c
   }
-  const allEventsList = await getAllEvents(params.locale)
-  const ringArtists = (artistsList as any[])
-    .filter(a => a.image)
-    .map(a => ({ image: a.image as string, name: a.name as string, href: `/${params.locale}/artists/${a.slug}`, kind: 'artist' as const }))
-  const ringParties = (allEventsList as any[])
-    .filter(e => e.cover || e.logo)
-    .map(e => ({ image: (e.cover || e.logo) as string, name: e.name as string, href: `/${params.locale}/club-tickets/${e.venue?.slug}/${e.slug}`, kind: 'party' as const }))
-  // Interleave three artists + three parties, dedupe by image, keep six for the ring.
+  // The upcoming event each artist plays at (from their lineup mentions).
+  const eventForArtist = (name: string): string => {
+    const n = (name || '').toLowerCase()
+    if (!n) return ''
+    const hit = allDates.find(d => (d.date || '') >= todayStr && (d.lineUp || '').toLowerCase().includes(n))
+    return hit?.eventName || ''
+  }
   const seenRingImg = new Set<string>()
-  const ringItems = [...shuffle(ringArtists).slice(0, 6), ...shuffle(ringParties).slice(0, 6)]
-    .filter(it => it.image && !seenRingImg.has(it.image) && seenRingImg.add(it.image))
-  const ringSix = [
-    ...shuffle(ringItems.filter(i => i.kind === 'artist')).slice(0, 3),
-    ...shuffle(ringItems.filter(i => i.kind === 'party')).slice(0, 3),
-  ]
-  const ringFinal = shuffle(ringSix.length >= 6 ? ringSix : ringItems.slice(0, 6))
+  const ringFinal = shuffle(
+    (artistsList as any[]).filter(a => a.image && !seenRingImg.has(a.image) && seenRingImg.add(a.image)),
+  )
+    .slice(0, 6)
+    .map(a => ({
+      image: a.image as string,
+      name: a.name as string,
+      href: `/${params.locale}/artists/${a.slug}`,
+      kind: 'artist' as const,
+      clubLogo: venueLogoBySlug.get(a.venueSlug || '') || '',
+      clubName: (a.venueName as string) || '',
+      eventName: eventForArtist(a.name),
+    }))
 
   // ── Today's top 3 events for flip cards (Club Tickets data, rotates daily) ──
   const flipSource = allDates
