@@ -84,13 +84,16 @@ async function uploadOne({ publicId, source }) {
     resource_type: 'video',
     overwrite: true,
     invalidate: true,
+    timeout: 600000,
   }
 
-  // Remote URLs are fetched server-side by Cloudinary (regular upload);
-  // local files are streamed in chunks (upload_large) to handle big clips.
-  const result = isRemote
-    ? await cloudinary.uploader.upload(target, opts)
-    : await cloudinary.uploader.upload_large(target, { ...opts, chunk_size: 20 * 1024 * 1024 })
+  // Remote URLs are fetched server-side by Cloudinary. Local files up to ~100MB
+  // upload fine via the regular (promise-based) uploader; only truly huge files
+  // need the chunked upload_large path.
+  const isHuge = localPath && fs.statSync(localPath).size > 95 * 1024 * 1024
+  const result = isHuge
+    ? await cloudinary.uploader.upload_large(target, { ...opts, chunk_size: 20 * 1024 * 1024 })
+    : await cloudinary.uploader.upload(target, opts)
   console.log(`  ✓ ${publicId}  (${result.width}x${result.height}, ${(result.bytes / 1e6).toFixed(1)}MB)`)
   return result
 }
