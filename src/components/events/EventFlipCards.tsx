@@ -70,7 +70,7 @@ export function EventFlipCards({
                 tabIndex={0}
                 aria-label={`${ev.eventName} — ${t.tap}`}
               >
-                {/* ── Front: cover + club logo ── */}
+                {/* ── Front: cover + club logo + event info ── */}
                 <div className="efc-face efc-front">
                   {ev.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -79,6 +79,7 @@ export function EventFlipCards({
                     <div className="efc-cover efc-cover--empty" />
                   )}
                   <div className="efc-front-shade" aria-hidden />
+                  {price && <span className="efc-front-price">{price}</span>}
                   {ev.clubLogo && (
                     <div className="efc-logo-badge">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -90,12 +91,22 @@ export function EventFlipCards({
                     </div>
                   )}
                   <div className="efc-front-label">
+                    <span className="efc-front-event">{ev.eventName}</span>
                     <span className="efc-club-name">{ev.clubName}</span>
+                    {artists.length > 0 && (
+                      <span className="efc-front-lineup">{artists.slice(0, 3).join(' · ')}</span>
+                    )}
                   </div>
                 </div>
 
-                {/* ── Back: lineup · price · CTA ── */}
+                {/* ── Back: event photo backdrop + lineup · price · CTA ── */}
                 <div className={`efc-face efc-back${isAccent ? ' efc-back--accent' : ''}`}>
+                  {ev.image && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={ev.image} alt="" className="efc-back-photo" loading="lazy" referrerPolicy="no-referrer" />
+                  )}
+                  <div className={`efc-back-tint${isAccent ? ' efc-back-tint--accent' : ''}`} aria-hidden />
+                  <div className="efc-back-content">
                   {ev.clubLogo && (
                     <div className={`efc-back-logo${isAccent ? ' efc-back-logo--on-accent' : ''}`}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -146,6 +157,7 @@ export function EventFlipCards({
                       {t.book}
                     </Link>
                   )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -172,7 +184,7 @@ export function EventFlipCards({
           width: 100%;
           height: 100%;
           transform-style: preserve-3d;
-          transition: transform 700ms ease;
+          transition: transform 1400ms ease;
           cursor: pointer;
           -webkit-tap-highlight-color: transparent;
         }
@@ -201,7 +213,45 @@ export function EventFlipCards({
         .efc-front-shade {
           position: absolute;
           inset: 0;
-          background: linear-gradient(to top, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.15) 45%, transparent 70%);
+          background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.25) 48%, transparent 72%);
+        }
+        .efc-front-price {
+          position: absolute;
+          top: 0.7rem;
+          right: 0.7rem;
+          z-index: 2;
+          background: rgba(0, 0, 0, 0.75);
+          color: #14ff00;
+          border: 1px solid rgba(20, 255, 0, 0.35);
+          font-weight: 900;
+          font-size: 0.72rem;
+          padding: 0.28rem 0.6rem;
+          border-radius: 0.6rem;
+          backdrop-filter: blur(4px);
+        }
+        .efc-front-event {
+          display: block;
+          color: #fff;
+          font-weight: 900;
+          font-size: 0.92rem;
+          line-height: 1.15;
+          margin-bottom: 0.2rem;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .efc-front-lineup {
+          display: block;
+          color: rgba(255, 255, 255, 0.75);
+          font-weight: 600;
+          font-size: 0.62rem;
+          letter-spacing: 0.04em;
+          margin-top: 0.2rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .efc-logo-badge {
           position: absolute;
@@ -249,16 +299,38 @@ export function EventFlipCards({
           background: #0f0f0f;
           color: #fbfaf6;
           border: 1px solid rgba(198, 160, 82, 0.35);
-          padding: 1rem 0.85rem 0.85rem;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
           box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22);
         }
         .efc-back--accent {
           background: #c6a052;
           color: #0f0f0f;
           border-color: rgba(15, 15, 15, 0.15);
+        }
+        /* Event photo behind the back-side info, dimmed by a tint so text stays readable */
+        .efc-back-photo {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        .efc-back-tint {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, rgba(10, 8, 6, 0.95) 20%, rgba(10, 8, 6, 0.82) 60%, rgba(10, 8, 6, 0.66) 100%);
+        }
+        .efc-back-tint--accent {
+          background: linear-gradient(to top, rgba(163, 126, 47, 0.94) 20%, rgba(198, 160, 82, 0.86) 60%, rgba(198, 160, 82, 0.72) 100%);
+        }
+        .efc-back-content {
+          position: relative;
+          z-index: 2;
+          height: 100%;
+          padding: 1rem 0.85rem 0.85rem;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
         }
         .efc-back-logo {
           width: 2.5rem;
@@ -411,7 +483,7 @@ export function EventFlipCards({
           .efc-club-name {
             font-size: 0.95rem;
           }
-          .efc-back {
+          .efc-back-content {
             padding: 1.35rem 1.15rem 1.1rem;
           }
           .efc-event-name {
