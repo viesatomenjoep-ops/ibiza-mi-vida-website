@@ -15,6 +15,7 @@ import { HeroShowIntro } from '@/components/home/HeroShowIntro';
 import { HomeScrollHint } from '@/components/home/HomeScrollHint';
 import { HomeMapWidget } from '@/components/home/HomeMapWidget';
 import { HomeArtistRing, type RingItem } from '@/components/home/HomeArtistRing';
+import { EventFlipCards, type FlipEventCard } from '@/components/events/EventFlipCards';
 import { HomeStackedCards } from '@/components/home/HomeStackedCards';
 import { HomePreviewSheet } from '@/components/home/HomePreviewSheet';
 import type { CatKey } from '@/components/home/homeCategories';
@@ -28,12 +29,13 @@ interface HomePageProps {
   pickerEvents?: PickerEvent[];
   deals?: DealsData;
   ringItems?: RingItem[];
+  todayFlipCards?: FlipEventCard[];
   previewPools?: Record<CatKey, string[]>;
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
   liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
 }
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, ringItems = [], previewPools, allVenues = [], liveByClub = {} }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, ringItems = [], todayFlipCards = [], previewPools, allVenues = [], liveByClub = {} }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -153,7 +155,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       <HomeScrollHint locale={locale} />
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
-      {upcomingDates.length > 0 && (
+      {(upcomingDates.length > 0 || todayFlipCards.length > 0) && (
         <>
 
         <section id="home-white-start" className="pb-12 pt-6 md:pb-16 md:pt-8 bg-white text-neutral-900 border-t border-black/5">
@@ -165,6 +167,9 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
               <span className="h-px flex-1 bg-black/10" />
               {pickerEvents.length > 0 && <div className="shrink-0"><HomeCalendarLauncher events={pickerEvents} locale={locale} persistKey="homeplanner" /></div>}
             </div>
+
+            {/* Top 3 flip cards — today's hottest club nights from ClubTickets */}
+            {todayFlipCards.length > 0 && <EventFlipCards events={todayFlipCards} locale={locale} />}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {upcomingDates.map((dateObj, di) => {

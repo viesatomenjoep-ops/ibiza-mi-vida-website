@@ -11,6 +11,8 @@ import {
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { MapPin, Calendar } from 'lucide-react'
 import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel'
+import { EventFlipCards, type FlipEventCard } from '@/components/events/EventFlipCards'
+import { pickTopDayEvents } from '@/lib/event-picks'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface ExEvent {
@@ -19,6 +21,7 @@ interface ExEvent {
   date: string
   prices: string
   lineUp: string
+  affLink?: string
   ct_events: { name?: string; slug?: string; logo?: string; cover?: string }
   ct_venues: { name?: string; slug?: string; whitelogo?: string; picture?: string; type_slug?: string }
 }
@@ -156,6 +159,27 @@ export default function EventsExplorer({ events, locale }: Props) {
   const dateKeys = useMemo(() => Object.keys(grouped).sort(), [grouped])
   const totalCount = useMemo(() => dateKeys.reduce((n, k) => n + grouped[k].length, 0), [dateKeys, grouped])
 
+  // Top 3 events for today (or the dock-selected day) — featured flip cards
+  const flipDate = activeDay || todayStr
+  const topThree = useMemo(() => pickTopDayEvents(clubEvents, flipDate, 3), [clubEvents, flipDate])
+  const flipIds = useMemo(() => new Set(topThree.map((e) => e.id)), [topThree])
+  const flipCards: FlipEventCard[] = useMemo(
+    () =>
+      topThree.map((ev) => ({
+        id: ev.id,
+        image: ev.ct_events?.cover || ev.ct_events?.logo || ev.ct_venues?.picture || '',
+        eventName: ev.ct_events?.name || ev.name,
+        clubName: ev.ct_venues?.name || '',
+        clubLogo: ev.ct_venues?.whitelogo || '',
+        clubSlug: ev.ct_venues?.slug || '',
+        lineUp: ev.lineUp || '',
+        prices: ev.prices || '',
+        href: `${base}/club-tickets/${ev.ct_venues?.slug || 'club'}/${ev.ct_events?.slug || 'event'}`,
+        affLink: ev.affLink || '',
+      })),
+    [topThree, base],
+  )
+
   const dayHeader = (ds: string) => {
     const d = parseISO(ds)
     if (isToday(d)) return `${T.today} · ${format(d, 'd MMM', { locale: loc })}`
@@ -203,6 +227,9 @@ export default function EventsExplorer({ events, locale }: Props) {
           <span className="hidden sm:inline text-xs font-bold text-black/50 uppercase tracking-widest">{T.events(totalCount)}</span>
         </div>
 
+        {/* ── Top 3 flip cards for today / selected day ── */}
+        {flipCards.length > 0 && <EventFlipCards events={flipCards} locale={locale} />}
+
         {/* ── Tiles ── */}
         {totalCount === 0 ? (
           <div className="col-span-full text-center py-20 text-black/50 bg-black/5 rounded-3xl border border-black/10">
@@ -222,7 +249,9 @@ export default function EventsExplorer({ events, locale }: Props) {
                   </h3>
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {grouped[ds].map(ev => {
+                  {grouped[ds]
+                    .filter((ev) => !(ds === flipDate && flipIds.has(ev.id)))
+                    .map(ev => {
                     const image = ev.ct_events?.cover || ev.ct_events?.logo || ev.ct_venues?.picture || ''
                     const logoSrc = ev.ct_venues?.whitelogo
                     const slug = ev.ct_venues?.slug || ''
