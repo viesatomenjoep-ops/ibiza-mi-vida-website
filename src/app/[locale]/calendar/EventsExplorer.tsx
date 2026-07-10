@@ -227,8 +227,8 @@ export default function EventsExplorer({ events, locale }: Props) {
           <span className="hidden sm:inline text-xs font-bold text-black/50 uppercase tracking-widest">{T.events(totalCount)}</span>
         </div>
 
-        {/* ── Top 3 flip cards for today / selected day ── */}
-        {flipCards.length > 0 && <EventFlipCards events={flipCards} locale={locale} />}
+        {/* ── Top 3 flip cards for today / selected day — compact, above the week dock ── */}
+        {flipCards.length > 0 && <EventFlipCards events={flipCards} locale={locale} compact />}
 
         {/* ── Tiles ── */}
         {totalCount === 0 ? (

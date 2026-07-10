@@ -35,9 +35,12 @@ const TEXT: Record<string, { lineup: string; from: string; book: string; tap: st
 export function EventFlipCards({
   events,
   locale = 'nl',
+  compact = false,
 }: {
   events: FlipEventCard[]
   locale?: string
+  /** Smaller, narrower tiles (calendar page — fits above the week dock bar). */
+  compact?: boolean
 }) {
   const t = TEXT[locale] || TEXT.en
   const cards = events.slice(0, 3)
@@ -50,7 +53,7 @@ export function EventFlipCards({
   if (cards.length === 0) return null
 
   return (
-    <div className="efc-root">
+    <div className={`efc-root${compact ? ' efc-root--compact' : ''}`}>
       <div className="efc-grid">
         {cards.map((ev, i) => {
           const artists = lineupArtists(ev.lineUp)
@@ -502,6 +505,75 @@ export function EventFlipCards({
             height: 420px;
           }
         }
+
+        /* ── Compact variant (calendar page): narrower + less tall so the tiles
+           sit neatly above the fixed week dock bar ── */
+        .efc-root--compact {
+          max-width: 880px;
+          margin-left: auto;
+          margin-right: auto;
+          margin-bottom: 2rem;
+        }
+        .efc-root--compact .efc-perspective {
+          height: 240px;
+        }
+        .efc-root--compact .efc-logo-badge {
+          width: 2.25rem;
+          height: 2.25rem;
+          bottom: 4.1rem;
+        }
+        .efc-root--compact .efc-front-event {
+          font-size: 0.8rem;
+        }
+        .efc-root--compact .efc-club-name {
+          font-size: 0.68rem;
+        }
+        .efc-root--compact .efc-front-lineup {
+          font-size: 0.56rem;
+        }
+        .efc-root--compact .efc-back-content {
+          padding: 0.8rem 0.75rem 0.7rem;
+        }
+        .efc-root--compact .efc-back-logo {
+          width: 1.9rem;
+          height: 1.9rem;
+          margin-bottom: 0.35rem;
+        }
+        .efc-root--compact .efc-event-name {
+          font-size: 0.78rem;
+          margin-bottom: 0.3rem;
+        }
+        .efc-root--compact .efc-artists {
+          font-size: 0.62rem;
+          line-height: 1.3;
+        }
+        .efc-root--compact .efc-price {
+          font-size: 0.85rem;
+          margin-bottom: 0.4rem;
+        }
+        .efc-root--compact .efc-cta {
+          font-size: 0.56rem;
+          padding: 0.45rem 0.5rem;
+        }
+        @media (min-width: 640px) {
+          .efc-root--compact .efc-grid {
+            gap: 0.9rem;
+          }
+          .efc-root--compact .efc-perspective {
+            height: 280px;
+          }
+          .efc-root--compact .efc-front-label {
+            left: 0.85rem;
+            right: 0.85rem;
+            bottom: 0.85rem;
+          }
+        }
+        @media (min-width: 1024px) {
+          .efc-root--compact .efc-perspective {
+            height: 300px;
+          }
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .efc-inner {
             transition: none;
