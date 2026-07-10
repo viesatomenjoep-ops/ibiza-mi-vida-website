@@ -1,18 +1,25 @@
 'use client'
 
 import React from 'react'
+import { cloudinaryVideo, cloudinaryVideoPoster, MEDIA } from '@/lib/cloudinary'
+
+const VIDEO_SRC = cloudinaryVideo(MEDIA.eventsBackground)
+const VIDEO_POSTER = cloudinaryVideoPoster(VIDEO_SRC)
 
 export function EventsBackground() {
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-white">
-      {/* Light Video Background */}
+      {/* Light Video Background — delivered from Cloudinary (q_auto,f_auto) with a
+          first-frame poster so it paints instantly while the clip streams in. */}
       <video
         autoPlay
         muted
         loop
         playsInline
+        preload="auto"
+        poster={VIDEO_POSTER}
         className="absolute inset-0 w-full h-full object-cover"
-        src="https://res.cloudinary.com/daj1lyfgk/video/upload/v1783098563/zna3zmwypuqpikuatbqy.mp4"
+        src={VIDEO_SRC}
       />
       <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px]" />
       

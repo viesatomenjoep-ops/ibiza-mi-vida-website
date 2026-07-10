@@ -1,5 +1,9 @@
 import React from 'react'
 import Image from 'next/image'
+import { cloudinaryVideo, optimizeCloudinaryVideo, cloudinaryVideoPoster, MEDIA } from '@/lib/cloudinary'
+
+// Default hero clip: the 4K Formentera drone footage, first 30s, from our cloud.
+const DEFAULT_HERO_VIDEO = cloudinaryVideo(MEDIA.formentera4k, { transform: 'so_30,du_30' })
 
 interface CategoryHeroProps {
   title: string
@@ -22,7 +26,7 @@ export function CategoryHero({
   colorTheme = 'rustic-terracotta',
   backgroundImage = '/fotos/hero-pattern.jpg',
   backgroundOpacity = 0.3,
-  videoUrl = 'https://res.cloudinary.com/daj1lyfgk/video/upload/q_auto,f_auto,so_30,du_30/v1781127267/YTDown_YouTube_Formentera-Spain-4K-Drone_Media_1Y8xgVJwzk0_001_1080p_bqyeg4.mp4'
+  videoUrl = DEFAULT_HERO_VIDEO
 }: CategoryHeroProps) {
   
   // Dynamic color selection for the abstract shapes
@@ -37,6 +41,11 @@ export function CategoryHero({
   const accentColor = themeColors[colorTheme]
   const isHome = searchComponent != null
 
+  // Deliver the hero clip from Cloudinary with instant-load transforms and a
+  // first-frame poster so the hero paints immediately while the 4K clip streams.
+  const optimizedVideo = videoUrl ? optimizeCloudinaryVideo(videoUrl) : undefined
+  const videoPoster = videoUrl ? cloudinaryVideoPoster(videoUrl) : undefined
+
   return (
     <section
       className={`relative flex ${minHeight} w-full flex-col items-center justify-center text-center pt-24 md:pt-32 pb-16 md:pb-20`}
@@ -44,15 +53,16 @@ export function CategoryHero({
     >
       {/* Background Video for all categories */}
       <div className="fixed inset-0 z-[-1] bg-black overflow-hidden">
-        {videoUrl ? (
+        {optimizedVideo ? (
           <video 
             autoPlay 
             loop 
             muted 
             playsInline 
             preload="auto"
+            poster={videoPoster}
             className="absolute inset-0 w-full h-full object-cover opacity-90 scale-[1.15]" 
-            src={videoUrl} 
+            src={optimizedVideo} 
           />
         ) : (
           <Image src={backgroundImage} alt={title} fill className="object-cover opacity-60" />
