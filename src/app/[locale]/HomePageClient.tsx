@@ -14,6 +14,7 @@ import { HomeHeroVideo } from '@/components/home/HomeHeroVideo';
 import { HeroShowIntro } from '@/components/home/HeroShowIntro';
 import { HomeScrollHint } from '@/components/home/HomeScrollHint';
 import { HomeMapWidget } from '@/components/home/HomeMapWidget';
+import { HomeArtistRing, type RingItem } from '@/components/home/HomeArtistRing';
 import { HomeStackedCards } from '@/components/home/HomeStackedCards';
 import { HomePreviewSheet } from '@/components/home/HomePreviewSheet';
 import type { CatKey } from '@/components/home/homeCategories';
@@ -26,12 +27,13 @@ interface HomePageProps {
   upcomingDates?: any[];
   pickerEvents?: PickerEvent[];
   deals?: DealsData;
+  ringItems?: RingItem[];
   previewPools?: Record<CatKey, string[]>;
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
   liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
 }
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, previewPools, allVenues = [], liveByClub = {} }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, ringItems = [], previewPools, allVenues = [], liveByClub = {} }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -121,6 +123,9 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </div>
 
       </header>
+
+      {/* 3D ring carousel — artists & parties from ClubTickets, just above "Ontdek Ibiza" */}
+      {ringItems.length > 0 && <HomeArtistRing items={ringItems} locale={locale} />}
 
       {/* Interactive Ibiza map widget (standalone HTML) — just above Deals of the Day */}
       <HomeMapWidget locale={locale} />
