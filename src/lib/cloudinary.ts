@@ -27,6 +27,8 @@ const IMAGE_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/up
 const DEFAULT_VIDEO_TRANSFORM = 'q_auto,f_auto,fl_progressive'
 
 type CloudinaryUrlParts = {
+  /** The cloud that hosts this URL (kept as-is so we never rewrite it). */
+  cloud: string
   /** Everything after `/upload/` up to (but not including) the public id + version. */
   transform: string
   /** The version + public id + extension, e.g. `v123/foo.mp4`. */
@@ -34,14 +36,15 @@ type CloudinaryUrlParts = {
 }
 
 const CLOUDINARY_UPLOAD_RE =
-  /^https?:\/\/res\.cloudinary\.com\/[^/]+\/(?:image|video)\/upload\/(.*)$/
+  /^https?:\/\/res\.cloudinary\.com\/([^/]+)\/(?:image|video)\/upload\/(.*)$/
 
 /** Parse an existing Cloudinary delivery URL into its transform + public parts. */
 function parseCloudinaryUrl(url: string): CloudinaryUrlParts | null {
   const match = url.match(CLOUDINARY_UPLOAD_RE)
   if (!match) return null
 
-  const rest = match[1]
+  const cloud = match[1]
+  const rest = match[2]
   const segments = rest.split('/')
 
   // Transformation segments live before the version (`v123…`) or the public id.
@@ -57,6 +60,7 @@ function parseCloudinaryUrl(url: string): CloudinaryUrlParts | null {
   }
 
   return {
+    cloud,
     transform: transformSegments.join('/'),
     publicPart: segments.slice(i).join('/'),
   }
@@ -83,7 +87,10 @@ export function optimizeCloudinaryVideo(url: string): string {
     ? [...existing, additions.join(',')].filter(Boolean).join('/')
     : existing.join('/')
 
-  return `${VIDEO_BASE}/${transform ? transform + '/' : ''}${parts.publicPart}`
+  // Keep the URL's own cloud so existing assets are never rewritten to a
+  // different (possibly empty) cloud when NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME changes.
+  const base = `https://res.cloudinary.com/${parts.cloud}/video/upload`
+  return `${base}/${transform ? transform + '/' : ''}${parts.publicPart}`
 }
 
 /**
@@ -100,7 +107,8 @@ export function cloudinaryVideoPoster(url: string): string | undefined {
   const poster = ['q_auto', 'f_auto', `so_${startOffset ?? '0'}`].join(',')
 
   const publicNoExt = parts.publicPart.replace(/\.[a-z0-9]+$/i, '')
-  return `${VIDEO_BASE}/${poster}/${publicNoExt}.jpg`
+  const base = `https://res.cloudinary.com/${parts.cloud}/video/upload`
+  return `${base}/${poster}/${publicNoExt}.jpg`
 }
 
 type VideoOptions = {
