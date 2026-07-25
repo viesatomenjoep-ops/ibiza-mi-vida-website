@@ -16,8 +16,13 @@ import { HomeScrollHint } from '@/components/home/HomeScrollHint';
 import { HomeMapWidget } from '@/components/home/HomeMapWidget';
 import { HomeStackedCards } from '@/components/home/HomeStackedCards';
 import { HomePreviewSheet } from '@/components/home/HomePreviewSheet';
+import { HomeUSP } from '@/components/home/HomeUSP';
+import { HomeTestimonials } from '@/components/home/HomeTestimonials';
+import { HomeInstagram } from '@/components/home/HomeInstagram';
+import { HomeNewsletter } from '@/components/home/HomeNewsletter';
 import type { CatKey } from '@/components/home/homeCategories';
 import { Reveal } from '@/components/ui/Reveal';
+import IbizaPlanner from '@/components/IbizaPlanner';
 
 interface HomePageProps {
   locale?: string;
@@ -116,11 +121,21 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] bg-gradient-to-b from-black/70 to-transparent" style={{ height: 'calc(var(--nav-h) + 40px)' }} />
 
         {/* Animated show-intro over the video — three lines type in on a loop */}
-        <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center" style={{ paddingBottom: '14vh' }}>
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center" style={{ paddingBottom: '14vh' }}>
           <HeroShowIntro locale={locale} />
+          <a
+            href="#ibiza-planner"
+            className="pointer-events-auto mt-10 inline-flex items-center gap-2 rounded-full border border-gold/60 bg-gold/10 px-8 py-3.5 font-serif text-xs font-bold uppercase tracking-[0.25em] text-gold backdrop-blur-sm transition-all hover:border-gold hover:bg-gold hover:text-obsidian"
+          >
+            {({ nl: 'Start Je Ibiza Planner', en: 'Start Your Ibiza Planner', es: 'Inicia Tu Planner', de: 'Starte Deinen Planner', fr: 'Lancez Votre Planner' } as Record<string, string>)[locale] || 'Start Your Ibiza Planner'}
+          </a>
         </div>
 
       </header>
+
+      {/* ── VIP Concierge: interactive multi-step Ibiza Planner (directly under the
+          cinematic hero video — the "Start Je Ibiza Planner" CTA scrolls here) ── */}
+      <IbizaPlanner locale={locale} />
 
       {/* Interactive Ibiza map widget (standalone HTML) — just above Deals of the Day */}
       <HomeMapWidget locale={locale} />
@@ -312,6 +327,18 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           </Reveal>
         </section>
       )}
+
+      {/* WHY US — trust-building USP row */}
+      <HomeUSP locale={locale} />
+
+      {/* SOCIAL PROOF — guest reviews (placeholder data for now) */}
+      <HomeTestimonials locale={locale} />
+
+      {/* INSTAGRAM — the island's vibe on your feed */}
+      <HomeInstagram locale={locale} />
+
+      {/* NEWSLETTER — lead capture */}
+      <HomeNewsletter locale={locale} />
 
       {/* CATEGORIES GRID */}
       <section className="section bg-white text-neutral-900">

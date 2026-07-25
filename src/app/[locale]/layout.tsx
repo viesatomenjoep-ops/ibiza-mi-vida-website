@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Oswald, Outfit } from 'next/font/google'
+import { Inter, Oswald, Outfit, Montserrat } from 'next/font/google'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
@@ -27,6 +27,13 @@ const outfit = Outfit({
   display: 'swap',
 })
 
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  variable: '--font-montserrat',
+  weight: ['300', '400', '500', '600', '700', '800'],
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ibizamivida.com'),
   title: {
@@ -50,7 +57,7 @@ export default function RootLayout({
   const { locale } = params;
 
   return (
-    <html lang={locale || 'en'} className={`${inter.variable} ${oswald.variable} ${outfit.variable}`}>
+    <html lang={locale || 'en'} className={`${inter.variable} ${oswald.variable} ${outfit.variable} ${montserrat.variable}`}>
       <body>
         <CartProvider>
           <Navbar />

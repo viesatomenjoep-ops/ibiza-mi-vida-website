@@ -251,7 +251,7 @@ export function Navbar() {
           <div className="nav-topbar">
             <span className="nav-topbar-inner">
               <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="11" fill="#14FF00" />
+                <circle cx="12" cy="12" r="11" fill="#5FA37E" />
                 <path d="M7 12.5l3.2 3.2L17 9" stroke="#0D0509" strokeWidth="2.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               {OFFICIAL_PARTNER[currentLocale.code] || OFFICIAL_PARTNER.en}

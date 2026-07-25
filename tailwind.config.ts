@@ -32,13 +32,30 @@ const config: Config = {
         'ibiza-orange': '#FF4E00',
         'ibiza-dark': '#0A0A0A',
         'ibiza-card': '#141414',
-        'ibiza-green': '#14FF00',
+        // Calmer, less "neon" green accent (was #14FF00)
+        'ibiza-green': '#5FA37E',
+        'ibiza-mint': '#E4EFE9',
+
+        // VIP Concierge / Ibiza Planner luxury palette
+        obsidian: {
+          DEFAULT: '#0B0C10',
+          light: '#111319',
+          card: '#14161D',
+        },
+        // Accent — muted, sophisticated purple (replaces the former gold).
+        // Token name kept as `gold` so every existing *-gold* utility recolours globally.
+        gold: {
+          DEFAULT: '#8B6FB0',
+          soft: '#A78FC7',
+          faint: 'rgba(139, 111, 176, 0.14)',
+        },
       },
       fontFamily: {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
         serif: ['var(--font-display)', ...defaultTheme.fontFamily.serif],
         display: ['Outfit', ...defaultTheme.fontFamily.sans],
         mono: ['JetBrains Mono', ...defaultTheme.fontFamily.mono],
+        montserrat: ['var(--font-montserrat)', 'Montserrat', ...defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
