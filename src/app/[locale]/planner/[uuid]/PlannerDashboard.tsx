@@ -439,7 +439,7 @@ function AiAssistant() {
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setOpen((o) => !o)}
-        className="ml-auto flex h-14 w-14 items-center justify-center rounded-full bg-gold text-obsidian shadow-[0_10px_35px_rgba(212,175,55,0.45)]"
+        className="ml-auto flex h-14 w-14 items-center justify-center rounded-full bg-gold text-obsidian shadow-[0_10px_35px_rgba(139,111,176,0.45)]"
         aria-label="Open 24/7 AI assistant"
       >
         {open ? <X size={22} /> : <MessageCircle size={22} />}
@@ -553,7 +553,7 @@ export default function PlannerDashboard({ uuid, locale }: { uuid: string; local
                       {/* Timeline dot */}
                       <span
                         className={`absolute -left-6 top-6 h-2 w-2 -translate-x-1/2 rounded-full md:-left-8 ${
-                          item.gold ? 'bg-gold shadow-[0_0_10px_rgba(212,175,55,0.8)]' : 'bg-white/30'
+                          item.gold ? 'bg-gold shadow-[0_0_10px_rgba(139,111,176,0.8)]' : 'bg-white/30'
                         }`}
                       />
                       <div className="flex items-start gap-4">

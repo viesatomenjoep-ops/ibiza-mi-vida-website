@@ -8,7 +8,7 @@ import {
   Users,
   Home,
   Plane,
-  Sparkles,
+  PlaneTakeoff,
   Car,
   Bike,
   CarTaxiFront,
@@ -123,7 +123,7 @@ function OptionCard({
       onClick={onClick}
       className={`group relative flex flex-col items-center gap-3 rounded-2xl border px-6 py-7 text-center transition-all duration-300 ${
         selected
-          ? 'border-gold bg-gold-faint shadow-[0_0_30px_rgba(212,175,55,0.15)]'
+          ? 'border-gold bg-gold-faint shadow-[0_0_30px_rgba(139,111,176,0.15)]'
           : 'border-white/10 bg-obsidian-card hover:border-gold/50 hover:bg-white/[0.03]'
       }`}
     >
@@ -363,7 +363,7 @@ export default function IbizaPlanner({ locale = 'nl' }: { locale?: string }) {
                           onClick={() => pick({ type: 'SET_VILLA', value: villa.slug })}
                           className={`group relative overflow-hidden rounded-2xl border text-left transition-all duration-300 ${
                             selected
-                              ? 'border-gold shadow-[0_0_30px_rgba(212,175,55,0.2)]'
+                              ? 'border-gold shadow-[0_0_30px_rgba(139,111,176,0.2)]'
                               : 'border-white/10 hover:border-gold/50'
                           }`}
                         >
@@ -410,7 +410,7 @@ export default function IbizaPlanner({ locale = 'nl' }: { locale?: string }) {
                     <OptionCard
                       selected={state.arrivalMethod === 'private_jet'}
                       onClick={() => pick({ type: 'SET_ARRIVAL', value: 'private_jet' })}
-                      icon={<Sparkles size={28} strokeWidth={1.5} />}
+                      icon={<PlaneTakeoff size={28} strokeWidth={1.5} />}
                       title="Private Jet"
                       subtitle="VIP terminal reception"
                     />
@@ -501,7 +501,7 @@ export default function IbizaPlanner({ locale = 'nl' }: { locale?: string }) {
                     <button
                       type="button"
                       onClick={goNext}
-                      className="rounded-full bg-gold px-8 py-3 text-sm font-semibold tracking-wide text-obsidian transition-all hover:bg-gold-soft hover:shadow-[0_0_25px_rgba(212,175,55,0.35)]"
+                      className="rounded-full bg-gold px-8 py-3 text-sm font-semibold tracking-wide text-obsidian transition-all hover:bg-gold-soft hover:shadow-[0_0_25px_rgba(139,111,176,0.35)]"
                     >
                       {state.extras.length > 0
                         ? `Continue with ${state.extras.length} experience${state.extras.length > 1 ? 's' : ''}`
@@ -519,7 +519,7 @@ export default function IbizaPlanner({ locale = 'nl' }: { locale?: string }) {
                       type="button"
                       onClick={handleSubmit}
                       disabled={submitting}
-                      className="inline-flex items-center gap-3 rounded-full bg-gold px-10 py-4 text-sm font-bold uppercase tracking-[0.2em] text-obsidian transition-all hover:bg-gold-soft hover:shadow-[0_0_35px_rgba(212,175,55,0.4)] disabled:opacity-70"
+                      className="inline-flex items-center gap-3 rounded-full bg-gold px-10 py-4 text-sm font-bold uppercase tracking-[0.2em] text-obsidian transition-all hover:bg-gold-soft hover:shadow-[0_0_35px_rgba(139,111,176,0.4)] disabled:opacity-70"
                     >
                       {submitting ? (
                         <>
