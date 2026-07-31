@@ -123,8 +123,12 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
   const [dockDay, setDockDay] = useState<string | null>(null);
   const galleryEvents = useMemo(() => {
     const sorted = [...pickerEvents].sort((a, b) => a.date.localeCompare(b.date));
-    return dockDay ? sorted.filter(e => e.date === dockDay) : sorted;
-  }, [pickerEvents, dockDay]);
+    if (dockDay) return sorted.filter(e => e.date === dockDay);
+    // No day selected: show only the active dock week — rendering every event
+    // at once (hundreds of cards) froze the page.
+    const weekEndStr = format(addDays(parseISO(dockWeekStart), 6), 'yyyy-MM-dd');
+    return sorted.filter(e => e.date >= dockWeekStart && e.date <= weekEndStr);
+  }, [pickerEvents, dockDay, dockWeekStart]);
   React.useEffect(() => { if (!dockDay || !galleryRef.current) return; const el = galleryRef.current; const t = setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 90); return () => clearTimeout(t); }, [dockDay]);
 
   const weekStart = format(startOfWeek(today, { weekStartsOn: 1 }), 'yyyy-MM-dd');
@@ -172,7 +176,8 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
     { key: 'tomorrow', label: L.tomorrow, count: tomorrowCount },
     { key: 'week', label: L.week, count: weekCount },
     { key: 'month', label: L.month, count: monthCount },
-    { key: 'all', label: L.all, count: allCount },
+    // 'all' removed — the server now ships only a 31-day window, and rendering
+    // the entire season at once made the page freeze.
   ];
 
   // ── List view (today / tomorrow / week / all) ──

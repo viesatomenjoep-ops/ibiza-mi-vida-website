@@ -22,8 +22,11 @@ export default async function Page({ params }: { params: { locale: string } }) {
 
   const allDates = await getAllDates(params.locale);
   const todayStr = new Date().toISOString().split('T')[0];
+  // PERF: only ship the next 31 days to the client - the full season (1000+ dates)
+  // made the page payload huge and froze the browser.
+  const windowEndStr = new Date(Date.now() + 31 * 86400000).toISOString().split('T')[0];
   const events: WaterAgendaEvent[] = allDates
-    .filter(d => d.venueSlug && shuttleSlugs.has(d.venueSlug) && d.date >= todayStr)
+    .filter(d => d.venueSlug && shuttleSlugs.has(d.venueSlug) && d.date >= todayStr && d.date <= windowEndStr)
     .map(d => ({
       id: String(d.id),
       name: d.name,

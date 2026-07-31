@@ -18,8 +18,14 @@ export default async function CalendarPage({
   const venues = await getVenues(params.locale);
   const venuesMap = new Map(venues.map(v => [v.slug, v]));
 
+  // PERF: only ship the next 31 days to the client — the full season (4000+
+  // dates) made the payload huge and froze the calendar.
+  const todayStr = new Date().toISOString().split('T')[0];
+  const windowEndStr = new Date(Date.now() + 31 * 86400000).toISOString().split('T')[0];
+  const windowedDates = allDates.filter(d => d.date >= todayStr && d.date <= windowEndStr);
+
   // Map dates to the format expected by the client
-  const mappedEvents = allDates.map(d => {
+  const mappedEvents = windowedDates.map(d => {
     const venueObj = d.venueSlug ? venuesMap.get(d.venueSlug) : undefined;
     return {
       id: String(d.id),

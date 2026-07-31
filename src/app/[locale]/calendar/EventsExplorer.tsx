@@ -165,7 +165,9 @@ export default function EventsExplorer({ events, locale }: Props) {
 
   const periods: { key: Period; label: string }[] = [
     { key: 'day', label: T.day }, { key: 'week', label: T.week },
-    { key: 'month', label: T.month }, { key: 'year', label: T.year },
+    { key: 'month', label: T.month },
+    // 'year' removed — the server only ships a 31-day window now (shipping the
+    // full season froze the page).
   ]
   const periodIdx = periods.findIndex(p => p.key === period)
 
