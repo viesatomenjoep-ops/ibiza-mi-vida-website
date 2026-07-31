@@ -1,3 +1,15 @@
+import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
+
+export async function generateMetadata({ params }: { params: { slug: string; locale: string } }): Promise<Metadata> {
+  const venues = await getVenues(params.locale)
+  const venue = venues.find(v => v.slug === params.slug && v.type.slug === 'formentera-day-trip')
+  if (!venue) return staticMetadata(params.locale, 'ferry-formentera')
+  return detailMetadata(params.locale, `ferry-formentera/${params.slug}`, venue.name, {
+    description: (venue as any).cleanDescription || venue.description,
+    image: venue.cover || venue.picture,
+  })
+}
+
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getVenues, getAllDates } from '@/lib/clubtickets'

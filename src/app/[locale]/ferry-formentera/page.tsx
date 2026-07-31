@@ -1,3 +1,10 @@
+import type { Metadata } from 'next'
+import { staticMetadata } from '@/lib/seo-pages'
+
+export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+  return staticMetadata(params.locale, 'ferry-formentera')
+}
+
 import { getVenues, getAllDates } from '@/lib/clubtickets';
 import WaterAgendaClient, { WaterAgendaEvent, WaterAgendaVenue } from '@/components/boats/WaterAgendaClient';
 

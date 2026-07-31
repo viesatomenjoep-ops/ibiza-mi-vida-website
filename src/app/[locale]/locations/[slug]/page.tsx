@@ -1,13 +1,25 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, MapPin } from 'lucide-react'
 import { locations, getLocationBySlug } from '@/lib/locations'
+import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
 
 export function generateStaticParams() {
   return locations.map((loc) => ({
     slug: loc.slug,
   }))
+}
+
+export async function generateMetadata({ params }: { params: { slug: string; locale: string } }): Promise<Metadata> {
+  const location = getLocationBySlug(params.slug)
+  if (!location) return staticMetadata(params.locale, 'locations', 'Ibiza Locations')
+  return detailMetadata(params.locale, `locations/${params.slug}`, location.name, {
+    description: (location as any).tagline || (location as any).description,
+    image: (location as any).imageUrl,
+    suffix: '— Ibiza',
+  })
 }
 
 export default function LocationPage({ params }: { params: { slug: string } }) {

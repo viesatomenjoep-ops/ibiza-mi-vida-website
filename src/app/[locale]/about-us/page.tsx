@@ -1,3 +1,10 @@
+import type { Metadata } from 'next'
+import { staticMetadata } from '@/lib/seo-pages'
+
+export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+  return staticMetadata(params.locale, 'about-us')
+}
+
 import React from 'react';
 
 export default function AboutUsPage() {
