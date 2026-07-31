@@ -3,6 +3,7 @@ import { Inter, Oswald, Outfit, Montserrat } from 'next/font/google'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
+import { SITE_URL, SITE_NAME, TWITTER_HANDLE } from '@/lib/seo'
 
 import '@/styles/globals.css'
 
@@ -35,13 +36,50 @@ const montserrat = Montserrat({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ibizamivida.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Ibiza mi vida — Ibiza Events, Club Tickets & Private Boat Charters',
     template: '%s | Ibiza mi vida',
   },
   description:
     'Book Ibiza club tickets, private boat charters, boat parties, VIP catamarans and Formentera trips with Ibiza mi vida — your premium Ibiza events agency.',
+  applicationName: SITE_NAME,
+  keywords: [
+    'Ibiza', 'Ibiza tickets', 'Ibiza club tickets', 'Ibiza events', 'Ibiza clubs',
+    'boat party Ibiza', 'private boat charter Ibiza', 'Formentera ferry', 'Ushuaïa', 'Hï Ibiza',
+    'Pacha', 'Amnesia', 'VIP tables Ibiza', 'Ibiza guestlist',
+  ],
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  formatDetection: { telephone: false },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    siteName: SITE_NAME,
+    title: 'Ibiza mi vida — Ibiza Events, Club Tickets & Private Boat Charters',
+    description:
+      'Book Ibiza club tickets, private boat charters, boat parties, VIP catamarans and Formentera trips with Ibiza mi vida.',
+    images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: SITE_NAME }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: TWITTER_HANDLE,
+    creator: TWITTER_HANDLE,
+    title: 'Ibiza mi vida — Ibiza Events, Club Tickets & Private Boat Charters',
+    description: 'Ibiza club tickets, private boat charters, boat parties and Formentera trips.',
+    images: ['/og-default.jpg'],
+  },
 }
 
 import { CartProvider } from '@/context/cart-context'

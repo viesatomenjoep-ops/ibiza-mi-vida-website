@@ -1,0 +1,72 @@
+import { SITE_URL, SITE_NAME } from '@/lib/seo'
+
+/**
+ * Homepage structured data: Organization + WebSite (with SearchAction) +
+ * TravelAgency/LocalBusiness. Rendered once on the homepage so Google can build
+ * rich results (sitelinks search box, knowledge panel, business info).
+ */
+export function HomeJsonLd({ locale = 'nl' }: { locale?: string }) {
+  const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER
+  const ogImage = `${SITE_URL}/og-default.jpg`
+
+  const organization = {
+    '@type': 'Organization',
+    '@id': `${SITE_URL}/#organization`,
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/logo-clean.png`,
+    image: ogImage,
+    ...(phone ? { telephone: `+${phone}` } : {}),
+    sameAs: ['https://www.instagram.com/ibizamivida/'],
+  }
+
+  const website = {
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    url: SITE_URL,
+    name: SITE_NAME,
+    inLanguage: locale,
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}/${locale}/calendar?search={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  }
+
+  const business = {
+    '@type': 'TravelAgency',
+    '@id': `${SITE_URL}/#business`,
+    name: SITE_NAME,
+    url: SITE_URL,
+    image: ogImage,
+    ...(phone ? { telephone: `+${phone}` } : {}),
+    priceRange: '€€€',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Ibiza',
+      addressRegion: 'Balearic Islands',
+      addressCountry: 'ES',
+    },
+    geo: { '@type': 'GeoCoordinates', latitude: 38.9067, longitude: 1.4206 },
+    areaServed: { '@type': 'Place', name: 'Ibiza, Spain' },
+    parentOrganization: { '@id': `${SITE_URL}/#organization` },
+    description:
+      'Premium Ibiza booking agency — club tickets, private boat charters, boat parties, VIP tables and Formentera trips.',
+  }
+
+  const graph = {
+    '@context': 'https://schema.org',
+    '@graph': [organization, website, business],
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
+    />
+  )
+}
