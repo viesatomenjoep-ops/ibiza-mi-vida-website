@@ -7,6 +7,8 @@ interface EventSchemaProps {
   image?: string
   lineup?: string[]
   pageUrl: string
+  /** 'MusicEvent' for club nights (default); 'Event' for tours/activities/boats. */
+  type?: 'MusicEvent' | 'Event'
 }
 
 export function EventSchema({
@@ -18,12 +20,13 @@ export function EventSchema({
   image,
   lineup = [],
   pageUrl,
+  type = 'MusicEvent',
 }: EventSchemaProps) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ibizamivida.com'
 
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'MusicEvent',
+    '@type': type,
     name,
     startDate,
     description,

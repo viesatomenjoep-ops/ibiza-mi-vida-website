@@ -10,6 +10,8 @@ import { BackButton } from '@/components/ui/BackButton'
 import { ScrollCue } from '@/components/ui/ScrollCue'
 import { stripHtml } from '@/lib/html-utils'
 import { parseCTDescription } from '@/lib/ct-description'
+import { EventSchema } from '@/components/seo/EventSchema'
+import { SITE_URL } from '@/lib/seo'
 
 import en from '@/dictionaries/en.json'
 import nl from '@/dictionaries/nl.json'
@@ -254,8 +256,25 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
   const endAt = eventDetail?.endAt
   const hasTimes = !!(startAt || endAt)
 
+  // Structured data for Google event rich results — first upcoming date.
+  const schemaPriceMatch = String(d0?.prices || '').match(/\d+([.,]\d+)?/)
+  const schemaLineup = formatLineUp(d0?.lineUp).split(',').map(a => a.trim()).filter(Boolean).slice(0, 10)
+
   return (
     <div className="bg-white text-black min-h-screen">
+      {d0?.date && (
+        <EventSchema
+          name={eventName}
+          startDate={d0.date}
+          venueName={club.name}
+          description={desc.intro.join(' ').slice(0, 300) || undefined}
+          priceFrom={schemaPriceMatch ? parseFloat(schemaPriceMatch[0].replace(',', '.')) : undefined}
+          image={eventCover || undefined}
+          lineup={schemaLineup}
+          pageUrl={`${SITE_URL}/${locale}/${basePath}/${club.slug}/${eventSlug}`}
+          type={basePath === 'club-tickets' ? 'MusicEvent' : 'Event'}
+        />
+      )}
       {/* Hero */}
       <section className="relative flex h-[46vh] w-full flex-col justify-end overflow-hidden rounded-b-[28px] md:h-[58vh]" aria-label={`${eventName} hero`}>
         <BackButton locale={locale} fallbackHref={`/${locale}/${basePath}/${club.slug}`} variant="top" />

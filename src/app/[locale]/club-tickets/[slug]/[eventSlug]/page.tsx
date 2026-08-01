@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import { supabase } from '@/lib/supabase/client'
 import { getAllDates } from '@/lib/clubtickets'
 import { EventCheckoutClient } from './EventCheckoutClient'
+import { EventSchema } from '@/components/seo/EventSchema'
+import { SITE_URL } from '@/lib/seo'
 
 export const revalidate = 3600
 
@@ -105,12 +107,28 @@ export default async function EventPage({ params }: Props) {
     logo: eventGrp.logo || eventGrp.whitelogo
   };
 
+  const schemaPrice = String(selectedDateRow.prices || '').match(/\d+([.,]\d+)?/)
+  const schemaLineup = String(selectedDateRow.raw_lineup || '')
+    .replace(/<[^>]+>/g, ' ').split(/[-,]/).map(a => a.trim()).filter(Boolean).slice(0, 10)
+
   return (
-    <EventCheckoutClient 
+    <>
+    <EventSchema
+      name={eventGrp.name}
+      startDate={selectedDateRow.date}
+      venueName={eventGrp.ct_venues?.name || 'Ibiza'}
+      description={eventGrp.description ? String(eventGrp.description).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 300) : undefined}
+      priceFrom={schemaPrice ? parseFloat(schemaPrice[0].replace(',', '.')) : undefined}
+      image={heroImage || undefined}
+      lineup={schemaLineup}
+      pageUrl={`${SITE_URL}/${params.locale}/club-tickets/${params.slug}/${params.eventSlug}`}
+    />
+    <EventCheckoutClient
       selectedDateObj={mappedSelectedDate as any}
       allEventDates={mappedAllDates as any}
       fullEvent={fullEvent as any}
       locale={params.locale}
     />
+    </>
   )
 }

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { cleanHtml } from '@/lib/html-utils'
 import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
 import { BackButton } from '@/components/ui/BackButton'
+import { VenueSchema } from '@/components/seo/VenueSchema'
 
 interface VenueDetailPageProps {
   club: any;
@@ -185,6 +186,15 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
 
   return (
     <>
+      <VenueSchema
+        name={club.name}
+        slug={club.slug}
+        description={club.cleanDescription || club.description}
+        image={club.cover || club.picture}
+        basePath={basePath}
+        type={basePath === 'club-tickets' ? 'NightClub' : 'TouristAttraction'}
+        locale={locale}
+      />
       <div className="bg-white min-h-screen text-black pb-20 pt-0">
         
         {/* Hero Section */}
