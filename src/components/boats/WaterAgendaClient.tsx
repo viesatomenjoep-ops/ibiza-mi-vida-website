@@ -85,8 +85,28 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
   const today = useMemo(() => new Date(), []);
   const todayStr = format(today, 'yyyy-MM-dd');
 
+  // ── Month-by-month loading ──
+  // The server only ships a 31-day window (perf); browsing further ahead
+  // fetches the missing month from /api/agenda and merges it in (dedupe by id).
+  const [extraEvents, setExtraEvents] = useState<WaterAgendaEvent[]>([]);
+  const loadedMonthsRef = React.useRef<Set<string>>(new Set([format(today, 'yyyy-MM')]));
+  const allEvents = useMemo(() => {
+    if (!extraEvents.length) return events;
+    const seen = new Set(events.map(e => String(e.id)));
+    return [...events, ...extraEvents.filter(e => !seen.has(String(e.id)))];
+  }, [events, extraEvents]);
+  const ensureMonth = React.useCallback((month: string) => {
+    if (!month || month < format(today, 'yyyy-MM') || loadedMonthsRef.current.has(month)) return;
+    loadedMonthsRef.current.add(month);
+    const slugs = venues.map(v => v.slug).join(',');
+    fetch(`/api/agenda?locale=${encodeURIComponent(locale)}&month=${month}&venues=${encodeURIComponent(slugs)}`)
+      .then(r => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then(j => { if (Array.isArray(j?.events) && j.events.length) setExtraEvents(prev => [...prev, ...j.events]); })
+      .catch(() => { loadedMonthsRef.current.delete(month); });
+  }, [venues, locale, today]);
+
   // Normalised events for the ClubTickets-style calendar picker
-  const pickerEvents: PickerEvent[] = useMemo(() => events.map(e => {
+  const pickerEvents: PickerEvent[] = useMemo(() => allEvents.map(e => {
     const mv = venues.find(v => v.slug === e.venueSlug);
     const m = String(e.prices || '').match(/\d+([.,]\d+)?/);
     return {
@@ -105,7 +125,7 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
       href: `/${locale}/${basePath || 'club-tickets'}/${e.venueSlug}/${e.eventSlug}`,
       affLink: e.affLink || '',
     };
-  }), [events, venues, locale, basePath]);
+  }), [allEvents, venues, locale, basePath]);
 
   const [quickFilter, setQuickFilter] = useState<QuickFilter>('today');
   const [activeMonth, setActiveMonth] = useState(format(today, 'yyyy-MM'));
@@ -131,13 +151,28 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
   }, [pickerEvents, dockDay, dockWeekStart]);
   React.useEffect(() => { if (!dockDay || !galleryRef.current) return; const el = galleryRef.current; const t = setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 90); return () => clearTimeout(t); }, [dockDay]);
 
+  // Lazy-load months when browsing past the shipped 31-day window.
+  React.useEffect(() => { ensureMonth(activeMonth); }, [activeMonth, ensureMonth]);
+  React.useEffect(() => {
+    try {
+      ensureMonth(dockWeekStart.slice(0, 7));
+      ensureMonth(format(addDays(parseISO(dockWeekStart), 6), 'yyyy-MM'));
+      // Approaching the edge of loaded data? Prefetch the following month so
+      // the week dock can keep sliding forward.
+      const maxLoaded = allEvents.reduce((m, e) => (e.date > m ? e.date : m), todayStr);
+      if (format(addDays(parseISO(dockWeekStart), 13), 'yyyy-MM-dd') >= maxLoaded) {
+        ensureMonth(format(addMonths(parseISO(`${maxLoaded.slice(0, 7)}-01`), 1), 'yyyy-MM'));
+      }
+    } catch {}
+  }, [dockWeekStart, ensureMonth, allEvents, todayStr]);
+
   const weekStart = format(startOfWeek(today, { weekStartsOn: 1 }), 'yyyy-MM-dd');
   const weekEnd = format(endOfWeek(today, { weekStartsOn: 1 }), 'yyyy-MM-dd');
   const tomorrowStr = format(addDays(today, 1), 'yyyy-MM-dd');
 
   // Venue + text scope (applied to every view). Time is applied per view.
   const scoped = useMemo(() => {
-    let evs = [...events];
+    let evs = [...allEvents];
     if (selectedVenue) evs = evs.filter(e => e.venueSlug === selectedVenue);
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
@@ -160,7 +195,7 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
 
   // Only operators that actually have upcoming departures in the current scope search
   const activeVenues = useMemo(() => {
-    const slugs = new Set(events.map(e => e.venueSlug).filter(Boolean));
+    const slugs = new Set(allEvents.map(e => e.venueSlug).filter(Boolean));
     return venues.filter(v => slugs.has(v.slug));
   }, [events, venues]);
 
@@ -196,9 +231,11 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
   // ── Month grid ──
   const months = useMemo(() => {
     const s = new Set<string>();
-    events.forEach(e => { if (e.date) s.add(e.date.slice(0, 7)); });
+    allEvents.forEach(e => { if (e.date) s.add(e.date.slice(0, 7)); });
+    // Always allow browsing a few months ahead — those load on demand via /api/agenda.
+    for (let i = 0; i <= 3; i++) s.add(format(addMonths(today, i), 'yyyy-MM'));
     return Array.from(s).sort();
-  }, [events]);
+  }, [allEvents, today]);
 
   const monthDate = useMemo(() => parseISO(`${activeMonth}-01`), [activeMonth]);
   const gridDays = useMemo(() => {
