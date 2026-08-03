@@ -11,6 +11,7 @@ import { ScrollCue } from '@/components/ui/ScrollCue'
 import { stripHtml } from '@/lib/html-utils'
 import { parseCTDescription } from '@/lib/ct-description'
 import { EventSchema } from '@/components/seo/EventSchema'
+import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
 import { SITE_URL } from '@/lib/seo'
 
 import en from '@/dictionaries/en.json'
@@ -275,6 +276,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
           type={basePath === 'club-tickets' ? 'MusicEvent' : 'Event'}
         />
       )}
+      <FaqJsonLd faqs={faqs} />
       {/* Hero */}
       <section className="relative flex h-[46vh] w-full flex-col justify-end overflow-hidden rounded-b-[28px] md:h-[58vh]" aria-label={`${eventName} hero`}>
         <BackButton locale={locale} fallbackHref={`/${locale}/${basePath}/${club.slug}`} variant="top" />
