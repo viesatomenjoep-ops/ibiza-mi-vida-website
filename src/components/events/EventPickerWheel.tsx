@@ -533,43 +533,23 @@ const PLANNER_TXT: Record<string, {
   fr: { s1: 'Choisis ton club', s2: 'Quand es-tu à Ibiza ?', s3: 'Tes événements', nextDate: 'Choisir ta date', nextEvents: 'Voir les événements', back: 'Retour', club: 'Club', date: 'Date', events: 'Événements', none: 'Aucun événement sur cette période', swipeClub: 'Glisse pour choisir ton club', swipeDate: 'Glisse pour choisir ton moment', pickPeriod: 'Jour · Semaine · Mois', startOver: 'Recommencer', flexible: "Pas encore sûr — tout afficher", allEvents: 'Tous les événements', share: 'Partager', shared: 'Lien copié' },
 }
 
-// ── Per-event checkout button + confirmation dialog ───────────────────────────
+// ── Per-event checkout button ─────────────────────────────────────────────────
+// The visitor has already explicitly chosen the club and the date in the planner
+// flow, so checkout goes STRAIGHT to ClubTickets for that date — no extra
+// confirmation dialog in between.
 function PlannerCheckout({ e, locale }: { e: PickerEvent; locale: string }) {
-  const [open, setOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
   const T = ({
-    nl: { checkout: 'Afrekenen', title: 'Wil je afrekenen?', sub: 'Je gaat naar ClubTickets om je tickets te betalen.', pay: 'Betalen', cancel: 'Annuleren' },
-    en: { checkout: 'Checkout', title: 'Ready to check out?', sub: 'You’ll continue to ClubTickets to pay for your tickets.', pay: 'Pay now', cancel: 'Cancel' },
-    de: { checkout: 'Bezahlen', title: 'Zur Kasse?', sub: 'Du wirst zu ClubTickets weitergeleitet, um deine Tickets zu bezahlen.', pay: 'Jetzt zahlen', cancel: 'Abbrechen' },
-    es: { checkout: 'Pagar', title: '¿Quieres pagar?', sub: 'Irás a ClubTickets para pagar tus entradas.', pay: 'Pagar ahora', cancel: 'Cancelar' },
-    fr: { checkout: 'Payer', title: 'Passer au paiement ?', sub: 'Tu seras redirigé vers ClubTickets pour payer tes billets.', pay: 'Payer', cancel: 'Annuler' },
-  } as Record<string, any>)[locale] || {} as any
-  const dloc = DF[locale] || enUS
-  const dateStr = (() => { try { const d = parseISO(e.date); return isValid(d) ? format(d, 'EEEE d MMMM', { locale: dloc }) : '' } catch { return '' } })()
-  const go = () => { setOpen(false); const url = e.affLink || e.href; if (typeof window !== 'undefined') window.open(url, '_blank') }
+    nl: { checkout: 'Afrekenen' },
+    en: { checkout: 'Checkout' },
+    de: { checkout: 'Bezahlen' },
+    es: { checkout: 'Pagar' },
+    fr: { checkout: 'Payer' },
+  } as Record<string, { checkout: string }>)[locale] || { checkout: 'Checkout' }
+  const go = () => { const url = e.affLink || e.href; if (typeof window !== 'undefined') window.open(url, '_blank') }
   return (
-    <>
-      <button type="button" onClick={() => setOpen(true)} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-ibiza-green px-4 py-2 text-[11px] font-black uppercase tracking-wide text-black transition-all hover:brightness-95">
-        {T.checkout} <Ticket size={13} />
-      </button>
-      {open && mounted && createPortal(
-        <div className="fixed inset-0 z-[400] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm" onClick={() => setOpen(false)}>
-          <div className="w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-2xl" onClick={ev => ev.stopPropagation()}>
-            <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-ibiza-green text-black"><Ticket size={26} /></span>
-            <h4 className="mt-4 font-serif text-xl font-black text-black">{T.title}</h4>
-            <p className="mt-1 text-sm font-black text-black">{e.eventName}</p>
-            {dateStr && <p className="text-xs font-semibold capitalize text-ibiza-green">{dateStr}</p>}
-            <p className="mt-2 text-xs font-medium text-black/45">{T.sub}</p>
-            <div className="mt-5 flex gap-2">
-              <button type="button" onClick={() => setOpen(false)} className="flex-1 rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm font-black uppercase tracking-wide text-black/60 transition-colors hover:bg-black/5">{T.cancel}</button>
-              <button type="button" onClick={go} className="flex flex-[1.5] items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-4 py-3 font-serif text-base font-black uppercase tracking-wide text-black shadow-md transition-all hover:brightness-95">{T.pay}{e.price > 0 ? ` · €${e.price}` : ''} <Ticket size={16} /></button>
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
-    </>
+    <button type="button" onClick={go} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-ibiza-green px-4 py-2 text-[11px] font-black uppercase tracking-wide text-black transition-all hover:brightness-95">
+      {T.checkout}{e.price > 0 ? ` · €${e.price}` : ''} <Ticket size={13} />
+    </button>
   )
 }
 
