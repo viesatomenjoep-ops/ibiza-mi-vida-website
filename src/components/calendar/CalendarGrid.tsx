@@ -1,4 +1,5 @@
 import React from 'react'
+import { ctLink } from '@/lib/ct-link'
 import Image from 'next/image'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
 
@@ -95,7 +96,7 @@ export function CalendarGrid({ days, venues, events, locale }: Props) {
                           <div className="mt-auto flex flex-col items-center gap-3 pt-2">
                             <span className="font-bold text-black">{priceText}</span>
                             <a 
-                              href={event.affLink} 
+                              href={ctLink(event.affLink, locale)} 
                               target="_blank" 
                               rel="noopener noreferrer"
                               className="w-full bg-[#1A1A1A] text-white text-center py-2.5 rounded-lg text-sm font-bold hover:bg-black transition-colors"

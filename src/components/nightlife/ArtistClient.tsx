@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { ctLink } from '@/lib/ct-link';
 import { CTArtist, CTEventDate } from '@/lib/clubtickets';
 
 interface ArtistClientProps {
@@ -22,6 +24,7 @@ interface ArtistClientProps {
 }
 
 export default function ArtistClient({ artist, dates, similarArtists, translations }: ArtistClientProps) {
+  const localePath = usePathname().split('/')[1] || 'en';
   const [activeTab, setActiveTab] = useState<'dates' | 'story'>('dates');
 
   // Parse price helper
@@ -88,7 +91,7 @@ export default function ArtistClient({ artist, dates, similarArtists, translatio
                     const dayStr = dObj.toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short' });
                     
                     return (
-                      <Link href={date.affLink} key={date.id || idx} target="_blank" rel="noopener noreferrer" className="dcard" style={{ flex: '0 0 calc(33.333% - 16px)' }}>
+                      <Link href={ctLink(date.affLink, localePath)} key={date.id || idx} target="_blank" rel="noopener noreferrer" className="dcard" style={{ flex: '0 0 calc(33.333% - 16px)' }}>
                         <div className="dinfo">
                           <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                         </div>

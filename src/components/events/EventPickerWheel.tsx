@@ -7,6 +7,7 @@ import { format, parseISO, isValid, startOfDay, startOfWeek, addDays, endOfMonth
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { Ticket, Music, ChevronRight, ChevronLeft, CalendarDays, X, Maximize2, Share2 } from 'lucide-react'
 import { ScrollCue } from '@/components/ui/ScrollCue'
+import { ctLink } from '@/lib/ct-link'
 
 export interface PickerEvent {
   id: string
@@ -545,7 +546,7 @@ function PlannerCheckout({ e, locale }: { e: PickerEvent; locale: string }) {
     es: { checkout: 'Pagar' },
     fr: { checkout: 'Payer' },
   } as Record<string, { checkout: string }>)[locale] || { checkout: 'Checkout' }
-  const go = () => { const url = e.affLink || e.href; if (typeof window !== 'undefined') window.open(url, '_blank') }
+  const go = () => { const url = e.affLink ? ctLink(e.affLink, locale) : e.href; if (typeof window !== 'undefined') window.open(url, '_blank') }
   return (
     <button type="button" onClick={go} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-ibiza-green px-4 py-2 text-[11px] font-black uppercase tracking-wide text-black transition-all hover:brightness-95">
       {T.checkout}{e.price > 0 ? ` · €${e.price}` : ''} <Ticket size={13} />

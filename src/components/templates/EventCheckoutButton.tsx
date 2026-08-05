@@ -1,5 +1,7 @@
 'use client'
 
+
+import { ctLink } from '@/lib/ct-link'
 import { useState } from 'react'
 import { Ticket, ExternalLink } from 'lucide-react'
 
@@ -19,7 +21,7 @@ export function EventCheckoutButton({ affLink, locale = 'nl', label, variant = '
 
   const go = () => {
     setOpen(false)
-    if (affLink) window.open(affLink, '_blank')
+    if (affLink) window.open(ctLink(affLink, locale), '_blank')
   }
 
   const cls = variant === 'pill'

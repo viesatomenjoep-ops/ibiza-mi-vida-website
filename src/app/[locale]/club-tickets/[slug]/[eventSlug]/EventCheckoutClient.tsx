@@ -9,6 +9,7 @@ import {
 import { format, parseISO, isValid } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import type { CTEventDate, CTEvent } from '@/lib/clubtickets'
+import { ctLink } from '@/lib/ct-link'
 import { stripHtml } from '@/lib/html-utils'
 import { parseCTDescription } from '@/lib/ct-description'
 import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
@@ -131,7 +132,7 @@ export function EventCheckoutClient({ selectedDateObj, allEventDates, fullEvent,
 
   const [confirmOpen, setConfirmOpen] = useState(false)
   const handleCheckout = () => {
-    window.open(selectedDateObj.affLink, '_blank')
+    window.open(ctLink(selectedDateObj.affLink, locale), '_blank')
   }
 
   return (

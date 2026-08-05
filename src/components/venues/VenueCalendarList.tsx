@@ -1,4 +1,5 @@
 'use client'
+import { ctLink } from '@/lib/ct-link'
 
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
@@ -149,7 +150,7 @@ export function VenueCalendarList({ dates, venueName, locale, basePath = 'club-t
                   </div>
                   
                   <a
-                    href={event.affLink}
+                    href={ctLink(event.affLink, locale)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 bg-[#1A1A1A] text-white px-6 py-3 rounded-xl font-sans text-sm font-bold shadow-sm hover:bg-[#333] hover:shadow-md transition-all hover:-translate-y-0.5 whitespace-nowrap"
