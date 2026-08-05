@@ -405,8 +405,11 @@ export function Navbar() {
             </div>
           ))}
 
-          {/* Yacht photo slider — fills the space down to the language selector */}
-          <MenuYachtSlider images={YACHT_IMAGES} />
+          {/* Yacht photo slider — fills the space down to the language selector.
+              Only mounted while the menu is open: the fs-menu markup is always in
+              the DOM (CSS-hidden), and an always-mounted slider kept cycling and
+              downloading the entire fleet's photos on every page in the background. */}
+          {menuOpen && <MenuYachtSlider images={YACHT_IMAGES} />}
         </nav>
 
         {/* Footer row */}
