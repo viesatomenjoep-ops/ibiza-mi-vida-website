@@ -273,7 +273,20 @@ export function Navbar() {
               </span>
             </Link>
 
-            {/* Right: hamburger — toggles the menu, becomes an X when open */}
+            {/* Right: language selector (desktop) + hamburger */}
+            <div className="nav-right">
+            <div className="nav-langs" aria-label="Language">
+              {LOCALES.map(l => (
+                <Link
+                  key={l.code}
+                  href={pathname.replace(/^\/[a-z]{2}(?=\/|$)/, `/${l.code}`) || `/${l.code}`}
+                  className={`nav-lang${currentLocale.code === l.code ? ' active' : ''}`}
+                  aria-current={currentLocale.code === l.code ? 'true' : undefined}
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </div>
             <button
               className="burger"
               aria-label={menuOpen ? 'Menu sluiten' : 'Menu openen'}
@@ -290,6 +303,7 @@ export function Navbar() {
                 </div>
               )}
             </button>
+            </div>
           </div>
         </nav>
       </header>

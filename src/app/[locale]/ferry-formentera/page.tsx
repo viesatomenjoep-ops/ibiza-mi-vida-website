@@ -6,6 +6,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 }
 
 import { getVenues, getAllDates } from '@/lib/clubtickets';
+import { agendaCopy } from '@/lib/agenda-i18n';
 import WaterAgendaClient, { WaterAgendaEvent, WaterAgendaVenue } from '@/components/boats/WaterAgendaClient';
 
 export const revalidate = 3600;
@@ -48,13 +49,14 @@ export default async function Page({ params }: { params: { locale: string } }) {
     logo: (v as any).logo,
   }));
 
+  const C = agendaCopy('ferry-formentera', params.locale);
   return (
     <WaterAgendaClient
       locale={params.locale}
       basePath="ferry-formentera"
-      kicker={`Ibiza · Formentera ${new Date().getFullYear()}`}
-      title="Ferry Formentera"
-      subtitle="Bekijk alle afvaarten naar Formentera per dag, week en maand en boek direct via ClubTickets."
+      kicker={C.kicker}
+      title={C.title}
+      subtitle={C.subtitle}
       events={events}
       venues={venues}
     />

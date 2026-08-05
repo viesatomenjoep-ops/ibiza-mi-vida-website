@@ -127,6 +127,18 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .site-header--onlight:not(.site-header--scrolled) .burger-lines span{background-color:#0D0509}
 .logo-spin{transform-origin:50% 50%;will-change:transform;}
 .burger{width:62px;height:62px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;cursor:pointer;flex-shrink:0}
+/* Always-visible language selector in the navbar (desktop). Follows the navbar
+   colour scheme: white on dark heroes, black on light pages. Mobile uses the
+   selector in the fullscreen-menu footer instead. */
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-langs{display:flex;align-items:center;gap:4px}
+.nav-lang{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:30px;padding:0 8px;border:1px solid rgba(255,255,255,.28);border-radius:999px;font-family:var(--font-display),sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.08em;color:rgba(255,255,255,.72);transition:all .15s ease}
+.nav-lang:hover{border-color:#fff;color:#fff}
+.nav-lang.active{background:#fff;border-color:#fff;color:#0D0509}
+.site-header--onlight:not(.site-header--scrolled) .nav-lang{border-color:rgba(0,0,0,.25);color:rgba(0,0,0,.6)}
+.site-header--onlight:not(.site-header--scrolled) .nav-lang:hover{border-color:#0D0509;color:#0D0509}
+.site-header--onlight:not(.site-header--scrolled) .nav-lang.active{background:#0D0509;border-color:#0D0509;color:#fff}
+@media (max-width:980px){.nav-langs{display:none}}
 .burger:hover{background:rgba(255,255,255,0.08);border-color:#fff}
 .burger-lines{width:28px;height:16px;display:flex;flex-direction:column;justify-content:space-between}
 .burger-lines span{display:block;width:100%;height:2px;background-color:#fff;border-radius:2px;transition:0.2s}

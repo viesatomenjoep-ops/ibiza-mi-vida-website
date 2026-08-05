@@ -1,15 +1,7 @@
-import type { Metadata } from 'next'
-import { staticMetadata } from '@/lib/seo-pages'
+import { redirect } from 'next/navigation'
 
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
-  return staticMetadata(params.locale, 'boat-charters', 'Boat Charters Ibiza')
-}
-
-import { getDictionary } from '@/lib/dictionary'
-import BoatChartersClient from './BoatChartersClient'
-
-export default async function BoatChartersPage({ params: { locale } }: { params: { locale: string } }) {
-  const dict = await getDictionary(locale as any)
-
-  return <BoatChartersClient dict={dict} />
+// This page was unfinished placeholder scaffolding; the real, fully translated
+// private-charter page lives at /private-boat-charters.
+export default function BoatChartersPage({ params }: { params: { locale: string } }) {
+  redirect(`/${params.locale}/private-boat-charters`)
 }

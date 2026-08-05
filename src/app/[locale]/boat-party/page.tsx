@@ -5,11 +5,60 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   return staticMetadata(params.locale, 'boat-party')
 }
 
-import { getDictionary } from '@/lib/dictionary'
-import BoatPartyClient from './BoatPartyClient'
+import { getVenues, getAllDates } from '@/lib/clubtickets';
+import { agendaCopy } from '@/lib/agenda-i18n';
+import WaterAgendaClient, { WaterAgendaEvent, WaterAgendaVenue } from '@/components/boats/WaterAgendaClient';
 
-export default async function BoatPartyPage({ params: { locale } }: { params: { locale: string } }) {
-  const dict = await getDictionary(locale as any)
+export const revalidate = 3600;
 
-  return <BoatPartyClient dict={dict} />
+export default async function Page({ params }: { params: { locale: string } }) {
+  const allVenues = await getVenues(params.locale);
+  const catVenues = allVenues.filter(v => v.type?.slug === 'boat');
+  const catSlugs = new Set(catVenues.map(v => v.slug));
+
+  const allDates = await getAllDates(params.locale);
+  const todayStr = new Date().toISOString().split('T')[0];
+  // PERF: only ship the next 31 days to the client — the full season would
+  // make the payload huge (see the other agenda pages).
+  const windowEndStr = new Date(Date.now() + 31 * 86400000).toISOString().split('T')[0];
+  const events: WaterAgendaEvent[] = allDates
+    .filter(d => d.venueSlug && catSlugs.has(d.venueSlug) && d.date >= todayStr && d.date <= windowEndStr)
+    .map(d => ({
+      id: String(d.id),
+      name: d.name,
+      date: d.date,
+      prices: String(d.prices ?? ''),
+      lineUp: d.lineUp,
+      eventName: d.eventName,
+      eventSlug: d.eventSlug,
+      eventCover: d.eventCover,
+      eventLogo: d.eventLogo,
+      venueName: d.venueName,
+      venueSlug: d.venueSlug,
+      venueCover: d.venueCover,
+      venueLogo: d.venueLogo,
+      affLink: d.affLink,
+    }));
+
+  const venues: WaterAgendaVenue[] = catVenues.map(v => ({
+    slug: v.slug,
+    name: v.name,
+    picture: v.picture,
+    whitelogo: v.whitelogo,
+    cover: v.cover,
+    logo: (v as any).logo,
+  }));
+
+  const C = agendaCopy('boat-party', params.locale);
+  return (
+    <WaterAgendaClient
+      locale={params.locale}
+      basePath="boat-trip"
+      kicker={C.kicker}
+      title={C.title}
+      subtitle={C.subtitle}
+      events={events}
+      venues={venues}
+    />
+  );
 }

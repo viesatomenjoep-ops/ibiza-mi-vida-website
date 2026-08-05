@@ -6,6 +6,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 }
 
 import { getVenues, getAllDates } from '@/lib/clubtickets';
+import { agendaCopy } from '@/lib/agenda-i18n';
 import WaterAgendaClient, { WaterAgendaEvent, WaterAgendaVenue } from '@/components/boats/WaterAgendaClient';
 
 export const revalidate = 3600;
@@ -48,13 +49,14 @@ export default async function Page({ params }: { params: { locale: string } }) {
     logo: (v as any).logo,
   }));
 
+  const C = agendaCopy('activities', params.locale);
   return (
     <WaterAgendaClient
       locale={params.locale}
       basePath="activities"
-      kicker={`Ibiza Activities ${new Date().getFullYear()}`}
-      title="Activities"
-      subtitle="Alle activiteiten in Ibiza per dag, week en maand — direct te boeken via ClubTickets."
+      kicker={C.kicker}
+      title={C.title}
+      subtitle={C.subtitle}
       events={events}
       venues={venues}
     />
