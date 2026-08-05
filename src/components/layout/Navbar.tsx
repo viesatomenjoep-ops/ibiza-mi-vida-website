@@ -18,6 +18,10 @@ const dicts: Record<string, any> = { en, nl, es, de, fr }
 const YACHT_ONLY = FLEET.filter(b => (b as any).category === 'yacht').map(b => b.image).filter(Boolean)
 const YACHT_IMAGES = YACHT_ONLY.length >= 5 ? YACHT_ONLY : FLEET.map(b => b.image).filter(Boolean)
 
+// Brightness-probe results per image URL ('failed' = host without CORS headers).
+// Module-level so a URL is probed at most once per session, across route changes.
+const probeCache = new Map<string, number | 'failed' | 'pending'>()
+
 const OFFICIAL_PARTNER: Record<string, string> = {
   en: 'Official ticket partner',
   nl: 'Officiële ticketpartner',
@@ -186,17 +190,26 @@ export function Navbar() {
       let lum = brightnessFromDraw((ctx, w, h) => ctx.drawImage(hero as CanvasImageSource, 0, 0, nw, stripH, 0, 0, w, h))
 
       if (lum === null && isImg) {
-        // Tainted (cross-origin without CORS). Retry with an anonymous request (works for Cloudinary etc.).
+        // Tainted (cross-origin without CORS). Retry ONCE per URL with an anonymous
+        // request (works for Cloudinary). Hosts without CORS headers (e.g. the
+        // ucarecdn event covers) fail — cache that so measure() (scroll/interval)
+        // doesn't hammer the network with an endless stream of CORS errors.
+        const src = (hero as HTMLImageElement).currentSrc || (hero as HTMLImageElement).src
+        const cached = probeCache.get(src)
+        if (cached === 'failed' || cached === 'pending') { if (cached === 'failed') applyFallback(navH); return }
+        if (typeof cached === 'number') { setOnLight(cached > 200); return }
+        probeCache.set(src, 'pending')
         const probe = new Image()
         probe.crossOrigin = 'anonymous'
         probe.onload = () => {
-          if (cancelled) return
           const l = brightnessFromDraw((ctx, w, h) => ctx.drawImage(probe, 0, 0, probe.naturalWidth, Math.max(1, Math.round(probe.naturalHeight * 0.22)), 0, 0, w, h))
+          probeCache.set(src, l !== null ? l : 'failed')
+          if (cancelled) return
           if (l !== null) setOnLight(l > 200)
           else applyFallback(navH)
         }
-        probe.onerror = () => { if (!cancelled) applyFallback(navH) }
-        probe.src = (hero as HTMLImageElement).currentSrc || (hero as HTMLImageElement).src
+        probe.onerror = () => { probeCache.set(src, 'failed'); if (!cancelled) applyFallback(navH) }
+        probe.src = src
         return
       }
 

@@ -10,8 +10,11 @@ function randOther(len: number, cur: number) {
 }
 
 /** One tile that keeps swapping to a random yacht photo with a soft fade. */
-function YachtTile({ pool, delay }: { pool: string[]; delay: number }) {
-  const [idx, setIdx] = useState(() => Math.floor(Math.random() * pool.length))
+function YachtTile({ pool, delay, seed }: { pool: string[]; delay: number; seed: number }) {
+  // Deterministic initial image (seed = tile position) so server and client
+  // render the same src — a random initial pick caused hydration mismatches.
+  // Randomness starts client-side via the interval below.
+  const [idx, setIdx] = useState(() => seed % pool.length)
   useEffect(() => {
     if (pool.length < 2) return
     const id = setInterval(() => setIdx(i => randOther(pool.length, i)), 2600 + delay)
@@ -41,7 +44,7 @@ export function MenuYachtSlider({ images }: { images: string[] }) {
   return (
     <div className="fs-yachts">
       {Array.from({ length: 5 }, (_, i) => (
-        <YachtTile key={i} pool={images} delay={i * 480} />
+        <YachtTile key={i} pool={images} delay={i * 480} seed={i * 3} />
       ))}
     </div>
   )
