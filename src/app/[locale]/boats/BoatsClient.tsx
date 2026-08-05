@@ -103,7 +103,7 @@ export default function BoatsClient({ dict }: { dict?: any }) {
               <h2>Wij helpen je kiezen</h2>
               <p>Vertel ons je groep en wensen via WhatsApp — we adviseren de beste optie op het water.</p>
             </div>
-            <a className="wa-big" href="https://wa.me/31612345678" target="_blank" rel="noreferrer">
+            <a className="wa-big" href="https://wa.me/33666528412" target="_blank" rel="noreferrer">
               <MessageCircle size={22} fill="var(--sage)" stroke="none" /> Chat met ons
             </a>
           </div>

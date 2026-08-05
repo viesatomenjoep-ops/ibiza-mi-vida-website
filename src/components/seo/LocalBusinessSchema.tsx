@@ -8,7 +8,7 @@ export function LocalBusinessSchema({
   reviewCount = 127,
 }: LocalBusinessSchemaProps) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ibizamivida.com'
-  const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '34XXXXXXXXX'
+  const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '33666528412'
 
   const schema = {
     '@context': 'https://schema.org',

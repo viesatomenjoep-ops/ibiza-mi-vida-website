@@ -103,7 +103,7 @@ export default function BoatChartersClient({ dict }: { dict?: any }) {
               </div>
               <h3>Boot-informatie volgt</h3>
               <p>De specificaties, foto's en prijzen van elke charter voegen wij later toe via losse PDF-bestanden. Voor nu kun je direct contact opnemen voor de mogelijkheden.</p>
-              <a className="wa-big" href="https://wa.me/31612345678" target="_blank" rel="noreferrer">
+              <a className="wa-big" href="https://wa.me/33666528412" target="_blank" rel="noreferrer">
                 <MessageCircle size={22} fill="var(--sage)" stroke="none" /> Vraag de opties op
               </a>
             </div>
@@ -139,7 +139,7 @@ export default function BoatChartersClient({ dict }: { dict?: any }) {
               <h2>Klaar om te boeken?</h2>
               <p>Stuur een bericht met je wensen en we sturen dezelfde dag nog een voorstel terug.</p>
             </div>
-            <a className="wa-big" href="https://wa.me/31612345678" target="_blank" rel="noreferrer">
+            <a className="wa-big" href="https://wa.me/33666528412" target="_blank" rel="noreferrer">
               <MessageCircle size={22} fill="var(--sage)" stroke="none" /> Neem contact op
             </a>
           </div>

@@ -399,7 +399,7 @@ export function Navbar() {
           <div className="fs-actions">
             <SpotifyButton />
             <a
-              href="https://wa.me/31612345678"
+              href="https://wa.me/33666528412"
               target="_blank"
               rel="noreferrer"
               className="fs-wa-btn"

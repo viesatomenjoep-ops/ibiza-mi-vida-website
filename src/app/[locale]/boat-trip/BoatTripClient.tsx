@@ -166,7 +166,7 @@ export default function BoatTripClient({ dict }: { dict?: any }) {
               <h2>Vragen over deze trip?</h2>
               <p>Ons team helpt je via WhatsApp met groepen, tijden en privé-opties.</p>
             </div>
-            <a className="wa-big" href="https://wa.me/31612345678" target="_blank" rel="noreferrer">
+            <a className="wa-big" href="https://wa.me/33666528412" target="_blank" rel="noreferrer">
               <MessageCircle size={22} fill="var(--sage)" stroke="none" /> Chat met ons
             </a>
           </div>

@@ -10,7 +10,7 @@ import { FLEET, FLEET_FROM_PRICE, boatIncludes, type Boat, type FleetInclude, ty
 import { BackButton } from '@/components/ui/BackButton';
 
 /** WhatsApp business number (digits only). */
-const WHATSAPP = '34600000000';
+const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '33666528412';
 
 // ── Price range (from real fleet "low season" day rates) ──────────────────────
 const FLEET_LOWS = FLEET.map(b => b.price.low);

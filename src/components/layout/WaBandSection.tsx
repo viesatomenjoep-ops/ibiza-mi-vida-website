@@ -25,7 +25,7 @@ export default function WaBandSection({
   heading = 'Wij staan voor je klaar',
   description = 'Chat met ons via WhatsApp voor advies, VIP reserveringen of hulp bij het boeken van je tickets.',
   btnLabel = 'Chat met ons',
-  phone = '31612345678',
+  phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '33666528412',
   venues = [],
 }: WaBandSectionProps) {
   const liftCols = useMemo(() =>

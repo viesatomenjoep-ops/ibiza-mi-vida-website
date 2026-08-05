@@ -9,7 +9,7 @@ interface WhatsAppParams {
 }
 
 export function buildWhatsAppUrl(params: WhatsAppParams): string {
-  const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '34XXXXXXXXX'
+  const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '33666528412'
 
   const event = params.clubName
     ? `${params.clubName} — ${params.serviceName}`

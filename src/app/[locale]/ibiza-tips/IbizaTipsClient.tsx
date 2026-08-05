@@ -44,7 +44,7 @@ export default function IbizaTipsClient({ locale = 'nl' }: { locale: string }) {
             <strong>Persoonlijk advies nodig?</strong>
             <p>Stuur ons een bericht en we regelen het direct voor je.</p>
           </div>
-          <a href="https://wa.me/34600000000" target="_blank" rel="noreferrer" className="pl-wa-btn">
+          <a href="https://wa.me/33666528412" target="_blank" rel="noreferrer" className="pl-wa-btn">
             <MessageCircle size={18} /> WhatsApp
           </a>
         </div>

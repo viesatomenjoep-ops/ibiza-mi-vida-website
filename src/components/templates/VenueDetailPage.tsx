@@ -337,7 +337,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
               <h2 className="text-3xl md:text-4xl font-serif font-black text-black tracking-tight mb-4">{T.aboutPrefix} {club.name}</h2>
               <div dangerouslySetInnerHTML={{ __html: cleanDescription }} className="prose prose-lg max-w-none text-black prose-p:text-black prose-li:text-black prose-strong:text-black mb-6" />
               
-              <a href="https://wa.me/31612345678" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-ibiza-green text-velvet-obsidian font-bold text-sm px-6 py-3 rounded-full hover:brightness-95 transition-all">
+              <a href="https://wa.me/33666528412" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-ibiza-green text-velvet-obsidian font-bold text-sm px-6 py-3 rounded-full hover:brightness-95 transition-all">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2z"/></svg>
                 {T.guestlistVip}
               </a>

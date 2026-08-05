@@ -489,7 +489,7 @@ export default function ClubTicketsClient({
               <h2>Wij staan voor je klaar</h2>
               <p>Chat met ons via WhatsApp voor advies, VIP reserveringen of hulp bij het boeken van je tickets.</p>
             </div>
-            <a className="wa-big" href="https://wa.me/31612345678" target="_blank" rel="noreferrer">
+            <a className="wa-big" href="https://wa.me/33666528412" target="_blank" rel="noreferrer">
               <MessageCircle size={22} fill="var(--sage)" stroke="none" /> Chat met ons
             </a>
           </div>

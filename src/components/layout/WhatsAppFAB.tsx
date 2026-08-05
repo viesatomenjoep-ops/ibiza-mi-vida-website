@@ -3,7 +3,7 @@
 export function WhatsAppFAB() {
   const handleWaClick = () => {
     const text = encodeURIComponent("Hoi Ibiza mi vida! Ik ben op zoek naar gastenlijst plekken / VIP tafels op Ibiza. Kunnen jullie mij helpen?");
-    window.open(`https://wa.me/31612345678?text=${text}`, '_blank')
+    window.open(`https://wa.me/33666528412?text=${text}`, '_blank')
   }
 
   return (

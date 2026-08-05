@@ -117,7 +117,7 @@ export function BoatHubClient() {
               <h2>Ibiza mi Vida Service</h2>
               <p>Twijfel je welke boot, excursie of ferry het beste bij jouw plannen past? Stuur ons een berichtje via WhatsApp.</p>
             </div>
-            <a href="https://wa.me/34612345678" target="_blank" rel="noopener noreferrer" className="wa-big">
+            <a href="https://wa.me/33666528412" target="_blank" rel="noopener noreferrer" className="wa-big">
               <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2z"/></svg>
               Stel je vraag
             </a>
