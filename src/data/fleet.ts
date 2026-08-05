@@ -9,6 +9,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 export type FleetCategory = 'yacht' | 'motorboat';
+import { cloudinaryFetchImage } from '@/lib/cloudinary';
 
 export interface FleetPrice {
   low: number;                 // rest of the year
@@ -41,7 +42,7 @@ export function boatIncludes(b: Boat): FleetInclude[] {
   return FLEET_INCLUDES.filter(i => i !== 'captain' || b.captainIncluded);
 }
 
-export const FLEET: Boat[] = [
+const RAW_FLEET: Boat[] = [
   // ── 50 TO 70 FEET — luxury yachts (captain included) ──────────────────────────
   { slug: 'jaguar-72-lefty', model: 'Jaguar 72', name: 'Lefty', pax: 12, length: 23, marina: 'Marina Botafoc', image: '/fleet/jaguar-72-lefty.jpeg', category: 'yacht', captainIncluded: true, price: { low: 4598, mid: 5445, high: 6050 } },
   { slug: 'sunseeker-predator-72-no9', model: 'Sunseeker Predator 72', name: 'Nº 9', pax: 12, length: 22.2, marina: 'Marina Botafoc', image: '/fleet/sunseeker-predator-72-no9.jpeg', category: 'yacht', captainIncluded: true, price: { low: 5687, high: 7260, highWindow: 'June 20th – August 31st' } },
@@ -77,6 +78,13 @@ export const FLEET: Boat[] = [
   { slug: 'capelli-tempest-750', model: 'Capelli Tempest 750', pax: 12, length: 8, marina: 'Marina Botafoc', image: '/fleet/capelli-tempest-750.jpeg', category: 'motorboat', captainIncluded: false, captainExtra: 180, price: { low: 666, mid: 762, high: 908 } },
   { slug: 'selva-900', model: 'Selva 900', pax: 12, length: 9, marina: 'Santa Eulalia', image: '/fleet/selva-900.jpeg', category: 'motorboat', captainIncluded: false, captainExtra: 180, price: { low: 650, mid: 750, high: 800 } },
 ];
+
+// Every consumer gets the boat photos via Cloudinary's CDN (fetch delivery:
+// optimized f_auto/q_auto and width-capped) instead of raw local jpegs.
+export const FLEET: Boat[] = RAW_FLEET.map(b => ({
+  ...b,
+  image: cloudinaryFetchImage(b.image),
+}));
 
 /** Cheapest starting price across the whole fleet — handy for hero copy. */
 export const FLEET_FROM_PRICE = Math.min(...FLEET.map(b => b.price.low));

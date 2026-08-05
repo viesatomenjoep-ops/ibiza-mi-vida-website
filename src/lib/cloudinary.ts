@@ -161,3 +161,16 @@ export function cloudinaryImage(publicId: string, opts: ImageOptions = {}): stri
   const publicNoExt = publicId.replace(/^\/+/, '').replace(/\.[a-z0-9]+$/i, '')
   return `${IMAGE_BASE}/${chain.join(',')}/${publicNoExt}`
 }
+
+/**
+ * Serve a LOCAL public/ image through Cloudinary's CDN using fetch delivery —
+ * no upload needed: Cloudinary pulls the file from the production site once,
+ * optimizes it (f_auto/q_auto + width cap) and caches it on its edge.
+ * Used for the /fleet boat photos so they never ship as raw multi-hundred-KB
+ * jpegs from our own origin.
+ */
+export function cloudinaryFetchImage(localPath: string, width = 1400): string {
+  const origin = 'https://www.ibizamivida.com'
+  const source = `${origin}${localPath.startsWith('/') ? localPath : `/${localPath}`}`
+  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/fetch/f_auto,q_auto,c_limit,w_${width}/${encodeURI(source)}`
+}
