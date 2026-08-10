@@ -1,15 +1,6 @@
-import type { Metadata } from 'next'
-import { staticMetadata } from '@/lib/seo-pages'
+import { redirect } from 'next/navigation'
 
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
-  return staticMetadata(params.locale, 'blog')
-}
-
-import { getDictionary } from '@/lib/dictionary'
-import BlogClient from './BlogClient'
-
-export default async function BlogPage({ params: { locale } }: { params: { locale: string } }) {
-  const dict = await getDictionary(locale as any)
-
-  return <BlogClient locale={locale} />
+// The blog was removed at the owner's request — send readers to the tips guide.
+export default function BlogPage({ params }: { params: { locale: string } }) {
+  redirect(`/${params.locale}/tips`)
 }

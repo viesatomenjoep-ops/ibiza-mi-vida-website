@@ -81,8 +81,6 @@ export function Navbar() {
       items: [
         { label: t.nav_guestlist || 'Gastenlijst', href: '/guestlist' },
         { label: t.nav_tips || 'Ibiza Tips', href: '/tips' },
-        { label: t.nav_blog || 'Blog', href: '/blog' },
-        { label: t.nav_free_discount || 'Free & Discount Ibiza', href: '/free-discount-ibiza' },
       ],
     },
   ]

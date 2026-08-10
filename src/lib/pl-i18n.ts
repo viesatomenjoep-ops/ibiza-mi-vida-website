@@ -34,14 +34,6 @@ export const PL_GENERIC = {
 export interface PlPageCopy { title: T; tab: T }
 
 export const PL_PAGES: Record<string, PlPageCopy> = {
-  guestlist: {
-    title: L('Gastenlijst', 'Guestlist', 'Gästeliste', 'Lista de Invitados', 'Guestlist'),
-    tab: L('VIP Gastenlijst', 'VIP Guestlist', 'VIP-Gästeliste', 'Lista VIP', 'Guestlist VIP'),
-  },
-  blog: {
-    title: L('Blog & Nieuws', 'Blog & News', 'Blog & News', 'Blog y Noticias', 'Blog & Actus'),
-    tab: L('Ibiza Blog', 'Ibiza Blog', 'Ibiza Blog', 'Blog Ibiza', 'Blog Ibiza'),
-  },
   'drink-packages': {
     title: L('Drankpakketten', 'Drink Packages', 'Getränkepakete', 'Packs de Bebida', 'Forfaits Boissons'),
     tab: L('Drankpakketten', 'Drink Packages', 'Getränkepakete', 'Packs de Bebida', 'Forfaits Boissons'),
@@ -49,14 +41,6 @@ export const PL_PAGES: Record<string, PlPageCopy> = {
   'car-scooter-rental': {
     title: L('Auto & Scooter Verhuur', 'Car & Scooter Rental', 'Auto- & Rollervermietung', 'Alquiler de Coches y Motos', 'Location Voiture & Scooter'),
     tab: L('Verhuur', 'Rental', 'Vermietung', 'Alquiler', 'Location'),
-  },
-  'free-discount-ibiza': {
-    title: L('Free & Discount Ibiza', 'Free & Discount Ibiza', 'Free & Discount Ibiza', 'Free & Discount Ibiza', 'Free & Discount Ibiza'),
-    tab: L('Gratis & Korting', 'Free & Discounts', 'Gratis & Rabatte', 'Gratis y Descuentos', 'Gratuit & Réductions'),
-  },
-  'ibiza-tips': {
-    title: L('Ibiza Tips', 'Ibiza Tips', 'Ibiza Tipps', 'Consejos de Ibiza', 'Conseils Ibiza'),
-    tab: L('Insider Tips', 'Insider Tips', 'Insider-Tipps', 'Consejos de Expertos', 'Conseils d’Initiés'),
   },
 }
 

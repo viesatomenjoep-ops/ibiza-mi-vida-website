@@ -12,7 +12,7 @@ import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
 import { HomeHeroVideo } from '@/components/home/HomeHeroVideo';
 import { HeroShowIntro } from '@/components/home/HeroShowIntro';
 import { HomeScrollHint } from '@/components/home/HomeScrollHint';
-import { HomeStackedCards } from '@/components/home/HomeStackedCards';
+import { HomeCategoryCarousel } from '@/components/home/HomeCategoryCarousel';
 import { HomeUSP } from '@/components/home/HomeUSP';
 import { HomeInstagram } from '@/components/home/HomeInstagram';
 import { HomeNewsletter } from '@/components/home/HomeNewsletter';
@@ -80,8 +80,8 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       </header>
 
-      {/* Sticky stacked cards — the 4 category showcases */}
-      <HomeStackedCards deals={deals} base={base} locale={locale} />
+      {/* Circular category showcase — the 4 categories as a rotating photo fan */}
+      <HomeCategoryCarousel deals={deals} base={base} locale={locale} />
 
       {/* Live event slider — the price/date category tile carousels were removed */}
       {deals && pickerEvents.length > 0 && (
