@@ -4,16 +4,18 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Calendar, MapPin, Music } from 'lucide-react'
 import { format } from 'date-fns'
-import { nl, enUS, de, es } from 'date-fns/locale'
+import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { getArtist, getArtistDates } from '@/lib/clubtickets'
 import { BackButton } from '@/components/ui/BackButton'
-import { supabase } from '@/lib/supabase/client'
+import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
+import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 
 export const revalidate = 3600
 
+// ── Spotify embed lookup (artist name/slug → known Spotify id) ──
 function getSpotifyEmbedDetails(slug: string) {
   const normalized = slug.toLowerCase().trim();
-  
+
   if (normalized.includes('david-guetta') || normalized.includes('future-rave')) {
     return { type: 'artist', id: '1Cs0zKBU1kc0i8ypK3B9ai' };
   }
@@ -95,19 +97,12 @@ function getSpotifyEmbedDetails(slug: string) {
   if (normalized.includes('ants')) {
     return { type: 'playlist', id: '37i9dQZF1DXbK717SV5PL9' };
   }
-  
+
   // Default working Spotify Playlist: Ibiza Deep House (37i9dQZF1DXbK717SV5PL9)
   return { type: 'playlist', id: '37i9dQZF1DXbK717SV5PL9' };
 }
 
-const getLocaleObj = (locale: string) => {
-  switch (locale) {
-    case 'nl': return nl;
-    case 'de': return de;
-    case 'es': return es;
-    default: return enUS;
-  }
-};
+const DF_LOC: Record<Locale, any> = { nl, en: enUS, de, es, fr }
 
 const parseLocalDate = (dateStr: string) => {
   if (!dateStr) return new Date();
@@ -127,99 +122,82 @@ interface Props {
 }
 
 async function fetchArtist(slug: string, locale: string) {
-  // Fetch from Supabase Database
-  const { data: dbArtist, error } = await supabase
-    .from('ct_artists')
-    .select('*')
-    .eq('slug', slug)
-    .single();
-
-  if (dbArtist) {
-    const artistObj = {
-      id: dbArtist.id,
-      name: dbArtist.name,
-      slug: dbArtist.slug,
-      image: dbArtist.image || '',
-      venueName: dbArtist.venue_name || '',
-      venueSlug: dbArtist.venue_slug || '',
-      href: ''
-    };
-
-    const { data: dateArtists } = await supabase
-      .from('ct_date_artists')
-      .select(`
-        ct_dates (*, 
-          ct_events(name, slug, logo, cover), 
-          ct_venues(name, slug)
-        )
-      `)
-      .eq('artist_id', dbArtist.id);
-
-    const dates = (dateArtists || [])
-      .map(da => da.ct_dates as any)
-      .flat()
-      .filter(d => d && d.date)
-      .map(d => ({
-        id: d.id,
-        name: d.name,
-        date: d.date,
-        eventName: d.ct_events?.name || d.name,
-        eventSlug: d.ct_events?.slug,
-        venueName: d.ct_venues?.name,
-        venueSlug: d.ct_venues?.slug,
-        eventCover: d.ct_events?.cover || d.ct_events?.logo,
-        venueCover: d.ct_venues?.cover
-      }));
-
-    return {
-      artist: artistObj,
-      dates
-    };
-  }
-
-  // Fallback to ClubTickets API JSON data
   const ctArtist = await getArtist(slug, locale);
-  if (ctArtist) {
-    const dates = await getArtistDates(ctArtist.name, locale, ctArtist.slug);
-    return {
-      artist: {
-        id: ctArtist.id || 0,
-        name: ctArtist.name,
-        slug: ctArtist.slug,
-        image: ctArtist.image || '',
-        venueName: ctArtist.venueName || '',
-        venueSlug: '',
-        href: ''
-      },
-      dates: dates.map((d: any) => ({
-        id: d.id,
-        name: d.name,
-        date: d.date,
-        eventName: d.eventName,
-        eventSlug: d.eventSlug,
-        venueName: d.venueName,
-        venueSlug: d.venueSlug,
-        eventCover: d.image || '',
-        venueCover: ''
-      }))
-    };
-  }
+  if (!ctArtist) return null;
 
-  return null;
+  const dates = await getArtistDates(ctArtist.name, locale, ctArtist.slug);
+  return {
+    artist: {
+      id: ctArtist.id || 0,
+      name: ctArtist.name,
+      slug: ctArtist.slug,
+      image: ctArtist.image || '',
+      venueName: ctArtist.venueName || '',
+      venueSlug: '',
+      href: ''
+    },
+    dates: dates.map((d: any) => ({
+      id: d.id,
+      name: d.name,
+      date: d.date,
+      eventName: d.eventName,
+      eventSlug: d.eventSlug,
+      venueName: d.venueName,
+      venueSlug: d.venueSlug,
+      eventCover: d.eventCover || d.eventLogo || '',
+      venueCover: d.venueCover || ''
+    }))
+  };
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const result = await fetchArtist(params.slug, params.locale)
-  if (!result) return { title: 'Artist Not Found | Ibiza mi vida' }
+// ── i18n labels ──
+type T = Record<Locale, string>
+const L = (nl: string, en: string, de: string, es: string, fr: string): T => ({ nl, en, de, es, fr })
 
-  return {
-    title: `${result.artist.name} Ibiza 2026 Dates & Tickets`,
-    description: `Buy tickets to see ${result.artist.name} in Ibiza. Official partner for Ibiza tickets.`,
-  }
+const RESIDENT_AT: T = L('Resident @', 'Resident @', 'Resident @', 'Residente @', 'Résident @')
+const ARTIST_LABEL: T = L('Artiest', 'Artist', 'Künstler', 'Artista', 'Artiste')
+const INTRO_TEXT: T = L(
+  'Bekijk alle Ibiza-boekingen en events waar %NAME% op de line-up staat voor 2026.',
+  'View all Ibiza bookings and events featuring %NAME% on the line-up for 2026.',
+  'Alle Ibiza-Buchungen und Events mit %NAME% auf dem Line-up für 2026.',
+  'Consulta todas las reservas y eventos en Ibiza con %NAME% en el cartel para 2026.',
+  'Découvrez toutes les dates et événements à Ibiza avec %NAME% à l’affiche pour 2026.',
+)
+const NO_EVENTS: T = L(
+  'Geen geplande events gevonden voor deze artiest in Ibiza.',
+  'No upcoming events found for this artist in Ibiza.',
+  'Keine geplanten Events für diesen Künstler auf Ibiza gefunden.',
+  'No se han encontrado eventos programados para este artista en Ibiza.',
+  'Aucun événement prévu pour cet artiste à Ibiza.',
+)
+const TICKETS: T = L('Tickets', 'Tickets', 'Tickets', 'Entradas', 'Billets')
+const LISTEN_TO: T = L('Luister naar', 'Listen to', 'Höre', 'Escucha a', 'Écoute')
+const WARM_UP: T = L(
+  'Kom in de stemming met de nieuwste tracks en party-anthems van %NAME%.',
+  'Warm up for the night with %NAME%\'s latest tracks and party anthems.',
+  'Stimm dich mit den neuesten Tracks und Party-Hymnen von %NAME% ein.',
+  'Entra en ambiente con los últimos temas e himnos de fiesta de %NAME%.',
+  'Mettez-vous dans l’ambiance avec les derniers titres et hymnes de soirée de %NAME%.',
+)
+const EVENTS_LABEL: T = L('Events', 'Events', 'Events', 'Eventos', 'Événements')
+const AVAILABLE: T = L('Beschikbaar', 'Available', 'Verfügbar', 'Disponibles', 'Disponibles')
+const VIEW_TICKETS: T = L('Bekijk Tickets', 'View Tickets', 'Tickets ansehen', 'Ver Entradas', 'Voir les Billets')
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const locale = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE
+  const result = await fetchArtist(params.slug, locale)
+  if (!result) return staticMetadata(locale, 'artists')
+
+  return detailMetadata(locale, `artists/${params.slug}`, result.artist.name, {
+    description: INTRO_TEXT[locale].replace('%NAME%', result.artist.name),
+    image: result.artist.image || result.dates[0]?.eventCover,
+    suffix: '— Ibiza 2026',
+  })
 }
 
 export default async function ArtistPage({ params }: Props) {
-  const result = await fetchArtist(params.slug, params.locale)
+  const locale = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE
+  const result = await fetchArtist(params.slug, locale)
   if (!result) notFound()
 
   const { artist, dates } = result;
@@ -227,19 +205,19 @@ export default async function ArtistPage({ params }: Props) {
   // Filter for future dates
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  
+
   const futureDates = dates
     .filter(d => d && d.date && parseLocalDate(d.date) >= today)
     .sort((a, b) => parseLocalDate(a.date).getTime() - parseLocalDate(b.date).getTime());
 
-  const localeObj = getLocaleObj(params.locale);
+  const localeObj = DF_LOC[locale] || enUS;
   const rawHeaderImg = futureDates[0]?.eventCover || futureDates[0]?.venueCover || artist.image;
   const headerImage = rawHeaderImg && rawHeaderImg.trim() ? rawHeaderImg : '/hi-ibiza-2026/FB_IMG_1779623220486.jpg';
   const spotifyDetails = getSpotifyEmbedDetails(artist.slug);
 
   return (
     <div className="theme-monaco-vip bg-[#E14D68] text-white min-h-screen pb-24">
-      <BackButton locale={params.locale} fallbackHref={`/${params.locale}/artists`} variant="top" />
+      <BackButton locale={locale} fallbackHref={`/${locale}/artists`} variant="top" />
       {/* Hero Section */}
       <section className="relative h-[440px] md:h-[560px] overflow-hidden flex items-center justify-center text-center px-4 rounded-b-[36px] bg-black">
         <Image
@@ -251,44 +229,46 @@ export default async function ArtistPage({ params }: Props) {
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/15 z-10" />
-        
+
         <div className="relative z-20 max-w-3xl mx-auto text-white pt-32">
           {artist.venueName ? (
-            <Link 
-              href={`/${params.locale}/club-tickets/${artist.venueSlug}`}
+            <Link
+              href={`/${locale}/club-tickets/${artist.venueSlug}`}
               className="inline-block bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-ibiza-green hover:bg-white/20 transition-all mb-3 hover:scale-[1.02]"
             >
-              Resident @ {artist.venueName}
+              {RESIDENT_AT[locale]} {artist.venueName}
             </Link>
           ) : (
             <span className="inline-block bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-ibiza-green mb-3">
-              Artist
+              {ARTIST_LABEL[locale]}
             </span>
           )}
           <h1 className="text-4xl md:text-7xl font-serif font-black tracking-tight mb-4 drop-shadow-md uppercase text-white">
             {artist.name}
           </h1>
           <p className="text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
-            Bekijk alle Ibiza boekingen en evenementen waar <span className="font-bold text-white">{artist.name}</span> op de line-up staat voor 2026.
+            {INTRO_TEXT[locale].split('%NAME%')[0]}
+            <span className="font-bold text-white">{artist.name}</span>
+            {INTRO_TEXT[locale].split('%NAME%')[1]}
           </p>
         </div>
       </section>
 
       <div className="max-w-7xl mx-auto px-4 mt-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-          
+
           {/* Left Column: Events list */}
           <div className="lg:col-span-2 flex flex-col gap-4" id="tickets">
             {futureDates.length === 0 ? (
               <div className="text-center py-12 text-velvet-obsidian/60 bg-white rounded-3xl border border-black/5 shadow-sm">
                 <Calendar className="w-12 h-12 mx-auto mb-4 opacity-30" />
-                <p>Geen geplande events gevonden voor deze artiest in Ibiza.</p>
+                <p>{NO_EVENTS[locale]}</p>
               </div>
             ) : (
               futureDates.map((date, i) => (
-                <Link 
-                  href={`/${params.locale}/club-tickets/${date.venueSlug || 'club'}/${date.eventSlug || 'event'}`} 
-                  key={i} 
+                <Link
+                  href={`/${locale}/club-tickets/${date.venueSlug || 'club'}/${date.eventSlug || 'event'}`}
+                  key={i}
                   className="bg-white rounded-2xl p-4 border border-black/5 flex items-center gap-4 hover:shadow-md transition-shadow group"
                 >
                   <div className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-xl overflow-hidden bg-ibiza-mint relative flex items-center justify-center">
@@ -309,7 +289,7 @@ export default async function ArtistPage({ params }: Props) {
                   </div>
                   <div className="shrink-0 hidden md:block">
                     <div className="bg-ibiza-green text-velvet-obsidian font-bold text-sm px-5 py-2.5 rounded-full hover:brightness-95 transition-all inline-block">
-                      Tickets
+                      {TICKETS[locale]}
                     </div>
                   </div>
                 </Link>
@@ -321,19 +301,21 @@ export default async function ArtistPage({ params }: Props) {
           <div className="lg:col-span-1 lg:sticky lg:top-32 bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg backdrop-blur-md flex flex-col gap-4">
             <div>
               <h3 className="font-serif text-2xl font-bold text-white mb-1">
-                Listen to {artist.name}
+                {LISTEN_TO[locale]} {artist.name}
               </h3>
               <p className="text-xs text-white/60">
-                Warm up for the night with {artist.name}'s latest tracks and party anthems.
+                {WARM_UP[locale].split('%NAME%')[0]}
+                {artist.name}
+                {WARM_UP[locale].split('%NAME%')[1]}
               </p>
             </div>
-            <iframe 
-              src={`https://open.spotify.com/embed/${spotifyDetails.type}/${spotifyDetails.id}?utm_source=generator&theme=0`} 
-              width="100%" 
-              height="380" 
-              frameBorder="0" 
+            <iframe
+              src={`https://open.spotify.com/embed/${spotifyDetails.type}/${spotifyDetails.id}?utm_source=generator&theme=0`}
+              width="100%"
+              height="380"
+              frameBorder="0"
               allowFullScreen={true}
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               loading="lazy"
               className="rounded-2xl"
             ></iframe>
@@ -345,14 +327,14 @@ export default async function ArtistPage({ params }: Props) {
       {futureDates.length > 0 && (
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-black/10 z-50 flex items-center justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
           <div className="flex flex-col">
-            <span className="text-xs font-bold uppercase tracking-wider text-black/50">Events</span>
-            <span className="font-black text-xl text-black">{futureDates.length} Beschikbaar</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-black/50">{EVENTS_LABEL[locale]}</span>
+            <span className="font-black text-xl text-black">{futureDates.length} {AVAILABLE[locale]}</span>
           </div>
-          <a 
+          <a
             href="#tickets"
             className="bg-ibiza-green text-black font-black uppercase tracking-wider px-8 py-3.5 rounded-full hover:brightness-95 transition-all shadow-lg active:scale-95"
           >
-            Bekijk Tickets
+            {VIEW_TICKETS[locale]}
           </a>
         </div>
       )}
