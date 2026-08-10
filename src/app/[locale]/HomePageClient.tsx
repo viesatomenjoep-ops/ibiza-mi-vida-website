@@ -73,6 +73,10 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           <Link
             href={`${base}/calendar`}
             className="pointer-events-auto mt-10 inline-flex items-center gap-2 rounded-full border border-gold/60 bg-gold/10 px-8 py-3.5 font-serif text-xs font-bold uppercase tracking-[0.25em] text-gold backdrop-blur-sm transition-all hover:border-gold hover:bg-gold hover:text-obsidian"
+            style={{
+              boxShadow: '0 0 18px 1px rgba(139,111,176,0.55), inset 0 0 12px rgba(139,111,176,0.25)',
+              textShadow: '0 0 10px rgba(139,111,176,0.85)',
+            }}
           >
             {({ nl: 'Bekijk de agenda', en: 'View the calendar', es: 'Ver la agenda', de: 'Zum Kalender', fr: 'Voir l’agenda' } as Record<string, string>)[locale] || 'View the calendar'}
           </Link>
@@ -228,7 +232,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                     <div className="club-card-hover-inner">
                       {club.whitelogo && (
                         <div className="club-card-logo-wrap">
-                          <img src={club.whitelogo} alt={club.name} className="club-card-logo" />
+                          <Image src={club.whitelogo} alt={club.name} width={120} height={28} className="club-card-logo" />
                         </div>
                       )}
                       <div className="club-card-name">{club.name}</div>
@@ -239,7 +243,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                   {/* Default bottom logo (visible when not hovering) */}
                   <div className="club-card-bottom">
                     {club.whitelogo ? (
-                      <img src={club.whitelogo} alt={club.name} className="club-card-bottom-logo" />
+                      <Image src={club.whitelogo} alt={club.name} width={100} height={22} className="club-card-bottom-logo" />
                     ) : (
                       <span className="club-card-bottom-name">{club.name}</span>
                     )}

@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import type { DealsData } from '@/components/home/HomeDeals'
@@ -151,13 +152,14 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
         {/* Photo fan */}
         <div ref={imageContainerRef} className="relative h-72 w-full sm:h-96" style={{ perspective: '1000px' }}>
           {items.map((item, index) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               key={item.key}
               src={item.image}
               alt={item.title}
+              fill
               draggable={false}
-              className="absolute inset-0 h-full w-full rounded-3xl object-cover shadow-[0_10px_30px_rgba(0,0,0,0.2)]"
+              sizes="(max-width: 768px) 90vw, 500px"
+              className="rounded-3xl object-cover shadow-[0_10px_30px_rgba(0,0,0,0.2)]"
               style={getImageStyle(index)}
             />
           ))}

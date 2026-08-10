@@ -265,12 +265,22 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
                 className="group relative flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-neutral-900 p-6 transition-all hover:-translate-y-0.5 hover:shadow-xl"
               >
                 {club.cover || club.picture ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={club.cover || club.picture} alt="" className="absolute inset-0 h-full w-full object-cover opacity-30 transition-opacity group-hover:opacity-45" loading="lazy" />
+                  <Image
+                    src={club.cover || club.picture}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    className="object-cover opacity-30 transition-opacity group-hover:opacity-45"
+                  />
                 ) : null}
                 {club.whitelogo ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={club.whitelogo} alt={club.name} className="relative max-h-12 w-auto max-w-[80%] object-contain" loading="lazy" />
+                  <Image
+                    src={club.whitelogo}
+                    alt={club.name}
+                    width={160}
+                    height={48}
+                    className="relative max-h-12 w-auto max-w-[80%] object-contain"
+                  />
                 ) : (
                   <span className="relative text-center font-serif text-sm font-black uppercase tracking-wide text-white">{club.name}</span>
                 )}

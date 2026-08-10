@@ -118,8 +118,10 @@ export function cloudinaryVideoPoster(url: string): string | undefined {
   if (!parts) return undefined
 
   // Reuse start-offset if present so the poster is the actual first shown frame.
+  // Width-capped (c_limit never upscales) — the source clips are vertical-shot
+  // and were serving a poster over 2x wider than any viewport needs.
   const startOffset = parts.transform.match(/(?:^|[,/])so_([\d.]+)/)?.[1]
-  const poster = ['q_auto', 'f_auto', `so_${startOffset ?? '0'}`].join(',')
+  const poster = ['q_auto', 'f_auto', 'w_1920', 'c_limit', `so_${startOffset ?? '0'}`].join(',')
 
   const publicNoExt = parts.publicPart.replace(/\.[a-z0-9]+$/i, '')
   const base = `https://res.cloudinary.com/${parts.cloud}/video/upload`
