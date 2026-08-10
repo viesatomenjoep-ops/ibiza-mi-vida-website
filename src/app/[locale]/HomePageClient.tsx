@@ -12,7 +12,6 @@ import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
 import { HomeHeroVideo } from '@/components/home/HomeHeroVideo';
 import { HeroShowIntro } from '@/components/home/HeroShowIntro';
 import { HomeScrollHint } from '@/components/home/HomeScrollHint';
-import { HomeMapWidget } from '@/components/home/HomeMapWidget';
 import { HomeStackedCards } from '@/components/home/HomeStackedCards';
 import { HomeUSP } from '@/components/home/HomeUSP';
 import { HomeInstagram } from '@/components/home/HomeInstagram';
@@ -80,9 +79,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </div>
 
       </header>
-
-      {/* Interactive Ibiza map widget (standalone HTML) — just above Deals of the Day */}
-      <HomeMapWidget locale={locale} />
 
       {/* Sticky stacked cards — the 4 category showcases */}
       <HomeStackedCards deals={deals} base={base} locale={locale} />
