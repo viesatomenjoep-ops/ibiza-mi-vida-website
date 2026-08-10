@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -9,17 +9,14 @@ import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel';
 import { type DealsData } from '@/components/home/HomeDeals';
 import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
-import { HomeSelectorDock } from '@/components/home/HomeSelectorDock';
 import { HomeHeroVideo } from '@/components/home/HomeHeroVideo';
 import { HeroShowIntro } from '@/components/home/HeroShowIntro';
 import { HomeScrollHint } from '@/components/home/HomeScrollHint';
 import { HomeMapWidget } from '@/components/home/HomeMapWidget';
 import { HomeStackedCards } from '@/components/home/HomeStackedCards';
-import { HomePreviewSheet } from '@/components/home/HomePreviewSheet';
 import { HomeUSP } from '@/components/home/HomeUSP';
 import { HomeInstagram } from '@/components/home/HomeInstagram';
 import { HomeNewsletter } from '@/components/home/HomeNewsletter';
-import type { CatKey } from '@/components/home/homeCategories';
 import { Reveal } from '@/components/ui/Reveal';
 
 interface HomePageProps {
@@ -29,60 +26,13 @@ interface HomePageProps {
   upcomingDates?: any[];
   pickerEvents?: PickerEvent[];
   deals?: DealsData;
-  previewPools?: Record<CatKey, string[]>;
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
   liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
 }
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, previewPools, allVenues = [], liveByClub = {} }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, allVenues = [], liveByClub = {} }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
-
-  const [selectedCategory, setSelectedCategory] = useState('club-tickets');
-
-  // Homepage preview stage — tapping a dock tile shows a random image for that
-  // category in the white area, with a "see all" button.
-  const [previewCat, setPreviewCat] = useState<CatKey | null>(null);
-  const [previewImg, setPreviewImg] = useState('');
-  const pickPreview = (key: CatKey) => {
-    // Every tap (same or other tile) shows another ad from that category — keeps
-    // cycling through the events. Use the × to close.
-    const pool = previewPools?.[key] || [];
-    let img = '';
-    if (pool.length) {
-      img = pool[Math.floor(Math.random() * pool.length)];
-      if (pool.length > 1 && img === previewImg) img = pool[(pool.indexOf(img) + 1) % pool.length];
-    }
-    setPreviewCat(key);
-    setPreviewImg(img);
-  };
-  // Tap on the preview image itself also advances to the next ad.
-  const advancePreview = () => { if (previewCat) pickPreview(previewCat); };
-
-  // Selector dock choreography: the 5 tiles show in the hero, slide away while the
-  // map section fills the screen (there the map has its own club selectors), then
-  // come back from the deals section down to the bottom of the page.
-  const [dockHidden, setDockHidden] = useState(false);
-  useEffect(() => {
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      const el = document.getElementById('ibiza-map-section');
-      const vh = window.innerHeight;
-      let hide = false;
-      if (el) {
-        const r = el.getBoundingClientRect();
-        // Hide while the map occupies the middle band of the viewport.
-        hide = r.top < vh * 0.6 && r.bottom > vh * 0.4;
-      }
-      setDockHidden(prev => (prev === hide ? prev : hide));
-    };
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
-    update();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); if (raf) cancelAnimationFrame(raf); };
-  }, []);
 
   const clubLogos = useMemo(() => {
     const clubs = allVenues.filter(v => v.typeSlug === 'clubbing');
@@ -144,16 +94,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </div>
       )}
 
-      {/* ── Slide-up preview sheet (works anywhere on the page) + fixed dock ── */}
-      <HomePreviewSheet
-        base={base}
-        locale={locale}
-        selected={previewCat}
-        image={previewImg}
-        onClose={() => setPreviewCat(null)}
-        onAdvance={advancePreview}
-      />
-      <HomeSelectorDock locale={locale} selected={previewCat} onSelect={pickPreview} hidden={dockHidden} />
       <HomeScrollHint locale={locale} />
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
@@ -361,9 +301,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           </div>
         </Reveal>
       </section>
-
-      {/* Spacer so the fixed selector dock never hides the last content */}
-      <div aria-hidden className="w-full" style={{ height: '84px' }} />
     </div>
   );
 }

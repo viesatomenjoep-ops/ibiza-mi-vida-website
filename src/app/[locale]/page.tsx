@@ -1,6 +1,6 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import { getVenues, getAllDates, getArtists } from '@/lib/clubtickets'
+import { getVenues, getAllDates } from '@/lib/clubtickets'
 import { getDictionary } from '@/lib/dictionary'
 import HomePageClient from './HomePageClient'
 import { HomeJsonLd } from '@/components/seo/HomeJsonLd'
@@ -149,16 +149,6 @@ export default async function Home({ params }: { params: { locale: string } }) {
     })),
   }
 
-  // Random-selection image pools for the homepage preview stage (per category).
-  const artistsList = await getArtists(params.locale)
-  const previewPools = {
-    boats: FLEET.map(b => b.image).filter(Boolean).slice(0, 24),
-    clubs: deals.clubs.map((d: any) => d.image).filter(Boolean).slice(0, 24),
-    water: deals.water.map((d: any) => d.image).filter(Boolean).slice(0, 24),
-    land: deals.land.map((d: any) => d.image).filter(Boolean).slice(0, 24),
-    artists: (artistsList as any[]).map(a => a.image).filter(Boolean).slice(0, 40),
-  }
-
   const upcomingDates = allDates
     .filter(d => d.date >= todayStr && clubbingSlugs.has(d.venueSlug || ''))
     .slice(0, 10)
@@ -189,7 +179,6 @@ export default async function Home({ params }: { params: { locale: string } }) {
       upcomingDates={upcomingDates}
       pickerEvents={[...pickerEvents].sort((a, b) => a.date.localeCompare(b.date)).slice(0, 250)}
       deals={deals}
-      previewPools={previewPools}
       liveByClub={liveByClub}
       allVenues={allVenues.map(v => ({
         slug: v.slug,
