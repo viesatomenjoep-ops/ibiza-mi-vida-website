@@ -32,9 +32,10 @@ const config: Config = {
         'ibiza-orange': '#FF4E00',
         'ibiza-dark': '#0A0A0A',
         'ibiza-card': '#141414',
-        // Calmer, less "neon" green accent (was #14FF00)
-        'ibiza-green': '#5FA37E',
-        'ibiza-mint': '#E4EFE9',
+        // Business accent — was neon green, then muted green. Now the same
+        // professional blue as the `gold` token below, for one unified accent.
+        'ibiza-green': '#3D6A96',
+        'ibiza-mint': '#E7EEF5',
 
         // VIP Concierge / Ibiza Planner luxury palette
         obsidian: {
@@ -42,12 +43,13 @@ const config: Config = {
           light: '#111319',
           card: '#14161D',
         },
-        // Accent — muted, sophisticated purple (replaces the former gold).
-        // Token name kept as `gold` so every existing *-gold* utility recolours globally.
+        // Accent — professional slate blue (replaces the former purple, which
+        // replaced the original gold). Token name kept as `gold` so every
+        // existing *-gold* utility recolours globally.
         gold: {
-          DEFAULT: '#8B6FB0',
-          soft: '#A78FC7',
-          faint: 'rgba(139, 111, 176, 0.14)',
+          DEFAULT: '#3D6A96',
+          soft: '#5E87AC',
+          faint: 'rgba(61, 106, 150, 0.14)',
         },
       },
       fontFamily: {

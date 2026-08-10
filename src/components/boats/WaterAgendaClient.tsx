@@ -472,7 +472,7 @@ function MonthGrid({
                 )}
                 {/* Mobile dot indicator when chips are hidden */}
                 {has && (
-                  <span className="md:hidden mt-auto w-1.5 h-1.5 rounded-full bg-ibiza-green shadow-[0_0_6px_rgba(20,255,0,0.6)]" />
+                  <span className="md:hidden mt-auto w-1.5 h-1.5 rounded-full bg-ibiza-green shadow-[0_0_6px_rgba(61,106,150,0.6)]" />
                 )}
               </div>
             </button>

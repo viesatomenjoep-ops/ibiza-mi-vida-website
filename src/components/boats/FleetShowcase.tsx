@@ -405,9 +405,9 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
       <BackButton locale={locale} fallbackHref={`/${locale}`} variant="top" />
       <style dangerouslySetInnerHTML={{ __html: `
         .fleet-range { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 9999px; outline: none; cursor: pointer; }
-        .fleet-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #14FF00; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; transition: transform .15s ease; }
+        .fleet-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #3D6A96; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; transition: transform .15s ease; }
         .fleet-range::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.12); }
-        .fleet-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #14FF00; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; }
+        .fleet-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #3D6A96; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; }
         .fleet-range:disabled::-webkit-slider-thumb { cursor: not-allowed; border-color: #9ca3af; }
       ` }} />
       {/* Hero — boat image as a full-bleed background; on mobile it fills the first viewport so the
@@ -465,7 +465,7 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
               disabled={priceLocked}
               onChange={e => setMaxPrice(parseInt(e.target.value, 10))}
               className="fleet-range w-full disabled:opacity-60"
-              style={{ background: `linear-gradient(to right, #14FF00 0%, #14FF00 ${pricePct}%, #e5e5e5 ${pricePct}%, #e5e5e5 100%)` }}
+              style={{ background: `linear-gradient(to right, #3D6A96 0%, #3D6A96 ${pricePct}%, #e5e5e5 ${pricePct}%, #e5e5e5 100%)` }}
               aria-label={P.heading}
             />
           </div>
