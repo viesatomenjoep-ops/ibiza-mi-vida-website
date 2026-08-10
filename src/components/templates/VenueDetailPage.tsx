@@ -116,6 +116,11 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
     ? cleanHtml(club.description)
     : '';
 
+  // Accept both the flat JSON shape (club.type.name / club.isDayClub — from
+  // lib/clubtickets.ts) and a legacy Supabase-column shape.
+  const typeName = club.type_name ?? club.type?.name;
+  const isDayClub = club.is_day_club ?? club.isDayClub;
+
   // Process unique events and determine if they are "Weekly" or "More"
   const eventStats = new Map<string, { count: number, days: Set<string>, dayIdx: number, firstEvent: any }>();
 
@@ -123,9 +128,18 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
     const d = new Date(dateObj.date);
     const dayIdx = d.getUTCDay(); // 0=Sun..6=Sat — locale-independent for sorting
     const dayOfWeek = d.toLocaleDateString(bcp, { weekday: 'long', timeZone: 'UTC' }).toUpperCase();
-    const eventGrp = dateObj.ct_events;
-    if (!eventGrp) return;
-    
+    // Accept both the flat JSON shape (eventSlug/eventName/eventCover — from
+    // lib/clubtickets.ts) and a legacy nested `ct_events` shape, so this keeps
+    // working regardless of which data source feeds this page.
+    const eventGrp = dateObj.ct_events || {
+      id: dateObj.eventId,
+      name: dateObj.eventName || dateObj.name,
+      slug: dateObj.eventSlug,
+      cover: dateObj.eventCover,
+      logo: dateObj.eventLogo,
+    };
+    if (!eventGrp?.slug) return;
+
     if (!eventStats.has(eventGrp.slug)) {
       eventStats.set(eventGrp.slug, {
         count: 0,
@@ -138,7 +152,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
           cover: eventGrp.cover || eventGrp.logo,
           logo: eventGrp.whitelogo || eventGrp.logo,
           venueName: club.name
-        } 
+        }
       });
     }
     const stat = eventStats.get(eventGrp.slug)!;
@@ -225,14 +239,14 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
               {club.name}
             </h1>
             <div className="flex gap-2 flex-wrap">
-              {club.type_name && (
+              {typeName && (
                 <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold">
-                  {club.type_name}
+                  {typeName}
                 </span>
               )}
-              {club.is_day_club !== undefined && (
+              {isDayClub !== undefined && (
                 <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold">
-                  {club.is_day_club ? T.daytime : T.night}
+                  {isDayClub ? T.daytime : T.night}
                 </span>
               )}
             </div>
@@ -307,16 +321,20 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
            </div>
            
            <div className="flex flex-col gap-3">
-             {allDates.slice(0, 10).map((date, i) => (
-                <Link href={`/${locale}/${basePath}/${club.slug}/${date.ct_events?.slug || 'event'}`} key={i} className="bg-white rounded-2xl p-3 md:p-4 border border-black/5 flex items-center gap-4 hover:shadow-md transition-shadow group">
+             {allDates.slice(0, 10).map((date, i) => {
+                const eventSlug = date.ct_events?.slug || date.eventSlug || 'event';
+                const eventCover = date.ct_events?.cover || date.eventCover || date.eventLogo;
+                const eventName = date.eventName || date.name;
+                return (
+                <Link href={`/${locale}/${basePath}/${club.slug}/${eventSlug}`} key={i} className="bg-white rounded-2xl p-3 md:p-4 border border-black/5 flex items-center gap-4 hover:shadow-md transition-shadow group">
                    <div className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-xl overflow-hidden bg-ibiza-mint relative">
-                     {date.ct_events?.cover && <Image src={date.ct_events.cover} alt={date.name || 'Event'} fill unoptimized className="object-cover group-hover:scale-110 transition-transform duration-500" />}
+                     {eventCover && <Image src={eventCover} alt={eventName || 'Event'} fill unoptimized className="object-cover group-hover:scale-110 transition-transform duration-500" />}
                    </div>
                    <div className="flex-1 min-w-0">
                       <div className="text-neutral-500 text-xs font-bold tracking-wider uppercase mb-1">
                          {new Date(date.date).toLocaleDateString(bcp, { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' })}
                       </div>
-                      <h3 className="text-lg md:text-xl font-bold truncate text-neutral-900">{date.name}</h3>
+                      <h3 className="text-lg md:text-xl font-bold truncate text-neutral-900">{eventName}</h3>
                    </div>
                    <div className="shrink-0 hidden md:block">
                       <button className="bg-ibiza-green text-neutral-900 font-bold text-sm px-5 py-2.5 rounded-full hover:brightness-95 transition-all">
@@ -324,7 +342,8 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                       </button>
                    </div>
                 </Link>
-             ))}
+                );
+             })}
            </div>
         </div>
       </section>
@@ -361,7 +380,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                     <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
                   </div>
                   <span className="text-sm font-semibold text-black/50 uppercase tracking-wider">{T.openingHours}</span>
-                  <span className="ml-auto text-base md:text-lg font-black text-black">{club.is_day_club ? T.daytime : T.atNight}</span>
+                  <span className="ml-auto text-base md:text-lg font-black text-black">{isDayClub ? T.daytime : T.atNight}</span>
                 </div>
 
                 <div className="flex items-center gap-4 py-4">
@@ -369,7 +388,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                     <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
                   </div>
                   <span className="text-sm font-semibold text-black/50 uppercase tracking-wider">{T.genre}</span>
-                  <span className="ml-auto text-base md:text-lg font-black text-black">{club.type_name || T.clubbing}</span>
+                  <span className="ml-auto text-base md:text-lg font-black text-black">{typeName || T.clubbing}</span>
                 </div>
               </div>
 
