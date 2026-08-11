@@ -16,7 +16,7 @@ const HOME_TITLE: Record<Locale, string> = {
   es: 'Entradas Ibiza, Clubs, Barcos Privados y Eventos',
   fr: 'Billets Ibiza, Clubs, Bateaux Privés & Événements',
 }
-const HOME_DESC: Record<Locale, string> = {
+export const HOME_DESC: Record<Locale, string> = {
   nl: 'Boek clubtickets, privéboten, boat parties, VIP-tafels en Formentera-trips op Ibiza — alles op één platform, geregeld door lokale experts.',
   en: 'Book club tickets, private boat charters, boat parties, VIP tables and Formentera trips in Ibiza — all on one platform, handled by local experts.',
   de: 'Buche Clubtickets, Privatboote, Boat-Partys, VIP-Tische und Formentera-Trips auf Ibiza — alles auf einer Plattform, organisiert von lokalen Experten.',

@@ -1,4 +1,5 @@
-import { SITE_URL, SITE_NAME } from '@/lib/seo'
+import { SITE_URL, SITE_NAME, type Locale } from '@/lib/seo'
+import { HOME_DESC } from '@/app/[locale]/page'
 
 /**
  * Homepage structured data: Organization + WebSite (with SearchAction) +
@@ -8,6 +9,10 @@ import { SITE_URL, SITE_NAME } from '@/lib/seo'
 export function HomeJsonLd({ locale = 'nl' }: { locale?: string }) {
   const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER
   const ogImage = `${SITE_URL}/og-default.jpg`
+  // Same localized "bio" everywhere Google can surface it: Knowledge Panel
+  // (Organization), rich result business card (TravelAgency), and the page's
+  // own meta description (page.tsx) — one consistent story, five languages.
+  const bio = HOME_DESC[locale as Locale] || HOME_DESC.en
 
   const organization = {
     '@type': 'Organization',
@@ -16,6 +21,7 @@ export function HomeJsonLd({ locale = 'nl' }: { locale?: string }) {
     url: SITE_URL,
     logo: `${SITE_URL}/logo-clean.png`,
     image: ogImage,
+    description: bio,
     ...(phone ? { telephone: `+${phone}` } : {}),
     sameAs: ['https://www.instagram.com/ibizamivida/'],
   }
@@ -54,8 +60,7 @@ export function HomeJsonLd({ locale = 'nl' }: { locale?: string }) {
     geo: { '@type': 'GeoCoordinates', latitude: 38.9067, longitude: 1.4206 },
     areaServed: { '@type': 'Place', name: 'Ibiza, Spain' },
     parentOrganization: { '@id': `${SITE_URL}/#organization` },
-    description:
-      'Premium Ibiza booking agency — club tickets, private boat charters, boat parties, VIP tables and Formentera trips.',
+    description: bio,
   }
 
   const graph = {
