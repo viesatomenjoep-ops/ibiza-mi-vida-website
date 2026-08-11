@@ -118,10 +118,11 @@ export function cloudinaryVideoPoster(url: string): string | undefined {
   if (!parts) return undefined
 
   // Reuse start-offset if present so the poster is the actual first shown frame.
-  // Width-capped (c_limit never upscales) — the source clips are vertical-shot
-  // and were serving a poster over 2x wider than any viewport needs.
+  // Bounding-box capped at 1920x1920 (c_limit never upscales) — source clips are
+  // a mix of portrait and landscape, so constraining width alone is a no-op for
+  // portrait clips (their height, not width, is the large dimension).
   const startOffset = parts.transform.match(/(?:^|[,/])so_([\d.]+)/)?.[1]
-  const poster = ['q_auto', 'f_auto', 'w_1920', 'c_limit', `so_${startOffset ?? '0'}`].join(',')
+  const poster = ['q_auto', 'f_auto', 'w_1920', 'h_1920', 'c_limit', `so_${startOffset ?? '0'}`].join(',')
 
   const publicNoExt = parts.publicPart.replace(/\.[a-z0-9]+$/i, '')
   const base = `https://res.cloudinary.com/${parts.cloud}/video/upload`
@@ -131,17 +132,28 @@ export function cloudinaryVideoPoster(url: string): string | undefined {
 type VideoOptions = {
   /** Extra Cloudinary transforms, e.g. `so_30,du_30` for a 30s slice. */
   transform?: string
-  /** Cap the delivered width in px (omit for source resolution, e.g. 4K). */
+  /** Cap the delivered bounding box (both dimensions) in px. */
   width?: number
 }
 
 /**
  * Build an optimized Cloudinary video URL from a bare public id
  * (e.g. `v1783098563/zna3zmwypuqpikuatbqy` or `folder/clip`).
+ *
+ * Capped to a 1280x1280 bounding box by default (`c_limit` never upscales,
+ * so smaller source clips are untouched). These are always full-bleed
+ * background clips sitting behind text/gradient overlays, so shipping raw
+ * source resolution (up to 4K) wastes bandwidth no viewer can perceive —
+ * confirmed measured: an uncapped 4K portrait clip transferred ~13MB vs
+ * ~3.8MB capped, and was the dominant cause of a 7s homepage LCP.
+ * A single bounding box (not width-only) is used because source clips are a
+ * mix of portrait and landscape — width-only capping is a no-op for portrait
+ * clips, whose large dimension is height.
  */
 export function cloudinaryVideo(publicId: string, opts: VideoOptions = {}): string {
+  const box = opts.width ?? 1280
   const chain = [DEFAULT_VIDEO_TRANSFORM]
-  if (opts.width) chain.push(`w_${opts.width},c_limit`)
+  chain.push(`w_${box},h_${box},c_limit`)
   if (opts.transform) chain.push(opts.transform)
   const publicNoExt = publicId.replace(/^\/+/, '').replace(/\.[a-z0-9]+$/i, '')
   return `${VIDEO_BASE}/${chain.join('/')}/${publicNoExt}.mp4`

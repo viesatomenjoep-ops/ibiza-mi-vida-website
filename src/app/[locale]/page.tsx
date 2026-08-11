@@ -5,24 +5,10 @@ import { getDictionary } from '@/lib/dictionary'
 import HomePageClient from './HomePageClient'
 import { HomeJsonLd } from '@/components/seo/HomeJsonLd'
 import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
+import { HOME_TITLE, HOME_DESC } from '@/lib/seo-pages'
 import { FLEET } from '@/data/fleet'
 
 export const revalidate = 3600
-
-const HOME_TITLE: Record<Locale, string> = {
-  nl: 'Ibiza Tickets, Clubs, Privéboten & Events',
-  en: 'Ibiza Club Tickets, Private Boats & Events',
-  de: 'Ibiza Tickets, Clubs, Privatboote & Events',
-  es: 'Entradas Ibiza, Clubs, Barcos Privados y Eventos',
-  fr: 'Billets Ibiza, Clubs, Bateaux Privés & Événements',
-}
-export const HOME_DESC: Record<Locale, string> = {
-  nl: 'Boek clubtickets, privéboten, boat parties, VIP-tafels en Formentera-trips op Ibiza — alles op één platform, geregeld door lokale experts.',
-  en: 'Book club tickets, private boat charters, boat parties, VIP tables and Formentera trips in Ibiza — all on one platform, handled by local experts.',
-  de: 'Buche Clubtickets, Privatboote, Boat-Partys, VIP-Tische und Formentera-Trips auf Ibiza — alles auf einer Plattform, organisiert von lokalen Experten.',
-  es: 'Reserva entradas a clubs, barcos privados, boat parties, mesas VIP y excursiones a Formentera en Ibiza — todo en una plataforma, con expertos locales.',
-  fr: 'Réservez billets de clubs, bateaux privés, boat parties, tables VIP et excursions à Formentera à Ibiza — le tout sur une seule plateforme.',
-}
 
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
   const locale = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE

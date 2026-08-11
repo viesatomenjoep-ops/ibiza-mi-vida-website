@@ -10,6 +10,24 @@ type Copy = { title: Record<Locale, string>; description: Record<Locale, string>
 
 const L = (nl: string, en: string, de: string, es: string, fr: string): Record<Locale, string> => ({ nl, en, de, es, fr })
 
+// Homepage title/description — also reused as the JSON-LD Organization/TravelAgency
+// "bio" (HomeJsonLd.tsx) so every place Google can surface a business description
+// (meta tag, Knowledge Panel, rich result) shows the same story.
+export const HOME_TITLE: Record<Locale, string> = L(
+  'Ibiza Tickets, Clubs, Privéboten & Events',
+  'Ibiza Club Tickets, Private Boats & Events',
+  'Ibiza Tickets, Clubs, Privatboote & Events',
+  'Entradas Ibiza, Clubs, Barcos Privados y Eventos',
+  'Billets Ibiza, Clubs, Bateaux Privés & Événements',
+)
+export const HOME_DESC: Record<Locale, string> = L(
+  'Boek clubtickets, privéboten, boat parties, VIP-tafels en Formentera-trips op Ibiza — alles op één platform, geregeld door lokale experts.',
+  'Book club tickets, private boat charters, boat parties, VIP tables and Formentera trips in Ibiza — all on one platform, handled by local experts.',
+  'Buche Clubtickets, Privatboote, Boat-Partys, VIP-Tische und Formentera-Trips auf Ibiza — alles auf einer Plattform, organisiert von lokalen Experten.',
+  'Reserva entradas a clubs, barcos privados, boat parties, mesas VIP y excursiones a Formentera en Ibiza — todo en una plataforma, con expertos locales.',
+  'Réservez billets de clubs, bateaux privés, boat parties, tables VIP et excursions à Formentera à Ibiza — le tout sur une seule plateforme.',
+)
+
 export const SEO_PAGES: Record<string, Copy> = {
   calendar: {
     title: L(

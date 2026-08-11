@@ -1,5 +1,5 @@
 import { SITE_URL, SITE_NAME, type Locale } from '@/lib/seo'
-import { HOME_DESC } from '@/app/[locale]/page'
+import { HOME_DESC } from '@/lib/seo-pages'
 
 /**
  * Homepage structured data: Organization + WebSite (with SearchAction) +
