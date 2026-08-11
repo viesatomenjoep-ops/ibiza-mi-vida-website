@@ -146,11 +146,11 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
   }
 
   return (
-    <section className="w-full bg-neutral-100 px-4 py-12 md:py-16">
-      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-20">
+    <section className="w-full bg-neutral-100 px-4 py-8 md:py-16">
+      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-6 md:grid-cols-2 md:gap-20">
 
-        {/* Photo fan */}
-        <div ref={imageContainerRef} className="relative h-72 w-full sm:h-96" style={{ perspective: '1000px' }}>
+        {/* Photo fan — smaller on mobile so the whole card fits one comfortable screen-scroll */}
+        <div ref={imageContainerRef} className="relative h-48 w-full sm:h-72 md:h-96" style={{ perspective: '1000px' }}>
           {items.map((item, index) => (
             <Image
               key={item.key}
@@ -159,7 +159,7 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
               fill
               draggable={false}
               sizes="(max-width: 768px) 90vw, 500px"
-              className="rounded-3xl object-cover shadow-[0_10px_30px_rgba(0,0,0,0.2)]"
+              className="rounded-2xl object-cover shadow-[0_10px_30px_rgba(0,0,0,0.2)] md:rounded-3xl"
               style={getImageStyle(index)}
             />
           ))}
@@ -175,16 +175,16 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-              <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">
+              <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-gold md:text-[11px] md:tracking-[0.28em]">
                 {KICKER[locale] || KICKER.en}
               </span>
-              <div className="mt-2 flex items-baseline gap-4">
-                <span className="font-serif text-5xl font-black text-black/10 md:text-6xl">{active.num}</span>
-                <h2 className="font-serif text-3xl font-black tracking-tight text-neutral-900 md:text-4xl">
+              <div className="mt-1.5 flex items-baseline gap-2.5 md:mt-2 md:gap-4">
+                <span className="font-serif text-3xl font-black text-black/10 md:text-6xl">{active.num}</span>
+                <h2 className="font-serif text-xl font-black tracking-tight text-neutral-900 md:text-4xl">
                   {active.title}
                 </h2>
               </div>
-              <motion.p className="mt-4 max-w-md text-base leading-relaxed text-neutral-600 md:text-lg">
+              <motion.p className="mt-2 max-w-md text-sm leading-relaxed text-neutral-600 md:mt-4 md:text-lg">
                 {active.text.split(' ').map((word, i) => (
                   <motion.span
                     key={i}
@@ -199,29 +199,31 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
               </motion.p>
               <Link
                 href={active.href}
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-7 py-3.5 font-serif text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-gold"
+                className="mt-3 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-5 py-2.5 font-serif text-[11px] font-black uppercase tracking-widest text-white transition-colors hover:bg-gold md:mt-6 md:px-7 md:py-3.5 md:text-xs"
               >
-                {CTA[locale] || CTA.en} <ArrowRight size={15} />
+                {CTA[locale] || CTA.en} <ArrowRight size={14} />
               </Link>
           </motion.div>
 
           {/* Arrows */}
-          <div className="mt-10 flex gap-4">
+          <div className="mt-4 flex gap-3 md:mt-10 md:gap-4">
             <button
               type="button"
               onClick={handlePrev}
               aria-label="Previous category"
-              className="grid h-11 w-11 place-items-center rounded-full bg-neutral-900 text-white transition-colors hover:bg-gold"
+              className="grid h-9 w-9 place-items-center rounded-full bg-neutral-900 text-white transition-colors hover:bg-gold md:h-11 md:w-11"
             >
-              <ArrowLeft size={20} />
+              <ArrowLeft size={16} className="md:hidden" />
+              <ArrowLeft size={20} className="hidden md:block" />
             </button>
             <button
               type="button"
               onClick={handleNext}
               aria-label="Next category"
-              className="grid h-11 w-11 place-items-center rounded-full bg-neutral-900 text-white transition-colors hover:bg-gold"
+              className="grid h-9 w-9 place-items-center rounded-full bg-neutral-900 text-white transition-colors hover:bg-gold md:h-11 md:w-11"
             >
-              <ArrowRight size={20} />
+              <ArrowRight size={16} className="md:hidden" />
+              <ArrowRight size={20} className="hidden md:block" />
             </button>
           </div>
         </div>
