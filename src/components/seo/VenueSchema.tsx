@@ -11,7 +11,7 @@ interface VenueSchemaProps {
 }
 
 export function VenueSchema({ name, slug, description, image, basePath = 'club-tickets', type = 'NightClub', locale }: VenueSchemaProps) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ibizamivida.com'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.ibizamivida.com'
 
   const schema = {
     '@context': 'https://schema.org',

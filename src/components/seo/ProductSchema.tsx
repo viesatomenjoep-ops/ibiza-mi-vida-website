@@ -17,7 +17,7 @@ export function ProductSchema({
   url,
   image,
 }: ProductSchemaProps) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ibizamivida.com'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.ibizamivida.com'
 
   const schema = {
     '@context': 'https://schema.org',

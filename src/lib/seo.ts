@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 // Single source of truth for the canonical domain, locales and the helpers
 // that build canonical + hreflang alternates and per-page metadata.
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ibizamivida.com').replace(/\/$/, '')
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.ibizamivida.com').replace(/\/$/, '')
 export const SITE_NAME = 'Ibiza mi vida'
 export const TWITTER_HANDLE = '@ibizamivida'
 

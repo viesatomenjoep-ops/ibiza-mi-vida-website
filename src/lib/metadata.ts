@@ -15,7 +15,7 @@ export function createMetadata({
   path: string
   image?: string
 }): Metadata {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ibizamivida.com'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.ibizamivida.com'
   const url = `${siteUrl}${path}`
   const ogImage = image ?? `${siteUrl}/og-default.jpg`
 
