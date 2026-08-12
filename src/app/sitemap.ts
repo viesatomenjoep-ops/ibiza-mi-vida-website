@@ -31,6 +31,11 @@ const STATIC_ROUTES: { path: string; priority: number; changeFrequency: Metadata
   { path: '/terms-&-conditions', priority: 0.2, changeFrequency: 'yearly' },
 ]
 
+// Next's sitemap XML serializer doesn't escape `&` in <loc>/hreflang URLs, so a
+// raw ampersand (e.g. the /terms-&-conditions route) produces invalid XML.
+// The sitemap protocol requires it as &amp; — escape it ourselves.
+const xmlSafeUrl = (url: string) => url.replace(/&/g, '&amp;')
+
 // One <url> per locale, each carrying the full hreflang alternate set.
 function entriesFor(
   path: string,
@@ -40,10 +45,10 @@ function entriesFor(
 ): MetadataRoute.Sitemap {
   const clean = path ? `/${path.replace(/^\//, '')}` : ''
   const languages: Record<string, string> = {}
-  for (const l of LOCALES) languages[l] = `${SITE_URL}/${l}${clean}`
-  languages['x-default'] = `${SITE_URL}/${DEFAULT_LOCALE}${clean}`
+  for (const l of LOCALES) languages[l] = xmlSafeUrl(`${SITE_URL}/${l}${clean}`)
+  languages['x-default'] = xmlSafeUrl(`${SITE_URL}/${DEFAULT_LOCALE}${clean}`)
   return LOCALES.map((l) => ({
-    url: `${SITE_URL}/${l}${clean}`,
+    url: xmlSafeUrl(`${SITE_URL}/${l}${clean}`),
     lastModified: lastModified ?? new Date(),
     changeFrequency,
     priority,
