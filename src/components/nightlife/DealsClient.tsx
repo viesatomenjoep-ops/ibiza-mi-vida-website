@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ctLink } from '@/lib/ct-link';
 import { CTEventDate } from '@/lib/clubtickets';
+import { optImg } from '@/lib/img';
 
 interface DealsClientProps {
   dates: CTEventDate[];
@@ -175,7 +176,7 @@ export default function DealsClient({ dates, translations }: DealsClientProps) {
                       <svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.7 0l-1.1 1-1.1-1a5.5 5.5 0 0 0-7.8 7.8l1 1 7.9 7.9 7.9-7.9 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
                     </div>
                     {date.eventCover || date.venueCover ? (
-                      <img src={date.eventCover || date.venueCover} alt={date.eventName || date.name} style={{width:'100%', height:'100%', objectFit:'cover'}} />
+                      <img src={optImg(date.eventCover || date.venueCover, 500)} alt={date.eventName || date.name} style={{width:'100%', height:'100%', objectFit:'cover'}} />
                     ) : (
                       <div className="ph">
                         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>

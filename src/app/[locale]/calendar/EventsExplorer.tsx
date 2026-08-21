@@ -11,6 +11,7 @@ import {
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { MapPin, Calendar } from 'lucide-react'
 import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel'
+import { optImg } from '@/lib/img'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface ExEvent {
@@ -240,7 +241,7 @@ export default function EventsExplorer({ events, locale }: Props) {
                       >
                         <div className="h-48 relative bg-[#0D0509] overflow-hidden shrink-0">
                           {image ? (
-                            <img src={image} alt={ev.ct_events?.name || ev.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <img src={optImg(image, 500)} alt={ev.ct_events?.name || ev.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                           ) : (
                             <div className="absolute inset-0 bg-gradient-to-tr from-purple-950 via-[#0D0509] to-neutral-900" />
                           )}

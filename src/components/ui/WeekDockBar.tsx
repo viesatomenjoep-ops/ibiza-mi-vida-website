@@ -4,6 +4,7 @@ import React, { useMemo, useRef, useState, useEffect } from 'react'
 import { format, addDays, startOfWeek, parseISO } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { optImg } from '@/lib/img'
 
 const getLoc = (l: string) => ({ nl, de, es, fr, en: enUS } as Record<string, typeof enUS>)[l] || enUS
 
@@ -104,7 +105,7 @@ export function WeekDockBar({
         style={variant === 'red' ? { backgroundColor: '#E14D68' } : { backgroundColor: '#111' }}
         className={`relative flex h-12 flex-col items-center justify-center overflow-hidden rounded-lg leading-none transition-all sm:h-14 ${on ? 'ring-[3px] ring-ibiza-green ring-offset-1 ring-offset-white' : ''} ${disabled ? 'opacity-30' : 'active:scale-95'}`}
       >
-        {variant === 'photo' && photoBg && <img src={photoBg} alt="" className={`absolute inset-0 h-full w-full object-cover ${photoDim ? 'scale-110 blur-[2px]' : ''}`} />}
+        {variant === 'photo' && photoBg && <img src={optImg(photoBg, 800)} alt="" className={`absolute inset-0 h-full w-full object-cover ${photoDim ? 'scale-110 blur-[2px]' : ''}`} />}
         {variant === 'photo' && photoDim && <span className="absolute inset-0 bg-black/55" />}
         {variant === 'photo' && !photoDim && <span className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/25" />}
         <span className="relative flex flex-col items-center">

@@ -6,6 +6,7 @@ import { Search, MapPin, ChevronRight, Star, Heart, Calendar, Music, MessageCirc
 import type { CTEventDate } from '@/lib/clubtickets';
 import { EventPickerWheel, type PickerEvent } from '@/components/events/EventPickerWheel';
 import '@/styles/club-tickets.css';
+import { optImg } from '@/lib/img';
 
 function parsePrice(priceStr?: string): number {
   if (!priceStr) return 50;
@@ -299,10 +300,10 @@ export default function ClubTicketsClient({
                         }`}
                       >
                         {v.logo ? (
-                          <img 
-                            src={v.logo} 
-                            alt={v.name} 
-                            className="w-full h-full object-contain filter brightness-0" 
+                          <img
+                            src={optImg(v.logo, 120)}
+                            alt={v.name}
+                            className="w-full h-full object-contain filter brightness-0"
                             onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML = '<span class="text-[9px] font-bold text-black uppercase truncate">Logo</span>' }}
                           />
                         ) : (
@@ -336,7 +337,7 @@ export default function ClubTicketsClient({
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-transparent border border-black/10 rounded-xl flex items-center justify-center p-1.5 shrink-0">
                   {uniqueVenues.find(v => v.slug === filter)?.logo ? (
-                    <img src={uniqueVenues.find(v => v.slug === filter)?.logo} alt="" className="object-contain max-w-full max-h-full filter brightness-0" />
+                    <img src={optImg(uniqueVenues.find(v => v.slug === filter)?.logo, 120)} alt="" className="object-contain max-w-full max-h-full filter brightness-0" />
                   ) : (
                     <Music className="text-ibiza-green" size={24} />
                   )}
@@ -419,7 +420,7 @@ export default function ClubTicketsClient({
                     <button className="lfav" aria-label="Bewaar" onClick={(e) => { e.preventDefault(); }}><Heart size={18} /></button>
                     <div className="ph">
                       {event.eventCover || event.eventLogo || event.venueCover ? (
-                         <img src={event.eventCover || event.eventLogo || event.venueCover} alt={event.eventName || event.name} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'relative', zIndex: 0 }} />
+                         <img src={optImg(event.eventCover || event.eventLogo || event.venueCover, 500)} alt={event.eventName || event.name} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'relative', zIndex: 0 }} />
                       ) : (
                          <div style={{textAlign: 'center'}}><Star size={32}/><div className="text-xs text-neutral-500">Foto laadt...</div></div>
                       )}

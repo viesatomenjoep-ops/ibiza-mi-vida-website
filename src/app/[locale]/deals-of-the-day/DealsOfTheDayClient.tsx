@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Music, MapPin, Calendar, Zap } from 'lucide-react';
 import { CSSClock } from '@/components/ui/CSSClock';
+import { optImg } from '@/lib/img';
 
 interface DatabaseDate {
   id: string;
@@ -164,7 +165,7 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
                 >
                   <div className="h-48 relative bg-[#0D0509] overflow-hidden shrink-0">
                     {image ? (
-                      <img src={image} alt={deal.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={optImg(image, 500)} alt={deal.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
                       <div className="absolute inset-0 bg-gradient-to-tr from-purple-950 via-[#0D0509] to-neutral-900 flex flex-col items-center justify-center p-6 text-center group-hover:scale-105 transition-transform duration-500">
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(57,255,20,0.08)_0%,transparent_70%)]" />
@@ -184,11 +185,11 @@ export default function DealsOfTheDayClient({ initialEvents, locale }: Props) {
                     {/* Unified Logo Overlay Badge */}
                     {logoSrc && (
                       <div className="absolute bottom-3 left-3 w-12 h-12 rounded-2xl bg-white border border-white/20 p-1.5 flex items-center justify-center shadow-lg z-10">
-                        <img 
-                          src={logoSrc} 
-                          alt="" 
+                        <img
+                          src={optImg(logoSrc, 120)}
+                          alt=""
                           style={{ filter: !['o-beach-ibiza', 'playa-soleil', 'bambuku-ibiza'].includes(venue?.slug || '') ? 'brightness(0)' : 'none' }}
-                          className="object-contain max-w-full max-h-full" 
+                          className="object-contain max-w-full max-h-full"
                         />
                       </div>
                     )}

@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 import type { PickerEvent } from '@/components/events/EventPickerWheel'
+import { optImg } from '@/lib/img'
 
 type LiveEvent = { name: string; slug?: string }
 type LiveRecord = { today: LiveEvent[]; lastNight: LiveEvent[]; isDayClub: boolean }
@@ -163,7 +164,7 @@ export function HomeEventSlider({
                       <span className="relative inline-flex h-3 w-3 rounded-full ring-1 ring-black/30" style={{ background: DOT_COLORS[status] }} />
                     </span>
                   )}
-                  {e.clubLogo ? <img src={e.clubLogo} alt="" className={`pointer-events-none max-h-9 max-w-full object-contain ${onLight ? 'brightness-0' : 'brightness-0 invert'}`} loading="lazy" /> : <span className={`text-[15px] font-black ${onLight ? 'text-black' : 'text-white'}`}>{e.clubName.slice(0, 3).toUpperCase()}</span>}
+                  {e.clubLogo ? <img src={optImg(e.clubLogo, 100)} alt="" className={`pointer-events-none max-h-9 max-w-full object-contain ${onLight ? 'brightness-0' : 'brightness-0 invert'}`} loading="lazy" /> : <span className={`text-[15px] font-black ${onLight ? 'text-black' : 'text-white'}`}>{e.clubName.slice(0, 3).toUpperCase()}</span>}
                 </span>
                 <span className={`whitespace-nowrap text-xl font-bold ${onLight ? 'text-black' : 'text-white drop-shadow'}`}>{e.eventName}</span>
               </Link>

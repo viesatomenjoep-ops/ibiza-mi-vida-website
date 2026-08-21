@@ -10,6 +10,7 @@ import { Search, X, Calendar, ChevronRight, ChevronLeft, Ship, Ticket } from 'lu
 import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel';
 import { WeekDockBar } from '@/components/ui/WeekDockBar';
 import { ScrollCue } from '@/components/ui/ScrollCue';
+import { optImg } from '@/lib/img';
 
 // ── i18n labels (en, nl, de, es, fr) ──
 interface AgendaLabels {
@@ -297,7 +298,7 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
               <a key={e.id} href={e.href} className="group flex h-28 overflow-hidden rounded-2xl border border-black/10 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl sm:h-32">
                 {/* Left half — the photo, with price top-left and CTA bottom, both on the image */}
                 <div className="relative h-full w-[55%] shrink-0 bg-neutral-900">
-                  {e.image ? <img src={e.image} alt={e.eventName} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+                  {e.image ? <img src={optImg(e.image, 400)} alt={e.eventName} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
                   <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10" />
                   {e.price > 0 && <span className="absolute left-1.5 top-1.5 rounded-full bg-white px-2 py-0.5 text-[11px] font-black text-black shadow">€{e.price}</span>}
                   <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 rounded-full bg-black/55 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white backdrop-blur-sm transition-colors group-hover:bg-ibiza-green group-hover:text-black">{L.tickets} <ChevronRight size={10} /></span>
@@ -368,7 +369,7 @@ function EventTile({ ev, locale, basePath = '' }: { ev: WaterAgendaEvent; locale
     <a href={link} target={isExternal ? '_blank' : '_self'} rel="noopener noreferrer" className="group flex flex-col bg-white rounded-2xl md:rounded-3xl border-2 border-transparent hover:border-black shadow-md hover:shadow-xl transition-all overflow-hidden h-full">
       <div className="w-full aspect-square relative bg-neutral-100 flex items-center justify-center border-b border-black/5">
         {image ? (
-          <img src={image} alt={eventTitle} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <img src={optImg(image, 400)} alt={eventTitle} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
         ) : (
           <div className="text-neutral-300 font-bold text-3xl">{venueName.slice(0, 2)}</div>
         )}
@@ -461,7 +462,7 @@ function MonthGrid({
                   return (
                     <div key={ev.id} className="flex items-center gap-1 rounded-md bg-black/[0.04] hover:bg-black/[0.08] transition-colors px-1 py-0.5 min-w-0">
                       <span className="w-3.5 h-3.5 md:w-4 md:h-4 rounded-[4px] overflow-hidden bg-white shrink-0 hidden md:flex items-center justify-center border border-black/5">
-                        {img ? <img src={img} alt="" className="w-full h-full object-cover" /> : <Ticket size={9} className="text-black/40" />}
+                        {img ? <img src={optImg(img, 60)} alt="" className="w-full h-full object-cover" /> : <Ticket size={9} className="text-black/40" />}
                       </span>
                       <span className="text-[8px] md:text-[10px] font-bold text-black/70 truncate leading-tight">{ev.venueName || ev.eventName || '—'}</span>
                     </div>
