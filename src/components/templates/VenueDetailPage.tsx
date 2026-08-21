@@ -220,7 +220,6 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
           alt={club.name}
           fill
           priority
-          unoptimized
           className="object-cover object-center mix-blend-overlay opacity-60"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#14221E]/90 via-transparent to-transparent z-10" />
@@ -286,7 +285,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                 <Link href={`/${locale}/${basePath}/${club.slug}/${party.slug}`} key={i} className="flex-none w-[260px] md:w-[280px] bg-white rounded-3xl overflow-hidden border border-black/5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group snap-start">
                   <div className="h-[230px] relative bg-gradient-to-br from-ibiza-mint to-ibiza-blue overflow-hidden">
                     {party.cover ? (
-                      <Image src={party.cover} alt={party.name} fill unoptimized className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <Image src={party.cover} alt={party.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
                       <div className="absolute inset-0 flex flex-col items-center justify-center text-neutral-500 text-xs font-semibold text-center p-4">
                         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="mb-1"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 15l5-5 4 4 3-3 6 6"/></svg>
@@ -328,7 +327,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                 return (
                 <Link href={`/${locale}/${basePath}/${club.slug}/${eventSlug}`} key={i} className="bg-white rounded-2xl p-3 md:p-4 border border-black/5 flex items-center gap-4 hover:shadow-md transition-shadow group">
                    <div className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-xl overflow-hidden bg-ibiza-mint relative">
-                     {eventCover && <Image src={eventCover} alt={eventName || 'Event'} fill unoptimized className="object-cover group-hover:scale-110 transition-transform duration-500" />}
+                     {eventCover && <Image src={eventCover} alt={eventName || 'Event'} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />}
                    </div>
                    <div className="flex-1 min-w-0">
                       <div className="text-neutral-500 text-xs font-bold tracking-wider uppercase mb-1">

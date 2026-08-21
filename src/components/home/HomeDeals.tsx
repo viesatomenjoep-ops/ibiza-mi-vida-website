@@ -43,7 +43,7 @@ function TicketDivider({ className = '', light = false }: { className?: string; 
 function DealTile({ d }: { d: Deal }) {
   const inner = (
     <>
-      {d.image ? <img src={optImg(d.image, 500)} alt={d.title} className="absolute inset-0 h-full w-full object-cover" /> : <div className="absolute inset-0 bg-neutral-800" />}
+      {d.image ? <img src={optImg(d.image, 500)} loading="lazy" alt={d.title} className="absolute inset-0 h-full w-full object-cover" /> : <div className="absolute inset-0 bg-neutral-800" />}
       <span className="deal-sweep pointer-events-none absolute inset-0 z-[5]" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
       {d.price > 0 && <span className="absolute left-1/2 top-3 z-10 -translate-x-1/2 rounded-full bg-ibiza-green px-3.5 py-1 text-sm font-black text-black shadow-lg">€{d.price}{d.priceLabel || ''}</span>}

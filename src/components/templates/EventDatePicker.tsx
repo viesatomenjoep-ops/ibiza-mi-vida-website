@@ -111,7 +111,7 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
             return (
               <div key={`${dateObj.id}-${idx}`} style={{ animation: 'dpSlide .35s ease-out backwards', animationDelay: `${idx * 60}ms` }} className="group flex flex-col justify-between gap-4 overflow-hidden rounded-2xl border border-black/10 bg-white p-4 transition-all hover:border-ibiza-green/40 hover:shadow-md sm:flex-row sm:items-center sm:p-5">
                 <span className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-xl bg-neutral-900 sm:aspect-square sm:h-24 sm:w-24">
-                  {eventCover ? <img src={optImg(eventCover, 400)} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+                  {eventCover ? <img src={optImg(eventCover, 400)} loading="lazy" alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
                 </span>
                 <div className="flex w-full flex-col gap-1 sm:flex-1">
                   <span className="font-serif text-xl font-bold text-black transition-colors group-hover:text-ibiza-green">{dateObj.eventName || eventName}</span>

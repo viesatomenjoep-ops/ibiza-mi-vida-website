@@ -334,7 +334,7 @@ function EventMini({ e, locale, fmt }: { e: PickerEvent; locale: string; fmt: (i
   return (
     <Link href={e.href} className="group flex items-center gap-3 rounded-2xl border border-black/10 bg-white p-3 shadow-sm transition-colors hover:border-ibiza-green">
       <span className="relative h-24 w-36 shrink-0 overflow-hidden rounded-xl bg-neutral-900">
-        {e.image ? <img src={optImg(e.image, 500)} alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+        {e.image ? <img src={optImg(e.image, 500)} loading="lazy" alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
         {e.price > 0 && <span className="absolute left-1.5 top-1.5 rounded bg-ibiza-green px-2 py-0.5 text-[11px] font-black text-black">€{e.price}</span>}
       </span>
       <div className="min-w-0 flex-1">
@@ -418,7 +418,7 @@ export function PickerColumns({ events, locale }: { events: PickerEvent[]; local
               const c = clubs[i]
               return (
                 <div className="flex flex-col items-center gap-1">
-                  <span className="grid h-9 w-full place-items-center">{c.logo ? <img src={optImg(c.logo, 120)} alt="" className="max-h-8 max-w-[80%] object-contain [filter:brightness(0)]" /> : <span className="text-xs font-black text-black">{c.name.slice(0, 3).toUpperCase()}</span>}</span>
+                  <span className="grid h-9 w-full place-items-center">{c.logo ? <img src={optImg(c.logo, 120)} loading="lazy" alt="" className="max-h-8 max-w-[80%] object-contain [filter:brightness(0)]" /> : <span className="text-xs font-black text-black">{c.name.slice(0, 3).toUpperCase()}</span>}</span>
                   <span className={`px-1 text-center text-[10px] font-bold leading-tight line-clamp-1 ${active ? 'text-black' : 'text-black/50'}`}>{c.name}</span>
                 </div>
               )
@@ -441,7 +441,7 @@ export function PickerColumns({ events, locale }: { events: PickerEvent[]; local
             {ev ? (
               <Link href={ev.href} className="group block h-full w-full">
                 <div className="relative h-full w-full overflow-hidden bg-neutral-900">
-                  {ev.image ? <img key={ev.id} src={optImg(ev.image, 500)} alt={ev.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+                  {ev.image ? <img key={ev.id} src={optImg(ev.image, 500)} loading="lazy" alt={ev.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
                   {ev.price > 0 && <span className="absolute right-2 top-2 rounded-md bg-ibiza-green px-2 py-0.5 text-[11px] font-black text-black">€{ev.price}</span>}
                   <div className="absolute inset-x-0 bottom-0 p-3"><div className="font-serif text-sm font-black leading-tight text-white line-clamp-2">{ev.eventName}</div></div>
@@ -474,7 +474,7 @@ export function HomeUpcomingPicker({ events, locale = 'nl' }: { events: PickerEv
           const c = clubs[i]
           return (
             <div className="flex flex-col items-center gap-2">
-              <span className="grid h-14 w-full place-items-center">{c.logo ? <img src={optImg(c.logo, 120)} alt="" className="max-h-12 max-w-[85%] object-contain [filter:brightness(0)]" /> : <span className="text-base font-black text-black">{c.name.slice(0, 3).toUpperCase()}</span>}</span>
+              <span className="grid h-14 w-full place-items-center">{c.logo ? <img src={optImg(c.logo, 120)} loading="lazy" alt="" className="max-h-12 max-w-[85%] object-contain [filter:brightness(0)]" /> : <span className="text-base font-black text-black">{c.name.slice(0, 3).toUpperCase()}</span>}</span>
               <span className={`px-1 text-center text-xs font-bold leading-tight line-clamp-1 ${active ? 'text-black' : 'text-black/45'}`}>{c.name}</span>
             </div>
           )
@@ -496,7 +496,7 @@ export function HomeUpcomingPicker({ events, locale = 'nl' }: { events: PickerEv
               <Link href={e.href} className="grid w-full grid-cols-[0.85fr_0.85fr_2.4fr] items-center gap-2 px-3">
                 {/* Club */}
                 <span className="grid h-full place-items-center">
-                  {e.clubLogo ? <img src={optImg(e.clubLogo, 120)} alt="" className="max-h-8 max-w-full object-contain [filter:brightness(0)]" /> : <span className="text-[10px] font-black text-black/70">{e.clubName.slice(0, 3).toUpperCase()}</span>}
+                  {e.clubLogo ? <img src={optImg(e.clubLogo, 120)} loading="lazy" alt="" className="max-h-8 max-w-full object-contain [filter:brightness(0)]" /> : <span className="text-[10px] font-black text-black/70">{e.clubName.slice(0, 3).toUpperCase()}</span>}
                 </span>
                 {/* Date (small) */}
                 <span className="flex flex-col items-center justify-center leading-none">
@@ -506,7 +506,7 @@ export function HomeUpcomingPicker({ events, locale = 'nl' }: { events: PickerEv
                 </span>
                 {/* Event (big) — promo image + name/artist + price */}
                 <span className="relative h-[62px] w-full overflow-hidden rounded-xl bg-neutral-900">
-                  {e.image ? <img src={optImg(e.image, 500)} alt={e.eventName} className="h-full w-full object-cover" /> : null}
+                  {e.image ? <img src={optImg(e.image, 500)} loading="lazy" alt={e.eventName} className="h-full w-full object-cover" /> : null}
                   <span className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
                   {e.price > 0 && <span className="absolute right-1.5 top-1.5 rounded bg-ibiza-green px-1.5 py-0.5 text-[10px] font-black text-black">€{e.price}</span>}
                   <span className="absolute inset-x-0 bottom-0 p-1.5">
@@ -748,7 +748,7 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
       {/* Ambient blurred backdrop — makes each step feel alive */}
       {bg && (
         <div className="pointer-events-none absolute inset-0 z-0">
-          <img src={optImg(bg, 800)} alt="" className="h-full w-full scale-125 object-cover opacity-[0.12] blur-2xl" />
+          <img src={optImg(bg, 800)} loading="lazy" alt="" className="h-full w-full scale-125 object-cover opacity-[0.12] blur-2xl" />
           <div className="absolute inset-0 bg-white/40" />
         </div>
       )}
@@ -788,10 +788,10 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
                       onClick={tap}
                       className={`group relative flex aspect-[4/3] items-end overflow-hidden rounded-2xl border bg-neutral-900 text-left transition-all hover:-translate-y-0.5 hover:shadow-md ${sel ? 'border-ibiza-green ring-2 ring-ibiza-green' : 'border-black/10'}`}
                     >
-                      {img && <img src={optImg(img, 500)} alt={c.name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />}
+                      {img && <img src={optImg(img, 500)} loading="lazy" alt={c.name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />}
                       <span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/5" />
                       <span className="relative z-10 flex w-full flex-col items-start gap-1 p-3">
-                        {c.logo && <img src={optImg(c.logo, 120)} alt="" className="mb-0.5 max-h-6 max-w-[60%] object-contain brightness-0 invert" />}
+                        {c.logo && <img src={optImg(c.logo, 120)} loading="lazy" alt="" className="mb-0.5 max-h-6 max-w-[60%] object-contain brightness-0 invert" />}
                         <span className="line-clamp-2 text-sm font-black leading-tight text-white drop-shadow">{c.name}</span>
                         {cnt > 0 && <span className="rounded-full bg-ibiza-green px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-black">{cnt} {T.events.toLowerCase()}</span>}
                       </span>
@@ -806,7 +806,7 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
                     className={`group flex flex-col items-center justify-center gap-2 rounded-2xl border p-4 transition-all hover:-translate-y-0.5 hover:border-ibiza-green hover:shadow-md ${sel ? 'border-ibiza-green bg-ibiza-green/10' : 'border-black/10 bg-white'}`}
                   >
                     <span className="grid h-12 w-full place-items-center">
-                      {c.logo ? <img src={optImg(c.logo, 120)} alt={c.name} className="max-h-11 max-w-[80%] object-contain [filter:brightness(0)] transition-transform group-hover:scale-105" /> : <span className="text-lg font-black text-black">{c.name.slice(0, 3).toUpperCase()}</span>}
+                      {c.logo ? <img src={optImg(c.logo, 120)} loading="lazy" alt={c.name} className="max-h-11 max-w-[80%] object-contain [filter:brightness(0)] transition-transform group-hover:scale-105" /> : <span className="text-lg font-black text-black">{c.name.slice(0, 3).toUpperCase()}</span>}
                     </span>
                     <span className="line-clamp-1 text-center text-xs font-bold leading-tight text-black">{c.name}</span>
                     {cnt > 0 && <span className="rounded-full bg-ibiza-green/90 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-black">{cnt} {T.events.toLowerCase()}</span>}
@@ -922,9 +922,9 @@ export function HomePlanner({ events, locale = 'nl', persistKey = 'homeplanner',
                   {g.items.map(e => (
                     <div key={e.id} className="flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-md">
                       <div className="relative aspect-[16/9] w-full bg-neutral-900 md:aspect-auto md:h-40 lg:h-44">
-                        {e.image ? <img src={optImg(e.image, 500)} alt={e.eventName} className="h-full w-full object-cover" /> : null}
+                        {e.image ? <img src={optImg(e.image, 500)} loading="lazy" alt={e.eventName} className="h-full w-full object-cover" /> : null}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
-                        {e.clubLogo && <span className="absolute left-2.5 top-2.5 grid h-9 w-9 place-items-center overflow-hidden rounded-lg bg-white/90 p-1"><img src={optImg(e.clubLogo, 120)} alt="" className="max-h-full max-w-full object-contain [filter:brightness(0)]" /></span>}
+                        {e.clubLogo && <span className="absolute left-2.5 top-2.5 grid h-9 w-9 place-items-center overflow-hidden rounded-lg bg-white/90 p-1"><img src={optImg(e.clubLogo, 120)} loading="lazy" alt="" className="max-h-full max-w-full object-contain [filter:brightness(0)]" /></span>}
                         <div className="absolute inset-x-0 bottom-0 p-3">
                           <div className="line-clamp-2 font-serif text-lg font-black leading-tight text-white">{e.eventName}</div>
                           {e.lineUp && <div className="line-clamp-1 text-[11px] font-semibold text-white/70">{e.lineUp}</div>}
@@ -1042,7 +1042,7 @@ function PickerRows({ events, locale, persistKey, full, onExpand }: { events: Pi
               const c = clubs[i]
               return (
                 <div className="flex flex-col items-center gap-1">
-                  <span className="grid h-10 w-full place-items-center">{c.logo ? <img src={optImg(c.logo, 120)} alt="" className="max-h-9 max-w-[85%] object-contain [filter:brightness(0)]" /> : <span className="text-sm font-black text-black">{c.name.slice(0, 3).toUpperCase()}</span>}</span>
+                  <span className="grid h-10 w-full place-items-center">{c.logo ? <img src={optImg(c.logo, 120)} loading="lazy" alt="" className="max-h-9 max-w-[85%] object-contain [filter:brightness(0)]" /> : <span className="text-sm font-black text-black">{c.name.slice(0, 3).toUpperCase()}</span>}</span>
                   <span className={`px-1 text-center text-[11px] font-bold leading-tight line-clamp-1 ${active ? 'text-black' : 'text-black/45'}`}>{c.name}</span>
                 </div>
               )
@@ -1072,7 +1072,7 @@ function PickerRows({ events, locale, persistKey, full, onExpand }: { events: Pi
                 {windowEvents.map(e => (
                   <Link key={e.id} href={e.href} className="group block w-[86%] shrink-0 snap-center overflow-hidden rounded-3xl border border-black/10 shadow-lg sm:w-[72%] md:w-full">
                     <div className="relative aspect-[16/7] w-full bg-neutral-900 sm:aspect-[16/8] md:aspect-auto md:h-full md:min-h-[300px] lg:min-h-[360px]">
-                      {e.image ? <img src={optImg(e.image, 500)} alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
+                      {e.image ? <img src={optImg(e.image, 500)} loading="lazy" alt={e.eventName} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
                       {e.price > 0 && <span className="absolute right-3 top-3 rounded-lg bg-ibiza-green px-3 py-1 text-sm font-black text-black">€{e.price}</span>}
                       <div className="absolute inset-x-0 bottom-0 p-5 pr-16">
@@ -1255,10 +1255,10 @@ function AgendaCard({ e, fmt, view }: { e: PickerEvent; fmt: (iso: string, p: st
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl border border-black/10 bg-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg">
       <div className="relative aspect-[16/10] w-full bg-neutral-900">
-        {e.image ? <img src={optImg(e.image, 500)} alt={e.eventName} className="h-full w-full object-cover" /> : null}
+        {e.image ? <img src={optImg(e.image, 500)} loading="lazy" alt={e.eventName} className="h-full w-full object-cover" /> : null}
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
         {e.price > 0 && <span className="absolute right-2.5 top-2.5 rounded-lg bg-ibiza-green px-2.5 py-0.5 text-sm font-black text-black">€{e.price}</span>}
-        {e.clubLogo && <span className="absolute left-2.5 top-2.5 grid h-10 w-10 place-items-center overflow-hidden rounded-xl bg-white/90 p-1"><img src={optImg(e.clubLogo, 120)} alt="" className="max-h-full max-w-full object-contain [filter:brightness(0)]" /></span>}
+        {e.clubLogo && <span className="absolute left-2.5 top-2.5 grid h-10 w-10 place-items-center overflow-hidden rounded-xl bg-white/90 p-1"><img src={optImg(e.clubLogo, 120)} loading="lazy" alt="" className="max-h-full max-w-full object-contain [filter:brightness(0)]" /></span>}
         <div className="absolute inset-x-0 bottom-0 p-3">
           <div className="font-serif text-lg font-black leading-tight text-white line-clamp-2">{e.eventName}</div>
           <div className="text-xs font-semibold text-white/75">{e.clubName} · <span className="capitalize">{fmt(e.date, 'EEE d MMM')}</span></div>

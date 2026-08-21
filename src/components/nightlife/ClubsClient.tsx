@@ -88,7 +88,7 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
                   className="flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-black/5"
                 >
                   <span className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-lg bg-neutral-900">
-                    {(v.whitelogo || v.cover || v.picture) ? <img src={optImg(v.whitelogo || v.cover || v.picture, 100)} alt="" className="max-h-full max-w-full object-contain" /> : null}
+                    {(v.whitelogo || v.cover || v.picture) ? <img src={optImg(v.whitelogo || v.cover || v.picture, 100)} loading="lazy" alt="" className="max-h-full max-w-full object-contain" /> : null}
                   </span>
                   <span className="flex-1 truncate font-serif text-sm font-bold text-black">{v.name}</span>
                   <span className="inline-flex items-center gap-1 rounded-full bg-black/5 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-black/50">

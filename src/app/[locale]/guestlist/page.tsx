@@ -311,7 +311,7 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
                     className="group flex items-center gap-4 rounded-[22px] border border-black/8 bg-white p-3.5 transition-shadow hover:shadow-lg"
                   >
                     <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl bg-neutral-200">
-                      {image && <Image src={image} alt={d.eventName || d.name} fill unoptimized className="object-cover transition-transform duration-500 group-hover:scale-110" />}
+                      {image && <Image src={image} alt={d.eventName || d.name} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />}
                     </div>
                     <div className="min-w-0">
                       <span className="text-[10px] font-black uppercase tracking-wider text-gold">

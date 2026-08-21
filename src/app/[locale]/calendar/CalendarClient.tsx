@@ -169,7 +169,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
         <div className="absolute top-0 left-0 w-full h-[50vh] z-0 overflow-hidden opacity-30 pointer-events-none">
           <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-transparent z-10" />
           <img
-            src={optImg(venuesMap.get(selectedVenue)?.whitelogo || venuesMap.get(selectedVenue)?.picture, 800)}
+            src={optImg(venuesMap.get(selectedVenue)?.whitelogo || venuesMap.get(selectedVenue)?.picture, 800)} loading="lazy"
             alt="Venue background"
             className="w-full h-full object-cover blur-sm scale-110"
           />
@@ -289,7 +289,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
                 >
                   <div className={`w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-full overflow-hidden bg-white border-2 transition-all duration-300 ${isActive ? 'border-ibiza-green shadow-[0_0_15px_rgba(61,106,150,0.3)] scale-110' : 'border-black/10 group-hover:border-black/30 group-hover:scale-105'}`}>
                     {vImg ? (
-                      <img src={optImg(vImg, 160)} alt={v.name} className={`w-full h-full object-contain p-2`} />
+                      <img src={optImg(vImg, 160)} loading="lazy" alt={v.name} className={`w-full h-full object-contain p-2`} />
                     ) : (
                       <span className={`text-2xl font-black ${isActive ? 'text-black' : 'text-black/40 group-hover:text-black'}`}>{v.name.slice(0,2)}</span>
                     )}
@@ -332,7 +332,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
                     <a href={affiliateLink} target={affiliateLink.startsWith('http') ? '_blank' : '_self'} rel="noopener noreferrer" key={ev.id} className="group flex flex-col bg-white rounded-2xl md:rounded-3xl border-2 border-transparent hover:border-black shadow-md hover:shadow-xl transition-all overflow-hidden h-full">
                       <div className="w-full aspect-square relative bg-neutral-100 flex items-center justify-center p-0 border-b border-black/5">
                         {image ? (
-                           <img src={optImg(image, 400)} alt={eventTitle} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                           <img src={optImg(image, 400)} loading="lazy" alt={eventTitle} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         ) : (
                            <div className="text-neutral-300 font-bold text-3xl">{venueName.slice(0,2)}</div>
                         )}

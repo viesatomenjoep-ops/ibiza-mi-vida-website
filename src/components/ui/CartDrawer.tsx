@@ -45,7 +45,7 @@ export function CartDrawer() {
             items.map(item => (
               <div key={item.id} className="flex gap-4 items-center bg-gray-50 p-4 rounded-xl">
                 {item.image ? (
-                  <img src={optImg(item.image, 150)} alt={item.title} className="w-16 h-16 object-cover rounded-lg" />
+                  <img src={optImg(item.image, 150)} loading="lazy" alt={item.title} className="w-16 h-16 object-cover rounded-lg" />
                 ) : (
                   <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
                     <span className="text-gray-400 text-xs">No image</span>

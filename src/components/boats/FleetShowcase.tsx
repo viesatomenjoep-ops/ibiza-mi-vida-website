@@ -227,7 +227,6 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
           src={boat.image}
           alt={`${boat.model} ${boat.name}`}
           fill
-          unoptimized
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
@@ -330,7 +329,7 @@ function Lightbox({ boats, index, onClose, onNav }: { boats: Boat[]; index: numb
       </button>
       <div className="relative w-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
         <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
-          <Image src={boat.image} alt={`${boat.model} ${boat.name}`} fill unoptimized sizes="90vw" className="object-contain" priority />
+          <Image src={boat.image} alt={`${boat.model} ${boat.name}`} fill sizes="90vw" className="object-contain" priority />
         </div>
         <div className="mt-4 text-center text-white">
           <h3 className="font-serif text-2xl font-bold">{boat.model}{boat.name && <span className="text-ibiza-green"> {boat.name}</span>}</h3>
