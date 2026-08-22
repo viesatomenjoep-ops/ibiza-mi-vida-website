@@ -16,6 +16,10 @@ export function middleware(request: NextRequest) {
     return
   }
 
+  // The mobile app shell (/m) has its own root layout and handles language via
+  // ?lang= — it must not be locale-prefixed like the marketing site.
+  if (pathname === '/m' || pathname.startsWith('/m/')) return
+
   // Check if the pathname is missing a locale
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
