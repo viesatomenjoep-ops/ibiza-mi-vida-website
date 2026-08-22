@@ -29,17 +29,23 @@ export function EventCard({
   locale,
   onOpen,
   hero = false,
+  eager = false,
 }: {
   event: AppEvent
   t: AppLabels
   locale: string
   onOpen: (e: AppEvent) => void
   hero?: boolean
+  /** true for the first above-the-fold cards so their covers load immediately */
+  eager?: boolean
 }) {
   return (
     <button
       type="button"
       onClick={() => onOpen(e)}
+      // content-visibility lets the browser skip layout/paint for off-screen
+      // cards entirely — with hundreds of rows this is what keeps scroll smooth.
+      style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 112px' }}
       className="group relative flex w-full items-stretch gap-4 overflow-hidden rounded-3xl border border-white/[0.07] bg-obsidian-card p-3 text-left outline-none transition-all motion-reduce:transition-none hover:border-white/20 focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-[0.985] motion-reduce:active:scale-100"
     >
       {/* Cover */}
@@ -47,7 +53,8 @@ export function EventCard({
         {e.cover ? (
           <img
             src={optImg(e.cover, 256)}
-            loading="lazy"
+            loading={eager ? 'eager' : 'lazy'}
+            decoding="async"
             alt=""
             className="h-full w-full object-cover transition-transform duration-500 motion-reduce:transition-none group-hover:scale-105"
           />

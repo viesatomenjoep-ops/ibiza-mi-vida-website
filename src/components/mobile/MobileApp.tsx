@@ -77,7 +77,14 @@ export function MobileApp({
       <BottomSheet open={sheet !== null} onClose={closeSheet} label={
         sheet?.kind === 'event' ? sheet.event.name : sheet?.kind === 'venue' ? sheet.venue.name : t.selectDate
       }>
-        {sheet?.kind === 'event' && <EventSheet event={sheet.event} t={t} locale={locale} />}
+        {sheet?.kind === 'event' && (
+          <EventSheet
+            event={sheet.event}
+            venueLogo={venues.find(v => v.slug === sheet.event.venueSlug)?.whitelogo || ''}
+            t={t}
+            locale={locale}
+          />
+        )}
         {sheet?.kind === 'venue' && (
           <VenueSheet
             venue={sheet.venue}

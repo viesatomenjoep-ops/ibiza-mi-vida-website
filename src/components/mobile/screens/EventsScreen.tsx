@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { CalendarDays } from 'lucide-react'
 import type { ScreenProps } from '../MobileApp'
 import { EventCard, shortDate } from '../EventCard'
+import { LazyList } from '../LazyList'
 
 const FILTERS = [
   { key: 'all', slugs: null },
@@ -64,25 +65,30 @@ export function EventsScreen({ events, t, locale, openEvent }: ScreenProps) {
         </div>
       </div>
 
-      {/* Day groups */}
-      {grouped.map(([day, list]) => (
-        <section key={day} className="pt-5">
-          <div className="mb-3 flex items-baseline justify-between">
-            <h2 className="flex items-center gap-2 font-display text-lg font-black text-white">
-              <CalendarDays size={16} className="text-gold-soft" />
-              {day === todayStr ? t.today : shortDate(day, locale)}
-            </h2>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-white/35">
-              {list.length} {t.events}
-            </span>
-          </div>
-          <div className="flex flex-col gap-3">
-            {list.map(e => (
-              <EventCard key={e.id} event={e} t={t} locale={locale} onOpen={openEvent} />
-            ))}
-          </div>
-        </section>
-      ))}
+      {/* Day groups — the feed easily holds hundreds of cards, so both the
+          groups AND the cards inside each group mount incrementally */}
+      <LazyList initial={1} step={1} key={filter}>
+        {grouped.map(([day, list], gi) => (
+          <section key={day} className="pt-5">
+            <div className="mb-3 flex items-baseline justify-between">
+              <h2 className="flex items-center gap-2 font-display text-lg font-black text-white">
+                <CalendarDays size={16} className="text-gold-soft" />
+                {day === todayStr ? t.today : shortDate(day, locale)}
+              </h2>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-white/35">
+                {list.length} {t.events}
+              </span>
+            </div>
+            <div className="flex flex-col gap-3">
+              <LazyList initial={6} step={10}>
+                {list.map((e, i) => (
+                  <EventCard key={e.id} event={e} t={t} locale={locale} onOpen={openEvent} eager={gi === 0 && i < 4} />
+                ))}
+              </LazyList>
+            </div>
+          </section>
+        ))}
+      </LazyList>
 
       {grouped.length === 0 && (
         <p className="mt-8 rounded-3xl border border-white/[0.07] bg-obsidian-card p-10 text-center text-[14px] font-semibold text-white/40">

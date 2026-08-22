@@ -6,6 +6,7 @@ import type { AgendaView } from '../types'
 import type { ScreenProps } from '../MobileApp'
 import { TopTabs } from '../TopTabs'
 import { EventCard, shortDate } from '../EventCard'
+import { LazyList } from '../LazyList'
 import { optImg } from '@/lib/img'
 import { waLink, WA_BOOKINGS } from '../config'
 
@@ -124,16 +125,19 @@ export function AgendaScreen({
             </span>
           </div>
 
-          {/* Events for the day */}
+          {/* Events for the day — mounted incrementally so a 58-event day
+              doesn't fire 58 image requests and DOM nodes in one burst */}
           {dayEvents.length === 0 ? (
             <p className="rounded-3xl border border-white/[0.07] bg-obsidian-card p-10 text-center text-[14px] font-semibold text-white/40">
               {t.noEvents}
             </p>
           ) : (
-            <div className="flex flex-col gap-3">
-              {dayEvents.map(e => (
-                <EventCard key={e.id} event={e} t={t} locale={locale} onOpen={openEvent} hero={dayEvents.indexOf(e) === 0} />
-              ))}
+            <div key={selectedDay} className="flex flex-col gap-3">
+              <LazyList initial={8} step={12}>
+                {dayEvents.map((e, i) => (
+                  <EventCard key={e.id} event={e} t={t} locale={locale} onOpen={openEvent} hero={i === 0} eager={i < 4} />
+                ))}
+              </LazyList>
             </div>
           )}
         </div>
@@ -211,9 +215,11 @@ export function AgendaScreen({
         <div className="px-4 pt-5">
           <h2 className="mb-3 font-display text-xl font-black text-white">{t.viewUpcoming}</h2>
           <div className="flex flex-col gap-3">
-            {upcoming.map(e => (
-              <EventCard key={e.id} event={e} t={t} locale={locale} onOpen={openEvent} />
-            ))}
+            <LazyList initial={10} step={12}>
+              {upcoming.map((e, i) => (
+                <EventCard key={e.id} event={e} t={t} locale={locale} onOpen={openEvent} eager={i < 4} />
+              ))}
+            </LazyList>
           </div>
         </div>
       )}

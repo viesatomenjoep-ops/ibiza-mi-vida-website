@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { Search, X, TrendingUp } from 'lucide-react'
 import type { ScreenProps } from '../MobileApp'
 import { EventCard } from '../EventCard'
+import { LazyList } from '../LazyList'
 
 /** Search tab: instant filter over events (name / venue / lineup) + trending fallback. */
 export function SearchScreen({ events, t, locale, openEvent }: ScreenProps) {
@@ -78,10 +79,12 @@ export function SearchScreen({ events, t, locale, openEvent }: ScreenProps) {
           {t.noResults}
         </p>
       ) : (
-        <div className="mt-5 flex flex-col gap-3">
-          {results.map(e => (
-            <EventCard key={e.id} event={e} t={t} locale={locale} onOpen={openEvent} />
-          ))}
+        <div key={q} className="mt-5 flex flex-col gap-3">
+          <LazyList initial={10} step={10}>
+            {results.map((e, i) => (
+              <EventCard key={e.id} event={e} t={t} locale={locale} onOpen={openEvent} eager={i < 4} />
+            ))}
+          </LazyList>
         </div>
       )}
     </div>

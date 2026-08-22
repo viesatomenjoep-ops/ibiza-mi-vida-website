@@ -13,7 +13,6 @@ export interface AppEvent {
   venueSlug: string
   venueTypeSlug: string
   cover: string
-  venueLogo: string
   /** lowest advertised price in €, 0 = unknown ("from" pricing) */
   price: number
   lineUp: string

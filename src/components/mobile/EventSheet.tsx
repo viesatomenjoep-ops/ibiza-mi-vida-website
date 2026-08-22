@@ -9,7 +9,18 @@ import { waLink, WA_BOOKINGS } from './config'
 import { shortDate } from './EventCard'
 
 /** Event detail inside the bottom sheet: cover, facts, lineup, dual CTA. */
-export function EventSheet({ event: e, t, locale }: { event: AppEvent; t: AppLabels; locale: string }) {
+export function EventSheet({
+  event: e,
+  venueLogo = '',
+  t,
+  locale,
+}: {
+  event: AppEvent
+  /** looked up from `venues` by the shell — not shipped per event */
+  venueLogo?: string
+  t: AppLabels
+  locale: string
+}) {
   const drinksMsg = `Hi Ibiza Mi Vida! I'd like to save on drinks for ${e.name} at ${e.venueName} on ${e.date}. What are the options?`
 
   return (
@@ -21,9 +32,9 @@ export function EventSheet({ event: e, t, locale }: { event: AppEvent; t: AppLab
           <div className="absolute inset-0 bg-gradient-to-t from-obsidian-light/90 via-transparent to-transparent" aria-hidden />
           {/* Logo badge only for .png logos — the brightness-0 treatment needs
               transparency; an opaque jpg would render as a solid black block. */}
-          {e.venueLogo && /\.png(\?|$)/i.test(e.venueLogo) && (
+          {venueLogo && /\.png(\?|$)/i.test(venueLogo) && (
             <span className="absolute bottom-3 left-3 grid h-12 w-12 place-items-center overflow-hidden rounded-xl bg-white/95 p-1.5 shadow-lg">
-              <img src={optImg(e.venueLogo, 96)} alt="" className="max-h-full max-w-full object-contain brightness-0" />
+              <img src={optImg(venueLogo, 96)} alt="" decoding="async" className="max-h-full max-w-full object-contain brightness-0" />
             </span>
           )}
         </div>

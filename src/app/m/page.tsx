@@ -22,15 +22,16 @@ export default async function MobileAppPage({
   const [venuesRaw, datesRaw] = await Promise.all([getVenues(locale), getAllDates(locale)])
 
   const typeBySlug = new Map(venuesRaw.map(v => [v.slug, v.type?.slug || '']))
-  const logoBySlug = new Map(venuesRaw.map(v => [v.slug, v.whitelogo || v.picture || '']))
   const todayStr = new Date().toISOString().slice(0, 10)
 
-  // Next ~90 days, capped — plenty for every screen without bloating the payload.
-  const horizon = new Date(Date.now() + 90 * 86400000).toISOString().slice(0, 10)
+  // Payload discipline: this whole array ships twice (SSR HTML + hydration),
+  // so every byte counts double. 60 days / 450 rows covers every screen;
+  // venue logos are NOT per-event — the client derives them from `venues`.
+  const horizon = new Date(Date.now() + 60 * 86400000).toISOString().slice(0, 10)
   const events: AppEvent[] = datesRaw
     .filter(d => /^\d{4}-\d{2}-\d{2}/.test(d.date || '') && d.date.slice(0, 10) >= todayStr && d.date.slice(0, 10) <= horizon)
     .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
-    .slice(0, 600)
+    .slice(0, 450)
     .map(d => ({
       id: `${d.id}-${d.eventSlug || ''}`,
       date: d.date.slice(0, 10),
@@ -40,9 +41,8 @@ export default async function MobileAppPage({
       venueSlug: d.venueSlug || '',
       venueTypeSlug: typeBySlug.get(d.venueSlug || '') || '',
       cover: d.eventCover || d.eventLogo || d.venueCover || '',
-      venueLogo: logoBySlug.get(d.venueSlug || '') || d.venueLogo || '',
       price: priceOf(d.prices),
-      lineUp: (d.lineUp || '').replace(/<[^>]+>/g, ' ').replace(/(\s*-\s*)+/g, ', ').replace(/\s+/g, ' ').replace(/^,\s*/, '').trim(),
+      lineUp: (d.lineUp || '').replace(/<[^>]+>/g, ' ').replace(/(\s*-\s*)+/g, ', ').replace(/\s+/g, ' ').replace(/^,\s*/, '').trim().slice(0, 180),
       affLink: d.affLink || '',
     }))
 
