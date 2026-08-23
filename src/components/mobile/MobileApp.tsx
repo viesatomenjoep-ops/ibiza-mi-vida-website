@@ -111,8 +111,9 @@ export function MobileApp({
     <div className="mx-auto flex min-h-[100dvh] w-full max-w-lg flex-col">
       <AppHeader t={t} onOpenPlanner={() => setPlannerOpen(true)} />
 
-      {/* Screens — pb clears the fixed 2-row bottom nav + iOS home indicator */}
-      <main className="flex-1 pb-[calc(128px+env(safe-area-inset-bottom))]">
+      {/* Screens — pb clears the floating single-row nav capsule + its travelling
+          label + iOS home indicator */}
+      <main className="flex-1 pb-[calc(118px+env(safe-area-inset-bottom))]">
         {tab === 'agenda' && (
           <AgendaScreen {...screenProps} view={agendaView} setView={setAgendaView} onOpenPlanner={() => setPlannerOpen(true)} />
         )}
