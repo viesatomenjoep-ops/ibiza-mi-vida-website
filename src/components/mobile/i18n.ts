@@ -42,7 +42,10 @@ const LABELS = {
   tabMap: L('Kaart', 'Map', 'Karte', 'Mapa', 'Carte'),
   tabGuestlist: L('Guestlist', 'Guestlist', 'Guestlist', 'Guestlist', 'Guestlist'),
 
-  viewCalendar: L('Kalender', 'Calendar', 'Kalender', 'Calendario', 'Calendrier'),
+  // Renamed from the generic "Calendar" — this view opens on today's picks,
+  // so a nightlife-native label ("what's on tonight") reads less like a
+  // stock calendar widget and more like the app's own voice.
+  viewCalendar: L('Vanavond', 'Tonight', 'Heute Nacht', 'Esta noche', 'Ce soir'),
   viewExplore: L('Ontdek', 'Explore', 'Entdecken', 'Explorar', 'Explorer'),
   viewUpcoming: L('Binnenkort', 'Upcoming', 'Demnächst', 'Próximos', 'À venir'),
 

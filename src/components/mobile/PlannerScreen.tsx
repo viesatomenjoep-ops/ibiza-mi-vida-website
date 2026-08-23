@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState, useRef } from 'react'
-import { X, Calendar, Sparkles, Layers, MessageCircle, Heart, ArrowLeftCircle } from 'lucide-react'
+import { X, Calendar, Gem, Layers, MessageCircle, Heart, ArrowLeftCircle } from 'lucide-react'
 import type { AppEvent, PlannerMode } from './types'
 import type { AppLabels } from './i18n'
 import { EventCard, shortDate } from './EventCard'
@@ -11,7 +11,7 @@ import { addDaysISO, todayISO } from './dateUtils'
 
 const MODES: { id: PlannerMode; icon: typeof Calendar; labelKey: 'modePlanner' | 'modeSurprise' | 'modeSwipe' }[] = [
   { id: 'planner', icon: Calendar, labelKey: 'modePlanner' },
-  { id: 'surprise', icon: Sparkles, labelKey: 'modeSurprise' },
+  { id: 'surprise', icon: Gem, labelKey: 'modeSurprise' },
   { id: 'swipe', icon: Layers, labelKey: 'modeSwipe' },
 ]
 
@@ -190,7 +190,7 @@ function SurpriseMode({ events, t, locale, onOpenEvent }: { events: AppEvent[]; 
 
   return (
     <div className="flex flex-col items-center gap-6 pt-4 text-center">
-      <Sparkles size={28} className="text-gold-soft" />
+      <Gem size={28} className="text-gold-soft" />
       <p className="max-w-[32ch] text-[14px] leading-relaxed text-white/60">{t.surpriseIntro}</p>
 
       {pick && (

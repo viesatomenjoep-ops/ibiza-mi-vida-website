@@ -109,7 +109,7 @@ export function MobileApp({
 
   return (
     <div className="mx-auto flex min-h-[100dvh] w-full max-w-lg flex-col">
-      <AppHeader t={t} onOpenPlanner={() => setPlannerOpen(true)} />
+      <AppHeader t={t} locale={locale} onOpenPlanner={() => setPlannerOpen(true)} />
 
       {/* Screens — pb clears the floating single-row nav capsule + its travelling
           label + iOS home indicator */}
