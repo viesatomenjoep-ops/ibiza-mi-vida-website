@@ -87,7 +87,7 @@ export function HomeMobileAppStrip({ locale = 'nl' }: { locale?: string }) {
       <div className="mt-7">
         <h2 className="mb-1 font-serif text-xl font-black text-black">{t(MAP_TITLE)}</h2>
         <p className="mb-3 text-[12px] text-black/45">{t(TAP_HINT)}</p>
-        {isMobile && <Map3D height="52vh" onSelectPlace={onSelectPlace} />}
+        {isMobile && <Map3D height="52vh" onSelectPlace={onSelectPlace} locale={locale} />}
       </div>
     </section>
   )

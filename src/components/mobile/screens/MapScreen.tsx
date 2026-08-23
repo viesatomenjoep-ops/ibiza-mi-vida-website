@@ -32,7 +32,7 @@ export function MapScreen({ venues, t, locale, openVenue }: ScreenProps) {
   return (
     <div>
       <div className="px-4 pt-4">
-        <Map3D height="46vh" onSelectPlace={onSelectPlace} />
+        <Map3D height="46vh" onSelectPlace={onSelectPlace} locale={locale} />
       </div>
 
       {/* Day/night filter */}
