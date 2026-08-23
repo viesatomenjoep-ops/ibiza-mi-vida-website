@@ -88,11 +88,19 @@ export function AgendaScreen({
 
       {view === 'calendar' && (
         <div>
-          {/* Hero video — the app's actual "home" moment, first thing seen */}
+          {/* Hero video — the app's actual "home" moment, first thing seen.
+              preload="auto" + eager buffering so it's playing by first paint,
+              same as the marketing site's hero; webkit-playsinline covers
+              older iOS Safari alongside the standard playsInline prop. */}
           {heroVideoSrc && (
-            <div className="relative h-40 w-full overflow-hidden">
+            <div className="relative h-52 w-full overflow-hidden">
               <video
-                autoPlay muted loop playsInline preload="metadata"
+                autoPlay
+                muted
+                loop
+                playsInline
+                webkit-playsinline="true"
+                preload="auto"
                 poster={heroVideoPoster || undefined}
                 src={heroVideoSrc}
                 className="h-full w-full object-cover"

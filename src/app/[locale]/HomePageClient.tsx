@@ -14,6 +14,7 @@ import { HeroShowIntro } from '@/components/home/HeroShowIntro';
 import { HomeScrollHint } from '@/components/home/HomeScrollHint';
 import { HomeCategoryCarousel } from '@/components/home/HomeCategoryCarousel';
 import { HomeUSP } from '@/components/home/HomeUSP';
+import { HomeMobileAppStrip } from '@/components/home/HomeMobileAppStrip';
 import { HomeInstagram } from '@/components/home/HomeInstagram';
 import { HomeNewsletter } from '@/components/home/HomeNewsletter';
 import { Reveal } from '@/components/ui/Reveal';
@@ -85,6 +86,10 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       </header>
 
       {/* Circular category showcase — the 4 categories as a rotating photo fan */}
+      {/* Mobile-only: app-style tiles + the 3D map, blending the normal site
+          with the app's quick-navigation feel. Desktop stays untouched. */}
+      <HomeMobileAppStrip locale={locale} />
+
       <HomeCategoryCarousel deals={deals} base={base} locale={locale} />
 
       {/* Live event slider — the price/date category tile carousels were removed */}
