@@ -93,7 +93,7 @@ export function BottomSheet({
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="absolute right-4 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/5 text-white/60 outline-none transition-colors motion-reduce:transition-none hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100"
+            className="absolute right-4 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/5 text-white/60 outline-none transition-colors motion-reduce:transition-none hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100"
           >
             <X size={17} />
           </button>

@@ -43,7 +43,7 @@ export function DatePickerSheet({
           onClick={() => canGoBack && setCursor(c => addMonthsISO(c, -1))}
           disabled={!canGoBack}
           aria-label="prev"
-          className="grid h-9 w-9 place-items-center rounded-full border border-white/10 text-white/70 outline-none transition-colors motion-reduce:transition-none enabled:hover:bg-white/10 disabled:opacity-25 focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100"
+          className="grid h-9 w-9 place-items-center rounded-full border border-white/10 text-white/70 outline-none transition-colors motion-reduce:transition-none enabled:hover:bg-white/10 disabled:opacity-25 focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100"
         >
           <ChevronLeft size={16} />
         </button>
@@ -55,7 +55,7 @@ export function DatePickerSheet({
           onClick={() => canGoFwd && setCursor(c => addMonthsISO(c, 1))}
           disabled={!canGoFwd}
           aria-label="next"
-          className="grid h-9 w-9 place-items-center rounded-full border border-white/10 text-white/70 outline-none transition-colors motion-reduce:transition-none enabled:hover:bg-white/10 disabled:opacity-25 focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100"
+          className="grid h-9 w-9 place-items-center rounded-full border border-white/10 text-white/70 outline-none transition-colors motion-reduce:transition-none enabled:hover:bg-white/10 disabled:opacity-25 focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100"
         >
           <ChevronRight size={16} />
         </button>
@@ -78,16 +78,16 @@ export function DatePickerSheet({
               type="button"
               disabled={!!disabled}
               onClick={() => onPick(iso)}
-              className={`relative grid aspect-square place-items-center rounded-xl text-[14px] font-bold outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100 ${
+              className={`relative grid aspect-square place-items-center rounded-xl text-[14px] font-bold outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100 ${
                 isSelected
-                  ? 'bg-gold text-white shadow-lg shadow-gold/25'
+                  ? 'bg-app-accent text-white shadow-lg shadow-app-accent/25'
                   : disabled
                     ? 'text-white/15'
                     : 'text-white/80 hover:bg-white/[0.08]'
               }`}
             >
               {Number(iso.slice(8, 10))}
-              {isToday && !isSelected && <span className="absolute bottom-1 h-1 w-1 rounded-full bg-gold-soft" aria-hidden />}
+              {isToday && !isSelected && <span className="absolute bottom-1 h-1 w-1 rounded-full bg-app-accent-soft" aria-hidden />}
             </button>
           )
         })}

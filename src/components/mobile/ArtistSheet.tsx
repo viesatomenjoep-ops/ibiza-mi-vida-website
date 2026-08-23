@@ -23,7 +23,7 @@ export function ArtistSheet({ artist: a, t, locale }: { artist: AppArtist; t: Ap
           <h2 className="truncate font-display text-2xl font-black text-white">{a.name}</h2>
           {a.venueName && (
             <span className="mt-1 flex items-center gap-1.5 text-[13px] font-semibold text-white/55">
-              <MapPin size={13} className="shrink-0 text-gold-soft" /> {a.venueName}
+              <MapPin size={13} className="shrink-0 text-app-accent-soft" /> {a.venueName}
             </span>
           )}
         </div>
@@ -34,7 +34,7 @@ export function ArtistSheet({ artist: a, t, locale }: { artist: AppArtist; t: Ap
           href={ctLink(a.href, locale)}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 rounded-full bg-gold px-5 py-3.5 text-[13px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-gold/25 outline-none transition-colors motion-reduce:transition-none hover:bg-gold-soft focus-visible:ring-2 focus-visible:ring-white active:scale-[0.97] motion-reduce:active:scale-100"
+          className="flex items-center justify-center gap-2 rounded-full bg-app-accent px-5 py-3.5 text-[13px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-app-accent/25 outline-none transition-colors motion-reduce:transition-none hover:bg-app-accent-soft focus-visible:ring-2 focus-visible:ring-white active:scale-[0.97] motion-reduce:active:scale-100"
         >
           {t.tickets} <ArrowRight size={16} />
         </a>

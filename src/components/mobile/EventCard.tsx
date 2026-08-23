@@ -46,7 +46,7 @@ export function EventCard({
       // content-visibility lets the browser skip layout/paint for off-screen
       // cards entirely — with hundreds of rows this is what keeps scroll smooth.
       style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 112px' }}
-      className="group relative flex w-full items-stretch gap-4 overflow-hidden rounded-3xl border border-white/[0.07] bg-obsidian-card p-3 text-left outline-none transition-all motion-reduce:transition-none hover:border-white/20 focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-[0.985] motion-reduce:active:scale-100"
+      className="group relative flex w-full items-stretch gap-4 overflow-hidden rounded-3xl border border-white/[0.07] bg-obsidian-card p-3 text-left outline-none transition-all motion-reduce:transition-none hover:border-white/20 focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-[0.985] motion-reduce:active:scale-100"
     >
       {/* Cover */}
       <span className={`relative shrink-0 overflow-hidden rounded-2xl bg-obsidian ${hero ? 'h-28 w-28' : 'h-[88px] w-[88px]'}`}>
@@ -71,11 +71,11 @@ export function EventCard({
           {e.name}
         </span>
         <span className="flex items-center gap-1.5 truncate text-[13px] font-semibold text-white/55">
-          <MapPin size={13} className="shrink-0 text-gold-soft" />
+          <MapPin size={13} className="shrink-0 text-app-accent-soft" />
           <span className="truncate">{e.venueName}</span>
         </span>
         <span className="flex items-center gap-1.5 text-[13px] font-semibold text-white/55">
-          <Clock size={13} className="shrink-0 text-gold-soft" />
+          <Clock size={13} className="shrink-0 text-app-accent-soft" />
           {shortDate(e.date, locale)}{e.time ? ` · ${e.time}` : ''}
         </span>
         {hero && e.lineUp && (
@@ -88,7 +88,7 @@ export function EventCard({
 
       {/* Price chip */}
       {e.price > 0 && (
-        <span className="absolute right-3 top-3 rounded-full bg-gold px-2.5 py-1 text-[12px] font-black text-white shadow-lg">
+        <span className="absolute right-3 top-3 rounded-full bg-app-accent px-2.5 py-1 text-[12px] font-black text-white shadow-lg">
           €{e.price}
         </span>
       )}

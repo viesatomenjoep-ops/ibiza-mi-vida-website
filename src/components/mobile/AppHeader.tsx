@@ -68,7 +68,7 @@ export function AppHeader({ t, locale, onOpenPlanner }: { t: AppLabels; locale: 
             onClick={() => setLangOpen(o => !o)}
             aria-label="Language"
             aria-expanded={langOpen}
-            className="flex items-center gap-1 rounded-full bg-white/[0.06] px-2.5 py-1.5 text-[11px] font-extrabold uppercase tracking-wide text-white/70 outline-none transition-colors motion-reduce:transition-none hover:bg-white/[0.12] focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100"
+            className="flex items-center gap-1 rounded-full bg-white/[0.06] px-2.5 py-1.5 text-[11px] font-extrabold uppercase tracking-wide text-white/70 outline-none transition-colors motion-reduce:transition-none hover:bg-white/[0.12] focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100"
           >
             {current.label}
             <ChevronDown size={12} className={`transition-transform motion-reduce:transition-none ${langOpen ? 'rotate-180' : ''}`} />
@@ -82,7 +82,7 @@ export function AppHeader({ t, locale, onOpenPlanner }: { t: AppLabels; locale: 
                     type="button"
                     onClick={() => changeLocale(loc.code)}
                     className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-[13px] font-bold outline-none transition-colors motion-reduce:transition-none ${
-                      loc.code === locale ? 'bg-gold text-white' : 'text-white/75 hover:bg-white/[0.08]'
+                      loc.code === locale ? 'bg-app-accent text-white' : 'text-white/75 hover:bg-white/[0.08]'
                     }`}
                   >
                     {loc.name}
@@ -99,7 +99,7 @@ export function AppHeader({ t, locale, onOpenPlanner }: { t: AppLabels; locale: 
           type="button"
           onClick={onOpenPlanner}
           aria-label={t.plannerBanner}
-          className="grid h-8 w-8 place-items-center rounded-full bg-gold/15 text-gold-soft outline-none transition-colors motion-reduce:transition-none hover:bg-gold/25 focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100"
+          className="grid h-8 w-8 place-items-center rounded-full bg-app-accent/15 text-app-accent-soft outline-none transition-colors motion-reduce:transition-none hover:bg-app-accent/25 focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100"
         >
           <Route size={15} />
         </button>

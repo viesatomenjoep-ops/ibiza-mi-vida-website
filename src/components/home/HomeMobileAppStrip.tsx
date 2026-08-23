@@ -60,7 +60,7 @@ export function HomeMobileAppStrip({ locale = 'nl' }: { locale?: string }) {
           const external = 'external' in rest && rest.external
           const content = (
             <>
-              <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gold/10 text-gold transition-colors group-hover:bg-gold group-hover:text-white">
+              <span className="grid h-11 w-11 place-items-center rounded-2xl bg-app-accent/10 text-app-accent transition-colors group-hover:bg-app-accent group-hover:text-white">
                 <Icon size={19} />
               </span>
               <span className="text-[11px] font-bold uppercase tracking-wide text-black/70">{t(label)}</span>

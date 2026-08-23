@@ -45,11 +45,22 @@ const config: Config = {
         },
         // Accent — professional slate blue (replaces the former purple, which
         // replaced the original gold). Token name kept as `gold` so every
-        // existing *-gold* utility recolours globally.
+        // existing *-gold* utility recolours globally. This is the MARKETING
+        // SITE's brand accent — do not repoint it for app-only work below.
         gold: {
           DEFAULT: '#3D6A96',
           soft: '#5E87AC',
           faint: 'rgba(61, 106, 150, 0.14)',
+        },
+        // /m app shell accent — warm copper/bronze against the app's obsidian
+        // surfaces, replacing an earlier blue that read too close to the
+        // marketing site's own accent and too "generic SaaS/AI-app" against a
+        // dark UI. Scoped to the app (BottomNav, sheets, Map3D, the mobile
+        // homepage strip) — the rest of the site keeps `gold` untouched.
+        'app-accent': {
+          DEFAULT: '#B9754A',
+          soft: '#D49A6A',
+          faint: 'rgba(185, 117, 74, 0.14)',
         },
       },
       fontFamily: {

@@ -77,7 +77,7 @@ export function Map3D({
         },
       })
       mapRef.current = map
-      // Black & white "ink" look, matching the app's obsidian/gold theme
+      // Black & white "ink" look, matching the app's obsidian/app-accent theme
       // (raw satellite colour would clash badly with the rest of the UI).
       map.getCanvas().style.filter = 'grayscale(1) contrast(1.16) brightness(1.06)'
 
@@ -200,8 +200,8 @@ export function Map3D({
             type="button"
             onClick={() => setGroup(g)}
             aria-pressed={group === g}
-            className={`rounded-full border px-4 py-2 text-[11px] font-extrabold uppercase tracking-wide outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100 ${
-              group === g ? 'border-gold bg-gold text-white' : 'border-white/15 text-white/50 hover:text-white/80'
+            className={`rounded-full border px-4 py-2 text-[11px] font-extrabold uppercase tracking-wide outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100 ${
+              group === g ? 'border-app-accent bg-app-accent text-white' : 'border-white/15 text-white/50 hover:text-white/80'
             }`}
           >
             {g === 'clubs' ? 'Clubs' : 'Activities'}
@@ -220,8 +220,8 @@ export function Map3D({
               onSelectPlace(place)
               mapRef.current?.flyTo({ center: place.coords, zoom: 13.7, pitch: 58, bearing: -14, duration: 1800, essential: true })
             }}
-            className={`flex shrink-0 items-center gap-2 rounded-full border px-3 py-1.5 text-[12px] font-bold outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100 ${
-              active === place.name ? 'border-gold bg-gold text-white' : 'border-white/10 bg-obsidian-card text-white/70 hover:border-white/25'
+            className={`flex shrink-0 items-center gap-2 rounded-full border px-3 py-1.5 text-[12px] font-bold outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100 ${
+              active === place.name ? 'border-app-accent bg-app-accent text-white' : 'border-white/10 bg-obsidian-card text-white/70 hover:border-white/25'
             }`}
           >
             {place.name}

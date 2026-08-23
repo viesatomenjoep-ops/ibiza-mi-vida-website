@@ -46,8 +46,8 @@ export function MapScreen({ venues, t, locale, openVenue }: ScreenProps) {
               type="button"
               onClick={() => setFilter(f)}
               aria-pressed={active}
-              className={`whitespace-nowrap rounded-full px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-wide outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100 ${
-                active ? 'bg-gold text-white shadow-lg shadow-gold/25' : 'bg-white/[0.06] text-white/50 hover:text-white/80'
+              className={`whitespace-nowrap rounded-full px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-wide outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100 ${
+                active ? 'bg-app-accent text-white shadow-lg shadow-app-accent/25' : 'bg-white/[0.06] text-white/50 hover:text-white/80'
               }`}
             >
               {label}
@@ -65,7 +65,7 @@ export function MapScreen({ venues, t, locale, openVenue }: ScreenProps) {
               key={v.slug}
               type="button"
               onClick={() => openVenue(v)}
-              className="group flex w-full items-center gap-4 rounded-2xl border border-white/[0.07] bg-obsidian-card p-3 text-left outline-none transition-all motion-reduce:transition-none hover:border-white/20 focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-[0.985] motion-reduce:active:scale-100"
+              className="group flex w-full items-center gap-4 rounded-2xl border border-white/[0.07] bg-obsidian-card p-3 text-left outline-none transition-all motion-reduce:transition-none hover:border-white/20 focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-[0.985] motion-reduce:active:scale-100"
             >
               <span className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-xl bg-white p-1.5">
                 {img ? (
@@ -77,7 +77,7 @@ export function MapScreen({ venues, t, locale, openVenue }: ScreenProps) {
               <span className="min-w-0 flex-1">
                 <span className="block truncate font-display text-[16px] font-extrabold text-white">{v.name}</span>
                 <span className="mt-0.5 flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wide text-white/45">
-                  {v.isDayClub ? <Sun size={12} className="text-gold-soft" /> : <Moon size={12} className="text-gold-soft" />}
+                  {v.isDayClub ? <Sun size={12} className="text-app-accent-soft" /> : <Moon size={12} className="text-app-accent-soft" />}
                   {v.isDayClub ? t.dayClub : t.nightClub}
                 </span>
               </span>

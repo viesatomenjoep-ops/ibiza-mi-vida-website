@@ -26,9 +26,9 @@ export function TopTabs({ view, setView, t }: { view: AgendaView; setView: (v: A
               type="button"
               aria-selected={active}
               onClick={() => setView(id)}
-              className={`relative rounded-full px-5 py-2 text-[13px] font-extrabold uppercase tracking-wide outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100 ${
+              className={`relative rounded-full px-5 py-2 text-[13px] font-extrabold uppercase tracking-wide outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100 ${
                 active
-                  ? 'bg-gold text-white shadow-lg shadow-gold/25'
+                  ? 'bg-app-accent text-white shadow-lg shadow-app-accent/25'
                   : 'text-white/45 hover:bg-white/[0.06] hover:text-white/80'
               }`}
             >

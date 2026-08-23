@@ -50,7 +50,7 @@ export function PlannerScreen({
           type="button"
           onClick={onClose}
           aria-label={t.back}
-          className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/[0.06] text-white/70 outline-none transition-colors motion-reduce:transition-none hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100"
+          className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/[0.06] text-white/70 outline-none transition-colors motion-reduce:transition-none hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100"
         >
           <ArrowLeftCircle size={18} />
         </button>
@@ -69,8 +69,8 @@ export function PlannerScreen({
               type="button"
               aria-selected={active}
               onClick={() => setMode(id)}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-2 py-2.5 text-[11px] font-extrabold uppercase tracking-wide outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100 ${
-                active ? 'bg-gold text-white shadow-lg shadow-gold/25' : 'bg-white/[0.05] text-white/45 hover:text-white/80'
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-2 py-2.5 text-[11px] font-extrabold uppercase tracking-wide outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100 ${
+                active ? 'bg-app-accent text-white shadow-lg shadow-app-accent/25' : 'bg-white/[0.05] text-white/45 hover:text-white/80'
               }`}
             >
               <Icon size={14} /> {t[labelKey]}
@@ -135,11 +135,11 @@ function ItineraryMode({
       <div className="rounded-2xl border border-white/[0.07] bg-obsidian-card p-4">
         <h2 className="mb-3 font-display text-[14px] font-extrabold uppercase tracking-wider text-white/50">{t.plannerDates}</h2>
         <div className="grid grid-cols-2 gap-3">
-          <button type="button" onClick={pickFrom} className="flex flex-col items-start gap-0.5 rounded-xl border border-white/10 px-3 py-2.5 text-left outline-none transition-colors motion-reduce:transition-none hover:border-white/25 focus-visible:ring-2 focus-visible:ring-gold-soft">
+          <button type="button" onClick={pickFrom} className="flex flex-col items-start gap-0.5 rounded-xl border border-white/10 px-3 py-2.5 text-left outline-none transition-colors motion-reduce:transition-none hover:border-white/25 focus-visible:ring-2 focus-visible:ring-app-accent-soft">
             <span className="text-[10px] font-bold uppercase tracking-wide text-white/40">{t.plannerFrom}</span>
             <span className="font-display text-[15px] font-extrabold text-white">{shortDate(from, locale)}</span>
           </button>
-          <button type="button" onClick={pickTo} className="flex flex-col items-start gap-0.5 rounded-xl border border-white/10 px-3 py-2.5 text-left outline-none transition-colors motion-reduce:transition-none hover:border-white/25 focus-visible:ring-2 focus-visible:ring-gold-soft">
+          <button type="button" onClick={pickTo} className="flex flex-col items-start gap-0.5 rounded-xl border border-white/10 px-3 py-2.5 text-left outline-none transition-colors motion-reduce:transition-none hover:border-white/25 focus-visible:ring-2 focus-visible:ring-app-accent-soft">
             <span className="text-[10px] font-bold uppercase tracking-wide text-white/40">{t.plannerTo}</span>
             <span className="font-display text-[15px] font-extrabold text-white">{shortDate(to, locale)}</span>
           </button>
@@ -147,7 +147,7 @@ function ItineraryMode({
         <button
           type="button"
           onClick={() => setBuilt(true)}
-          className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-gold px-5 py-3 text-[13px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-gold/25 outline-none transition-colors motion-reduce:transition-none hover:bg-gold-soft focus-visible:ring-2 focus-visible:ring-white active:scale-[0.97] motion-reduce:active:scale-100"
+          className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-app-accent px-5 py-3 text-[13px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-app-accent/25 outline-none transition-colors motion-reduce:transition-none hover:bg-app-accent-soft focus-visible:ring-2 focus-visible:ring-white active:scale-[0.97] motion-reduce:active:scale-100"
         >
           {t.buildItinerary}
         </button>
@@ -190,20 +190,20 @@ function SurpriseMode({ events, t, locale, onOpenEvent }: { events: AppEvent[]; 
 
   return (
     <div className="flex flex-col items-center gap-6 pt-4 text-center">
-      <Gem size={28} className="text-gold-soft" />
+      <Gem size={28} className="text-app-accent-soft" />
       <p className="max-w-[32ch] text-[14px] leading-relaxed text-white/60">{t.surpriseIntro}</p>
 
       {pick && (
-        <div className="w-full overflow-hidden rounded-3xl border border-gold/25 bg-obsidian-card text-left">
+        <div className="w-full overflow-hidden rounded-3xl border border-app-accent/25 bg-obsidian-card text-left">
           {pick.cover && <img src={optImg(pick.cover, 640)} alt="" className="h-44 w-full object-cover" />}
           <div className="p-4">
-            <span className="mb-1 block text-[11px] font-bold uppercase tracking-wider text-gold-soft">{t.conciergesPick}</span>
+            <span className="mb-1 block text-[11px] font-bold uppercase tracking-wider text-app-accent-soft">{t.conciergesPick}</span>
             <h3 className="font-display text-xl font-black text-white">{pick.name}</h3>
             <p className="mt-1 text-[13px] font-semibold text-white/55">{pick.venueName} · {shortDate(pick.date, locale)}</p>
             <button
               type="button"
               onClick={() => onOpenEvent(pick)}
-              className="mt-3 w-full rounded-full bg-gold px-4 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-white outline-none transition-colors motion-reduce:transition-none hover:bg-gold-soft focus-visible:ring-2 focus-visible:ring-white active:scale-[0.97] motion-reduce:active:scale-100"
+              className="mt-3 w-full rounded-full bg-app-accent px-4 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-white outline-none transition-colors motion-reduce:transition-none hover:bg-app-accent-soft focus-visible:ring-2 focus-visible:ring-white active:scale-[0.97] motion-reduce:active:scale-100"
             >
               {t.tickets}
             </button>
@@ -214,7 +214,7 @@ function SurpriseMode({ events, t, locale, onOpenEvent }: { events: AppEvent[]; 
       <button
         type="button"
         onClick={reveal}
-        className="w-full rounded-full border border-gold/40 bg-gold/10 px-5 py-3.5 text-[13px] font-extrabold uppercase tracking-wide text-gold-soft outline-none transition-colors motion-reduce:transition-none hover:bg-gold/20 focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-[0.97] motion-reduce:active:scale-100"
+        className="w-full rounded-full border border-app-accent/40 bg-app-accent/10 px-5 py-3.5 text-[13px] font-extrabold uppercase tracking-wide text-app-accent-soft outline-none transition-colors motion-reduce:transition-none hover:bg-app-accent/20 focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-[0.97] motion-reduce:active:scale-100"
       >
         {pick ? t.anotherPick : t.revealPick}
       </button>
@@ -262,7 +262,7 @@ function SwipeMode({ events, t, locale }: { events: AppEvent[]; t: AppLabels; lo
       : `Hi Ibiza Mi Vida! I'd like help planning my Ibiza nights.`
     return (
       <div className="flex flex-col items-center gap-5 pt-8 text-center">
-        <Layers size={28} className="text-gold-soft" />
+        <Layers size={28} className="text-app-accent-soft" />
         <div>
           <h3 className="font-display text-xl font-black text-white">{t.swipeDone}</h3>
           <p className="mt-1 max-w-[32ch] text-[13px] leading-relaxed text-white/55">{t.swipeDoneBody}</p>
@@ -276,7 +276,7 @@ function SwipeMode({ events, t, locale }: { events: AppEvent[]; t: AppLabels; lo
           href={waLink(WA_BOOKINGS, msg)}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-gold px-5 py-3.5 text-[13px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-gold/25 outline-none transition-colors motion-reduce:transition-none hover:bg-gold-soft focus-visible:ring-2 focus-visible:ring-white active:scale-[0.97] motion-reduce:active:scale-100"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-app-accent px-5 py-3.5 text-[13px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-app-accent/25 outline-none transition-colors motion-reduce:transition-none hover:bg-app-accent-soft focus-visible:ring-2 focus-visible:ring-white active:scale-[0.97] motion-reduce:active:scale-100"
         >
           <MessageCircle size={16} /> {t.sendShortlist}
         </a>
@@ -310,7 +310,7 @@ function SwipeMode({ events, t, locale }: { events: AppEvent[]; t: AppLabels; lo
                 <h3 className="font-display text-lg font-black leading-tight text-white">{e!.name}</h3>
                 <p className="mt-1 text-[12px] font-semibold text-white/55">{e!.venueName} · {shortDate(e!.date, locale)}</p>
               </div>
-              {isTop && dragX > 40 && <span className="absolute right-4 top-4 rounded-lg border-2 border-gold-soft px-2 py-1 text-[11px] font-black uppercase text-gold-soft">{t.save}</span>}
+              {isTop && dragX > 40 && <span className="absolute right-4 top-4 rounded-lg border-2 border-app-accent-soft px-2 py-1 text-[11px] font-black uppercase text-app-accent-soft">{t.save}</span>}
               {isTop && dragX < -40 && <span className="absolute left-4 top-4 rounded-lg border-2 border-white/40 px-2 py-1 text-[11px] font-black uppercase text-white/60">{t.skip}</span>}
             </div>
           )
@@ -322,7 +322,7 @@ function SwipeMode({ events, t, locale }: { events: AppEvent[]; t: AppLabels; lo
           type="button"
           onClick={() => decide(false)}
           aria-label={t.skip}
-          className="grid h-14 w-14 place-items-center rounded-full border border-white/15 text-white/60 outline-none transition-colors motion-reduce:transition-none hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-90 motion-reduce:active:scale-100"
+          className="grid h-14 w-14 place-items-center rounded-full border border-white/15 text-white/60 outline-none transition-colors motion-reduce:transition-none hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-90 motion-reduce:active:scale-100"
         >
           <X size={22} />
         </button>
@@ -330,7 +330,7 @@ function SwipeMode({ events, t, locale }: { events: AppEvent[]; t: AppLabels; lo
           type="button"
           onClick={() => decide(true)}
           aria-label={t.save}
-          className="grid h-14 w-14 place-items-center rounded-full bg-gold text-white shadow-lg shadow-gold/25 outline-none transition-colors motion-reduce:transition-none hover:bg-gold-soft focus-visible:ring-2 focus-visible:ring-white active:scale-90 motion-reduce:active:scale-100"
+          className="grid h-14 w-14 place-items-center rounded-full bg-app-accent text-white shadow-lg shadow-app-accent/25 outline-none transition-colors motion-reduce:transition-none hover:bg-app-accent-soft focus-visible:ring-2 focus-visible:ring-white active:scale-90 motion-reduce:active:scale-100"
         >
           <Heart size={22} />
         </button>

@@ -41,7 +41,7 @@ export default function MobileAppLayout({ children }: { children: React.ReactNod
     >
       {/* overscroll-none kills the browser rubber-band so the shell feels native;
           overflow-x-clip guards against accidental horizontal scroll on 375px. */}
-      <body className="bg-obsidian text-white antialiased [overscroll-behavior-y:none] overflow-x-clip selection:bg-gold/30">
+      <body className="bg-obsidian text-white antialiased [overscroll-behavior-y:none] overflow-x-clip selection:bg-app-accent/30">
         {children}
       </body>
     </html>

@@ -48,14 +48,14 @@ export function SearchScreen({ events, t, locale, openEvent }: ScreenProps) {
             onChange={e => setQ(e.target.value)}
             placeholder={t.searchPlaceholder}
             enterKeyHint="search"
-            className="w-full rounded-full border border-white/10 bg-obsidian-card py-3.5 pl-11 pr-11 text-[15px] font-medium text-white outline-none transition-colors motion-reduce:transition-none placeholder:text-white/30 hover:border-white/20 focus:border-gold-soft focus-visible:ring-2 focus-visible:ring-gold/40 [&::-webkit-search-cancel-button]:hidden"
+            className="w-full rounded-full border border-white/10 bg-obsidian-card py-3.5 pl-11 pr-11 text-[15px] font-medium text-white outline-none transition-colors motion-reduce:transition-none placeholder:text-white/30 hover:border-white/20 focus:border-app-accent-soft focus-visible:ring-2 focus-visible:ring-app-accent/40 [&::-webkit-search-cancel-button]:hidden"
           />
           {q && (
             <button
               type="button"
               onClick={() => setQ('')}
               aria-label={t.clearSearch}
-              className="absolute right-3 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full text-white/40 outline-none transition-colors motion-reduce:transition-none hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-gold-soft"
+              className="absolute right-3 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full text-white/40 outline-none transition-colors motion-reduce:transition-none hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-app-accent-soft"
             >
               <X size={15} />
             </button>
@@ -66,7 +66,7 @@ export function SearchScreen({ events, t, locale, openEvent }: ScreenProps) {
       {results === null ? (
         <>
           <h2 className="mb-3 mt-5 flex items-center gap-2 font-display text-xl font-black text-white">
-            <TrendingUp size={18} className="text-gold-soft" /> {t.trendingEvents}
+            <TrendingUp size={18} className="text-app-accent-soft" /> {t.trendingEvents}
           </h2>
           <div className="flex flex-col gap-3">
             {trending.map(e => (

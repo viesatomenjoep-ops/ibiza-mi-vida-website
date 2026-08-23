@@ -1,19 +1,23 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { CalendarDays, Search, Compass, Ticket, Sailboat, KeyRound } from 'lucide-react'
+import { MoonStar, Radar, Compass, Disc3, Sailboat, KeyRound } from 'lucide-react'
 import type { TabId } from './types'
 import type { AppLabels } from './i18n'
 
-// Single ordered ring — most-used first. Icons picked for a more premium,
-// considered feel than generic outline glyphs: Compass over a flat map pin
-// (exploration/navigation, on-brand for an island concierge), KeyRound over
-// a checklist for guestlist (reads as "access", not "admin task list").
-const ITEMS: { id: TabId; icon: typeof Search; labelKey: keyof AppLabels }[] = [
-  { id: 'agenda', icon: CalendarDays, labelKey: 'tabAgenda' },
-  { id: 'search', icon: Search, labelKey: 'tabSearch' },
+// Single ordered ring — most-used first. Deliberately avoiding the first,
+// most-obvious dictionary icon for each label (Calendar/Search/Ticket are
+// what any icon-library search returns first, which is exactly what reads
+// as templated): MoonStar for the nightlife-native "Tonight" view, Radar
+// for search (ties into the app's tactical/HUD map language instead of a
+// generic magnifying glass), Disc3 for events (a record, not a ticket stub
+// — every event app uses a ticket icon). Compass and KeyRound already made
+// this swap in an earlier pass and stay.
+const ITEMS: { id: TabId; icon: typeof Compass; labelKey: keyof AppLabels }[] = [
+  { id: 'agenda', icon: MoonStar, labelKey: 'tabAgenda' },
+  { id: 'search', icon: Radar, labelKey: 'tabSearch' },
   { id: 'map', icon: Compass, labelKey: 'tabMap' },
-  { id: 'events', icon: Ticket, labelKey: 'tabEvents' },
+  { id: 'events', icon: Disc3, labelKey: 'tabEvents' },
   { id: 'boats', icon: Sailboat, labelKey: 'tabBoats' },
   { id: 'guestlist', icon: KeyRound, labelKey: 'tabGuestlist' },
 ]
@@ -129,7 +133,7 @@ export function BottomNav({ tab, setTab, t }: { tab: TabId; setTab: (t: TabId) =
           {/* Glowing puck */}
           <span
             aria-hidden
-            className="absolute top-1.5 bottom-1.5 rounded-full bg-gradient-to-b from-gold-soft to-gold shadow-[0_0_22px_4px_rgba(94,135,172,0.55)] motion-reduce:transition-none"
+            className="absolute top-1.5 bottom-1.5 rounded-full bg-gradient-to-b from-app-accent-soft to-app-accent shadow-[0_0_22px_4px_rgba(185,117,74,0.55)] motion-reduce:transition-none"
             style={{ left: puckIndex * slotPx + 6, width: Math.max(0, slotPx - 12), transition: SPRING_BOTH }}
           />
 
@@ -153,9 +157,9 @@ export function BottomNav({ tab, setTab, t }: { tab: TabId; setTab: (t: TabId) =
                   className={`grid place-items-center rounded-full transition-all duration-200 motion-reduce:transition-none ${
                     isPuck ? 'h-10 w-10 scale-100 text-obsidian' : isHover ? 'h-9 w-9 scale-110 text-white/85' : 'h-9 w-9 scale-100 text-white/40'
                   }`}
-                  style={isHover && !isPuck ? { filter: 'drop-shadow(0 0 8px rgba(94,135,172,0.65)) brightness(1.3)' } : undefined}
+                  style={isHover && !isPuck ? { filter: 'drop-shadow(0 0 8px rgba(185,117,74,0.65)) brightness(1.3)' } : undefined}
                 >
-                  <Icon size={19} strokeWidth={isPuck ? 2.6 : 2} />
+                  <Icon size={19} strokeWidth={isPuck ? 2.4 : 1.5} />
                 </span>
               </button>
             )

@@ -37,7 +37,7 @@ export function MonthStrip({
             type="button"
             onClick={() => onPick(iso)}
             aria-pressed={active}
-            className={`shrink-0 rounded-full px-3.5 py-1.5 text-[12px] font-extrabold uppercase tracking-wide outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100 ${
+            className={`shrink-0 rounded-full px-3.5 py-1.5 text-[12px] font-extrabold uppercase tracking-wide outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100 ${
               active ? 'bg-white/[0.1] text-white' : 'text-white/35 hover:text-white/65'
             }`}
           >

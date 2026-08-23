@@ -54,8 +54,8 @@ export function EventsScreen({ events, t, locale, openEvent }: ScreenProps) {
                 type="button"
                 onClick={() => setFilter(f.key)}
                 aria-pressed={active}
-                className={`shrink-0 rounded-full px-4 py-2 text-[12px] font-extrabold uppercase tracking-wide outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100 ${
-                  active ? 'bg-gold text-white shadow-lg shadow-gold/25' : 'bg-white/[0.06] text-white/50 hover:text-white/80'
+                className={`shrink-0 rounded-full px-4 py-2 text-[12px] font-extrabold uppercase tracking-wide outline-none transition-colors motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100 ${
+                  active ? 'bg-app-accent text-white shadow-lg shadow-app-accent/25' : 'bg-white/[0.06] text-white/50 hover:text-white/80'
                 }`}
               >
                 {(FILTER_LABEL[f.key] || {})[locale] || FILTER_LABEL[f.key].en}
@@ -72,7 +72,7 @@ export function EventsScreen({ events, t, locale, openEvent }: ScreenProps) {
           <section key={day} className="pt-5">
             <div className="mb-3 flex items-baseline justify-between">
               <h2 className="flex items-center gap-2 font-display text-lg font-black text-white">
-                <CalendarDays size={16} className="text-gold-soft" />
+                <CalendarDays size={16} className="text-app-accent-soft" />
                 {day === todayStr ? t.today : shortDate(day, locale)}
               </h2>
               <span className="text-[11px] font-bold uppercase tracking-wider text-white/35">

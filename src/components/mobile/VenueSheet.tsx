@@ -36,7 +36,7 @@ export function VenueSheet({
         <div className="min-w-0">
           <h2 className="truncate font-display text-2xl font-black text-white">{v.name}</h2>
           <span className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-white/[0.07] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white/60">
-            {v.isDayClub ? <Sun size={11} className="text-gold-soft" /> : <Moon size={11} className="text-gold-soft" />}
+            {v.isDayClub ? <Sun size={11} className="text-app-accent-soft" /> : <Moon size={11} className="text-app-accent-soft" />}
             {v.isDayClub ? t.dayClub : t.nightClub}
           </span>
         </div>
@@ -44,7 +44,7 @@ export function VenueSheet({
 
       <div>
         <h3 className="mb-3 flex items-center gap-2 font-display text-[15px] font-extrabold uppercase tracking-wider text-white/50">
-          <CalendarDays size={15} className="text-gold-soft" /> {t.upcomingAt}
+          <CalendarDays size={15} className="text-app-accent-soft" /> {t.upcomingAt}
         </h3>
         {upcoming.length === 0 ? (
           <p className="rounded-2xl border border-white/[0.07] bg-obsidian-card p-6 text-center text-[14px] font-semibold text-white/40">

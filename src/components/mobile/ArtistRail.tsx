@@ -19,7 +19,7 @@ export function ArtistRail({
   return (
     <div>
       <h2 className="mb-3 flex items-center gap-2 font-display text-xl font-black text-white">
-        <Headphones size={18} className="text-gold-soft" /> {t.onDecks}
+        <Headphones size={18} className="text-app-accent-soft" /> {t.onDecks}
       </h2>
       <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {artists.map(a => (
@@ -27,7 +27,7 @@ export function ArtistRail({
             key={a.slug}
             type="button"
             onClick={() => onOpen(a)}
-            className="group flex w-28 shrink-0 flex-col items-center gap-2 rounded-2xl p-2 text-center outline-none transition-colors motion-reduce:transition-none hover:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100"
+            className="group flex w-28 shrink-0 flex-col items-center gap-2 rounded-2xl p-2 text-center outline-none transition-colors motion-reduce:transition-none hover:bg-white/[0.04] focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100"
           >
             <span className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border-2 border-white/10 bg-obsidian-card">
               {a.image ? (

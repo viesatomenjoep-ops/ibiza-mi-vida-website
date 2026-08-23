@@ -107,7 +107,7 @@ export function AgendaScreen({
               />
               <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/10 to-black/30" aria-hidden />
               <div className="absolute inset-x-4 bottom-3 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-white/70">
-                <MapPin size={12} className="text-gold-soft" /> Ibiza, {new Date().getFullYear()}
+                <MapPin size={12} className="text-app-accent-soft" /> Ibiza, {new Date().getFullYear()}
               </div>
             </div>
           )}
@@ -127,9 +127,9 @@ export function AgendaScreen({
                     type="button"
                     onClick={() => setSelectedDay(d)}
                     aria-pressed={active}
-                    className={`relative flex w-[64px] shrink-0 flex-col items-center gap-0.5 rounded-2xl border py-3 outline-none transition-all motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-95 motion-reduce:active:scale-100 ${
+                    className={`relative flex w-[64px] shrink-0 flex-col items-center gap-0.5 rounded-2xl border py-3 outline-none transition-all motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-95 motion-reduce:active:scale-100 ${
                       active
-                        ? 'border-gold bg-gold text-white shadow-lg shadow-gold/25'
+                        ? 'border-app-accent bg-app-accent text-white shadow-lg shadow-app-accent/25'
                         : 'border-white/[0.07] bg-obsidian-card text-white/60 hover:border-white/20'
                     }`}
                   >
@@ -137,7 +137,7 @@ export function AgendaScreen({
                       {d === todayStr ? t.today.slice(0, 3) : weekdayShort(locale, new Date(d + 'T12:00:00Z').getUTCDay())}
                     </span>
                     <span className="font-display text-xl font-black">{Number(d.slice(8, 10))}</span>
-                    {has && <span className={`absolute bottom-1.5 h-1 w-1 rounded-full ${active ? 'bg-white' : 'bg-gold-soft'}`} aria-hidden />}
+                    {has && <span className={`absolute bottom-1.5 h-1 w-1 rounded-full ${active ? 'bg-white' : 'bg-app-accent-soft'}`} aria-hidden />}
                   </button>
                 )
               })}
@@ -146,7 +146,7 @@ export function AgendaScreen({
             {/* Day header */}
             <div className="mb-3 flex items-baseline justify-between">
               <h2 className="flex items-center gap-2 font-display text-xl font-black text-white">
-                <Flame size={18} className="text-gold-soft" /> {t.popularEvents}
+                <Flame size={18} className="text-app-accent-soft" /> {t.popularEvents}
               </h2>
               <span className="text-[12px] font-bold uppercase tracking-wider text-white/35">
                 {shortDate(selectedDay, locale)} · {dayEvents.length} {t.events}
@@ -176,7 +176,7 @@ export function AgendaScreen({
         <div className="flex flex-col gap-6 px-4 pt-5">
           <div>
             <h2 className="mb-3 flex items-center gap-2 font-display text-xl font-black text-white">
-              <Flame size={18} className="text-gold-soft" /> {t.featuredEvents}
+              <Flame size={18} className="text-app-accent-soft" /> {t.featuredEvents}
             </h2>
             {/* Cover-forward horizontal rail */}
             <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -185,12 +185,12 @@ export function AgendaScreen({
                   key={e.id}
                   type="button"
                   onClick={() => openEvent(e)}
-                  className="group relative h-56 w-40 shrink-0 overflow-hidden rounded-3xl border border-white/[0.07] bg-obsidian-card text-left outline-none transition-all motion-reduce:transition-none hover:border-white/25 focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-[0.97] motion-reduce:active:scale-100"
+                  className="group relative h-56 w-40 shrink-0 overflow-hidden rounded-3xl border border-white/[0.07] bg-obsidian-card text-left outline-none transition-all motion-reduce:transition-none hover:border-white/25 focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-[0.97] motion-reduce:active:scale-100"
                 >
                   <img src={optImg(e.cover, 384)} loading="lazy" decoding="async" alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 motion-reduce:transition-none group-hover:scale-105" />
                   <span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" aria-hidden />
                   {e.price > 0 && (
-                    <span className="absolute right-2.5 top-2.5 rounded-full bg-gold px-2 py-0.5 text-[11px] font-black text-white shadow">€{e.price}</span>
+                    <span className="absolute right-2.5 top-2.5 rounded-full bg-app-accent px-2 py-0.5 text-[11px] font-black text-white shadow">€{e.price}</span>
                   )}
                   <span className="absolute inset-x-3 bottom-3 flex flex-col gap-0.5">
                     <span className="line-clamp-2 font-display text-[15px] font-extrabold leading-tight text-white">{e.name}</span>
@@ -209,12 +209,12 @@ export function AgendaScreen({
           <button
             type="button"
             onClick={onOpenPlanner}
-            className="group relative overflow-hidden rounded-3xl border border-gold/25 bg-gradient-to-br from-gold/20 via-obsidian-card to-obsidian-card p-6 text-left outline-none transition-all motion-reduce:transition-none hover:border-gold/50 focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-[0.985] motion-reduce:active:scale-100"
+            className="group relative overflow-hidden rounded-3xl border border-app-accent/25 bg-gradient-to-br from-app-accent/20 via-obsidian-card to-obsidian-card p-6 text-left outline-none transition-all motion-reduce:transition-none hover:border-app-accent/50 focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-[0.985] motion-reduce:active:scale-100"
           >
-            <span className="mb-1.5 block text-[11px] font-bold uppercase tracking-[0.18em] text-gold-soft">{t.tabAgenda}</span>
+            <span className="mb-1.5 block text-[11px] font-bold uppercase tracking-[0.18em] text-app-accent-soft">{t.tabAgenda}</span>
             <span className="block font-display text-2xl font-black leading-tight text-white">{t.plannerBanner}</span>
             <span className="mt-2 block max-w-[36ch] text-[13px] leading-relaxed text-white/60">{t.plannerBannerBody}</span>
-            <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 text-[13px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-gold/25 transition-colors motion-reduce:transition-none group-hover:bg-gold-soft">
+            <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-app-accent px-5 py-2.5 text-[13px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-app-accent/25 transition-colors motion-reduce:transition-none group-hover:bg-app-accent-soft">
               {t.openPlanner} <ArrowRight size={15} />
             </span>
           </button>
@@ -224,7 +224,7 @@ export function AgendaScreen({
             href={waLink(WA_BOOKINGS, 'Hi Ibiza Mi Vida! I need your VIP concierge for my Ibiza trip.')}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative overflow-hidden rounded-3xl border border-white/10 bg-obsidian-card p-6 outline-none transition-all motion-reduce:transition-none hover:border-white/25 focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-[0.985] motion-reduce:active:scale-100"
+            className="group relative overflow-hidden rounded-3xl border border-white/10 bg-obsidian-card p-6 outline-none transition-all motion-reduce:transition-none hover:border-white/25 focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-[0.985] motion-reduce:active:scale-100"
           >
             <span className="mb-1.5 block text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">{t.brandName}</span>
             <span className="block font-display text-2xl font-black leading-tight text-white">{t.concierge}</span>
@@ -243,7 +243,7 @@ export function AgendaScreen({
                   key={v.slug}
                   type="button"
                   onClick={() => openVenue(v)}
-                  className="flex w-24 shrink-0 flex-col items-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-gold-soft rounded-2xl active:scale-95 motion-reduce:active:scale-100 transition-transform motion-reduce:transition-none"
+                  className="flex w-24 shrink-0 flex-col items-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-app-accent-soft rounded-2xl active:scale-95 motion-reduce:active:scale-100 transition-transform motion-reduce:transition-none"
                 >
                   <span className="grid h-20 w-20 place-items-center overflow-hidden rounded-2xl border border-white/[0.07] bg-white p-2.5">
                     <img src={optImg(v.whitelogo || v.picture, 128)} loading="lazy" decoding="async" alt="" className="max-h-full max-w-full object-contain brightness-0" />

@@ -25,7 +25,7 @@ export function BoatsScreen({
             key={b.slug}
             type="button"
             onClick={() => onOpen(b)}
-            className="group flex flex-col overflow-hidden rounded-3xl border border-white/[0.07] bg-obsidian-card text-left outline-none transition-all motion-reduce:transition-none hover:border-white/20 focus-visible:ring-2 focus-visible:ring-gold-soft active:scale-[0.97] motion-reduce:active:scale-100"
+            className="group flex flex-col overflow-hidden rounded-3xl border border-white/[0.07] bg-obsidian-card text-left outline-none transition-all motion-reduce:transition-none hover:border-white/20 focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-[0.97] motion-reduce:active:scale-100"
           >
             <span className="relative h-28 w-full overflow-hidden bg-obsidian">
               {b.image && (
@@ -44,7 +44,7 @@ export function BoatsScreen({
             <span className="flex flex-col gap-0.5 p-3">
               <span className="truncate font-display text-[14px] font-extrabold text-white">{b.name}</span>
               <span className="truncate text-[11px] font-semibold text-white/45">{b.marina}</span>
-              <span className="mt-1 font-display text-[15px] font-black text-gold-soft">
+              <span className="mt-1 font-display text-[15px] font-black text-app-accent-soft">
                 €{b.priceFrom}<span className="text-[11px] font-bold text-white/40">{t.perDay}</span>
               </span>
             </span>

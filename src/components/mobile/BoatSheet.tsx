@@ -17,7 +17,7 @@ export function BoatSheet({ boat: b, t }: { boat: AppBoat; t: AppLabels }) {
       )}
 
       <div>
-        <span className="mb-2 inline-block rounded-full bg-gold/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-gold-soft">
+        <span className="mb-2 inline-block rounded-full bg-app-accent/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-app-accent-soft">
           {b.model}
         </span>
         <h2 className="font-display text-[26px] font-black leading-tight text-white">{b.name}</h2>
@@ -25,14 +25,14 @@ export function BoatSheet({ boat: b, t }: { boat: AppBoat; t: AppLabels }) {
 
       <div className="flex flex-col gap-2.5 rounded-2xl border border-white/[0.07] bg-obsidian-card p-4">
         <span className="flex items-center gap-2.5 text-[15px] font-semibold text-white/85">
-          <MapPin size={16} className="shrink-0 text-gold-soft" /> {b.marina}
+          <MapPin size={16} className="shrink-0 text-app-accent-soft" /> {b.marina}
         </span>
         <span className="flex items-center gap-2.5 text-[15px] font-semibold text-white/85">
-          <Users size={16} className="shrink-0 text-gold-soft" /> {b.pax} {t.pax}
+          <Users size={16} className="shrink-0 text-app-accent-soft" /> {b.pax} {t.pax}
         </span>
       </div>
 
-      <div className="flex items-center justify-between rounded-2xl border border-gold/25 bg-gold/[0.08] px-4 py-3.5">
+      <div className="flex items-center justify-between rounded-2xl border border-app-accent/25 bg-app-accent/[0.08] px-4 py-3.5">
         <span className="text-[14px] font-bold uppercase tracking-wider text-white/60">{t.from}</span>
         <span className="font-display text-2xl font-black text-white">€{b.priceFrom}<span className="text-[13px] font-bold text-white/50">{t.perDay}</span></span>
       </div>
@@ -41,7 +41,7 @@ export function BoatSheet({ boat: b, t }: { boat: AppBoat; t: AppLabels }) {
         href={waLink(WA_BOOKINGS, msg)}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center gap-2 rounded-full bg-gold px-5 py-3.5 text-[13px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-gold/25 outline-none transition-colors motion-reduce:transition-none hover:bg-gold-soft focus-visible:ring-2 focus-visible:ring-white active:scale-[0.97] motion-reduce:active:scale-100"
+        className="flex items-center justify-center gap-2 rounded-full bg-app-accent px-5 py-3.5 text-[13px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-app-accent/25 outline-none transition-colors motion-reduce:transition-none hover:bg-app-accent-soft focus-visible:ring-2 focus-visible:ring-white active:scale-[0.97] motion-reduce:active:scale-100"
       >
         <MessageCircle size={16} /> {t.requestBoat}
       </a>

@@ -42,7 +42,7 @@ export function GuestlistScreen({ venues, t, openVenue }: ScreenProps) {
                   type="button"
                   onClick={() => openVenue(v)}
                   aria-label={v.name}
-                  className="group relative block h-36 w-full overflow-hidden bg-white outline-none transition-opacity motion-reduce:transition-none hover:opacity-95 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold"
+                  className="group relative block h-36 w-full overflow-hidden bg-white outline-none transition-opacity motion-reduce:transition-none hover:opacity-95 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-app-accent"
                 >
                   {photo ? (
                     <img
@@ -69,7 +69,7 @@ export function GuestlistScreen({ venues, t, openVenue }: ScreenProps) {
                   <button
                     type="button"
                     onClick={() => openVenue(v)}
-                    className="flex min-w-0 flex-1 items-center justify-between gap-2 rounded-xl px-1.5 py-1 text-left outline-none focus-visible:ring-2 focus-visible:ring-gold-soft"
+                    className="flex min-w-0 flex-1 items-center justify-between gap-2 rounded-xl px-1.5 py-1 text-left outline-none focus-visible:ring-2 focus-visible:ring-app-accent-soft"
                   >
                     <span className="truncate font-display text-[17px] font-extrabold text-white">{v.name}</span>
                     <ChevronRight size={16} className="shrink-0 text-white/30" />
@@ -78,7 +78,7 @@ export function GuestlistScreen({ venues, t, openVenue }: ScreenProps) {
                     href={gl(v.name)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex shrink-0 items-center gap-1.5 rounded-full bg-gold px-4 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-gold/25 outline-none transition-colors motion-reduce:transition-none hover:bg-gold-soft focus-visible:ring-2 focus-visible:ring-white active:scale-95 motion-reduce:active:scale-100"
+                    className="flex shrink-0 items-center gap-1.5 rounded-full bg-app-accent px-4 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-app-accent/25 outline-none transition-colors motion-reduce:transition-none hover:bg-app-accent-soft focus-visible:ring-2 focus-visible:ring-white active:scale-95 motion-reduce:active:scale-100"
                   >
                     <MessageCircle size={14} /> {t.tabGuestlist}
                   </a>
@@ -100,7 +100,7 @@ export function GuestlistScreen({ venues, t, openVenue }: ScreenProps) {
           type="button"
           onClick={() => setOpenHow(o => !o)}
           aria-expanded={openHow}
-          className="flex w-full items-center justify-between gap-3 p-4.5 px-5 py-4 text-left outline-none transition-colors motion-reduce:transition-none hover:bg-white/[0.03] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold-soft"
+          className="flex w-full items-center justify-between gap-3 p-4.5 px-5 py-4 text-left outline-none transition-colors motion-reduce:transition-none hover:bg-white/[0.03] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-app-accent-soft"
         >
           <span className="font-display text-[16px] font-extrabold text-white">{t.howItWorks}</span>
           <ChevronDown size={17} className={`shrink-0 text-white/40 transition-transform motion-reduce:transition-none ${openHow ? 'rotate-180' : ''}`} />
@@ -112,7 +112,7 @@ export function GuestlistScreen({ venues, t, openVenue }: ScreenProps) {
               href={waLink(WA_GUESTLIST, 'Hi Simon! Guestlist please — club: ')}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 flex items-center justify-center gap-2 rounded-full bg-gold px-5 py-3 text-[13px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-gold/25 outline-none transition-colors motion-reduce:transition-none hover:bg-gold-soft focus-visible:ring-2 focus-visible:ring-white active:scale-[0.97] motion-reduce:active:scale-100"
+              className="mt-4 flex items-center justify-center gap-2 rounded-full bg-app-accent px-5 py-3 text-[13px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-app-accent/25 outline-none transition-colors motion-reduce:transition-none hover:bg-app-accent-soft focus-visible:ring-2 focus-visible:ring-white active:scale-[0.97] motion-reduce:active:scale-100"
             >
               <MessageCircle size={15} /> {t.joinGuestlist}
             </a>
@@ -120,8 +120,8 @@ export function GuestlistScreen({ venues, t, openVenue }: ScreenProps) {
         )}
       </div>
 
-      <Section title={t.dayClubs} icon={<Sun size={18} className="text-gold-soft" />} list={dayClubs} />
-      <Section title={t.nightClubs} icon={<Moon size={18} className="text-gold-soft" />} list={nightClubs} />
+      <Section title={t.dayClubs} icon={<Sun size={18} className="text-app-accent-soft" />} list={dayClubs} />
+      <Section title={t.nightClubs} icon={<Moon size={18} className="text-app-accent-soft" />} list={nightClubs} />
     </div>
   )
 }
