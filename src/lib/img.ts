@@ -17,5 +17,9 @@ const snapWidth = (w: number) => NEXT_IMAGE_WIDTHS.find((v) => v >= w) ?? NEXT_I
  */
 export function optImg(src: string | undefined | null, width: number, quality = 75): string {
   if (!src || !/^https?:\/\//.test(src)) return src || ''
+  // Next's optimizer 400s on SVG sources by default (security: SVGs can embed
+  // script). Vector graphics don't benefit from raster resizing anyway — serve
+  // them straight from source instead of proxying.
+  if (/\.svg(\?|$)/i.test(src)) return src
   return `/_next/image?url=${encodeURIComponent(src)}&w=${snapWidth(width)}&q=${quality}`
 }

@@ -91,7 +91,7 @@ export function GuestlistScreen({ venues, t, openVenue }: ScreenProps) {
     )
 
   return (
-    <div className="flex flex-col gap-6 px-4" style={{ paddingTop: 'calc(env(safe-area-inset-top) + 16px)' }}>
+    <div className="flex flex-col gap-6 px-4" style={{ paddingTop: '16px' }}>
       <h1 className="text-center font-display text-2xl font-black text-white">{t.guestlistTitle}</h1>
 
       {/* How it works */}

@@ -1,7 +1,9 @@
-import { getVenues, getAllDates } from '@/lib/clubtickets'
+import { getVenues, getAllDates, getArtists } from '@/lib/clubtickets'
 import { MobileApp } from '@/components/mobile/MobileApp'
-import type { AppEvent, AppVenue } from '@/components/mobile/types'
+import type { AppEvent, AppVenue, AppArtist, AppBoat } from '@/components/mobile/types'
 import { getLabels, APP_LOCALES } from '@/components/mobile/i18n'
+import { FLEET } from '@/data/fleet'
+import { cloudinaryVideo, cloudinaryVideoPoster, MEDIA } from '@/lib/cloudinary'
 
 export const revalidate = 3600
 
@@ -19,7 +21,11 @@ export default async function MobileAppPage({
     ? (searchParams.lang as string)
     : 'en'
 
-  const [venuesRaw, datesRaw] = await Promise.all([getVenues(locale), getAllDates(locale)])
+  const [venuesRaw, datesRaw, artistsRaw] = await Promise.all([
+    getVenues(locale),
+    getAllDates(locale),
+    getArtists(locale, 40),
+  ])
 
   const typeBySlug = new Map(venuesRaw.map(v => [v.slug, v.type?.slug || '']))
   const todayStr = new Date().toISOString().slice(0, 10)
@@ -59,5 +65,38 @@ export default async function MobileAppPage({
       activeEvents: v.activeEvents || 0,
     }))
 
-  return <MobileApp events={events} venues={venues} labels={getLabels(locale)} locale={locale} />
+  const artists: AppArtist[] = artistsRaw
+    .filter(a => a.slug && a.name)
+    .slice(0, 24)
+    .map(a => ({ slug: a.slug, name: a.name, image: a.image || '', venueName: a.venueName || '', href: a.href || '' }))
+
+  // Fleet is a small, already-Cloudinary-optimized local dataset (see data/fleet.ts) —
+  // safe to ship in full without repeating the payload-diet the events list needed.
+  const boats: AppBoat[] = FLEET.map(b => ({
+    slug: b.slug,
+    name: b.name || b.model,
+    model: b.model,
+    image: b.image,
+    marina: b.marina,
+    pax: b.pax,
+    priceFrom: b.price.low,
+  }))
+
+  // Hero video for the Agenda/Calendar start screen — same clips as the
+  // marketing homepage, delivered through the same width-capped pipeline.
+  const heroVideoSrc = cloudinaryVideo(MEDIA.homeHero[0])
+  const heroVideoPoster = cloudinaryVideoPoster(heroVideoSrc) || ''
+
+  return (
+    <MobileApp
+      events={events}
+      venues={venues}
+      artists={artists}
+      boats={boats}
+      labels={getLabels(locale)}
+      locale={locale}
+      heroVideoSrc={heroVideoSrc}
+      heroVideoPoster={heroVideoPoster}
+    />
+  )
 }

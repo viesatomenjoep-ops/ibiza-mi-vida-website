@@ -72,7 +72,7 @@ export function MapScreen({ venues, t, locale, openVenue }: ScreenProps) {
   return (
     <div>
       {/* Tactical island map */}
-      <div className="relative border-b border-white/[0.06] bg-obsidian" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+      <div className="relative border-b border-white/[0.06] bg-obsidian">
         <svg viewBox="0 0 440 360" className="mx-auto block w-full max-w-lg" role="img" aria-label="Ibiza">
           <defs>
             <pattern id="m-grid" width="28" height="28" patternUnits="userSpaceOnUse">

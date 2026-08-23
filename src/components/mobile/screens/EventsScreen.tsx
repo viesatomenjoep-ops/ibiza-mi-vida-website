@@ -42,8 +42,8 @@ export function EventsScreen({ events, t, locale, openEvent }: ScreenProps) {
     <div className="px-4">
       {/* Filter chips */}
       <div
-        className="sticky top-0 z-30 -mx-4 border-b border-white/[0.06] bg-obsidian/85 px-4 backdrop-blur-xl"
-        style={{ paddingTop: 'env(safe-area-inset-top)' }}
+        className="sticky z-20 -mx-4 border-b border-white/[0.06] bg-obsidian/85 px-4 backdrop-blur-xl"
+        style={{ top: 'var(--m-header-h, 52px)' }}
       >
         <div className="flex gap-2 overflow-x-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {FILTERS.map(f => {

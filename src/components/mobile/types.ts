@@ -30,11 +30,35 @@ export interface AppVenue {
   activeEvents: number
 }
 
+export interface AppArtist {
+  slug: string
+  name: string
+  image: string
+  venueName: string
+  href: string
+}
+
+export interface AppBoat {
+  slug: string
+  name: string
+  model: string
+  image: string
+  marina: string
+  pax: number
+  priceFrom: number
+}
+
 export type SheetState =
   | { kind: 'event'; event: AppEvent }
   | { kind: 'venue'; venue: AppVenue }
-  | { kind: 'datePicker' }
+  | { kind: 'artist'; artist: AppArtist }
+  | { kind: 'boat'; boat: AppBoat }
+  | { kind: 'datePicker'; onPick: (iso: string) => void; selected?: string; min?: string; max?: string }
   | null
 
-export type TabId = 'agenda' | 'events' | 'search' | 'map' | 'guestlist'
+/** Bottom-nav tabs — 6 total, rendered as two rows of 3 (see BottomNav). */
+export type TabId = 'agenda' | 'events' | 'boats' | 'search' | 'map' | 'guestlist'
 export type AgendaView = 'calendar' | 'explore' | 'upcoming'
+
+/** The trip-planner's three modes, reached via a banner CTA (not a nav icon). */
+export type PlannerMode = 'planner' | 'surprise' | 'swipe'

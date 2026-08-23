@@ -37,8 +37,8 @@ export function SearchScreen({ events, t, locale, openEvent }: ScreenProps) {
     <div className="px-4">
       {/* Search field */}
       <div
-        className="sticky top-0 z-30 -mx-4 border-b border-white/[0.06] bg-obsidian/85 px-4 backdrop-blur-xl"
-        style={{ paddingTop: 'env(safe-area-inset-top)' }}
+        className="sticky z-20 -mx-4 border-b border-white/[0.06] bg-obsidian/85 px-4 backdrop-blur-xl"
+        style={{ top: 'var(--m-header-h, 52px)' }}
       >
         <div className="relative py-3">
           <Search size={17} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/35" />

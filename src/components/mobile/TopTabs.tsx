@@ -13,8 +13,8 @@ const VIEWS: { id: AgendaView; labelKey: keyof AppLabels }[] = [
 export function TopTabs({ view, setView, t }: { view: AgendaView; setView: (v: AgendaView) => void; t: AppLabels }) {
   return (
     <div
-      className="sticky top-0 z-30 border-b border-white/[0.06] bg-obsidian/85 backdrop-blur-xl"
-      style={{ paddingTop: 'env(safe-area-inset-top)' }}
+      className="sticky z-20 border-b border-white/[0.06] bg-obsidian/85 backdrop-blur-xl"
+      style={{ top: 'var(--m-header-h, 52px)' }}
     >
       <div role="tablist" aria-label="Agenda" className="mx-auto flex max-w-lg items-center justify-center gap-2 px-4 py-3">
         {VIEWS.map(({ id, labelKey }) => {
