@@ -88,11 +88,11 @@ export const FAQ_GROUPS: FaqGroup[] = [
       {
         q: L('Kan ik ook op de gastenlijst of een VIP-tafel boeken?', 'Can I get on the guestlist or book a VIP table?', 'Kann ich auf die Gästeliste oder einen VIP-Tisch buchen?', '¿Puedo entrar en lista o reservar mesa VIP?', 'Puis-je être sur la guestlist ou réserver une table VIP ?'),
         a: L(
-          'Ja — via onze gastenlijst kom je bij diverse clubs gratis of met korting binnen, en voor bijna elke club regelen we VIP-tafels met flessen en persoonlijke service. App ons via WhatsApp voor prijzen en beschikbaarheid.',
-          'Yes — our guestlist gets you free or discounted entry at several clubs, and we arrange VIP tables with bottles and personal service for nearly every club. Message us on WhatsApp for prices and availability.',
-          'Ja — über unsere Gästeliste kommst du in mehrere Clubs gratis oder günstiger rein, und für fast jeden Club organisieren wir VIP-Tische mit Flaschen und persönlichem Service. Schreib uns per WhatsApp.',
-          'Sí — con nuestra lista entras gratis o con descuento en varios clubs, y organizamos mesas VIP con botellas y servicio personal en casi todos. Escríbenos por WhatsApp para precios.',
-          'Oui — notre guestlist vous permet d’entrer gratuitement ou à prix réduit dans plusieurs clubs, et nous organisons des tables VIP avec bouteilles et service personnalisé presque partout. Contactez-nous sur WhatsApp.',
+          'Ja — via onze gastenlijst regelt Simon per WhatsApp toegang bij diverse clubs; de voorwaarden verschillen per club en per avond, dus hij laat je vooraf precies weten wat er geldt. Voor bijna elke club regelen we ook VIP-tafels met flessen en persoonlijke service. App ons voor prijzen en beschikbaarheid.',
+          'Yes — through our guestlist Simon arranges access at several clubs via WhatsApp; terms vary by club and by night, so he tells you exactly what applies beforehand. We also arrange VIP tables with bottles and personal service for nearly every club. Message us for prices and availability.',
+          'Ja — über unsere Gästeliste organisiert Simon per WhatsApp den Zugang zu mehreren Clubs; die Bedingungen unterscheiden sich je nach Club und Abend, daher sagt er dir vorher genau, was gilt. Für fast jeden Club organisieren wir auch VIP-Tische mit Flaschen und persönlichem Service. Schreib uns für Preise.',
+          'Sí — con nuestra lista, Simon organiza el acceso a varios clubs por WhatsApp; las condiciones varían según el club y la noche, así que te dice antes exactamente qué aplica. También organizamos mesas VIP con botellas y servicio personal en casi todos los clubs. Escríbenos para precios.',
+          'Oui — avec notre guestlist, Simon organise l’accès à plusieurs clubs via WhatsApp ; les conditions varient selon le club et la soirée, donc il vous précise à l’avance ce qui s’applique. Nous organisons aussi des tables VIP avec bouteilles et service personnalisé presque partout. Contactez-nous pour les prix.',
         ),
       },
     ],

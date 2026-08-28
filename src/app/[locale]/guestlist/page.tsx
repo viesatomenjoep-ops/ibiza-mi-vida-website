@@ -19,23 +19,23 @@ const L = (nl: string, en: string, de: string, es: string, fr: string): T => ({ 
 const KICKER: T = L('VIP Gastenlijst', 'VIP Guestlist', 'VIP-Gästeliste', 'Lista VIP', 'Guestlist VIP')
 const TITLE: T = L('Kom op de gastenlijst', 'Get on the guestlist', 'Komm auf die Gästeliste', 'Entra en la lista', 'Rejoins la guestlist')
 const INTRO: T = L(
-  'Gratis of met korting naar binnen bij de beste clubs van Ibiza — zonder rij, zonder gedoe. Wij zetten je naam op de lijst; jij hoeft alleen maar te komen.',
-  'Free or discounted entry to Ibiza’s best clubs — no queue, no hassle. We put your name on the list; all you have to do is show up.',
-  'Gratis oder vergünstigt in die besten Clubs Ibizas — ohne Schlange, ohne Stress. Wir setzen deinen Namen auf die Liste; du musst nur kommen.',
-  'Entrada gratis o con descuento en los mejores clubs de Ibiza — sin cola, sin complicaciones. Ponemos tu nombre en la lista; tú solo tienes que venir.',
-  'Entrée gratuite ou à prix réduit dans les meilleurs clubs d’Ibiza — sans file, sans stress. Nous mettons votre nom sur la liste ; vous n’avez qu’à venir.',
+  'Naar binnen bij de beste clubs van Ibiza — zonder rij, zonder gedoe. Simon zet je naam op de lijst via WhatsApp en vertelt je vooraf precies wat er die avond geldt.',
+  'Get into Ibiza’s best clubs — no queue, no hassle. Simon puts your name on the list via WhatsApp and tells you beforehand exactly what applies that night.',
+  'Rein in die besten Clubs Ibizas — ohne Schlange, ohne Stress. Simon setzt deinen Namen per WhatsApp auf die Liste und sagt dir vorher genau, was an dem Abend gilt.',
+  'Entra en los mejores clubs de Ibiza — sin cola, sin complicaciones. Simon pone tu nombre en la lista por WhatsApp y te dice antes exactamente qué aplica esa noche.',
+  'Entrez dans les meilleurs clubs d’Ibiza — sans file, sans stress. Simon met votre nom sur la liste via WhatsApp et vous précise à l’avance ce qui s’applique ce soir-là.',
 )
 
 const WHY_TITLE: T = L('Waarom via Ibiza Mi Vida?', 'Why through Ibiza Mi Vida?', 'Warum über Ibiza Mi Vida?', '¿Por qué con Ibiza Mi Vida?', 'Pourquoi via Ibiza Mi Vida ?')
 const WHY: { title: T; text: T }[] = [
   {
-    title: L('Gratis of met korting', 'Free or discounted', 'Gratis oder günstiger', 'Gratis o con descuento', 'Gratuit ou réduit'),
+    title: L('Het beste aanbod van de avond', 'The best deal for the night', 'Das beste Angebot des Abends', 'La mejor oferta de la noche', 'La meilleure offre du soir'),
     text: L(
-      'Afhankelijk van de club en de avond kom je gratis binnen of betaal je flink minder dan de deurprijs.',
-      'Depending on the club and the night, you get in free or pay well below the door price.',
-      'Je nach Club und Abend kommst du gratis rein oder zahlst deutlich weniger als an der Tür.',
-      'Según el club y la noche, entras gratis o pagas bastante menos que en la puerta.',
-      'Selon le club et la soirée, vous entrez gratuitement ou payez bien moins qu’à la porte.',
+      'Vrije entree, korting of alleen tickets — dat verschilt per club en avond. Simon laat je via WhatsApp precies weten wat er voor jouw avond geldt.',
+      'Free entry, a discount or tickets-only — it depends on the club and the night. Simon tells you via WhatsApp exactly what applies to your night.',
+      'Freier Eintritt, Rabatt oder nur mit Ticket — das hängt vom Club und Abend ab. Simon sagt dir per WhatsApp genau, was für deinen Abend gilt.',
+      'Entrada libre, descuento o solo con entrada — depende del club y la noche. Simon te dice por WhatsApp exactamente qué aplica esa noche.',
+      'Entrée libre, réduction ou billet uniquement — cela dépend du club et de la soirée. Simon vous dit par WhatsApp exactement ce qui s’applique à votre soirée.',
     ),
   },
   {
@@ -139,13 +139,13 @@ const WA_PREFILL: T = L(
 
 const GL_FAQS: { q: T; a: T }[] = [
   {
-    q: L('Is de gastenlijst echt gratis?', 'Is the guestlist really free?', 'Ist die Gästeliste wirklich gratis?', '¿La lista es realmente gratis?', 'La guestlist est-elle vraiment gratuite ?'),
+    q: L('Wat kost het om op de gastenlijst te staan?', 'What does it cost to be on the guestlist?', 'Was kostet es, auf der Gästeliste zu stehen?', '¿Cuánto cuesta estar en la lista?', 'Combien coûte le fait d’être sur la guestlist ?'),
     a: L(
-      'Aanmelden via ons kost niets. Bij sommige clubs is de entree dan gratis, bij andere krijg je korting op de deurprijs — we vertellen je vooraf precies wat er geldt.',
-      'Signing up through us costs nothing. At some clubs entry is then free, at others you get a discount on the door price — we tell you exactly what applies beforehand.',
-      'Die Anmeldung über uns kostet nichts. In manchen Clubs ist der Eintritt dann gratis, in anderen gibt es Rabatt auf den Türpreis — wir sagen dir vorher genau, was gilt.',
-      'Apuntarse con nosotros no cuesta nada. En algunos clubs la entrada es gratis, en otros hay descuento sobre el precio de puerta — te decimos antes exactamente qué aplica.',
-      'S’inscrire via nous ne coûte rien. Dans certains clubs l’entrée est gratuite, dans d’autres vous avez une réduction — nous vous précisons à l’avance ce qui s’applique.',
+      'Aanmelden via ons kost niets. Wat er die avond geldt — vrije entree, korting of alleen tickets — verschilt per club en per dag; Simon vertelt je dat vooraf via WhatsApp.',
+      'Signing up through us costs nothing. What applies on the night — free entry, a discount or tickets-only — varies by club and by day; Simon tells you beforehand via WhatsApp.',
+      'Die Anmeldung über uns kostet nichts. Was an dem Abend gilt — freier Eintritt, Rabatt oder nur mit Ticket — hängt vom Club und Tag ab; Simon sagt dir das vorher per WhatsApp.',
+      'Apuntarse con nosotros no cuesta nada. Lo que aplica esa noche — entrada libre, descuento o solo con entrada — varía según el club y el día; Simon te lo dice antes por WhatsApp.',
+      'S’inscrire via nous ne coûte rien. Ce qui s’applique ce soir-là — entrée libre, réduction ou billet uniquement — varie selon le club et le jour ; Simon vous le précise à l’avance via WhatsApp.',
     ),
   },
   {

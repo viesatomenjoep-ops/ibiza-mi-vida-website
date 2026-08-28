@@ -95,18 +95,18 @@ export const SEO_PAGES: Record<string, Copy> = {
   },
   guestlist: {
     title: L(
-      'Ibiza Gastenlijst — Gratis & Korting op Clubs',
-      'Ibiza Guestlist — Free & Discounted Club Entry',
-      'Ibiza Gästeliste — Gratis & Rabatt auf Clubs',
-      'Lista Ibiza — Entrada Gratis y con Descuento',
-      'Guestlist Ibiza — Entrée Gratuite & Réduite',
+      'Ibiza Gastenlijst — Geregeld via WhatsApp',
+      'Ibiza Guestlist — Arranged via WhatsApp',
+      'Ibiza Gästeliste — Organisiert per WhatsApp',
+      'Lista Ibiza — Gestionada por WhatsApp',
+      'Guestlist Ibiza — Organisée via WhatsApp',
     ),
     description: L(
-      'Kom op de gastenlijst van de beste clubs op Ibiza voor gratis of goedkopere entree. Regel het snel via WhatsApp.',
-      'Get on the guestlist at Ibiza’s best clubs for free or discounted entry. Arrange it fast via WhatsApp.',
-      'Komm auf die Gästeliste der besten Clubs Ibizas für freien oder günstigeren Eintritt. Schnell per WhatsApp.',
-      'Entra en la lista de los mejores clubs de Ibiza para entrada gratis o con descuento. Rápido por WhatsApp.',
-      'Inscrivez-vous sur la guestlist des meilleurs clubs d’Ibiza pour une entrée gratuite ou réduite. Via WhatsApp.',
+      'Kom op de gastenlijst van de beste clubs op Ibiza. Simon regelt het via WhatsApp en vertelt je vooraf precies wat er die avond geldt.',
+      'Get on the guestlist at Ibiza’s best clubs. Simon arranges it via WhatsApp and tells you beforehand exactly what applies that night.',
+      'Komm auf die Gästeliste der besten Clubs Ibizas. Simon organisiert es per WhatsApp und sagt dir vorher genau, was an dem Abend gilt.',
+      'Entra en la lista de los mejores clubs de Ibiza. Simon lo gestiona por WhatsApp y te dice antes exactamente qué aplica esa noche.',
+      'Inscrivez-vous sur la guestlist des meilleurs clubs d’Ibiza. Simon s’en occupe via WhatsApp et vous précise à l’avance ce qui s’applique ce soir-là.',
     ),
   },
   'boat-party': {
