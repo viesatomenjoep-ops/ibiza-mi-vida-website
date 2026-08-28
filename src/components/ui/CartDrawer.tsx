@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { optImg } from '@/lib/img';
 
 const CONFIG = {
-  whatsapp: '31683052875',
+  whatsapp: '33666528412',
 };
 
 export function CartDrawer() {

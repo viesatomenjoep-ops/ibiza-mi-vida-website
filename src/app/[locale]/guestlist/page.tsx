@@ -87,11 +87,11 @@ const RULES: T[] = [
     'Âge minimum 18 ans ; apportez une pièce d’identité valide, elle est contrôlée à l’entrée.',
   ),
   L(
-    'Wees op tijd: gastenlijst-entree geldt meestal tot een bepaald tijdstip (vaak 00:00–01:00).',
-    'Be on time: guestlist entry usually applies until a set hour (often midnight–1 AM).',
-    'Sei pünktlich: Der Gästelisten-Einlass gilt meist bis zu einer bestimmten Uhrzeit (oft 0–1 Uhr).',
-    'Llega a tiempo: la entrada por lista suele valer hasta cierta hora (a menudo 00:00–01:00).',
-    'Soyez à l’heure : l’entrée guestlist vaut généralement jusqu’à une heure donnée (souvent minuit–1 h).',
+    'Wees op tijd: gastenlijst-entree geldt meestal tot een bepaald tijdstip — Simon vertelt je hoe laat.',
+    'Be on time: guestlist entry usually applies until a set hour — Simon tells you what time.',
+    'Sei pünktlich: Der Gästelisten-Einlass gilt meist bis zu einer bestimmten Uhrzeit — Simon sagt dir, bis wann.',
+    'Llega a tiempo: la entrada por lista suele valer hasta cierta hora — Simon te dice hasta cuándo.',
+    'Soyez à l’heure : l’entrée guestlist vaut généralement jusqu’à une heure donnée — Simon vous précise laquelle.',
   ),
   L(
     'Nette-casual kleding: geen zwemkleding of voetbalshirts. De deur beslist altijd.',

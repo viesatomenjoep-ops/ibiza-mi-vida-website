@@ -18,7 +18,7 @@ const TILES = [
   { key: 'clubs', icon: Music, path: '/clubs', label: L('Clubs', 'Clubs', 'Clubs', 'Clubs', 'Clubs') },
   { key: 'boats', icon: Sailboat, path: '/private-boat-charters', label: L('Boten', 'Boats', 'Boote', 'Barcos', 'Bateaux') },
   { key: 'guestlist', icon: ListChecks, path: '/guestlist', label: L('Guestlist', 'Guestlist', 'Guestlist', 'Guestlist', 'Guestlist') },
-  { key: 'concierge', icon: MessageCircle, path: 'https://wa.me/31683052875', label: L('Concierge', 'Concierge', 'Concierge', 'Concierge', 'Concierge'), external: true },
+  { key: 'concierge', icon: MessageCircle, path: 'https://wa.me/33666528412', label: L('Concierge', 'Concierge', 'Concierge', 'Concierge', 'Concierge'), external: true },
   { key: 'app', icon: Smartphone, path: '/m', label: L('App', 'App', 'App', 'App', 'App') },
 ] as const
 
