@@ -5,7 +5,8 @@ import Image from 'next/image'
 import { Calendar, MapPin, Music } from 'lucide-react'
 import { format } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
-import { getArtist, getArtistDates } from '@/lib/clubtickets'
+import { getArtist, getArtistDates, getVenues } from '@/lib/clubtickets'
+import { eventBasePath } from '@/lib/event-path'
 import { BackButton } from '@/components/ui/BackButton'
 import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
@@ -125,7 +126,15 @@ async function fetchArtist(slug: string, locale: string) {
   const ctArtist = await getArtist(slug, locale);
   if (!ctArtist) return null;
 
-  const dates = await getArtistDates(ctArtist.name, locale, ctArtist.slug);
+  const [dates, venues] = await Promise.all([
+    getArtistDates(ctArtist.name, locale, ctArtist.slug),
+    getVenues(locale),
+  ]);
+  // Venue type decides which site section hosts the event page — the
+  // "artists" list also contains boat trips and activities, whose dates
+  // must NOT link through /club-tickets/ (that page 404s on non-clubs).
+  const typeBySlug = new Map(venues.map(v => [v.slug, v.type?.slug || '']));
+
   return {
     artist: {
       id: ctArtist.id || 0,
@@ -133,7 +142,8 @@ async function fetchArtist(slug: string, locale: string) {
       slug: ctArtist.slug,
       image: ctArtist.image || '',
       venueName: ctArtist.venueName || '',
-      venueSlug: '',
+      venueSlug: ctArtist.venueSlug || '',
+      venueBasePath: eventBasePath(typeBySlug.get(ctArtist.venueSlug || '')),
       href: ''
     },
     dates: dates.map((d: any) => ({
@@ -144,6 +154,7 @@ async function fetchArtist(slug: string, locale: string) {
       eventSlug: d.eventSlug,
       venueName: d.venueName,
       venueSlug: d.venueSlug,
+      basePath: eventBasePath(typeBySlug.get(d.venueSlug || '')),
       eventCover: d.eventCover || d.eventLogo || '',
       venueCover: d.venueCover || ''
     }))
@@ -230,9 +241,9 @@ export default async function ArtistPage({ params }: Props) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/15 z-10" />
 
         <div className="relative z-20 max-w-3xl mx-auto text-white pt-32">
-          {artist.venueName ? (
+          {artist.venueName && artist.venueSlug ? (
             <Link
-              href={`/${locale}/club-tickets/${artist.venueSlug}`}
+              href={`/${locale}/${artist.venueBasePath}/${artist.venueSlug}`}
               className="inline-block bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-ibiza-green hover:bg-white/20 transition-all mb-3 hover:scale-[1.02]"
             >
               {RESIDENT_AT[locale]} {artist.venueName}
@@ -266,7 +277,7 @@ export default async function ArtistPage({ params }: Props) {
             ) : (
               futureDates.map((date, i) => (
                 <Link
-                  href={`/${locale}/club-tickets/${date.venueSlug || 'club'}/${date.eventSlug || 'event'}`}
+                  href={`/${locale}/${date.basePath}/${date.venueSlug || 'club'}/${date.eventSlug || 'event'}`}
                   key={i}
                   className="bg-white rounded-2xl p-4 border border-black/5 flex items-center gap-4 hover:shadow-md transition-shadow group"
                 >

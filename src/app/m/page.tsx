@@ -4,6 +4,7 @@ import type { AppEvent, AppVenue, AppArtist, AppBoat } from '@/components/mobile
 import { getLabels, APP_LOCALES } from '@/components/mobile/i18n'
 import { FLEET } from '@/data/fleet'
 import { cloudinaryVideo, cloudinaryVideoPoster, MEDIA } from '@/lib/cloudinary'
+import { eventBasePath } from '@/lib/event-path'
 
 export const revalidate = 3600
 
@@ -65,10 +66,23 @@ export default async function MobileAppPage({
       activeEvents: v.activeEvents || 0,
     }))
 
+  // The sync script writes every artist href as /club-tickets/<venue>/<event>,
+  // but the "artists" list also contains boat trips and activities — those
+  // event pages live under /activities, /boat-trip or /ferry-formentera, and
+  // the club-tickets page hard-404s on non-club venues. Rebuild the href from
+  // the venue's actual type.
   const artists: AppArtist[] = artistsRaw
     .filter(a => a.slug && a.name)
     .slice(0, 24)
-    .map(a => ({ slug: a.slug, name: a.name, image: a.image || '', venueName: a.venueName || '', href: a.href || '' }))
+    .map(a => ({
+      slug: a.slug,
+      name: a.name,
+      image: a.image || '',
+      venueName: a.venueName || '',
+      href: a.venueSlug
+        ? `/${eventBasePath(typeBySlug.get(a.venueSlug))}/${a.venueSlug}/${a.slug}`
+        : a.href || '',
+    }))
 
   // Fleet is a small, already-Cloudinary-optimized local dataset (see data/fleet.ts) —
   // safe to ship in full without repeating the payload-diet the events list needed.
