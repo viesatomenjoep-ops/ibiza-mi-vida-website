@@ -1,17 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { CalendarDays, Music, Sailboat, ListChecks, MessageCircle, Smartphone } from 'lucide-react'
-import { Map3D } from '@/components/map/Map3D'
-import type { MapPlace } from '@/data/ibiza-map-clubs'
 
 const L = (nl: string, en: string, de: string, es: string, fr: string): Record<string, string> => ({ nl, en, de, es, fr })
 
 const TITLE = L('Snel naar', 'Quick jump', 'Schnell zu', 'Ir a', 'Accès rapide')
-const MAP_TITLE = L('Ontdek Ibiza', 'Discover Ibiza', 'Entdecke Ibiza', 'Descubre Ibiza', 'Découvrez Ibiza')
-const TAP_HINT = L('Tik een club aan om te navigeren', 'Tap a club to jump straight there', 'Tippe einen Club an', 'Toca un club para ir directo', 'Touchez un club pour y accéder')
 
 const TILES = [
   { key: 'agenda', icon: CalendarDays, path: '/calendar', label: L('Agenda', 'Agenda', 'Agenda', 'Agenda', 'Agenda') },
@@ -23,37 +17,22 @@ const TILES = [
 ] as const
 
 /**
- * Mobile-only hybrid strip: a row of app-style icon tiles (jump straight to
- * the most-used sections, or the full /m app) plus the real 3D map — sitting
- * directly under the hero, above the normal page content. Desktop keeps the
- * regular browsing flow untouched (hidden via md:hidden).
+ * Mobile-only quick-jump strip: a row of app-style icon tiles into the
+ * most-used sections (or the full /m app), sitting directly under the hero.
+ * Desktop keeps the regular browsing flow untouched (hidden via md:hidden).
+ *
+ * The 3D MapLibre map used to live here too; it was pulled after it proved
+ * unreliable on real phones (see Map3D.tsx — WebGL + satellite/terrain tiles
+ * is a heavy ask on mobile GPUs, and a map that intermittently fails is worse
+ * on a homepage than no map at all). Map3D itself still exists and is used in
+ * the /m app's Map tab, where a venue list sits underneath it as a fallback.
  */
 export function HomeMobileAppStrip({ locale = 'nl' }: { locale?: string }) {
-  const router = useRouter()
   const base = `/${locale}`
   const t = (m: Record<string, string>) => m[locale] || m.en
 
-  // md:hidden only hides this visually on desktop — the section still mounts
-  // in the DOM there. Map3D spins up a full WebGL/MapLibre instance and
-  // fetches satellite+terrain tiles, so gate its actual mount on a real
-  // viewport check (matching Tailwind's md breakpoint) instead of relying on
-  // CSS alone, or desktop visitors would pay that cost for a hidden map.
-  const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 767px)')
-    setIsMobile(mq.matches)
-    const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches)
-    mq.addEventListener('change', onChange)
-    return () => mq.removeEventListener('change', onChange)
-  }, [])
-
-  const onSelectPlace = (place: MapPlace) => {
-    if (place.slug) router.push(`${base}/club-tickets/${place.slug}`)
-  }
-
   return (
     <section className="block border-b border-black/5 bg-white px-4 pb-8 pt-6 md:hidden">
-      {/* App-style tile grid */}
       <h2 className="mb-3 text-[11px] font-black uppercase tracking-[0.2em] text-black/40">{t(TITLE)}</h2>
       <div className="grid grid-cols-3 gap-3">
         {TILES.map(({ key, icon: Icon, path, label, ...rest }) => {
@@ -81,13 +60,6 @@ export function HomeMobileAppStrip({ locale = 'nl' }: { locale?: string }) {
             </Link>
           )
         })}
-      </div>
-
-      {/* 3D map — only actually mounted on a confirmed mobile viewport (see isMobile above) */}
-      <div className="mt-7">
-        <h2 className="mb-1 font-serif text-xl font-black text-black">{t(MAP_TITLE)}</h2>
-        <p className="mb-3 text-[12px] text-black/45">{t(TAP_HINT)}</p>
-        {isMobile && <Map3D height="52vh" onSelectPlace={onSelectPlace} locale={locale} />}
       </div>
     </section>
   )
