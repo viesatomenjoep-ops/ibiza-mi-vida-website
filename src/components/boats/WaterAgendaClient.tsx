@@ -7,7 +7,7 @@ import {
 } from 'date-fns';
 import { nl, enUS, de, es, fr } from 'date-fns/locale';
 import { Search, X, Calendar, ChevronRight, ChevronLeft, Ship, Ticket } from 'lucide-react';
-import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel';
+import type { PickerEvent } from '@/lib/picker-event';
 import { WeekDockBar } from '@/components/ui/WeekDockBar';
 import { ScrollCue } from '@/components/ui/ScrollCue';
 import { optImg } from '@/lib/img';
@@ -333,7 +333,6 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
           setActiveDay={setDockDay}
           locale={locale}
           imageFor={(iso) => imgByDate.get(iso) || ''}
-          agenda={<HomeCalendarLauncher events={pickerEvents} locale={locale} persistKey={`planner-${basePath || 'water'}`} variant="company" compact />}
         />
       )}
     </div>

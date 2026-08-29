@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Calendar, MapPin, Music } from 'lucide-react';
 import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
-import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel';
+import type { PickerEvent } from '@/lib/picker-event';
 import { type DealsData } from '@/components/home/HomeDeals';
 import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
 import { HomeHeroVideo } from '@/components/home/HomeHeroVideo';
@@ -112,7 +112,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                 {({ nl: 'Uitgelichte events', en: 'Featured events', es: 'Eventos destacados', de: 'Ausgewählte Events', fr: 'Événements en vedette' } as Record<string, string>)[locale] || 'Featured events'}
               </h3>
               <span className="h-px flex-1 bg-black/10" />
-              {pickerEvents.length > 0 && <div className="shrink-0"><HomeCalendarLauncher events={pickerEvents} locale={locale} persistKey="homeplanner" /></div>}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

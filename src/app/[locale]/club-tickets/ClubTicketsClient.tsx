@@ -4,7 +4,7 @@ import React, { useState, useMemo, useRef } from 'react';
 import Link from 'next/link';
 import { Search, MapPin, ChevronRight, Star, Heart, Calendar, Music, MessageCircle, ArrowRight, Ticket } from 'lucide-react';
 import type { CTEventDate } from '@/lib/clubtickets';
-import { EventPickerWheel, type PickerEvent } from '@/components/events/EventPickerWheel';
+import type { PickerEvent } from '@/lib/picker-event';
 import '@/styles/club-tickets.css';
 import { optImg } from '@/lib/img';
 
@@ -223,7 +223,7 @@ export default function ClubTicketsClient({
             <div className="mb-5">
               <div className="text-xs font-black tracking-widest uppercase text-ibiza-green mb-1">Score your tickets</div>
             </div>
-            <EventPickerWheel events={pickerEvents} locale={locale} storeKey="clubtickets" />
+
           </div>
         </section>
       )}

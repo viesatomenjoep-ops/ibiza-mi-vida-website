@@ -10,7 +10,7 @@ import {
 } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { MapPin, Calendar } from 'lucide-react'
-import { HomeCalendarLauncher, type PickerEvent } from '@/components/events/EventPickerWheel'
+import type { PickerEvent } from '@/lib/picker-event'
 import { optImg } from '@/lib/img'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -314,7 +314,6 @@ export default function EventsExplorer({ events, locale }: Props) {
           photoDim={false}
           imageFor={(iso) => imgByDate.get(iso) || ''}
           imagePool={imagePool}
-          agenda={<HomeCalendarLauncher events={pickerEvents} locale={locale} persistKey="calendar" compact />}
         />
       )}
     </div>

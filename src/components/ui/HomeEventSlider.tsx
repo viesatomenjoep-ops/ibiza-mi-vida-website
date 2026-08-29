@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
-import type { PickerEvent } from '@/components/events/EventPickerWheel'
+import type { PickerEvent } from '@/lib/picker-event'
 import { optImg } from '@/lib/img'
 
 type LiveEvent = { name: string; slug?: string }
