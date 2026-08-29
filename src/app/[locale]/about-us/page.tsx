@@ -1,1022 +1,269 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
+import { MessageCircle } from 'lucide-react'
 import { staticMetadata } from '@/lib/seo-pages'
+import { DEFAULT_LOCALE, LOCALES, SITE_URL, SITE_NAME, type Locale } from '@/lib/seo'
+import { FOUNDER, FOUNDER_ID, founderNode } from '@/lib/team'
+import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
+import { Reveal } from '@/components/ui/Reveal'
 
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
   return staticMetadata(params.locale, 'about-us')
 }
 
-import React from 'react';
+/**
+ * About page.
+ *
+ * Replaces 1,022 lines of unedited Relume boilerplate — placeholder "Tagline"
+ * headings, lorem copy, a second fake navbar and a CloudFront demo logo — that
+ * was live AND listed in the sitemap, so Google was being explicitly asked to
+ * index it. For a business site that is close to worst case: the About page is
+ * one of the things quality raters look at to decide whether a company is real.
+ *
+ * Written for E-E-A-T, so it does two things a marketing page normally will
+ * not: it names a person, and it lists what we do not promise. The limitations
+ * section is deliberate and deliberately prominent — stating what can go wrong
+ * is the strongest trust signal available, and no competitor writes it.
+ *
+ * Every claim is one we can stand behind. No founding year, no headcount, no
+ * "10,000 happy customers", no awards — none of that has been confirmed.
+ */
 
-export default function AboutUsPage() {
+type T = Record<Locale, string>
+const L = (nl: string, en: string, de: string, es: string, fr: string): T => ({ nl, en, de, es, fr })
+
+const KICKER: T = L('Over ons', 'About us', 'Über uns', 'Sobre nosotros', 'À propos')
+const TITLE: T = L(
+  'Wie er achter Ibiza Mi Vida zit',
+  'The people behind Ibiza Mi Vida',
+  'Wer hinter Ibiza Mi Vida steckt',
+  'Quiénes están detrás de Ibiza Mi Vida',
+  'Qui se cache derrière Ibiza Mi Vida',
+)
+const INTRO: T = L(
+  'Ibiza Mi Vida is geen callcenter en geen anoniem boekingsplatform. Het is Simon, die op Ibiza woont en elke aanvraag zelf beantwoordt via WhatsApp — of het nu gaat om een privéboot, een ferryticket naar Formentera, clubtickets of een package deal voor je groep.',
+  'Ibiza Mi Vida is not a call centre and not an anonymous booking platform. It is Simon, who lives on Ibiza and answers every request himself over WhatsApp — whether that is a private boat, a ferry ticket to Formentera, club tickets or a package deal for your group.',
+  'Ibiza Mi Vida ist kein Callcenter und keine anonyme Buchungsplattform. Es ist Simon, der auf Ibiza lebt und jede Anfrage selbst per WhatsApp beantwortet — ob Privatboot, Fährticket nach Formentera, Club-Tickets oder ein Package Deal für deine Gruppe.',
+  'Ibiza Mi Vida no es un call center ni una plataforma de reservas anónima. Es Simon, que vive en Ibiza y responde personalmente cada solicitud por WhatsApp — ya sea un barco privado, un billete de ferry a Formentera, entradas de club o un package deal para tu grupo.',
+  'Ibiza Mi Vida n’est ni un centre d’appels ni une plateforme de réservation anonyme. C’est Simon, qui vit à Ibiza et répond lui-même à chaque demande via WhatsApp — bateau privé, billet de ferry pour Formentera, entrées en club ou package deal pour votre groupe.',
+)
+
+const HOW_TITLE: T = L('Hoe we werken', 'How we work', 'Wie wir arbeiten', 'Cómo trabajamos', 'Comment nous travaillons')
+const HOW: { t: T; d: T }[] = [
+  {
+    t: L('Alles loopt via WhatsApp', 'Everything runs over WhatsApp', 'Alles läuft über WhatsApp', 'Todo va por WhatsApp', 'Tout passe par WhatsApp'),
+    d: L(
+      'Geen formulier dat in een inbox verdwijnt. Je stuurt een bericht en krijgt antwoord van een mens die weet wat er die avond speelt. Meestal binnen een paar uur, in het hoogseizoen soms later.',
+      'No form that disappears into an inbox. You send a message and get a reply from a person who knows what is on that night. Usually within a few hours, sometimes later in peak season.',
+      'Kein Formular, das in einem Postfach verschwindet. Du schickst eine Nachricht und bekommst Antwort von einem Menschen, der weiß, was an dem Abend läuft. Meist innerhalb weniger Stunden, in der Hochsaison manchmal später.',
+      'Nada de formularios que se pierden en una bandeja de entrada. Escribes y te responde una persona que sabe qué hay esa noche. Normalmente en unas horas, a veces más tarde en temporada alta.',
+      'Pas de formulaire qui disparaît dans une boîte mail. Vous envoyez un message et une personne qui sait ce qui se passe ce soir-là vous répond. Généralement en quelques heures, parfois plus tard en haute saison.',
+    ),
+  },
+  {
+    t: L('We zitten op het eiland', 'We are on the island', 'Wir sind auf der Insel', 'Estamos en la isla', 'Nous sommes sur l’île'),
+    d: L(
+      'Dat klinkt als een detail, maar het is het verschil tussen een route van een kaart en iemand die weet welke baai bij noordenwind onbruikbaar is, welke marina op zaterdag vastloopt en welke deur je op welk tijdstip binnenlaat.',
+      'That sounds like a detail, but it is the difference between a route off a map and someone who knows which cove is unusable in a north wind, which marina jams on a Saturday, and which door lets you in at what time.',
+      'Das klingt nach einem Detail, ist aber der Unterschied zwischen einer Route von der Karte und jemandem, der weiß, welche Bucht bei Nordwind unbrauchbar ist, welche Marina samstags dicht ist und welche Tür wann einlässt.',
+      'Suena a detalle, pero es la diferencia entre una ruta sacada de un mapa y alguien que sabe qué cala es inservible con viento del norte, qué marina se colapsa un sábado y qué puerta te deja entrar a qué hora.',
+      'Cela semble anodin, mais c’est la différence entre un itinéraire tiré d’une carte et quelqu’un qui sait quelle crique est inutilisable par vent du nord, quelle marina sature le samedi et quelle porte vous laisse entrer à quelle heure.',
+    ),
+  },
+  {
+    t: L('Officiële tickets, geen doorverkoop', 'Official tickets, not resale', 'Offizielle Tickets, kein Weiterverkauf', 'Entradas oficiales, no reventa', 'Billets officiels, pas de revente'),
+    d: L(
+      'Clubtickets lopen via onze officiële ticketpartner ClubTickets. Je betaalt de officiële prijs — wij verkopen geen tickets door met een opslag erbovenop.',
+      'Club tickets go through our official ticket partner, ClubTickets. You pay the official price — we do not resell tickets at a mark-up.',
+      'Club-Tickets laufen über unseren offiziellen Ticketpartner ClubTickets. Du zahlst den offiziellen Preis — wir verkaufen keine Tickets mit Aufschlag weiter.',
+      'Las entradas de club van a través de nuestro socio oficial, ClubTickets. Pagas el precio oficial — no revendemos entradas con recargo.',
+      'Les billets de club passent par notre partenaire officiel, ClubTickets. Vous payez le prix officiel — nous ne revendons pas de billets avec majoration.',
+    ),
+  },
+  {
+    t: L('Vijf talen', 'Five languages', 'Fünf Sprachen', 'Cinco idiomas', 'Cinq langues'),
+    d: L(
+      'Nederlands, Engels, Duits, Spaans en Frans — de hele site én het contact zelf. Je hoeft je vakantie niet in je tweede taal te regelen.',
+      'Dutch, English, German, Spanish and French — across the whole site and in the conversation itself. You do not have to arrange your holiday in your second language.',
+      'Niederländisch, Englisch, Deutsch, Spanisch und Französisch — auf der ganzen Seite und im Gespräch selbst. Du musst deinen Urlaub nicht in deiner Zweitsprache organisieren.',
+      'Neerlandés, inglés, alemán, español y francés — en toda la web y en la conversación. No tienes que organizar tus vacaciones en tu segundo idioma.',
+      'Néerlandais, anglais, allemand, espagnol et français — sur tout le site et dans la conversation. Vous n’avez pas à organiser vos vacances dans votre deuxième langue.',
+    ),
+  },
+]
+
+const HONEST_TITLE: T = L(
+  'Wat we niet beloven',
+  'What we do not promise',
+  'Was wir nicht versprechen',
+  'Lo que no prometemos',
+  'Ce que nous ne promettons pas',
+)
+const HONEST_INTRO: T = L(
+  'De meeste Ibiza-sites zeggen alleen wat je wilt horen. Dit zijn de dingen die wij níet garanderen, zodat je niet voor verrassingen komt te staan.',
+  'Most Ibiza sites only tell you what you want to hear. These are the things we do not guarantee, so nothing catches you out.',
+  'Die meisten Ibiza-Seiten sagen dir nur, was du hören willst. Das sind die Dinge, die wir nicht garantieren — damit dich nichts überrascht.',
+  'La mayoría de las webs de Ibiza solo te cuentan lo que quieres oír. Estas son las cosas que no garantizamos, para que nada te pille por sorpresa.',
+  'La plupart des sites sur Ibiza ne disent que ce que vous voulez entendre. Voici ce que nous ne garantissons pas, pour éviter les mauvaises surprises.',
+)
+const HONEST: T[] = [
+  L(
+    'Gratis entree is geen standaard. Wat er per avond geldt — vrije entree, korting of alleen tickets — verschilt per club, per dag en per week. We zeggen vooraf wat er voor jouw datum geldt, en soms is het antwoord: koop gewoon een ticket.',
+    'Free entry is not a default. What applies on a given night — free entry, a reduced rate or ticket-only — differs per club, per day and per week. We tell you in advance what applies to your date, and sometimes the answer is: just buy a ticket.',
+    'Freier Eintritt ist kein Standard. Was an einem Abend gilt — freier Eintritt, ermäßigter Preis oder nur mit Ticket — hängt vom Club, vom Tag und von der Woche ab. Wir sagen vorher, was für dein Datum gilt — manchmal lautet die Antwort: kauf einfach ein Ticket.',
+    'La entrada libre no es lo normal. Lo que aplica cada noche — entrada libre, precio reducido o solo con entrada — varía según el club, el día y la semana. Te decimos por adelantado qué aplica a tu fecha, y a veces la respuesta es: compra una entrada.',
+    'L’entrée gratuite n’est pas la règle. Ce qui s’applique un soir donné — entrée libre, tarif réduit ou billet uniquement — varie selon le club, le jour et la semaine. Nous vous disons à l’avance ce qui vaut pour votre date, et parfois la réponse est : achetez simplement un billet.',
+  ),
+  L(
+    'Het weer wint altijd. Bij harde wind gaat een boottocht niet door of varen we een andere route. Dat zeggen we liever eerlijk dan dat je een dag op zee hebt die niet leuk is.',
+    'The weather always wins. In strong wind a boat trip does not go ahead, or we sail a different route. We would rather say so than have you spend an unpleasant day at sea.',
+    'Das Wetter gewinnt immer. Bei starkem Wind fällt eine Bootstour aus oder wir fahren eine andere Route. Das sagen wir lieber ehrlich, als dass du einen unangenehmen Tag auf See hast.',
+    'El tiempo siempre gana. Con viento fuerte una salida en barco no se hace, o navegamos otra ruta. Preferimos decirlo antes de que pases un día desagradable en el mar.',
+    'La météo gagne toujours. Par vent fort, une sortie en bateau n’a pas lieu ou nous changeons d’itinéraire. Nous préférons le dire plutôt que de vous faire passer une mauvaise journée en mer.',
+  ),
+  L(
+    'De deur beslist. Wij zetten je op de lijst, maar de club bepaalt uiteindelijk wie er binnenkomt. Kleding, leeftijd en groepssamenstelling spelen mee, en daar gaan wij niet over.',
+    'The door decides. We put you on the list, but the club ultimately decides who comes in. Dress, age and the make-up of your group all matter, and that is not ours to overrule.',
+    'Die Tür entscheidet. Wir setzen dich auf die Liste, aber der Club entscheidet am Ende, wer reinkommt. Kleidung, Alter und Gruppenzusammensetzung spielen eine Rolle — darüber bestimmen wir nicht.',
+    'La puerta decide. Te ponemos en la lista, pero el club decide al final quién entra. La ropa, la edad y la composición del grupo cuentan, y eso no depende de nosotros.',
+    'La porte décide. Nous vous inscrivons sur la liste, mais le club décide au final qui entre. La tenue, l’âge et la composition du groupe comptent, et cela ne dépend pas de nous.',
+  ),
+  L(
+    'We noemen geen prijs die we niet kunnen waarmaken. Tarieven voor boten en package deals hangen af van de datum, de groep en het seizoen. Daarom staan ze niet als vast bedrag op de site, maar bevestigen we ze in het gesprek.',
+    'We do not quote a price we cannot honour. Rates for boats and package deals depend on the date, the group and the season. That is why they are not printed as fixed figures on the site — we confirm them in the conversation.',
+    'Wir nennen keinen Preis, den wir nicht halten können. Preise für Boote und Package Deals hängen von Datum, Gruppe und Saison ab. Deshalb stehen sie nicht als Festbetrag auf der Seite, sondern werden im Gespräch bestätigt.',
+    'No damos un precio que no podamos cumplir. Las tarifas de barcos y package deals dependen de la fecha, el grupo y la temporada. Por eso no aparecen como importes fijos en la web, sino que se confirman en la conversación.',
+    'Nous n’annonçons pas un prix que nous ne pouvons pas tenir. Les tarifs des bateaux et des package deals dépendent de la date, du groupe et de la saison. C’est pourquoi ils ne figurent pas comme montants fixes sur le site : nous les confirmons dans la conversation.',
+  ),
+]
+
+const CTA_TITLE: T = L('Even sparren over je trip?', 'Want to talk through your trip?', 'Lust, deinen Trip durchzusprechen?', '¿Hablamos de tu viaje?', 'Envie d’en parler ?')
+const CTA_BTN: T = L('WhatsApp Simon', 'WhatsApp Simon', 'WhatsApp Simon', 'WhatsApp Simon', 'WhatsApp Simon')
+const CTA_PREFILL: T = L(
+  'Hoi Simon! Ik wil graag even sparren over mijn Ibiza-trip.',
+  'Hi Simon! I’d like to talk through my Ibiza trip.',
+  'Hallo Simon! Ich würde gern meinen Ibiza-Trip durchsprechen.',
+  '¡Hola Simon! Me gustaría comentar mi viaje a Ibiza.',
+  'Salut Simon ! J’aimerais discuter de mon séjour à Ibiza.',
+)
+const CONTACT_LINK: T = L('Alle contactgegevens', 'All contact details', 'Alle Kontaktdaten', 'Todos los datos de contacto', 'Toutes les coordonnées')
+
+export default function AboutUsPage({ params }: { params: { locale: string } }) {
+  const l = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE
+  const base = `/${l}`
+  const wa = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(CTA_PREFILL[l])}`
+
+  // AboutPage tied to the existing Organization, with Simon as founder. The
+  // Person is declared once here and referenced by @id everywhere else, so
+  // search engines merge them into one entity instead of several Simons.
+  const schema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      founderNode(),
+      {
+        '@type': 'AboutPage',
+        '@id': `${SITE_URL}/${l}/about-us#page`,
+        url: `${SITE_URL}/${l}/about-us`,
+        name: TITLE[l],
+        description: INTRO[l],
+        inLanguage: l,
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        about: { '@id': `${SITE_URL}/#organization` },
+        mainEntity: { '@id': `${SITE_URL}/#organization` },
+      },
+      {
+        '@type': 'Organization',
+        '@id': `${SITE_URL}/#organization`,
+        name: SITE_NAME,
+        founder: { '@id': FOUNDER_ID },
+        employee: { '@id': FOUNDER_ID },
+        knowsLanguage: FOUNDER.languageTags,
+        areaServed: [
+          { '@type': 'Place', name: 'Ibiza, Spain' },
+          { '@type': 'Place', name: 'Formentera, Spain' },
+        ],
+      },
+    ],
+  }
+
   return (
-    <>
-      <link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/logo-image.svg"
-/>
-<section
-  id="relume"
-  className="grid h-auto w-full grid-cols-[1fr_max-content_1fr] items-center justify-between border-b border-border-primary bg-background-primary px-[5%] md:min-h-18"
->
-  <button className="flex size-12 flex-col justify-center lg:hidden">
-    <span className="my-[3px] h-0.5 w-6 bg-black lg:hidden"></span
-    ><span className="my-[3px] h-0.5 w-6 bg-black lg:hidden"></span
-    ><span className="my-[3px] h-0.5 w-6 bg-black lg:hidden"></span>
-  </button>
-  <div
-   
-   
-   
-   
-    className="absolute left-0 top-0 z-50 flex h-dvh w-[90%] flex-col border-r border-border-primary bg-white px-[5%] pb-4 md:w-[80%] lg:visible lg:static lg:-ml-4 lg:flex lg:h-auto lg:w-auto lg:flex-row lg:border-none lg:px-0 lg:pb-0 lg:[--opacity-closed:100%] lg:[--x-closed:0%]"
-  ></div>
-  <div
-    className="fixed inset-0 z-40 bg-black lg:hidden hidden"
-    style={{ "opacity": 0 } as React.CSSProperties}
-  ></div>
-  <a href="#" className="flex min-h-16 flex-shrink-0 items-center"
-    ><img
-      src="https://d22po4pjz3o32e.cloudfront.net/logo-image.svg"
-      alt="Logo image"
-  /></a>
-  <div className="flex min-h-16 items-center justify-end gap-x-4">
-    <div>
-      <button
-        className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary bg-background-alternative text-text-alternative px-4 py-1 md:px-6 md:py-2"
-        title="Access"
-      >
-        Access
-      </button>
-    </div>
-  </div>
-</section>
+    <main className="bg-white text-neutral-900">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
 
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
-  <div className="container max-w-lg text-center">
-    <p className="mb-3 font-semibold md:mb-4">Tagline</p>
-    <h1
-     
-      className="mb-5 text-6xl font-bold md:mb-6 md:text-9xl lg:text-10xl"
-    >
-      Short heading here
-    </h1>
-    <p className="md:text-md">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-      varius enim in eros elementum tristique.
-    </p>
-    <div
-     
-     
-      className="mt-6 flex items-center justify-center gap-x-4 md:mt-8"
-    >
-      <button
-        className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary bg-background-alternative text-text-alternative px-6 py-3"
-        title="Button"
-       
-      >
-        Button</button
-      ><button
-        className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
-        title="Button"
-       
-      >
-        Button
-      </button>
-    </div>
-  </div>
-</section>
+      <section className="mx-auto max-w-3xl px-4 pb-12 pt-[calc(var(--nav-h)+48px)] text-center">
+        <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{KICKER[l]}</p>
+        <h1 className="mt-3 font-serif text-4xl font-black tracking-tight md:text-6xl">{TITLE[l]}</h1>
+        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-neutral-600">{INTRO[l]}</p>
+      </section>
 
-<link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/webflow-logo.svg"
-/>
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
-  <div className="container max-w-lg text-center">
-    <p className="mb-3 font-semibold md:mb-4">Tagline</p>
-    <h2
-     
-      className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
-    >
-      Medium length section heading goes here
-    </h2>
-    <p className="mb-5 md:mb-6 md:text-md">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-      varius enim in eros elementum tristique. Duis cursus, mi quis viverra
-      ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
-    </p>
-    <div
-     
-     
-      className="flex flex-wrap items-center justify-center gap-x-8 gap-y-6 py-2"
-    >
-      <img
-        src="https://d22po4pjz3o32e.cloudfront.net/webflow-logo.svg"
-        alt="Webflow logo 1"
-        className="max-h-14"
-      />
-    </div>
-    <div
-     
-     
-      className="mt-6 flex items-center justify-center gap-x-4 md:mt-8"
-    >
-      <button
-        className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
-       
-        title="Button"
-      >
-        Button</button
-      ><button
-        className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-       
-        title="Button"
-      >
-        Button<svg
-          stroke="currentColor"
-          fill="none"
-          strokeWidth="0"
-          viewBox="0 0 15 15"
-          height="1em"
-          width="1em"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-            fill="currentColor"
-          ></path>
-        </svg>
-      </button>
-    </div>
-  </div>
-</section>
-
-<link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-/>
-<section id="relume" className="overflow-hidden px-[5%] py-16 md:py-24 lg:py-28">
-  <div className="container">
-    <div className="mb-12 md:mb-18 lg:mb-20">
-      <div
-       
-        className="mx-auto w-full max-w-lg text-center"
-      >
-        <p className="mb-3 font-semibold md:mb-4">Tagline</p>
-        <h2
-         
-          className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
-        >
-          Medium length section heading goes here
-        </h2>
-        <p className="md:text-md">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          varius enim in eros elementum tristique. Duis cursus, mi quis viverra
-          ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
-        </p>
-        <div
-         
-         
-          className="mt-6 flex items-center justify-center gap-x-4 md:mt-8"
-        >
-          <button
-            className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
-           
-            title="Button"
+      {/* Founder card — the page's core E-E-A-T signal. */}
+      <section className="mx-auto max-w-3xl px-4 pb-14">
+        <Reveal className="flex flex-col gap-5 rounded-3xl border border-black/10 bg-neutral-50 p-7 sm:flex-row md:p-9">
+          <span
+            aria-hidden
+            className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-gold font-serif text-2xl font-black text-white"
           >
-            Button</button
-          ><button
-            className="focus-visible:ring-border-primary inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-0 text-text-primary gap-2 p-0"
-           
-            title="Button"
-          >
-            Button<svg
-              stroke="currentColor"
-              fill="none"
-              strokeWidth="0"
-              viewBox="0 0 15 15"
-              height="1em"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                fill="currentColor"
-              ></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div
-     
-      className="relative grid auto-cols-fr grid-cols-1 md:flex"
-    >
-      <div
-        className="relative grid auto-cols-fr grid-cols-[0.5fr_max-content_1fr] items-start gap-4 md:flex md:flex-col md:items-center md:gap-0"
-      >
-        <div className="mb-8 w-full overflow-hidden md:mb-0 md:w-3/5">
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-            alt="Relume placeholder image 1"
-            className="w-full"
-          />
-        </div>
-        <div
-          className="relative flex flex-col items-center self-stretch md:mb-4 md:mt-8 md:w-full md:flex-row md:self-auto"
-        >
-          <div
-            className="absolute left-0 top-1.5 z-10 hidden h-1 w-16 bg-gradient-to-r from-background-primary to-transparent md:block"
-          ></div>
-          <div className="h-2 w-[3px] bg-neutral-black md:h-[3px] md:w-full"></div>
-          <div
-            className="z-20 size-[0.9375rem] flex-none rounded-full bg-neutral-black shadow-[0_0_0_8px_white]"
-          ></div>
-          <div
-            className="h-full w-[3px] bg-neutral-black md:h-[3px] md:w-full"
-          ></div>
-        </div>
-        <div className="pb-4 sm:pb-0 md:mb-0 md:px-3 md:text-center">
-          <h3 className="mb-2 text-xl font-bold md:text-2xl">Date</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            varius enim in eros elementum tristique.
-          </p>
-        </div>
-      </div>
-      <div
-        className="relative grid auto-cols-fr grid-cols-[0.5fr_max-content_1fr] items-start gap-4 md:flex md:flex-col md:items-center md:gap-0"
-      >
-        <div className="mb-8 w-full overflow-hidden md:mb-0 md:w-3/5">
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-            alt="Relume placeholder image 2"
-            className="w-full"
-          />
-        </div>
-        <div
-          className="relative flex flex-col items-center self-stretch md:mb-4 md:mt-8 md:w-full md:flex-row md:self-auto"
-        >
-          <div className="h-2 w-[3px] bg-neutral-black md:h-[3px] md:w-full"></div>
-          <div
-            className="z-20 size-[0.9375rem] flex-none rounded-full bg-neutral-black shadow-[0_0_0_8px_white]"
-          ></div>
-          <div
-            className="h-full w-[3px] bg-neutral-black md:h-[3px] md:w-full"
-          ></div>
-        </div>
-        <div className="pb-4 sm:pb-0 md:mb-0 md:px-3 md:text-center">
-          <h3 className="mb-2 text-xl font-bold md:text-2xl">Date</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            varius enim in eros elementum tristique.
-          </p>
-        </div>
-      </div>
-      <div
-        className="relative grid auto-cols-fr grid-cols-[0.5fr_max-content_1fr] items-start gap-4 md:flex md:flex-col md:items-center md:gap-0"
-      >
-        <div className="mb-8 w-full overflow-hidden md:mb-0 md:w-3/5">
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-            alt="Relume placeholder image 3"
-            className="w-full"
-          />
-        </div>
-        <div
-          className="relative flex flex-col items-center self-stretch md:mb-4 md:mt-8 md:w-full md:flex-row md:self-auto"
-        >
-          <div className="h-2 w-[3px] bg-neutral-black md:h-[3px] md:w-full"></div>
-          <div
-            className="z-20 size-[0.9375rem] flex-none rounded-full bg-neutral-black shadow-[0_0_0_8px_white]"
-          ></div>
-          <div
-            className="h-full w-[3px] bg-neutral-black md:h-[3px] md:w-full"
-          ></div>
-        </div>
-        <div className="pb-4 sm:pb-0 md:mb-0 md:px-3 md:text-center">
-          <h3 className="mb-2 text-xl font-bold md:text-2xl">Date</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            varius enim in eros elementum tristique.
-          </p>
-        </div>
-      </div>
-      <div
-        className="relative grid auto-cols-fr grid-cols-[0.5fr_max-content_1fr] items-start gap-4 md:flex md:flex-col md:items-center md:gap-0"
-      >
-        <div className="mb-8 w-full overflow-hidden md:mb-0 md:w-3/5">
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-            alt="Relume placeholder image 4"
-            className="w-full"
-          />
-        </div>
-        <div
-          className="relative flex flex-col items-center self-stretch md:mb-4 md:mt-8 md:w-full md:flex-row md:self-auto"
-        >
-          <div className="h-2 w-[3px] bg-neutral-black md:h-[3px] md:w-full"></div>
-          <div
-            className="z-20 size-[0.9375rem] flex-none rounded-full bg-neutral-black shadow-[0_0_0_8px_white]"
-          ></div>
-          <div
-            className="h-full w-[3px] bg-neutral-black md:h-[3px] md:w-full"
-          ></div>
-        </div>
-        <div className="pb-4 sm:pb-0 md:mb-0 md:px-3 md:text-center">
-          <h3 className="mb-2 text-xl font-bold md:text-2xl">Date</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            varius enim in eros elementum tristique.
-          </p>
-        </div>
-      </div>
-      <div
-        className="relative grid auto-cols-fr grid-cols-[0.5fr_max-content_1fr] items-start gap-4 md:flex md:flex-col md:items-center md:gap-0"
-      >
-        <div className="mb-8 w-full overflow-hidden md:mb-0 md:w-3/5">
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-            alt="Relume placeholder image 5"
-            className="w-full"
-          />
-        </div>
-        <div
-          className="relative flex flex-col items-center self-stretch md:mb-4 md:mt-8 md:w-full md:flex-row md:self-auto"
-        >
-          <div className="h-2 w-[3px] bg-neutral-black md:h-[3px] md:w-full"></div>
-          <div
-            className="z-20 size-[0.9375rem] flex-none rounded-full bg-neutral-black shadow-[0_0_0_8px_white]"
-          ></div>
-          <div
-            className="h-full w-[3px] bg-neutral-black md:h-[3px] md:w-full hidden md:block"
-          ></div>
-          <div
-            className="absolute right-0 top-1.5 z-0 hidden h-1 w-16 bg-gradient-to-l from-background-primary to-transparent md:block"
-          ></div>
-        </div>
-        <div className="pb-4 sm:pb-0 md:mb-0 md:px-3 md:text-center">
-          <h3 className="mb-2 text-xl font-bold md:text-2xl">Date</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            varius enim in eros elementum tristique.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-/>
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
-  <div className="container">
-    <div
-     
-      className="mx-auto mb-12 max-w-lg text-center md:mb-18 lg:mb-20"
-    >
-      <p className="mb-3 font-semibold md:mb-4">Tagline</p>
-      <h2
-       
-        className="rb-5 mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
-      >
-        Our team
-      </h2>
-      <p className="md:text-md">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      </p>
-    </div>
-    <div
-     
-      className="grid grid-cols-1 items-start justify-center gap-x-8 gap-y-12 md:grid-cols-2 md:gap-y-16 lg:grid-cols-4"
-    >
-      <div className="flex flex-col text-center">
-        <div
-          className="relative mb-5 size-full overflow-hidden pt-[66%] md:mb-6 md:pt-[100%]"
-        >
-          <img
-            src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-            alt="Relume placeholder image"
-            className="absolute inset-0 size-full object-cover"
-          />
-        </div>
-        <div className="mb-3 md:mb-4">
-          <h5 className="text-md font-semibold md:text-lg">Full name</h5>
-          <h6 className="md:text-md">Job title</h6>
-        </div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          varius enim in eros elementum tristique.
-        </p>
-        <div
-          className="mt-6 grid grid-flow-col grid-cols-[max-content] gap-3.5 self-center"
-        >
-          <a href="#"
-            ><svg
-              stroke="currentColor"
-              fill="currentColor"
-              strokeWidth="0"
-              viewBox="0 0 24 24"
-              className="size-6"
-              height="1em"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20 3H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM8.339 18.337H5.667v-8.59h2.672v8.59zM7.003 8.574a1.548 1.548 0 1 1 0-3.096 1.548 1.548 0 0 1 0 3.096zm11.335 9.763h-2.669V14.16c0-.996-.018-2.277-1.388-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248h-2.667v-8.59h2.56v1.174h.037c.355-.675 1.227-1.387 2.524-1.387 2.704 0 3.203 1.778 3.203 4.092v4.71z"
-              ></path></svg></a
-          ><a href="#"
-            ><svg
-              stroke="currentColor"
-              fill="currentColor"
-              strokeWidth="0"
-              viewBox="0 0 512 512"
-              className="size-6 p-0.5"
-              height="1em"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-              ></path></svg></a
-          ><a href="#"
-            ><svg
-              stroke="currentColor"
-              fill="currentColor"
-              strokeWidth="0"
-              viewBox="0 0 24 24"
-              className="size-6"
-              height="1em"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20.66 6.98a9.932 9.932 0 0 0-3.641-3.64C15.486 2.447 13.813 2 12 2s-3.486.447-5.02 1.34c-1.533.893-2.747 2.107-3.64 3.64S2 10.187 2 12s.446 3.487 1.34 5.02a9.924 9.924 0 0 0 3.641 3.64C8.514 21.553 10.187 22 12 22s3.486-.447 5.02-1.34a9.932 9.932 0 0 0 3.641-3.64C21.554 15.487 22 13.813 22 12s-.446-3.487-1.34-5.02zM12 3.66c2 0 3.772.64 5.32 1.919-.92 1.174-2.286 2.14-4.1 2.9-1.002-1.813-2.088-3.327-3.261-4.54A7.715 7.715 0 0 1 12 3.66zM5.51 6.8a8.116 8.116 0 0 1 2.711-2.22c1.212 1.201 2.325 2.7 3.34 4.5-2 .6-4.114.9-6.341.9-.573 0-1.006-.013-1.3-.04A8.549 8.549 0 0 1 5.51 6.8zM3.66 12c0-.054.003-.12.01-.2.007-.08.01-.146.01-.2.254.014.641.02 1.161.02 2.666 0 5.146-.367 7.439-1.1.187.373.381.793.58 1.26-1.32.293-2.674 1.006-4.061 2.14S6.4 16.247 5.76 17.5c-1.4-1.587-2.1-3.42-2.1-5.5zM12 20.34c-1.894 0-3.594-.587-5.101-1.759.601-1.187 1.524-2.322 2.771-3.401 1.246-1.08 2.483-1.753 3.71-2.02a29.441 29.441 0 0 1 1.56 6.62 8.166 8.166 0 0 1-2.94.56zm7.08-3.96a8.351 8.351 0 0 1-2.58 2.621c-.24-2.08-.7-4.107-1.379-6.081.932-.066 1.765-.1 2.5-.1.799 0 1.686.034 2.659.1a8.098 8.098 0 0 1-1.2 3.46zm-1.24-5c-1.16 0-2.233.047-3.22.14a27.053 27.053 0 0 0-.68-1.62c2.066-.906 3.532-2.006 4.399-3.3 1.2 1.414 1.854 3.027 1.96 4.84-.812-.04-1.632-.06-2.459-.06z"
-              ></path></svg
-          ></a>
-        </div>
-      </div>
-    </div>
-    <div
-     
-      className="mx-auto mt-14 w-full max-w-md text-center md:mt-20 lg:mt-24"
-    >
-      <h4
-       
-        className="mb-3 text-2xl font-bold md:mb-4 md:text-3xl md:leading-[1.3] lg:text-4xl"
-      >
-        We&#x27;re hiring!
-      </h4>
-      <p className="md:text-md">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      </p>
-      <div
-       
-        className="mt-6 flex items-center justify-center gap-x-4 text-center md:mt-8"
-      >
-        <button
-          className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-6 py-3"
-        >
-          Open positions
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/webflow-logo.svg"
-/><link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/relume-logo.svg"
-/>
-<section id="relume" className="px-[5%] py-12 md:py-16 lg:py-20">
-  <div className="container">
-    <h1
-      className="mx-auto mb-6 w-full max-w-lg text-center text-base font-bold leading-[1.2] md:mb-8 md:text-md md:leading-[1.2]"
-    >
-      Trusted by Amnesia, Pacha Ibiza, Hï Ibiza, Ushuaïa Ibiza, and the
-      island&#x27;s most discerning travelers
-    </h1>
-    <div
-     
-      className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 pb-2 pt-4 md:pt-2"
-    >
-      <img
-       
-        src="https://d22po4pjz3o32e.cloudfront.net/webflow-logo.svg"
-        alt="Webflow logo 1"
-        className="max-h-12 md:max-h-14"
-      /><img
-       
-        src="https://d22po4pjz3o32e.cloudfront.net/relume-logo.svg"
-        alt="Relume logo 1"
-        className="max-h-12 md:max-h-14"
-      /><img
-       
-        src="https://d22po4pjz3o32e.cloudfront.net/webflow-logo.svg"
-        alt="Webflow logo 2"
-        className="max-h-12 md:max-h-14"
-      /><img
-       
-        src="https://d22po4pjz3o32e.cloudfront.net/relume-logo.svg"
-        alt="Relume logo 2"
-        className="max-h-12 md:max-h-14"
-      /><img
-       
-        src="https://d22po4pjz3o32e.cloudfront.net/webflow-logo.svg"
-        alt="Webflow logo 3"
-        className="max-h-12 md:max-h-14"
-      /><img
-       
-        src="https://d22po4pjz3o32e.cloudfront.net/relume-logo.svg"
-        alt="Relume logo 3"
-        className="max-h-12 md:max-h-14"
-      /><img
-       
-        src="https://d22po4pjz3o32e.cloudfront.net/webflow-logo.svg"
-        alt="Webflow logo 4"
-        className="max-h-12 md:max-h-14"
-      /><img
-       
-        src="https://d22po4pjz3o32e.cloudfront.net/relume-logo.svg"
-        alt="Relume logo 4"
-        className="max-h-12 md:max-h-14"
-      /><img
-       
-        src="https://d22po4pjz3o32e.cloudfront.net/webflow-logo.svg"
-        alt="Webflow logo 5"
-        className="max-h-12 md:max-h-14"
-      /><img
-       
-        src="https://d22po4pjz3o32e.cloudfront.net/relume-logo.svg"
-        alt="Relume logo 5"
-        className="max-h-12 md:max-h-14"
-      /><img
-       
-        src="https://d22po4pjz3o32e.cloudfront.net/webflow-logo.svg"
-        alt="Webflow logo 6"
-        className="max-h-12 md:max-h-14"
-      />
-    </div>
-  </div>
-</section>
-
-<link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/relume-logo.svg"
-/><link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-/><link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/webflow-logo.svg"
-/>
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
-  <div className="container">
-    <div className="mb-12 md:mb-18 lg:mb-20">
-      <div
-       
-        className="mx-auto w-full max-w-lg text-center"
-      >
-        <h1
-         
-          className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl"
-        >
-          Customer testimonials
-        </h1>
-        <p className="md:text-md">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-      </div>
-    </div>
-    <div
-      className="gid-cols-1 grid gap-6 sm:grid-rows-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 lg:grid-rows-2"
-    >
-      <div
-        className="flex items-center justify-center border border-border-primary p-6 md:p-8 lg:p-6"
-      >
-        <img
-          src="https://d22po4pjz3o32e.cloudfront.net/relume-logo.svg"
-          alt="Relume logo 1"
-          className="max-h-12"
-        />
-      </div>
-      <div
-        className="flex flex-col items-start justify-between border border-border-primary p-6 sm:col-span-2 md:p-8"
-      >
-        <div className="mb-5 flex md:mb-6">
-          <svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 24 24"
-            className="size-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"
-            ></path></svg
-          ><svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 24 24"
-            className="size-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"
-            ></path></svg
-          ><svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 24 24"
-            className="size-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"
-            ></path></svg
-          ><svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 24 24"
-            className="size-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"
-            ></path></svg
-          ><svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 24 24"
-            className="size-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"
-            ></path>
-          </svg>
-        </div>
-        <p className="md:text-md">
-          &quot;Ibizamivida didn&#x27;t just book us a table. They orchestrated
-          a night that felt like it was made only for us.&quot;
-        </p>
-        <div
-          className="mt-5 flex w-full flex-col items-start md:mt-6 md:w-fit md:flex-row md:items-center"
-        >
+            S
+          </span>
           <div>
-            <img
-              src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-              alt="Testimonial image 1"
-              className="mb-4 size-12 min-h-12 min-w-12 rounded-full object-cover md:mb-0 md:mr-4"
-            />
+            <h2 className="font-serif text-2xl font-black leading-tight">{FOUNDER.name}</h2>
+            <p className="mt-0.5 text-sm font-bold text-gold">{FOUNDER.role[l]}</p>
+            <p className="mt-3 text-[15px] leading-relaxed text-neutral-600">{FOUNDER.bio[l]}</p>
+            <p className="mt-3 text-xs text-black/60">{FOUNDER.languages.join(' · ')}</p>
           </div>
-          <div>
-            <p className="font-semibold">Alexander Kross</p>
-            <p>Entrepreneur, London</p>
+        </Reveal>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-4 pb-14">
+        <Reveal>
+          <div className="mb-6 flex items-center gap-4">
+            <h2 className="shrink-0 font-serif text-2xl font-black tracking-tight md:text-3xl">{HOW_TITLE[l]}</h2>
+            <span className="h-px flex-1 bg-black/10" />
           </div>
-        </div>
-      </div>
-      <div
-        className="flex items-center justify-center border border-border-primary p-6 md:p-8 lg:p-6"
-      >
-        <img
-          src="https://d22po4pjz3o32e.cloudfront.net/webflow-logo.svg"
-          alt="Webflow logo 1"
-          className="max-h-12"
-        />
-      </div>
-      <div
-        className="flex items-center justify-center border border-border-primary p-6 md:p-8 lg:p-6"
-      >
-        <img
-          src="https://d22po4pjz3o32e.cloudfront.net/webflow-logo.svg"
-          alt="Webflow logo 2"
-          className="max-h-12"
-        />
-      </div>
-      <div
-        className="flex items-center justify-center border border-border-primary p-6 md:p-8 lg:p-6"
-      >
-        <img
-          src="https://d22po4pjz3o32e.cloudfront.net/relume-logo.svg"
-          alt="Relume logo 2"
-          className="max-h-12"
-        />
-      </div>
-      <div
-        className="flex items-center justify-center border border-border-primary p-6 md:p-8 lg:p-6"
-      >
-        <img
-          src="https://d22po4pjz3o32e.cloudfront.net/webflow-logo.svg"
-          alt="Webflow logo 3"
-          className="max-h-12"
-        />
-      </div>
-      <div
-        className="flex items-center justify-center border border-border-primary p-6 md:p-8 lg:p-6"
-      >
-        <img
-          src="https://d22po4pjz3o32e.cloudfront.net/relume-logo.svg"
-          alt="Relume logo 3"
-          className="max-h-12"
-        />
-      </div>
-    </div>
-  </div>
-</section>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {HOW.map((h, i) => (
+              <div key={i} className="rounded-[22px] border border-black/8 bg-white p-6 transition-colors hover:border-gold/50">
+                <h3 className="font-serif text-lg font-black leading-tight">{h.t[l]}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-neutral-600">{h.d[l]}</p>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </section>
 
-<link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-/>
-<section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
-  <div className="container relative">
-    <div
-      className="relative z-10 flex flex-col items-center p-8 md:p-12 lg:p-16"
-    ></div>
-    <div className="absolute inset-0 z-0">
-      <img
-        src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-        className="size-full object-cover"
-        alt="Relume placeholder image"
-      />
-      <div className="absolute inset-0 bg-black/50"></div>
-    </div>
-  </div>
-</section>
+      {/* The honesty section. Deliberately prominent, not buried near the footer. */}
+      <section className="border-y border-black/5 bg-neutral-50 py-14">
+        <Reveal className="mx-auto max-w-3xl px-4">
+          <h2 className="font-serif text-2xl font-black tracking-tight md:text-3xl">{HONEST_TITLE[l]}</h2>
+          <p className="mt-3 text-[15px] leading-relaxed text-neutral-600">{HONEST_INTRO[l]}</p>
+          <ul className="mt-7 space-y-4">
+            {HONEST.map((h, i) => (
+              <li key={i} className="flex gap-3.5">
+                <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" />
+                <p className="text-[15px] leading-relaxed text-neutral-700">{h[l]}</p>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+      </section>
 
-<link
-  rel="preload"
-  as="image"
-  href="https://d22po4pjz3o32e.cloudfront.net/logo-image.svg"
-/>
-<footer id="relume" className="px-[5%] py-12 md:py-18 lg:py-20">
-  <div className="container">
-    <div
-      className="grid grid-cols-1 items-start gap-x-[8vw] gap-y-12 pb-12 md:gap-y-16 md:pb-18 lg:grid-cols-[1fr_0.5fr] lg:gap-y-4 lg:pb-20"
-    >
-      <div
-        className="grid grid-cols-1 items-start gap-x-8 gap-y-10 sm:grid-cols-3 sm:gap-x-6 sm:gap-y-12 md:gap-x-8 lg:grid-cols-4"
-      >
-        <a
-          href="#"
-          className="sm:col-start-1 sm:col-end-4 sm:row-start-1 sm:row-end-2 lg:col-start-auto lg:col-end-auto lg:row-start-auto lg:row-end-auto"
-          ><img
-            src="https://d22po4pjz3o32e.cloudfront.net/logo-image.svg"
-            alt="Logo image"
-        /></a>
-        <div
-         
-          className="flex flex-col items-start justify-start"
-        >
-          <h2 className="mb-3 font-semibold md:mb-4">
-            Column One
-          </h2>
-          <ul>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link One</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Two</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Three</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Four</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Five</a>
-            </li>
-          </ul>
+      <section className="mx-auto max-w-3xl px-4 py-14 text-center">
+        <h2 className="font-serif text-2xl font-black tracking-tight md:text-3xl">{CTA_TITLE[l]}</h2>
+        <div className="mt-7 flex flex-col items-center gap-4">
+          <a
+            href={wa}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 rounded-full bg-[#25D366] px-8 py-4 font-serif text-sm font-black uppercase tracking-widest text-black transition-transform hover:scale-[1.03]"
+          >
+            <MessageCircle size={20} strokeWidth={2.5} />
+            {CTA_BTN[l]}
+          </a>
+          <Link href={`${base}/contact`} className="text-xs font-black uppercase tracking-widest text-gold hover:underline">
+            {CONTACT_LINK[l]} →
+          </Link>
         </div>
-        <div
-         
-          className="flex flex-col items-start justify-start"
-        >
-          <h2 className="mb-3 font-semibold md:mb-4">
-            Column Two
-          </h2>
-          <ul>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Six</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Seven</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Eight</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Nine</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Ten</a>
-            </li>
-          </ul>
-        </div>
-        <div
-         
-          className="flex flex-col items-start justify-start"
-        >
-          <h2 className="mb-3 font-semibold md:mb-4">
-            Column Three
-          </h2>
-          <ul>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Eleven</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Twelve</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Thirteen</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Fourteen</a>
-            </li>
-            <li className="py-2 text-sm">
-              <a href="#" className="flex items-center gap-3">Link Fifteen</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div className="flex flex-col">
-        <h1 className="mb-3 font-semibold md:mb-4">
-          Subscribe
-        </h1>
-        <p className="mb-3 text-sm md:mb-4">
-          Join our newsletter to stay up to date on features and releases.
-        </p>
-        <div className="w-full max-w-md">
-          <form
-            className="mb-3 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-[1fr_max-content] md:gap-y-4"
-          >
-            <div className="relative flex w-full items-center">
-              <input
-                type="email"
-                className="flex size-full min-h-11 border border-border-primary bg-background-primary py-2 align-middle file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 px-3"
-                id="email"
-                placeholder="Enter your email"
-                value=""
-              />
-            </div>
-            <button
-              className="focus-visible:ring-border-primary inline-flex gap-3 items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-primary text-text-primary bg-background-primary px-5 py-2"
-              title="Subscribe"
-            >
-              Subscribe
-            </button>
-          </form>
-          <p className="text-xs">
-            By subscribing you agree to with our Privacy Policy and provide
-            consent to receive updates from our company.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div className="h-px w-full bg-black"></div>
-    <div
-      className="flex flex-col-reverse items-start pb-4 pt-6 text-sm md:justify-start md:pb-0 md:pt-8 lg:flex-row lg:items-center lg:justify-between"
-    >
-      <div
-        className="flex flex-col-reverse items-start md:flex-row md:gap-6 lg:items-center"
-      >
-        <div
-         
-          className="grid grid-flow-row grid-cols-[max-content] justify-center gap-y-4 md:grid-flow-col md:justify-center md:gap-x-6 md:gap-y-0 lg:text-left"
-        >
-          <p className="mt-8 md:mt-0">
-            © 2024 Relume. All rights reserved.
-          </p>
-          <p className="underline">
-            <a href="#">Privacy Policy</a>
-          </p>
-          <p className="underline">
-            <a href="#">Terms of Service</a>
-          </p>
-          <p className="underline">
-            <a href="#">Cookies Settings</a>
-          </p>
-        </div>
-      </div>
-      <div
-       
-        className="mb-8 flex items-center justify-center gap-3 lg:mb-0"
-      >
-        <a href="#"
-          ><svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 24 24"
-            className="size-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M12.001 2.002c-5.522 0-9.999 4.477-9.999 9.999 0 4.99 3.656 9.126 8.437 9.879v-6.988h-2.54v-2.891h2.54V9.798c0-2.508 1.493-3.891 3.776-3.891 1.094 0 2.24.195 2.24.195v2.459h-1.264c-1.24 0-1.628.772-1.628 1.563v1.875h2.771l-.443 2.891h-2.328v6.988C18.344 21.129 22 16.992 22 12.001c0-5.522-4.477-9.999-9.999-9.999z"
-            ></path></svg></a
-        ><a href="#"
-          ><svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 24 24"
-            className="size-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M11.999 7.377a4.623 4.623 0 1 0 0 9.248 4.623 4.623 0 0 0 0-9.248zm0 7.627a3.004 3.004 0 1 1 0-6.008 3.004 3.004 0 0 1 0 6.008z"
-            ></path>
-            <circle cx="16.806" cy="7.207" r="1.078"></circle>
-            <path
-              d="M20.533 6.111A4.605 4.605 0 0 0 17.9 3.479a6.606 6.606 0 0 0-2.186-.42c-.963-.042-1.268-.054-3.71-.054s-2.755 0-3.71.054a6.554 6.554 0 0 0-2.184.42 4.6 4.6 0 0 0-2.633 2.632 6.585 6.585 0 0 0-.419 2.186c-.043.962-.056 1.267-.056 3.71 0 2.442 0 2.753.056 3.71.015.748.156 1.486.419 2.187a4.61 4.61 0 0 0 2.634 2.632 6.584 6.584 0 0 0 2.185.45c.963.042 1.268.055 3.71.055s2.755 0 3.71-.055a6.615 6.615 0 0 0 2.186-.419 4.613 4.613 0 0 0 2.633-2.633c.263-.7.404-1.438.419-2.186.043-.962.056-1.267.056-3.71s0-2.753-.056-3.71a6.581 6.581 0 0 0-.421-2.217zm-1.218 9.532a5.043 5.043 0 0 1-.311 1.688 2.987 2.987 0 0 1-1.712 1.711 4.985 4.985 0 0 1-1.67.311c-.95.044-1.218.055-3.654.055-2.438 0-2.687 0-3.655-.055a4.96 4.96 0 0 1-1.669-.311 2.985 2.985 0 0 1-1.719-1.711 5.08 5.08 0 0 1-.311-1.669c-.043-.95-.053-1.218-.053-3.654 0-2.437 0-2.686.053-3.655a5.038 5.038 0 0 1 .311-1.687c.305-.789.93-1.41 1.719-1.712a5.01 5.01 0 0 1 1.669-.311c.951-.043 1.218-.055 3.655-.055s2.687 0 3.654.055a4.96 4.96 0 0 1 1.67.311 2.991 2.991 0 0 1 1.712 1.712 5.08 5.08 0 0 1 .311 1.669c.043.951.054 1.218.054 3.655 0 2.436 0 2.698-.043 3.654h-.011z"
-            ></path></svg></a
-        ><a href="#"
-          ><svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 512 512"
-            className="size-6 p-0.5"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-            ></path></svg></a
-        ><a href="#"
-          ><svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 24 24"
-            className="size-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M20 3H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM8.339 18.337H5.667v-8.59h2.672v8.59zM7.003 8.574a1.548 1.548 0 1 1 0-3.096 1.548 1.548 0 0 1 0 3.096zm11.335 9.763h-2.669V14.16c0-.996-.018-2.277-1.388-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248h-2.667v-8.59h2.56v1.174h.037c.355-.675 1.227-1.387 2.524-1.387 2.704 0 3.203 1.778 3.203 4.092v4.71z"
-            ></path></svg></a
-        ><a href="#"
-          ><svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 24 24"
-            className="size-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21.593 7.203a2.506 2.506 0 0 0-1.762-1.766C18.265 5.007 12 5 12 5s-6.264-.007-7.831.404a2.56 2.56 0 0 0-1.766 1.778c-.413 1.566-.417 4.814-.417 4.814s-.004 3.264.406 4.814c.23.857.905 1.534 1.763 1.765 1.582.43 7.83.437 7.83.437s6.265.007 7.831-.403a2.515 2.515 0 0 0 1.767-1.763c.414-1.565.417-4.812.417-4.812s.02-3.265-.407-4.831zM9.996 15.005l.005-6 5.207 3.005-5.212 2.995z"
-            ></path></svg
-        ></a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-    </>
-  );
+      </section>
+    </main>
+  )
 }

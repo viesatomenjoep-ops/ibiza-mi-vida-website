@@ -9,6 +9,7 @@ import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
 import { ServiceSchema } from '@/components/seo/ServiceSchema'
 import { SERVICE_COPY } from '@/lib/service-schema-copy'
 import { PackageDealPicker } from '@/components/guestlist/PackageDealPicker'
+import { AuthorByline } from '@/components/seo/AuthorByline'
 
 export const revalidate = 3600
 
@@ -345,6 +346,8 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
       )}
 
       {/* ── Big closing CTA ── */}
+      <AuthorByline locale={locale} topic="Ibiza club package deals" />
+
       <section className="relative overflow-hidden bg-obsidian py-16 md:py-20 text-center text-white">
         <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-gold/20 blur-[120px]" />
         <div className="relative mx-auto max-w-2xl px-4">

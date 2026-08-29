@@ -60,6 +60,20 @@ export function Footer() {
         { href: `${base}/tips`, label: t.nav_tips || 'Ibiza Tips' },
       ],
     },
+    {
+      // E-E-A-T: About and Contact had ZERO internal links anywhere on the
+      // site, so the two pages Google's quality guidelines look at to decide
+      // whether a business is real were effectively orphaned. The footer is
+      // where users and crawlers both expect them.
+      id: 'company',
+      title: t.nav_company || 'Ibiza Mi Vida',
+      links: [
+        { href: `${base}/about-us`, label: t.nav_about || 'Over ons' },
+        { href: `${base}/contact`, label: t.nav_contact || 'Contact' },
+        { href: `${base}/faq`, label: t.nav_faq || 'FAQ' },
+        { href: `${base}/reviews`, label: t.nav_reviews || 'Reviews' },
+      ],
+    },
   ]
 
   // Desktop: columns always open. Mobile: tap a heading to expand/collapse.

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { ServiceSchema } from '@/components/seo/ServiceSchema'
 import { SERVICE_COPY } from '@/lib/service-schema-copy'
 import { PageFaq } from '@/components/seo/PageFaq'
+import { AuthorByline } from '@/components/seo/AuthorByline'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { staticMetadata } from '@/lib/seo-pages'
 
@@ -70,6 +71,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
       venues={venues}
     />
     <PageFaq pageKey="boat-party" locale={params.locale} />
+    <AuthorByline locale={params.locale} topic="Ibiza boat parties" />
     </>
   );
 }

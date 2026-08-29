@@ -1,5 +1,6 @@
 import { SITE_URL, SITE_NAME, type Locale } from '@/lib/seo'
 import { HOME_DESC } from '@/lib/seo-pages'
+import { FOUNDER_ID, founderNode } from '@/lib/team'
 
 /**
  * Homepage structured data: Organization + WebSite (with SearchAction) +
@@ -24,6 +25,10 @@ export function HomeJsonLd({ locale = 'nl' }: { locale?: string }) {
     description: bio,
     ...(phone ? { telephone: `+${phone}` } : {}),
     sameAs: ['https://www.instagram.com/ibizamivida/'],
+    // E-E-A-T: names a real person behind the business. Referenced by @id — the
+    // Person itself is emitted alongside, and declared identically on /about-us
+    // and /contact, so all of them merge into one entity.
+    founder: { '@id': FOUNDER_ID },
   }
 
   const website = {
@@ -65,7 +70,7 @@ export function HomeJsonLd({ locale = 'nl' }: { locale?: string }) {
 
   const graph = {
     '@context': 'https://schema.org',
-    '@graph': [organization, website, business],
+    '@graph': [organization, founderNode(), website, business],
   }
 
   return (
