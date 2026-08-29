@@ -1,10 +1,14 @@
 # Google Business Profile — exacte inrichting
 
-Waarom dit de grootste hefboom is: Google Business Profile voedt niet alleen de
-kaart en het lokale pakket in Google, maar is ook een van de bronnen waaruit
-Gemini, ChatGPT en Perplexity putten als iemand vraagt *"waar kan ik een
-privéboot huren op Ibiza?"*. Zonder profiel besta je in dat soort antwoorden
-domweg niet — hoe goed je site ook is.
+Waarom dit de grootste hefboom is: Google Business Profile voedt de kaart en het
+lokale pakket in Google, én is de bron waarop **Gemini** lokale antwoorden
+grondt. Vraagt iemand *"waar kan ik een privéboot huren op Ibiza?"*, dan put
+Gemini uit Google's plaatsdata in plaats van uit webpagina's. Zonder profiel
+besta je in dat antwoord domweg niet — hoe goed je site ook is.
+
+> **Let op:** dit dekt Google en Gemini. Het dekt **ChatGPT grotendeels niet** —
+> die draait op Bing's index en op Foursquare. Zie het tweede deel van dit
+> document voor de drie extra profielen die je daarvoor nodig hebt.
 
 Tijd: ~30 minuten aanmaken, daarna ~10 minuten per week.
 
@@ -199,3 +203,70 @@ twijfel kost je positie.
 
 Controleer maandelijks in je GBP-dashboard: weergaven, zoekopdrachten waarmee
 mensen je vonden, en het aantal klikken naar de site en naar bellen.
+
+---
+
+# Belangrijk: Google alleen is niet genoeg voor AI
+
+Google Business Profile dekt **Google en Gemini**. Het dekt ChatGPT grotendeels
+**niet**, en dat is een veelgemaakte fout.
+
+## Wie put waaruit
+
+| Assistent | Waar hij lokale bedrijven vandaan haalt |
+|---|---|
+| **Gemini / Google AI Overviews** | Google Business Profile + Maps — Google grondt lokale antwoorden direct op deze data |
+| **ChatGPT** | Bing's index (OpenAI's zoekpartner is Microsoft), plus Foursquare voor ± 70% van de lokale bedrijfsdata |
+| **Perplexity** | Eigen crawler + web; leunt op consistente vermeldingen en autoriteit |
+| **Apple Kaarten / Siri** | Apple Business Connect |
+
+Eén profiel bij Google laat je dus onzichtbaar in de assistent met de meeste
+gebruikers. Onderzoek naar lokale AI-zichtbaarheid laat zien dat bedrijven mét
+een geverifieerd Bing Places-profiel en recente reviews aanzienlijk vaker worden
+aanbevolen door ChatGPT dan concurrenten zonder.
+
+## De drie extra profielen — allemaal gratis
+
+Vul ze in met **exact dezelfde gegevens** als je Google-profiel. Consistentie is
+hier het hele punt: afwijkende schrijfwijzen laten de systemen twijfelen of het
+om één bedrijf gaat.
+
+```
+Naam:     Ibiza Mi Vida
+Telefoon: +33 6 66 52 84 12
+Website:  https://www.ibizamivida.com
+Gebied:   Ibiza & Formentera, Spanje
+```
+
+### 1. Bing Places — https://www.bingplaces.com
+De directe route naar ChatGPT. Belangrijk: Bing kan je Google-profiel
+**importeren**, dus dit kost je vijf minuten in plaats van dertig. Zoek naar de
+importoptie zodra je bent ingelogd. Categorie: dezelfde als bij Google
+("Boat rental service" / "Tour agency").
+
+### 2. Foursquare — https://business.foursquare.com
+Levert het leeuwendeel van ChatGPT's lokale data en voedt daarnaast een hele
+reeks reis-apps. Claim je locatie, of maak hem aan als hij nog niet bestaat.
+
+### 3. Apple Business Connect — https://businessconnect.apple.com
+Voor Apple Kaarten en Siri. Relevant omdat een groot deel van je doelgroep —
+noord-Europese toeristen — op iPhone zit.
+
+## Daarna: de reisplatforms
+
+Dit is trager maar heeft het hoogste plafond, omdat AI-assistenten bedrijven
+het liefst noemen die ze op meerdere plekken bevestigd zien:
+
+- **TripAdvisor** en **Viator** — dé bronnen voor "boat trip Ibiza"-achtige vragen
+- **GetYourGuide** — sterk voor excursies en ferrytickets
+- **Yelp** — minder groot in Europa, maar ChatGPT kruisverwijst er wel naar
+
+## Volgorde
+
+1. Google Business Profile verifiëren (loopt nu — binnen 4 dagen)
+2. Bing Places, via de Google-import
+3. Foursquare
+4. Apple Business Connect
+5. TripAdvisor / Viator / GetYourGuide
+
+Stap 1 t/m 4 zijn samen ongeveer een uur werk en dekken alle grote assistenten.

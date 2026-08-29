@@ -28,11 +28,12 @@ export async function GET() {
 
 > Ibiza events agency and VIP concierge. Official ClubTickets partner selling
 > club tickets for Ibiza's major venues, plus private boat charters, boat
-> parties, Formentera trips, island activities, VIP tables and guestlist
-> access. Run by a team living on Ibiza; bookings and questions are handled
-> personally over WhatsApp.
+> parties, Formentera trips, island activities, VIP tables and club package
+> deals. Founded and run by Simon, who lives on Ibiza; every booking and
+> question is handled personally over WhatsApp.
 
 Site: ${SITE_URL}
+Founder: Simon (based on Ibiza, answers enquiries personally)
 Languages: Dutch, English, German, Spanish, French (paths are locale-prefixed, e.g. ${SITE_URL}/en/calendar)
 Contact: WhatsApp +33 6 66 52 84 12
 Service area: Ibiza and Formentera, Balearic Islands, Spain
@@ -45,7 +46,7 @@ Service area: Ibiza and Formentera, Balearic Islands, Spain
 - [Boat parties](${SITE_URL}/en/boat-party) and [boat trips](${SITE_URL}/en/boat-trip): organised day and sunset trips.
 - [Formentera ferry](${SITE_URL}/en/ferry-formentera): day trips and crossings to Formentera.
 - [Activities](${SITE_URL}/en/activities), [tours](${SITE_URL}/en/tours) and [water sports](${SITE_URL}/en/water-sports): buggies, jet skis, excursions and island experiences.
-- [Guestlist](${SITE_URL}/en/guestlist): we put your name on club guestlists via WhatsApp. Terms differ per club and per night — free entry, a reduced price, or ticket-only — and are confirmed in advance before you go.
+- [Club package deals and guestlist](${SITE_URL}/en/guestlist): group and package deals for Ibiza clubs, and we put your name on club guestlists, all via WhatsApp. Terms differ per club and per night — free entry, a reduced price, or ticket-only — and are confirmed in advance before you go.
 - [Drink packages](${SITE_URL}/en/drink-packages) and VIP tables: bottle service and tables at most clubs, arranged on request.
 
 ## Practical
