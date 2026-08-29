@@ -3,9 +3,14 @@ interface LocalBusinessSchemaProps {
   reviewCount?: number
 }
 
+// NOTE: ratingValue/reviewCount have NO defaults on purpose. They used to
+// default to a made-up 4.9/127, which would have published fabricated review
+// data the moment this component was mounted — a Google structured-data
+// policy violation and a manual-action risk. Only pass these once real,
+// verifiable review counts exist; the rating block is omitted otherwise.
 export function LocalBusinessSchema({
-  ratingValue = '4.9',
-  reviewCount = 127,
+  ratingValue,
+  reviewCount,
 }: LocalBusinessSchemaProps) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.ibizamivida.com'
   const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '33666528412'
@@ -26,13 +31,17 @@ export function LocalBusinessSchema({
       latitude: 38.9067,
       longitude: 1.4206,
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue,
-      reviewCount,
-      bestRating: '5',
-      worstRating: '1',
-    },
+    ...(ratingValue && reviewCount
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue,
+            reviewCount,
+            bestRating: '5',
+            worstRating: '1',
+          },
+        }
+      : {}),
     priceRange: '€€€',
     image: `${siteUrl}/og-default.jpg`,
     description:

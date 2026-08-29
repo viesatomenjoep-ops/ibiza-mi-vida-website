@@ -1,4 +1,7 @@
 import type { Metadata } from 'next'
+import { ServiceSchema } from '@/components/seo/ServiceSchema'
+import { SERVICE_COPY } from '@/lib/service-schema-copy'
+import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { getDictionary } from '@/lib/dictionary'
 import PrivateBoatChartersClient from './PrivateBoatChartersClient'
 
@@ -17,5 +20,13 @@ export async function generateMetadata({ params: { locale } }: { params: { local
 export default async function PrivateBoatChartersPage({ params: { locale } }: { params: { locale: string } }) {
   const dict = await getDictionary(locale as any)
 
-  return <PrivateBoatChartersClient locale={locale} />
+  const l = (LOCALES as readonly string[]).includes(locale) ? (locale as Locale) : DEFAULT_LOCALE
+  const sc = SERVICE_COPY['private-boat-charters']
+
+  return (
+    <>
+      <ServiceSchema name={sc.name[l]} description={sc.description[l]} serviceType={sc.serviceType} path={`${l}/private-boat-charters`} />
+      <PrivateBoatChartersClient locale={locale} />
+    </>
+  )
 }

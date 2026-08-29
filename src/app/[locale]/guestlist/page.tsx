@@ -6,6 +6,8 @@ import { getVenues, getAllDates } from '@/lib/clubtickets'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { Reveal } from '@/components/ui/Reveal'
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
+import { ServiceSchema } from '@/components/seo/ServiceSchema'
+import { SERVICE_COPY } from '@/lib/service-schema-copy'
 
 export const revalidate = 3600
 
@@ -202,6 +204,12 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
   return (
     <div className="bg-white text-neutral-900 min-h-screen">
       <FaqJsonLd faqs={faqs} />
+      <ServiceSchema
+        name={SERVICE_COPY.guestlist.name[locale]}
+        description={SERVICE_COPY.guestlist.description[locale]}
+        serviceType={SERVICE_COPY.guestlist.serviceType}
+        path={`${locale}/guestlist`}
+      />
 
       {/* ── Hero ── */}
       <section className="pt-[calc(var(--nav-h)+40px)] pb-12 px-4 text-center">

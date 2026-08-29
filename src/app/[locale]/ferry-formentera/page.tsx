@@ -1,4 +1,7 @@
 import type { Metadata } from 'next'
+import { ServiceSchema } from '@/components/seo/ServiceSchema'
+import { SERVICE_COPY } from '@/lib/service-schema-copy'
+import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { staticMetadata } from '@/lib/seo-pages'
 
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
@@ -50,7 +53,12 @@ export default async function Page({ params }: { params: { locale: string } }) {
   }));
 
   const C = agendaCopy('ferry-formentera', params.locale);
+  const l = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE
+  const sc = SERVICE_COPY['ferry-formentera']
+
   return (
+    <>
+    <ServiceSchema name={sc.name[l]} description={sc.description[l]} serviceType={sc.serviceType} path={`${l}/ferry-formentera`} />
     <WaterAgendaClient
       locale={params.locale}
       basePath="ferry-formentera"
@@ -60,5 +68,6 @@ export default async function Page({ params }: { params: { locale: string } }) {
       events={events}
       venues={venues}
     />
+    </>
   );
 }
