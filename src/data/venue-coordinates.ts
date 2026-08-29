@@ -17,7 +17,7 @@ export const VENUE_SPOTS: Record<string, VenueSpot> = {
   'es-paradis': { x: 20, y: 47, color: '#A855F7', area: 'San Antonio' },
   'eden-ibiza': { x: 25, y: 52, color: '#F43F5E', area: 'San Antonio' },
   'ibiza-rocks': { x: 29, y: 57, color: '#F59E0B', area: 'San Antonio' },
-  'baloo': { x: 17, y: 58, color: '#38BDF8', area: 'Cala de Bou' },
+  'baloo': { x: 17, y: 58, color: '#3FBF9A', area: 'Cala de Bou' },
 
   // ── Centre · San Rafael ──────────────────────────────────
   'unvrs-ibiza': { x: 49, y: 45, color: '#14FF00', area: 'San Rafael' },

@@ -32,10 +32,12 @@ const config: Config = {
         'ibiza-orange': '#FF4E00',
         'ibiza-dark': '#0A0A0A',
         'ibiza-card': '#141414',
-        // Business accent — was neon green, then muted green. Now the same
-        // professional blue as the `gold` token below, for one unified accent.
-        'ibiza-green': '#3D6A96',
-        'ibiza-mint': '#E7EEF5',
+        // Business accent — kept in lockstep with the `gold` token below so the
+        // site has exactly one accent. See the note there for the colour history
+        // and the contrast rules.
+        'ibiza-green': '#0E7C66',
+        // Palest tint of the accent, for soft section backgrounds on white.
+        'ibiza-mint': '#E4F2ED',
 
         // VIP Concierge / Ibiza Planner luxury palette
         obsidian: {
@@ -43,14 +45,21 @@ const config: Config = {
           light: '#111319',
           card: '#14161D',
         },
-        // Accent — professional slate blue (replaces the former purple, which
-        // replaced the original gold). Token name kept as `gold` so every
-        // existing *-gold* utility recolours globally. This is the MARKETING
-        // SITE's brand accent — do not repoint it for app-only work below.
+        // Accent — deep emerald (was slate blue, before that purple, before that
+        // actual gold). Token name kept as `gold` so every existing *-gold*
+        // utility recolours globally. This is the MARKETING SITE's brand accent
+        // — do not repoint it for app-only work below.
+        //
+        // Contrast, measured against WCAG AA (4.5:1 for normal text):
+        //   white on DEFAULT ....... 5.16:1  ✓  — use for solid fills
+        //   black on DEFAULT ....... 4.07:1  ✗  — do NOT put dark text on a fill
+        //   DEFAULT on obsidian .... 3.68:1  ✗  — too dim for accent text on dark
+        //   soft    on obsidian .... 8.30:1  ✓  — use for accent TEXT on dark
+        // So: `gold` fills surfaces, `gold-soft` writes on dark ones.
         gold: {
-          DEFAULT: '#3D6A96',
-          soft: '#5E87AC',
-          faint: 'rgba(61, 106, 150, 0.14)',
+          DEFAULT: '#0E7C66',
+          soft: '#3FBF9A',
+          faint: 'rgba(14, 124, 102, 0.14)',
         },
         // /m app shell accent — warm copper/bronze against the app's obsidian
         // surfaces, replacing an earlier blue that read too close to the

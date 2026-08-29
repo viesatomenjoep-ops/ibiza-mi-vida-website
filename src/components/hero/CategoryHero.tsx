@@ -34,7 +34,7 @@ export function CategoryHero({
     'rustic-terracotta': 'from-rustic-terracotta/20 via-rustic-terracotta/5 to-transparent',
     gold: 'from-gold/20 via-gold/5 to-transparent',
     rose: 'from-rose-500/20 via-rose-500/5 to-transparent',
-    indigo: 'from-indigo-500/20 via-indigo-500/5 to-transparent',
+    indigo: 'from-gold/20 via-gold/5 to-transparent',
     'velvet-obsidian': 'from-velvet-obsidian/10 via-velvet-obsidian/5 to-transparent',
   }
   

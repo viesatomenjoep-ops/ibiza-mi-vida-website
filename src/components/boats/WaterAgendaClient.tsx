@@ -301,7 +301,7 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
                   {e.image ? <img src={optImg(e.image, 400)} loading="lazy" alt={e.eventName} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /> : null}
                   <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10" />
                   {e.price > 0 && <span className="absolute left-1.5 top-1.5 rounded-full bg-white px-2 py-0.5 text-[11px] font-black text-black shadow">€{e.price}</span>}
-                  <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 rounded-full bg-black/55 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white backdrop-blur-sm transition-colors group-hover:bg-ibiza-green group-hover:text-black">{L.tickets} <ChevronRight size={10} /></span>
+                  <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 rounded-full bg-black/55 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white backdrop-blur-sm transition-colors group-hover:bg-ibiza-green group-hover:text-white">{L.tickets} <ChevronRight size={10} /></span>
                 </div>
                 {/* Right half — red panel: event name + date, centred */}
                 <div className="flex w-[45%] flex-col items-center justify-center gap-1 p-2.5 text-center" style={{ backgroundColor: '#E14D68' }}>
@@ -472,7 +472,7 @@ function MonthGrid({
                 )}
                 {/* Mobile dot indicator when chips are hidden */}
                 {has && (
-                  <span className="md:hidden mt-auto w-1.5 h-1.5 rounded-full bg-ibiza-green shadow-[0_0_6px_rgba(61,106,150,0.6)]" />
+                  <span className="md:hidden mt-auto w-1.5 h-1.5 rounded-full bg-ibiza-green shadow-[0_0_6px_rgba(14,124,102,0.6)]" />
                 )}
               </div>
             </button>

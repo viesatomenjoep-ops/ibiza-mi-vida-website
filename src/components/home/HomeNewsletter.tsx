@@ -57,7 +57,7 @@ export function HomeNewsletter({ locale = 'nl' }: { locale?: string }) {
       {/* soft gold glow */}
       <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-gold/20 blur-[120px]" />
       <div className="relative mx-auto max-w-3xl px-4 text-center">
-        <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
+        <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-gold-soft">
           {t(KICKER, locale)}
         </span>
         <h2 className="mt-4 font-serif text-3xl md:text-5xl font-black tracking-tight">
@@ -68,7 +68,7 @@ export function HomeNewsletter({ locale = 'nl' }: { locale?: string }) {
         </p>
 
         {submitted ? (
-          <div className="mx-auto mt-9 flex max-w-md items-center justify-center gap-3 rounded-full border border-gold/40 bg-gold/10 px-6 py-4 text-gold">
+          <div className="mx-auto mt-9 flex max-w-md items-center justify-center gap-3 rounded-full border border-gold/40 bg-gold/10 px-6 py-4 text-gold-soft">
             <Check size={20} />
             <span className="font-semibold">{t(SUCCESS, locale)}</span>
           </div>
@@ -93,7 +93,7 @@ export function HomeNewsletter({ locale = 'nl' }: { locale?: string }) {
             </div>
             <button
               type="submit"
-              className="shrink-0 rounded-full bg-gold px-8 py-4 font-serif text-sm font-black uppercase tracking-widest text-obsidian transition-colors hover:bg-white"
+              className="shrink-0 rounded-full bg-gold px-8 py-4 font-serif text-sm font-black uppercase tracking-widest text-white transition-colors hover:bg-white"
             >
               {t(BUTTON, locale)}
             </button>

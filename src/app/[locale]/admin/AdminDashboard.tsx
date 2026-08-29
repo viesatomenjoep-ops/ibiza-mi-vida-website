@@ -217,7 +217,7 @@ export default function AdminDashboard() {
                   <button 
                     onClick={handleSaveDrafts}
                     disabled={saving}
-                    className="bg-black text-white px-6 py-3 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-ibiza-green hover:text-black transition-colors flex items-center gap-2 disabled:opacity-50"
+                    className="bg-black text-white px-6 py-3 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-ibiza-green hover:text-white transition-colors flex items-center gap-2 disabled:opacity-50"
                   >
                     {saving ? <RefreshCw className="animate-spin" size={16} /> : <Save size={16} />}
                     Opslaan ({draftListings.length})

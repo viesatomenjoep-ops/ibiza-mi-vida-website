@@ -89,7 +89,7 @@ export function EventDetailLayout({
             </div>
           </div>
           {/* Date Badge */}
-          <div className="w-16 h-16 shrink-0 bg-[#7086F8] rounded-full flex flex-col items-center justify-center text-white shadow-md">
+          <div className="w-16 h-16 shrink-0 bg-gold rounded-full flex flex-col items-center justify-center text-white shadow-md">
             <span className="font-sans text-xl font-semibold leading-none">{dateLabel.day}</span>
             <span className="font-sans text-xs font-light mt-0.5">{dateLabel.month}</span>
           </div>
@@ -163,7 +163,7 @@ export function EventDetailLayout({
                   <span className="font-sans text-[16px] text-velvet-obsidian truncate">{ticket.title}</span>
                   <span className="font-sans text-[12px] text-[#7C8690] font-light line-clamp-1">{ticket.description}</span>
                 </div>
-                <div className="font-sans text-[18px] font-semibold text-[#7086F8] shrink-0">
+                <div className="font-sans text-[18px] font-semibold text-gold shrink-0">
                   {ticket.priceLabel}
                 </div>
               </div>

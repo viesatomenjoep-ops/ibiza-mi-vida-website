@@ -149,7 +149,7 @@ export function VenueLocationMap({
           href={directionsLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full bg-ibiza-green px-4 py-2.5 text-sm font-bold text-black transition-all hover:brightness-95"
+          className="inline-flex items-center gap-2 rounded-full bg-ibiza-green px-4 py-2.5 text-sm font-bold text-white transition-all hover:brightness-95"
         >
           <Navigation size={16} /> {L.directions}
         </a>
@@ -208,7 +208,7 @@ export function VenueLocationMap({
                 href={directionsLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-ibiza-green px-4 py-2.5 text-sm font-bold text-black transition-all hover:brightness-95"
+                className="inline-flex items-center gap-2 rounded-full bg-ibiza-green px-4 py-2.5 text-sm font-bold text-white transition-all hover:brightness-95"
               >
                 <Navigation size={16} /> {L.directions}
               </a>

@@ -126,7 +126,7 @@ export function VenueCalendarList({ dates, venueName, locale, basePath = 'club-t
 
                 {/* Event Info */}
                 <div className="flex-1 flex flex-col justify-center">
-                  <Link href={`/${basePath}/${event.venueSlug}/${event.eventSlug}`} className="hover:text-blue-600 transition-colors">
+                  <Link href={`/${basePath}/${event.venueSlug}/${event.eventSlug}`} className="hover:text-gold transition-colors">
                     <h3 className="font-serif text-xl md:text-2xl font-bold text-[#1A1A1A] mb-2 leading-tight">
                       {event.eventName || event.name}
                     </h3>

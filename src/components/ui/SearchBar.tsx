@@ -70,7 +70,7 @@ export function SearchBar({ placeholder = "Zoek bestemmingen & ervaringen", loca
     switch (type) {
       case 'Club': return <Building size={16} className="text-purple-500" />
       case 'Event': return <Calendar size={16} className="text-[#00A698]" />
-      case 'Location': return <MapPin size={16} className="text-blue-500" />
+      case 'Location': return <MapPin size={16} className="text-gold" />
       case 'Experience': return <Star size={16} className="text-amber-500" />
       default: return <Search size={16} className="text-slate-400" />
     }

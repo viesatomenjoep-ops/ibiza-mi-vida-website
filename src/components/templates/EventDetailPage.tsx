@@ -337,7 +337,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
             <AnimatedSection delay={130}>
               <details className="group rounded-2xl border border-black/10 bg-black/5 p-4 shadow-md transition-colors open:border-ibiza-green/40 open:bg-white md:p-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-xl">
-                  <span className="flex items-center gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Music size={22} /></span> {S.lineup}</span>
+                  <span className="flex items-center gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-white"><Music size={22} /></span> {S.lineup}</span>
                   <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-black/15 text-xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <div className="mt-5 flex flex-col gap-5">
@@ -363,7 +363,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
             <AnimatedSection delay={160}>
               <details className="group rounded-2xl border border-black/10 bg-black/5 p-4 shadow-md transition-colors open:border-ibiza-green/40 open:bg-white md:p-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-xl">
-                  <span className="flex items-center gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Clock size={22} /></span> {S.times}</span>
+                  <span className="flex items-center gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-white"><Clock size={22} /></span> {S.times}</span>
                   <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-black/15 text-xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <div className="mt-5 flex flex-wrap gap-3">
@@ -389,7 +389,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
             <AnimatedSection delay={180}>
               <details className="group rounded-2xl border border-black/10 bg-black/5 p-4 shadow-md transition-colors open:border-ibiza-green/40 open:bg-white md:p-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-xl">
-                  <span className="flex items-center gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Info size={22} /></span> {T.aboutTitle(eventName)}</span>
+                  <span className="flex items-center gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-white"><Info size={22} /></span> {T.aboutTitle(eventName)}</span>
                   <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-black/15 text-xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
 
@@ -474,7 +474,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
             <AnimatedSection delay={200}>
               <details className="group rounded-2xl border border-black/10 bg-black/5 p-4 shadow-md transition-colors open:border-ibiza-green/40 open:bg-white md:p-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-black text-black marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-[''] md:text-xl">
-                  <span className="flex items-center gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-black"><Check size={22} /></span> {T.importantTitle}</span>
+                  <span className="flex items-center gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ibiza-green text-white"><Check size={22} /></span> {T.importantTitle}</span>
                   <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-black/15 text-xl font-light leading-none text-ibiza-green transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <ul className="mt-5 flex flex-col gap-3">

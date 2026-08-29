@@ -146,9 +146,9 @@ export function CalendarModal({ customTrigger }: CalendarModalProps = {}) {
                           className={`
                             w-[30px] h-[30px] rounded-full flex items-center justify-center font-sans text-[14px] transition-all relative
                             ${isSelected 
-                              ? 'bg-[#7086F8] text-white shadow-sm' 
+                              ? 'bg-gold text-white shadow-sm' 
                               : hasEvent 
-                                ? 'border border-[#7086F8] text-[#030527] hover:bg-[#7086F8]/10' 
+                                ? 'border border-gold text-[#030527] hover:bg-gold/10' 
                                 : 'text-[#030527] hover:bg-black/5'}
                           `}
                         >

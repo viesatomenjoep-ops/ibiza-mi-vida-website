@@ -207,7 +207,7 @@ export default function TipsPage({ params }: { params: { locale: string } }) {
           <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-white/65">{OUTRO_TEXT[locale]}</p>
           <Link
             href={`${base}/calendar`}
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-gold px-8 py-4 font-serif text-sm font-black uppercase tracking-widest text-obsidian transition-colors hover:bg-white"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-gold px-8 py-4 font-serif text-sm font-black uppercase tracking-widest text-white transition-colors hover:bg-white"
           >
             {OUTRO_CTA[locale]}
           </Link>

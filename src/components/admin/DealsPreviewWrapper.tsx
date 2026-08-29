@@ -30,7 +30,7 @@ export function DealsPreviewWrapper({ children, isAdminPreview }: DealsPreviewWr
   return (
     <div className="relative">
       {/* Live Preview Indicator overlay */}
-      <div className="fixed bottom-4 left-4 z-50 rounded-full bg-velvet-obsidian/90 px-4 py-2 font-sans text-sm font-semibold text-gold shadow-lg backdrop-blur-md">
+      <div className="fixed bottom-4 left-4 z-50 rounded-full bg-velvet-obsidian/90 px-4 py-2 font-sans text-sm font-semibold text-gold-soft shadow-lg backdrop-blur-md">
         CMS Preview Active (Code-Synced)
       </div>
 

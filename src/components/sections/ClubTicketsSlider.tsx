@@ -17,10 +17,10 @@ export async function ClubTicketsSlider() {
       <div className="container mx-auto px-[5%] mb-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <p className="text-blue-600 font-semibold tracking-widest uppercase mb-3 text-sm">Official Club Tickets</p>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold transition-all duration-500 hover:text-blue-500 text-velvet-obsidian">Trending Venues</h2>
+            <p className="text-gold font-semibold tracking-widest uppercase mb-3 text-sm">Official Club Tickets</p>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold transition-all duration-500 hover:text-gold text-velvet-obsidian">Trending Venues</h2>
           </div>
-          <Link href="/club-tickets" className="inline-flex items-center gap-2 text-velvet-obsidian font-semibold hover:text-blue-500 transition-colors group">
+          <Link href="/club-tickets" className="inline-flex items-center gap-2 text-velvet-obsidian font-semibold hover:text-gold transition-colors group">
             See all clubs
             <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
           </Link>

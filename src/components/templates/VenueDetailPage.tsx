@@ -271,10 +271,10 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                 <h2 className="text-3xl md:text-4xl font-serif font-bold">{T.weeklyTitlePrefix} {club.name}</h2>
               </div>
               <div className="flex gap-2 shrink-0 hidden md:flex">
-                <button onClick={() => scrollRail(weeklyRef, -1)} className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center hover:bg-ibiza-green transition-colors text-neutral-900">
+                <button onClick={() => scrollRail(weeklyRef, -1)} className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center hover:bg-ibiza-green transition-colors text-white">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
                 </button>
-                <button onClick={() => scrollRail(weeklyRef, 1)} className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center hover:bg-ibiza-green transition-colors text-neutral-900">
+                <button onClick={() => scrollRail(weeklyRef, 1)} className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center hover:bg-ibiza-green transition-colors text-white">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
                 </button>
               </div>
@@ -293,13 +293,13 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                       </div>
                     )}
                     <span className="absolute top-3 left-3 bg-white/90 px-3 py-1 rounded-full text-[10px] font-bold z-10 text-neutral-900">{club.name}</span>
-                    <span className="absolute top-3 right-3 bg-ibiza-green px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase z-10 text-neutral-900">{party.dayOfWeek}</span>
+                    <span className="absolute top-3 right-3 bg-ibiza-green px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase z-10 text-white">{party.dayOfWeek}</span>
                   </div>
                   <div className="p-4 text-neutral-900">
                     <h3 className="text-lg font-bold leading-tight mb-2 truncate text-neutral-900">{party.name}</h3>
                     <div className="flex justify-between items-center mt-3">
                       <div className="text-xs text-neutral-500 font-semibold uppercase tracking-wider">{T.ticketsUpper}</div>
-                      <button className="bg-ibiza-mint hover:bg-ibiza-green text-neutral-900 font-bold text-xs px-4 py-2 rounded-full transition-colors">{T.tickets}</button>
+                      <button className="bg-ibiza-mint hover:bg-ibiza-green text-white font-bold text-xs px-4 py-2 rounded-full transition-colors">{T.tickets}</button>
                     </div>
                   </div>
                 </Link>
@@ -336,7 +336,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                       <h3 className="text-lg md:text-xl font-bold truncate text-neutral-900">{eventName}</h3>
                    </div>
                    <div className="shrink-0 hidden md:block">
-                      <button className="bg-ibiza-green text-neutral-900 font-bold text-sm px-5 py-2.5 rounded-full hover:brightness-95 transition-all">
+                      <button className="bg-ibiza-green text-white font-bold text-sm px-5 py-2.5 rounded-full hover:brightness-95 transition-all">
                         {T.buyTickets}
                       </button>
                    </div>
@@ -413,7 +413,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
               <details key={i} className="group bg-[#0D0509] border border-white/10 rounded-2xl overflow-hidden transition-all open:border-ibiza-green/40" open={i === 0}>
                 <summary className="flex items-center justify-between gap-4 p-6 text-xl md:text-2xl font-bold cursor-pointer list-none [&::-webkit-details-marker]:hidden [&::marker]:content-[''] text-white">
                   {faq.q}
-                  <div className="w-8 h-8 rounded-full bg-ibiza-green/20 text-ibiza-green shrink-0 flex items-center justify-center transition-transform group-open:rotate-45 group-open:bg-ibiza-green group-open:text-black">
+                  <div className="w-8 h-8 rounded-full bg-ibiza-green/20 text-ibiza-green shrink-0 flex items-center justify-center transition-transform group-open:rotate-45 group-open:bg-ibiza-green group-open:text-white">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><path d="M12 5v14M5 12h14"/></svg>
                   </div>
                 </summary>
@@ -440,7 +440,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
               window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' });
             }
           }}
-          className="bg-ibiza-green text-black font-black uppercase tracking-wider px-8 py-3.5 rounded-full hover:brightness-95 transition-all shadow-lg active:scale-95"
+          className="bg-ibiza-green text-white font-black uppercase tracking-wider px-8 py-3.5 rounded-full hover:brightness-95 transition-all shadow-lg active:scale-95"
         >
           {T.viewTickets}
         </button>

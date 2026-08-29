@@ -342,7 +342,7 @@ export default async function ArtistPage({ params }: Props) {
           </div>
           <a
             href="#tickets"
-            className="bg-ibiza-green text-black font-black uppercase tracking-wider px-8 py-3.5 rounded-full hover:brightness-95 transition-all shadow-lg active:scale-95"
+            className="bg-ibiza-green text-white font-black uppercase tracking-wider px-8 py-3.5 rounded-full hover:brightness-95 transition-all shadow-lg active:scale-95"
           >
             {VIEW_TICKETS[locale]}
           </a>

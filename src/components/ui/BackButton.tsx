@@ -32,8 +32,8 @@ export function BackButton({ locale = 'nl', fallbackHref, variant = 'hero' }: { 
   }
 
   const cls = variant === 'top'
-    ? 'fixed left-3 top-[calc(var(--nav-h)+4px)] z-[120] border-black/10 bg-white/90 text-black backdrop-blur-md hover:bg-ibiza-green md:left-5'
-    : 'absolute bottom-3 right-3 z-30 border-white/20 bg-black/55 text-white backdrop-blur-md hover:bg-ibiza-green hover:text-black md:bottom-4 md:right-4'
+    ? 'fixed left-3 top-[calc(var(--nav-h)+4px)] z-[120] border-black/10 bg-white/90 text-white backdrop-blur-md hover:bg-ibiza-green md:left-5'
+    : 'absolute bottom-3 right-3 z-30 border-white/20 bg-black/55 text-white backdrop-blur-md hover:bg-ibiza-green hover:text-white md:bottom-4 md:right-4'
 
   return (
     <button

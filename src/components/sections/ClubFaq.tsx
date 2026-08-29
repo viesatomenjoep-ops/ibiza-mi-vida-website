@@ -28,7 +28,7 @@ export function ClubFaq() {
     <section className="px-[5%] py-20 bg-white">
       <div className="container mx-auto max-w-3xl">
         <div className="text-center mb-12">
-          <p className="text-blue-500 font-semibold tracking-widest uppercase mb-2">Tickets FAQ</p>
+          <p className="text-gold font-semibold tracking-widest uppercase mb-2">Tickets FAQ</p>
           <h2 className="text-4xl font-serif font-bold mb-4">Frequently Asked Questions</h2>
           <p className="text-gray-600">Find quick answers to frequently asked questions about booking club tickets.</p>
         </div>

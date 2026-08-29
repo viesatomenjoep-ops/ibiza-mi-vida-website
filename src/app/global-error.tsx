@@ -23,7 +23,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
           <button
             type="button"
             onClick={() => reset()}
-            style={{ marginTop: 32, borderRadius: 999, background: '#3D6A96', color: '#fff', border: 'none', padding: '14px 28px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 12, cursor: 'pointer' }}
+            style={{ marginTop: 32, borderRadius: 999, background: '#0E7C66', color: '#fff', border: 'none', padding: '14px 28px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 12, cursor: 'pointer' }}
           >
             Try again
           </button>

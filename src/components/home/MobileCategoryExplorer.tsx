@@ -15,7 +15,7 @@ const allCategories = [
   { label: 'Car & Scooter Rental', href: '/car-scooter-rental', icon: Car, desc: 'Explore at your own pace' },
 ]
 
-const colors = ['bg-[#7086F8]', 'bg-[#89F4C7]', 'bg-[#F8B5E5]', 'bg-[#F6FE80]']
+const colors = ['bg-[#0E7C66]', 'bg-[#89F4C7]', 'bg-[#F8B5E5]', 'bg-[#F6FE80]']
 const tabs = ['All', 'Boats', 'Clubs', 'VIP', 'Rentals']
 
 export function MobileCategoryExplorer() {
@@ -52,7 +52,7 @@ export function MobileCategoryExplorer() {
       <div className="px-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
         {allCategories.map((cat, i) => {
           const colorClass = colors[i % colors.length]
-          const isDarkText = colorClass !== 'bg-[#7086F8]'
+          const isDarkText = colorClass !== 'bg-[#0E7C66]'
           const textColor = isDarkText ? 'text-[#030527]' : 'text-white'
           const subtitleColor = isDarkText ? 'text-[#030527]/70' : 'text-white/70'
           const badgeBg = isDarkText ? 'bg-white/50' : 'bg-[#030527]'

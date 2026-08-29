@@ -73,10 +73,10 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           <HeroShowIntro locale={locale} />
           <Link
             href={`${base}/calendar`}
-            className="pointer-events-auto mt-10 inline-flex items-center gap-2 rounded-full border border-gold/60 bg-gold/10 px-8 py-3.5 font-serif text-xs font-bold uppercase tracking-[0.25em] text-gold backdrop-blur-sm transition-all hover:border-gold hover:bg-gold hover:text-obsidian"
+            className="pointer-events-auto mt-10 inline-flex items-center gap-2 rounded-full border border-gold/60 bg-gold/10 px-8 py-3.5 font-serif text-xs font-bold uppercase tracking-[0.25em] text-gold-soft backdrop-blur-sm transition-all hover:border-gold hover:bg-gold hover:text-white"
             style={{
-              boxShadow: '0 0 18px 1px rgba(61,106,150,0.55), inset 0 0 12px rgba(61,106,150,0.25)',
-              textShadow: '0 0 10px rgba(61,106,150,0.85)',
+              boxShadow: '0 0 18px 1px rgba(14,124,102,0.55), inset 0 0 12px rgba(14,124,102,0.25)',
+              textShadow: '0 0 10px rgba(14,124,102,0.85)',
             }}
           >
             {({ nl: 'Bekijk de agenda', en: 'View the calendar', es: 'Ver la agenda', de: 'Zum Kalender', fr: 'Voir l’agenda' } as Record<string, string>)[locale] || 'View the calendar'}
@@ -136,7 +136,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                     
                     <div className="flex flex-col flex-1 min-w-0 py-1 text-neutral-900">
                       <div className="flex items-center gap-2 mb-1.5">
-                        <span className="bg-ibiza-green text-neutral-950 text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
+                        <span className="bg-ibiza-green text-white text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
                           {new Date(dateObj.date).toLocaleDateString(locale === 'nl' ? 'nl-NL' : locale === 'es' ? 'es-ES' : 'en-US', { weekday: 'short', day: 'numeric', month: 'short' })}
                         </span>
                       </div>
@@ -154,7 +154,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                       </div>
                     </div>
                     
-                    <div className="hidden sm:flex shrink-0 w-12 h-12 rounded-full bg-ibiza-mint items-center justify-center group-hover:bg-ibiza-green transition-colors text-neutral-900 mr-2">
+                    <div className="hidden sm:flex shrink-0 w-12 h-12 rounded-full bg-ibiza-mint items-center justify-center group-hover:bg-ibiza-green transition-colors text-white mr-2">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </div>
                   </Reveal>

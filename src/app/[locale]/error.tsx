@@ -48,7 +48,7 @@ export default function LocaleError({ error, reset }: { error: Error & { digest?
           <button
             type="button"
             onClick={() => reset()}
-            className="rounded-full bg-gold px-7 py-3.5 font-serif text-xs font-black uppercase tracking-widest text-obsidian transition-colors hover:bg-white"
+            className="rounded-full bg-gold px-7 py-3.5 font-serif text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-white"
           >
             {RETRY[locale]}
           </button>

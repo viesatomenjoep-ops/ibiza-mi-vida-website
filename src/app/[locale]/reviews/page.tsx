@@ -92,7 +92,7 @@ export default function ReviewsPage() {
           <Link href="/club-tickets" className="px-5 py-3 rounded-full bg-[#F7F8FA] text-[#7C8690] font-sans text-[14px] whitespace-nowrap transition-colors">
             Events
           </Link>
-          <button className="px-5 py-3 rounded-full bg-[#7086F8] text-white font-sans text-[14px] font-medium whitespace-nowrap shadow-sm">
+          <button className="px-5 py-3 rounded-full bg-gold text-white font-sans text-[14px] font-medium whitespace-nowrap shadow-sm">
             Reviews
           </button>
         </div>
@@ -111,7 +111,7 @@ export default function ReviewsPage() {
                 ))}
               </div>
               <div className="flex items-center gap-2">
-                <span className="bg-[#7086F8] text-white text-[10px] px-2 py-0.5 rounded-full font-sans">Excellent</span>
+                <span className="bg-gold text-white text-[10px] px-2 py-0.5 rounded-full font-sans">Excellent</span>
                 <span className="font-sans text-[12px] text-[#7C8690]">Based on 982 Reviews</span>
               </div>
             </div>

@@ -279,7 +279,7 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
           href={waLink(boat, T)}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-ibiza-green px-4 py-2 text-sm font-bold text-black transition-all hover:brightness-95 active:scale-[0.98]"
+          className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-ibiza-green px-4 py-2 text-sm font-bold text-white transition-all hover:brightness-95 active:scale-[0.98]"
         >
           <MessageCircle size={16} /> {T.inquire}
         </a>
@@ -404,9 +404,9 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
       <BackButton locale={locale} fallbackHref={`/${locale}`} variant="top" />
       <style dangerouslySetInnerHTML={{ __html: `
         .fleet-range { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 9999px; outline: none; cursor: pointer; }
-        .fleet-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #3D6A96; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; transition: transform .15s ease; }
+        .fleet-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #0E7C66; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; transition: transform .15s ease; }
         .fleet-range::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.12); }
-        .fleet-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #3D6A96; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; }
+        .fleet-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #0E7C66; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; }
         .fleet-range:disabled::-webkit-slider-thumb { cursor: not-allowed; border-color: #9ca3af; }
       ` }} />
       {/* Hero — boat image as a full-bleed background; on mobile it fills the first viewport so the
@@ -450,7 +450,7 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
           <div className="mt-6">
             <div className="mb-2 flex items-center justify-between text-sm font-bold text-black">
               <span className="text-black/50">€{PRICE_MIN.toLocaleString(bcp)}</span>
-              <span className="rounded-full bg-ibiza-green px-3 py-1 text-black">
+              <span className="rounded-full bg-ibiza-green px-3 py-1 text-white">
                 {isPriceActive ? P.upTo(maxPrice.toLocaleString(bcp)) : P.any}
               </span>
               <span className="text-black/50">€{PRICE_MAX.toLocaleString(bcp)}+</span>
@@ -464,7 +464,7 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
               disabled={priceLocked}
               onChange={e => setMaxPrice(parseInt(e.target.value, 10))}
               className="fleet-range w-full disabled:opacity-60"
-              style={{ background: `linear-gradient(to right, #3D6A96 0%, #3D6A96 ${pricePct}%, #e5e5e5 ${pricePct}%, #e5e5e5 100%)` }}
+              style={{ background: `linear-gradient(to right, #0E7C66 0%, #0E7C66 ${pricePct}%, #e5e5e5 ${pricePct}%, #e5e5e5 100%)` }}
               aria-label={P.heading}
             />
           </div>
@@ -479,7 +479,7 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
                   key={v}
                   onClick={() => { setMaxPrice(v); setPriceLocked(true); setPriceDraft(''); }}
                   className={`rounded-full px-4 py-2 text-xs font-bold transition-all ${
-                    on ? 'bg-ibiza-green text-black shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200'
+                    on ? 'bg-ibiza-green text-white shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200'
                   }`}
                 >
                   ≤ €{v.toLocaleString(bcp)}
@@ -489,7 +489,7 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
             <button
               onClick={resetPrice}
               className={`rounded-full px-4 py-2 text-xs font-bold transition-all ${
-                !isPriceActive ? 'bg-ibiza-green text-black shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200'
+                !isPriceActive ? 'bg-ibiza-green text-white shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200'
               }`}
             >
               {P.any}
@@ -526,7 +526,7 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
             href={`https://wa.me/${WHATSAPP}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-ibiza-green px-7 py-4 font-bold text-black transition-all hover:brightness-95 active:scale-95"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-ibiza-green px-7 py-4 font-bold text-white transition-all hover:brightness-95 active:scale-95"
           >
             <MessageCircle size={19} /> {T.whatsapp}
           </a>
@@ -545,7 +545,7 @@ function FilterTab({ active, onClick, children }: { active: boolean; onClick: ()
     <button
       onClick={onClick}
       className={`rounded-full px-6 py-3 text-sm font-bold transition-all duration-200 md:text-base ${
-        active ? 'bg-ibiza-green text-black shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200 hover:text-black'
+        active ? 'bg-ibiza-green text-white shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200 hover:text-black'
       }`}
     >
       {children}

@@ -215,7 +215,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
                     key={tab.key}
                     onClick={() => { setCategoryFilter(tab.key); setSelectedVenue(null); }}
                     aria-pressed={active}
-                    className={`rounded-full px-4 py-1.5 text-[10px] md:text-xs font-bold uppercase tracking-widest border transition-all ${active ? 'bg-ibiza-green text-black border-ibiza-green shadow-[0_0_12px_rgba(61,106,150,0.35)]' : 'bg-white text-black/50 border-black/10 hover:border-black hover:text-black'}`}
+                    className={`rounded-full px-4 py-1.5 text-[10px] md:text-xs font-bold uppercase tracking-widest border transition-all ${active ? 'bg-ibiza-green text-white border-ibiza-green shadow-[0_0_12px_rgba(14,124,102,0.35)]' : 'bg-white text-black/50 border-black/10 hover:border-black hover:text-black'}`}
                   >
                     {tab.label}
                   </button>
@@ -287,7 +287,7 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
                   className={`snap-start shrink-0 flex flex-col items-center gap-3 group w-20 md:w-24`}
                   onClick={() => setSelectedVenue(v.slug)}
                 >
-                  <div className={`w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-full overflow-hidden bg-white border-2 transition-all duration-300 ${isActive ? 'border-ibiza-green shadow-[0_0_15px_rgba(61,106,150,0.3)] scale-110' : 'border-black/10 group-hover:border-black/30 group-hover:scale-105'}`}>
+                  <div className={`w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-full overflow-hidden bg-white border-2 transition-all duration-300 ${isActive ? 'border-ibiza-green shadow-[0_0_15px_rgba(14,124,102,0.3)] scale-110' : 'border-black/10 group-hover:border-black/30 group-hover:scale-105'}`}>
                     {vImg ? (
                       <img src={optImg(vImg, 160)} loading="lazy" alt={v.name} className={`w-full h-full object-contain p-2`} />
                     ) : (

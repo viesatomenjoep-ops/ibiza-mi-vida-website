@@ -35,7 +35,7 @@ export function EventTicketSelector({ affLink, locale = 'nl' }: EventTicketSelec
     <>
       <button
         onClick={() => setOpen(true)}
-        className="bg-ibiza-green text-black px-6 py-3 rounded-xl font-black text-sm uppercase tracking-wider transition-all hover:brightness-95 hover:scale-105 whitespace-nowrap shadow-md flex items-center justify-center gap-2"
+        className="bg-ibiza-green text-white px-6 py-3 rounded-xl font-black text-sm uppercase tracking-wider transition-all hover:brightness-95 hover:scale-105 whitespace-nowrap shadow-md flex items-center justify-center gap-2"
       >
         Tickets
         <ExternalLink size={16} />
@@ -45,7 +45,7 @@ export function EventTicketSelector({ affLink, locale = 'nl' }: EventTicketSelec
         <div className="fixed inset-0 z-[120] flex items-center justify-center p-4" role="dialog" aria-modal="true">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setOpen(false)} />
           <div className="relative z-10 w-full max-w-md rounded-3xl border border-black/10 bg-white p-7 shadow-2xl md:p-8 text-left">
-            <span className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-ibiza-green text-black"><Ticket size={24} /></span>
+            <span className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-ibiza-green text-white"><Ticket size={24} /></span>
             <h3 className="font-serif text-2xl font-black text-black md:text-3xl">{C.title}</h3>
             <p className="mt-3 text-base font-medium leading-relaxed text-black/70">{C.body}</p>
             <div className="mt-7 flex flex-col-reverse gap-3 sm:flex-row">
@@ -57,7 +57,7 @@ export function EventTicketSelector({ affLink, locale = 'nl' }: EventTicketSelec
               </button>
               <button
                 onClick={go}
-                className="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-3.5 font-serif text-base font-black uppercase text-black shadow-md transition-all hover:brightness-95"
+                className="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-ibiza-green px-6 py-3.5 font-serif text-base font-black uppercase text-white shadow-md transition-all hover:brightness-95"
               >
                 {C.yes} <ExternalLink size={18} />
               </button>

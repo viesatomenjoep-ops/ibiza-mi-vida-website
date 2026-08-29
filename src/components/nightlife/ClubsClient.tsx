@@ -191,7 +191,7 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
             {tabs.map(t => {
               const on = filter === t.key;
               // All clubs = red, Day clubs = black, Night clubs = electric blue (palette match)
-              const bg = t.key === 'all' ? '#E14D68' : t.key === 'day' ? '#111111' : '#00A3FF';
+              const bg = t.key === 'all' ? '#E14D68' : t.key === 'day' ? '#111111' : '#0E7C66';
               return (
                 <button
                   key={t.key}

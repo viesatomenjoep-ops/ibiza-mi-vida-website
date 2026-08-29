@@ -323,7 +323,7 @@ export default function ClubTicketsClient({
               {/* Next Button */}
               <button 
                 onClick={() => scrollSlider(1)}
-                className="absolute -right-4 z-40 bg-white hover:bg-ibiza-green hover:text-velvet-obsidian text-black border border-black/10 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
+                className="absolute -right-4 z-40 bg-white hover:bg-ibiza-green hover:text-velvet-obsidian text-white border border-black/10 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
                 aria-label="Next"
               >
                 &rarr;

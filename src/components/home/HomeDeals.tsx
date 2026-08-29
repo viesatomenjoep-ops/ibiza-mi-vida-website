@@ -46,12 +46,12 @@ function DealTile({ d }: { d: Deal }) {
       {d.image ? <img src={optImg(d.image, 500)} loading="lazy" alt={d.title} className="absolute inset-0 h-full w-full object-cover" /> : <div className="absolute inset-0 bg-neutral-800" />}
       <span className="deal-sweep pointer-events-none absolute inset-0 z-[5]" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
-      {d.price > 0 && <span className="absolute left-1/2 top-3 z-10 -translate-x-1/2 rounded-full bg-ibiza-green px-3.5 py-1 text-sm font-black text-black shadow-lg">€{d.price}{d.priceLabel || ''}</span>}
+      {d.price > 0 && <span className="absolute left-1/2 top-3 z-10 -translate-x-1/2 rounded-full bg-ibiza-green px-3.5 py-1 text-sm font-black text-white shadow-lg">€{d.price}{d.priceLabel || ''}</span>}
       <div className="absolute inset-x-0 bottom-0 z-10 p-4">
         <div className="line-clamp-2 font-serif text-lg font-black leading-tight text-white drop-shadow">{d.title}</div>
         <div className="mt-1.5 flex items-center justify-between gap-2">
           {d.sub ? <span className="line-clamp-1 text-xs font-semibold text-white/85">{d.sub}</span> : <span />}
-          <span className="shrink-0 rounded-full bg-ibiza-green px-2.5 py-1 text-[10px] font-black uppercase tracking-wide text-black">{d.dateLabel}</span>
+          <span className="shrink-0 rounded-full bg-ibiza-green px-2.5 py-1 text-[10px] font-black uppercase tracking-wide text-white">{d.dateLabel}</span>
         </div>
       </div>
     </>
