@@ -82,7 +82,7 @@ export function HomeTonight({
               key={e.id}
               delay={i * 70}
               as={Link as any}
-              href={e.href}
+              href={`${e.href}?from=homepage-tonight`}
               className="tonight-card group"
             >
               <div className="tonight-media">

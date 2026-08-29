@@ -168,7 +168,7 @@ export default function DealsClient({ dates, translations }: DealsClientProps) {
               const timeStr = d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
 
               return (
-                <Link href={ctLink(date.affLink, localePath)} key={date.id || idx} className="lcard in" target="_blank" rel="noopener noreferrer">
+                <Link href={ctLink(date.affLink, localePath, 'homepage-deals', date.eventName || date.name)} key={date.id || idx} className="lcard in" target="_blank" rel="noopener noreferrer">
                   <div className="media">
                     {isDeal && <div className="lbadge deal">{translations.dealBadge}</div>}
                     {isHot && !isDeal && <div className="lbadge hot">{translations.hotBadge}</div>}

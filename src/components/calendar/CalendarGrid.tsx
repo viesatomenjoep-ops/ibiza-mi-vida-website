@@ -96,7 +96,7 @@ export function CalendarGrid({ days, venues, events, locale }: Props) {
                           <div className="mt-auto flex flex-col items-center gap-3 pt-2">
                             <span className="font-bold text-black">{priceText}</span>
                             <a 
-                              href={ctLink(event.affLink, locale)} 
+                              href={ctLink(event.affLink, locale, 'calendar', event.eventName || event.name)} 
                               target="_blank" 
                               rel="noopener noreferrer"
                               className="w-full bg-[#1A1A1A] text-white text-center py-2.5 rounded-lg text-sm font-bold hover:bg-black transition-colors"

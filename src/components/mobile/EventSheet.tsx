@@ -89,7 +89,7 @@ export function EventSheet({
         </a>
         {e.affLink ? (
           <a
-            href={ctLink(e.affLink, locale)}
+            href={ctLink(e.affLink, locale, 'app', e.name)}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 rounded-full bg-app-accent px-4 py-3.5 text-[13px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-app-accent/25 outline-none transition-colors motion-reduce:transition-none hover:bg-app-accent-soft focus-visible:ring-2 focus-visible:ring-white active:scale-[0.97] motion-reduce:active:scale-100"

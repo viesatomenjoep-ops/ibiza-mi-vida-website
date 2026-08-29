@@ -27,7 +27,7 @@ export function EventTicketSelector({ affLink, locale = 'nl' }: EventTicketSelec
   const C = CONFIRM[locale] || CONFIRM.en;
 
   const go = () => {
-    if (affLink) window.open(ctLink(affLink, locale), '_blank');
+    if (affLink) window.open(ctLink(affLink, locale, 'event'), '_blank');
     setOpen(false);
   };
 

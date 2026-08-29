@@ -1,7 +1,11 @@
 'use client'
 
 
-import { ctLink } from '@/lib/ct-link'
+import { ctLink, type CtSurface } from '@/lib/ct-link'
+
+// Allow-list: `from` comes off the URL, so it is untrusted input and must never
+// be reflected into an outbound link unchecked.
+const ALLOWED_FROM = new Set(['homepage-tonight', 'homepage-featured', 'homepage-deals', 'calendar', 'venue', 'artist', 'agenda', 'app'])
 import { useState } from 'react'
 import { Ticket, ExternalLink } from 'lucide-react'
 
@@ -21,7 +25,13 @@ export function EventCheckoutButton({ affLink, locale = 'nl', label, variant = '
 
   const go = () => {
     setOpen(false)
-    if (affLink) window.open(ctLink(affLink, locale), '_blank')
+    if (!affLink) return
+    // `?from=` is set by internal links (e.g. the homepage "tonight" rail) so
+    // the surface that actually started the journey survives the hop through
+    // this page instead of everything collapsing into 'event'.
+    const from = new URLSearchParams(window.location.search).get('from')
+    const surface = (from && ALLOWED_FROM.has(from) ? from : 'event') as CtSurface
+    window.open(ctLink(affLink, locale, surface), '_blank')
   }
 
   const cls = variant === 'pill'

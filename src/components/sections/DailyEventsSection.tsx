@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getAllDates } from '@/lib/clubtickets'
 import { ArrowRight } from 'lucide-react'
+import { ctLink } from '@/lib/ct-link'
 
 export async function DailyEventsSection() {
   try {
@@ -36,7 +37,7 @@ export async function DailyEventsSection() {
               return (
                 <Link 
                   key={`${dateObj.id}-${idx}`} 
-                  href={dateObj.affLink || `/club-tickets/${dateObj.venueSlug}/${dateObj.eventSlug}`}
+                  href={dateObj.affLink ? ctLink(dateObj.affLink, 'en', 'homepage-featured', dateObj.eventName || dateObj.name) : `/club-tickets/${dateObj.venueSlug}/${dateObj.eventSlug}`}
                   target={dateObj.affLink ? "_blank" : undefined}
                   rel={dateObj.affLink ? "noopener noreferrer" : undefined}
                   className="group relative flex flex-col justify-end snap-center shrink-0 w-[calc(100vw-2rem)] sm:w-[350px] md:w-[400px] h-[500px] md:h-[560px] rounded-3xl overflow-hidden bg-black shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-black/10"

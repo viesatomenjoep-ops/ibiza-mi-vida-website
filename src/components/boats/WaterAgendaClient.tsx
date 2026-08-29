@@ -11,6 +11,7 @@ import type { PickerEvent } from '@/lib/picker-event';
 import { WeekDockBar } from '@/components/ui/WeekDockBar';
 import { ScrollCue } from '@/components/ui/ScrollCue';
 import { optImg } from '@/lib/img';
+import { ctLink } from '@/lib/ct-link';
 
 // ── i18n labels (en, nl, de, es, fr) ──
 interface AgendaLabels {
@@ -361,7 +362,7 @@ function EventTile({ ev, locale, basePath = '' }: { ev: WaterAgendaEvent; locale
   const internal = basePath && ev.venueSlug && ev.eventSlug
     ? `/${locale}/${basePath}/${ev.venueSlug}/${ev.eventSlug}`
     : '';
-  const link = internal || ev.affLink || `/${locale}`;
+  const link = internal || ctLink(ev.affLink, locale, 'agenda', ev.eventName || ev.name) || `/${locale}`;
   const isExternal = link.startsWith('http');
   const price = priceShort(ev.prices);
   return (
