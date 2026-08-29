@@ -87,12 +87,12 @@ export function HeroShowIntro({ locale = 'nl' }: { locale?: string }) {
 
   return (
     <div className="flex w-full max-w-3xl flex-col items-center">
-      <h2
+      <h1
         className="hero-line-in font-serif font-black uppercase leading-[1.06] text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.85)]"
         style={{ fontSize: 'clamp(2rem, 6.4vw, 3.8rem)' }}
       >
         {headline}
-      </h2>
+      </h1>
       {/* Fixed height: the two sublines wrap to different line counts, and
           without a reserved box the swap would shift the layout. */}
       <p

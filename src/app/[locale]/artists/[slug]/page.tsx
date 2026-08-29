@@ -9,6 +9,7 @@ import { getArtist, getArtistDates, getVenues } from '@/lib/clubtickets'
 import { eventBasePath } from '@/lib/event-path'
 import { BackButton } from '@/components/ui/BackButton'
 import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
+import { BreadcrumbJsonLd, homeLabel, sectionLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 
 export const revalidate = 3600
@@ -228,6 +229,14 @@ export default async function ArtistPage({ params }: Props) {
 
   return (
     <div className="theme-monaco-vip bg-[#E14D68] text-white min-h-screen pb-24">
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[
+          { name: homeLabel(locale), path: '' },
+          { name: sectionLabel('artists', locale), path: 'artists' },
+          { name: artist.name },
+        ]}
+      />
       <BackButton locale={locale} fallbackHref={`/${locale}/artists`} variant="top" />
       {/* Hero Section */}
       <section className="relative h-[440px] md:h-[560px] overflow-hidden flex items-center justify-center text-center px-4 rounded-b-[36px] bg-black">

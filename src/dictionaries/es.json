@@ -112,7 +112,7 @@
   "vip_cat_f4": "Paquete de catering disponible",
   "vip_cat_f5": "Sistema de sonido premium",
   "vip_cat_f6": "Tumbonas y zonas de sombra",
-  "home_top_banner": "Ibiza Mivida, el mejor lugar para todos los eventos, fiestas en barco y mucho más",
+  "home_top_banner": "Ibiza Mi Vida, el mejor lugar para todos los eventos, fiestas en barco y mucho más",
   "cat_deals_title": "Ofertas del Día",
   "cat_deals_desc": "Descubre las mejores ofertas y descuentos de última hora para los eventos de hoy.",
   "cat_clubtickets_title": "Entradas de Club",
@@ -213,5 +213,9 @@
   "nav_about": "Sobre nosotros",
   "nav_contact": "Contacto",
   "nav_faq": "Preguntas frecuentes",
-  "nav_reviews": "Opiniones"
+  "nav_reviews": "Opiniones",
+  "nav_boats_hub": "Ibiza en barco",
+  "nav_boat_party": "Boat Parties",
+  "nav_privacy": "Privacidad",
+  "nav_terms": "Términos"
 }

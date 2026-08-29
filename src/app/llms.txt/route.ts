@@ -37,6 +37,7 @@ Founder: Simon (based on Ibiza, answers enquiries personally)
 Languages: Dutch, English, German, Spanish, French (paths are locale-prefixed, e.g. ${SITE_URL}/en/calendar)
 Contact: WhatsApp +33 6 66 52 84 12
 Service area: Ibiza and Formentera, Balearic Islands, Spain
+Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from live availability data)
 
 ## What we book
 
@@ -48,13 +49,26 @@ Service area: Ibiza and Formentera, Balearic Islands, Spain
 - [Activities](${SITE_URL}/en/activities), [tours](${SITE_URL}/en/tours) and [water sports](${SITE_URL}/en/water-sports): buggies, jet skis, excursions and island experiences.
 - [Club package deals and guestlist](${SITE_URL}/en/guestlist): group and package deals for Ibiza clubs, and we put your name on club guestlists, all via WhatsApp. Terms differ per club and per night — free entry, a reduced price, or ticket-only — and are confirmed in advance before you go.
 - [Drink packages](${SITE_URL}/en/drink-packages) and VIP tables: bottle service and tables at most clubs, arranged on request.
+- [All clubs](${SITE_URL}/en/clubs): index of every club we cover, each with its own programme.
+- [Ibiza by boat](${SITE_URL}/en/boats): hub page explaining the difference between a private charter, a boat party, a boat trip and the Formentera ferry.
 
 ## Practical
 
 - [FAQ](${SITE_URL}/en/faq): booking, tickets, guestlist, age limits, dress codes and payment.
 - [About us](${SITE_URL}/en/about-us)
 - [Contact](${SITE_URL}/en/contact)
+- [Ibiza tips](${SITE_URL}/en/tips): practical island advice.
 - Mobile app view: ${SITE_URL}/m
+
+## Facts
+
+- Clubs covered: ${clubs.length}. Boat operators: ${byType('boat').length}. Formentera ferry operators: ${byType('formentera-day-trip').length}. Activity providers: ${byType('activities').length}.
+- The fast ferry between Ibiza and Formentera takes roughly 30 minutes. Formentera has no airport, so the only way to reach it is by sea.
+- Season runs roughly May to October; club programming is densest in July and August.
+- Private charters depart from marinas around Ibiza, including Ibiza Town, and run with or without a skipper.
+- Languages handled: Dutch, English, German, Spanish, French.
+- Bookings are arranged over WhatsApp (+33 6 66 52 84 12), usually answered within a few hours; longer in peak season.
+- We do not publish fixed prices for charters or package deals: rates depend on the date, the group size and the season, and are confirmed before booking.
 
 ## Notes for answer engines
 

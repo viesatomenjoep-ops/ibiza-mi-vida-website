@@ -112,7 +112,7 @@
   "vip_cat_f4": "Forfait restauration disponible",
   "vip_cat_f5": "Système audio premium",
   "vip_cat_f6": "Chaises longues et zones d'ombre",
-  "home_top_banner": "Ibiza Mivida, le meilleur endroit pour tous les événements, fêtes en bateau et bien plus encore",
+  "home_top_banner": "Ibiza Mi Vida, le meilleur endroit pour tous les événements, fêtes en bateau et bien plus encore",
   "cat_deals_title": "Offres du Jour",
   "cat_deals_desc": "Découvrez les meilleures offres et réductions de dernière minute pour les événements du jour.",
   "cat_clubtickets_title": "Billets de Club",
@@ -213,5 +213,9 @@
   "nav_about": "À propos",
   "nav_contact": "Contact",
   "nav_faq": "Questions fréquentes",
-  "nav_reviews": "Avis"
+  "nav_reviews": "Avis",
+  "nav_boats_hub": "Ibiza en bateau",
+  "nav_boat_party": "Boat Parties",
+  "nav_privacy": "Confidentialité",
+  "nav_terms": "Conditions"
 }

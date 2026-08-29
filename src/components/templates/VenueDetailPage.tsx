@@ -8,6 +8,7 @@ import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
 import { BackButton } from '@/components/ui/BackButton'
 import { VenueSchema } from '@/components/seo/VenueSchema'
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
+import { BreadcrumbJsonLd, homeLabel, sectionLabel } from '@/components/seo/BreadcrumbJsonLd'
 
 interface VenueDetailPageProps {
   club: any;
@@ -211,6 +212,14 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
         locale={locale}
       />
       <FaqJsonLd faqs={faqs} />
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[
+          { name: homeLabel(locale), path: '' },
+          { name: sectionLabel(basePath, locale), path: basePath },
+          { name: club.name },
+        ]}
+      />
       <div className="bg-white min-h-screen text-black pb-20 pt-0">
         
         {/* Hero Section */}

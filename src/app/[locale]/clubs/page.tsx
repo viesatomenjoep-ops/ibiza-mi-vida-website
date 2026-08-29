@@ -1,13 +1,16 @@
 import type { Metadata } from 'next'
+import { staticMetadata } from '@/lib/seo-pages'
 import { supabase } from '@/lib/supabase/client'
 import ClubsClient from '@/components/nightlife/ClubsClient'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 
 export const revalidate = 3600
 
-export const metadata: Metadata = {
-  title: 'Clubs Ibiza — Alle clubs en feesten | Ibiza mi Vida',
-  description: 'Ontdek alle bekende clubs op Ibiza: Pacha, Amnesia, Ushuaïa, Hï en meer. Boek je officiële tickets direct online.',
+// Was a static `metadata` export: one Dutch title served to all five locales,
+// the brand suffix doubled (the layout template already appends it), and no
+// canonical or hreflang at all — the only page on the site missing both.
+export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+  return staticMetadata(params.locale, 'clubs')
 }
 
 export default async function NightlifePage({

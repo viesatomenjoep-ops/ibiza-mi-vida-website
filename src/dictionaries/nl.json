@@ -112,7 +112,7 @@
   "vip_cat_f4": "Catering pakket beschikbaar",
   "vip_cat_f5": "Premium geluidssysteem",
   "vip_cat_f6": "Zonbedden en schaduwplekken",
-  "home_top_banner": "Ibiza Mivida, de beste plek voor alle events, boat parties en veel meer",
+  "home_top_banner": "Ibiza Mi Vida, de beste plek voor alle events, boat parties en veel meer",
   "cat_deals_title": "Deals of the Day",
   "cat_deals_desc": "Ontdek de scherpste aanbiedingen en last-minute kortingen voor de heetste events van vandaag.",
   "cat_clubtickets_title": "Club Tickets",
@@ -213,5 +213,9 @@
   "nav_about": "Over ons",
   "nav_contact": "Contact",
   "nav_faq": "Veelgestelde vragen",
-  "nav_reviews": "Reviews"
+  "nav_reviews": "Reviews",
+  "nav_boats_hub": "Ibiza per boot",
+  "nav_boat_party": "Boat Parties",
+  "nav_privacy": "Privacybeleid",
+  "nav_terms": "Voorwaarden"
 }

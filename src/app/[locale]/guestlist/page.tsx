@@ -7,6 +7,7 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { Reveal } from '@/components/ui/Reveal'
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
 import { ServiceSchema } from '@/components/seo/ServiceSchema'
+import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { SERVICE_COPY } from '@/lib/service-schema-copy'
 import { PackageDealPicker } from '@/components/guestlist/PackageDealPicker'
 import { AuthorByline } from '@/components/seo/AuthorByline'
@@ -211,6 +212,13 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
         description={SERVICE_COPY.guestlist.description[locale]}
         serviceType={SERVICE_COPY.guestlist.serviceType}
         path={`${locale}/guestlist`}
+      />
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[
+          { name: homeLabel(locale), path: '' },
+          { name: TITLE[locale] },
+        ]}
       />
 
       {/* ── Hero ── */}

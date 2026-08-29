@@ -12,6 +12,7 @@ import { stripHtml } from '@/lib/html-utils'
 import { parseCTDescription } from '@/lib/ct-description'
 import { EventSchema } from '@/components/seo/EventSchema'
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
+import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { SITE_URL } from '@/lib/seo'
 
 import en from '@/dictionaries/en.json'
@@ -277,6 +278,14 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
         />
       )}
       <FaqJsonLd faqs={faqs} />
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[
+          { name: homeLabel(locale), path: '' },
+          { name: club.name, path: `${basePath}/${club.slug}` },
+          { name: eventName },
+        ]}
+      />
       {/* Hero */}
       <section className="relative flex h-[46vh] w-full flex-col justify-end overflow-hidden rounded-b-[28px] md:h-[58vh]" aria-label={`${eventName} hero`}>
         <BackButton locale={locale} fallbackHref={`/${locale}/${basePath}/${club.slug}`} variant="top" />

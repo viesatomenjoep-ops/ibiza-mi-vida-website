@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { ArrowLeft, MapPin } from 'lucide-react'
 import { locations, getLocationBySlug } from '@/lib/locations'
 import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
+import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
+import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 
 export function generateStaticParams() {
   return locations.map((loc) => ({
@@ -22,15 +24,29 @@ export async function generateMetadata({ params }: { params: { slug: string; loc
   })
 }
 
-export default function LocationPage({ params }: { params: { slug: string } }) {
+export default function LocationPage({ params }: { params: { slug: string; locale: string } }) {
   const location = getLocationBySlug(params.slug)
 
   if (!location) {
     notFound()
   }
 
+  const locale: Locale = (LOCALES as readonly string[]).includes(params.locale)
+    ? (params.locale as Locale)
+    : DEFAULT_LOCALE
+
   return (
     <div className="bg-white min-h-screen pb-20">
+      {/* No `/[locale]/locations` listing route exists, so the trail goes
+          straight Home > location — a middle crumb pointing at a 404 would be
+          worse than no middle crumb. */}
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[
+          { name: homeLabel(locale), path: '' },
+          { name: location.name },
+        ]}
+      />
       {/* Hero Section */}
       <section className="relative w-full h-[50vh] min-h-[400px] bg-slate-900">
         <Image 

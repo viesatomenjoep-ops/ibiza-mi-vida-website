@@ -233,6 +233,20 @@ export async function getAllEvents(locale: string = 'en'): Promise<CTEvent[]> {
   return data.events;
 }
 
+/**
+ * When the ClubTickets dataset was last synced.
+ *
+ * Used as a real `lastModified` in the sitemap for event and venue URLs.
+ * Previously every sitemap entry claimed `new Date()`, i.e. "the entire site
+ * changed just now", on every regeneration — a signal Google learns to ignore.
+ * This is the actual date the underlying content changed.
+ */
+export async function getDataLastUpdated(locale: string = 'en'): Promise<Date | undefined> {
+  const data = await loadData(locale);
+  const d = data.lastUpdated ? new Date(data.lastUpdated) : undefined;
+  return d && !Number.isNaN(d.getTime()) ? d : undefined;
+}
+
 export async function getAllDates(locale: string = 'en', limit?: number): Promise<CTEventDate[]> {
   const data = await loadData(locale);
   let dates = data.dates || [];

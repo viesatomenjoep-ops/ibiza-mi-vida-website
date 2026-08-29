@@ -5,6 +5,7 @@ import { staticMetadata } from '@/lib/seo-pages'
 import { DEFAULT_LOCALE, LOCALES, SITE_URL, SITE_NAME, type Locale } from '@/lib/seo'
 import { FOUNDER, FOUNDER_ID, founderNode } from '@/lib/team'
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
+import { breadcrumbListSchema, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { Reveal } from '@/components/ui/Reveal'
 
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
@@ -183,6 +184,7 @@ export default function AboutUsPage({ params }: { params: { locale: string } }) 
           { '@type': 'Place', name: 'Formentera, Spain' },
         ],
       },
+      breadcrumbListSchema([{ name: homeLabel(l), path: '' }, { name: TITLE[l] }], l),
     ],
   }
 

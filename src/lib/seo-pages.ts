@@ -113,6 +113,22 @@ export const SEO_PAGES: Record<string, Copy> = {
       'Package deals, offres de groupe et la guestlist des meilleurs clubs d’Ibiza. Simon s’en occupe via WhatsApp et vous précise à l’avance ce qui s’applique ce soir-là.',
     ),
   },
+  clubs: {
+    title: L(
+      'Clubs op Ibiza — Alle clubs en feesten',
+      'Ibiza Clubs — Every Club and Party',
+      'Clubs auf Ibiza — Alle Clubs und Partys',
+      'Clubs de Ibiza — Todos los clubs y fiestas',
+      'Clubs à Ibiza — Tous les clubs et soirées',
+    ),
+    description: L(
+      'Alle clubs op Ibiza op één plek, met het programma per club en officiële tickets via onze ticketpartner.',
+      'Every Ibiza club in one place, with each club’s programme and official tickets through our ticket partner.',
+      'Alle Clubs auf Ibiza an einem Ort, mit dem Programm je Club und offiziellen Tickets über unseren Ticketpartner.',
+      'Todos los clubs de Ibiza en un solo lugar, con el programa de cada club y entradas oficiales vía nuestro socio.',
+      'Tous les clubs d’Ibiza au même endroit, avec le programme de chaque club et des billets officiels via notre partenaire.',
+    ),
+  },
   'boat-party': {
     title: L(
       'Ibiza Boat Party — Feesten op het Water',

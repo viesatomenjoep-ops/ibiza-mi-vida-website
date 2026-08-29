@@ -43,7 +43,9 @@ export function Footer() {
       id: 'water',
       title: t.nav_on_the_water || 'Op het water',
       links: [
+        { href: `${base}/boats`, label: t.nav_boats_hub || 'Ibiza per boot' },
         { href: `${base}/private-boat-charters`, label: t.nav_private_charters || 'Private Boat Charters' },
+        { href: `${base}/boat-party`, label: t.nav_boat_party || 'Boat Parties' },
         { href: `${base}/shuttle-ferry`, label: t.nav_shuttle_ferry || 'Shuttle Ferry' },
         { href: `${base}/ferry-formentera`, label: t.nav_ferry_formentera || 'Ferry Ibiza – Formentera' },
       ],
@@ -71,7 +73,8 @@ export function Footer() {
         { href: `${base}/about-us`, label: t.nav_about || 'Over ons' },
         { href: `${base}/contact`, label: t.nav_contact || 'Contact' },
         { href: `${base}/faq`, label: t.nav_faq || 'FAQ' },
-        { href: `${base}/reviews`, label: t.nav_reviews || 'Reviews' },
+        { href: `${base}/privacy-policy`, label: t.nav_privacy || 'Privacybeleid' },
+        { href: `${base}/terms-&-conditions`, label: t.nav_terms || 'Voorwaarden' },
       ],
     },
   ]
@@ -116,7 +119,7 @@ export function Footer() {
                 aria-expanded={shown(g.id)}
                 onClick={() => setOpen(p => ({ ...p, [g.id]: !p[g.id] }))}
               >
-                <h4>{g.title}</h4>
+                <h3>{g.title}</h3>
                 <ChevronDown size={18} className="foot-chev" style={{ transform: shown(g.id) ? 'rotate(180deg)' : 'none' }} />
               </button>
               {shown(g.id) && (
