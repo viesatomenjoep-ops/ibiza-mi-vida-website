@@ -27,7 +27,7 @@ const allCategories = [
   
   { label: 'VIP Catamaran', href: '/vip-catamaran', icon: Navigation, desc: 'Luxury sailing', color: 'bg-champagne-bronze', group: 'VIP' },
   { label: 'Formentera Trips', href: '/formentera-boat-trips', icon: Sun, desc: 'Day trips', color: 'bg-rustic-terracotta', group: 'Boats' },
-  { label: 'Guestlist', href: '/guestlist', icon: CheckCircle, desc: 'Free entry', color: 'bg-champagne-bronze', group: 'Clubs' },
+  { label: 'Package Deals', href: '/guestlist', icon: CheckCircle, desc: 'Deals via WhatsApp', color: 'bg-champagne-bronze', group: 'Clubs' },
   { label: 'Drink Packages', href: '/drink-packages', icon: GlassWater, desc: 'VIP tables', color: 'bg-velvet-obsidian', group: 'VIP' },
   { label: 'Car & Scooter', href: '/car-scooter-rental', icon: Car, desc: 'Explore Ibiza', color: 'bg-rustic-terracotta', group: 'Deals' },
 ]

@@ -10,7 +10,7 @@ const allCategories = [
   { label: 'Calendar', href: '/calendar' },
   { label: 'VIP Catamaran', href: '/vip-catamaran' },
   { label: 'Formentera Trips', href: '/formentera-boat-trips' },
-  { label: 'Guestlist', href: '/guestlist' },
+  { label: 'Package Deals', href: '/guestlist' },
   { label: 'Drink Packages', href: '/drink-packages' },
   { label: 'Car & Scooter Rental', href: '/car-scooter-rental' },
 ]

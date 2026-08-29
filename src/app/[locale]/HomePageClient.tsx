@@ -17,7 +17,23 @@ import { HomeUSP } from '@/components/home/HomeUSP';
 import { HomeMobileAppStrip } from '@/components/home/HomeMobileAppStrip';
 import { HomeInstagram } from '@/components/home/HomeInstagram';
 import { HomeNewsletter } from '@/components/home/HomeNewsletter';
+import { ArrowCircle } from '@/components/ui/ArrowCircle';
+import { HomeTonight } from '@/components/home/HomeTonight';
+
 import { Reveal } from '@/components/ui/Reveal';
+// Category-grid labels for the boat pages. These live here rather than in the
+// shared dictionaries because the dictionaries have no keys for them yet and
+// adding three keys x 5 locale JSON files for one grid is more churn than it
+// is worth.
+const CAT_BOATS: Record<string, string> = {
+  nl: 'Ibiza per boot', en: 'Ibiza by boat', de: 'Ibiza per Boot', es: 'Ibiza en barco', fr: 'Ibiza en bateau',
+}
+const CAT_BOAT_PARTY: Record<string, string> = {
+  nl: 'Boat parties', en: 'Boat parties', de: 'Boat Partys', es: 'Boat parties', fr: 'Boat parties',
+}
+const CAT_CHARTER: Record<string, string> = {
+  nl: 'Privéboot huren', en: 'Private boat charter', de: 'Privatboot mieten', es: 'Barco privado', fr: 'Bateau privé',
+}
 
 interface HomePageProps {
   locale?: string;
@@ -28,9 +44,11 @@ interface HomePageProps {
   deals?: DealsData;
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
   liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
+  /** Server-rendered ISO yyyy-mm-dd, so date labels are hydration-safe. */
+  todayStr?: string;
 }
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, allVenues = [], liveByClub = {} }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '' }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -99,6 +117,8 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </div>
       )}
 
+      <HomeTonight events={pickerEvents} todayStr={todayStr} locale={locale} base={base} />
+
       <HomeScrollHint locale={locale} />
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
@@ -154,9 +174,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                       </div>
                     </div>
                     
-                    <div className="hidden sm:flex shrink-0 w-12 h-12 rounded-full bg-ibiza-mint items-center justify-center group-hover:bg-ibiza-green transition-colors text-white mr-2">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </div>
+                    <ArrowCircle className="mr-2 hidden bg-ibiza-mint text-ibiza-green group-hover:bg-ibiza-green group-hover:text-white sm:grid" />
                   </Reveal>
                 );
               })}
@@ -196,7 +214,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                 <h2 className="m-0 font-serif text-[1.625rem] font-black tracking-tight text-white">{translations.home_popular_clubs}</h2>
               </div>
               <Link
-                href={`${base}/club-tickets`}
+                href={`${base}/clubs`}
                 className="inline-flex items-center gap-2 text-xs font-black tracking-widest uppercase text-white border-2 border-white/25 hover:bg-white hover:text-black rounded-full px-6 py-3 transition-colors"
               >
                 {translations.home_all_clubs} &rarr;
@@ -258,7 +276,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
             {/* Mobile: all clubs link */}
             <div className="mt-8 text-center md:hidden">
-              <Link href={`${base}/club-tickets`} className="btn fill w-full justify-center">
+              <Link href={`${base}/clubs`} className="btn fill w-full justify-center">
                 {translations.home_view_all_clubs}
               </Link>
             </div>
@@ -298,8 +316,27 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
             </Link>
 
             <Link href={`${base}/calendar?filter=day`} className="cat">
-              <span className="num">04</span>
+              <span className="num">03</span>
               <strong>{translations.home_cat_day_clubs}</strong>
+              <span className="arrow">→</span>
+            </Link>
+            {/* SEO: /boats and /boat-party previously had ZERO internal links
+                from the homepage, so nothing on the site signalled they matter.
+                Both are target pages for "boat charter Ibiza" / "boat party
+                Ibiza", so they belong in the main category grid. */}
+            <Link href={`${base}/boats`} className="cat">
+              <span className="num">04</span>
+              <strong>{CAT_BOATS[locale] || CAT_BOATS.en}</strong>
+              <span className="arrow">→</span>
+            </Link>
+            <Link href={`${base}/boat-party`} className="cat">
+              <span className="num">05</span>
+              <strong>{CAT_BOAT_PARTY[locale] || CAT_BOAT_PARTY.en}</strong>
+              <span className="arrow">→</span>
+            </Link>
+            <Link href={`${base}/private-boat-charters`} className="cat">
+              <span className="num">06</span>
+              <strong>{CAT_CHARTER[locale] || CAT_CHARTER.en}</strong>
               <span className="arrow">→</span>
             </Link>
           </div>

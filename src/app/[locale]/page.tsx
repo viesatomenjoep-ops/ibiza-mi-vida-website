@@ -166,6 +166,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
       pickerEvents={[...pickerEvents].sort((a, b) => a.date.localeCompare(b.date)).slice(0, 250)}
       deals={deals}
       liveByClub={liveByClub}
+      todayStr={todayStr}
       allVenues={allVenues.map(v => ({
         slug: v.slug,
         name: v.name,

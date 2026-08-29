@@ -79,7 +79,7 @@ export function Navbar() {
       id: 'insider',
       label: t.nav_insider || 'Insider',
       items: [
-        { label: t.nav_guestlist || 'Gastenlijst', href: '/guestlist' },
+        { label: t.nav_guestlist || 'Package Deals', href: '/guestlist' },
         { label: t.nav_tips || 'Ibiza Tips', href: '/tips' },
       ],
     },

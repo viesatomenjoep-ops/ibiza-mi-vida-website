@@ -20,7 +20,7 @@ export function GuestlistScreen({ venues, t, openVenue }: ScreenProps) {
   const nightClubs = clubs.filter(v => !v.isDayClub)
 
   const gl = (name: string) =>
-    waLink(WA_GUESTLIST, `Hi Simon! Guestlist please — club: ${name}. Name + group size: `)
+    waLink(WA_GUESTLIST, `Hi Simon! Package deal please — club: ${name}. Name + group size: `)
 
   const Section = ({ title, icon, list }: { title: string; icon: React.ReactNode; list: AppVenue[] }) =>
     list.length === 0 ? null : (
@@ -109,7 +109,7 @@ export function GuestlistScreen({ venues, t, openVenue }: ScreenProps) {
           <div className="border-t border-white/[0.06] px-5 py-4">
             <p className="text-[14px] leading-relaxed text-white/65">{t.howItWorksBody}</p>
             <a
-              href={waLink(WA_GUESTLIST, 'Hi Simon! Guestlist please — club: ')}
+              href={waLink(WA_GUESTLIST, 'Hi Simon! Package deal please — club: ')}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 flex items-center justify-center gap-2 rounded-full bg-app-accent px-5 py-3 text-[13px] font-extrabold uppercase tracking-wide text-white shadow-lg shadow-app-accent/25 outline-none transition-colors motion-reduce:transition-none hover:bg-app-accent-soft focus-visible:ring-2 focus-visible:ring-white active:scale-[0.97] motion-reduce:active:scale-100"

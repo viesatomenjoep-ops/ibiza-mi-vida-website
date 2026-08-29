@@ -40,7 +40,7 @@ const LABELS = {
   tabBoats: L('Boten', 'Boats', 'Boote', 'Barcos', 'Bateaux'),
   tabSearch: L('Zoeken', 'Search', 'Suche', 'Buscar', 'Recherche'),
   tabMap: L('Kaart', 'Map', 'Karte', 'Mapa', 'Carte'),
-  tabGuestlist: L('Guestlist', 'Guestlist', 'Guestlist', 'Guestlist', 'Guestlist'),
+  tabGuestlist: L('Package Deals', 'Package Deals', 'Package Deals', 'Package Deals', 'Package Deals'),
 
   // Renamed from the generic "Calendar" — this view opens on today's picks,
   // so a nightlife-native label ("what's on tonight") reads less like a
@@ -77,8 +77,8 @@ const LABELS = {
   nightClubs: L('Night clubs', 'Night clubs', 'Night Clubs', 'Night clubs', 'Night clubs'),
   upcomingAt: L('Aankomende events', 'Upcoming events', 'Kommende Events', 'Próximos eventos', 'Événements à venir'),
 
-  guestlistTitle: L('Guestlist', 'Guestlist', 'Guestlist', 'Guestlist', 'Guestlist'),
-  howItWorks: L('Hoe werkt de guestlist?', 'How guestlist works', 'So funktioniert die Guestlist', '¿Cómo funciona la guestlist?', 'Comment ça marche'),
+  guestlistTitle: L('Package Deals', 'Package Deals', 'Package Deals', 'Package Deals', 'Package Deals'),
+  howItWorks: L('Hoe werkt het?', 'How it works', "So funktioniert's", '¿Cómo funciona?', 'Comment ça marche'),
   howItWorksBody: L(
     'Stuur ons je naam, het aantal personen en de club — wij zetten je op de lijst. Gratis of met korting entree vóór een bepaalde tijd, direct geregeld via WhatsApp.',
     'Send us your name, group size and the club — we put you on the list. Free or discounted entry before a set time, arranged directly via WhatsApp.',
@@ -86,7 +86,7 @@ const LABELS = {
     'Envíanos tu nombre, número de personas y el club — te ponemos en la lista. Entrada gratis o con descuento antes de una hora fija, directo por WhatsApp.',
     "Envoyez-nous votre nom, la taille du groupe et le club — on vous met sur la liste. Entrée gratuite ou réduite avant une heure fixe, directement via WhatsApp.",
   ),
-  joinGuestlist: L('Zet mij op de guestlist', 'Put me on the guestlist', 'Setz mich auf die Guestlist', 'Ponme en la guestlist', 'Mettez-moi sur la guestlist'),
+  joinGuestlist: L('Vraag een package deal aan', 'Request a package deal', 'Package Deal anfragen', 'Solicitar un package deal', 'Demander un package deal'),
 
   mapTitle: L('Clubs & venues', 'Clubs & venues', 'Clubs & Venues', 'Clubs y locales', 'Clubs & lieux'),
   officialPartner: L('Officiële ticketpartner', 'Official ticket partner', 'Offizieller Ticketpartner', 'Socio oficial de entradas', 'Partenaire officiel de billetterie'),

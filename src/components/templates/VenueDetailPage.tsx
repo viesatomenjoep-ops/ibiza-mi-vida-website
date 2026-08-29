@@ -35,7 +35,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
     weeklyKicker: 'Weekly parties 2026', weeklyTitlePrefix: 'Regular nights at',
     posterFromApi: 'Poster from API', tickets: 'Tickets', ticketsUpper: 'TICKETS', buyTickets: 'Buy Tickets',
     allEvents: 'All events', agendaPrefix: 'Schedule',
-    aboutPrefix: 'About', guestlistVip: 'Guest list & VIP via WhatsApp',
+    aboutPrefix: 'About', guestlistVip: 'Package deals & VIP via WhatsApp',
     practicalInfo: 'Practical info', location: 'Location', openingHours: 'Opening hours', atNight: 'At night', genre: 'Genre', clubbing: 'Clubbing',
     faqKicker: 'Frequently asked questions', stickyAgenda: 'Schedule', events: 'Events', viewTickets: 'View Tickets',
     faqs: (name) => [
@@ -50,7 +50,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
     weeklyKicker: 'Wekelijkse parties 2026', weeklyTitlePrefix: 'Vaste avonden in',
     posterFromApi: 'Poster uit API', tickets: 'Tickets', ticketsUpper: 'TICKETS', buyTickets: 'Koop tickets',
     allEvents: 'Alle events', agendaPrefix: 'Agenda',
-    aboutPrefix: 'Over', guestlistVip: 'Gastenlijst & VIP via WhatsApp',
+    aboutPrefix: 'Over', guestlistVip: 'Package deals & VIP via WhatsApp',
     practicalInfo: 'Praktische info', location: 'Locatie', openingHours: 'Openingstijden', atNight: "'s Nachts", genre: 'Genre', clubbing: 'Clubbing',
     faqKicker: 'Veelgestelde vragen', stickyAgenda: 'Agenda', events: 'Events', viewTickets: 'Bekijk tickets',
     faqs: (name) => [
@@ -65,7 +65,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
     weeklyKicker: 'Wöchentliche Partys 2026', weeklyTitlePrefix: 'Feste Abende im',
     posterFromApi: 'Poster aus API', tickets: 'Tickets', ticketsUpper: 'TICKETS', buyTickets: 'Tickets kaufen',
     allEvents: 'Alle Events', agendaPrefix: 'Programm',
-    aboutPrefix: 'Über', guestlistVip: 'Gästeliste & VIP über WhatsApp',
+    aboutPrefix: 'Über', guestlistVip: 'Package Deals & VIP über WhatsApp',
     practicalInfo: 'Praktische Infos', location: 'Standort', openingHours: 'Öffnungszeiten', atNight: 'Nachts', genre: 'Genre', clubbing: 'Clubbing',
     faqKicker: 'Häufige Fragen', stickyAgenda: 'Programm', events: 'Events', viewTickets: 'Tickets ansehen',
     faqs: (name) => [
@@ -80,7 +80,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
     weeklyKicker: 'Fiestas semanales 2026', weeklyTitlePrefix: 'Noches fijas en',
     posterFromApi: 'Póster de la API', tickets: 'Entradas', ticketsUpper: 'ENTRADAS', buyTickets: 'Comprar entradas',
     allEvents: 'Todos los eventos', agendaPrefix: 'Agenda',
-    aboutPrefix: 'Sobre', guestlistVip: 'Lista de invitados y VIP por WhatsApp',
+    aboutPrefix: 'Sobre', guestlistVip: 'Package deals y VIP por WhatsApp',
     practicalInfo: 'Información práctica', location: 'Ubicación', openingHours: 'Horario', atNight: 'Por la noche', genre: 'Género', clubbing: 'Clubbing',
     faqKicker: 'Preguntas frecuentes', stickyAgenda: 'Agenda', events: 'Eventos', viewTickets: 'Ver entradas',
     faqs: (name) => [
@@ -95,7 +95,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
     weeklyKicker: 'Soirées hebdomadaires 2026', weeklyTitlePrefix: 'Soirées régulières au',
     posterFromApi: 'Affiche via API', tickets: 'Billets', ticketsUpper: 'BILLETS', buyTickets: 'Acheter des billets',
     allEvents: 'Tous les événements', agendaPrefix: 'Agenda',
-    aboutPrefix: 'À propos de', guestlistVip: "Liste d'invités & VIP via WhatsApp",
+    aboutPrefix: 'À propos de', guestlistVip: 'Package deals & VIP via WhatsApp',
     practicalInfo: 'Infos pratiques', location: 'Emplacement', openingHours: 'Horaires', atNight: 'La nuit', genre: 'Genre', clubbing: 'Clubbing',
     faqKicker: 'Questions fréquentes', stickyAgenda: 'Agenda', events: 'Événements', viewTickets: 'Voir les billets',
     faqs: (name) => [

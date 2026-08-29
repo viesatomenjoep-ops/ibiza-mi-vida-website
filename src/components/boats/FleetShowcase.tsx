@@ -76,7 +76,7 @@ interface FleetLabels {
 
 const FLEET_I18N: Record<string, FleetLabels> = {
   en: {
-    title: 'Private Boat Charters',
+    title: 'Private Boat Charters Ibiza',
     subtitle: 'A hand-picked fleet of luxury yachts from 50 to 70 feet — captain, drinks and water toys included. On the water around Ibiza & Formentera.',
     fromPrice: `From €${FLEET_FROM_PRICE.toLocaleString('en-GB')} / day`,
     searchPlaceholder: 'Search a yacht…',
@@ -100,7 +100,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     boatsCount: (n) => `${n} ${n === 1 ? 'yacht' : 'yachts'}`,
   },
   nl: {
-    title: 'Private Boot Charters',
+    title: 'Private Boot Charters Ibiza',
     subtitle: 'Een zorgvuldig samengestelde vloot luxe jachten van 50 tot 70 voet — kapitein, drankjes en watersportspullen inbegrepen. Op het water rond Ibiza & Formentera.',
     fromPrice: `Vanaf €${FLEET_FROM_PRICE.toLocaleString('nl-NL')} / dag`,
     searchPlaceholder: 'Zoek een jacht…',
@@ -124,7 +124,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     boatsCount: (n) => `${n} ${n === 1 ? 'jacht' : 'jachten'}`,
   },
   de: {
-    title: 'Private Bootscharter',
+    title: 'Private Bootscharter Ibiza',
     subtitle: 'Eine handverlesene Flotte von Luxusyachten von 50 bis 70 Fuß — Kapitän, Getränke und Wasserspielzeug inklusive. Auf dem Wasser rund um Ibiza & Formentera.',
     fromPrice: `Ab €${FLEET_FROM_PRICE.toLocaleString('de-DE')} / Tag`,
     searchPlaceholder: 'Yacht suchen…',
@@ -148,7 +148,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     boatsCount: (n) => `${n} ${n === 1 ? 'Yacht' : 'Yachten'}`,
   },
   es: {
-    title: 'Chárter de Barcos Privados',
+    title: 'Chárter de Barcos Privados en Ibiza',
     subtitle: 'Una flota seleccionada de yates de lujo de 50 a 70 pies — capitán, bebidas y material acuático incluidos. En el agua alrededor de Ibiza y Formentera.',
     fromPrice: `Desde €${FLEET_FROM_PRICE.toLocaleString('es-ES')} / día`,
     searchPlaceholder: 'Buscar un yate…',
@@ -172,7 +172,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     boatsCount: (n) => `${n} ${n === 1 ? 'yate' : 'yates'}`,
   },
   fr: {
-    title: 'Location de Bateaux Privés',
+    title: 'Location de Bateaux Privés à Ibiza',
     subtitle: 'Une flotte sélectionnée de yachts de luxe de 50 à 70 pieds — capitaine, boissons et équipements nautiques inclus. Sur l\'eau autour d\'Ibiza et Formentera.',
     fromPrice: `À partir de €${FLEET_FROM_PRICE.toLocaleString('fr-FR')} / jour`,
     searchPlaceholder: 'Rechercher un yacht…',

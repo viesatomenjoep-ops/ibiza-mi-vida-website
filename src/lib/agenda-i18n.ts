@@ -44,7 +44,7 @@ export const AGENDA_COPY: Record<string, AgendaCopy> = {
   },
   'ferry-formentera': {
     kicker: L(`Ferry Formentera ${YEAR}`, `Formentera Ferry ${YEAR}`, `Formentera-Fähre ${YEAR}`, `Ferry Formentera ${YEAR}`, `Ferry Formentera ${YEAR}`),
-    title: L('Ferry Formentera', 'Formentera Ferry', 'Formentera-Fähre', 'Ferry Formentera', 'Ferry Formentera'),
+    title: L('Ferry Ibiza — Formentera', 'Ferry Ibiza to Formentera', 'Fähre Ibiza — Formentera', 'Ferry Ibiza — Formentera', 'Ferry Ibiza — Formentera'),
     subtitle: L(
       'Bekijk alle afvaarten naar Formentera per dag, week en maand en boek direct via ClubTickets.',
       'See every crossing to Formentera by day, week and month and book instantly via ClubTickets.',
@@ -66,7 +66,7 @@ export const AGENDA_COPY: Record<string, AgendaCopy> = {
   },
   'boat-party': {
     kicker: L(`Ibiza Boat Party ${YEAR}`, `Ibiza Boat Party ${YEAR}`, `Ibiza Boat Party ${YEAR}`, `Boat Party Ibiza ${YEAR}`, `Boat Party Ibiza ${YEAR}`),
-    title: L('Boat Party', 'Boat Party', 'Boat Party', 'Boat Party', 'Boat Party'),
+    title: L('Boat Party Ibiza', 'Ibiza Boat Party', 'Boat Party Ibiza', 'Boat Party Ibiza', 'Boat Party Ibiza'),
     subtitle: L(
       'Alle boat parties en feesten op het water per dag, week en maand — met DJ, open bar en zwemstops. Direct te boeken.',
       'Every boat party on the water by day, week and month — with DJ, open bar and swim stops. Book instantly.',

@@ -8,6 +8,7 @@ import { Reveal } from '@/components/ui/Reveal'
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
 import { ServiceSchema } from '@/components/seo/ServiceSchema'
 import { SERVICE_COPY } from '@/lib/service-schema-copy'
+import { PackageDealPicker } from '@/components/guestlist/PackageDealPicker'
 
 export const revalidate = 3600
 
@@ -18,8 +19,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 type T = Record<Locale, string>
 const L = (nl: string, en: string, de: string, es: string, fr: string): T => ({ nl, en, de, es, fr })
 
-const KICKER: T = L('VIP Gastenlijst', 'VIP Guestlist', 'VIP-Gästeliste', 'Lista VIP', 'Guestlist VIP')
-const TITLE: T = L('Kom op de gastenlijst', 'Get on the guestlist', 'Komm auf die Gästeliste', 'Entra en la lista', 'Rejoins la guestlist')
+const KICKER: T = L('VIP Package Deals', 'VIP Package Deals', 'VIP Package Deals', 'VIP Package Deals', 'VIP Package Deals')
+const TITLE: T = L('Ibiza package deals & clubgastenlijst', 'Ibiza package deals & club guestlist', 'Ibiza Package Deals & Club-Gästeliste', 'Package deals y lista de clubs de Ibiza', 'Package deals & guestlist des clubs d’Ibiza')
 const INTRO: T = L(
   'Naar binnen bij de beste clubs van Ibiza — zonder rij, zonder gedoe. Simon zet je naam op de lijst via WhatsApp en vertelt je vooraf precies wat er die avond geldt.',
   'Get into Ibiza’s best clubs — no queue, no hassle. Simon puts your name on the list via WhatsApp and tells you beforehand exactly what applies that night.',
@@ -122,7 +123,7 @@ const CLUBS_SUB: T = L(
 
 const EVENTS_TITLE: T = L('Aankomende events', 'Upcoming events', 'Kommende Events', 'Próximos eventos', 'Événements à venir')
 
-const CTA_Q: T = L('Wil je op de gastenlijst?', 'Want to get on the guestlist?', 'Willst du auf die Gästeliste?', '¿Quieres entrar en la lista?', 'Vous voulez être sur la guestlist ?')
+const CTA_Q: T = L('Wil je een package deal?', 'Want a package deal?', 'Willst du einen Package Deal?', '¿Quieres un package deal?', 'Vous voulez un package deal ?')
 const CTA_SUB: T = L(
   'App Simon met de club, de datum en met hoeveel je komt — hij regelt de rest.',
   'Message Simon with the club, the date and your group size — he arranges the rest.',
@@ -132,11 +133,11 @@ const CTA_SUB: T = L(
 )
 const CTA_BTN: T = L('WhatsApp Simon', 'WhatsApp Simon', 'WhatsApp Simon', 'WhatsApp Simon', 'WhatsApp Simon')
 const WA_PREFILL: T = L(
-  'Hoi Simon! Ik wil graag op de gastenlijst. Club: … Datum: … Aantal personen: …',
-  'Hi Simon! I’d like to get on the guestlist. Club: … Date: … Group size: …',
-  'Hi Simon! Ich möchte gern auf die Gästeliste. Club: … Datum: … Personen: …',
-  '¡Hola Simon! Quiero entrar en la lista. Club: … Fecha: … Personas: …',
-  'Salut Simon ! Je voudrais être sur la guestlist. Club : … Date : … Personnes : …',
+  'Hoi Simon! Ik zoek een package deal. Club: … Datum: … Aantal personen: …',
+  'Hi Simon! I’m looking for a package deal. Club: … Date: … Group size: …',
+  'Hallo Simon! Ich suche einen Package Deal. Club: … Datum: … Personen: …',
+  '¡Hola Simon! Busco un package deal. Club: … Fecha: … Personas: …',
+  'Salut Simon ! Je cherche un package deal. Club : … Date : … Personnes : …',
 )
 
 const GL_FAQS: { q: T; a: T }[] = [
@@ -220,6 +221,13 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
           <span className="font-serif text-sm font-black uppercase tracking-widest text-neutral-900">{CTA_Q[locale]}</span>
           {waButton}
         </div>
+      </section>
+
+      {/* ── Package / group deal picker ── */}
+      <section className="mx-auto max-w-6xl px-4 pb-14">
+        <Reveal>
+          <PackageDealPicker locale={locale} />
+        </Reveal>
       </section>
 
       {/* ── Why guestlist ── */}

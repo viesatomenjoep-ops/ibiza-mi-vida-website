@@ -143,7 +143,7 @@ const SECTIONS: TipSection[] = [
       L('Neem contant geld mee voor de hippiemarkten en strandbarretjes — niet overal kun je pinnen.', 'Bring cash for the hippy markets and little beach bars — not everywhere takes cards.', 'Nimm Bargeld mit für die Hippiemärkte und kleinen Strandbars — nicht überall kann man mit Karte zahlen.', 'Lleva efectivo para los mercadillos y chiringuitos — no en todos aceptan tarjeta.', 'Prenez du liquide pour les marchés hippies et les petits bars de plage — la carte n’est pas acceptée partout.'),
       L('Twijfel je over iets? App ons gewoon — wij wonen hier en antwoorden meestal binnen het uur.', 'Unsure about anything? Just message us — we live here and usually reply within the hour.', 'Bei Fragen: Schreib uns einfach — wir leben hier und antworten meist innerhalb einer Stunde.', '¿Dudas con algo? Escríbenos — vivimos aquí y solemos responder en menos de una hora.', 'Un doute ? Écrivez-nous — nous vivons ici et répondons en général dans l’heure.'),
     ],
-    cta: { label: L('Kom op de gastenlijst', 'Get on the guestlist', 'Auf die Gästeliste', 'Entra en la lista', 'Rejoindre la guestlist'), href: '/guestlist' },
+    cta: { label: L('Package deals bekijken', 'See package deals', 'Package Deals ansehen', 'Ver package deals', 'Voir les package deals'), href: '/guestlist' },
   },
 ]
 

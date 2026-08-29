@@ -56,7 +56,7 @@ export function Footer() {
         { href: `${base}/water-sports`, label: t.nav_water_sports || 'Water Sports' },
         { href: `${base}/drink-packages`, label: t.nav_drink_packages || 'Drankpakketten' },
         { href: `${base}/car-scooter-rental`, label: t.nav_car_scooter || 'Car & Scooter Rental' },
-        { href: `${base}/guestlist`, label: t.nav_guestlist || 'Gastenlijst' },
+        { href: `${base}/guestlist`, label: t.nav_guestlist || 'Package Deals' },
         { href: `${base}/tips`, label: t.nav_tips || 'Ibiza Tips' },
       ],
     },

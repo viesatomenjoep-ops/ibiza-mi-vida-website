@@ -7,9 +7,15 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
 import { getDictionary } from '@/lib/dictionary'
 import BoatsClient from './BoatsClient'
+import { PageFaq } from '@/components/seo/PageFaq'
 
 export default async function BoatsPage({ params: { locale } }: { params: { locale: string } }) {
   const dict = await getDictionary(locale as any)
 
-  return <BoatsClient locale={locale} dict={dict} />
+  return (
+    <>
+      <BoatsClient locale={locale} dict={dict} />
+      <PageFaq pageKey="boats" locale={locale} />
+    </>
+  )
 }

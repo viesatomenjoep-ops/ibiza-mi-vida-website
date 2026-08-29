@@ -39,6 +39,6 @@ export const CATEGORY_LABELS: Record<FeaturedEventCategory, string> = {
   'catamaran': 'Catamaran',
   'formentera': 'Formentera',
   'car-rental': 'Car Rental',
-  'guestlist': 'Guestlist',
+  'guestlist': 'Package Deals',
   'drink-package': 'VIP Package',
 }
