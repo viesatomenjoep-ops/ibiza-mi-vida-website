@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "sync-clubtickets": "node scripts/sync-clubtickets.mjs",
+    "price-snapshot": "node scripts/price-snapshot.mjs",
     "upload-media": "node scripts/upload-to-cloudinary.mjs",
     "indexnow": "node scripts/indexnow-ping.mjs",
     "indexnow:all": "node scripts/indexnow-ping.mjs --sitemap"
