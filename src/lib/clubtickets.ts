@@ -1,4 +1,5 @@
 import { stripHtml, cleanHtml } from './html-utils';
+import { isBlankCover } from './blank-covers';
 
 export const API_KEY = '80aac9f0b1a44b63060b083f3813271a';
 export const BASE_URL = `https://affiliates.clubtickets.com/api/affiliate/${API_KEY}/get`;
@@ -200,6 +201,38 @@ async function loadData(locale: string = 'en'): Promise<ClubTicketsData> {
       });
     }
     
+    // ── Blank placeholders, stripped once at the source ──────────────────
+    // ClubTickets serves a solid-black JPEG for events that have no artwork.
+    // A card rendering it looks broken, but nothing is broken: the source has
+    // no picture. `pickCover()` skips them, except it was only ever wired into
+    // three call sites while roughly twenty other files read these fields
+    // straight — so the same black box kept resurfacing somewhere new and got
+    // fixed one page at a time.
+    //
+    // Clearing the field here instead means every consumer, including ones
+    // written later, gets clean data without having to know the problem
+    // exists. Downstream `cover || logo` fallbacks then reach the next
+    // candidate on their own: Swedish House Mafia, the case that exposed this,
+    // has a blank eventCover and perfectly good gold artwork sitting in
+    // eventLogo right behind it.
+    const scrub = (o: Record<string, any> | undefined, keys: string[]) => {
+      if (!o) return;
+      for (const k of keys) if (isBlankCover(o[k])) o[k] = undefined;
+    };
+    const IMG_KEYS = ['cover', 'logo', 'picture', 'image', 'whitelogo',
+                      'eventCover', 'eventLogo', 'venueCover', 'venueLogo'];
+    rawData.dates?.forEach(d => scrub(d as any, IMG_KEYS));
+    rawData.events?.forEach(e => scrub(e as any, IMG_KEYS));
+    rawData.artists?.forEach(a => scrub(a as any, IMG_KEYS));
+    rawData.venues?.forEach(v => {
+      scrub(v as any, IMG_KEYS);
+      // Venues carry their own nested events array, and the venue detail page
+      // reads from that rather than from `dates` — which is why scrubbing only
+      // the top-level collections left the black card standing on exactly the
+      // pages built from a venue.
+      (v as any).events?.forEach((e: any) => scrub(e, IMG_KEYS));
+    });
+
     cachedData[normLocale] = rawData;
     return rawData;
   } catch (e) {

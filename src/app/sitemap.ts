@@ -28,6 +28,7 @@ const STATIC_ROUTES: { path: string; priority: number; changeFrequency: Metadata
   // honest rather than optimistic.
   { path: '/ibiza-prices', priority: 0.8, changeFrequency: 'daily' },
   { path: '/ibiza-season', priority: 0.7, changeFrequency: 'daily' },
+  { path: '/this-week', priority: 0.9, changeFrequency: 'daily' },
   { path: '/beach-clubs', priority: 0.7, changeFrequency: 'weekly' },
   { path: '/boats', priority: 0.8, changeFrequency: 'weekly' },
   { path: '/tours', priority: 0.7, changeFrequency: 'weekly' },

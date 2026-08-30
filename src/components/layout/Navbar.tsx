@@ -88,6 +88,7 @@ export function Navbar() {
       label: t.nav_events_tickets || 'Events & Tickets',
       items: [
         { label: 'Club Tickets Ibiza', href: '/calendar' },
+        { label: t.nav_this_week || 'This week', href: '/this-week' },
         { label: t.nav_artists || 'Artiesten', href: '/artists' },
         { label: t.nav_clubs_ibiza || 'Clubs Ibiza', href: '/clubs' },
       ],

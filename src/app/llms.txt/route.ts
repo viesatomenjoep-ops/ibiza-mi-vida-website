@@ -45,6 +45,7 @@ Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from 
 
 - [Club tickets and event calendar](${SITE_URL}/en/calendar): official tickets and the full agenda of Ibiza club nights, searchable by date, venue and artist. Covers ${clubs.length} clubs${clubNames ? ` — ${clubNames}` : ''}.
 - [Artists](${SITE_URL}/en/artists): which DJs and residencies play where, with dates.
+- [Who is playing this week](${SITE_URL}/en/this-week): the next seven nights as plain text — DJ, venue, line-up and price per night, rebuilt hourly.
 - [Private boat charters](${SITE_URL}/en/private-boat-charters): yachts and motorboats, with or without captain, from marinas around Ibiza.
 - [Boat parties](${SITE_URL}/en/boat-party) and [boat trips](${SITE_URL}/en/boat-trip): organised day and sunset trips.
 - [Formentera ferry](${SITE_URL}/en/ferry-formentera): day trips and crossings to Formentera.
