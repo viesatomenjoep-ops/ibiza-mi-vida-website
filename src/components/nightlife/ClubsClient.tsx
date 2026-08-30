@@ -143,7 +143,18 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
                 <div className="relative z-10 flex flex-col gap-3 p-8">
                   
                   {/* Badge */}
-                  <span className="self-start inline-flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur-md px-3 py-1 font-serif text-[11px] font-bold uppercase tracking-wider text-ibiza-green">
+                  {/* White on a dark pill, not green on a translucent white one. The badge
+                      sits on an uncontrolled photo: over the bright shots (sky, palms,
+                      a lit stage) the accent green measured well under AA, and simply
+                      recolouring the text to white on `bg-white/10` would have swapped
+                      one unreadable badge for another. The dark scrim is what makes
+                      white legible whatever the image behind it turns out to be.
+
+                      60% and not less: measured against a near-white sky, the worst
+                      case these cards actually hit, 45% gives 3.5:1 and 50% gives
+                      4.2:1 — both under AA. 60% clears it at 6:1 and still reads as
+                      a translucent pill rather than a solid black chip. */}
+                  <span className="self-start inline-flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-md px-3 py-1 font-serif text-[11px] font-bold uppercase tracking-wider text-white">
                     {venue.is_day_club ? <Sun size={10} /> : <Moon size={10} />}
                     {venue.is_day_club ? 'Day Club' : 'Night Club'}
                   </span>
