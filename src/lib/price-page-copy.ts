@@ -111,6 +111,46 @@ export function spread(s: PriceStats, l: string): string {
   return pick(m, l)
 }
 
+/**
+ * Verwijzing naar de twee andere tellingen.
+ *
+ * Ze stonden alleen in het hoofdmenu, wat betekent dat iemand die net gelezen
+ * heeft wat een avond kost en zich afvraagt of die club in oktober nog open is,
+ * zelf moet gaan zoeken. Voor een lezer is dat onhandig; voor een crawler is
+ * een contextuele link tussen drie pagina's die uit dezelfde dataset komen het
+ * signaal dat ze bij elkaar horen.
+ */
+export function alsoSee(l: string, base: string): { href: string; label: string }[] {
+  const M: Record<string, { href: string; label: string }[]> = {
+    nl: [
+      { href: `${base}/ibiza-season`, label: 'Wanneer sluit Ibiza? Laatste avond per club' },
+      { href: `${base}/this-week`, label: 'Wie draait er deze week?' },
+    ],
+    en: [
+      { href: `${base}/ibiza-season`, label: 'When does Ibiza close? Last night per club' },
+      { href: `${base}/this-week`, label: 'Who is playing this week?' },
+    ],
+    de: [
+      { href: `${base}/ibiza-season`, label: 'Wann schließt Ibiza? Letzte Nacht pro Club' },
+      { href: `${base}/this-week`, label: 'Wer legt diese Woche auf?' },
+    ],
+    es: [
+      { href: `${base}/ibiza-season`, label: '¿Cuándo cierra Ibiza? Última noche por club' },
+      { href: `${base}/this-week`, label: '¿Quién pincha esta semana?' },
+    ],
+    fr: [
+      { href: `${base}/ibiza-season`, label: 'Quand Ibiza ferme-t-elle ? Dernière soirée par club' },
+      { href: `${base}/this-week`, label: 'Qui joue cette semaine ?' },
+    ],
+  }
+  return M[l] || M.en
+}
+
+export const H_ALSO: L = {
+  nl: 'Uit dezelfde agenda', en: 'From the same agenda', de: 'Aus demselben Kalender',
+  es: 'De la misma agenda', fr: 'Du même agenda',
+}
+
 export const H_METHOD: L = {
   nl: 'Hoe we dit meten', en: 'How we measure this', de: 'Wie wir das messen',
   es: 'Cómo lo medimos', fr: 'Comment nous mesurons',

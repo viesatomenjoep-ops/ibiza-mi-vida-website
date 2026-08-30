@@ -5,6 +5,7 @@ import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { localeTag } from '@/lib/date-label'
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
+import { DatasetJsonLd } from '@/components/seo/DatasetJsonLd'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 
 export const revalidate = 3600
@@ -199,6 +200,17 @@ export default async function IbizaSeasonPage({ params }: { params: { locale: st
     <main className="bg-white text-neutral-900">
       <BreadcrumbJsonLd locale={l} items={[{ name: homeLabel(l), path: `${l}` }, { name: t(TITLE, l) }]} />
       <FaqJsonLd faqs={questions} />
+      <DatasetJsonLd
+        locale={l}
+        path="ibiza-season"
+        name={`Ibiza club season dates ${s.from.slice(0, 4)}`}
+        description={`Scheduled club nights per venue in Ibiza: first and last published date for ${s.venues.length} clubs, and how many nights each month holds. Read off a live ticketing agenda.`}
+        from={s.from}
+        to={s.to}
+        variable="Scheduled club nights per venue, with first and last published date"
+        observations={s.venues.reduce((n, v) => n + v.upcoming, 0)}
+        technique="Read off the published agenda of an official ticketing partner; the last date held is not proof a venue closes after it."
+      />
 
       <section className="mx-auto max-w-3xl px-4 pb-10 pt-[calc(var(--nav-h)+48px)]">
         <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{t(KICKER, l)}</p>

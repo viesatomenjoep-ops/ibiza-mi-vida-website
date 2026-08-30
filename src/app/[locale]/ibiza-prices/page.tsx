@@ -5,12 +5,14 @@ import { getPriceStats } from '@/lib/price-stats'
 import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
+import { DatasetJsonLd } from '@/components/seo/DatasetJsonLd'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import {
   KICKER, TITLE, META_TITLE, metaDescription, answer,
   H_VENUES, H_CATEGORIES, H_NOT_INCLUDED, H_METHOD,
   TH_VENUE, TH_TYPICAL, TH_RANGE, TH_DATES,
   CATEGORY_LABEL, FROM_LABEL, notIncluded, method, faqs, H_SPREAD, spread,
+  H_ALSO, alsoSee,
 } from '@/lib/price-page-copy'
 
 export const revalidate = 3600
@@ -84,6 +86,19 @@ export default async function IbizaPricesPage({ params }: { params: { locale: st
         items={[{ name: homeLabel(l), path: `${l}` }, { name: TITLE[l] || TITLE.en }]}
       />
       <FaqJsonLd faqs={questions} />
+      {/* Deze pagina publiceert een telling, geen mening — zie
+          components/seo/DatasetJsonLd.tsx voor waarom dat type hier past. */}
+      <DatasetJsonLd
+        locale={l}
+        path="ibiza-prices"
+        name={`Ibiza club ticket prices ${stats.from.slice(0, 4)}`}
+        description={`Advertised entry-ticket prices for ${stats.clubN} dated club nights across ${stats.venues.length} venues in Ibiza, counted from a live ticketing agenda. Median, quartiles and per-venue figures.`}
+        from={stats.from}
+        to={stats.to}
+        variable="Cheapest advertised entry ticket price in EUR per club night"
+        observations={stats.clubN}
+        technique="Counted from the published agenda of an official ticketing partner; median of the lowest advertised price per date, recomputed hourly."
+      />
 
       {/* ── The answer, first ─────────────────────────────────────────── */}
       <section className="mx-auto max-w-3xl px-4 pb-10 pt-[calc(var(--nav-h)+48px)]">
@@ -187,6 +202,20 @@ export default async function IbizaPricesPage({ params }: { params: { locale: st
             </div>
           ))}
         </div>
+      </section>
+
+      {/* ── Uit dezelfde dataset ──────────────────────────────────────── */}
+      <section className="mx-auto max-w-3xl px-4 pb-12">
+        <h2 className="font-serif text-2xl font-black tracking-tight">{H_ALSO[l] || H_ALSO.en}</h2>
+        <ul className="mt-4 space-y-2">
+          {alsoSee(l, `/${l}`).map(x => (
+            <li key={x.href}>
+              <Link href={x.href} className="text-neutral-900 underline decoration-black/25 underline-offset-2 hover:decoration-ibiza-green">
+                {x.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* ── Method ────────────────────────────────────────────────────── */}
