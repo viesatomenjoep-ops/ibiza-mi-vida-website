@@ -117,6 +117,106 @@ export const PAGE_FAQ: Record<string, FaqItem[]> = {
         'La saison s’étend en gros de mai à octobre, et en pleine saison les bateaux les plus demandés partent des semaines à l’avance — surtout le week-end. Si vous êtes bloqué sur une date précise ou en grand groupe, réservez au plus tôt. Le dernier moment fonctionne souvent, mais vous choisissez parmi ce qui reste. Envoyez-nous votre date, nous vérifions la disponibilité immédiatement.',
       ),
     },
+    // ── Route- and experience-specific questions ────────────────────────
+    // Added alongside the six above, which cover licence, skipper, price,
+    // capacity, wind and lead time. These six answer the questions people
+    // actually ask once the boat is settled and they start picturing the day.
+    {
+      q: L(
+        'Kunnen we de route op de dag zelf bepalen?',
+        'Can we decide the route on the day itself?',
+        'Können wir die Route am Tag selbst festlegen?',
+        '¿Podemos decidir la ruta el mismo día?',
+        'Peut-on décider de l’itinéraire le jour même ?',
+      ),
+      a: L(
+        'Ja, en dat is precies hoe het in de praktijk gaat. We spreken vooraf een richting af — zuid en Formentera, de westkust langs Es Vedrà, of de rustigere noord- en oostkant — maar de definitieve volgorde maakt de schipper op de ochtend, op basis van de wind en de zee van dat moment. Onderweg kun je gerust zeggen dat je langer in een baai wilt blijven of juist door wilt varen. Het enige wat vastligt is de eindtijd, want de boot moet terug in de haven zijn.',
+        'Yes, and that is exactly how it works in practice. We agree a direction beforehand — south and Formentera, the west coast past Es Vedrà, or the quieter north and east side — but the final order is set by the skipper on the morning, based on the wind and sea at that moment. Along the way you are free to say you want to stay longer in a cove or move on sooner. The only fixed point is the finish time, because the boat has to be back in the marina.',
+        'Ja, und genau so läuft es in der Praxis. Wir stimmen vorab eine Richtung ab — Süden und Formentera, die Westküste an Es Vedrà vorbei oder die ruhigere Nord- und Ostseite — aber die endgültige Reihenfolge legt der Skipper am Morgen fest, nach Wind und Seegang des Tages. Unterwegs kannst du jederzeit sagen, dass du länger in einer Bucht bleiben oder weiterfahren möchtest. Fest steht nur die Endzeit, denn das Boot muss zurück in den Hafen.',
+        'Sí, y así funciona en la práctica. Acordamos antes una dirección — el sur y Formentera, la costa oeste pasando por Es Vedrà, o el lado más tranquilo del norte y el este — pero el orden definitivo lo fija el patrón por la mañana, según el viento y el mar de ese momento. Durante el día puedes decir sin problema que quieres quedarte más en una cala o seguir antes. Lo único fijo es la hora de regreso, porque el barco tiene que volver a puerto.',
+        'Oui, et c’est exactement ainsi que cela se passe. Nous convenons d’une direction à l’avance — le sud et Formentera, la côte ouest par Es Vedrà, ou le nord et l’est plus tranquilles — mais l’ordre définitif est fixé par le skipper le matin, selon le vent et l’état de la mer. En chemin, vous pouvez tout à fait demander à rester plus longtemps dans une crique ou à repartir plus tôt. Seule l’heure de fin est fixe : le bateau doit rentrer au port.',
+      ),
+    },
+    {
+      q: L(
+        'Kunnen we op één dag naar Formentera en weer terug?',
+        'Can we go to Formentera and back in a single day?',
+        'Schaffen wir Formentera und zurück an einem Tag?',
+        '¿Podemos ir a Formentera y volver en un solo día?',
+        'Peut-on aller à Formentera et revenir dans la journée ?',
+      ),
+      a: L(
+        'Dat kan prima en het is de meest gevraagde dag die we varen. Wees wel realistisch over wat erin past: reken op twee stops, hooguit drie. Een gangbare dag is de oversteek, ankeren bij de zandbanken van Es Palmador en daarna Ses Illetes op de noordpunt van Formentera — en dan terug. Wie er vier baaien bij zet, is vooral aan het varen in plaats van aan het zwemmen. Bij aanhoudende zuidenwind kan de oversteek onrustig worden en stelt de schipper een alternatief langs de Ibiza-kust voor.',
+        'It works well and it is the most requested day we run. Just be realistic about what fits: count on two stops, three at most. A typical day is the crossing, anchoring off the sandbanks at Es Palmador and then Ses Illetes on Formentera’s northern spit — and back. Add a fourth cove and you mainly spend the day under way rather than in the water. In sustained southerly wind the crossing can turn choppy and the skipper will suggest an alternative along the Ibiza coast instead.',
+        'Das klappt gut und ist der meistgefragte Tag, den wir fahren. Sei nur realistisch, was hineinpasst: Rechne mit zwei Stopps, höchstens drei. Ein typischer Tag ist die Überfahrt, Ankern an den Sandbänken von Es Palmador und danach Ses Illetes auf der Nordspitze Formenteras — und zurück. Wer eine vierte Bucht dazunimmt, ist vor allem unterwegs statt im Wasser. Bei anhaltendem Südwind kann die Überfahrt unruhig werden, dann schlägt der Skipper eine Alternative entlang der Ibiza-Küste vor.',
+        'Se puede perfectamente y es el día que más nos piden. Eso sí, sé realista con lo que cabe: cuenta con dos paradas, tres como mucho. Un día habitual es la travesía, fondear en los bajos de arena de Es Palmador y después Ses Illetes, en la punta norte de Formentera — y vuelta. Si añades una cuarta cala, pasarás el día navegando en vez de bañándote. Con viento sostenido del sur la travesía puede ponerse movida y el patrón propondrá una alternativa por la costa de Ibiza.',
+        'C’est tout à fait faisable et c’est la journée qu’on nous demande le plus. Soyez simplement réaliste sur ce qui tient : comptez deux escales, trois au maximum. Une journée type, c’est la traversée, le mouillage sur les bancs de sable d’Es Palmador puis Ses Illetes, sur la pointe nord de Formentera — et le retour. Ajoutez une quatrième crique et vous passerez la journée à naviguer plutôt qu’à vous baigner. Par vent de sud installé, la traversée peut devenir agitée et le skipper proposera une solution le long de la côte d’Ibiza.',
+      ),
+    },
+    {
+      q: L(
+        'Waar wordt er gezwommen tijdens een privécharter?',
+        'Where do we swim during a private charter?',
+        'Wo wird bei einem Privatcharter geschwommen?',
+        '¿Dónde nos bañamos durante un chárter privado?',
+        'Où se baigne-t-on pendant un charter privé ?',
+      ),
+      a: L(
+        'In de baaien onderweg, terwijl de boot voor anker ligt. De schipper zoekt een beschutte baai met een schone zandbodem uit — rond Ibiza en Formentera liggen beschermde zeegrasvelden, en daar gaat het anker niet in. Welke baai het wordt, hangt af van de windrichting van die dag: bij noordenwind de zuidkant, bij zuidenwind juist de noordkant. Populaire zwemstops zijn de ondiepten bij Es Palmador, het heldere water bij Cala Conta en de kleine baaien rond Portinatx.',
+        'In the coves along the way, with the boat at anchor. The skipper picks a sheltered bay with a clean sandy bottom — protected seagrass beds lie around Ibiza and Formentera, and the anchor does not go into those. Which bay it turns out to be depends on the wind direction that day: in a northerly the south side, in a southerly the north side. Popular swim stops are the shallows at Es Palmador, the clear water off Cala Conta and the small coves around Portinatx.',
+        'In den Buchten unterwegs, während das Boot vor Anker liegt. Der Skipper sucht eine geschützte Bucht mit sauberem Sandgrund — rund um Ibiza und Formentera liegen geschützte Seegraswiesen, dort fällt der Anker nicht. Welche Bucht es wird, hängt von der Windrichtung des Tages ab: bei Nordwind die Südseite, bei Südwind die Nordseite. Beliebte Badestopps sind die Flachwasserbereiche bei Es Palmador, das klare Wasser vor Cala Conta und die kleinen Buchten um Portinatx.',
+        'En las calas del recorrido, con el barco fondeado. El patrón busca una cala resguardada con fondo de arena limpio — alrededor de Ibiza y Formentera hay praderas de posidonia protegidas, y ahí el ancla no entra. Qué cala será depende de la dirección del viento de ese día: con viento del norte, el sur; con viento del sur, el norte. Paradas de baño habituales son los bajos de Es Palmador, el agua clara de Cala Conta y las calas pequeñas de Portinatx.',
+        'Dans les criques en chemin, le bateau au mouillage. Le skipper choisit une baie abritée avec un fond de sable propre — des herbiers protégés bordent Ibiza et Formentera, et l’ancre n’y descend pas. Quelle crique exactement dépend de la direction du vent du jour : par vent de nord, le sud ; par vent de sud, le nord. Les arrêts baignade classiques sont les hauts-fonds d’Es Palmador, l’eau claire de Cala Conta et les petites criques de Portinatx.',
+      ),
+    },
+    {
+      q: L(
+        'Wat als iemand aan boord zeeziek wordt?',
+        'What if someone on board gets seasick?',
+        'Was, wenn jemand an Bord seekrank wird?',
+        '¿Y si alguien se marea a bordo?',
+        'Et si quelqu’un a le mal de mer à bord ?',
+      ),
+      a: L(
+        'Zeg het meteen tegen de schipper, want er is dan wél iets aan te doen. Hij vaart naar rustiger water of laat het anker vallen in de eerstvolgende beschutte baai — stilliggen helpt bijna altijd. Ga aan dek zitten, midden op de boot, kijk naar de horizon en niet naar je telefoon, en drink wat water. Wie weet dat hij gevoelig is, neemt een middel het beste vóór vertrek in plaats van achteraf. Meld het bij je aanvraag: dan plannen we de ochtend in plaats van de middag en houden we de route dichter bij de kust.',
+        'Tell the skipper straight away, because there is genuinely something to be done about it. He will move to calmer water or drop the anchor in the next sheltered cove — lying still almost always helps. Sit on deck, in the middle of the boat, look at the horizon rather than your phone, and drink some water. Anyone who knows they are sensitive is best taking something before departure rather than after the fact. Mention it when you enquire: we will then plan the morning rather than the afternoon and keep the route closer to the coast.',
+        'Sag es sofort dem Skipper, denn dagegen lässt sich wirklich etwas tun. Er fährt in ruhigeres Wasser oder ankert in der nächsten geschützten Bucht — Stillliegen hilft fast immer. Setz dich an Deck, mittschiffs, schau zum Horizont statt aufs Handy und trink etwas Wasser. Wer weiß, dass er empfindlich ist, nimmt ein Mittel besser vor der Abfahrt als hinterher. Sag es bei der Anfrage: Dann planen wir den Vormittag statt den Nachmittag und halten die Route näher an der Küste.',
+        'Díselo enseguida al patrón, porque sí se puede hacer algo. Irá a aguas más tranquilas o fondeará en la siguiente cala resguardada — estar quietos casi siempre ayuda. Siéntate en cubierta, en el centro del barco, mira al horizonte y no al móvil, y bebe algo de agua. Quien sepa que es sensible, mejor que tome algo antes de salir y no después. Coméntalo al hacer la consulta: planificamos la mañana en vez de la tarde y mantenemos la ruta más cerca de la costa.',
+        'Dites-le tout de suite au skipper, car il y a réellement quelque chose à faire. Il gagnera des eaux plus calmes ou mouillera dans la première crique abritée — s’immobiliser aide presque toujours. Asseyez-vous sur le pont, au milieu du bateau, regardez l’horizon plutôt que votre téléphone, et buvez un peu d’eau. Si vous vous savez sensible, mieux vaut prendre un traitement avant le départ qu’après coup. Signalez-le lors de la demande : nous prévoirons la matinée plutôt que l’après-midi et garderons l’itinéraire plus près de la côte.',
+      ),
+    },
+    {
+      q: L(
+        'Mogen we zelf eten en drinken meenemen aan boord?',
+        'Can we bring our own food and drink on board?',
+        'Dürfen wir eigenes Essen und Trinken mitbringen?',
+        '¿Podemos llevar nuestra propia comida y bebida a bordo?',
+        'Peut-on apporter sa propre nourriture et ses boissons à bord ?',
+      ),
+      a: L(
+        'Op de meeste boten mag dat, en veel groepen doen het ook: een koelbox, wat fruit, brood en water is voor een dag op zee genoeg. Neem geen glas mee als het te vermijden is — dat breekt aan dek — en houd het aantal tassen laag, want opbergruimte is schaars. Wat per boot verschilt, is of er al drank aan boord is en of catering mogelijk is. Vraag het ons bij je aanvraag; we bevestigen per boot via WhatsApp wat is toegestaan en wat het eventueel kost.',
+        'On most boats you can, and plenty of groups do: a cool box, some fruit, bread and water is enough for a day at sea. Avoid glass where you can — it breaks on deck — and keep the number of bags down, because storage is tight. What varies per boat is whether drinks are already on board and whether catering can be arranged. Ask us when you enquire; we confirm per boat over WhatsApp what is allowed and what it may cost.',
+        'Auf den meisten Booten ist das erlaubt, und viele Gruppen machen es auch: eine Kühlbox, etwas Obst, Brot und Wasser reichen für einen Tag auf See. Vermeide Glas, wo es geht — das zerbricht an Deck — und halte die Zahl der Taschen klein, denn Stauraum ist knapp. Je nach Boot unterscheidet sich, ob Getränke schon an Bord sind und ob Catering möglich ist. Frag uns bei der Anfrage; wir bestätigen pro Boot per WhatsApp, was erlaubt ist und was es gegebenenfalls kostet.',
+        'En la mayoría de los barcos sí, y muchos grupos lo hacen: una nevera portátil, algo de fruta, pan y agua bastan para un día en el mar. Evita el vidrio si puedes — se rompe en cubierta — y lleva pocas bolsas, porque el espacio para guardar es justo. Lo que cambia según el barco es si ya hay bebida a bordo y si se puede contratar catering. Pregúntanos al hacer la consulta; te confirmamos por WhatsApp, barco por barco, qué se permite y qué coste tendría.',
+        'Sur la plupart des bateaux, c’est possible, et beaucoup de groupes le font : une glacière, des fruits, du pain et de l’eau suffisent pour une journée en mer. Évitez le verre si vous le pouvez — cela casse sur le pont — et limitez le nombre de sacs, car le rangement est compté. Ce qui varie d’un bateau à l’autre, c’est la présence de boissons à bord et la possibilité d’un traiteur. Demandez-nous lors de la réservation ; nous confirmons par WhatsApp, bateau par bateau, ce qui est autorisé et ce que cela coûte éventuellement.',
+      ),
+    },
+    {
+      q: L(
+        'Kunnen we onderweg aan land voor de lunch?',
+        'Can we stop ashore for lunch during the day?',
+        'Können wir unterwegs zum Mittagessen an Land?',
+        '¿Podemos bajar a tierra a comer durante el día?',
+        'Peut-on descendre à terre pour déjeuner en cours de journée ?',
+      ),
+      a: L(
+        'Vaak wel, maar niet overal en niet vanzelfsprekend. Sommige baaien hebben een steiger of een bijboot waarmee je aan wal komt; op andere plekken ligt de boot voor anker zonder aanlegmogelijkheid en eet je aan boord. Es Vedrà is een duidelijk voorbeeld van het tweede: dat is een beschermd rotseiland zonder strand, daar vaar je omheen en ga je niet aan land. Wil je een lunch aan wal, zeg het dan vooraf, dan bouwt de schipper de route rond een plek waar dat werkt en houdt hij rekening met de tijd die het kost.',
+        'Often yes, but not everywhere and not automatically. Some coves have a jetty or a tender that gets you ashore; in other places the boat lies at anchor with no landing and you eat on board. Es Vedrà is a clear case of the latter: it is a protected rocky islet with no beach, so you circle it rather than land on it. If you want lunch ashore, say so beforehand — the skipper will then build the route around somewhere that works and allow for the time it takes.',
+        'Oft ja, aber nicht überall und nicht automatisch. Manche Buchten haben einen Steg oder ein Beiboot, mit dem man an Land kommt; anderswo liegt das Boot vor Anker ohne Anlegemöglichkeit, und ihr esst an Bord. Es Vedrà ist ein klares Beispiel für Letzteres: ein geschütztes Felseneiland ohne Strand — man umrundet es, man geht dort nicht an Land. Wenn du an Land essen möchtest, sag es vorab: Der Skipper baut die Route dann um einen passenden Ort herum und plant die Zeit dafür ein.',
+        'A menudo sí, pero no en todas partes ni por defecto. Algunas calas tienen pantalán o auxiliar para llegar a tierra; en otras el barco queda fondeado sin posibilidad de atracar y se come a bordo. Es Vedrà es un caso claro de lo segundo: es un islote rocoso protegido sin playa, así que se rodea y no se desembarca. Si quieres comer en tierra, dilo antes: el patrón montará la ruta alrededor de un sitio que lo permita y contará con el tiempo que implica.',
+        'Souvent oui, mais pas partout et pas automatiquement. Certaines criques disposent d’un ponton ou d’une annexe pour rejoindre la terre ; ailleurs, le bateau reste au mouillage sans possibilité d’accoster et l’on déjeune à bord. Es Vedrà en est un exemple net : c’est un îlot rocheux protégé sans plage, on en fait le tour, on n’y débarque pas. Si vous souhaitez déjeuner à terre, dites-le à l’avance : le skipper construira l’itinéraire autour d’un endroit adapté et prévoira le temps nécessaire.',
+      ),
+    },
   ],
 
   boats: [

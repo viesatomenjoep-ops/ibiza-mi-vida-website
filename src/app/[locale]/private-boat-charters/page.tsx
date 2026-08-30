@@ -5,6 +5,7 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { getDictionary } from '@/lib/dictionary'
 import PrivateBoatChartersClient from './PrivateBoatChartersClient'
 import { PageFaq } from '@/components/seo/PageFaq'
+import { SailingRoutes } from '@/components/boats/SailingRoutes'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 
 export const revalidate = 3600
@@ -29,6 +30,7 @@ export default async function PrivateBoatChartersPage({ params: { locale } }: { 
     <>
       <ServiceSchema name={sc.name[l]} description={sc.description[l]} serviceType={sc.serviceType} path={`${l}/private-boat-charters`} />
       <PrivateBoatChartersClient locale={locale} />
+      <SailingRoutes locale={locale} />
       <PageFaq pageKey="private-boat-charters" locale={locale} />
       <AuthorByline locale={locale} topic="private boat charters in Ibiza" />
     </>

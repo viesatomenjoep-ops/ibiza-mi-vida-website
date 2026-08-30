@@ -11,12 +11,12 @@ import { type DealsData } from '@/components/home/HomeDeals';
 import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
 import { HomeHeroVideo } from '@/components/home/HomeHeroVideo';
 import { HeroShowIntro } from '@/components/home/HeroShowIntro';
-import { HomeScrollHint } from '@/components/home/HomeScrollHint';
 import { HomeCategoryCarousel } from '@/components/home/HomeCategoryCarousel';
 import { HomeUSP } from '@/components/home/HomeUSP';
 import { HomeMobileAppStrip } from '@/components/home/HomeMobileAppStrip';
 import { HomeInstagram } from '@/components/home/HomeInstagram';
 import { HomeNewsletter } from '@/components/home/HomeNewsletter';
+import { HomeFaq } from '@/components/home/HomeFaq';
 import { ArrowCircle } from '@/components/ui/ArrowCircle';
 import { HomeTonight } from '@/components/home/HomeTonight';
 
@@ -101,6 +101,31 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           </Link>
         </div>
 
+        {/* Live picker, in the first viewport. It was below the fold with a
+            small legend, so the whole traffic-light system — which is real,
+            time-based data — was invisible to anyone who did not scroll. Each
+            item links straight to that event's page, so a visitor can go from
+            landing to booking without scrolling once. */}
+        {pickerEvents.length > 0 && (
+          <div className="pointer-events-auto absolute inset-x-0 bottom-0 z-20 pb-[max(10px,env(safe-area-inset-bottom))]">
+            <div className="bg-gradient-to-t from-black/80 via-black/55 to-transparent pb-2 pt-8">
+              <HomeEventSlider
+                /* 14, not 30. The slider repeats its list four times for the
+                   seamless loop, so 30 events meant 120 club logos loading
+                   inside the first viewport — measured at LCP 2.5s -> 2.9s.
+                   Fourteen still fills the marquee; nobody sees item 15. */
+                events={pickerEvents.slice(0, 14)}
+                liveByClub={liveByClub}
+                locale={locale}
+                className="w-full bg-transparent"
+                speed={0.7}
+                showLegend
+                legendWide
+              />
+            </div>
+          </div>
+        )}
+
       </header>
 
       {/* Circular category showcase — the 4 categories as a rotating photo fan */}
@@ -110,16 +135,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       <HomeCategoryCarousel deals={deals} base={base} locale={locale} />
 
-      {/* Live event slider — the price/date category tile carousels were removed */}
-      {deals && pickerEvents.length > 0 && (
-        <div className="w-full bg-neutral-100 py-6 md:py-8">
-          <HomeEventSlider events={pickerEvents.slice(0, 30)} liveByClub={liveByClub} locale={locale} onLight className="w-full bg-transparent" speed={0.7} />
-        </div>
-      )}
-
       <HomeTonight events={pickerEvents} todayStr={todayStr} locale={locale} base={base} />
-
-      <HomeScrollHint locale={locale} />
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {upcomingDates.length > 0 && (
@@ -337,6 +353,9 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           </div>
         </Reveal>
       </section>
+
+      {/* FAQ — condensed sitewide FAQ, deliberately the very last section */}
+      <HomeFaq locale={locale} />
     </div>
   );
 }
