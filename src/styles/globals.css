@@ -1257,11 +1257,11 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
    and defeat responsive hiding. The component supplies the base `grid`. */
 .arrow-swap{position:relative;place-items:center;overflow:hidden}
 .arrow-swap>*{grid-area:1/1;transition:transform .42s cubic-bezier(.22,1,.36,1),opacity .3s ease}
-.arrow-swap>*:last-child{transform:translateY(115%);opacity:0}
+.arrow-swap>*:last-child{transform:translate(-115%,115%);opacity:0}
 .group:hover .arrow-swap>*:first-child,
-.arrow-swap:hover>*:first-child{transform:translateY(-115%);opacity:0}
+.arrow-swap:hover>*:first-child{transform:translate(115%,-115%);opacity:0}
 .group:hover .arrow-swap>*:last-child,
-.arrow-swap:hover>*:last-child{transform:translateY(0);opacity:1}
+.arrow-swap:hover>*:last-child{transform:translate(0,0);opacity:1}
 @media(prefers-reduced-motion:reduce){
   .arrow-swap>*{transition:none}
   .arrow-swap>*:last-child{display:none}

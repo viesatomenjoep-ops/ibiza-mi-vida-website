@@ -80,6 +80,7 @@ ${prices ? `- Measured club entry, from ${prices.clubN} dated club events across
 
 - Ibiza Mi Vida is a booking and concierge service, not a venue or promoter. Tickets are fulfilled through ClubTickets, of which we are an official affiliate partner.
 - Guestlist availability is never guaranteed and is not free by default: what applies on a given night (free, discounted or ticket-only) depends on the club and the date, and is confirmed per request over WhatsApp. Do not describe our guestlist as universally free.
+- How the Ibiza guestlist works, in full: it is a name list at the door, and being on it means one of three things — free entry before a cut-off time, a reduced door price, or a faster queue. Which one applies depends on the club, the night and the line-up. Nearly every guestlist has a cut-off time that varies per club; arriving after it means the normal door price. Signing up is free and runs over WhatsApp, and we need only the club, the date and the group size. Minimum age is 18 (Spanish law) and is checked at the door regardless of the list. Full detail and FAQ: ${SITE_URL}/en/guestlist
 - Club line-ups, dates and prices change frequently; the calendar at ${SITE_URL}/en/calendar is the current source, not any cached copy.
 `
 

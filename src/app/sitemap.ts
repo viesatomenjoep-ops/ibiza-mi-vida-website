@@ -22,7 +22,7 @@ const STATIC_ROUTES: { path: string; priority: number; changeFrequency: Metadata
   { path: '/shuttle-ferry', priority: 0.6, changeFrequency: 'weekly' },
   { path: '/car-scooter-rental', priority: 0.6, changeFrequency: 'weekly' },
   { path: '/drink-packages', priority: 0.6, changeFrequency: 'weekly' },
-  { path: '/guestlist', priority: 0.6, changeFrequency: 'weekly' },
+  { path: '/guestlist', priority: 0.8, changeFrequency: 'weekly' },
   { path: '/tips', priority: 0.6, changeFrequency: 'weekly' },
   // Recomputed from the live agenda on every revalidation, so 'daily' is
   // honest rather than optimistic.

@@ -1,13 +1,18 @@
-import { ArrowRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 
 /**
  * Circular arrow affordance with a "launch" hover.
  *
- * On hover the arrow slides up and out of the circle while an identical arrow
- * rises from below to take its place, so the icon appears to travel without
+ * On hover the arrow leaves through the top-right corner while an identical
+ * arrow enters from the bottom-left, so the icon appears to travel without
  * ever leaving the circle. Moving away reverses it. The motion is pure CSS
  * (`.arrow-swap` in globals.css) driven by a `.group` ancestor, so it also
  * fires when the user hovers the whole card rather than just the circle.
+ *
+ * The glyph and the motion are deliberately on the same diagonal. It used to
+ * be a straight ArrowRight that slid vertically, which read as two unrelated
+ * directions at once — the arrow pointed one way and moved another. Pointing
+ * and travelling north-east makes the affordance read as a single gesture.
  *
  * Both copies are aria-hidden: this is decoration on top of a link or button
  * that already carries its own accessible name.
@@ -29,8 +34,8 @@ export function ArrowCircle({
       style={{ width: size, height: size }}
       aria-hidden
     >
-      <ArrowRight size={iconSize} strokeWidth={2.4} />
-      <ArrowRight size={iconSize} strokeWidth={2.4} />
+      <ArrowUpRight size={iconSize} strokeWidth={2.4} />
+      <ArrowUpRight size={iconSize} strokeWidth={2.4} />
     </span>
   )
 }
