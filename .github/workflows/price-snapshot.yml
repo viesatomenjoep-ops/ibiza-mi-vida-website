@@ -1,0 +1,80 @@
+# Dagelijkse agenda-sync + prijsmomentopname.
+#
+# Twee dingen tegelijk, en het eerste is het belangrijkste:
+#
+#  1. De ClubTickets-sync draaide tot nu toe alleen als iemand er handmatig aan
+#     dacht. Alle prijzen, line-ups en seizoensdata op de site waren dus zo vers
+#     als de laatste keer dat dat gebeurde — op /ibiza-prices, /ibiza-season en
+#     /this-week staat dat als "elk uur bijgewerkt", wat alleen klopt voor de
+#     berekening, niet voor de onderliggende data.
+#  2. Elke dag vastleggen wat er met de prijzen gebeurt, zodat we over een paar
+#     maanden kunnen beantwoorden of vroeg boeken goedkoper is. Niemand kan dat
+#     nu onderbouwen omdat niemand het bijhoudt.
+#
+# Draait als GitHub Action en niet als Vercel-cron omdat de sync de hele
+# ClubTickets-API afloopt (42 venues, met retries) en dat langer duurt dan een
+# serverless functie mag draaien.
+#
+# De commit hieronder triggert een Vercel-deploy, wat precies de bedoeling is:
+# verse data komt vanzelf live.
+
+name: Prijsmomentopname
+
+on:
+  schedule:
+    # 05:20 UTC — ruim na de laatste clubavond en voor het ochtendverkeer.
+    # Niet op het hele uur: GitHub plant cronjobs op drukke minuten later in.
+    - cron: '20 5 * * *'
+  workflow_dispatch: {}
+
+# Nodig om de bijgewerkte data terug te committen.
+permissions:
+  contents: write
+
+concurrency:
+  group: price-snapshot
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # 22 en niet 20: de lockfile is met npm 11 gemaakt en 77 pakketten
+          # in deze boom eisen Node 22 of hoger (o.a. de hele @supabase-familie).
+          # Op Node 20 rekent npm 10 een andere afhankelijkheidsboom uit en
+          # weigert de lockfile.
+          node-version: 22
+          cache: npm
+
+      # npm install en niet npm ci. Streng is hier mooier dan bruikbaar: npm ci
+      # eist dat de lockfile exact overeenkomt met wat de gebruikte npm-versie
+      # zou uitrekenen, en deze lockfile is met npm 11 gegenereerd terwijl
+      # Vercel de site met npm install bouwt. Voor een nachtelijke datasync
+      # weegt betrouwbaar draaien zwaarder dan bit-voor-bit reproduceerbaar.
+      - run: npm install --no-audit --no-fund
+
+      - name: Agenda synchroniseren
+        run: npm run sync-clubtickets
+
+      - name: Prijzen vastleggen
+        run: node scripts/price-snapshot.mjs
+
+      - name: Committen als er iets veranderd is
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data data/price-history
+          # Niets veranderd is een geldige uitkomst, geen fout: op een rustige
+          # dag verandert er niets aan de agenda en hoort er geen lege commit
+          # te ontstaan.
+          if git diff --cached --quiet; then
+            echo "Geen wijzigingen — niets te committen."
+            exit 0
+          fi
+          git commit -m "Agenda gesynchroniseerd en prijzen vastgelegd ($(date -u +%F))"
+          git push
