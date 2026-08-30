@@ -9,6 +9,7 @@ import { HOME_TITLE, HOME_DESC } from '@/lib/seo-pages'
 import { FLEET } from '@/data/fleet'
 import { pickCover } from '@/lib/blank-covers';
 import { eventBasePath } from '@/lib/event-path';
+import { addDays } from '@/lib/date-label';
 
 export const revalidate = 3600
 
@@ -162,33 +163,95 @@ export default async function Home({ params }: { params: { locale: string } }) {
     }
   });
 
-  const experienceDates = allDates
-    .filter(d => {
-      const t = typeBySlug.get(d.venueSlug || '');
-      return d.date >= todayStr && !!t && t !== 'clubbing';
-    })
-    .slice(0, 12)
-    .map(mapDate);
+  // Both featured strips cycle through this many days rather than showing one.
+  // A visitor arriving in the evening was being shown a programme that had
+  // largely already happened.
+  const DAYS = 3;
+  const dayList = Array.from({ length: DAYS }, (_, i) => addDays(todayStr, i));
+  const onDay = (iso: string) => allDates.filter(d => (d.date || '').slice(0, 10) === iso);
 
-  const upcomingDates = allDates
-    .filter(d => d.date >= todayStr && clubbingSlugs.has(d.venueSlug || ''))
-    .slice(0, 12)
-    .map(d => ({
-      id: d.id,
-      name: d.name,
-      date: d.date,
-      prices: d.prices,
-      ct_events: {
-        name: d.eventName,
-        slug: d.eventSlug,
-        logo: d.eventLogo,
-        cover: pickCover(d.eventCover, d.eventLogo, d.venueCover)
-      },
-      ct_venues: {
-        name: d.venueName,
-        slug: d.venueSlug
-      }
-    }));
+  // One event per provider before any provider gets a second slot. Without
+  // this, a single operator running eight jet-ski departures a day eats most
+  // of the grid and the buggy and quad tours never appear at all.
+  const spreadByVenue = <T extends { venueSlug?: string }>(rows: T[]): T[] => {
+    const groups = new Map<string, T[]>();
+    for (const r of rows) {
+      const k = r.venueSlug || '';
+      const g = groups.get(k);
+      if (g) g.push(r); else groups.set(k, [r]);
+    }
+    const lists = Array.from(groups.values());
+    const out: T[] = [];
+    for (let i = 0; ; i++) {
+      const before = out.length;
+      for (const l of lists) if (i < l.length) out.push(l[i]);
+      if (out.length === before) return out;
+    }
+  };
+
+  // Weighted round-robin across venue types instead of the feed's own order.
+  // Straight slicing gave twelve boats and ferries every time: the feed lists
+  // water first and there is enough of it to fill the grid before a single
+  // land activity is reached. The section is called "on the water AND
+  // activities", so it has to actually contain both.
+  //
+  // 'activities' is weighted double because ClubTickets files land and water
+  // sport under that one type — jet skis and SUP sit next to buggies, quads
+  // and jeep safaris — so an equal share would still come out mostly wet.
+  const weave = <T,>(buckets: { rows: T[]; weight: number }[], max: number): T[] => {
+    const out: T[] = [];
+    const at = buckets.map(() => 0);
+    for (;;) {
+      const before = out.length;
+      buckets.forEach((b, bi) => {
+        for (let w = 0; w < b.weight && out.length < max; w++) {
+          if (at[bi] < b.rows.length) out.push(b.rows[at[bi]++]);
+        }
+      });
+      if (out.length >= max || out.length === before) return out;
+    }
+  };
+
+  const experienceDays = dayList.map(iso => {
+    const rows = onDay(iso);
+    const ofType = (t: string) =>
+      spreadByVenue(rows.filter(d => (typeBySlug.get(d.venueSlug || '') || '') === t));
+    return {
+      date: iso,
+      items: weave(
+        [
+          { rows: ofType('activities'), weight: 2 },
+          { rows: ofType('boat'), weight: 1 },
+          { rows: ofType('formentera-day-trip'), weight: 1 },
+        ],
+        12,
+      ).map(mapDate),
+    };
+  }).filter(d => d.items.length > 0);
+
+  const clubDays = dayList.map(iso => ({
+    date: iso,
+    // Same provider-spread as the experiences grid: a club with four rooms
+    // billed as four events should not take a third of the night's line-up.
+    items: spreadByVenue(onDay(iso).filter(d => clubbingSlugs.has(d.venueSlug || '')))
+      .slice(0, 12)
+      .map(d => ({
+        id: d.id,
+        name: d.name,
+        date: d.date,
+        prices: d.prices,
+        ct_events: {
+          name: d.eventName,
+          slug: d.eventSlug,
+          logo: d.eventLogo,
+          cover: pickCover(d.eventCover, d.eventLogo, d.venueCover)
+        },
+        ct_venues: {
+          name: d.venueName,
+          slug: d.venueSlug
+        }
+      })),
+  })).filter(d => d.items.length > 0);
 
   return (
     <>
@@ -197,8 +260,8 @@ export default async function Home({ params }: { params: { locale: string } }) {
       locale={params.locale} 
       translations={dict}
       featuredClubs={featuredClubs}
-      upcomingDates={upcomingDates}
-      experienceDates={experienceDates}
+      clubDays={clubDays}
+      experienceDays={experienceDays}
       pickerEvents={[...pickerEvents].sort((a, b) => a.date.localeCompare(b.date)).slice(0, 250)}
       deals={deals}
       liveByClub={liveByClub}

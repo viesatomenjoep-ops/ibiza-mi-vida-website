@@ -19,6 +19,8 @@ import { HomeNewsletter } from '@/components/home/HomeNewsletter';
 import { HomeFaq } from '@/components/home/HomeFaq';
 import { ArrowCircle } from '@/components/ui/ArrowCircle';
 import { HomeTonight } from '@/components/home/HomeTonight';
+import { FeaturedDayRotator } from '@/components/home/FeaturedDayRotator';
+import { fmtShortDate } from '@/lib/date-label';
 
 import { Reveal } from '@/components/ui/Reveal';
 // Category-grid labels for the boat pages. These live here rather than in the
@@ -27,15 +29,6 @@ import { Reveal } from '@/components/ui/Reveal';
 // is worth.
 const CAT_BOATS: Record<string, string> = {
   nl: 'Ibiza per boot', en: 'Ibiza by boat', de: 'Ibiza per Boot', es: 'Ibiza en barco', fr: 'Ibiza en bateau',
-}
-/** `2026-08-30` -> `zo 30 aug`. UTC-parsed so it never shifts a day. */
-function fmtShortDate(iso: string, locale: string): string {
-  const [y, m, d] = String(iso || '').split('-').map(Number)
-  if (!y || !m || !d) return String(iso || '')
-  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString(
-    ({ nl: 'nl-NL', en: 'en-GB', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' } as Record<string, string>)[locale] || 'en-GB',
-    { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' },
-  )
 }
 
 const CAT_BOAT_PARTY: Record<string, string> = {
@@ -49,9 +42,9 @@ interface HomePageProps {
   locale?: string;
   translations?: any;
   featuredClubs?: any[];
-  upcomingDates?: any[];
+  clubDays?: { date: string; items: any[] }[];
   /** Non-club events happening soon: boats, ferries, catamarans, activities. */
-  experienceDates?: any[];
+  experienceDays?: { date: string; items: any[] }[];
   pickerEvents?: PickerEvent[];
   deals?: DealsData;
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
@@ -60,7 +53,7 @@ interface HomePageProps {
   todayStr?: string;
 }
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], experienceDates = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '' }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '' }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -150,20 +143,18 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       <HomeTonight events={pickerEvents} todayStr={todayStr} locale={locale} base={base} />
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
-      {upcomingDates.length > 0 && (
-        <>
-
-        <section id="home-white-start" className="pb-12 pt-6 md:pb-16 md:pt-8 bg-white text-neutral-900 border-t border-black/5">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="mb-6 flex flex-wrap items-center gap-4">
-              <h3 className="shrink-0 font-serif text-[1.625rem] font-black tracking-tight text-neutral-900">
-                {({ nl: 'Uitgelichte events', en: 'Featured events', es: 'Eventos destacados', de: 'Ausgewählte Events', fr: 'Événements en vedette' } as Record<string, string>)[locale] || 'Featured events'}
-              </h3>
-              <span className="h-px flex-1 bg-black/10" />
-            </div>
-
+      {clubDays.length > 0 && (
+        <FeaturedDayRotator
+          id="home-white-start"
+          days={clubDays}
+          locale={locale}
+          todayStr={todayStr}
+          title={({ nl: 'Uitgelichte events', en: 'Featured events', es: 'Eventos destacados', de: 'Ausgewählte Events', fr: 'Événements en vedette' } as Record<string, string>)[locale] || 'Featured events'}
+        >
+          {(items) => (
+          <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {upcomingDates.map((dateObj, di) => {
+              {items.map((dateObj: any, di: number) => {
                 const venue = dateObj.ct_venues;
                 const event = dateObj.ct_events;
                 const image = event?.cover || event?.logo;
@@ -185,7 +176,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                     <div className="flex flex-col flex-1 min-w-0 py-1 text-neutral-900">
                       <div className="flex items-center gap-2 mb-1.5">
                         <span className="bg-ibiza-green text-white text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
-                          {new Date(dateObj.date).toLocaleDateString(locale === 'nl' ? 'nl-NL' : locale === 'es' ? 'es-ES' : 'en-US', { weekday: 'short', day: 'numeric', month: 'short' })}
+                          {fmtShortDate(dateObj.date, locale)}
                         </span>
                       </div>
                       
@@ -197,9 +188,11 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                         <MapPin size={14} /> {venue?.name}
                       </div>
 
-                      <div className="text-sm font-bold text-neutral-950">
-                        {translations.home_from} €{dateObj.prices || ' ??'}
-                      </div>
+                      {dateObj.prices ? (
+                        <div className="text-sm font-bold text-neutral-950">
+                          {translations.home_from} {dateObj.prices}
+                        </div>
+                      ) : null}
                     </div>
                     
                     <ArrowCircle className="mr-2 hidden bg-ibiza-mint text-ibiza-green group-hover:bg-ibiza-green group-hover:text-white sm:grid" />
@@ -214,9 +207,9 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                 {translations.home_full_calendar}
               </Link>
             </div>
-          </div>
-        </section>
-        </>
+          </>
+          )}
+        </FeaturedDayRotator>
       )}
 
       {/* Second featured strip: everything that is not a nightclub. The homepage
@@ -225,18 +218,17 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           were invisible unless you found them in the nav. Links go through the
           venue's own basePath, because only 'clubbing' lives under
           /club-tickets and sending a boat there is a guaranteed 404. */}
-      {experienceDates.length > 0 && (
-        <section className="border-t border-black/5 bg-white pb-12 pt-6 text-neutral-900 md:pb-16 md:pt-8">
-          <div className="mx-auto max-w-7xl px-4">
-            <div className="mb-6 flex flex-wrap items-center gap-4">
-              <h3 className="min-w-0 font-serif text-[1.25rem] font-black leading-tight tracking-tight text-neutral-900 sm:text-[1.625rem]">
-                {({ nl: 'Op het water & activiteiten', en: 'On the water & activities', es: 'En el agua y actividades', de: 'Auf dem Wasser & Aktivitäten', fr: 'Sur l’eau & activités' } as Record<string, string>)[locale] || 'On the water & activities'}
-              </h3>
-              <span className="h-px flex-1 bg-black/10" />
-            </div>
-
+      {experienceDays.length > 0 && (
+        <FeaturedDayRotator
+          id="home-experiences"
+          days={experienceDays}
+          locale={locale}
+          todayStr={todayStr}
+          title={({ nl: 'Op het water & activiteiten', en: 'On the water & activities', es: 'En el agua y actividades', de: 'Auf dem Wasser & Aktivitäten', fr: 'Sur l’eau & activités' } as Record<string, string>)[locale] || 'On the water & activities'}
+        >
+          {(items) => (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {experienceDates.map((dateObj: any, di: number) => {
+              {items.map((dateObj: any, di: number) => {
                 const venue = dateObj.ct_venues;
                 const event = dateObj.ct_events;
                 const image = event?.cover || event?.logo;
@@ -263,8 +255,8 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                 );
               })}
             </div>
-          </div>
-        </section>
+          )}
+        </FeaturedDayRotator>
       )}
 
       {/* Club logo marquee — just the logos — right below "Volledige kalender", above Populaire clubs */}
