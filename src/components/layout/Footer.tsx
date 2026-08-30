@@ -1,5 +1,7 @@
 'use client'
 
+import { clearConsent } from '@/lib/consent'
+
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
@@ -75,6 +77,10 @@ export function Footer() {
         { href: `${base}/faq`, label: t.nav_faq || 'FAQ' },
         { href: `${base}/privacy-policy`, label: t.nav_privacy || 'Privacybeleid' },
         { href: `${base}/terms-&-conditions`, label: t.nav_terms || 'Voorwaarden' },
+        // Toestemming moet net zo makkelijk in te trekken zijn als te geven —
+        // dat is een eis, geen extraatje. Dit wist de keuze en laat de balk
+        // opnieuw verschijnen.
+        { onClick: clearConsent, label: t.footer_cookie_settings || 'Cookievoorkeuren' },
       ],
     },
   ]
@@ -124,9 +130,18 @@ export function Footer() {
               </button>
               {shown(g.id) && (
                 <div className="foot-links">
-                  {g.links.map(l => (
-                    <Link key={l.href + l.label} href={l.href}>{l.label}</Link>
-                  ))}
+                  {g.links.map(l =>
+                    // Eén item in deze lijst is geen navigatie maar een actie
+                    // (toestemming intrekken). Dat hoort een <button> te zijn
+                    // en geen link naar nergens.
+                    'onClick' in l && l.onClick ? (
+                      <button key={l.label} type="button" onClick={l.onClick} className="text-left">
+                        {l.label}
+                      </button>
+                    ) : (
+                      <Link key={(l as any).href + l.label} href={(l as any).href}>{l.label}</Link>
+                    ),
+                  )}
                 </div>
               )}
             </div>

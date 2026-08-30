@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { Reveal } from '@/components/ui/Reveal'
+import { getConsent, CONSENT_EVENT } from '@/lib/consent'
 
 type L = Record<string, string>
 const t = (m: L, locale: string) => m[locale] || m.en
@@ -60,18 +61,26 @@ function TikTokIcon({ size = 16 }: { size?: number }) {
  * iets klikbaars staan.
  *
  * ── Privacy ───────────────────────────────────────────────────────────────
- * Dit is een tracker van een derde partij, net als de Impact- en GA4-snippets
- * in de layout. De site heeft geen toestemmingsmechanisme; voor EU-verkeer is
- * dat een afweging die de eigenaar bewust maakt. Lui laden beperkt het in
- * elk geval tot bezoekers die de sectie daadwerkelijk bereiken.
+ * TikTok's embed zet identifiers, dus hij laadt alleen na toestemming. Twee
+ * voorwaarden dus, en allebei nodig: de bezoeker moet ja gezegd hebben én de
+ * sectie moet in beeld komen. Zonder toestemming blijft de volgknop staan en
+ * wordt er niets van tiktok.com opgehaald.
  */
 export function HomeTikTok({ locale = 'nl' }: { locale?: string }) {
   const ref = useRef<HTMLDivElement>(null)
   const [loaded, setLoaded] = useState(false)
+  const [allowed, setAllowed] = useState(false)
+
+  useEffect(() => {
+    const sync = () => setAllowed(getConsent() === 'granted')
+    sync()
+    window.addEventListener(CONSENT_EVENT, sync)
+    return () => window.removeEventListener(CONSENT_EVENT, sync)
+  }, [])
 
   useEffect(() => {
     const el = ref.current
-    if (!el || loaded) return
+    if (!el || loaded || !allowed) return
     if (typeof IntersectionObserver === 'undefined') return
 
     const io = new IntersectionObserver(
@@ -90,7 +99,7 @@ export function HomeTikTok({ locale = 'nl' }: { locale?: string }) {
     )
     io.observe(el)
     return () => io.disconnect()
-  }, [loaded])
+  }, [loaded, allowed])
 
   return (
     <section className="border-t border-black/5 bg-white py-12 text-neutral-900 md:py-16">
