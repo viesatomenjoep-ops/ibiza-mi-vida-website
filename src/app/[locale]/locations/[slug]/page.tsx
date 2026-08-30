@@ -43,8 +43,10 @@ export async function generateMetadata({ params }: { params: { slug: string; loc
   if (!location) return staticMetadata(params.locale, 'locations', 'Ibiza Locations')
   const l = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE
   return detailMetadata(params.locale, `locations/${params.slug}`, location.name, {
-    // `tagline` is a localized object now — pass the string, not the object.
-    description: location.tagline[l],
+    // `intro` is a localized object now — pass the string, not the object.
+    // The intro rather than the tagline: it gives detailMetadata enough text to
+    // fill a 158-character snippet instead of a half-empty one-liner.
+    description: location.intro[l],
     image: location.imageUrl || undefined,
     suffix: location.island === 'formentera' ? '— Formentera' : '— Ibiza',
   })
@@ -57,7 +59,7 @@ function placeSchema(location: LocationData, l: Locale) {
     '@type': ['Place', 'TouristDestination'],
     '@id': `${SITE_URL}/${l}/locations/${location.slug}#place`,
     name: location.name,
-    description: location.tagline[l],
+    description: location.intro[l],
     url: `${SITE_URL}/${l}/locations/${location.slug}`,
     inLanguage: l,
     ...(location.imageUrl ? { image: `${SITE_URL}${location.imageUrl}` } : {}),
