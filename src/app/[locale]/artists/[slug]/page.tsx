@@ -14,94 +14,41 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 
 export const revalidate = 3600
 
-// ── Spotify embed lookup (artist name/slug → known Spotify id) ──
-function getSpotifyEmbedDetails(slug: string) {
-  const normalized = slug.toLowerCase().trim();
+// ── Spotify lookup ────────────────────────────────────────────────────
+// VERIFIED IDS ONLY. Every id below was checked against Spotify's oEmbed
+// endpoint and resolves to the artist it is mapped to.
+//
+// This replaces a list of 26 ids of which 18 returned 404 — they were simply
+// invented — and two more resolved to the wrong person entirely: "fisher"
+// pointed at Dj Eduin Reyes and "mestiza" at Francesca Turchetti. The result
+// was the embed rendering Spotify's own "Page not found" screen inside the
+// card, which is worse than showing nothing.
+//
+// Rule for adding one: fetch
+//   https://open.spotify.com/oembed?url=https://open.spotify.com/artist/<id>
+// and confirm the returned title is the artist you expect. If you cannot
+// confirm it, leave it out — the page falls back to a search link, which
+// always works.
+const SPOTIFY_SEARCH: Record<string, string> = {
+  nl: 'Zoek op Spotify', en: 'Find on Spotify', de: 'Auf Spotify suchen',
+  es: 'Buscar en Spotify', fr: 'Chercher sur Spotify',
+}
 
-  if (normalized.includes('david-guetta') || normalized.includes('future-rave')) {
-    return { type: 'artist', id: '1Cs0zKBU1kc0i8ypK3B9ai' };
-  }
-  if (normalized.includes('carl-cox')) {
-    return { type: 'artist', id: '19SmlbABtI4bXz864MLqOS' };
-  }
-  if (normalized.includes('fisher')) {
-    return { type: 'artist', id: '7oxj2wIMrWtw6FNaMrfbe3' };
-  }
-  if (normalized.includes('martin-garrix')) {
-    return { type: 'artist', id: '60d24wfXmWzDZfLVUQ3Yex' };
-  }
-  if (normalized.includes('calvin-harris')) {
-    return { type: 'artist', id: '7CajNmpbOovFoOoasH2HaY' };
-  }
-  if (normalized.includes('armin-van-buuren') || normalized.includes('state-of-trance')) {
-    return { type: 'artist', id: '0d8t2a5sWzi0rkcVq6Qa5S' };
-  }
-  if (normalized.includes('tiesto')) {
-    return { type: 'artist', id: '2o5jDhtHVPhrJdv3cEQ99Z' };
-  }
-  if (normalized.includes('black-coffee')) {
-    return { type: 'artist', id: '23HQ6V00W7V02FqfWnEw02' };
-  }
-  if (normalized.includes('swedish-house-mafia')) {
-    return { type: 'artist', id: '1h0ceXBpq1d58XwVPRJPg3' };
-  }
-  if (normalized.includes('anyma')) {
-    return { type: 'artist', id: '4u1C6C5VbK3161c5LzK17e' };
-  }
-  if (normalized.includes('john-summit') || normalized.includes('experts-only')) {
-    return { type: 'artist', id: '7331Gn1ay40E3ZpYxjgBUP' };
-  }
-  if (normalized.includes('dimitri-vegas') || normalized.includes('like-mike') || normalized.includes('tomorrowland')) {
-    return { type: 'artist', id: '2052Y92GZz593zF85p8o6c' };
-  }
-  if (normalized.includes('peggy-gou')) {
-    return { type: 'artist', id: '2S6tMv8628G3p681F0qQy2' };
-  }
-  if (normalized.includes('charlotte-de-witte')) {
-    return { type: 'artist', id: '2T753C4h6D9YjE31B29o6q' };
-  }
-  if (normalized.includes('amelie-lens')) {
-    return { type: 'artist', id: '7z51l3Qn3rG0sYq6Qj1q05' };
-  }
-  if (normalized.includes('jamie-jones') || normalized.includes('paradise')) {
-    return { type: 'artist', id: '7r50RzR317W8c6zU5oJ6T3' };
-  }
-  if (normalized.includes('no-art') || normalized.includes('anotr')) {
-    return { type: 'artist', id: '4X9i0mU0g91g57qT5n8c9h' };
-  }
-  if (normalized.includes('adriatique')) {
-    return { type: 'artist', id: '3o9ZNDJ6Yx5Xq1Xp9mX0L5' };
-  }
-  if (normalized.includes('indira-paganotto') || normalized.includes('artcore')) {
-    return { type: 'artist', id: '7r5k1E8T0Wl4y1t3hO5a8C' };
-  }
-  if (normalized.includes('meduza')) {
-    return { type: 'artist', id: '0xRXCcSX89eobfrshSVdyu' };
-  }
-  if (normalized.includes('james-hype')) {
-    return { type: 'artist', id: '3B3n1a87K365gL47t52G4q' };
-  }
-  if (normalized.includes('dom-dolla')) {
-    return { type: 'artist', id: '205i7E8fNVfojowcQSfK9m' };
-  }
-  if (normalized.includes('mestiza')) {
-    return { type: 'artist', id: '4LnJKzcbJ83JNh2zEe4Dmy' };
-  }
-  if (normalized.includes('hugel')) {
-    return { type: 'artist', id: '6S118F3hNq0O0c0FwK4PqZ' };
-  }
-  if (normalized.includes('francis-mercier')) {
-    return { type: 'artist', id: '7zH6m3N2j6K83x4rB2w1cI' };
-  }
-  if (normalized.includes('elrow')) {
-    return { type: 'playlist', id: '37i9dQZF1DXbK717SV5PL9' };
-  }
-  if (normalized.includes('ants')) {
-    return { type: 'playlist', id: '37i9dQZF1DXbK717SV5PL9' };
-  }
+const SPOTIFY_ARTISTS: Record<string, string> = {
+  'carl-cox': '19SmlbABtI4bXz864MLqOS',
+  'david-guetta': '1Cs0zKBU1kc0i8ypK3B9ai',
+  'calvin-harris': '7CajNmpbOovFoOoasH2HaY',
+  tiesto: '2o5jDhtHVPhrJdv3cEQ99Z',
+  meduza: '0xRXCcSX89eobfrshSVdyu',
+  'dom-dolla': '205i7E8fNVfojowcQSfK9m',
+}
 
-  // Default working Spotify Playlist: Ibiza Deep House (37i9dQZF1DXbK717SV5PL9)
-  return { type: 'playlist', id: '37i9dQZF1DXbK717SV5PL9' };
+function getSpotifyEmbedDetails(slug: string): { type: string; id: string } | null {
+  const s = (slug || '').toLowerCase().trim()
+  for (const [key, id] of Object.entries(SPOTIFY_ARTISTS)) {
+    if (s === key || s.includes(key)) return { type: 'artist', id }
+  }
+  return null
 }
 
 const DF_LOC: Record<Locale, any> = { nl, en: enUS, de, es, fr }
@@ -328,16 +275,30 @@ export default async function ArtistPage({ params }: Props) {
                 {WARM_UP[locale].split('%NAME%')[1]}
               </p>
             </div>
-            <iframe
-              src={`https://open.spotify.com/embed/${spotifyDetails.type}/${spotifyDetails.id}?utm_source=generator&theme=0`}
-              width="100%"
-              height="380"
-              frameBorder="0"
-              allowFullScreen={true}
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              className="rounded-2xl"
-            ></iframe>
+            {spotifyDetails ? (
+              <iframe
+                src={`https://open.spotify.com/embed/${spotifyDetails.type}/${spotifyDetails.id}?utm_source=generator&theme=0`}
+                width="100%"
+                height="380"
+                frameBorder="0"
+                allowFullScreen={true}
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                className="rounded-2xl"
+              ></iframe>
+            ) : (
+              /* No verified Spotify id for this artist. A search link always
+                 resolves; a guessed id renders Spotify's "Page not found"
+                 inside the card, which looks like our page is broken. */
+              <a
+                href={`https://open.spotify.com/search/${encodeURIComponent(artist.name)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#1DB954] px-6 py-4 font-serif text-sm font-black uppercase tracking-widest text-black transition-transform hover:scale-[1.02]"
+              >
+                {SPOTIFY_SEARCH[locale] || SPOTIFY_SEARCH.en}
+              </a>
+            )}
           </div>
 
         </div>

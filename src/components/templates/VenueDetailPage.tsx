@@ -9,6 +9,7 @@ import { BackButton } from '@/components/ui/BackButton'
 import { VenueSchema } from '@/components/seo/VenueSchema'
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
 import { BreadcrumbJsonLd, homeLabel, sectionLabel } from '@/components/seo/BreadcrumbJsonLd'
+import { ClubHistory } from '@/components/venues/ClubHistory'
 
 interface VenueDetailPageProps {
   club: any;
@@ -408,6 +409,9 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
           </div>
         </div>
       </section>
+
+      {/* Venue background — renders nothing for venues we have no entry for. */}
+      <ClubHistory slug={club.slug} locale={locale} />
 
       {/* FAQ section */}
       <section className="py-16 bg-white">

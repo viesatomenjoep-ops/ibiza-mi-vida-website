@@ -8,6 +8,7 @@ import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { HOME_TITLE, HOME_DESC } from '@/lib/seo-pages'
 import { FLEET } from '@/data/fleet'
 import { pickCover } from '@/lib/blank-covers';
+import { eventBasePath } from '@/lib/event-path';
 
 export const revalidate = 3600
 
@@ -138,9 +139,40 @@ export default async function Home({ params }: { params: { locale: string } }) {
     })),
   }
 
+  // Everything that is NOT a nightclub — boats, ferries, catamarans, jet skis,
+  // buggies, excursions. These sit in the same feed but were never surfaced on
+  // the homepage, so a visitor saw only the club side of the business.
+  const mapDate = (d: typeof allDates[number]) => ({
+    id: d.id,
+    name: d.name,
+    date: d.date,
+    prices: d.prices,
+    ct_events: {
+      name: d.eventName,
+      slug: d.eventSlug,
+      logo: d.eventLogo,
+      cover: pickCover(d.eventCover, d.eventLogo, d.venueCover)
+    },
+    ct_venues: {
+      name: d.venueName,
+      slug: d.venueSlug,
+      // The section links through eventBasePath(), because only 'clubbing'
+      // lives under /club-tickets — sending a boat there is a guaranteed 404.
+      basePath: eventBasePath(typeBySlug.get(d.venueSlug || ''))
+    }
+  });
+
+  const experienceDates = allDates
+    .filter(d => {
+      const t = typeBySlug.get(d.venueSlug || '');
+      return d.date >= todayStr && !!t && t !== 'clubbing';
+    })
+    .slice(0, 12)
+    .map(mapDate);
+
   const upcomingDates = allDates
     .filter(d => d.date >= todayStr && clubbingSlugs.has(d.venueSlug || ''))
-    .slice(0, 10)
+    .slice(0, 12)
     .map(d => ({
       id: d.id,
       name: d.name,
@@ -166,6 +198,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
       translations={dict}
       featuredClubs={featuredClubs}
       upcomingDates={upcomingDates}
+      experienceDates={experienceDates}
       pickerEvents={[...pickerEvents].sort((a, b) => a.date.localeCompare(b.date)).slice(0, 250)}
       deals={deals}
       liveByClub={liveByClub}

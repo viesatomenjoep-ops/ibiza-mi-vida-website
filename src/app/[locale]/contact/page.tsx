@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { MessageCircle, Phone, Globe, Clock } from 'lucide-react'
+import { Phone, Globe, Clock } from 'lucide-react'
+import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
 import { staticMetadata } from '@/lib/seo-pages'
 import { DEFAULT_LOCALE, LOCALES, SITE_URL, SITE_NAME, type Locale } from '@/lib/seo'
 import { FOUNDER, FOUNDER_ID, founderNode } from '@/lib/team'
@@ -175,9 +176,9 @@ export default function ContactPage({ params }: { params: { locale: string } }) 
             className="group rounded-3xl border border-black/10 bg-neutral-50 p-7 transition-all hover:border-gold/50 hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)]"
           >
             <span className="grid h-11 w-11 place-items-center rounded-2xl bg-[#25D366] text-black">
-              <MessageCircle size={20} strokeWidth={2.5} />
+              <WhatsAppIcon size={22} />
             </span>
-            <h2 className="mt-4 font-serif text-lg font-black">{WA_TITLE[l]}</h2>
+            <h2 className="mt-4 font-serif text-lg font-black text-neutral-900">{WA_TITLE[l]}</h2>
             <p className="mt-1.5 text-sm leading-relaxed text-neutral-600">{WA_DESC[l]}</p>
             <span className="mt-4 inline-block text-xs font-black uppercase tracking-widest text-gold">
               {WA_BTN[l]} →
@@ -191,7 +192,7 @@ export default function ContactPage({ params }: { params: { locale: string } }) 
             <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gold text-white">
               <Phone size={20} strokeWidth={2.5} />
             </span>
-            <h2 className="mt-4 font-serif text-lg font-black">{PHONE_TITLE[l]}</h2>
+            <h2 className="mt-4 font-serif text-lg font-black text-neutral-900">{PHONE_TITLE[l]}</h2>
             <p className="mt-1.5 text-sm leading-relaxed text-neutral-600">{PHONE_DESC[l]}</p>
             <span className="mt-4 inline-block font-serif text-base font-black tracking-tight text-neutral-900">
               {telDisplay}

@@ -28,6 +28,16 @@ import { Reveal } from '@/components/ui/Reveal';
 const CAT_BOATS: Record<string, string> = {
   nl: 'Ibiza per boot', en: 'Ibiza by boat', de: 'Ibiza per Boot', es: 'Ibiza en barco', fr: 'Ibiza en bateau',
 }
+/** `2026-08-30` -> `zo 30 aug`. UTC-parsed so it never shifts a day. */
+function fmtShortDate(iso: string, locale: string): string {
+  const [y, m, d] = String(iso || '').split('-').map(Number)
+  if (!y || !m || !d) return String(iso || '')
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString(
+    ({ nl: 'nl-NL', en: 'en-GB', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' } as Record<string, string>)[locale] || 'en-GB',
+    { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' },
+  )
+}
+
 const CAT_BOAT_PARTY: Record<string, string> = {
   nl: 'Boat parties', en: 'Boat parties', de: 'Boat Partys', es: 'Boat parties', fr: 'Boat parties',
 }
@@ -40,6 +50,8 @@ interface HomePageProps {
   translations?: any;
   featuredClubs?: any[];
   upcomingDates?: any[];
+  /** Non-club events happening soon: boats, ferries, catamarans, activities. */
+  experienceDates?: any[];
   pickerEvents?: PickerEvent[];
   deals?: DealsData;
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
@@ -48,7 +60,7 @@ interface HomePageProps {
   todayStr?: string;
 }
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '' }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], upcomingDates = [], experienceDates = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '' }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -205,6 +217,54 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           </div>
         </section>
         </>
+      )}
+
+      {/* Second featured strip: everything that is not a nightclub. The homepage
+          only ever showed the club side of the business, so boats, ferries,
+          catamarans and activities — well over half the bookable inventory —
+          were invisible unless you found them in the nav. Links go through the
+          venue's own basePath, because only 'clubbing' lives under
+          /club-tickets and sending a boat there is a guaranteed 404. */}
+      {experienceDates.length > 0 && (
+        <section className="border-t border-black/5 bg-white pb-12 pt-6 text-neutral-900 md:pb-16 md:pt-8">
+          <div className="mx-auto max-w-7xl px-4">
+            <div className="mb-6 flex flex-wrap items-center gap-4">
+              <h3 className="min-w-0 font-serif text-[1.25rem] font-black leading-tight tracking-tight text-neutral-900 sm:text-[1.625rem]">
+                {({ nl: 'Op het water & activiteiten', en: 'On the water & activities', es: 'En el agua y actividades', de: 'Auf dem Wasser & Aktivitäten', fr: 'Sur l’eau & activités' } as Record<string, string>)[locale] || 'On the water & activities'}
+              </h3>
+              <span className="h-px flex-1 bg-black/10" />
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {experienceDates.map((dateObj: any, di: number) => {
+                const venue = dateObj.ct_venues;
+                const event = dateObj.ct_events;
+                const image = event?.cover || event?.logo;
+                const href = `${base}/${venue?.basePath || 'boat-trip'}/${venue?.slug || ''}/${event?.slug || ''}`;
+                return (
+                  <Reveal key={dateObj.id} delay={(di % 3) * 90} as={Link as any} href={href}
+                    className="group flex items-center gap-5 rounded-[24px] border border-black/5 bg-white p-4 text-neutral-900 transition-shadow hover:shadow-lg"
+                  >
+                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[18px] bg-ibiza-mint shadow-inner md:h-28 md:w-28">
+                      {image ? (
+                        <Image src={image} alt={event?.name || dateObj.name} fill sizes="120px" className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                      ) : null}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[11px] font-black uppercase tracking-widest text-gold">{fmtShortDate(dateObj.date, locale)}</div>
+                      <div className="mt-1 line-clamp-2 font-serif text-base font-black leading-tight sm:text-lg">{event?.name || dateObj.name}</div>
+                      <div className="mt-0.5 truncate text-sm text-neutral-600">{venue?.name}</div>
+                      {dateObj.prices ? (
+                        <div className="mt-1 text-sm font-bold">{translations.home_from} {dateObj.prices}</div>
+                      ) : null}
+                    </div>
+                    <ArrowCircle className="mr-1 hidden bg-ibiza-mint text-ibiza-green group-hover:bg-ibiza-green group-hover:text-white sm:grid" />
+                  </Reveal>
+                );
+              })}
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Club logo marquee — just the logos — right below "Volledige kalender", above Populaire clubs */}
