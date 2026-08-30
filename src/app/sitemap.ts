@@ -3,6 +3,7 @@ import { SITE_URL, LOCALES, DEFAULT_LOCALE } from '@/lib/seo'
 import { getVenues, getAllEvents, getArtists, getDataLastUpdated } from '@/lib/clubtickets'
 import { eventBasePath } from '@/lib/event-path'
 import { publishableMonths } from '@/lib/month-pages'
+import { locations } from '@/lib/locations'
 
 export const revalidate = 86400 // rebuild the sitemap at most once a day
 
@@ -26,6 +27,7 @@ const STATIC_ROUTES: { path: string; priority: number; changeFrequency: Metadata
   { path: '/boats', priority: 0.8, changeFrequency: 'weekly' },
   { path: '/tours', priority: 0.7, changeFrequency: 'weekly' },
   { path: '/legal', priority: 0.2, changeFrequency: 'yearly' },
+  { path: '/locations', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/about-us', priority: 0.4, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.4, changeFrequency: 'monthly' },
   { path: '/faq', priority: 0.4, changeFrequency: 'monthly' },
@@ -100,6 +102,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
     // "Ibiza in <month>" pages exist only for months with a real programme,
     // so ask the same helper the route uses rather than listing all twelve.
+    for (const loc of locations) {
+      if (loc.slug) routes.push(...entriesFor(`/locations/${loc.slug}`, 0.5, 'monthly'))
+    }
     for (const m of await publishableMonths(DEFAULT_LOCALE)) {
       routes.push(...entriesFor(`/ibiza-in/${m}`, 0.7, 'daily', dataDate))
     }

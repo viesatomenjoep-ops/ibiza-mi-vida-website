@@ -58,6 +58,7 @@ export function Footer() {
         { href: `${base}/car-scooter-rental`, label: t.nav_car_scooter || 'Car & Scooter Rental' },
         { href: `${base}/guestlist`, label: t.nav_guestlist || 'Package Deals' },
         { href: `${base}/tips`, label: t.nav_tips || 'Ibiza Tips' },
+        { href: `${base}/locations`, label: t.nav_locations || 'Gebieden op Ibiza' },
       ],
     },
     {
