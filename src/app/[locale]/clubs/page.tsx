@@ -3,7 +3,6 @@ import { staticMetadata } from '@/lib/seo-pages'
 import { getVenues } from '@/lib/clubtickets'
 import ClubsClient from '@/components/nightlife/ClubsClient'
 import { ItemListJsonLd } from '@/components/seo/ItemListJsonLd'
-import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 
 export const revalidate = 3600
 
@@ -88,10 +87,6 @@ export default async function NightlifePage({
     <>
       <ItemListJsonLd entries={clubEntries} locale={params.locale} name="Ibiza clubs" />
       <ClubsClient venues={venues || []} translations={translations} locale={params.locale} />
-
-      <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24 pt-8">
-        <CrossSellBanner triggerPage="/clubs" fromPrice={500} />
-      </section>
     </>
   )
 }
