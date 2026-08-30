@@ -12,9 +12,18 @@
  * Usage:
  *   node scripts/indexnow-ping.mjs                 # key pages
  *   node scripts/indexnow-ping.mjs --sitemap       # everything in the sitemap
+ *   node scripts/indexnow-ping.mjs --on-deploy     # no-op unless this is a
+ *                                                  # Vercel production build
  *
  * Run it after `npm run sync-clubtickets`, when the event data has actually
  * changed. Pinging unchanged URLs is pointless and gets a host throttled.
+ *
+ * `--on-deploy` is wired into postbuild. Before that, this file was a manual
+ * command that nothing ever called: the lever described above existed but was
+ * never pulled, so Bing's copy of a calendar that changes every day went stale
+ * between whenever somebody last remembered to run it. The flag exists so the
+ * same script can sit in postbuild without every local `npm run build` firing
+ * a submission at Bing.
  */
 
 const KEY = '006dbc51fcf510e41156e205c664581ba84684c08531c50da12497b933a913ae'
@@ -33,6 +42,14 @@ async function fromSitemap() {
 }
 
 async function main() {
+  // Postbuild runs on every build, including preview deploys and local ones.
+  // Only a real production deploy has new content worth telling Bing about,
+  // and submitting a preview URL would be actively wrong.
+  if (process.argv.includes('--on-deploy') && process.env.VERCEL_ENV !== 'production') {
+    console.log(`IndexNow: skipped (VERCEL_ENV=${process.env.VERCEL_ENV || 'unset'}, not a production deploy).`)
+    return
+  }
+
   const useSitemap = process.argv.includes('--sitemap')
   let urls = useSitemap
     ? await fromSitemap()

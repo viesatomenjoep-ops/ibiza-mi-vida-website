@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node scripts/indexnow-ping.mjs --on-deploy",
     "start": "next start",
     "lint": "next lint",
     "sync-clubtickets": "node scripts/sync-clubtickets.mjs",
