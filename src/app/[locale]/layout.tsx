@@ -125,6 +125,27 @@ export default function RootLayout({
             __html: `(function(i,m,p,a,c,t){c.ire_o=p;c[p]=c[p]||function(){(c[p].a=c[p].a||[]).push(arguments)};t=a.createElement(m);var z=a.getElementsByTagName(m)[0];t.async=1;t.src=i;z.parentNode.insertBefore(t,z)})('https://utt.impactcdn.com/P-A7702481-c71c-450b-a591-dc158e54c54e1.js','script','impactStat',document,window);impactStat('transformLinks');impactStat('trackImpression');`,
           }}
         />
+
+        {/*
+          Google Analytics 4 (gtag.js), property G-QQ9CRE658P.
+
+          Kept as raw inline tags in <head> for the same reason as the Impact
+          snippet above: it lands in the server-rendered HTML immediately,
+          without waiting for hydration. The external loader is async, so it
+          does not block rendering.
+        */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-QQ9CRE658P"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-QQ9CRE658P');`,
+          }}
+        />
       </head>
       <body>
         <CartProvider>
