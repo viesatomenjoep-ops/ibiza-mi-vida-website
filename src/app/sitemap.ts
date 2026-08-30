@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next'
 import { SITE_URL, LOCALES, DEFAULT_LOCALE } from '@/lib/seo'
 import { getVenues, getAllEvents, getArtists, getDataLastUpdated } from '@/lib/clubtickets'
 import { eventBasePath } from '@/lib/event-path'
+import { publishableMonths } from '@/lib/month-pages'
 
 export const revalidate = 86400 // rebuild the sitemap at most once a day
 
@@ -96,6 +97,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       if (!venueSlug || !e.slug) continue
       const base = typeBySlug.get(venueSlug) || eventBasePath((e as any).venue?.type?.slug)
       routes.push(...entriesFor(`/${base}/${venueSlug}/${e.slug}`, 0.6, 'daily', dataDate))
+    }
+    // "Ibiza in <month>" pages exist only for months with a real programme,
+    // so ask the same helper the route uses rather than listing all twelve.
+    for (const m of await publishableMonths(DEFAULT_LOCALE)) {
+      routes.push(...entriesFor(`/ibiza-in/${m}`, 0.7, 'daily', dataDate))
     }
     for (const a of artists) {
       if (a.slug) routes.push(...entriesFor(`/artists/${a.slug}`, 0.5, 'weekly', dataDate))

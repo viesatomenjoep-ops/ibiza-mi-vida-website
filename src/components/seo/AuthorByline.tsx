@@ -69,14 +69,14 @@ export function AuthorByline({
           S
         </span>
         <div className="min-w-0">
-          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-black/50">
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-black/60">
             {CHECKED[l]}
           </p>
           <p className="mt-1 font-serif text-lg font-black leading-tight text-neutral-900">
             {FOUNDER.name} <span className="font-sans text-sm font-semibold text-black/60">· {FOUNDER.role[l]}</span>
           </p>
           <p className="mt-2 text-[15px] leading-relaxed text-neutral-600">{FOUNDER.bio[l]}</p>
-          <p className="mt-2 text-xs text-black/50">{FOUNDER.languages.join(' · ')}</p>
+          <p className="mt-2 text-xs text-black/60">{FOUNDER.languages.join(' · ')}</p>
           <div className="mt-4 flex flex-wrap items-center gap-3">
             <a
               href={href}
