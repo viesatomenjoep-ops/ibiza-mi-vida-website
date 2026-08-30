@@ -10,7 +10,11 @@ export const TWITTER_HANDLE = '@ibizamivida'
 
 export const LOCALES = ['nl', 'en', 'de', 'es', 'fr'] as const
 export type Locale = (typeof LOCALES)[number]
-export const DEFAULT_LOCALE: Locale = 'nl'
+// English. This drives the `x-default` hreflang — the version search engines
+// serve to users whose language matches none of ours — and the fallback when a
+// locale param is invalid. It was 'nl', which told Google to send the entire
+// unmatched world to the Dutch site, matching the old middleware default.
+export const DEFAULT_LOCALE: Locale = 'en'
 
 // hreflang uses the bare language codes; OpenGraph wants a locale tag.
 export const OG_LOCALE: Record<Locale, string> = {
