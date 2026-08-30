@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { submitBookingLead } from '@/app/actions/booking'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
+import { getAttribution } from '@/lib/attribution'
 import type { BookingConfig, BookingFormValues } from '@/types/booking'
 
 interface BookingFormProps {
@@ -43,6 +44,8 @@ export function BookingForm({ config, onSuccess }: BookingFormProps) {
     setLoading(true)
     setServerError(null)
 
+    const attribution = getAttribution()
+
     const { error } = await submitBookingLead({
       first_name: values.firstName,
       last_name: values.lastName,
@@ -52,9 +55,16 @@ export function BookingForm({ config, onSuccess }: BookingFormProps) {
       service_name: config.serviceName,
       arrival_date: config.arrivalDate ?? null,
       source_page: config.sourcePage ?? null,
-      utm_source: null,
-      utm_medium: null,
-      utm_campaign: null,
+      // Was hardcoded null, so every lead through our own form was anonymous:
+      // we could see that someone enquired, never how they found us. These are
+      // the first-touch values captured on the session's landing page.
+      //
+      // Only the three utm_* fields are spread on purpose — `getAttribution()`
+      // also returns `referrer` and `landing`, and booking_leads has no columns
+      // for those, so passing them through would fail the insert.
+      utm_source: attribution.utm_source,
+      utm_medium: attribution.utm_medium,
+      utm_campaign: attribution.utm_campaign,
     })
 
     if (error) {

@@ -3,6 +3,7 @@ import { Inter, Oswald, Outfit, Montserrat } from 'next/font/google'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
+import { AttributionCapture } from '@/components/AttributionCapture'
 import { SITE_URL, SITE_NAME, TWITTER_HANDLE } from '@/lib/seo'
 
 import '@/styles/globals.css'
@@ -105,6 +106,7 @@ export default function RootLayout({
           <Footer />
           <CartDrawer />
           <ScrollProgress />
+          <AttributionCapture />
         </CartProvider>
       </body>
     </html>
