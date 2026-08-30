@@ -290,7 +290,40 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
       <section className="relative flex h-[46vh] w-full flex-col justify-end overflow-hidden rounded-b-[28px] md:h-[58vh]" aria-label={`${eventName} hero`}>
         <BackButton locale={locale} fallbackHref={`/${locale}/${basePath}/${club.slug}`} variant="top" />
         {eventCover && (
-          <Image src={eventCover} alt={eventName} fill priority className="object-cover object-center" sizes="100vw" quality={85} />
+          <>
+            {/* Het artwork van ClubTickets is vrijwel altijd vierkant — in een
+                steekproef van tien beelden was het tien keer 1:1. Met
+                object-cover in een hero van ruim 2,8:1 verdween daar zo'n
+                tweederde van, inclusief de artiestennaam die meestal bovenin
+                de plaat staat. Precies het deel waar iemand op klikt.
+
+                Dus: de plaat heel laten met object-contain, en de lege ruimte
+                links en rechts vullen met een uitvergrote, vervaagde versie van
+                het beeld zelf. Voor een breed beeld verandert er niets — dat
+                vult de hero nog steeds en de achtergrond blijft onzichtbaar.
+
+                Dezelfde src, sizes en quality als de voorgrond, zodat de
+                browser één keer downloadt en het beeld twee keer tekent in
+                plaats van twee bestanden op te halen. */}
+            <Image
+              src={eventCover}
+              alt=""
+              aria-hidden
+              fill
+              sizes="100vw"
+              quality={85}
+              className="scale-125 object-cover blur-2xl brightness-50"
+            />
+            <Image
+              src={eventCover}
+              alt={eventName}
+              fill
+              priority
+              sizes="100vw"
+              quality={85}
+              className="object-contain object-center"
+            />
+          </>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian via-velvet-obsidian/50 to-transparent" />
 
