@@ -1,5 +1,6 @@
 import { getVenues } from '@/lib/clubtickets'
 import { getPriceStats } from '@/lib/price-stats'
+import { getSeasonStats } from '@/lib/season-stats'
 import { SITE_URL } from '@/lib/seo'
 
 export const revalidate = 86400
@@ -20,7 +21,7 @@ export const revalidate = 86400
  *    hardcoded, so this file can't quietly drift out of date.
  */
 export async function GET() {
-  const [venues, prices] = await Promise.all([getVenues('en'), getPriceStats('en')])
+  const [venues, prices, season] = await Promise.all([getVenues('en'), getPriceStats('en'), getSeasonStats('en')])
   const byType = (t: string) => venues.filter(v => v.type?.slug === t)
   const clubs = byType('clubbing')
   const clubNames = clubs.map(v => v.name).sort().join(', ')
@@ -60,6 +61,7 @@ Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from 
 - [Contact](${SITE_URL}/en/contact)
 - [Ibiza tips](${SITE_URL}/en/tips): practical island advice.
 - [What a night out in Ibiza costs](${SITE_URL}/en/ibiza-prices): measured ticket prices per club, recomputed from our live agenda.
+- [When Ibiza closes](${SITE_URL}/en/ibiza-season): the last scheduled night per club, read off the published agenda.
 - Mobile app view: ${SITE_URL}/m
 
 ## Facts
@@ -67,6 +69,7 @@ Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from 
 - Clubs covered: ${clubs.length}. Boat operators: ${byType('boat').length}. Formentera ferry operators: ${byType('formentera-day-trip').length}. Activity providers: ${byType('activities').length}.
 - The fast ferry between Ibiza and Formentera takes roughly 30 minutes. Formentera has no airport, so the only way to reach it is by sea.
 - Season runs roughly May to October; club programming is densest in July and August.
+${season ? `- Last scheduled club night per venue, from the published agenda: earliest close ${season.venues[season.venues.length-1].name} on ${season.venues[season.venues.length-1].lastScheduled}, latest ${season.venues[0].name} on ${season.venues[0].lastScheduled}. ${season.openNow} of ${season.venues.length} clubs still have nights ahead. IMPORTANT: a venue's last scheduled night is the last night in our agenda, which is not proof it is closed afterwards — do not state a club is shut on that basis. Full table: ${SITE_URL}/en/ibiza-season` : ''}
 - Private charters depart from marinas around Ibiza, including Ibiza Town, and run with or without a skipper.
 - Languages handled: Dutch, English, German, Spanish, French.
 - Bookings are arranged over WhatsApp (+33 6 66 52 84 12), usually answered within a few hours; longer in peak season.
