@@ -1,19 +1,23 @@
 'use client'
 
 import Link from 'next/link'
-import { CalendarDays, Music, Sailboat, ListChecks, MessageCircle, Smartphone } from 'lucide-react'
+import { AgendaIcon, ClubsIcon, BoatsIcon, DealsIcon, AppIcon } from '@/components/ui/icons/QuickJumpIcons'
+import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
 
 const L = (nl: string, en: string, de: string, es: string, fr: string): Record<string, string> => ({ nl, en, de, es, fr })
 
 const TITLE = L('Snel naar', 'Quick jump', 'Schnell zu', 'Ir a', 'Accès rapide')
 
+// `size` is set per tile rather than globally: WhatsApp's mark is solid where
+// the rest of the set is stroked, and a solid glyph reads optically larger at
+// the same box. Dropping it 4px lines its weight up with its neighbours.
 const TILES = [
-  { key: 'agenda', icon: CalendarDays, path: '/calendar', label: L('Agenda', 'Agenda', 'Agenda', 'Agenda', 'Agenda') },
-  { key: 'clubs', icon: Music, path: '/clubs', label: L('Clubs', 'Clubs', 'Clubs', 'Clubs', 'Clubs') },
-  { key: 'boats', icon: Sailboat, path: '/private-boat-charters', label: L('Boten', 'Boats', 'Boote', 'Barcos', 'Bateaux') },
-  { key: 'guestlist', icon: ListChecks, path: '/guestlist', label: L('Package Deals', 'Package Deals', 'Package Deals', 'Package Deals', 'Package Deals') },
-  { key: 'concierge', icon: MessageCircle, path: 'https://wa.me/33666528412', label: L('Concierge', 'Concierge', 'Concierge', 'Concierge', 'Concierge'), external: true },
-  { key: 'app', icon: Smartphone, path: '/m', label: L('App', 'App', 'App', 'App', 'App') },
+  { key: 'agenda', icon: AgendaIcon, size: 26, path: '/calendar', label: L('Agenda', 'Agenda', 'Agenda', 'Agenda', 'Agenda') },
+  { key: 'clubs', icon: ClubsIcon, size: 26, path: '/clubs', label: L('Clubs', 'Clubs', 'Clubs', 'Clubs', 'Clubs') },
+  { key: 'boats', icon: BoatsIcon, size: 26, path: '/private-boat-charters', label: L('Boten', 'Boats', 'Boote', 'Barcos', 'Bateaux') },
+  { key: 'guestlist', icon: DealsIcon, size: 26, path: '/guestlist', label: L('Package Deals', 'Package Deals', 'Package Deals', 'Package Deals', 'Package Deals') },
+  { key: 'concierge', icon: WhatsAppIcon, size: 22, path: 'https://wa.me/33666528412', label: L('Concierge', 'Concierge', 'Concierge', 'Concierge', 'Concierge'), external: true },
+  { key: 'app', icon: AppIcon, size: 26, path: '/m', label: L('App', 'App', 'App', 'App', 'App') },
 ] as const
 
 /**
@@ -35,18 +39,22 @@ export function HomeMobileAppStrip({ locale = 'nl' }: { locale?: string }) {
     <section className="block border-b border-black/5 bg-white px-4 pb-8 pt-6 md:hidden">
       <h2 className="mb-3 text-[11px] font-black uppercase tracking-[0.2em] text-black/40">{t(TITLE)}</h2>
       <div className="grid grid-cols-3 gap-3">
-        {TILES.map(({ key, icon: Icon, path, label, ...rest }) => {
+        {TILES.map(({ key, icon: Icon, size, path, label, ...rest }) => {
           const external = 'external' in rest && rest.external
           const content = (
             <>
-              <span className="grid h-11 w-11 place-items-center rounded-2xl bg-app-accent/10 text-app-accent transition-colors group-hover:bg-app-accent group-hover:text-white">
-                <Icon size={19} />
+              {/* No tinted chip behind the glyph. Six identical filled squares
+                  competed with each other and added nothing a user could act
+                  on; the tile itself is already the tap target. Letting the
+                  icon sit directly on the card gives it room to be legible. */}
+              <span className="grid h-8 place-items-center text-app-accent transition-colors group-active:text-app-accent-soft">
+                <Icon size={size} />
               </span>
               <span className="text-[11px] font-bold uppercase tracking-wide text-black/70">{t(label)}</span>
             </>
           )
           const cls =
-            'group flex flex-col items-center justify-center gap-2 rounded-2xl border border-black/[0.06] bg-black/[0.02] py-4 text-center transition-colors active:scale-95'
+            'group flex flex-col items-center justify-center gap-2.5 rounded-2xl border border-black/[0.06] bg-black/[0.02] py-4 text-center transition-colors active:scale-95'
           // /m is its own root (not locale-prefixed, see middleware.ts) — every
           // other tile is a normal locale-prefixed site route.
           const href = external ? path : path === '/m' ? path : `${base}${path}`
