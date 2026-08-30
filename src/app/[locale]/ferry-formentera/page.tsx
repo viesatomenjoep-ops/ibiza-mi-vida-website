@@ -15,6 +15,27 @@ import { getVenues, getAllDates } from '@/lib/clubtickets';
 import { agendaCopy } from '@/lib/agenda-i18n';
 import WaterAgendaClient, { WaterAgendaEvent, WaterAgendaVenue } from '@/components/boats/WaterAgendaClient';
 
+
+/**
+ * The answer to "how do I get to Formentera", as the first prose on the page.
+ *
+ * Every figure is counted from the same feed the agenda below renders, so the
+ * paragraph cannot drift away from what the page is actually selling. The two
+ * facts that are not computed — no airport, roughly half an hour by fast ferry
+ * — are stable properties of the island rather than of our inventory.
+ */
+function ferryLead(operators: number, departures: number, fromPrice: number, locale: string): string {
+  const p = fromPrice > 0
+  const M: Record<string, string> = {
+    nl: `Formentera heeft geen vliegveld, dus de veerboot vanaf Ibiza is de enige manier om er te komen. De snelle overtocht duurt ongeveer een half uur. Voor de komende 31 dagen staan er ${departures} afvaarten van ${operators} rederijen in onze agenda${p ? `, met tickets vanaf €${fromPrice}` : ''}. De goedkoopste zijn de gewone overtochten; dagtochten die onderweg stoppen om te zwemmen kosten meer. Je boekt een specifieke datum en afvaart, geen open ticket.`,
+    en: `Formentera has no airport, so the ferry from Ibiza is the only way to reach it. The fast crossing takes about half an hour. For the next 31 days our agenda holds ${departures} departures from ${operators} operators${p ? `, with tickets from €${fromPrice}` : ''}. The cheapest are the plain crossings; day trips that stop for swimming along the way cost more. You book a specific date and departure, not an open ticket.`,
+    de: `Formentera hat keinen Flughafen, die Fähre ab Ibiza ist also der einzige Weg dorthin. Die schnelle Überfahrt dauert etwa eine halbe Stunde. Für die nächsten 31 Tage stehen ${departures} Abfahrten von ${operators} Reedereien in unserem Kalender${p ? `, mit Tickets ab €${fromPrice}` : ''}. Am günstigsten sind die reinen Überfahrten; Tagestouren mit Badestopps kosten mehr. Du buchst ein konkretes Datum und eine konkrete Abfahrt, kein offenes Ticket.`,
+    es: `Formentera no tiene aeropuerto, así que el ferry desde Ibiza es la única forma de llegar. La travesía rápida dura alrededor de media hora. Para los próximos 31 días nuestra agenda tiene ${departures} salidas de ${operators} navieras${p ? `, con billetes desde ${fromPrice} €` : ''}. Las más baratas son las travesías simples; las excursiones de un día con paradas para bañarse cuestan más. Reservas una fecha y una salida concretas, no un billete abierto.`,
+    fr: `Formentera n'a pas d'aéroport : le ferry depuis Ibiza est donc le seul moyen d'y accéder. La traversée rapide dure environ une demi-heure. Pour les 31 prochains jours, notre agenda compte ${departures} départs de ${operators} compagnies${p ? `, avec des billets dès ${fromPrice} €` : ''}. Les moins chers sont les traversées simples ; les excursions à la journée avec arrêts baignade coûtent plus. Vous réservez une date et un départ précis, pas un billet ouvert.`,
+  }
+  return M[locale] || M.en
+}
+
 export const revalidate = 3600;
 
 export default async function Page({ params }: { params: { locale: string } }) {
@@ -55,6 +76,16 @@ export default async function Page({ params }: { params: { locale: string } }) {
     logo: (v as any).logo,
   }));
 
+  const lowPrices = events
+    .map(e => { const m = String(e.prices || '').match(/\d+(?:[.,]\d+)?/); return m ? parseFloat(m[0].replace(',', '.')) : 0 })
+    .filter(n => n > 0);
+  const lead = ferryLead(
+    ferryVenues.length,
+    events.length,
+    lowPrices.length ? Math.round(Math.min(...lowPrices)) : 0,
+    params.locale,
+  );
+
   const C = agendaCopy('ferry-formentera', params.locale);
   const l = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE
   const sc = SERVICE_COPY['ferry-formentera']
@@ -68,6 +99,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
       kicker={C.kicker}
       title={C.title}
       subtitle={C.subtitle}
+      lead={lead}
       events={events}
       venues={venues}
     />

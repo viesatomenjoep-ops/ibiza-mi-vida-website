@@ -58,6 +58,16 @@ export interface WaterAgendaVenue {
 interface WaterAgendaClientProps {
   title: string;
   subtitle: string;
+  /**
+   * Factual lead paragraph, rendered directly under the subtitle.
+   *
+   * The hero above it is brand voice, which is fine for a visitor and useless
+   * to an extraction engine — there is no answer in a slogan. This slot exists
+   * so a page can put the actual answer to its own question ("how do I get to
+   * Formentera and what does it cost") in the first block of prose, computed
+   * from live data rather than written once and left to rot.
+   */
+  lead?: string;
   kicker?: string;
   events: WaterAgendaEvent[];
   venues: WaterAgendaVenue[];
@@ -81,7 +91,7 @@ const priceShort = (p?: string) => {
 };
 const eventImg = (e: WaterAgendaEvent) => e.eventCover || e.eventLogo || e.venueCover || e.venueLogo || '';
 
-export default function WaterAgendaClient({ title, subtitle, kicker, events, venues, locale, basePath = '' }: WaterAgendaClientProps) {
+export default function WaterAgendaClient({ title, subtitle, lead, kicker, events, venues, locale, basePath = '' }: WaterAgendaClientProps) {
   const loc = getLoc(locale);
   const L = getLabels(locale);
   const today = useMemo(() => new Date(), []);
@@ -283,6 +293,9 @@ export default function WaterAgendaClient({ title, subtitle, kicker, events, ven
         <p className="text-[11px] md:text-xs font-black uppercase tracking-[0.3em] text-black/40 mb-2">{kicker || `Ibiza Agenda ${format(today, 'yyyy')}`}</p>
         <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-none uppercase m-0 tracking-tight drop-shadow-sm">{title}</h1>
         <p className="text-sm md:text-base text-black/50 font-medium mt-3 max-w-md">{subtitle}</p>
+        {lead ? (
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-neutral-800 md:text-lg">{lead}</p>
+        ) : null}
       </div>
 
 
