@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { getPriceStats } from '@/lib/price-stats'
 import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
@@ -62,17 +63,17 @@ export default async function IbizaPricesPage({ params }: { params: { locale: st
   const l = loc(params.locale)
   const stats = await getPriceStats(params.locale)
 
-  // No data means no page. An empty price page would be worse than a 404: it
-  // invites an answer engine to cite a figure that is not there.
-  if (!stats) {
-    return (
-      <main className="bg-white text-neutral-900">
-        <section className="mx-auto max-w-3xl px-4 pb-24 pt-[calc(var(--nav-h)+64px)]">
-          <h1 className="font-serif text-3xl font-black">{TITLE[l] || TITLE.en}</h1>
-        </section>
-      </main>
-    )
-  }
+  // No data means no page. An empty price page is worse than a 404: the title
+  // and the meta description still promise measured figures, the URL is still
+  // in the sitemap, and an answer engine arriving on it is invited to cite a
+  // number that is not there.
+  //
+  // This block used to say exactly that in a comment and then render a bare
+  // <h1> anyway — the failure mode it warned about, shipped. getPriceStats()
+  // returns null whenever the feed is empty or nothing is left in the agenda,
+  // so this fires on its own the moment the season runs out, silently, on the
+  // best-performing page on the site.
+  if (!stats) notFound()
 
   const questions = faqs(stats, l)
 

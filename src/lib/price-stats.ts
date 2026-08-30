@@ -76,6 +76,25 @@ export interface PriceStats {
   clubQ3: number
   /** Dated club events behind the figures above. */
   clubN: number
+  /**
+   * Dezelfde mediaan, maar met elke residency één keer geteld in plaats van
+   * één keer per speeldatum.
+   *
+   * Waarom dit ernaast staat en niet in de plaats komt: het zijn antwoorden op
+   * twee verschillende vragen. De mediaan per datum zegt wat je betaalt als je
+   * een willekeurige avond uitkiest — dat is wat een bezoeker bedoelt. De
+   * mediaan per residency zegt wat een typisch feest vraagt, ongeacht hoe vaak
+   * het draait. Een residency die vijftien keer speelt weegt in de eerste
+   * vijftien keer mee en in de tweede één keer.
+   *
+   * Op deze dataset schelen ze weinig (het verschil is een paar euro), maar
+   * het verschil zelf hoort zichtbaar te zijn: een cijfer publiceren zonder te
+   * zeggen welke van de twee vragen het beantwoordt, is precies het soort
+   * ongefundeerde stelligheid waar deze pagina tegen bedoeld is.
+   */
+  clubMedianByEvent: number
+  /** Aantal onderscheiden residencies achter clubMedianByEvent. */
+  clubEvents: number
   /** Clubs with enough dates to report individually. */
   venues: VenuePrice[]
   /** Venues dropped for having too few dates to be meaningful. */
@@ -130,6 +149,17 @@ export async function getPriceStats(locale: string): Promise<PriceStats | null> 
   const clubs = priced.filter(x => typeOf.get(x.d.venueSlug || '') === 'clubbing')
   const clubLows = clubs.map(x => x.p[0])
 
+  // Eén waarde per residency in plaats van per speeldatum.
+  const byEvent = new Map<string, number[]>()
+  for (const x of clubs) {
+    const k = (x.d as any).eventSlug || (x.d as any).eventName || ''
+    if (!k) continue
+    const g = byEvent.get(k)
+    if (g) g.push(x.p[0])
+    else byEvent.set(k, [x.p[0]])
+  }
+  const eventLows = Array.from(byEvent.values()).map(v => median(v))
+
   // Per-venue, clubs only. Ordered by median entry, most expensive first —
   // that is the order someone comparing venues actually wants to read.
   const byVenue = new Map<string, number[]>()
@@ -164,6 +194,8 @@ export async function getPriceStats(locale: string): Promise<PriceStats | null> 
     clubMedian: Math.round(median(clubLows)),
     clubMin: Math.round(Math.min(...clubLows)),
     clubMax: Math.round(Math.max(...clubLows)),
+    clubMedianByEvent: eventLows.length ? Math.round(median(eventLows)) : 0,
+    clubEvents: eventLows.length,
     clubQ1: Math.round(quantile(clubLows, 0.25)),
     clubQ3: Math.round(quantile(clubLows, 0.75)),
     clubN: clubs.length,
