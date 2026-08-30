@@ -1,4 +1,6 @@
 import Image from 'next/image'
+import Link from 'next/link'
+import { clubsAtStop } from '@/lib/route-beach-clubs'
 import {
   ROUTES_HEADING,
   ROUTES_INTRO,
@@ -118,6 +120,26 @@ export function SailingRoutes({ locale }: { locale: string }) {
                         <br />
                         {stop.note[l]}
                       </p>
+                      {/* Afgeleid uit beach-clubs.ts, niet apart onderhouden —
+                          zie lib/route-beach-clubs.ts. Zegt alleen wat er aan
+                          dat strand ligt, niet dat je er kunt aanleggen. */}
+                      {(() => {
+                        const here = clubsAtStop(stop.name)
+                        if (here.length === 0) return null
+                        return (
+                          <p className="mt-2 text-[13px] leading-relaxed text-neutral-600">
+                            <span className="font-serif font-bold text-neutral-900">
+                              {ROUTE_LABELS.onBeach[l]}:{' '}
+                            </span>
+                            <Link
+                              href={`/${l}/beach-clubs`}
+                              className="text-neutral-900 underline decoration-black/20 underline-offset-2 hover:decoration-ibiza-green"
+                            >
+                              {here.map(c => c.name).join(', ')}
+                            </Link>
+                          </p>
+                        )
+                      })()}
                     </div>
                   </li>
                 ))}
@@ -132,6 +154,12 @@ export function SailingRoutes({ locale }: { locale: string }) {
 
         <p className="mt-8 max-w-3xl text-[13px] leading-relaxed text-neutral-500">
           {ROUTES_NOTE[l]}
+        </p>
+        {/* Eén keer onder de routes en niet per stop: het geldt overal, en
+            herhalen bij elke baai maakt er ruis van in plaats van een
+            waarschuwing. */}
+        <p className="mt-3 max-w-3xl text-[13px] leading-relaxed text-neutral-500">
+          {ROUTE_LABELS.ashore[l]}
         </p>
       </div>
     </section>

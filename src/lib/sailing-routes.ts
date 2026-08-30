@@ -108,6 +108,23 @@ export const ROUTE_LABELS = {
   why: L('Waarom stoppen', 'Why stop here', 'Warum hier stoppen', 'Por qué parar', 'Pourquoi s’y arrêter'),
   note: L('Praktisch', 'Practical note', 'Praktisch', 'Nota práctica', 'Note pratique'),
   stops: L('Stops op volgorde', 'Stops in order', 'Stopps in Reihenfolge', 'Paradas en orden', 'Escales dans l’ordre'),
+  // Bewust een plaatsbepaling en geen toegangsbelofte: "aan dit strand ligt"
+  // zegt waar de zaak staat, niet dat je er kunt aanleggen of die dag aan land
+  // kunt. Dat laatste hangt af van wind en drukte en beslist de schipper.
+  onBeach: L(
+    'Aan dit strand ligt',
+    'On this beach',
+    'An diesem Strand liegt',
+    'En esta playa está',
+    'Sur cette plage se trouve',
+  ),
+  ashore: L(
+    'Aan land gaan kan niet overal en niet elke dag — wind, drukte en de bodem bepalen of het die dag werkt. Je schipper beslist ter plekke.',
+    'Going ashore is not possible everywhere or every day — wind, crowding and the seabed decide whether it works. Your skipper calls it on the day.',
+    'An Land gehen geht nicht überall und nicht jeden Tag — Wind, Andrang und der Grund entscheiden. Dein Skipper entscheidet vor Ort.',
+    'Bajar a tierra no es posible en todas partes ni todos los días: el viento, la afluencia y el fondo lo deciden. Tu patrón lo decide sobre la marcha.',
+    'Descendre à terre n’est pas possible partout ni tous les jours — le vent, l’affluence et le fond décident. Votre skipper tranche sur place.',
+  ),
 }
 
 export const SAILING_ROUTES: SailingRoute[] = [
