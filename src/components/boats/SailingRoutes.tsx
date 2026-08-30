@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import {
   ROUTES_HEADING,
   ROUTES_INTRO,
@@ -82,6 +83,25 @@ export function SailingRoutes({ locale }: { locale: string }) {
                       <h3 className="font-serif text-base font-bold leading-snug text-neutral-900 md:text-lg">
                         {stop.name}
                       </h3>
+                      {/* Only rendered when a real photograph of this bay
+                          exists — see the `image` field in sailing-routes.ts
+                          for why there is no placeholder here. */}
+                      {stop.image ? (
+                        <figure className="mt-3">
+                          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-ibiza-mint">
+                            <Image
+                              src={stop.image.src}
+                              alt={stop.image.alt[l]}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 640px"
+                              className="object-cover"
+                            />
+                          </div>
+                          <figcaption className="mt-1.5 text-[11px] text-neutral-500">
+                            {stop.image.credit}
+                          </figcaption>
+                        </figure>
+                      ) : null}
                       <p className="mt-1.5 text-[15px] leading-relaxed text-neutral-600">
                         {stop.blurb[l]}
                       </p>

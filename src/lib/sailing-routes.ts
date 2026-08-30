@@ -35,6 +35,33 @@ export type RouteStop = {
   why: T
   /** One practical note: anchoring, shelter, crowding, or when it does not work. */
   note: T
+  /**
+   * Photograph of THIS bay. Optional, and deliberately so.
+   *
+   * ── The one rule ──────────────────────────────────────────────────────
+   * A real photograph of the actual place, or nothing. Not a generic
+   * Mediterranean cove, not a stock beach, and above all not an AI-generated
+   * image — this site already carries eight of those under /locations, and
+   * they are illustrations rather than pictures of anywhere.
+   *
+   * Here that matters more than on a landing page. Someone reads this list to
+   * decide where to spend a chartered day and several hundred euros. A picture
+   * of a bay that does not exist is a promise the boat cannot keep, and the
+   * header of this file already forbids every other kind of unverifiable
+   * claim; an image is a claim like any other.
+   *
+   * A stop with no photo simply renders without one, which is the honest
+   * state and looks fine.
+   */
+  image?: {
+    /** Path or URL. */
+    src: string
+    /** Photographer or owner, shown under the image. Required — an
+     *  uncredited photo is one nobody can check the provenance of. */
+    credit: string
+    /** Localised alt text describing what is actually visible. */
+    alt: T
+  }
 }
 
 export type SailingRoute = {
