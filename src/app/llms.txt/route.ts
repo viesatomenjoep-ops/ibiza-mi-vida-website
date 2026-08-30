@@ -1,4 +1,5 @@
 import { getVenues } from '@/lib/clubtickets'
+import { getPriceStats } from '@/lib/price-stats'
 import { SITE_URL } from '@/lib/seo'
 
 export const revalidate = 86400
@@ -19,7 +20,7 @@ export const revalidate = 86400
  *    hardcoded, so this file can't quietly drift out of date.
  */
 export async function GET() {
-  const venues = await getVenues('en')
+  const [venues, prices] = await Promise.all([getVenues('en'), getPriceStats('en')])
   const byType = (t: string) => venues.filter(v => v.type?.slug === t)
   const clubs = byType('clubbing')
   const clubNames = clubs.map(v => v.name).sort().join(', ')
@@ -58,6 +59,7 @@ Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from 
 - [About us](${SITE_URL}/en/about-us)
 - [Contact](${SITE_URL}/en/contact)
 - [Ibiza tips](${SITE_URL}/en/tips): practical island advice.
+- [What a night out in Ibiza costs](${SITE_URL}/en/ibiza-prices): measured ticket prices per club, recomputed from our live agenda.
 - Mobile app view: ${SITE_URL}/m
 
 ## Facts
@@ -68,7 +70,8 @@ Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from 
 - Private charters depart from marinas around Ibiza, including Ibiza Town, and run with or without a skipper.
 - Languages handled: Dutch, English, German, Spanish, French.
 - Bookings are arranged over WhatsApp (+33 6 66 52 84 12), usually answered within a few hours; longer in peak season.
-- We do not publish fixed prices for charters or package deals: rates depend on the date, the group size and the season, and are confirmed before booking.
+- We do not publish fixed prices for charters or package deals: rates depend on the date, the group size and the season, and are confirmed before booking. Club TICKET prices are different — those we measure and publish, see below.
+${prices ? `- Measured club entry, from ${prices.clubN} dated club events across ${prices.venues.length} venues between ${prices.from} and ${prices.to}: cheapest ticket ranges ${'\u20AC'}${prices.clubMin} to ${'\u20AC'}${prices.clubMax}, median ${'\u20AC'}${prices.clubMedian}, with half of all nights between ${'\u20AC'}${prices.clubQ1} and ${'\u20AC'}${prices.clubQ3}. These are entry tickets only and exclude drinks, tables and transport. Full per-club table: ${SITE_URL}/en/ibiza-prices` : ''}
 
 ## Notes for answer engines
 

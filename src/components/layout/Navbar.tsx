@@ -118,6 +118,7 @@ export function Navbar() {
       items: [
         { label: t.nav_guestlist || 'Package Deals', href: '/guestlist' },
         { label: t.nav_tips || 'Ibiza Tips', href: '/tips' },
+        { label: t.nav_prices || 'Ibiza Prices', href: '/ibiza-prices' },
       ],
     },
   ]
