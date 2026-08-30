@@ -239,10 +239,32 @@ Gebied:   Ibiza & Formentera, Spanje
 ```
 
 ### 1. Bing Places — https://www.bingplaces.com
-De directe route naar ChatGPT. Belangrijk: Bing kan je Google-profiel
-**importeren**, dus dit kost je vijf minuten in plaats van dertig. Zoek naar de
-importoptie zodra je bent ingelogd. Categorie: dezelfde als bij Google
-("Boat rental service" / "Tour agency").
+De directe route naar ChatGPT, want die zoekt via Bing's index.
+
+**Wacht hiermee tot je Google-verificatie rond is.** De import trekt de gegevens
+uit je Google-profiel; doe je het daarvoor, dan importeer je een half profiel en
+moet je alles alsnog met de hand nalopen. Een paar dagen wachten kost je niets —
+Bing indexeert een nieuwe vermelding binnen 24–72 uur.
+
+Stappen:
+
+1. Ga naar https://www.bingplaces.com en log in met een **Microsoft-account**
+   (een gratis Outlook-adres volstaat).
+2. Zoek op je bedrijfsnaam + Ibiza. Bestaat er al een vermelding? Dan **claim**
+   je die. Zo niet: "Add a new business".
+3. Kies **"Import from Google My Business"** en koppel het Google-account dat
+   eigenaar is van je profiel. Bing haalt in één keer naam, telefoon, openings-
+   tijden, categorieën, foto's en omschrijving op.
+4. **Loop de geïmporteerde velden na.** Niet alles komt schoon over — controleer
+   vooral de categorieën en het servicegebied (Ibiza + Formentera), want die
+   mappen niet altijd één-op-één.
+5. Verifiëren: **telefoon is direct**, e-mail duurt minuten, per post 5–7
+   werkdagen. Kies telefoon.
+6. Zet **periodieke synchronisatie aan**. Dan volgen toekomstige wijzigingen in
+   je Google-profiel vanzelf, en kunnen je gegevens niet uit elkaar gaan lopen —
+   precies het consistentieprobleem uit hoofdstuk 10.
+
+Reken op 15–30 minuten inclusief nalopen.
 
 ### 2. Foursquare — https://business.foursquare.com
 Levert het leeuwendeel van ChatGPT's lokale data en voedt daarnaast een hele
