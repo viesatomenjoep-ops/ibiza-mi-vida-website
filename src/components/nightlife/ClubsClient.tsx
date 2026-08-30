@@ -104,7 +104,9 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
         {/* Clubs Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredVenues.map((venue) => {
-            const imageUrl = venue.cover || venue.picture || 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800&q=80';
+            // No stock-photo fallback: a generic Unsplash shot presented as this venue is
+            // the same fabrication problem as an invented review. Better an empty tile.
+            const imageUrl = venue.cover || venue.picture || '';
             return (
               <Link
                 href={`/${locale}/club-tickets/${venue.slug}`}
@@ -112,13 +114,15 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
                 className="group relative flex min-h-[420px] flex-col justify-end overflow-hidden rounded-[32px] border border-white/5 bg-black/40 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
               >
                 {/* Background image */}
-                <Image
-                  src={imageUrl}
-                  alt={venue.name}
-                  fill
-                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
+                {imageUrl ? (
+                  <Image
+                    src={imageUrl}
+                    alt={venue.name}
+                    fill
+                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                ) : null}
 
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />

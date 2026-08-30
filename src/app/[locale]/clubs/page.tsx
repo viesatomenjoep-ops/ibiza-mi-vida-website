@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { staticMetadata } from '@/lib/seo-pages'
-import { supabase } from '@/lib/supabase/client'
+import { getVenues } from '@/lib/clubtickets'
 import ClubsClient from '@/components/nightlife/ClubsClient'
 import { ItemListJsonLd } from '@/components/seo/ItemListJsonLd'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
@@ -19,13 +19,21 @@ export default async function NightlifePage({
 }: {
   params: { locale: string }
 }) {
-  // Query all active venues that are clubs from Supabase
-  const { data: venues } = await supabase
-    .from('ct_venues')
-    .select('*')
-    .eq('type_slug', 'clubbing')
-    .eq('active', true)
-    .order('name');
+  // The ClubTickets JSON feed, like every other page on the site — not
+  // Supabase. Supabase held stale image URLs: Baloo's cover pointed at
+  // media.clubtickets.com/migrated/venue/86aeded9-….jpg, which now 404s, so the
+  // card rendered a broken image. The feed has a working 233KB photo for the
+  // same venue. One source of truth also means /clubs no longer renders empty
+  // when Supabase is unreachable, which it silently did.
+  const allVenues = await getVenues(params.locale);
+  const venues = allVenues
+    .filter(v => (v as any).type?.slug === 'clubbing')
+    .map(v => ({
+      ...v,
+      is_day_club: !!(v as any).isDayClub,
+      type_slug: 'clubbing',
+    }))
+    .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 
   const CLUBS_I18N: Record<string, { title: string; description: string; allClubs: string; searchPlaceholder: string }> = {
     en: {
