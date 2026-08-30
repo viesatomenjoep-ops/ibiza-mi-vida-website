@@ -32,7 +32,7 @@ export function Hero({
       {/* Background image */}
       <Image
         src={backgroundImage}
-        alt=""
+        alt={title}
         fill
         priority
         className="object-cover object-center"

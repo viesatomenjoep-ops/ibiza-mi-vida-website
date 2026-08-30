@@ -195,7 +195,7 @@ function SurpriseMode({ events, t, locale, onOpenEvent }: { events: AppEvent[]; 
 
       {pick && (
         <div className="w-full overflow-hidden rounded-3xl border border-app-accent/25 bg-obsidian-card text-left">
-          {pick.cover && <img src={optImg(pick.cover, 640)} alt="" className="h-44 w-full object-cover" />}
+          {pick.cover && <img src={optImg(pick.cover, 640)} alt={pick.name} className="h-44 w-full object-cover" />}
           <div className="p-4">
             <span className="mb-1 block text-[11px] font-bold uppercase tracking-wider text-app-accent-soft">{t.conciergesPick}</span>
             <h3 className="font-display text-xl font-black text-white">{pick.name}</h3>
@@ -305,7 +305,7 @@ function SwipeMode({ events, t, locale }: { events: AppEvent[]; t: AppLabels; lo
               }}
               className={`absolute inset-0 overflow-hidden rounded-3xl border border-white/10 bg-obsidian-card shadow-2xl ${isTop ? 'z-10' : 'z-0 opacity-60'}`}
             >
-              <img src={optImg(e!.cover, 640)} alt="" className="h-2/3 w-full object-cover" draggable={false} />
+              <img src={optImg(e!.cover, 640)} alt={e!.name} className="h-2/3 w-full object-cover" draggable={false} />
               <div className="p-4">
                 <h3 className="font-display text-lg font-black leading-tight text-white">{e!.name}</h3>
                 <p className="mt-1 text-[12px] font-semibold text-white/55">{e!.venueName} · {shortDate(e!.date, locale)}</p>

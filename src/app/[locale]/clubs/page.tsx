@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { staticMetadata } from '@/lib/seo-pages'
 import { supabase } from '@/lib/supabase/client'
 import ClubsClient from '@/components/nightlife/ClubsClient'
+import { ItemListJsonLd } from '@/components/seo/ItemListJsonLd'
 import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 
 export const revalidate = 3600
@@ -60,8 +61,13 @@ export default async function NightlifePage({
   }
   const translations = CLUBS_I18N[params.locale] || CLUBS_I18N.en
 
+  const clubEntries = (venues || [])
+    .filter((v: any) => v.slug && v.name)
+    .map((v: any) => ({ name: v.name, path: `${params.locale}/club-tickets/${v.slug}` }))
+
   return (
     <>
+      <ItemListJsonLd entries={clubEntries} locale={params.locale} name="Ibiza clubs" />
       <ClubsClient venues={venues || []} translations={translations} locale={params.locale} />
 
       <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-24 pt-8">

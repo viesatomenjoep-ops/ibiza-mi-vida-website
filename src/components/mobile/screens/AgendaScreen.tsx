@@ -187,7 +187,7 @@ export function AgendaScreen({
                   onClick={() => openEvent(e)}
                   className="group relative h-56 w-40 shrink-0 overflow-hidden rounded-3xl border border-white/[0.07] bg-obsidian-card text-left outline-none transition-all motion-reduce:transition-none hover:border-white/25 focus-visible:ring-2 focus-visible:ring-app-accent-soft active:scale-[0.97] motion-reduce:active:scale-100"
                 >
-                  <img src={optImg(e.cover, 384)} loading="lazy" decoding="async" alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 motion-reduce:transition-none group-hover:scale-105" />
+                  <img src={optImg(e.cover, 384)} loading="lazy" decoding="async" alt={e.name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 motion-reduce:transition-none group-hover:scale-105" />
                   <span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" aria-hidden />
                   {e.price > 0 && (
                     <span className="absolute right-2.5 top-2.5 rounded-full bg-app-accent px-2 py-0.5 text-[11px] font-black text-white shadow">€{e.price}</span>

@@ -212,7 +212,7 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
         description={SERVICE_COPY.guestlist.description[locale]}
         serviceType={SERVICE_COPY.guestlist.serviceType}
         path={`${locale}/guestlist`}
-      />
+       pageKey="guestlist" />
       <BreadcrumbJsonLd
         locale={locale}
         items={[

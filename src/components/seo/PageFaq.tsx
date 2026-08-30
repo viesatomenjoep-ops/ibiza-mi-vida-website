@@ -22,6 +22,14 @@ const HEADING: Record<Locale, string> = {
  *
  * Uses native <details> so the answers are in the DOM and expandable with no
  * JavaScript at all — a crawler that does not run scripts still reads them.
+ *
+ * The `!` overrides are load-bearing. globals.css carries a legacy
+ * `details{background:var(--black)}` rule (plus padding, uppercase summaries
+ * and a grey `details p`) written for a dark accordion elsewhere on the site.
+ * A bare <details> inherits all of it, which rendered these FAQs as dark grey
+ * text on a near-black card — measured at 1.12:1, i.e. invisible — on every
+ * page using this component. Overriding here rather than narrowing the global
+ * rule avoids breaking whatever that rule was written for.
  */
 export function PageFaq({ pageKey, locale }: { pageKey: string; locale: string }) {
   const items = PAGE_FAQ[pageKey]
@@ -39,8 +47,8 @@ export function PageFaq({ pageKey, locale }: { pageKey: string; locale: string }
         </h2>
         <div className="mt-7 divide-y divide-black/8 border-y border-black/8">
           {faqs.map((f, i) => (
-            <details key={i} className="group py-1">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left font-serif text-base font-bold leading-snug marker:hidden">
+            <details key={i} className="group !bg-transparent !border-0 !px-0 !py-1">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left font-serif text-base font-bold normal-case leading-snug tracking-normal text-neutral-900 marker:hidden">
                 {f.q}
                 <span
                   aria-hidden
@@ -49,7 +57,7 @@ export function PageFaq({ pageKey, locale }: { pageKey: string; locale: string }
                   +
                 </span>
               </summary>
-              <p className="pb-5 pr-11 text-[15px] leading-relaxed text-neutral-600">{f.a}</p>
+              <p className="!mt-0 pb-5 pr-11 text-[15px] leading-relaxed !text-neutral-600">{f.a}</p>
             </details>
           ))}
         </div>

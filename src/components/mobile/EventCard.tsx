@@ -55,7 +55,7 @@ export function EventCard({
             src={optImg(e.cover, 256)}
             loading={eager ? 'eager' : 'lazy'}
             decoding="async"
-            alt=""
+            alt={e.name}
             className="h-full w-full object-cover transition-transform duration-500 motion-reduce:transition-none group-hover:scale-105"
           />
         ) : (

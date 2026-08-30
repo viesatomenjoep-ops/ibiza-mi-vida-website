@@ -33,7 +33,7 @@ export function BoatsScreen({
                   src={optImg(b.image, 384)}
                   loading="lazy"
                   decoding="async"
-                  alt=""
+                  alt={b.name}
                   className="h-full w-full object-cover transition-transform duration-500 motion-reduce:transition-none group-hover:scale-105"
                 />
               )}

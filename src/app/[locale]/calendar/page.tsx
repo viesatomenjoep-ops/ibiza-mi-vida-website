@@ -7,6 +7,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
 import EventsExplorer from './EventsExplorer';
 import { getVenues, getAllDates } from '@/lib/clubtickets';
+import { ItemListJsonLd } from '@/components/seo/ItemListJsonLd';
+import { eventBasePath } from '@/lib/event-path';
 
 export default async function CalendarPage({
   params,
@@ -57,11 +59,29 @@ export default async function CalendarPage({
     type_slug: v.type?.slug || '',
   }));
 
+  // Structured data for the listing itself. Paths go through eventBasePath()
+  // for the same reason the sitemap does: only 'clubbing' venues live under
+  // /club-tickets, and pointing a boat event there is a guaranteed 404.
+  const listEntries = mappedEvents
+    .filter(e => e.ct_venues.slug && e.ct_events.slug)
+    .map(e => ({
+      name: `${e.ct_events.name || e.name} — ${e.ct_venues.name}`,
+      path: `${params.locale}/${eventBasePath(e.ct_venues.type_slug)}/${e.ct_venues.slug}/${e.ct_events.slug}`,
+      date: e.date,
+    }));
+
   return (
-    <EventsExplorer
-      events={mappedEvents}
-      allVenues={lightVenues}
-      locale={params.locale}
-    />
+    <>
+      <ItemListJsonLd
+        entries={listEntries}
+        locale={params.locale}
+        name="Ibiza event calendar"
+      />
+      <EventsExplorer
+        events={mappedEvents}
+        allVenues={lightVenues}
+        locale={params.locale}
+      />
+    </>
   );
 }

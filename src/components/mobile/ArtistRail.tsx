@@ -35,7 +35,7 @@ export function ArtistRail({
                   src={optImg(a.image, 160)}
                   loading="lazy"
                   decoding="async"
-                  alt=""
+                  alt={a.name}
                   className="h-full w-full object-cover transition-transform duration-500 motion-reduce:transition-none group-hover:scale-105"
                 />
               ) : (

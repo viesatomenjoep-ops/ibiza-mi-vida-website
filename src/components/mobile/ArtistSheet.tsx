@@ -12,7 +12,7 @@ export function ArtistSheet({ artist: a, t, locale }: { artist: AppArtist; t: Ap
       <div className="flex items-center gap-4">
         <span className="h-20 w-20 shrink-0 overflow-hidden rounded-full border-2 border-white/10 bg-obsidian-card">
           {a.image ? (
-            <img src={optImg(a.image, 160)} alt="" className="h-full w-full object-cover" />
+            <img src={optImg(a.image, 160)} alt={a.name} className="h-full w-full object-cover" />
           ) : (
             <span className="grid h-full w-full place-items-center font-display text-2xl font-black text-white/25">
               {a.name.slice(0, 2).toUpperCase()}

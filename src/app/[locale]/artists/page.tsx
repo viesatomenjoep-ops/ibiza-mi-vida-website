@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { Disc } from 'lucide-react'
 import { getArtists } from '@/lib/clubtickets'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
+import { ItemListJsonLd } from '@/components/seo/ItemListJsonLd'
 
 export const revalidate = 3600
 
@@ -23,8 +24,13 @@ export default async function ArtistsPage({ params }: { params: { locale: string
   const locale = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE
   const artists = await getArtists(locale)
 
+  const artistEntries = artists
+    .filter((a: any) => a.slug && a.name)
+    .map((a: any) => ({ name: a.name, path: `${locale}/artists/${a.slug}` }))
+
   return (
     <main className="theme-monaco-vip bg-neutral-50 min-h-screen text-[var(--color-ink)] pb-24 relative overflow-hidden">
+      <ItemListJsonLd entries={artistEntries} locale={locale} name="Ibiza DJs and artists" />
       <section className="pt-[calc(var(--nav-h)+12px)] pb-2 relative z-10 flex flex-col items-center text-center px-4">
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
           <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">

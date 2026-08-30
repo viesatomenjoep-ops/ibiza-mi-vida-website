@@ -1,4 +1,5 @@
 import { SITE_URL, SITE_NAME } from '@/lib/seo'
+import { contentUpdated } from '@/lib/content-dates'
 
 /**
  * Service structured data for the commercial category pages (boat charters,
@@ -26,6 +27,7 @@ export function ServiceSchema({
   serviceType,
   priceFrom,
   image,
+  pageKey,
 }: {
   name: string
   description: string
@@ -36,8 +38,11 @@ export function ServiceSchema({
   /** lowest real price shown on the page, in EUR */
   priceFrom?: number
   image?: string
+  /** Key into CONTENT_UPDATED, so the page can declare an honest dateModified. */
+  pageKey?: string
 }) {
   const url = `${SITE_URL}/${path.replace(/^\//, '')}`
+  const updated = pageKey ? contentUpdated(pageKey) : undefined
 
   const schema = {
     '@context': 'https://schema.org',
@@ -71,10 +76,32 @@ export function ServiceSchema({
       : {}),
   }
 
+  // Freshness lives on WebPage, not Service — schema.org has no dateModified on
+  // Service. Emitted only when we have an honest hand-maintained date for this
+  // page; a build-date stamp here would be the same false signal the sitemap
+  // used to send.
+  const page = updated
+    ? {
+        '@type': 'WebPage',
+        '@id': `${url}#webpage`,
+        url,
+        name,
+        dateModified: updated,
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        about: { '@id': `${url}#service` },
+        publisher: { '@id': `${SITE_URL}/#organization` },
+      }
+    : null
+
+  const { '@context': _ctx, ...serviceNode } = schema
+  const graph = page
+    ? { '@context': 'https://schema.org', '@graph': [serviceNode, page] }
+    : schema
+
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
     />
   )
 }
