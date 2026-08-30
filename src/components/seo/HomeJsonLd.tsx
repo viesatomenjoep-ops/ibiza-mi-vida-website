@@ -24,7 +24,24 @@ export function HomeJsonLd({ locale = 'nl' }: { locale?: string }) {
     image: ogImage,
     description: bio,
     ...(phone ? { telephone: `+${phone}` } : {}),
-    sameAs: ['https://www.instagram.com/ibizamivida/'],
+    // Elk profiel dat aantoonbaar van dit bedrijf is. Dit is het veld waarmee
+    // een zoekmachine of taalmodel deze site koppelt aan wat er elders over ons
+    // staat, en dat is waar het merendeel van de vermeldingen vandaan komt —
+    // zonder deze koppeling moeten ze zelf raden dat @ibizamivida hetzelfde
+    // bedrijf is als ibizamivida.com.
+    //
+    // Alleen kanalen waarvan de URL bevestigd is. Een gokje dat naar een
+    // vreemd of leeg profiel wijst is erger dan een korte lijst: dan claim je
+    // een account dat niet van jou is, en dat is lastig terug te draaien.
+    // Canonieke URL's, zonder tracking-parameters — TikTok plakt er
+    // ?is_from_webapp=... achter als je hem uit de app kopieert, en die hoort
+    // hier niet in.
+    //
+    // Aanvullen zodra ze bestaan: Google Bedrijfsprofiel en TripAdvisor.
+    sameAs: [
+      'https://www.instagram.com/ibizamivida/',
+      'https://www.tiktok.com/@ibizamivida',
+    ],
     // E-E-A-T: names a real person behind the business. Referenced by @id — the
     // Person itself is emitted alongside, and declared identically on /about-us
     // and /contact, so all of them merge into one entity.
