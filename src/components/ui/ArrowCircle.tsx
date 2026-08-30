@@ -1,21 +1,20 @@
 import { ArrowUpRight } from 'lucide-react'
 
 /**
- * Circular arrow affordance with a "launch" hover.
+ * Circular arrow affordance.
  *
- * On hover the arrow leaves through the top-right corner while an identical
- * arrow enters from the bottom-left, so the icon appears to travel without
- * ever leaving the circle. Moving away reverses it. The motion is pure CSS
- * (`.arrow-swap` in globals.css) driven by a `.group` ancestor, so it also
- * fires when the user hovers the whole card rather than just the circle.
+ * Static by design. This used to hold two arrows and animate a "launch" on
+ * hover: one slid out through the top-right corner while a second entered from
+ * the bottom-left, so the icon appeared to travel without ever leaving the
+ * circle. It was removed on request — a card that already lifts and changes
+ * colour on hover does not also need its icon to move, and across a grid of
+ * cards the effect fired on whichever one the cursor happened to cross, which
+ * reads as restlessness rather than as response.
  *
- * The glyph and the motion are deliberately on the same diagonal. It used to
- * be a straight ArrowRight that slid vertically, which read as two unrelated
- * directions at once — the arrow pointed one way and moved another. Pointing
- * and travelling north-east makes the affordance read as a single gesture.
+ * The colour transition stays: that is feedback, not decoration.
  *
- * Both copies are aria-hidden: this is decoration on top of a link or button
- * that already carries its own accessible name.
+ * aria-hidden because this sits on top of a link or button that already
+ * carries its own accessible name.
  */
 export function ArrowCircle({
   size = 48,
@@ -24,17 +23,16 @@ export function ArrowCircle({
 }: {
   /** Diameter in px. */
   size?: number
-  /** Extra classes for colour/state — the layout and motion are handled here. */
+  /** Extra classes for colour/state — layout is handled here. */
   className?: string
   iconSize?: number
 }) {
   return (
     <span
-      className={`arrow-swap grid shrink-0 rounded-full transition-colors ${className}`}
+      className={`grid shrink-0 place-items-center rounded-full transition-colors ${className}`}
       style={{ width: size, height: size }}
       aria-hidden
     >
-      <ArrowUpRight size={iconSize} strokeWidth={2.4} />
       <ArrowUpRight size={iconSize} strokeWidth={2.4} />
     </span>
   )
