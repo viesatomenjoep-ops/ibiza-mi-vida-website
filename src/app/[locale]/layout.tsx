@@ -97,6 +97,34 @@ export default function RootLayout({
 
   return (
     <html lang={locale || 'en'} className={`${inter.variable} ${oswald.variable} ${outfit.variable} ${montserrat.variable}`}>
+      <head>
+        {/*
+          Impact (impact.com) affiliate tracking.
+
+          Rendered as a raw inline tag rather than through next/script on
+          purpose. Impact verifies site ownership by fetching the homepage and
+          looking for this snippet in the HTML; next/script with
+          `afterInteractive` injects it only after hydration, so a verification
+          crawler that does not run JavaScript would not find it and the check
+          would fail.
+
+          The cost is small: the inline part only appends an async <script>, so
+          nothing here blocks rendering.
+
+          Two things this does beyond counting visits, both worth knowing:
+          `transformLinks` rewrites outbound links on the page to carry Impact's
+          tracking, and `trackImpression` fires on load. Impact's own dialog
+          states the captured data may be shared with advertisers, and this site
+          currently has no consent mechanism — see the privacy policy before
+          relying on it for EU traffic.
+        */}
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `(function(i,m,p,a,c,t){c.ire_o=p;c[p]=c[p]||function(){(c[p].a=c[p].a||[]).push(arguments)};t=a.createElement(m);var z=a.getElementsByTagName(m)[0];t.async=1;t.src=i;z.parentNode.insertBefore(t,z)})('https://utt.impactcdn.com/P-A7702481-c71c-450b-a591-dc158e54c54e1.js','script','impactStat',document,window);impactStat('transformLinks');impactStat('trackImpression');`,
+          }}
+        />
+      </head>
       <body>
         <CartProvider>
           <Navbar />
