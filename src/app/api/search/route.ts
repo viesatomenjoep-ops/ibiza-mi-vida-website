@@ -4,6 +4,7 @@ import { getVenues, getAllDates, getArtists } from '@/lib/clubtickets';
 export const dynamic = 'force-dynamic';
 import { locations } from '@/lib/locations';
 import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences';
+import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -71,10 +72,13 @@ export async function GET(request: Request) {
     });
 
     // 3. Search Locations
-    const matchedLocations = locations.filter(l => 
-      l.name.toLowerCase().includes(q) || 
-      l.tagline.toLowerCase().includes(q) ||
-      l.description.toLowerCase().includes(q)
+    // tagline/intro are localized objects now, and `description` was replaced
+    // by the richer place-guide fields.
+    const sl = (LOCALES as readonly string[]).includes(locale) ? (locale as Locale) : DEFAULT_LOCALE;
+    const matchedLocations = locations.filter(l =>
+      l.name.toLowerCase().includes(q) ||
+      (l.tagline[sl] || '').toLowerCase().includes(q) ||
+      (l.intro[sl] || '').toLowerCase().includes(q)
     ).slice(0, 3);
 
     matchedLocations.forEach(l => {
@@ -82,7 +86,7 @@ export async function GET(request: Request) {
         id: `loc-${l.id}`,
         type: 'Location',
         title: l.name,
-        subtitle: l.tagline,
+        subtitle: l.tagline[sl],
         image: l.imageUrl || null,
         url: `/${locale}/locations/${l.slug}`
       });

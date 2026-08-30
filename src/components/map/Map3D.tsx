@@ -61,6 +61,7 @@ export function Map3D({
     let rafId = 0
     let succeeded = false
     let loadTimer: ReturnType<typeof setTimeout> | undefined
+    let resizeObserver: ResizeObserver | undefined
 
     // `fail` can be called from a timer queued well before the map actually
     // finishes loading — if that timer's callback runs AFTER a genuine
@@ -126,6 +127,18 @@ export function Map3D({
         return
       }
       mapRef.current = map
+
+      // MapLibre only measures its container on construction, so any later size
+      // change (`46vh` reflowing when mobile browser chrome hides, the card
+      // laying out a frame after mount, an orientation change) leaves it
+      // rendering at a stale size. Observing the container and calling resize()
+      // is the cheap, general guard against that whole class of bug.
+      if (typeof ResizeObserver !== 'undefined') {
+        resizeObserver = new ResizeObserver(() => {
+          try { map.resize() } catch { /* map torn down between observation and callback */ }
+        })
+        resizeObserver.observe(containerRef.current)
+      }
 
       // Deliberately not wiring 'error' or 'webglcontextlost' to `fail()` —
       // both fire for non-fatal, often-recoverable hiccups too (a single
@@ -217,6 +230,7 @@ export function Map3D({
       cancelled = true
       clearTimeout(loadTimer)
       cancelAnimationFrame(rafId)
+      resizeObserver?.disconnect()
       markersRef.current.forEach(m => m.remove())
       mapRef.current?.remove()
       mapRef.current = null
@@ -238,7 +252,15 @@ export function Map3D({
         className="relative overflow-hidden rounded-[24px] border border-white/10 bg-obsidian"
         style={{ height }}
       >
-        <div ref={containerRef} className="absolute inset-0" />
+        {/* Positioned with an INLINE style, not `absolute inset-0`: maplibre-gl's
+            own stylesheet ships `.maplibregl-map { position: relative }`, and
+            because that CSS is imported by this component it lands in the route
+            chunk AFTER Tailwind's globals — equal specificity, later wins, so
+            the class was silently overridden. The container then fell back to
+            `position: relative; height: auto`, `inset-0` became inert, and it
+            collapsed to 307x0: the map "loaded" fine (no error, no spinner) but
+            painted nothing at all. Inline styles outrank both stylesheets. */}
+        <div ref={containerRef} style={{ position: 'absolute', inset: 0 }} />
         {/* HUD chrome */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, #EFEDEA 0 1px, transparent 1px 90px), repeating-linear-gradient(90deg, #EFEDEA 0 1px, transparent 1px 90px)' }} />
