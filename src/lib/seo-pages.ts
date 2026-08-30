@@ -367,6 +367,19 @@ export function staticMetadata(localeRaw: string, path: string, fallbackName?: s
  * Full Metadata for a data-driven detail page (a specific venue/event/activity).
  * @param path  the full locale-agnostic path, e.g. `activities/${slug}`
  */
+/**
+ * Trim to a length without breaking a word, and without leaving dangling
+ * punctuation. Falls back to a hard cut only if the text has no spaces at all.
+ */
+export function truncateAtWord(text: string, max: number): string {
+  const t = text.trim()
+  if (t.length <= max) return t
+  const cut = t.slice(0, max)
+  const lastSpace = cut.lastIndexOf(' ')
+  const base = lastSpace > max * 0.5 ? cut.slice(0, lastSpace) : cut
+  return base.replace(/[\s,;:.\-–—]+$/, '') + '…'
+}
+
 export function detailMetadata(
   localeRaw: string,
   path: string,
@@ -377,6 +390,9 @@ export function detailMetadata(
   const clean = (name || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() || SITE_NAME
   const title = `${clean}${opts.suffix ? ` ${opts.suffix}` : ' — Ibiza'}`
   const rawDesc = (opts.description || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
-  const description = (rawDesc ? rawDesc : FALLBACK_DESC[locale](clean)).slice(0, 160)
+  // Never cut mid-word. The old `.slice(0, 160)` produced descriptions ending
+  // in fragments like "Met de gr", which is what Google actually printed in the
+  // results — and a snippet that stops mid-word is one nobody clicks.
+  const description = truncateAtWord(rawDesc || FALLBACK_DESC[locale](clean), 158)
   return pageMetadata({ locale, path, title, description, images: opts.image ? [opts.image] : undefined })
 }
