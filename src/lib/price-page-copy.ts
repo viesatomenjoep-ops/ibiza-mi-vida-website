@@ -64,11 +64,11 @@ export function answer(s: PriceStats, l: string): string {
   const from = longDate(s.from, l)
   const to = longDate(s.to, l)
   const m: L = {
-    nl: `Entree voor een club op Ibiza kost ${euro(s.clubMin)} tot ${euro(s.clubMax)}, en het goedkoopste ticket is doorgaans ${euro(s.clubMedian)}. De helft van alle clubavonden zit tussen ${euro(s.clubQ1)} en ${euro(s.clubQ3)}. Dit zijn uitsluitend ticketprijzen: drankjes, tafels en vervoer zitten er niet bij. De cijfers komen uit ${s.clubN} gedateerde clubevents bij ${venues} venues in ons eigen boekingssysteem, over de periode ${from} tot ${to}.`,
-    en: `Club entry in Ibiza costs ${euro(s.clubMin)} to ${euro(s.clubMax)}, and the typical cheapest ticket is ${euro(s.clubMedian)}. Half of all club nights fall between ${euro(s.clubQ1)} and ${euro(s.clubQ3)}. These are ticket prices only: drinks, tables and transport are not included. The figures come from ${s.clubN} dated club events across ${venues} venues in our own booking system, covering ${from} to ${to}.`,
-    de: `Clubeintritt auf Ibiza kostet ${euro(s.clubMin)} bis ${euro(s.clubMax)}, das günstigste Ticket liegt typischerweise bei ${euro(s.clubMedian)}. Die Hälfte aller Clubnächte liegt zwischen ${euro(s.clubQ1)} und ${euro(s.clubQ3)}. Das sind reine Ticketpreise: Getränke, Tische und Transport sind nicht enthalten. Die Zahlen stammen aus ${s.clubN} datierten Clubevents in ${venues} Locations in unserem eigenen Buchungssystem, im Zeitraum ${from} bis ${to}.`,
-    es: `La entrada a un club en Ibiza cuesta entre ${euro(s.clubMin)} y ${euro(s.clubMax)}, y la entrada más barata suele costar ${euro(s.clubMedian)}. La mitad de las noches se sitúan entre ${euro(s.clubQ1)} y ${euro(s.clubQ3)}. Son solo precios de entrada: bebidas, mesas y transporte no están incluidos. Las cifras proceden de ${s.clubN} eventos con fecha en ${venues} locales de nuestro propio sistema de reservas, del ${from} al ${to}.`,
-    fr: `L'entrée en club à Ibiza coûte de ${euro(s.clubMin)} à ${euro(s.clubMax)}, et le billet le moins cher est généralement de ${euro(s.clubMedian)}. La moitié des soirées se situent entre ${euro(s.clubQ1)} et ${euro(s.clubQ3)}. Ce sont uniquement des prix de billet : boissons, tables et transport ne sont pas inclus. Les chiffres proviennent de ${s.clubN} événements datés dans ${venues} établissements de notre propre système de réservation, du ${from} au ${to}.`,
+    nl: `Voor het deel van het seizoen dat wij meten — ${from} tot ${to} — kost entree voor een club op Ibiza ${euro(s.clubMin)} tot ${euro(s.clubMax)}, en is het goedkoopste ticket doorgaans ${euro(s.clubMedian)}. De helft van alle clubavonden zit tussen ${euro(s.clubQ1)} en ${euro(s.clubQ3)}. Dit zijn uitsluitend ticketprijzen: drankjes, tafels en vervoer zitten er niet bij. De cijfers komen uit ${s.clubN} gedateerde clubevents bij ${venues} venues in ons eigen boekingssysteem.`,
+    en: `For the part of the season we measure — ${from} to ${to} — club entry in Ibiza costs ${euro(s.clubMin)} to ${euro(s.clubMax)}, and the typical cheapest ticket is ${euro(s.clubMedian)}. Half of all club nights fall between ${euro(s.clubQ1)} and ${euro(s.clubQ3)}. These are ticket prices only: drinks, tables and transport are not included. The figures come from ${s.clubN} dated club events across ${venues} venues in our own booking system.`,
+    de: `Für den Teil der Saison, den wir messen — ${from} bis ${to} — kostet Clubeintritt auf Ibiza ${euro(s.clubMin)} bis ${euro(s.clubMax)}, das günstigste Ticket liegt typischerweise bei ${euro(s.clubMedian)}. Die Hälfte aller Clubnächte liegt zwischen ${euro(s.clubQ1)} und ${euro(s.clubQ3)}. Das sind reine Ticketpreise: Getränke, Tische und Transport sind nicht enthalten. Die Zahlen stammen aus ${s.clubN} datierten Clubevents in ${venues} Locations in unserem eigenen Buchungssystem.`,
+    es: `Para la parte de la temporada que medimos — del ${from} al ${to} — la entrada a un club en Ibiza cuesta entre ${euro(s.clubMin)} y ${euro(s.clubMax)}, y la más barata suele costar ${euro(s.clubMedian)}. La mitad de las noches se sitúan entre ${euro(s.clubQ1)} y ${euro(s.clubQ3)}. Son solo precios de entrada: bebidas, mesas y transporte no están incluidos. Las cifras proceden de ${s.clubN} eventos con fecha en ${venues} locales de nuestro propio sistema de reservas.`,
+    fr: `Pour la partie de la saison que nous mesurons — du ${from} au ${to} — l'entrée en club à Ibiza coûte de ${euro(s.clubMin)} à ${euro(s.clubMax)}, et le billet le moins cher est généralement de ${euro(s.clubMedian)}. La moitié des soirées se situent entre ${euro(s.clubQ1)} et ${euro(s.clubQ3)}. Ce sont uniquement des prix de billet : boissons, tables et transport ne sont pas inclus. Les chiffres proviennent de ${s.clubN} événements datés dans ${venues} établissements de notre propre système de réservation.`,
   }
   return pick(m, l)
 }
@@ -85,6 +85,32 @@ export const H_NOT_INCLUDED: L = {
   nl: 'Wat er níét in zit', en: 'What is not included',
   de: 'Was nicht enthalten ist', es: 'Lo que no está incluido', fr: "Ce qui n'est pas inclus",
 }
+export const H_SPREAD: L = {
+  nl: 'Hoe de avonden zich verdelen', en: 'How the nights are spread',
+  de: 'Wie sich die Nächte verteilen', es: 'Cómo se reparten las noches',
+  fr: 'Comment les soirées se répartissent',
+}
+
+/**
+ * De verdeling, uitgeschreven.
+ *
+ * Bewust geen bewering over wat andere sites schrijven. De ranges die overal
+ * circuleren zijn ongefundeerd, maar "iedereen zegt X" is zelf ook een
+ * ongecontroleerde claim. Onze eigen telling neerzetten is sterker en
+ * controleerbaar: wie hem wil weerleggen moet met betere data komen.
+ */
+export function spread(s: PriceStats, l: string): string {
+  const b = s.clubBuckets
+  const m: L = {
+    nl: `Van de ${s.clubN} clubavonden die wij meten kost ${b.under40}% minder dan €40, zit ${b.mid}% tussen €40 en €80, en ligt ${b.over80}% daarboven. Dat is een telling van onze eigen agenda, geen schatting.`,
+    en: `Of the ${s.clubN} club nights we measure, ${b.under40}% cost under €40, ${b.mid}% fall between €40 and €80, and ${b.over80}% sit above that. This is a count of our own agenda, not an estimate.`,
+    de: `Von den ${s.clubN} Clubnächten, die wir messen, kosten ${b.under40}% unter €40, ${b.mid}% liegen zwischen €40 und €80, und ${b.over80}% darüber. Das ist eine Auszählung unseres eigenen Kalenders, keine Schätzung.`,
+    es: `De las ${s.clubN} noches que medimos, un ${b.under40}% cuesta menos de €40, un ${b.mid}% se sitúa entre €40 y €80, y un ${b.over80}% por encima. Es un recuento de nuestra propia agenda, no una estimación.`,
+    fr: `Sur les ${s.clubN} soirées que nous mesurons, ${b.under40}% coûtent moins de €40, ${b.mid}% se situent entre €40 et €80, et ${b.over80}% au-dessus. C'est un décompte de notre propre agenda, pas une estimation.`,
+  }
+  return pick(m, l)
+}
+
 export const H_METHOD: L = {
   nl: 'Hoe we dit meten', en: 'How we measure this', de: 'Wie wir das messen',
   es: 'Cómo lo medimos', fr: 'Comment nous mesurons',

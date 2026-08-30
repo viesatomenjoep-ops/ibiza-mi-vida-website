@@ -10,7 +10,7 @@ import {
   KICKER, TITLE, META_TITLE, metaDescription, answer,
   H_VENUES, H_CATEGORIES, H_NOT_INCLUDED, H_METHOD,
   TH_VENUE, TH_TYPICAL, TH_RANGE, TH_DATES,
-  CATEGORY_LABEL, FROM_LABEL, notIncluded, method, faqs,
+  CATEGORY_LABEL, FROM_LABEL, notIncluded, method, faqs, H_SPREAD, spread,
 } from '@/lib/price-page-copy'
 
 export const revalidate = 3600
@@ -126,6 +126,25 @@ export default async function IbizaPricesPage({ params }: { params: { locale: st
               ))}
             </tbody>
           </table>
+        </div>
+      </section>
+
+      {/* ── Verdeling ─────────────────────────────────────────────────── */}
+      <section className="mx-auto max-w-3xl px-4 pb-12">
+        <h2 className="font-serif text-2xl font-black tracking-tight">{H_SPREAD[l] || H_SPREAD.en}</h2>
+        <p className="mt-4 leading-relaxed text-neutral-700">{spread(stats, l)}</p>
+        {/* Eén balk, geen grafiekbibliotheek: drie percentages naast elkaar
+            lezen sneller dan een diagram en blijven leesbaar voor een crawler
+            die geen JavaScript draait. */}
+        <div className="mt-4 flex h-3 w-full overflow-hidden rounded-full" role="presentation">
+          <div className="bg-ibiza-green" style={{ width: `${stats.clubBuckets.under40}%` }} />
+          <div className="bg-gold-soft" style={{ width: `${stats.clubBuckets.mid}%` }} />
+          <div className="bg-neutral-300" style={{ width: `${stats.clubBuckets.over80}%` }} />
+        </div>
+        <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-xs text-neutral-600">
+          <span><span className="mr-1.5 inline-block h-2 w-2 rounded-full bg-ibiza-green align-middle" />&lt; €40 · {stats.clubBuckets.under40}%</span>
+          <span><span className="mr-1.5 inline-block h-2 w-2 rounded-full bg-gold-soft align-middle" />€40–€80 · {stats.clubBuckets.mid}%</span>
+          <span><span className="mr-1.5 inline-block h-2 w-2 rounded-full bg-neutral-300 align-middle" />&gt; €80 · {stats.clubBuckets.over80}%</span>
         </div>
       </section>
 

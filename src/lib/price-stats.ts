@@ -95,6 +95,15 @@ export interface PriceStats {
   clubMedianByEvent: number
   /** Aantal onderscheiden residencies achter clubMedianByEvent. */
   clubEvents: number
+  /**
+   * Verdeling van de clubavonden over drie prijsklassen, in procenten.
+   *
+   * Overal op internet circuleren ongefundeerde ranges voor een Ibiza-entree.
+   * Wij hoeven daar niets over te beweren — we kunnen simpelweg tellen hoe de
+   * avonden die wij in de agenda hebben zich verdelen, en dat is een cijfer
+   * dat niemand anders kan leveren. Opgeteld 100 (afronding daargelaten).
+   */
+  clubBuckets: { under40: number; mid: number; over80: number }
   /** Clubs with enough dates to report individually. */
   venues: VenuePrice[]
   /** Venues dropped for having too few dates to be meaningful. */
@@ -190,10 +199,28 @@ export async function getPriceStats(locale: string): Promise<PriceStats | null> 
     return { key, min: Math.round(Math.min(...lows)), median: Math.round(median(lows)), n: lows.length }
   }
 
+  // Waarschuwing in de serverlog wanneer de steekproef te dun wordt om nog
+  // een mediaan op te publiceren. De pagina geeft bij nul data een 404, maar
+  // tussen "vol" en "leeg" zit een zone waarin de cijfers stilletjes op een
+  // handvol avonden gaan drijven zonder dat iemand het merkt — aan het eind
+  // van het seizoen loopt hij daar vanzelf doorheen.
+  if (clubLows.length > 0 && clubLows.length < 100) {
+    console.warn(
+      `[price-stats] Nog maar ${clubLows.length} clubavonden met prijs in de agenda. ` +
+      `Onder de 100 wordt de mediaan op /ibiza-prices wankel; controleer of de ` +
+      `ClubTickets-sync nog loopt en of het seizoen niet afgelopen is.`,
+    )
+  }
+
   return {
     clubMedian: Math.round(median(clubLows)),
     clubMin: Math.round(Math.min(...clubLows)),
     clubMax: Math.round(Math.max(...clubLows)),
+    clubBuckets: (() => {
+      const n = clubLows.length || 1
+      const pct = (f: (x: number) => boolean) => Math.round((clubLows.filter(f).length / n) * 100)
+      return { under40: pct(x => x < 40), mid: pct(x => x >= 40 && x <= 80), over80: pct(x => x > 80) }
+    })(),
     clubMedianByEvent: eventLows.length ? Math.round(median(eventLows)) : 0,
     clubEvents: eventLows.length,
     clubQ1: Math.round(quantile(clubLows, 0.25)),
