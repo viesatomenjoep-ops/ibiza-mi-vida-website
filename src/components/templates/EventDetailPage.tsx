@@ -147,11 +147,11 @@ const BCP: Record<string, string> = { en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es:
 
 // Labels for the calendar date-picker (day/week/month selector + tiles)
 const PICKER_I18N: Record<string, PickerLabels> = {
-  en: { day: 'Day', week: 'Week', month: 'Month', year: 'Year', wholeWeek: 'All week', wholeMonth: 'All month', price: 'Price', available: 'Available', noDates: 'No dates for this selection.', today: 'Today', tomorrow: 'Tomorrow' },
-  nl: { day: 'Dag', week: 'Week', month: 'Maand', year: 'Jaar', wholeWeek: 'Hele week', wholeMonth: 'Hele maand', price: 'Prijs', available: 'Beschikbaar', noDates: 'Geen data voor deze selectie.', today: 'Vandaag', tomorrow: 'Morgen' },
-  de: { day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', wholeWeek: 'Ganze Woche', wholeMonth: 'Ganzer Monat', price: 'Preis', available: 'Verfügbar', noDates: 'Keine Termine für diese Auswahl.', today: 'Heute', tomorrow: 'Morgen' },
-  es: { day: 'Día', week: 'Semana', month: 'Mes', year: 'Año', wholeWeek: 'Toda la semana', wholeMonth: 'Todo el mes', price: 'Precio', available: 'Disponible', noDates: 'No hay fechas para esta selección.', today: 'Hoy', tomorrow: 'Mañana' },
-  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Année', wholeWeek: 'Toute la semaine', wholeMonth: 'Tout le mois', price: 'Prix', available: 'Disponible', noDates: 'Aucune date pour cette sélection.', today: "Aujourd'hui", tomorrow: 'Demain' },
+  en: { day: 'Day', week: 'Week', month: 'Month', year: 'Year', wholeWeek: 'All week', wholeMonth: 'All month', price: 'Price', available: 'Price shown at checkout', noDates: 'No dates for this selection.', today: 'Today', tomorrow: 'Tomorrow' },
+  nl: { day: 'Dag', week: 'Week', month: 'Maand', year: 'Jaar', wholeWeek: 'Hele week', wholeMonth: 'Hele maand', price: 'Prijs', available: 'Prijs bij het afrekenen', noDates: 'Geen data voor deze selectie.', today: 'Vandaag', tomorrow: 'Morgen' },
+  de: { day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', wholeWeek: 'Ganze Woche', wholeMonth: 'Ganzer Monat', price: 'Preis', available: 'Preis beim Checkout', noDates: 'Keine Termine für diese Auswahl.', today: 'Heute', tomorrow: 'Morgen' },
+  es: { day: 'Día', week: 'Semana', month: 'Mes', year: 'Año', wholeWeek: 'Toda la semana', wholeMonth: 'Todo el mes', price: 'Precio', available: 'Precio al finalizar la compra', noDates: 'No hay fechas para esta selección.', today: 'Hoy', tomorrow: 'Mañana' },
+  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Année', wholeWeek: 'Toute la semaine', wholeMonth: 'Tout le mois', price: 'Prix', available: 'Prix affiché au paiement', noDates: 'Aucune date pour cette sélection.', today: "Aujourd'hui", tomorrow: 'Demain' },
 }
 
 /** Turn the API "requirements" HTML into a clean list of bullet points. */

@@ -178,13 +178,23 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
                 </div>
                 <div className="mt-4 flex w-full shrink-0 items-center justify-between gap-4 sm:mt-0 sm:w-auto sm:justify-end sm:gap-6">
                   <div className="flex w-full flex-col items-end sm:w-auto">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-black/40">{L.price}</span>
-                    <span className="mb-3 text-lg font-bold text-black">{dateObj.prices ? dateObj.prices : L.available}</span>
+                    {/* Only claim a price when the feed actually has one. It
+                        does for 2,737 of 2,742 dates; for the handful without,
+                        printing "Available" under a heading that says PRICE
+                        reads as though the price is the word "Available". */}
+                    {dateObj.prices ? (
+                      <>
+                        <span className="text-xs font-semibold uppercase tracking-wider text-black/60">{L.price}</span>
+                        <span className="mb-3 text-lg font-bold text-black">{dateObj.prices}</span>
+                      </>
+                    ) : (
+                      <span className="mb-3 text-sm font-semibold text-black/60">{L.available}</span>
+                    )}
                     <EventTicketSelector
                       id={dateObj.id.toString()}
                       title={dateObj.eventName || eventName}
                       date={dateObj.date}
-                      priceStr={dateObj.prices || '50'}
+                      priceStr={dateObj.prices || ''}
                       image={eventCover}
                       affLink={dateObj.affLink || ''}
                       locale={locale}
