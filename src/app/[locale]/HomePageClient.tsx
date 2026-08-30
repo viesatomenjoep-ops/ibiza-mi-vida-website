@@ -335,18 +335,13 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                 from the homepage, so nothing on the site signalled they matter.
                 Both are target pages for "boat charter Ibiza" / "boat party
                 Ibiza", so they belong in the main category grid. */}
-            <Link href={`${base}/boats`} className="cat">
-              <span className="num">03</span>
-              <strong>{CAT_BOATS[locale] || CAT_BOATS.en}</strong>
-              <span className="arrow">→</span>
-            </Link>
             <Link href={`${base}/boat-party`} className="cat">
-              <span className="num">04</span>
+              <span className="num">03</span>
               <strong>{CAT_BOAT_PARTY[locale] || CAT_BOAT_PARTY.en}</strong>
               <span className="arrow">→</span>
             </Link>
             <Link href={`${base}/private-boat-charters`} className="cat">
-              <span className="num">05</span>
+              <span className="num">04</span>
               <strong>{CAT_CHARTER[locale] || CAT_CHARTER.en}</strong>
               <span className="arrow">→</span>
             </Link>
