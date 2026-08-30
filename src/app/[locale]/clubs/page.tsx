@@ -7,6 +7,9 @@ import { CrossSellBanner } from '@/components/cards/CrossSellBanner'
 
 export const revalidate = 3600
 
+/** Venue slugs pinned to the top of the clubs grid, in this order. */
+const PINNED = ['ushuaia-ibiza'];
+
 // Was a static `metadata` export: one Dutch title served to all five locales,
 // the brand suffix doubled (the layout template already appends it), and no
 // canonical or hreflang at all — the only page on the site missing both.
@@ -33,7 +36,15 @@ export default async function NightlifePage({
       is_day_club: !!(v as any).isDayClub,
       type_slug: 'clubbing',
     }))
-    .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+    .sort((a, b) => {
+      // Ushuaïa first, always. It carries the most search demand of any venue
+      // we cover — Search Console logs 102 distinct Ushuaïa queries — so
+      // alphabetical order buried the one card most visitors arrived looking
+      // for. The rest stay alphabetical.
+      const rank = (v: { slug?: string }) => (PINNED.indexOf(v.slug || '') + 1) || 99;
+      const d = rank(a) - rank(b);
+      return d !== 0 ? d : (a.name || '').localeCompare(b.name || '');
+    });
 
   const CLUBS_I18N: Record<string, { title: string; description: string; allClubs: string; searchPlaceholder: string }> = {
     en: {

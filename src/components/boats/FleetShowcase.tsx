@@ -415,7 +415,7 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
         <Image src="/fleet/cover.jpeg" alt="Ibiza private boat charter" fill priority sizes="100vw" className="object-cover object-center" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/75" />
         <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-4 px-4 pt-[calc(var(--nav-h)+16px)] pb-12 text-center md:pb-16">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-ibiza-green ring-1 ring-white/25 backdrop-blur-sm">
+          <span className="inline-flex items-center gap-2 rounded-full bg-ibiza-green px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-white ring-1 ring-white/30 shadow-lg backdrop-blur-sm">
             <Anchor size={13} /> {T.fromPrice}
           </span>
           <h1 className="text-5xl md:text-7xl font-black font-serif text-white leading-tight uppercase m-0 tracking-tight drop-shadow-lg">{T.title}</h1>
