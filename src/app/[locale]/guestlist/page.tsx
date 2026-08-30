@@ -10,6 +10,7 @@ import { ServiceSchema } from '@/components/seo/ServiceSchema'
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { SERVICE_COPY } from '@/lib/service-schema-copy'
 import { PackageDealPicker } from '@/components/guestlist/PackageDealPicker'
+import { GuestlistSignup } from '@/components/guestlist/GuestlistSignup'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 
 export const revalidate = 3600
@@ -22,13 +23,21 @@ type T = Record<Locale, string>
 const L = (nl: string, en: string, de: string, es: string, fr: string): T => ({ nl, en, de, es, fr })
 
 const KICKER: T = L('VIP Package Deals', 'VIP Package Deals', 'VIP Package Deals', 'VIP Package Deals', 'VIP Package Deals')
-const TITLE: T = L('Ibiza package deals & clubgastenlijst', 'Ibiza package deals & club guestlist', 'Ibiza Package Deals & Club-Gästeliste', 'Package deals y lista de clubs de Ibiza', 'Package deals & guestlist des clubs d’Ibiza')
+const TITLE: T = L('Ibiza package deals & guestlist', 'Ibiza package deals & club guestlist', 'Ibiza Package Deals & Guestlist', 'Package deals y guestlist en Ibiza', 'Package deals & guestlist à Ibiza')
 const INTRO: T = L(
   'Naar binnen bij de beste clubs van Ibiza — zonder rij, zonder gedoe. Simon zet je naam op de lijst via WhatsApp en vertelt je vooraf precies wat er die avond geldt.',
   'Get into Ibiza’s best clubs — no queue, no hassle. Simon puts your name on the list via WhatsApp and tells you beforehand exactly what applies that night.',
   'Rein in die besten Clubs Ibizas — ohne Schlange, ohne Stress. Simon setzt deinen Namen per WhatsApp auf die Liste und sagt dir vorher genau, was an dem Abend gilt.',
   'Entra en los mejores clubs de Ibiza — sin cola, sin complicaciones. Simon pone tu nombre en la lista por WhatsApp y te dice antes exactamente qué aplica esa noche.',
   'Entrez dans les meilleurs clubs d’Ibiza — sans file, sans stress. Simon met votre nom sur la liste via WhatsApp et vous précise à l’avance ce qui s’applique ce soir-là.',
+)
+
+const TWO_WAYS: T = L(
+  'Twee manieren om binnen te komen',
+  'Two ways to get in',
+  'Zwei Wege hineinzukommen',
+  'Dos maneras de entrar',
+  'Deux façons d’entrer',
 )
 
 const WHY_TITLE: T = L('Waarom via Ibiza Mi Vida?', 'Why through Ibiza Mi Vida?', 'Warum über Ibiza Mi Vida?', '¿Por qué con Ibiza Mi Vida?', 'Pourquoi via Ibiza Mi Vida ?')
@@ -224,7 +233,7 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
       {/* ── Hero ── */}
       <section className="pt-[calc(var(--nav-h)+40px)] pb-12 px-4 text-center">
         <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{KICKER[locale]}</p>
-        <h1 className="mt-3 font-serif text-4xl md:text-6xl font-black tracking-tight text-neutral-900">{TITLE[locale]}</h1>
+        <h1 className="mt-3 break-words font-serif text-4xl md:text-6xl font-black tracking-tight text-neutral-900">{TITLE[locale]}</h1>
         <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-neutral-500">{INTRO[locale]}</p>
         <div className="mt-8 flex flex-col items-center gap-3">
           <span className="font-serif text-sm font-black uppercase tracking-widest text-neutral-900">{CTA_Q[locale]}</span>
@@ -233,9 +242,21 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
       </section>
 
       {/* ── Package / group deal picker ── */}
+      {/* Two distinct routes, side by side. A package deal bundles a group's
+          night; a guestlist puts your name on one club's list for one evening.
+          The rename to "Package Deals" had swallowed the second one, even
+          though "guestlist" is the term people actually search for — so it now
+          has its own heading, its own form and the word in visible copy rather
+          than only in the title tag and schema. */}
       <section className="mx-auto max-w-6xl px-4 pb-14">
         <Reveal>
-          <PackageDealPicker locale={locale} />
+          <h2 className="mb-6 font-serif text-2xl font-black tracking-tight md:text-3xl">
+            {TWO_WAYS[locale]}
+          </h2>
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+            <PackageDealPicker locale={locale} />
+            <GuestlistSignup locale={locale} />
+          </div>
         </Reveal>
       </section>
 
