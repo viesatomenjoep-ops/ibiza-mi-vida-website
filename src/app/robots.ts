@@ -18,6 +18,17 @@ const AI_CRAWLERS = [
   'meta-externalagent',                             // Meta AI
 ]
 
+// NOTE — Brave deliberately has no token on that list, and cannot have one.
+// Brave Search runs its own index (it is what Claude's web search reads), but
+// its crawler does not advertise a differentiated user agent on purpose: they
+// state it would get them blocked by sites that allowlist only Google. So the
+// only thing that keeps Brave — and therefore Claude — able to read this site
+// is the `User-Agent: *` rule below. If anyone ever narrows that to a
+// disallow while trusting the named list above to cover AI crawlers, Brave
+// disappears silently and there is no dashboard anywhere that will report it.
+// Brave has no webmaster tools; URLs are submitted by hand at
+// https://search.brave.com/submit-url.
+
 // Keep private/technical areas out of the index.
 const DISALLOW = ['/api/', '/admin', '/*/admin', '/*/planner/']
 
