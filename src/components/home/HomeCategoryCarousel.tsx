@@ -24,7 +24,7 @@ const CONTENT: Record<CatKey, { href: string; title: Record<string, string>; tex
   },
   boats: {
     href: 'private-boat-charters',
-    title: { nl: 'Private Boats', en: 'Private Boats', es: 'Barcos privados', de: 'Private Boote', fr: 'Bateaux privés' },
+    title: { nl: 'Privéboten', en: 'Private Boats', es: 'Barcos privados', de: 'Private Boote', fr: 'Bateaux privés' },
     text: {
       nl: 'Huur je eigen jacht of catamaran. Vaar langs Es Vedrà, anker in verborgen baaien en beleef Ibiza vanaf het water.',
       en: 'Charter your own yacht or catamaran. Cruise past Es Vedrà, anchor in hidden coves and experience Ibiza from the water.',

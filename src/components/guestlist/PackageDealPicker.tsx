@@ -29,8 +29,13 @@ const GROUPS = [
 ] as const
 
 const KINDS = [
-  { id: 'day', Icon: Sun, label: { nl: 'Day club', en: 'Day club', de: 'Day Club', es: 'Day club', fr: 'Day club' } as L },
-  { id: 'night', Icon: Moon, label: { nl: 'Night club', en: 'Night club', de: 'Night Club', es: 'Night club', fr: 'Night club' } as L },
+  // Day/night were the only two of the four left in English. Kept parallel per
+  // language rather than translated word-by-word: these render as four buttons
+  // side by side, so "Club de día"/"Club de noche" reads as a pair where
+  // "Club de día"/"Discoteca" would not. German keeps Dayclub, which is what
+  // German nightlife copy actually writes.
+  { id: 'day', Icon: Sun, label: { nl: 'Dagclub', en: 'Day club', de: 'Dayclub', es: 'Club de día', fr: 'Club de jour' } as L },
+  { id: 'night', Icon: Moon, label: { nl: 'Nachtclub', en: 'Night club', de: 'Nachtclub', es: 'Club de noche', fr: 'Club de nuit' } as L },
   { id: 'boat', Icon: Sailboat, label: { nl: 'Boot + club', en: 'Boat + club', de: 'Boot + Club', es: 'Barco + club', fr: 'Bateau + club' } as L },
   { id: 'table', Icon: Crown, label: { nl: 'VIP-tafel', en: 'VIP table', de: 'VIP-Tisch', es: 'Mesa VIP', fr: 'Table VIP' } as L },
 ] as const

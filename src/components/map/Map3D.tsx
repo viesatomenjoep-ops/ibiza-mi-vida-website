@@ -14,6 +14,19 @@ const FALLBACK_BODY: Record<string, string> = {
   de: 'Tippe unten einen Namen an, um direkt dorthin zu springen', es: 'Toca un nombre abajo para ir directo',
   fr: 'Touchez un nom ci-dessous pour y accéder directement',
 }
+// The two states either side of this one were localised; the loading state was
+// left in English, so it was the one string a non-English visitor was
+// guaranteed to see — it shows on every single load, before anything else.
+const LOADING: Record<string, string> = {
+  nl: 'Kaart laden…', en: 'Loading map…', de: 'Karte wird geladen…',
+  es: 'Cargando mapa…', fr: 'Chargement de la carte…',
+}
+// Shown uppercased in the map's status strip. "Clubs" happens to be the same
+// word in all five, "Activities" is not.
+const GROUP_ACTIVITIES: Record<string, string> = {
+  nl: 'activiteiten', en: 'activities', de: 'Aktivitäten',
+  es: 'actividades', fr: 'activités',
+}
 
 /**
  * Real 3D map of Ibiza: MapLibre GL (open-source, no API key) over free Esri
@@ -270,12 +283,12 @@ export function Map3D({
           ))}
           <div className={`absolute bottom-3 left-3 flex items-center gap-2 rounded-md px-2.5 py-1.5 font-mono text-[10px] tracking-wide text-white backdrop-blur-sm ${active ? 'bg-black/80' : 'bg-black/70'}`}>
             <span className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-white" />
-            {active || `EIVISSA · ${list.length} ${group === 'clubs' ? 'CLUBS' : 'ACTIVITIES'}`}
+            {active || `EIVISSA · ${list.length} ${group === 'clubs' ? 'clubs' : (GROUP_ACTIVITIES[locale] || GROUP_ACTIVITIES.en)}`}
           </div>
         </div>
         {!ready && !failed && (
           <div className="absolute inset-0 grid place-items-center bg-obsidian text-[11px] font-bold uppercase tracking-widest text-white/30">
-            Loading map…
+            {LOADING[locale] || LOADING.en}
           </div>
         )}
         {failed && (

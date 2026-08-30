@@ -30,6 +30,43 @@ const OFFICIAL_PARTNER: Record<string, string> = {
   fr: 'Partenaire officiel de billetterie',
 }
 
+/**
+ * Labels that are read aloud but never drawn.
+ *
+ * Every one of these used to be a bare Dutch string, so a French or Spanish
+ * visitor using a screen reader heard "Navigatiemenu" and "Menu sluiten" on an
+ * otherwise fully translated page. Because the text is invisible, no amount of
+ * looking at the site would have surfaced it — which is exactly why it survived
+ * this long. Two more ("Language", "Official ticket partner") were stranded in
+ * English for the same reason.
+ */
+const A11Y: Record<string, Record<string, string>> = {
+  openMenu: {
+    en: 'Open menu', nl: 'Menu openen', de: 'Menü öffnen',
+    es: 'Abrir menú', fr: 'Ouvrir le menu',
+  },
+  closeMenu: {
+    en: 'Close menu', nl: 'Menu sluiten', de: 'Menü schließen',
+    es: 'Cerrar menú', fr: 'Fermer le menu',
+  },
+  navMenu: {
+    en: 'Navigation menu', nl: 'Navigatiemenu', de: 'Navigationsmenü',
+    es: 'Menú de navegación', fr: 'Menu de navigation',
+  },
+  mainNav: {
+    en: 'Main navigation', nl: 'Hoofdnavigatie', de: 'Hauptnavigation',
+    es: 'Navegación principal', fr: 'Navigation principale',
+  },
+  chat: {
+    en: 'Chat with us', nl: 'Chat met ons', de: 'Schreib uns',
+    es: 'Chatea con nosotros', fr: 'Discutez avec nous',
+  },
+  language: {
+    en: 'Language', nl: 'Taal', de: 'Sprache',
+    es: 'Idioma', fr: 'Langue',
+  },
+}
+
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [openCat, setOpenCat] = useState<string | null>('events') // default open
@@ -286,7 +323,7 @@ export function Navbar() {
 
             {/* Right: language selector (desktop) + hamburger */}
             <div className="nav-right">
-            <div className="nav-langs" aria-label="Language">
+            <div className="nav-langs" aria-label={A11Y.language[currentLocale.code] || A11Y.language.en}>
               {LOCALES.map(l => (
                 <Link
                   key={l.code}
@@ -300,7 +337,7 @@ export function Navbar() {
             </div>
             <button
               className="burger"
-              aria-label={menuOpen ? 'Menu sluiten' : 'Menu openen'}
+              aria-label={(menuOpen ? A11Y.closeMenu : A11Y.openMenu)[currentLocale.code] || (menuOpen ? A11Y.closeMenu : A11Y.openMenu).en}
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen(v => !v)}
             >
@@ -322,7 +359,7 @@ export function Navbar() {
       {/* Fixed bottom "official ticket partner" bar — on ClubTickets categories, and on the
           homepage once you start scrolling (it drops from the top so the navbar gets slimmer). */}
       {(isClubCat || (isHome && fadeOn)) && (
-        <div className="nav-partner-bottom" aria-label="Official ticket partner">
+        <div className="nav-partner-bottom" aria-label={OFFICIAL_PARTNER[currentLocale.code] || OFFICIAL_PARTNER.en}>
           <span className="nav-topbar-inner">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="12" cy="12" r="11" fill="#5FA37E" />
@@ -339,10 +376,10 @@ export function Navbar() {
         aria-hidden={!menuOpen}
         role="dialog"
         aria-modal="true"
-        aria-label="Navigatiemenu"
+        aria-label={A11Y.navMenu[currentLocale.code] || A11Y.navMenu.en}
       >
         {/* Close button */}
-        <button className="fs-close" aria-label="Menu sluiten" onClick={() => setMenuOpen(false)}>
+        <button className="fs-close" aria-label={A11Y.closeMenu[currentLocale.code] || A11Y.closeMenu.en} onClick={() => setMenuOpen(false)}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M18 6 6 18M6 6l12 12" />
           </svg>
@@ -359,7 +396,7 @@ export function Navbar() {
         </div>
 
         {/* Categories */}
-        <nav className="fs-nav" aria-label="Hoofdnavigatie">
+        <nav className="fs-nav" aria-label={A11Y.mainNav[currentLocale.code] || A11Y.mainNav.en}>
           {NAV_CATEGORIES.map((cat, ci) => (
             <div
               key={cat.id}
@@ -431,7 +468,7 @@ export function Navbar() {
               target="_blank"
               rel="noreferrer"
               className="fs-wa-btn"
-              aria-label="Chat met ons"
+              aria-label={A11Y.chat[currentLocale.code] || A11Y.chat.en}
             >
               <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             </a>
