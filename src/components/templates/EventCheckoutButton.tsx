@@ -2,6 +2,7 @@
 
 
 import { ctLink, type CtSurface } from '@/lib/ct-link'
+import { getAiSource } from '@/lib/attribution'
 
 // Allow-list: `from` comes off the URL, so it is untrusted input and must never
 // be reflected into an outbound link unchecked.
@@ -31,7 +32,7 @@ export function EventCheckoutButton({ affLink, locale = 'nl', label, variant = '
     // this page instead of everything collapsing into 'event'.
     const from = new URLSearchParams(window.location.search).get('from')
     const surface = (from && ALLOWED_FROM.has(from) ? from : 'event') as CtSurface
-    window.open(ctLink(affLink, locale, surface), '_blank')
+    window.open(ctLink(affLink, locale, surface, undefined, getAiSource()), '_blank')
   }
 
   const cls = variant === 'pill'

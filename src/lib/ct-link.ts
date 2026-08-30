@@ -77,6 +77,18 @@ export function ctLink(
   surface: CtSurface = 'site',
   /** Event or venue name/slug — becomes `utm_campaign`. */
   campaign?: string | null,
+  /**
+   * Assistant this visitor arrived from, replacing `utm_source` when set.
+   *
+   * Passed in rather than read from storage inside this function, and that is
+   * deliberate: several callers build an href during render, where the server
+   * cannot see sessionStorage and reading it would make server and client
+   * markup disagree on every ticket link. Those render-time links are anchors
+   * and get stamped at click time by AiReferralTagger instead. This parameter
+   * exists for the callers that open a URL from inside a click handler, where
+   * there is no server render to disagree with — see EventCheckoutButton.
+   */
+  aiSource?: string | null,
 ): string {
   if (!url) return ''
   try {
@@ -89,7 +101,7 @@ export function ctLink(
     if (lang !== 'en') parts.unshift(lang)
     u.pathname = '/' + parts.join('/')
 
-    if (!u.searchParams.has('utm_source')) u.searchParams.set('utm_source', UTM_SOURCE)
+    if (!u.searchParams.has('utm_source')) u.searchParams.set('utm_source', aiSource || UTM_SOURCE)
     if (!u.searchParams.has('utm_medium')) u.searchParams.set('utm_medium', surface)
     if (!u.searchParams.has('utm_campaign')) {
       const value = slugify(campaign || eventSlugFromPath(parts))

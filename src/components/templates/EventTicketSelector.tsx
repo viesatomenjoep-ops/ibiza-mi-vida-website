@@ -1,5 +1,6 @@
 'use client'
 import { ctLink } from '@/lib/ct-link'
+import { getAiSource } from '@/lib/attribution'
 ;
 import { useState } from 'react';
 import { ExternalLink, Ticket } from 'lucide-react';
@@ -27,7 +28,7 @@ export function EventTicketSelector({ affLink, locale = 'nl' }: EventTicketSelec
   const C = CONFIRM[locale] || CONFIRM.en;
 
   const go = () => {
-    if (affLink) window.open(ctLink(affLink, locale, 'event'), '_blank');
+    if (affLink) window.open(ctLink(affLink, locale, 'event', undefined, getAiSource()), '_blank');
     setOpen(false);
   };
 

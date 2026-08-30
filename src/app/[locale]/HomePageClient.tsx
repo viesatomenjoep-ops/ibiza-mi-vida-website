@@ -18,6 +18,7 @@ import { HomeNewsletter } from '@/components/home/HomeNewsletter';
 import { HomeFaq } from '@/components/home/HomeFaq';
 import { ArrowCircle } from '@/components/ui/ArrowCircle';
 import { HomeTonight } from '@/components/home/HomeTonight';
+import { HeroRatingBadge, type HeroRating } from '@/components/home/HeroRatingBadge';
 import { FeaturedDayRotator } from '@/components/home/FeaturedDayRotator';
 import { fmtShortDate } from '@/lib/date-label';
 
@@ -50,9 +51,11 @@ interface HomePageProps {
   liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
   /** Server-rendered ISO yyyy-mm-dd, so date labels are hydration-safe. */
   todayStr?: string;
+  /** Live Google rating, or null when the profile has none to show. */
+  rating?: HeroRating | null;
 }
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '' }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '', rating = null }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -103,6 +106,9 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           >
             {({ nl: 'Bekijk de agenda', en: 'View the calendar', es: 'Ver la agenda', de: 'Zum Kalender', fr: 'Voir l’agenda' } as Record<string, string>)[locale] || 'View the calendar'}
           </Link>
+          {/* Directly under the call to action: the moment someone is deciding
+              whether to click is the moment social proof is worth anything. */}
+          {rating ? <HeroRatingBadge {...rating} locale={locale as any} /> : null}
         </div>
 
         {/* Live picker, in the first viewport. It was below the fold with a

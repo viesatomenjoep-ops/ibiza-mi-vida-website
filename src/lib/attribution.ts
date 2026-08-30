@@ -19,6 +19,8 @@
  * under the ePrivacy rules that cover cookies and similar storage.
  */
 
+import { aiSourceFromReferrer, type AiSource } from './ai-referrer'
+
 const KEY = 'imv_attr'
 
 export interface Attribution {
@@ -29,6 +31,13 @@ export interface Attribution {
   referrer: string | null
   /** Path the visitor first landed on. */
   landing: string | null
+  /**
+   * Set when the referrer was an AI assistant. Kept separate from `referrer`
+   * rather than derived at read time, so the classification is made once, on
+   * the only pageview that still has the referrer, and everything downstream
+   * reads the same answer.
+   */
+  aiSource: AiSource | null
 }
 
 const EMPTY: Attribution = {
@@ -37,6 +46,7 @@ const EMPTY: Attribution = {
   utm_campaign: null,
   referrer: null,
   landing: null,
+  aiSource: null,
 }
 
 /** Cap stored values — these end up in a database column, not a log line. */
@@ -70,10 +80,11 @@ export function captureAttribution(): void {
       utm_campaign: clean(p.get('utm_campaign')),
       referrer: clean(ref),
       landing: clean(window.location.pathname),
+      aiSource: aiSourceFromReferrer(document.referrer),
     }
 
     // Nothing to remember for a bare direct visit with no referrer.
-    if (!attr.utm_source && !attr.utm_medium && !attr.utm_campaign && !attr.referrer) {
+    if (!attr.utm_source && !attr.utm_medium && !attr.utm_campaign && !attr.referrer && !attr.aiSource) {
       sessionStorage.setItem(KEY, JSON.stringify({ ...EMPTY, landing: attr.landing }))
       return
     }
@@ -94,4 +105,16 @@ export function getAttribution(): Attribution {
   } catch {
     return EMPTY
   }
+}
+
+/**
+ * The assistant this session arrived from, if any.
+ *
+ * Read at click time rather than at render time on purpose: the value lives in
+ * sessionStorage, which the server cannot see, so building it into an href
+ * during render would make the server and client markup disagree and trip a
+ * hydration mismatch on every outbound link.
+ */
+export function getAiSource(): AiSource | null {
+  return getAttribution().aiSource
 }

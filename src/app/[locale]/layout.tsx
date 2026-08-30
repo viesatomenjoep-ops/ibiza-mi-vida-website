@@ -85,6 +85,7 @@ export const metadata: Metadata = {
 
 import { CartProvider } from '@/context/cart-context'
 import { CartDrawer } from '@/components/ui/CartDrawer'
+import { AiReferralTagger } from '@/components/AiReferralTagger'
 
 export default function RootLayout({ 
   children,
@@ -135,6 +136,7 @@ export default function RootLayout({
           <CartDrawer />
           <ScrollProgress />
           <AttributionCapture />
+          <AiReferralTagger />
         </CartProvider>
       </body>
     </html>

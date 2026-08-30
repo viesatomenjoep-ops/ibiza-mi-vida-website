@@ -10,6 +10,7 @@ import { FLEET } from '@/data/fleet'
 import { pickCover } from '@/lib/blank-covers';
 import { eventBasePath } from '@/lib/event-path';
 import { addDays } from '@/lib/date-label';
+import { getGoogleReviews } from '@/lib/google-reviews';
 
 export const revalidate = 3600
 
@@ -25,6 +26,11 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
 export default async function Home({ params }: { params: { locale: string } }) {
   const dict = getDictionary(params.locale)
+
+  // Real Google Business Profile rating, or null. Null is the expected result
+  // until the profile is verified and the two env vars are set — the hero then
+  // simply carries no badge rather than a made-up one.
+  const reviews = await getGoogleReviews()
 
   // Fetch top featured clubs from local compiled JSON
   const allVenues = await getVenues(params.locale);
@@ -266,6 +272,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
       deals={deals}
       liveByClub={liveByClub}
       todayStr={todayStr}
+      rating={reviews ? { rating: reviews.rating, total: reviews.total, url: reviews.url } : null}
       allVenues={allVenues.map(v => ({
         slug: v.slug,
         name: v.name,
