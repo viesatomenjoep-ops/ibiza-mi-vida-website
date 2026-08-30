@@ -75,11 +75,29 @@ async function main() {
     console.log(`OK (${res.status}) — ${urls.length} URLs submitted.`)
     return
   }
-  console.error(`IndexNow returned ${res.status}: ${await res.text()}`)
-  process.exitCode = 1
+  throw new Error(`IndexNow returned ${res.status}: ${await res.text()}`)
 }
 
+/**
+ * Telling a search engine about new URLs is not a build step, and it must never
+ * be able to stop a release.
+ *
+ * It already did once. Hanging this on postbuild without this guard took a
+ * production deploy down: IndexNow answered 403 (the key was still being
+ * validated after its first ever submission), the script exited non-zero, and
+ * Vercel failed the whole build over a ping. The site was fine — the
+ * notification was not — and the deploy died anyway.
+ *
+ * So on --on-deploy every outcome is a warning and the exit code stays 0. A
+ * missed ping costs a day of crawl latency. A failed deploy costs the site.
+ * Run without the flag when you want a real exit code, e.g. from a terminal.
+ */
 main().catch((e) => {
-  console.error(e.message)
+  const onDeploy = process.argv.includes('--on-deploy')
+  console[onDeploy ? 'warn' : 'error'](`IndexNow: ${e.message}`)
+  if (onDeploy) {
+    console.warn('IndexNow: continuing — a search-engine ping never fails a deploy.')
+    return
+  }
   process.exitCode = 1
 })
