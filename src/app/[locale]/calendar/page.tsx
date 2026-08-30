@@ -8,6 +8,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 import EventsExplorer from './EventsExplorer';
 import { getVenues, getAllDates } from '@/lib/clubtickets';
 import { ItemListJsonLd } from '@/components/seo/ItemListJsonLd';
+import { pickCover } from '@/lib/blank-covers';
 import { eventBasePath } from '@/lib/event-path';
 
 export default async function CalendarPage({
@@ -39,7 +40,7 @@ export default async function CalendarPage({
         name: d.eventName,
         slug: d.eventSlug,
         logo: d.eventLogo,
-        cover: d.eventCover,
+        cover: pickCover(d.eventCover, d.eventLogo, venueObj?.picture, d.venueCover),
       },
       ct_venues: {
         name: d.venueName,

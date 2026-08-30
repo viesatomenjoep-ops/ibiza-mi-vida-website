@@ -24,6 +24,7 @@ const STATIC_ROUTES: { path: string; priority: number; changeFrequency: Metadata
   { path: '/drink-packages', priority: 0.6, changeFrequency: 'weekly' },
   { path: '/guestlist', priority: 0.6, changeFrequency: 'weekly' },
   { path: '/tips', priority: 0.6, changeFrequency: 'weekly' },
+  { path: '/beach-clubs', priority: 0.7, changeFrequency: 'weekly' },
   { path: '/boats', priority: 0.8, changeFrequency: 'weekly' },
   { path: '/tours', priority: 0.7, changeFrequency: 'weekly' },
   { path: '/legal', priority: 0.2, changeFrequency: 'yearly' },

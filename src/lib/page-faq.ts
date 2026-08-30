@@ -515,4 +515,107 @@ export const PAGE_FAQ: Record<string, FaqItem[]> = {
       ),
     },
   ],
+
+  // ── Beach clubs, sunbeds and VIP beds ─────────────────────────────────
+  // Extra caution applies here: every club named on that page is a real
+  // third-party business we neither own nor represent. No rates, no minimum
+  // spends, no hours, no promise that we can hold a bed for anyone.
+  'beach-clubs': [
+    {
+      q: L(
+        'Moet je een ligbed op Ibiza vooraf reserveren?',
+        'Do you need to reserve a sunbed in Ibiza in advance?',
+        'Muss man auf Ibiza eine Liege vorher reservieren?',
+        '¿Hay que reservar la hamaca en Ibiza con antelación?',
+        'Faut-il réserver un transat à Ibiza à l’avance ?',
+      ),
+      a: L(
+        'In juli en augustus praktisch wel, zeker bij de bekendste clubs en zeker voor de eerste rij aan het water. Daar zijn de bedden er halverwege de ochtend al uit en betekent “we kijken wel” in de praktijk een handdoek op het zand. In het voor- en naseizoen kun je vaak gewoon binnenlopen. Reserveren gaat bij de club zelf — dat zijn eigen bedrijven met eigen voorwaarden. Wij helpen je wel bepalen wélke plek je moet benaderen en op welk moment van de dag.',
+        'In July and August, effectively yes — certainly at the best-known clubs and certainly for the front row at the water. There the beds are gone by mid-morning, and "we’ll see when we get there" means a towel on the sand. In the shoulder months you can often simply walk in. Reserving happens with the club itself; these are independent businesses with their own terms. What we do help with is working out which place to approach, and at what point in the day.',
+        'Im Juli und August praktisch ja — besonders bei den bekanntesten Clubs und erst recht für die erste Reihe am Wasser. Dort sind die Liegen am Vormittag weg, und „wir schauen mal“ heißt Handtuch im Sand. In der Vor- und Nachsaison kann man oft einfach hineingehen. Reserviert wird beim Club selbst; das sind eigenständige Betriebe mit eigenen Bedingungen. Wir helfen dabei, herauszufinden, welchen Ort du ansprechen solltest und zu welcher Tageszeit.',
+        'En julio y agosto, en la práctica sí — sobre todo en los clubs más conocidos y sobre todo para la primera fila junto al agua. Allí las hamacas vuelan a media mañana y “ya veremos” significa toalla en la arena. En temporada media a menudo puedes entrar sin más. La reserva se hace en el propio club: son negocios independientes con sus condiciones. Lo que sí hacemos es ayudarte a decidir a qué sitio dirigirte y a qué hora del día.',
+        'En juillet et août, en pratique oui — surtout dans les clubs les plus connus et plus encore pour la première rangée au bord de l’eau. Là, les transats sont partis en milieu de matinée et « on verra sur place » signifie serviette sur le sable. En demi-saison, on peut souvent entrer sans réserver. La réservation se fait auprès du club lui-même : ce sont des entreprises indépendantes avec leurs propres conditions. Nous vous aidons en revanche à cibler le bon endroit et le bon moment de la journée.',
+      ),
+    },
+    {
+      q: L(
+        'Kunnen jullie een ligbed of VIP-bed voor me boeken?',
+        'Can you book a sunbed or VIP bed for me?',
+        'Könnt ihr eine Liege oder ein VIP-Bett für mich buchen?',
+        '¿Podéis reservarme una hamaca o una cama VIP?',
+        'Pouvez-vous me réserver un transat ou un lit VIP ?',
+      ),
+      a: L(
+        'Eerlijk antwoord: nee, wij zijn geen wederverkoper van deze beachclubs en houden geen bedden voor je vast. Het bed reserveer je bij de club zelf. Wat we wél doen is de dag met je uitdenken — welk gebied past bij de wind van die dag, waar je met kinderen beter zit dan met een grote groep, hoe laat je moet zijn om nog vooraan te liggen, en hoe je het combineert met een boot of een transfer. Stuur ons je datum en gezelschap via WhatsApp, dan denken we mee.',
+        'Straight answer: no. We are not a reseller for these beach clubs and we do not hold beds. The bed you reserve with the club itself. What we do is think the day through with you — which area suits that day’s wind, where you are better off with children than with a big group, what time you need to arrive to still be near the front, and how it fits around a boat or a transfer. Send us your dates and who you are with over WhatsApp and we will help you plan it.',
+        'Ehrliche Antwort: nein. Wir sind kein Wiederverkäufer dieser Beachclubs und halten keine Liegen zurück. Die Liege reservierst du beim Club selbst. Was wir tun: den Tag mit dir durchdenken — welches Gebiet zum Wind des Tages passt, wo du mit Kindern besser sitzt als mit einer großen Gruppe, wann du da sein musst, um noch vorne zu liegen, und wie sich das mit Boot oder Transfer verbindet. Schick uns Datum und Gesellschaft per WhatsApp, dann denken wir mit.',
+        'Respuesta honesta: no. No somos revendedores de estos beach clubs y no bloqueamos hamacas. La hamaca la reservas en el propio club. Lo que sí hacemos es pensar el día contigo — qué zona encaja con el viento de esa jornada, dónde estás mejor con niños que con un grupo grande, a qué hora hay que llegar para seguir estando delante y cómo encaja con un barco o un traslado. Mándanos fechas y con quién vienes por WhatsApp y lo vemos juntos.',
+        'Réponse franche : non. Nous ne sommes pas revendeurs de ces beach clubs et nous ne bloquons pas de transats. Le transat se réserve auprès du club. Ce que nous faisons, c’est penser la journée avec vous — quelle zone convient au vent du jour, où vous serez mieux avec des enfants qu’avec un grand groupe, à quelle heure arriver pour rester devant, et comment articuler cela avec un bateau ou un transfert. Envoyez-nous vos dates et votre groupe sur WhatsApp, on regarde ensemble.',
+      ),
+    },
+    {
+      q: L(
+        'Wat kost een dag op een beachclub op Ibiza?',
+        'What does a day at an Ibiza beach club cost?',
+        'Was kostet ein Tag in einem Beachclub auf Ibiza?',
+        '¿Cuánto cuesta un día en un beach club de Ibiza?',
+        'Combien coûte une journée dans un beach club à Ibiza ?',
+      ),
+      a: L(
+        'Daar noemen we bewust geen bedrag bij, om de simpele reden dat we het niet kunnen garanderen: het verschilt per club, per plek op het strand, per dag van de week en per moment in het seizoen, en de clubs stellen hun eigen tarieven vast. Een eenvoudige strandtent en een club met bediening tot aan het bed zitten bovendien in een heel andere orde van grootte. De actuele voorwaarden staan bij de club zelf; wij kunnen je wel vertellen welke gebieden doorgaans rustiger geprijsd zijn dan de bekendste namen aan de zuidkust.',
+        'We deliberately do not quote a figure here, for the simple reason that we cannot stand behind one: it varies by club, by where on the sand you sit, by day of the week and by point in the season, and the clubs set their own rates. A simple beach shack and a club with service to the bed are also in completely different brackets. Current terms sit with the club itself; what we can tell you is which areas are typically priced more gently than the best-known names on the south coast.',
+        'Wir nennen hier bewusst keinen Betrag, aus dem einfachen Grund, dass wir für keinen geradestehen können: Es variiert je nach Club, Platz am Strand, Wochentag und Zeitpunkt der Saison, und die Clubs legen ihre Preise selbst fest. Eine einfache Strandbude und ein Club mit Service bis an die Liege liegen zudem in ganz anderen Größenordnungen. Die aktuellen Bedingungen liegen beim Club; wir können dir sagen, welche Gebiete in der Regel ruhiger bepreist sind als die bekanntesten Namen der Südküste.',
+        'A propósito no damos una cifra, por la razón sencilla de que no podríamos sostenerla: varía según el club, el sitio en la arena, el día de la semana y el momento de la temporada, y cada club fija sus tarifas. Además, un chiringuito sencillo y un club con servicio hasta la hamaca están en órdenes de magnitud distintos. Las condiciones actuales están en el propio club; lo que sí podemos decirte es qué zonas suelen tener precios más suaves que los nombres más conocidos de la costa sur.',
+        'Nous ne donnons volontairement pas de montant, pour une raison simple : nous ne pourrions pas le garantir. Cela varie selon le club, l’emplacement sur le sable, le jour de la semaine et le moment de la saison, et chaque club fixe ses tarifs. Par ailleurs, une simple paillote et un club avec service au transat ne jouent pas dans le même ordre de grandeur. Les conditions du moment sont chez le club ; ce que nous pouvons dire, c’est quelles zones sont généralement plus douces côté tarifs que les grands noms de la côte sud.',
+      ),
+    },
+    {
+      q: L(
+        'Heb ik een auto nodig om bij de beachclubs te komen?',
+        'Do I need a car to reach the beach clubs?',
+        'Brauche ich ein Auto, um zu den Beachclubs zu kommen?',
+        '¿Necesito coche para llegar a los beach clubs?',
+        'Ai-je besoin d’une voiture pour rejoindre les beach clubs ?',
+      ),
+      a: L(
+        'Voor Playa d’en Bossa en Talamanca niet: die liggen naast Ibiza-stad en zijn te lopen of met een korte taxirit te doen. Voor Cala Jondal, Cala Bassa, Cala Comte, Cala Tarida en de baaien in het noorden wel — dat zijn smalle wegen die op een parkeerplaats eindigen, en in augustus is die parkeerplaats het echte probleem, niet het bed. Een taxi terug uit een afgelegen baai is bovendien niet altijd meteen beschikbaar; regel dat vooraf. Wij kunnen je helpen met een huurauto of een transfer.',
+        'For Playa d’en Bossa and Talamanca, no: they sit next to Ibiza Town and are walkable or a short taxi ride. For Cala Jondal, Cala Bassa, Cala Comte, Cala Tarida and the northern bays, yes — those are narrow roads ending in a car park, and in August that car park is the real problem, not the bed. A taxi back out of a remote cove is also not always instantly available; arrange it beforehand. We can help with a rental car or a transfer.',
+        'Für die Playa d’en Bossa und Talamanca nicht: Sie liegen neben Ibiza-Stadt und sind zu Fuß oder mit einer kurzen Taxifahrt erreichbar. Für Cala Jondal, Cala Bassa, Cala Comte, Cala Tarida und die Buchten im Norden schon — das sind schmale Straßen, die auf einem Parkplatz enden, und im August ist dieser Parkplatz das eigentliche Problem, nicht die Liege. Ein Taxi zurück aus einer abgelegenen Bucht ist zudem nicht immer sofort verfügbar; regle das vorher. Wir helfen dir bei Mietwagen oder Transfer.',
+        'Para Playa d’en Bossa y Talamanca no: están junto a Ibiza ciudad y se llega andando o con un taxi corto. Para Cala Jondal, Cala Bassa, Cala Comte, Cala Tarida y las calas del norte sí — son carreteras estrechas que acaban en un aparcamiento, y en agosto ese aparcamiento es el problema de verdad, no la hamaca. Además, un taxi de vuelta desde una cala apartada no siempre aparece al momento: organízalo antes. Podemos ayudarte con coche de alquiler o traslado.',
+        'Pour Playa d’en Bossa et Talamanca, non : elles sont à côté d’Ibiza-ville, accessibles à pied ou en taxi court. Pour Cala Jondal, Cala Bassa, Cala Comte, Cala Tarida et les baies du nord, oui — ce sont des routes étroites qui finissent sur un parking, et en août ce parking est le vrai problème, pas le transat. Un taxi pour repartir d’une crique isolée n’est pas toujours disponible tout de suite : organisez-le à l’avance. Nous pouvons vous aider avec une location ou un transfert.',
+      ),
+    },
+    {
+      q: L(
+        'Welke beachclub past bij een dag met kinderen, en welke juist niet?',
+        'Which beach clubs suit a day with children, and which do not?',
+        'Welche Beachclubs passen zu einem Tag mit Kindern und welche nicht?',
+        '¿Qué beach clubs encajan con un día en familia y cuáles no?',
+        'Quels beach clubs conviennent à une journée avec des enfants, et lesquels non ?',
+      ),
+      a: L(
+        'Als vuistregel: gebieden met breed, ondiep zand en een lager volume werken het best — Talamanca, Cala Bassa en de oostkust rond Santa Eulària. Minder geschikt zijn de uitgesproken feestadressen bij daglicht en de plekken waar je over kiezels of via een steile trap het water in moet. We zeggen dat er ook gewoon bij: sommige van de bekendste namen op deze pagina zijn niet bedoeld voor jonge kinderen, en dat is geen kritiek op die clubs maar een kwestie van de juiste plek kiezen.',
+        'As a rule of thumb: areas with broad, shallow sand and a lower volume work best — Talamanca, Cala Bassa and the east coast around Santa Eulària. Less suitable are the outright daytime party addresses and the spots where you reach the water over pebbles or down a steep staircase. We say so plainly: several of the best-known names on this page are not intended for young children, and that is not a criticism of those clubs but a matter of picking the right place.',
+        'Als Faustregel: Gebiete mit breitem, flachem Sand und geringerer Lautstärke funktionieren am besten — Talamanca, Cala Bassa und die Ostküste um Santa Eulària. Weniger geeignet sind die ausgesprochenen Tagesparty-Adressen und Orte, an denen man über Kiesel oder eine steile Treppe ins Wasser kommt. Wir sagen es offen: Einige der bekanntesten Namen auf dieser Seite sind nicht für kleine Kinder gedacht — keine Kritik an diesen Clubs, sondern eine Frage der richtigen Wahl.',
+        'Como regla general: las zonas con arena ancha y poco profunda y menos volumen funcionan mejor — Talamanca, Cala Bassa y la costa este alrededor de Santa Eulària. Menos apropiadas son las direcciones claramente de fiesta diurna y los sitios donde se entra al agua por cantos o bajando una escalera empinada. Lo decimos con claridad: varios de los nombres más conocidos de esta página no están pensados para niños pequeños, y eso no es una crítica sino una cuestión de elegir bien.',
+        'Règle générale : les zones à sable large et peu profond et au volume plus bas fonctionnent le mieux — Talamanca, Cala Bassa et la côte est autour de Santa Eulària. Moins adaptées : les adresses franchement festives en journée et les endroits où l’on rejoint l’eau sur des galets ou par un escalier raide. Nous le disons clairement : plusieurs des noms les plus connus de cette page ne sont pas destinés aux jeunes enfants — ce n’est pas une critique, mais une question de bon choix.',
+      ),
+    },
+    {
+      q: L(
+        'Wanneer kun je het beste naar een beachclub op Ibiza?',
+        'When is the best time to go to a beach club in Ibiza?',
+        'Wann geht man am besten in einen Beachclub auf Ibiza?',
+        '¿Cuál es el mejor momento para ir a un beach club en Ibiza?',
+        'Quel est le meilleur moment pour aller dans un beach club à Ibiza ?',
+      ),
+      a: L(
+        'Vroeg op de dag en buiten de piekweken. In de ochtend heb je de beste plekken, het rustigste water en de minste drukte op de weg; midden op de dag in augustus is precies het omgekeerde. Het voor- en naseizoen is voor veel mensen het aangenaamst: het eiland is stiller en de baaien zijn even mooi. Wel eerlijk erbij: buiten het hoogseizoen draait een deel van deze adressen beperkt of helemaal niet, en de wind bepaalt uiteindelijk meer dan de datum — bij stevige noordenwind zit je aan de zuidkant beter, en andersom.',
+        'Early in the day, and outside the peak weeks. In the morning you get the best spots, the calmest water and the least traffic on the road; the middle of the day in August is exactly the reverse. For a lot of people the shoulder season is the most pleasant: the island is quieter and the coves are just as beautiful. Honestly though: outside high season some of these addresses run on reduced days or not at all, and the wind ultimately decides more than the date — in a firm northerly you are better off on the south side, and the other way round.',
+        'Früh am Tag und außerhalb der Spitzenwochen. Morgens bekommst du die besten Plätze, das ruhigste Wasser und den geringsten Verkehr; mittags im August ist es genau umgekehrt. Für viele ist die Nebensaison am angenehmsten: Die Insel ist stiller und die Buchten sind ebenso schön. Ehrlich dazu: Außerhalb der Hochsaison läuft ein Teil dieser Adressen eingeschränkt oder gar nicht, und der Wind entscheidet am Ende mehr als das Datum — bei kräftigem Nordwind ist die Südseite besser, und umgekehrt.',
+        'Temprano y fuera de las semanas punta. Por la mañana consigues los mejores sitios, el agua más tranquila y menos tráfico en la carretera; a mediodía en agosto es justo lo contrario. Para mucha gente la temporada media es la más agradable: la isla está más callada y las calas son igual de bonitas. Con honestidad: fuera de temporada alta parte de estas direcciones funcionan con horario reducido o no abren, y al final el viento decide más que la fecha — con viento fuerte del norte se está mejor en el sur, y al revés.',
+        'Tôt dans la journée, et hors des semaines de pointe. Le matin, vous avez les meilleures places, l’eau la plus calme et le moins de circulation ; le milieu de journée en août, c’est exactement l’inverse. Pour beaucoup, la demi-saison est la plus agréable : l’île est plus calme et les criques tout aussi belles. En toute franchise : hors haute saison, une partie de ces adresses tourne au ralenti ou pas du tout, et le vent décide finalement plus que la date — par fort vent de nord, mieux vaut le sud, et inversement.',
+      ),
+    },
+  ],
 }

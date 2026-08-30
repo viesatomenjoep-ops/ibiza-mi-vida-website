@@ -102,7 +102,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
       id: `${d.id}-${d.eventSlug}`,
       title: d.eventName || d.name || '',
       sub: d.venueName || '',
-      image: d.eventCover || d.eventLogo || d.venueCover || '',
+      image: pickCover(d.eventCover, d.eventLogo, d.venueCover),
       price: priceOf(d.prices),
       dateLabel: dLabel(d.date),
       href: internal,
@@ -150,7 +150,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
         name: d.eventName,
         slug: d.eventSlug,
         logo: d.eventLogo,
-        cover: d.eventCover
+        cover: pickCover(d.eventCover, d.eventLogo, d.venueCover)
       },
       ct_venues: {
         name: d.venueName,

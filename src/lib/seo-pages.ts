@@ -305,6 +305,22 @@ export const SEO_PAGES: Record<string, Copy> = {
       'Conseils d’initiés, guides et actus sur Ibiza : clubs, plages, restaurants et le meilleur de l’île.',
     ),
   },
+  'beach-clubs': {
+    title: L(
+      'Beachclubs Ibiza 2026 — Ligbedden & VIP-bedden per Gebied',
+      'Ibiza Beach Clubs 2026 — Sunbeds & VIP Beds by Area',
+      'Beachclubs Ibiza 2026 — Liegen & VIP-Betten nach Gebiet',
+      'Beach Clubs Ibiza 2026 — Hamacas y Camas VIP por Zona',
+      'Beach Clubs Ibiza 2026 — Transats & Lits VIP par Zone',
+    ),
+    description: L(
+      'De bekendste beachclubs van Ibiza per gebied: Cala Bassa, Playa d’en Bossa, Cala Jondal, Ses Salines, Cala Comte en meer. Eerlijke tips over drukte, wind en bereikbaarheid.',
+      'Ibiza’s best-known beach clubs area by area: Cala Bassa, Playa d’en Bossa, Cala Jondal, Ses Salines, Cala Comte and more. Honest notes on crowds, wind and getting there.',
+      'Ibizas bekannteste Beachclubs nach Gebieten: Cala Bassa, Playa d’en Bossa, Cala Jondal, Ses Salines, Cala Comte und mehr. Ehrliche Hinweise zu Andrang, Wind und Anfahrt.',
+      'Los beach clubs más conocidos de Ibiza por zonas: Cala Bassa, Playa d’en Bossa, Cala Jondal, Ses Salines, Cala Comte y más. Notas honestas sobre gentío, viento y acceso.',
+      'Les beach clubs les plus connus d’Ibiza par zone : Cala Bassa, Playa d’en Bossa, Cala Jondal, Ses Salines, Cala Comte et plus. Notes honnêtes sur l’affluence, le vent et l’accès.',
+    ),
+  },
   contact: {
     title: L('Contact', 'Contact', 'Kontakt', 'Contacto', 'Contact'),
     description: L(

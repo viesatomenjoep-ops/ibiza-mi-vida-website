@@ -70,6 +70,10 @@ export function HomeEventSlider({
   const momentumRef = useRef(0)
   const hasCapture = useRef(false)
   const pausedUntil = useRef(0)
+  // Held while a pointer rests on one of the event links. A ref, not state:
+  // the animation loop reads it every frame and re-rendering 60x a second to
+  // carry one boolean would undo the work done on this page's LCP.
+  const hoveringItem = useRef(false)
   const lastVibe = useRef(0)
   const [now, setNow] = useState<Date | null>(null)
 
@@ -85,6 +89,7 @@ export function HomeEventSlider({
       if (!isDragging.current && track) {
         const unit = unitRef.current
         if (Math.abs(momentumRef.current) > 0.3) { offsetRef.current += momentumRef.current; momentumRef.current *= 0.95 }
+        else if (hoveringItem.current) { /* pointer resting on an event — hold still so it can be read and clicked */ }
         else if (Date.now() < pausedUntil.current) { /* you control it — auto-scroll paused after your swipe */ }
         else offsetRef.current -= speed
         if (unit) { while (offsetRef.current <= -unit) offsetRef.current += unit; while (offsetRef.current > 0) offsetRef.current -= unit }
@@ -155,6 +160,11 @@ export function HomeEventSlider({
                 key={`${e.id}-${idx}`}
                 href={e.href}
                 draggable={false}
+                onPointerEnter={() => { hoveringItem.current = true }}
+                onPointerLeave={() => { hoveringItem.current = false }}
+                onPointerCancel={() => { hoveringItem.current = false }}
+                onFocus={() => { hoveringItem.current = true }}
+                onBlur={() => { hoveringItem.current = false }}
                 className="mx-4 inline-flex shrink-0 items-center gap-3.5 opacity-90 transition-opacity hover:opacity-100 md:mx-5"
               >
                 <span className="relative inline-flex h-[42px] w-14 shrink-0 items-center justify-center">
