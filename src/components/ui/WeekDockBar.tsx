@@ -6,6 +6,13 @@ import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { optImg } from '@/lib/img'
 
+const NAV_PREV: Record<string, string> = {
+  nl: 'Vorige week', en: 'Previous week', de: 'Vorige Woche', es: 'Semana anterior', fr: 'Semaine précédente',
+}
+const NAV_NEXT: Record<string, string> = {
+  nl: 'Volgende week', en: 'Next week', de: 'Nächste Woche', es: 'Semana siguiente', fr: 'Semaine suivante',
+}
+
 const getLoc = (l: string) => ({ nl, de, es, fr, en: enUS } as Record<string, typeof enUS>)[l] || enUS
 
 /**
@@ -87,6 +94,21 @@ export function WeekDockBar({
     if (w) { setWeekStart(w); setActiveDay(null) }
   }
 
+  // Arrow keys move between weeks. The dock was swipe-or-click only, which
+  // leaves keyboard and desktop users with no way through except grabbing tiny
+  // buttons. Ignored while typing so it can't hijack a search field.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return
+      const t = e.target as HTMLElement | null
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return
+      e.preventDefault()
+      shiftTo(e.key === 'ArrowLeft' ? -1 : 1)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  })
+
   const renderTile = (ds: string, i: number) => {
     const d = parseISO(ds)
     const past = ds < todayStr
@@ -118,10 +140,34 @@ export function WeekDockBar({
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[55] border-t border-black/10 bg-white/95 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] backdrop-blur-md">
       <div className="mx-auto w-full max-w-3xl px-2 pt-1.5" style={{ paddingBottom: 'max(6px, env(safe-area-inset-bottom))' }}>
-        <div className="mb-1.5 flex items-center justify-center gap-3">
-          <button type="button" aria-label="prev" onClick={() => shiftTo(-1)} disabled={weekStart <= firstMonday} className="grid h-7 w-7 place-items-center rounded-full border border-black/10 bg-white text-white transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronLeft size={16} /></button>
-          <span className="text-[15px] font-black uppercase tracking-wide text-black">{cap(format(parseISO(weekStart), 'd MMM', { locale: L }))} – {cap(format(parseISO(weekEnd), 'd MMM', { locale: L }))}</span>
-          <button type="button" aria-label="next" onClick={() => shiftTo(1)} disabled={weekStart >= lastMonday} className="grid h-7 w-7 place-items-center rounded-full border border-black/10 bg-white text-white transition-colors enabled:hover:bg-ibiza-green disabled:opacity-30"><ChevronRight size={16} /></button>
+        {/* Week navigation.
+            The chevrons used to be `bg-white text-white` — a white arrow on a
+            white circle, i.e. invisible until you happened to hover it, which
+            is exactly why moving between weeks felt impossible on a phone.
+            They are also 44px now: 28px is below every touch-target guideline
+            and made the buttons hard to hit even once you could see them. */}
+        <div className="mb-1.5 flex items-center justify-center gap-2">
+          <button
+            type="button"
+            aria-label={NAV_PREV[locale] || NAV_PREV.en}
+            onClick={() => shiftTo(-1)}
+            disabled={weekStart <= firstMonday}
+            className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-black/15 bg-white text-neutral-900 transition-colors enabled:hover:border-ibiza-green enabled:hover:bg-ibiza-green enabled:hover:text-white enabled:active:scale-95 disabled:opacity-25"
+          >
+            <ChevronLeft size={22} strokeWidth={2.5} />
+          </button>
+          <span className="min-w-0 flex-1 text-center text-[15px] font-black uppercase tracking-wide text-black">
+            {cap(format(parseISO(weekStart), 'd MMM', { locale: L }))} – {cap(format(parseISO(weekEnd), 'd MMM', { locale: L }))}
+          </span>
+          <button
+            type="button"
+            aria-label={NAV_NEXT[locale] || NAV_NEXT.en}
+            onClick={() => shiftTo(1)}
+            disabled={weekStart >= lastMonday}
+            className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-black/15 bg-white text-neutral-900 transition-colors enabled:hover:border-ibiza-green enabled:hover:bg-ibiza-green enabled:hover:text-white enabled:active:scale-95 disabled:opacity-25"
+          >
+            <ChevronRight size={22} strokeWidth={2.5} />
+          </button>
         </div>
         {/* Swipeable weeks — the 7 blocks slide with the thumb, snapping per week */}
         <div ref={scrollRef} onScroll={onScroll} className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">

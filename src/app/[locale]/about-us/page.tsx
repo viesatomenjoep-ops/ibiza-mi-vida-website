@@ -6,6 +6,8 @@ import { DEFAULT_LOCALE, LOCALES, SITE_URL, SITE_NAME, type Locale } from '@/lib
 import { FOUNDER, FOUNDER_ID, founderNode } from '@/lib/team'
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 import { breadcrumbListSchema, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
+import { ReviewSchema } from '@/components/seo/ReviewSchema'
+import { GoogleReviews } from '@/components/reviews/GoogleReviews'
 import { Reveal } from '@/components/ui/Reveal'
 
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
@@ -215,6 +217,11 @@ export default function AboutUsPage({ params }: { params: { locale: string } }) 
           </div>
         </Reveal>
       </section>
+
+      {/* Live Google reviews. Renders nothing — no placeholder, no sample — until
+          the Business Profile is verified and the Places env vars are set. */}
+      <GoogleReviews locale={l} />
+      <ReviewSchema />
 
       <section className="mx-auto max-w-5xl px-4 pb-14">
         <Reveal>

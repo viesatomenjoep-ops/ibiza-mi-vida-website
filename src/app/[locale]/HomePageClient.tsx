@@ -315,27 +315,22 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
               <span className="arrow">→</span>
             </Link>
 
-            <Link href={`${base}/calendar?filter=day`} className="cat">
-              <span className="num">03</span>
-              <strong>{translations.home_cat_day_clubs}</strong>
-              <span className="arrow">→</span>
-            </Link>
             {/* SEO: /boats and /boat-party previously had ZERO internal links
                 from the homepage, so nothing on the site signalled they matter.
                 Both are target pages for "boat charter Ibiza" / "boat party
                 Ibiza", so they belong in the main category grid. */}
             <Link href={`${base}/boats`} className="cat">
-              <span className="num">04</span>
+              <span className="num">03</span>
               <strong>{CAT_BOATS[locale] || CAT_BOATS.en}</strong>
               <span className="arrow">→</span>
             </Link>
             <Link href={`${base}/boat-party`} className="cat">
-              <span className="num">05</span>
+              <span className="num">04</span>
               <strong>{CAT_BOAT_PARTY[locale] || CAT_BOAT_PARTY.en}</strong>
               <span className="arrow">→</span>
             </Link>
             <Link href={`${base}/private-boat-charters`} className="cat">
-              <span className="num">06</span>
+              <span className="num">05</span>
               <strong>{CAT_CHARTER[locale] || CAT_CHARTER.en}</strong>
               <span className="arrow">→</span>
             </Link>

@@ -9,9 +9,17 @@ import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { CalendarDays } from 'lucide-react'
 import { EventTicketSelector } from './EventTicketSelector'
 import { WeekDockBar } from '@/components/ui/WeekDockBar'
+import { DatePickerModal } from '@/components/ui/DatePickerModal'
 import { optImg } from '@/lib/img'
 
 type Period = 'day' | 'week' | 'month' | 'year'
+
+const PICK_LABEL: Record<string, string> = {
+  nl: 'Kies een datum', en: 'Pick a date', de: 'Datum wählen', es: 'Elige una fecha', fr: 'Choisir une date',
+}
+const CLEAR_LABEL: Record<string, string> = {
+  nl: 'Alle datums', en: 'All dates', de: 'Alle Termine', es: 'Todas las fechas', fr: 'Toutes les dates',
+}
 type Locale = typeof enUS
 
 export interface PickerDate {
@@ -65,6 +73,15 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
   )
 
   const [activeDay, setActiveDay] = useState<string | null>(null)
+  const [pickerOpen, setPickerOpen] = useState(false)
+  const availableDates = useMemo(() => Array.from(new Set(upcoming.map(d => d.date))), [upcoming])
+
+  // Picking a date from the month grid also has to move the week strip, or the
+  // strip would still be showing a different week than the results below it.
+  const chooseDate = useCallback((iso: string | null) => {
+    setActiveDay(iso)
+    if (iso) setWeekStart(format(startOfWeek(parseISO(iso), { weekStartsOn: 1 }), 'yyyy-MM-dd'))
+  }, [])
 
   const monday = useCallback((dt: Date) => startOfWeek(dt, { weekStartsOn: 1 }), [])
   const firstMonday = useMemo(() => format(monday(parseISO(upcoming[0]?.date || todayStr)), 'yyyy-MM-dd'), [upcoming, todayStr, monday])
@@ -94,6 +111,39 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
 
   return (
     <div ref={tilesRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 16px)' }} className="flex flex-col gap-5">
+
+      {/* Jump straight to a date. The week strip alone meant stepping seven days
+          at a time with no view of which days further out have anything on. */}
+      <div className="flex flex-wrap items-center gap-3">
+        <button
+          type="button"
+          onClick={() => setPickerOpen(true)}
+          className="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white px-5 py-3 text-xs font-black uppercase tracking-widest text-neutral-900 transition-colors hover:border-ibiza-green hover:text-ibiza-green"
+        >
+          <CalendarDays size={16} strokeWidth={2.5} />
+          {activeDay
+            ? new Date(activeDay).toLocaleDateString(bcp, { day: 'numeric', month: 'long', timeZone: 'UTC' })
+            : (PICK_LABEL[locale] || PICK_LABEL.en)}
+        </button>
+        {activeDay ? (
+          <button
+            type="button"
+            onClick={() => chooseDate(null)}
+            className="text-xs font-black uppercase tracking-widest text-ibiza-green hover:underline"
+          >
+            {CLEAR_LABEL[locale] || CLEAR_LABEL.en}
+          </button>
+        ) : null}
+      </div>
+
+      <DatePickerModal
+        open={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        available={availableDates}
+        selected={activeDay}
+        onSelect={chooseDate}
+        locale={locale}
+      />
 
       {/* Date tiles */}
       {visible.length === 0 ? (
