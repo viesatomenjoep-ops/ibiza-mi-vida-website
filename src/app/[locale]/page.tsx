@@ -7,6 +7,7 @@ import { HomeJsonLd } from '@/components/seo/HomeJsonLd'
 import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { HOME_TITLE, HOME_DESC } from '@/lib/seo-pages'
 import { FLEET } from '@/data/fleet'
+import { pickCover } from '@/lib/blank-covers';
 
 export const revalidate = 3600
 
@@ -75,7 +76,9 @@ export default async function Home({ params }: { params: { locale: string } }) {
         clubLogo: venueLogoBySlug.get(d.venueSlug || '') || d.venueLogo || '',
         eventSlug: d.eventSlug || '',
         eventName: d.eventName || d.name || '',
-        image: d.eventCover || d.eventLogo || d.venueCover || venueLogoBySlug.get(d.venueSlug || '') || '',
+        // Skip ClubTickets' blank placeholders so the fallback reaches a real
+        // picture instead of rendering a black box.
+        image: pickCover(d.eventCover, d.eventLogo, d.venueCover, venueLogoBySlug.get(d.venueSlug || '')),
         date: d.date || '',
         price: m ? parseFloat(m[0].replace(',', '.')) : 0,
         lineUp: d.lineUp || '',
