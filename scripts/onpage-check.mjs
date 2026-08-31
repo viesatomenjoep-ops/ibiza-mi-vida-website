@@ -59,8 +59,14 @@ async function main() {
       if (title.length > TITLE_MAX) {
         report.fail(where, `Title is ${title.length} characters (max ${TITLE_MAX}): "${title}"`)
       }
-      if (!titles.has(title)) titles.set(title, [])
-      titles.get(title).push(where)
+      // Per locale, niet site-breed. Dezelfde titel op /en/artists/deseo en
+      // /de/artists/deseo is geen duplicaat maar een taalvariant, en hreflang
+      // vertelt Google dat ook — een artiestennaam vertaalt nu eenmaal niet.
+      // Wat wél fout is: twee VERSCHILLENDE pagina's in dezelfde taal die om
+      // dezelfde titel concurreren.
+      const tkey = `${r.locale}|${title}`
+      if (!titles.has(tkey)) titles.set(tkey, [])
+      titles.get(tkey).push(where)
     }
 
     // 2. description
@@ -71,8 +77,9 @@ async function main() {
       if (desc.length < DESC_MIN || desc.length > DESC_MAX) {
         report.fail(where, `Meta description is ${desc.length} characters (want ${DESC_MIN}–${DESC_MAX}): "${desc.slice(0, 80)}…"`)
       }
-      if (!descriptions.has(desc)) descriptions.set(desc, [])
-      descriptions.get(desc).push(where)
+      const dkey = `${r.locale}|${desc}`
+      if (!descriptions.has(dkey)) descriptions.set(dkey, [])
+      descriptions.get(dkey).push(where)
     }
 
     // 3. one h1
@@ -105,7 +112,8 @@ async function main() {
   // as the original and every other one is reported against it, so the same
   // input always produces the same failures in the same order.
   for (const [label, map] of [['Title', titles], ['Meta description', descriptions]]) {
-    for (const [value, pages] of map) {
+    for (const [key, pages] of map) {
+      const value = key.slice(key.indexOf('|') + 1)
       if (pages.length < 2) continue
       const sorted = [...pages].sort()
       const [original, ...duplicates] = sorted

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { fitDescription, fitTitle } from '@/lib/seo-pages'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { DEFAULT_LOCALE, LOCALES, SITE_URL, type Locale } from '@/lib/seo'
@@ -41,8 +42,10 @@ export async function generateMetadata(
   languages['x-default'] = `${SITE_URL}/${DEFAULT_LOCALE}/${path}`
 
   return {
-    title: fill(MONTH_COPY.title[l], vars),
-    description: fill(MONTH_COPY.metaDescription[l], vars),
+    title: fitTitle(fill(MONTH_COPY.title[l], vars)),
+    // Door fitDescription: de maandtekst is per maand kort en liep rond de 105
+    // tekens, ruim onder wat Google toont.
+    description: fitDescription(fill(MONTH_COPY.metaDescription[l], vars), l),
     alternates: { canonical: `${SITE_URL}/${l}/${path}`, languages },
   }
 }

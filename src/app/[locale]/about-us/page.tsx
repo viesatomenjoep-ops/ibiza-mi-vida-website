@@ -178,6 +178,10 @@ export default function AboutUsPage({ params }: { params: { locale: string } }) 
         '@type': 'Organization',
         '@id': `${SITE_URL}/#organization`,
         name: SITE_NAME,
+        // Zonder url is dit knooppunt onvolledig: een consument die het los van
+        // de pagina leest (een feed, een cache, een antwoordmachine) kan het
+        // bedrijf dan nergens aan koppelen.
+        url: SITE_URL,
         founder: { '@id': FOUNDER_ID },
         employee: { '@id': FOUNDER_ID },
         knowsLanguage: FOUNDER.languageTags,
