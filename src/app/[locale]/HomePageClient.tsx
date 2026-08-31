@@ -39,6 +39,17 @@ const CAT_CHARTER: Record<string, string> = {
 }
 
 interface HomePageProps {
+  /**
+   * Server-gerenderde verhuursectie, als slot doorgegeven.
+   *
+   * Deze component is een client component, maar de verhuurblokken hoeven
+   * dat niet te zijn — en mogen het niet zijn: het zijn commerciële links
+   * die een crawler zonder JavaScript moet kunnen lezen. React staat toe
+   * een server component als prop door te geven aan een client component,
+   * dus dat gebeurt hier, in plaats van het blok onderaan de pagina buiten
+   * deze component te hangen waar niemand het ziet.
+   */
+  rentalsSlot?: React.ReactNode;
   locale?: string;
   translations?: any;
   featuredClubs?: any[];
@@ -55,7 +66,7 @@ interface HomePageProps {
   rating?: HeroRating | null;
 }
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '', rating = null }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '', rating = null, rentalsSlot = null }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -258,6 +269,11 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           )}
         </FeaturedDayRotator>
       )}
+
+      {/* Boten en auto's. Stond onderaan de pagina, onder Instagram en de
+          nieuwsbrief; hier volgt het direct op de strip met alles wat geen
+          nachtclub is, waar het thuishoort en waar mensen nog kijken. */}
+      {rentalsSlot}
 
       {/* Club logo marquee — just the logos — right below "Volledige kalender", above Populaire clubs */}
       <Reveal className="flex items-center bg-neutral-100 py-3 border-t border-b border-black/10">
