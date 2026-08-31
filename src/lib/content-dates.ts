@@ -26,6 +26,8 @@ export const CONTENT_UPDATED: Record<string, string> = {
   // Both rebuilt from scratch, replacing placeholder boilerplate.
   'about-us': '2026-08-30',
   contact: '2026-08-30',
+  // Keyword pillar pages, written from scratch.
+  'boat-rental-ibiza': '2026-08-31',
 }
 
 /** ISO date for a page key, or undefined if we have no honest date for it. */
