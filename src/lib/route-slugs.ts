@@ -139,8 +139,8 @@ export const ROUTE_SLUGS: Record<RouteKey, SlugSet> = {
  * the page renders. Never before.
  */
 export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
-  'boat-rental': ['en'],
-  'car-rental': ['en'],
+  'boat-rental': ['en', 'nl', 'de', 'fr', 'es'],
+  'car-rental': ['en', 'nl', 'de', 'fr', 'es'],
   'boat-no-licence': ['en'],
   'boat-with-skipper': ['en'],
   'jet-ski-rental': ['en'],

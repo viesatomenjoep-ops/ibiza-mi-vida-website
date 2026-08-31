@@ -1,0 +1,32 @@
+# Nieuwe URL's uit deze wijziging, voor IndexNow.
+# Pas indienen NA deploy en na de native review in docs/content-todos.md.
+#   node scripts/indexnow-ping.mjs --dry-run --file=docs/new-urls.txt
+#   node scripts/indexnow-ping.mjs --file=docs/new-urls.txt
+
+# Pillars, vijf talen
+/en/boat-rental-ibiza
+/nl/boot-huren-ibiza
+/de/boot-mieten-ibiza
+/fr/location-bateau-ibiza
+/es/alquiler-barco-ibiza
+/en/car-rental-ibiza
+/nl/auto-huren-ibiza
+/de/mietwagen-ibiza
+/fr/location-voiture-ibiza
+/es/alquiler-coches-ibiza
+
+# Engelse spokes en hubs
+/en/jet-ski-rental-ibiza
+/en/boat-hire-ibiza-no-licence
+/en/boat-rental-with-skipper-ibiza
+/en/car-rental-ibiza-airport
+/en/convertible-car-rental-ibiza
+/en/ibiza-club-tickets
+/en/ibiza-guestlist
+
+# Gewijzigd: canonical gecorrigeerd
+/en/tips
+/nl/tips
+/de/tips
+/es/tips
+/fr/tips

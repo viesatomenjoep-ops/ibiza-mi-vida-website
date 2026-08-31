@@ -97,30 +97,53 @@ partner with a bare `<a>`.
 | `NEXT_PUBLIC_GOOGLE_BUSINESS_URL` | The Google Business Profile is absent from the Organization `sameAs` list, so search engines are not told the profile and the site are the same business. |
 | `NEXT_PUBLIC_CLUBTICKETS_AFFILIATE_URL` | ClubTickets clicks untracked (see section 4). |
 
-## 6. Pages not built yet
+## 6. Pages built, awaiting a native check
 
-Requested and not delivered in this pass. The routes and slugs are already
-defined in `src/lib/route-slugs.ts`, and `ROUTE_LOCALES` correctly lists these
-languages as unpublished, so hreflang and the sitemap stay honest until the
-pages exist.
+Both big pillars now exist in all five languages, each written per language
+rather than translated:
 
-| Route | Languages still missing |
-| --- | --- |
-| `boat-rental` | `nl` (boot-huren-ibiza), `de` (boot-mieten-ibiza), `fr` (location-bateau-ibiza), `es` (alquiler-barco-ibiza) |
-| `car-rental` | `nl` (auto-huren-ibiza), `de` (mietwagen-ibiza), `fr` (location-voiture-ibiza), `es` (alquiler-coches-ibiza) |
+| Route | en | nl | de | fr | es |
+| --- | --- | --- | --- | --- | --- |
+| Boat rental | `boat-rental-ibiza` | `boot-huren-ibiza` | `boot-mieten-ibiza` | `location-bateau-ibiza` | `alquiler-barco-ibiza` |
+| Car rental | `car-rental-ibiza` | `auto-huren-ibiza` | `mietwagen-ibiza` | `location-voiture-ibiza` | `alquiler-coches-ibiza` |
 
-Add a language to `ROUTE_LOCALES` **only after** its page renders, then add the
-route to `LOCALIZED_ROUTES` in `src/app/sitemap.ts`.
+English-only for now: `jet-ski-rental-ibiza`, `boat-hire-ibiza-no-licence`,
+`boat-rental-with-skipper-ibiza`, `car-rental-ibiza-airport`,
+`convertible-car-rental-ibiza`, `ibiza-club-tickets`, `ibiza-guestlist`.
+`ROUTE_LOCALES` records that accurately, so their hreflang clusters are honest.
 
 ## 7. Native review before an indexing push
 
-Any non-English page written by an AI needs a native speaker's eye before it is
-pushed to search engines. Machine-flavoured copy in a language you cannot check
-is the one thing that damages a brand faster than having no page at all.
+**This is the blocking item before submitting any of the non-English pages.**
 
-| Page | Language | Reviewed? |
+Copy written by an AI in a language you cannot check is the fastest way to make
+a brand look foreign in its own market. Every page below needs a native speaker
+to read it once — not for accuracy of facts (those are shared across languages
+and were written deliberately) but for register: does it sound like a person who
+lives here, or like a translation?
+
+| Page | Language | Native review |
 | --- | --- | --- |
-| _(none yet — the DE/FR/ES/NL pillars in section 6 are not written)_ | | |
+| `/nl/boot-huren-ibiza` | Dutch | ☐ pending |
+| `/nl/auto-huren-ibiza` | Dutch | ☐ pending |
+| `/de/boot-mieten-ibiza` | German | ☐ pending |
+| `/de/mietwagen-ibiza` | German | ☐ pending |
+| `/fr/location-bateau-ibiza` | French | ☐ pending |
+| `/fr/location-voiture-ibiza` | French | ☐ pending |
+| `/es/alquiler-barco-ibiza` | Spanish | ☐ pending |
+| `/es/alquiler-coches-ibiza` | Spanish | ☐ pending |
 
-When those pages land, list them here, get a native check, and only then run
-`node scripts/indexnow-ping.mjs` for their URLs.
+You can read the Dutch yourself. German, French and Spanish need someone else —
+the local team works in all three.
+
+**Only after those boxes are ticked**, submit them:
+
+```bash
+node scripts/indexnow-ping.mjs --dry-run --file=docs/new-urls.txt   # inspect
+node scripts/indexnow-ping.mjs --file=docs/new-urls.txt             # submit
+```
+
+A dry run of the full new-URL set has been done and is clean; the real
+submission is deliberately left for you, because the pages have to be deployed
+and reviewed first. Pinging a URL that 404s in production is worse than not
+pinging at all.

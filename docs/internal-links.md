@@ -79,12 +79,27 @@ for a way in, and the guestlist page is one of the answers.
 - **`/[locale]/boats`** — appears in the boat pillar's breadcrumb as the parent
   section.
 
-## What is not linked yet
+## The localised pillars
 
-- The DE, FR, ES and NL versions of the two pillars do not exist, so nothing
-  links to them. Language versions are connected by hreflang rather than by
-  in-page links, and the language switcher resolves localised slugs through
-  `route-slugs.ts`.
+Both big pillars exist in all five languages, each on its own keyword slug:
+
+| Route | en | nl | de | fr | es |
+| --- | --- | --- | --- | --- | --- |
+| Boat rental | `boat-rental-ibiza` | `boot-huren-ibiza` | `boot-mieten-ibiza` | `location-bateau-ibiza` | `alquiler-barco-ibiza` |
+| Car rental | `car-rental-ibiza` | `auto-huren-ibiza` | `mietwagen-ibiza` | `location-voiture-ibiza` | `alquiler-coches-ibiza` |
+
+Within each language the two pillars link to each other, plus to that language's
+existing routes (`boat-party`, `private-boat-charters`, `car-scooter-rental`,
+`tips`). They do **not** link across languages: language versions are connected
+by hreflang, not by in-page links, and a link from a Dutch page to an English
+one leaks a reader out of their language. The language switcher resolves the
+localised slugs through `route-slugs.ts`.
+
+The English-only spokes are not linked from the non-English pillars either, for
+the same reason — a Dutch reader following "jet ski rental" onto an English page
+is a worse experience than not seeing the link.
+
+## What is not linked yet
 - `/en/ibiza-club-tickets` and the existing `/[locale]/club-tickets` section are
   two different things: the former is a hub about what tickets cost, the latter
   is the per-venue booking section. The hub does not link into individual venue

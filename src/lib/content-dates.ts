@@ -36,6 +36,14 @@ export const CONTENT_UPDATED: Record<string, string> = {
   'boat-rental-with-skipper-ibiza': '2026-08-31',
   'car-rental-ibiza-airport': '2026-08-31',
   'convertible-car-rental-ibiza': '2026-08-31',
+  'boot-huren-ibiza': '2026-08-31',
+  'auto-huren-ibiza': '2026-08-31',
+  'boot-mieten-ibiza': '2026-08-31',
+  'mietwagen-ibiza': '2026-08-31',
+  'location-bateau-ibiza': '2026-08-31',
+  'location-voiture-ibiza': '2026-08-31',
+  'alquiler-barco-ibiza': '2026-08-31',
+  'alquiler-coches-ibiza': '2026-08-31',
 }
 
 /** ISO date for a page key, or undefined if we have no honest date for it. */
