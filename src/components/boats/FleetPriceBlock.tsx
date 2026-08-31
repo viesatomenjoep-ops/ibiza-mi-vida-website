@@ -82,8 +82,18 @@ export function FleetPriceBlock({ locale }: { locale: Locale }) {
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-12">
-      <h2 className="font-serif text-2xl font-black tracking-tight text-neutral-900">{HEAD[locale]}</h2>
-      <p className="mt-4 text-lg leading-relaxed text-neutral-800">{lead[locale]}</p>
+      {/* Licht op donker, want dit blok heeft zelf geen achtergrond.
+          globals.css zet `body{background:var(--black)}` (#0D0509), en deze
+          sectie zit daar direct op. De kop en de intro stonden op
+          text-neutral-900 en text-neutral-800 — bijna zwart op bijna zwart,
+          rond 1.1:1, in de praktijk onzichtbaar. Precies dezelfde fout als in
+          de FAQ-accordeon, en om dezelfde reden: donkere tekstkleuren werken
+          alleen in een blok dat zelf een lichte achtergrond meebrengt.
+          Wit (#FAF3F5) op die body haalt 18,4:1; wit op 80% haalt 11,8:1.
+          De kaarten en de notitie hieronder houden hun donkere tekst: die
+          hebben wél een eigen lichte achtergrond (bg-ibiza-mint, bg-white). */}
+      <h2 className="font-serif text-2xl font-black tracking-tight text-white">{HEAD[locale]}</h2>
+      <p className="mt-4 text-lg leading-relaxed text-white/80">{lead[locale]}</p>
 
       <dl className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
         {cards.map(c => (

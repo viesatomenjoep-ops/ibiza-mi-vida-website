@@ -363,6 +363,65 @@ const FALLBACK_DESC: Record<Locale, (name: string) => string> = {
 }
 
 /**
+ * A true sentence used to bring a too-short meta description up to length.
+ *
+ * Google truncates a description around 155–160 characters, but a description
+ * far UNDER that wastes the space — and hundreds of pages here were generating
+ * 90-to-110-character descriptions from a name plus a generic tail, which is
+ * the single largest category of on-page problem on this site.
+ *
+ * Everything here has to be true of every page it can land on, because it lands
+ * on all of them. It describes how this business actually works — a local team,
+ * confirmation over WhatsApp before booking — and claims nothing about the
+ * specific venue, boat or event the page is about. Do not add a figure, a
+ * promise or a superlative to these strings: they cannot be verified per page.
+ */
+const DESC_TAIL: Record<Locale, string> = {
+  nl: 'Ons team woont op Ibiza en bevestigt data, prijzen en beschikbaarheid via WhatsApp voordat je boekt.',
+  en: 'Our team lives on Ibiza and confirms dates, prices and availability over WhatsApp before you book.',
+  de: 'Unser Team lebt auf Ibiza und bestätigt Termine, Preise und Verfügbarkeit per WhatsApp vor der Buchung.',
+  es: 'Nuestro equipo vive en Ibiza y confirma fechas, precios y disponibilidad por WhatsApp antes de reservar.',
+  fr: 'Notre équipe vit à Ibiza et confirme dates, prix et disponibilités par WhatsApp avant votre réservation.',
+}
+
+/** Google's useful range. Below the minimum the snippet wastes space; above the
+ *  maximum it gets cut off mid-sentence in the results. */
+const DESC_MIN = 140
+const DESC_MAX = 158
+
+/**
+ * Bring a description into the 140–158 range: pad a short one with DESC_TAIL,
+ * trim a long one at a word boundary. Never returns something outside the range
+ * unless the tail itself cannot close the gap, which it can for any input.
+ */
+export function fitDescription(text: string, locale: Locale): string {
+  let out = (text || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+  if (out.length < DESC_MIN) {
+    const tail = DESC_TAIL[locale]
+    out = out ? `${out.replace(/[\s.]+$/, '')}. ${tail}` : tail
+  }
+  return truncateAtWord(out, DESC_MAX)
+}
+
+/**
+ * A page title that still fits once the layout appends " | Ibiza mi vida".
+ *
+ * The root layout wraps every title in `%s | Ibiza mi vida`, which is 16
+ * characters nobody writing a title remembers to count. Detail pages built from
+ * a venue or event name regularly ran past 60 as a result, and Google then cuts
+ * the brand off — the one part of the title that was supposed to be constant.
+ * So the name is trimmed to fit rather than the brand being lost.
+ */
+const BRAND_SUFFIX_LENGTH = ' | Ibiza mi vida'.length
+const TITLE_MAX = 60
+
+export function fitTitle(title: string): string {
+  const room = TITLE_MAX - BRAND_SUFFIX_LENGTH
+  const t = title.trim()
+  return t.length <= room ? t : truncateAtWord(t, room)
+}
+
+/**
  * Full Metadata for a static route.
  * @param localeRaw current locale (unvalidated)
  * @param path      locale-agnostic path, also used as the SEO_PAGES key (leading slash optional)
@@ -375,8 +434,8 @@ export function staticMetadata(localeRaw: string, path: string, fallbackName?: s
   const copy = SEO_PAGES[key]
   // Bare title — the root layout template appends " | Ibiza mi vida".
   const title = copy ? copy.title[locale] : (fallbackName || key)
-  const description = copy ? copy.description[locale] : FALLBACK_DESC[locale](fallbackName || key)
-  return pageMetadata({ locale, path: key, title, description, noindex })
+  const description = fitDescription(copy ? copy.description[locale] : FALLBACK_DESC[locale](fallbackName || key), locale)
+  return pageMetadata({ locale, path: key, title: fitTitle(title), description, noindex })
 }
 
 /**
@@ -404,11 +463,19 @@ export function detailMetadata(
 ): Metadata {
   const locale = (LOCALES as readonly string[]).includes(localeRaw) ? (localeRaw as Locale) : DEFAULT_LOCALE
   const clean = (name || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() || SITE_NAME
-  const title = `${clean}${opts.suffix ? ` ${opts.suffix}` : ' — Ibiza'}`
+
+  // Prefer the decorated title, fall back to the bare name when the decoration
+  // is what pushes it over the limit — losing " — Ibiza" costs nothing, losing
+  // half the event name costs the reader the thing they searched for.
+  const decorated = `${clean}${opts.suffix ? ` ${opts.suffix}` : ' — Ibiza'}`
+  const title = fitTitle(decorated.length <= TITLE_MAX - BRAND_SUFFIX_LENGTH ? decorated : clean)
+
   const rawDesc = (opts.description || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
   // Never cut mid-word. The old `.slice(0, 160)` produced descriptions ending
   // in fragments like "Met de gr", which is what Google actually printed in the
   // results — and a snippet that stops mid-word is one nobody clicks.
-  const description = truncateAtWord(rawDesc || FALLBACK_DESC[locale](clean), 158)
+  // fitDescription also pads a too-short one; most of these come from a venue
+  // blurb of two lines, which left the snippet half empty.
+  const description = fitDescription(rawDesc || FALLBACK_DESC[locale](clean), locale)
   return pageMetadata({ locale, path, title, description, images: opts.image ? [opts.image] : undefined })
 }

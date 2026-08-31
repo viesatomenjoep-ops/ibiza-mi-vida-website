@@ -8,6 +8,7 @@ import PrivateBoatChartersClient from './PrivateBoatChartersClient'
 import { PageFaq } from '@/components/seo/PageFaq'
 import { BoatAdviceCta } from '@/components/boats/BoatAdviceCta'
 import { SailingRoutes } from '@/components/boats/SailingRoutes'
+import { BoatRentalPromo } from '@/components/hub/BoatRentalPromo'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 
 export const revalidate = 3600
@@ -35,18 +36,18 @@ export const revalidate = 3600
 export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
   const l = (LOCALES as readonly string[]).includes(locale) ? (locale as Locale) : DEFAULT_LOCALE
   const TITLE: Record<Locale, string> = {
-    nl: 'Privéboot of jacht huren op Ibiza | Met of zonder schipper',
-    en: 'Private boat and yacht charter Ibiza | With or without skipper',
-    de: 'Privatboot und Yacht mieten auf Ibiza | Mit oder ohne Skipper',
-    es: 'Alquiler de barco y yate privado en Ibiza | Con o sin patrón',
-    fr: 'Location de bateau et yacht privé à Ibiza | Avec ou sans skipper',
+    nl: 'Privéboot huren op Ibiza',
+    en: 'Private boat charter Ibiza',
+    de: 'Privatboot mieten auf Ibiza',
+    es: 'Alquiler de barco privado Ibiza',
+    fr: 'Location de bateau privé Ibiza',
   }
   const DESC: Record<Locale, string> = {
-    nl: 'Huur een privéboot of jacht op Ibiza, met of zonder schipper, vanaf jachthavens rond het eiland. Vaarroutes langs Es Vedrà, de noordkust en Formentera, met de baaien waar je ankert.',
-    en: 'Charter a private boat or yacht in Ibiza, with or without a skipper, from marinas around the island. Sailing routes past Es Vedrà, the north coast and Formentera, with the bays you anchor in.',
-    de: 'Chartere ein Privatboot oder eine Yacht auf Ibiza, mit oder ohne Skipper, ab Marinas rund um die Insel. Routen entlang Es Vedrà, der Nordküste und Formentera, mit den Buchten zum Ankern.',
-    es: 'Alquila un barco o yate privado en Ibiza, con o sin patrón, desde puertos de toda la isla. Rutas por Es Vedrà, la costa norte y Formentera, con las calas donde se fondea.',
-    fr: 'Louez un bateau ou yacht privé à Ibiza, avec ou sans skipper, au départ des ports de l\'île. Itinéraires vers Es Vedrà, la côte nord et Formentera, avec les criques où mouiller.',
+    nl: 'Huur een privéboot of jacht op Ibiza, met of zonder schipper, vanaf jachthavens rond het eiland. Routes langs Es Vedrà en Formentera, met eigen dagtarieven.',
+    en: 'Charter a private boat or yacht in Ibiza, with or without a skipper, from marinas around the island. Routes past Es Vedrà and Formentera, with our day rates.',
+    de: 'Chartere ein Privatboot oder eine Yacht auf Ibiza, mit oder ohne Skipper, ab Marinas der Insel. Routen zu Es Vedrà und Formentera, mit unseren Tagespreisen.',
+    es: 'Alquila un barco o yate privado en Ibiza, con o sin patrón, desde puertos de la isla. Rutas por Es Vedrà y Formentera, con nuestras tarifas diarias.',
+    fr: 'Louez un bateau ou yacht privé à Ibiza, avec ou sans skipper, au départ des ports. Itinéraires vers Es Vedrà et Formentera, avec nos tarifs journaliers.',
   }
   return pageMetadata({
     locale: l,
@@ -72,6 +73,7 @@ export default async function PrivateBoatChartersPage({ params: { locale } }: { 
       <FleetPriceBlock locale={l} />
       <SailingRoutes locale={locale} />
       <BoatAdviceCta locale={locale} />
+      <BoatRentalPromo locale={locale} />
       <PageFaq pageKey="private-boat-charters" locale={locale} />
       <AuthorByline locale={locale} topic="private boat charters in Ibiza" />
     </>

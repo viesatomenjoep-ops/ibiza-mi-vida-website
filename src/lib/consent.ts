@@ -6,8 +6,9 @@
  * of uitleest van het apparaat van een bezoeker, tenzij het strikt noodzakelijk
  * is voor een dienst die de bezoeker zelf vroeg. Op deze site betekent dat:
  *
- *   NODIG   — Google Analytics 4, Impact affiliate-tracking, de TikTok-embed.
- *             Alle drie zetten identifiers en delen data met derden.
+ *   NODIG   — Google Analytics 4 en Impact affiliate-tracking. Allebei zetten
+ *             identifiers en delen data met derden. (De TikTok-embed stond hier
+ *             ook; die is van de homepage gehaald.)
  *   NIET    — de winkelwagen, de taalkeuze-cookie en de first-touch attributie
  *             in sessionStorage. Die laatste is bewust zo gebouwd: hij verlaat
  *             de browser alleen op een lead die de bezoeker zelf verstuurt,

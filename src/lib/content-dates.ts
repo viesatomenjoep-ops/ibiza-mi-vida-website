@@ -26,6 +26,26 @@ export const CONTENT_UPDATED: Record<string, string> = {
   // Both rebuilt from scratch, replacing placeholder boilerplate.
   'about-us': '2026-08-30',
   contact: '2026-08-30',
+  // Keyword pillar pages, written from scratch.
+  'boat-rental-ibiza': '2026-08-31',
+  'jet-ski-rental-ibiza': '2026-08-31',
+  'car-rental-ibiza': '2026-08-31',
+  'ibiza-club-tickets': '2026-08-31',
+  'ibiza-guestlist': '2026-08-31',
+  'boat-hire-ibiza-no-licence': '2026-08-31',
+  'boat-rental-with-skipper-ibiza': '2026-08-31',
+  'car-rental-ibiza-airport': '2026-08-31',
+  'convertible-car-rental-ibiza': '2026-08-31',
+  'boot-huren-ibiza': '2026-08-31',
+  'auto-huren-ibiza': '2026-08-31',
+  'boot-mieten-ibiza': '2026-08-31',
+  'mietwagen-ibiza': '2026-08-31',
+  'location-bateau-ibiza': '2026-08-31',
+  'location-voiture-ibiza': '2026-08-31',
+  'alquiler-barco-ibiza': '2026-08-31',
+  'alquiler-coches-ibiza': '2026-08-31',
+  'wiber-car-rental-ibiza': '2026-08-31',
+  'click-and-boat-ibiza': '2026-08-31',
 }
 
 /** ISO date for a page key, or undefined if we have no honest date for it. */

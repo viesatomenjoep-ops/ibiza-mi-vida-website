@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { BoatRentalPromo } from '@/components/hub/BoatRentalPromo'
 import { staticMetadata } from '@/lib/seo-pages'
 
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
@@ -55,6 +56,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
 
   const C = agendaCopy('water-sports', params.locale);
   return (
+    <>
     <WaterAgendaClient
       locale={params.locale}
       basePath="water-sports"
@@ -64,5 +66,9 @@ export default async function Page({ params }: { params: { locale: string } }) {
       events={events}
       venues={venues}
     />
+    {/* Server-gerenderd onder de agenda: deze pagina beschreef boten zonder
+        ergens een manier te bieden om er een te boeken. */}
+    <BoatRentalPromo locale={params.locale} />
+    </>
   );
 }

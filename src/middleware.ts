@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { ROUTE_SLUGS, findRouteBySlug } from '@/lib/route-slugs'
 
 const locales = ['en', 'nl', 'de', 'es', 'fr'] as const
 type Loc = (typeof locales)[number]
@@ -64,7 +65,7 @@ function fromAcceptLanguage(header: string | null): Loc | null {
   return null
 }
 
-export function middleware(request: NextRequest) {
+function route(request: NextRequest): NextResponse | undefined {
   const { pathname } = request.nextUrl
 
   if (pathname.includes('.') || pathname.startsWith('/api') || pathname.startsWith('/_next')) {
@@ -78,6 +79,40 @@ export function middleware(request: NextRequest) {
   const matched = locales.find((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`))
 
   if (matched) {
+    /**
+     * Cross-language slug redirect.
+     *
+     * The keyword pages carry a different slug per language
+     * (/en/boat-rental-ibiza vs /nl/boot-huren-ibiza). An old inbound link, a
+     * shared URL whose language was switched by hand, or a translated
+     * newsletter can therefore land on a locale + slug combination that does
+     * not belong together. Rendering it would publish a second copy of the page
+     * on a URL that no hreflang cluster references — duplicate content with no
+     * canonical pointing at it.
+     *
+     * 301, not 307: this mapping is a permanent property of the route, the same
+     * for every visitor, so it is safe (and desirable) for browsers, CDNs and
+     * crawlers to cache it. That is the opposite of the language redirect
+     * below, which depends on who is asking and must never be cached.
+     */
+    const segments = pathname.slice(matched.length + 2).split('/').filter(Boolean)
+    const first = segments[0]
+    if (first) {
+      const found = findRouteBySlug(first)
+      const correct = found ? ROUTE_SLUGS[found.key][matched] : null
+      // Compare SLUGS, not locales. Some routes deliberately use the same slug
+      // in every language (boat-party), so "the slug was found under another
+      // locale" is true for them on every request — and redirecting on that
+      // sent every non-Dutch locale to its own URL forever. The only thing that
+      // warrants a redirect is the slug for THIS locale differing from the one
+      // asked for.
+      if (correct && correct !== first) {
+        const rest = segments.slice(1).join('/')
+        request.nextUrl.pathname = `/${matched}/${correct}${rest ? `/${rest}` : ''}`
+        return NextResponse.redirect(request.nextUrl, 301)
+      }
+    }
+
     // The visitor is on an explicit locale — they clicked a language pill or
     // followed a link. Remember it, so returning to the bare domain later does
     // not override a choice they already made.
@@ -109,6 +144,46 @@ export function middleware(request: NextRequest) {
   res.headers.set('Vary', 'Accept-Language, Cookie')
   res.cookies.set(COOKIE, locale, { maxAge: COOKIE_MAX_AGE, sameSite: 'lax', path: '/' })
   return res
+}
+
+/**
+ * The canonical host, derived from the same env var the rest of the SEO code
+ * reads so the two can never drift apart.
+ */
+const CANONICAL_HOST = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.ibizamivida.com')
+  .replace(/^https?:\/\//, '')
+  .replace(/\/$/, '')
+  .toLowerCase()
+
+/** Local development hosts, which are nobody's SEO problem. */
+const isLocalHost = (host: string) =>
+  host.startsWith('localhost') || host.startsWith('127.0.0.1') || host.startsWith('0.0.0.0') || host.startsWith('[::1]')
+
+/**
+ * Keep preview deployments out of the search index.
+ *
+ * Every Vercel preview deployment is a full copy of the site on a
+ * *.vercel.app host, and Google will happily index one it finds linked from
+ * anywhere — producing a duplicate of the entire site on a domain we do not
+ * control, competing with the real one. robots.txt cannot prevent this: a
+ * Disallow stops crawling, not indexing of a URL discovered elsewhere, and the
+ * preview host serves the same robots.txt as production anyway.
+ *
+ * `X-Robots-Tag: noindex` is the header that actually removes a page from the
+ * index, and it applies to the response regardless of which host served it.
+ * The canonical host is exempt, and so is localhost — a dev server that
+ * returned noindex would make the SEO check scripts fail against a build that
+ * is in fact correct.
+ */
+export function middleware(request: NextRequest) {
+  const res = route(request)
+  const host = (request.headers.get('host') ?? '').toLowerCase()
+
+  if (!host || host === CANONICAL_HOST || isLocalHost(host)) return res
+
+  const stamped = res ?? NextResponse.next()
+  stamped.headers.set('X-Robots-Tag', 'noindex, nofollow')
+  return stamped
 }
 
 export const config = {

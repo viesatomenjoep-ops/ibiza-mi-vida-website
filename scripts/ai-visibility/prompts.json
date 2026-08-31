@@ -1,0 +1,29 @@
+{
+  "$comment": "Fixed test queries for AI visibility tracking. Do not reword these between runs — the whole measurement depends on asking the same question every time, so a change in mention rate reflects the site rather than the prompt. Add new queries with new ids; retire one by setting active:false rather than deleting it, so historical rows in results.csv stay interpretable.",
+  "version": 1,
+  "updated": "2026-08-31",
+  "queries": [
+    { "id": "boat-private-en",       "lang": "en", "intent": "commercial", "active": true, "text": "where can I rent a private boat in Ibiza" },
+    { "id": "boat-nolicence-en",     "lang": "en", "intent": "commercial", "active": true, "text": "boat hire Ibiza without a licence" },
+    { "id": "boat-skipper-en",       "lang": "en", "intent": "commercial", "active": true, "text": "how much does it cost to rent a boat with a skipper in Ibiza" },
+    { "id": "boat-best-en",          "lang": "en", "intent": "research",   "active": true, "text": "best boat rental company in Ibiza" },
+    { "id": "jetski-en",             "lang": "en", "intent": "commercial", "active": true, "text": "jet ski rental Ibiza" },
+    { "id": "jetski-licence-en",     "lang": "en", "intent": "research",   "active": true, "text": "do I need a licence to ride a jet ski in Ibiza" },
+    { "id": "clubtickets-en",        "lang": "en", "intent": "commercial", "active": true, "text": "best place to buy Ibiza club tickets" },
+    { "id": "clubtickets-price-en",  "lang": "en", "intent": "research",   "active": true, "text": "how much are club tickets in Ibiza" },
+    { "id": "guestlist-ushuaia-en",  "lang": "en", "intent": "research",   "active": true, "text": "how to get on the Ushuaia guestlist" },
+    { "id": "guestlist-free-en",     "lang": "en", "intent": "research",   "active": true, "text": "is the Ibiza guestlist free" },
+    { "id": "car-rental-en",         "lang": "en", "intent": "commercial", "active": true, "text": "car rental Ibiza airport all inclusive" },
+    { "id": "car-age-en",            "lang": "en", "intent": "research",   "active": true, "text": "can I rent a car in Ibiza at 21" },
+    { "id": "boatparty-en",          "lang": "en", "intent": "commercial", "active": true, "text": "boat party Ibiza tickets" },
+    { "id": "formentera-en",         "lang": "en", "intent": "research",   "active": true, "text": "best way to get from Ibiza to Formentera for the day" },
+    { "id": "concierge-en",          "lang": "en", "intent": "commercial", "active": true, "text": "Ibiza concierge service for club tickets and boats" },
+
+    { "id": "boot-huren-nl",         "lang": "nl", "intent": "commercial", "active": true, "text": "boot huren Ibiza zonder vaarbewijs" },
+    { "id": "auto-huren-nl",         "lang": "nl", "intent": "commercial", "active": true, "text": "auto huren Ibiza all inclusive" },
+    { "id": "clubtickets-nl",        "lang": "nl", "intent": "commercial", "active": true, "text": "Ibiza clubtickets kopen" },
+
+    { "id": "boot-mieten-de",        "lang": "de", "intent": "commercial", "active": true, "text": "Boot mieten Ibiza ohne Führerschein" },
+    { "id": "mietwagen-de",          "lang": "de", "intent": "commercial", "active": true, "text": "Mietwagen Ibiza Flughafen" }
+  ]
+}

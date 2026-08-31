@@ -1,9 +1,46 @@
-'use client';
+import Image from 'next/image'
+import Link from 'next/link'
+import { MessageCircle, ArrowRight } from 'lucide-react'
+import type { BoatCategory } from '@/lib/boat-categories'
+import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 
-import React from 'react';
-import Link from 'next/link';
-import { Anchor, Navigation, Waves, Users, Ship, ArrowRight, MessageCircle } from 'lucide-react';
-import '@/styles/boats.css';
+/**
+ * The boats hub.
+ *
+ * ── What changed and why ──────────────────────────────────────────────────
+ * This was a client component rendering five identical cards, each with a
+ * Lucide icon on a flat panel. Two problems, and the second is the expensive
+ * one:
+ *
+ *  1. `"use client"` on a page whose only interactivity is a native <details>.
+ *     Nothing here needs JavaScript, and this site's whole premise is being
+ *     readable by crawlers that run none. It is a server component now.
+ *
+ *  2. Five equal cards with icons made a DJ boat party, a quiet cove cruise, a
+ *     private yacht, a beach shuttle and a Formentera ferry look like the same
+ *     product. The only job of a hub page is to route someone to the right one
+ *     of five, and an icon of a boat next to an icon of a boat routes nobody.
+ *
+ * So: real photography per category, pulled from the same venue data that sits
+ * behind each link (see src/lib/boat-categories.ts), and an asymmetric grid —
+ * two wide cards, then three — rather than a uniform row. The wide pair carries
+ * the two categories people actually arrive for; the trio below is transport,
+ * which is a decision, not a daydream.
+ *
+ * ── Colour ────────────────────────────────────────────────────────────────
+ * Tokens from tailwind.config.ts, not invented: `gold` fills surfaces and
+ * `gold-soft` writes on dark ones — the config measures gold on obsidian at
+ * 3.68:1, which fails AA for text. The photographs supply the colour; the
+ * chrome stays neutral so they can.
+ *
+ * Hover motion is behind `motion-safe:`, so a visitor with reduced-motion set
+ * gets the colour change without the zoom.
+ */
+
+export interface BoatsHubProps {
+  locale: string
+  covers: Record<BoatCategory, string | null>
+}
 
 // ── Full 5-locale copy for the boats hub ──
 interface BoatsLabels {
@@ -116,105 +153,218 @@ const I18N: Record<string, BoatsLabels> = {
     ],
   },
 };
+/** Alt text per category, in the page language — describes the photo's subject. */
+const ALT: Record<string, Record<BoatCategory, string>> = {
+  nl: {
+    'boat-party': 'Bootfeest op zee voor de kust van Ibiza',
+    'boat-trip': 'Boottocht langs een baai op Ibiza',
+    'private-boat-charters': 'Privéjacht uit onze vloot op Ibiza',
+    'shuttle-ferry': 'Shuttleboot naar een strand op Ibiza',
+    'ferry-formentera': 'Ferry tussen Ibiza en Formentera',
+  },
+  en: {
+    'boat-party': 'Boat party at sea off the Ibiza coast',
+    'boat-trip': 'Boat trip along a cove in Ibiza',
+    'private-boat-charters': 'Private yacht from our Ibiza fleet',
+    'shuttle-ferry': 'Shuttle boat to a beach in Ibiza',
+    'ferry-formentera': 'Ferry between Ibiza and Formentera',
+  },
+  de: {
+    'boat-party': 'Bootsparty auf See vor der Küste Ibizas',
+    'boat-trip': 'Bootstour entlang einer Bucht auf Ibiza',
+    'private-boat-charters': 'Privatyacht aus unserer Flotte auf Ibiza',
+    'shuttle-ferry': 'Shuttleboot zu einem Strand auf Ibiza',
+    'ferry-formentera': 'Fähre zwischen Ibiza und Formentera',
+  },
+  es: {
+    'boat-party': 'Fiesta en barco en la costa de Ibiza',
+    'boat-trip': 'Excursión en barco por una cala de Ibiza',
+    'private-boat-charters': 'Yate privado de nuestra flota en Ibiza',
+    'shuttle-ferry': 'Barco lanzadera a una playa de Ibiza',
+    'ferry-formentera': 'Ferry entre Ibiza y Formentera',
+  },
+  fr: {
+    'boat-party': 'Boat party en mer au large d’Ibiza',
+    'boat-trip': 'Sortie en bateau le long d’une crique à Ibiza',
+    'private-boat-charters': 'Yacht privé de notre flotte à Ibiza',
+    'shuttle-ferry': 'Navette maritime vers une plage d’Ibiza',
+    'ferry-formentera': 'Ferry entre Ibiza et Formentera',
+  },
+}
 
-const PlusIcon = () => (
-  <span className="pm">
-    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" fill="none" strokeWidth="2.4"/></svg>
-  </span>
-);
+interface Card {
+  key: BoatCategory
+  href: string
+  tag: string
+  title: string
+  text: string
+  cta: string
+  /** Wide cards lead the grid; the rest are the transport row. */
+  feature?: boolean
+}
 
-export default function BoatsClient({ locale = 'nl' }: { locale?: string; dict?: any }) {
-  const T = I18N[locale] || I18N.en;
-  const base = `/${locale}`;
+function CategoryCard({
+  card,
+  cover,
+  alt,
+  priority,
+}: {
+  card: Card
+  cover: string | null
+  alt: string
+  priority: boolean
+}) {
+  return (
+    <Link
+      href={card.href}
+      className={`group relative flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white outline-none transition-shadow hover:shadow-xl focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
+        card.feature ? 'lg:col-span-3' : 'lg:col-span-2'
+      }`}
+    >
+      <div className={`relative w-full overflow-hidden bg-neutral-200 ${card.feature ? 'aspect-[16/10]' : 'aspect-[16/11]'}`}>
+        {cover ? (
+          <Image
+            src={cover}
+            alt={alt}
+            fill
+            priority={priority}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.04]"
+          />
+        ) : (
+          // No usable photo in the feed — a flat panel rather than a broken image.
+          <div className="absolute inset-0 bg-obsidian-light" />
+        )}
+        {/* Scrim: the tag sits on photography, so it needs a guaranteed ground. */}
+        <div aria-hidden className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 to-transparent" />
+        <span className="absolute left-4 top-4 rounded-full bg-black/55 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-sm">
+          {card.tag}
+        </span>
+      </div>
 
-  const cards = [
-    { href: `${base}/boat-party`, icon: <Anchor size={24} />, tag: T.partiesTag, title: T.partiesTitle, text: T.partiesText, cta: T.discover },
-    { href: `${base}/boat-trip`, icon: <Navigation size={24} />, tag: T.tripsTag, title: T.tripsTitle, text: T.tripsText, cta: T.view },
-    { href: `${base}/private-boat-charters`, icon: <Users size={24} />, tag: T.charterTag, title: T.charterTitle, text: T.charterText, cta: T.request },
-    { href: `${base}/shuttle-ferry`, icon: <Waves size={24} />, tag: T.shuttleTag, title: T.shuttleTitle, text: T.shuttleText, cta: T.tickets },
-    { href: `${base}/ferry-formentera`, icon: <Ship size={24} />, tag: T.ferryTag, title: T.ferryTitle, text: T.ferryText, cta: T.view },
-  ];
+      <div className="flex flex-1 flex-col p-6">
+        {/* h2, not h3: these five categories are the page's top-level sections,
+            and with nothing between them and the h1 an h3 would skip a level —
+            which is both a real screen-reader problem and what check:onpage
+            flagged here. */}
+        <h2 className={`font-serif font-black leading-tight tracking-tight text-neutral-900 ${card.feature ? 'text-xl md:text-2xl' : 'text-lg'}`}>
+          {card.title}
+        </h2>
+        <p className="mt-3 flex-1 text-[15px] leading-relaxed text-neutral-600">{card.text}</p>
+        <span className="mt-5 inline-flex items-center gap-2 font-serif text-[13px] font-black uppercase tracking-widest text-gold transition-colors group-hover:text-neutral-900">
+          {card.cta}
+          <ArrowRight size={16} className="transition-transform motion-safe:group-hover:translate-x-1" />
+        </span>
+      </div>
+    </Link>
+  )
+}
+
+export default function BoatsHub({ locale, covers }: BoatsHubProps) {
+  const T = I18N[locale] || I18N.en
+  const alt = ALT[locale] || ALT.en
+  const base = `/${locale}`
+
+  const cards: Card[] = [
+    { key: 'boat-party', href: `${base}/boat-party`, tag: T.partiesTag, title: T.partiesTitle, text: T.partiesText, cta: T.discover, feature: true },
+    { key: 'private-boat-charters', href: `${base}/private-boat-charters`, tag: T.charterTag, title: T.charterTitle, text: T.charterText, cta: T.request, feature: true },
+    { key: 'boat-trip', href: `${base}/boat-trip`, tag: T.tripsTag, title: T.tripsTitle, text: T.tripsText, cta: T.view },
+    { key: 'shuttle-ferry', href: `${base}/shuttle-ferry`, tag: T.shuttleTag, title: T.shuttleTitle, text: T.shuttleText, cta: T.tickets },
+    { key: 'ferry-formentera', href: `${base}/ferry-formentera`, tag: T.ferryTag, title: T.ferryTitle, text: T.ferryText, cta: T.view },
+  ]
 
   return (
     <>
-      <section className="boat-hero">
-        <div className="waveline">
-          <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style={{width:'100%', height:'100%'}}>
-            <path d="M0 30 Q 360 60 720 30 T 1440 30 V 60 H 0 Z" fill="rgba(255,255,255,0.1)"></path>
-            <path d="M0 40 Q 360 10 720 40 T 1440 40 V 60 H 0 Z" fill="rgba(255,255,255,0.2)"></path>
-          </svg>
+      {/* ── Hero ─────────────────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden bg-obsidian text-white">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-32 left-1/2 h-96 w-[42rem] -translate-x-1/2 rounded-full bg-gold/20 blur-[140px]"
+        />
+        {/* pt via --nav-h: de site-header is fixed (134px desktop / 116px mobiel).
+            Met een vaste py-16 verdween de kicker eronder — dat is wat er op de
+            oude versie van deze pagina misging. */}
+        <div className="relative mx-auto max-w-5xl px-4 pb-16 pt-[calc(var(--nav-h)+40px)] md:pb-24 md:pt-[calc(var(--nav-h)+64px)]">
+          <p className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.28em] text-gold-soft">
+            <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-gold-soft" />
+            {T.eyebrow}
+          </p>
+          <h1 className="mt-5 max-w-3xl font-serif text-4xl font-black leading-[1.05] tracking-tight md:text-6xl">
+            {T.h1}
+          </h1>
+          <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-white/75 md:text-lg">{T.lead}</p>
         </div>
-        <div className="inner">
-          <div className="eyebrow"><div className="dot"></div> {T.eyebrow}</div>
-          <h1>{T.h1}</h1>
-          <p className="lead">{T.lead}</p>
-        </div>
+        <svg aria-hidden viewBox="0 0 1440 60" preserveAspectRatio="none" className="block h-10 w-full text-white md:h-14">
+          <path d="M0 30 Q 360 60 720 30 T 1440 30 V 60 H 0 Z" fill="currentColor" opacity="0.12" />
+          <path d="M0 42 Q 360 14 720 42 T 1440 42 V 60 H 0 Z" fill="currentColor" />
+        </svg>
       </section>
 
-      <section className="block">
-        <div className="wrap">
-          <div className="hubgrid">
-            {cards.map((c) => (
-              <Link key={c.href} href={c.href} className="hubcard in">
-                <div className="media">
-                  <div className="bigicon">{c.icon}</div>
-                  <div className="mtag">{c.tag}</div>
-                </div>
-                <div className="body">
-                  <h3>{c.title}</h3>
-                  <p>{c.text}</p>
-                  <span className="go">{c.cta} <ArrowRight size={17} /></span>
-                </div>
-              </Link>
+      {/* ── Category grid — 2 wide, then 3 ───────────────────────────────── */}
+      <section className="bg-white py-14 text-neutral-900 md:py-16">
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
+            {cards.map((c, i) => (
+              <CategoryCard key={c.key} card={c} cover={covers[c.key]} alt={alt[c.key]} priority={i < 2} />
             ))}
           </div>
         </div>
       </section>
 
-      <section className="block alt">
-        <div className="wrap">
-          <div className="wa-band">
-            <svg className="wave-deco" viewBox="0 0 100 100" fill="currentColor">
-              <path d="M0 50 Q 25 25 50 50 T 100 50 V 100 H 0 Z" />
-            </svg>
-            <div>
-              <div className="kicker" style={{color:'var(--green)'}}>{T.waKicker}</div>
-              <h2>{T.waTitle}</h2>
-              <p>{T.waText}</p>
+      {/* ── WhatsApp band ────────────────────────────────────────────────── */}
+      <section className="bg-white pb-16 text-neutral-900">
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="flex flex-col gap-6 rounded-3xl bg-obsidian p-7 text-white md:flex-row md:items-center md:justify-between md:p-10">
+            <div className="max-w-xl">
+              <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold-soft">{T.waKicker}</p>
+              <h2 className="mt-3 font-serif text-2xl font-black tracking-tight md:text-3xl">{T.waTitle}</h2>
+              <p className="mt-3 text-[15px] leading-relaxed text-white/75">{T.waText}</p>
             </div>
-            <a className="wa-big" href="https://wa.me/33666528412" target="_blank" rel="noreferrer">
-              <MessageCircle size={22} fill="var(--sage)" stroke="none" /> {T.waBtn}
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit shrink-0 items-center gap-2.5 rounded-full bg-gold px-7 py-4 font-serif text-[13px] font-black uppercase tracking-widest text-white outline-none transition-colors hover:bg-gold-soft hover:text-obsidian focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
+            >
+              <MessageCircle size={19} />
+              {T.waBtn}
             </a>
           </div>
         </div>
       </section>
 
-      <section className="block">
-        <div className="wrap intro-seo">
-          <h2>{T.seoTitle}</h2>
-          <p>{T.seoP1}</p>
-          <p>{T.seoP2}</p>
+      {/* ── Editorial ────────────────────────────────────────────────────── */}
+      <section className="border-t border-black/5 bg-white py-14 text-neutral-900">
+        <div className="mx-auto max-w-3xl px-4">
+          <h2 className="font-serif text-2xl font-black tracking-tight md:text-3xl">{T.seoTitle}</h2>
+          <p className="mt-4 text-[16px] leading-relaxed text-neutral-700">{T.seoP1}</p>
+          <p className="mt-4 text-[16px] leading-relaxed text-neutral-700">{T.seoP2}</p>
         </div>
       </section>
 
-      <section className="block alt">
-        <div className="wrap">
-          <div className="sec-head">
-            <div className="l">
-              <div className="kicker">{T.faqKicker}</div>
-              <h2>{T.faqTitle}</h2>
-            </div>
-          </div>
-          <div className="faq">
+      {/* ── FAQ — native <details>, readable with no JavaScript ──────────── */}
+      <section className="border-t border-black/5 bg-neutral-50 py-14 text-neutral-900">
+        <div className="mx-auto max-w-3xl px-4">
+          <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-gold">{T.faqKicker}</p>
+          <h2 className="mt-2 font-serif text-2xl font-black tracking-tight md:text-3xl">{T.faqTitle}</h2>
+          <div className="mt-7 divide-y divide-black/8 border-y border-black/8">
             {T.faqs.map((f, i) => (
-              <details key={i} open={i === 0}>
-                <summary>{f.q}<PlusIcon /></summary>
-                <div className="ans">{f.a}</div>
+              <details key={i} className="group !bg-transparent !border-0 !px-0 !py-1">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left font-serif text-base font-bold normal-case leading-snug tracking-normal text-neutral-900 marker:hidden">
+                  {f.q}
+                  <span
+                    aria-hidden
+                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-neutral-500 transition-transform group-open:rotate-45 group-open:border-gold group-open:text-gold"
+                  >
+                    +
+                  </span>
+                </summary>
+                <p className="!mt-0 pb-5 pr-11 text-[15px] leading-relaxed !text-neutral-600">{f.a}</p>
               </details>
             ))}
           </div>
         </div>
       </section>
     </>
-  );
+  )
 }
