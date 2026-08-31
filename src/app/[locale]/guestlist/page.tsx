@@ -22,8 +22,35 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 type T = Record<Locale, string>
 const L = (nl: string, en: string, de: string, es: string, fr: string): T => ({ nl, en, de, es, fr })
 
-const KICKER: T = L('VIP Package Deals', 'VIP Package Deals', 'VIP Package Deals', 'VIP Package Deals', 'VIP Package Deals')
-const TITLE: T = L('Ibiza package deals & guestlist', 'Ibiza package deals & club guestlist', 'Ibiza Package Deals & Guestlist', 'Package deals y guestlist en Ibiza', 'Package deals & guestlist à Ibiza')
+/**
+ * Kop van de pagina: één onderwerp, en dat is de gastenlijst.
+ *
+ * De H1 was 'Ibiza package deals & guestlist' met daarboven de kicker 'VIP
+ * Package Deals'. Twee bezwaren, en het tweede is het echte:
+ *
+ *  1. Het woord waarop deze pagina gevonden wordt — guestlist — stond
+ *     achteraan, achter een term die vooral intern gebruikt wordt.
+ *  2. Een kop die twee dingen aankondigt, gaat over geen van beide. Voor een
+ *     antwoordmachine die moet bepalen waar deze pagina hét antwoord op is, is
+ *     "package deals én guestlist" precies zo bruikbaar als "van alles".
+ *
+ * Package deals verdwijnen niet van de pagina — de PackageDealPicker staat er
+ * gewoon nog, en ANSWER noemt ze als het alternatief wanneer de lijst vol is.
+ * Ze zijn alleen niet langer de kop. Dat klopt ook met de werkelijkheid: dit is
+ * /guestlist, en de pakketten zijn wat je aangeboden krijgt als de lijst niet
+ * lukt.
+ *
+ * "Ibiza" blijft staan. De vraag was om er enkel "Guestlist" van te maken, maar
+ * kaal is dat geen onderwerp waar een model iets mee kan: guestlists bestaan in
+ * elke stad. "Ibiza guestlist" is de entiteit waar naar gezocht wordt, en het
+ * weglaten van de plaats zou juist kosten wat deze wijziging moet opleveren.
+ *
+ * De kicker herhaalt de kop niet maar vult hem aan met de twee feiten die de
+ * meeste twijfel wegnemen: het kost niets en het loopt via WhatsApp. Allebei
+ * gedekt door ANSWER hieronder, dus geen belofte die nergens op steunt.
+ */
+const KICKER: T = L('Gratis aanmelden via WhatsApp', 'Free sign-up via WhatsApp', 'Kostenlos anmelden per WhatsApp', 'Apúntate gratis por WhatsApp', 'Inscription gratuite via WhatsApp')
+const TITLE: T = L('Ibiza guestlist', 'Ibiza guestlist', 'Ibiza Gästeliste', 'Guestlist de Ibiza', 'Guestlist Ibiza')
 const INTRO: T = L(
   'Naar binnen bij de beste clubs van Ibiza — zonder rij, zonder gedoe. Simon zet je naam op de lijst via WhatsApp en vertelt je vooraf precies wat er die avond geldt.',
   'Get into Ibiza’s best clubs — no queue, no hassle. Simon puts your name on the list via WhatsApp and tells you beforehand exactly what applies that night.',
