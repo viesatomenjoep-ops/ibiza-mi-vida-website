@@ -3,9 +3,11 @@ import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
 import { HubHero, PriceTable, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { Proof } from '@/components/hub/Proof'
+import { AffiliateLink } from '@/components/hub/AffiliateLink'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { localizedAlternates } from '@/lib/route-slugs'
 import { RENTAL_PRICES } from '@/lib/rental-prices'
+import { CLICKANDBOAT_URL } from '@/lib/partners'
 import { contentUpdated } from '@/lib/content-dates'
 import { SITE_NAME, type Locale } from '@/lib/seo'
 
@@ -96,6 +98,14 @@ export default function BoatWithSkipperPage() {
           'The second thing is timing. Arriving at Cala Comte at eleven in August means circling for a spot; arriving at nine or at five means anchoring where you want. Skippers plan the day around that as a matter of course, and it is the sort of thing you only learn by getting it wrong once.',
         ]}
       />
+
+      <div className="border-t border-black/5 bg-white pb-14 text-neutral-900">
+        <div className="mx-auto max-w-4xl px-4">
+          <AffiliateLink href={CLICKANDBOAT_URL} partner="Click&Boat" locale={LOCALE}>
+            See skippered boats on Click&Boat
+          </AffiliateLink>
+        </div>
+      </div>
 
       <Proof locale={LOCALE} />
       <FaqAccordion faqs={FAQS} locale={LOCALE} />

@@ -7,6 +7,7 @@ import { Proof } from '@/components/hub/Proof'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { localizedAlternates } from '@/lib/route-slugs'
 import { RENTAL_PRICES } from '@/lib/rental-prices'
+import { CLICKANDBOAT_URL } from '@/lib/partners'
 import { contentUpdated } from '@/lib/content-dates'
 import { SITE_NAME, type Locale } from '@/lib/seo'
 
@@ -129,6 +130,8 @@ export default function BootMietenIbizaPage() {
         locale={LOCALE}
         intro="Wir sind ein lokales Team auf Ibiza. Die Boote kommen über Click&Boat, Europas größte Bootsvermietungsplattform mit über 55.000 Booten — deshalb finden wir meist noch etwas an einem Datum, das ausgebucht aussieht."
         partner="Click&Boat"
+        partnerHref={CLICKANDBOAT_URL}
+        partnerCta="Verfügbarkeit bei Click&Boat prüfen"
         points={[
           { title: 'Versicherung', body: 'Jedes Boot ist vom Eigner oder Betreiber versichert; das ist Voraussetzung für die Listung. Haftpflicht ist Standard. Was variiert, ist die Selbstbeteiligung — nach der Zahl solltest du fragen, bevor du unterschreibst.' },
           { title: 'Die Kaution', body: 'Auf der Kreditkarte des Hauptmieters geblockt, freigegeben nach unbeschädigter Rückgabe. Die Höhe skaliert mit dem Wert des Bootes und wird dir vorher genannt. Echte Kreditkarte mitbringen.' },

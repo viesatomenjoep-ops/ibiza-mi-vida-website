@@ -7,6 +7,7 @@ import { Proof } from '@/components/hub/Proof'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { localizedAlternates } from '@/lib/route-slugs'
 import { RENTAL_PRICES } from '@/lib/rental-prices'
+import { CLICKANDBOAT_URL } from '@/lib/partners'
 import { contentUpdated } from '@/lib/content-dates'
 import { SITE_NAME, type Locale } from '@/lib/seo'
 
@@ -129,6 +130,8 @@ export default function AlquilerBarcoIbizaPage() {
         locale={LOCALE}
         intro="Somos un equipo local en Ibiza. Los barcos llegan a través de Click&Boat, la mayor plataforma de alquiler de barcos de Europa con más de 55.000 embarcaciones — por eso solemos encontrar algo libre en fechas que parecen completas."
         partner="Click&Boat"
+        partnerHref={CLICKANDBOAT_URL}
+        partnerCta="Consultar disponibilidad en Click&Boat"
         points={[
           { title: 'Seguro', body: 'Cada barco está asegurado por su propietario o armador; es requisito para aparecer en la plataforma. La responsabilidad civil es estándar. Lo que cambia es la franquicia, y ese es el dato que conviene preguntar antes de firmar.' },
           { title: 'La fianza', body: 'Bloqueada en la tarjeta de crédito del arrendatario principal y liberada al devolver el barco sin daños. El importe va con el valor del barco y te lo dicen antes. Lleva tarjeta de crédito real.' },

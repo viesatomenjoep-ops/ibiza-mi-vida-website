@@ -3,9 +3,11 @@ import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
 import { HubHero, PriceTable, ItemGrid, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { Proof } from '@/components/hub/Proof'
+import { AffiliateLink } from '@/components/hub/AffiliateLink'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { localizedAlternates } from '@/lib/route-slugs'
 import { RENTAL_PRICES } from '@/lib/rental-prices'
+import { CLICKANDBOAT_URL } from '@/lib/partners'
 import { contentUpdated } from '@/lib/content-dates'
 import { SITE_NAME, type Locale } from '@/lib/seo'
 
@@ -108,6 +110,14 @@ export default function BoatHireNoLicencePage() {
           { name: 'San Antonio bay', body: 'The bay itself is the fallback and it is not a consolation prize: flat water, easy anchoring, and close enough to go back for lunch.' },
         ]}
       />
+
+      <div className="border-t border-black/5 bg-white pb-14 text-neutral-900">
+        <div className="mx-auto max-w-4xl px-4">
+          <AffiliateLink href={CLICKANDBOAT_URL} partner="Click&Boat" locale={LOCALE}>
+            See licence-free boats on Click&Boat
+          </AffiliateLink>
+        </div>
+      </div>
 
       <Proof locale={LOCALE} />
       <FaqAccordion faqs={FAQS} locale={LOCALE} />

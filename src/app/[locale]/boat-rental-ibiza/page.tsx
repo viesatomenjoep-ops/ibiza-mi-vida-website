@@ -7,6 +7,7 @@ import { Proof } from '@/components/hub/Proof'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { localizedAlternates } from '@/lib/route-slugs'
 import { RENTAL_PRICES } from '@/lib/rental-prices'
+import { CLICKANDBOAT_URL } from '@/lib/partners'
 import { contentUpdated } from '@/lib/content-dates'
 import { SITE_NAME, type Locale } from '@/lib/seo'
 
@@ -256,6 +257,8 @@ export default function BoatRentalIbizaPage() {
         locale={LOCALE}
         intro="We are a local team on Ibiza. The boats themselves come from Click&Boat, Europe's largest boat rental platform, with more than 55,000 boats listed across its markets — which is why we can usually find something free on a date that looks fully booked."
         partner="Click&Boat"
+        partnerHref={CLICKANDBOAT_URL}
+        partnerCta="Check availability on Click&Boat"
         points={[
           {
             title: 'Insurance',

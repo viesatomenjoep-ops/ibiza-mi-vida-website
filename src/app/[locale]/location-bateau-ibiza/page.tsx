@@ -7,6 +7,7 @@ import { Proof } from '@/components/hub/Proof'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { localizedAlternates } from '@/lib/route-slugs'
 import { RENTAL_PRICES } from '@/lib/rental-prices'
+import { CLICKANDBOAT_URL } from '@/lib/partners'
 import { contentUpdated } from '@/lib/content-dates'
 import { SITE_NAME, type Locale } from '@/lib/seo'
 
@@ -129,6 +130,8 @@ export default function LocationBateauIbizaPage() {
         locale={LOCALE}
         intro="Nous sommes une équipe locale à Ibiza. Les bateaux viennent de Click&Boat, la plus grande plateforme de location de bateaux d’Europe avec plus de 55 000 bateaux — c’est pourquoi nous trouvons souvent quelque chose de libre sur une date qui paraît complète."
         partner="Click&Boat"
+        partnerHref={CLICKANDBOAT_URL}
+        partnerCta="Voir les disponibilités sur Click&Boat"
         points={[
           { title: 'Assurance', body: 'Chaque bateau est assuré par son propriétaire ou son exploitant, condition pour figurer sur la plateforme. La responsabilité civile est standard. Ce qui varie, c’est la franchise — c’est le chiffre à demander avant de signer.' },
           { title: 'La caution', body: 'Bloquée sur la carte de crédit du locataire principal, libérée au retour du bateau sans dommage. Le montant suit la valeur du bateau et vous est annoncé avant. Prévoyez une vraie carte de crédit.' },

@@ -7,6 +7,7 @@ import { Proof } from '@/components/hub/Proof'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { localizedAlternates } from '@/lib/route-slugs'
 import { RENTAL_PRICES } from '@/lib/rental-prices'
+import { CLICKANDBOAT_URL } from '@/lib/partners'
 import { contentUpdated } from '@/lib/content-dates'
 import { SITE_NAME, type Locale } from '@/lib/seo'
 
@@ -233,6 +234,8 @@ export default function BootHurenIbizaPage() {
         locale={LOCALE}
         intro="Wij zijn een lokaal team op Ibiza. De boten zelf komen via Click&Boat, het grootste botenverhuurplatform van Europa met meer dan 55.000 boten — daarom vinden we meestal nog iets vrij op een datum die volgeboekt oogt."
         partner="Click&Boat"
+        partnerHref={CLICKANDBOAT_URL}
+        partnerCta="Bekijk beschikbaarheid op Click&Boat"
         points={[
           { title: 'Verzekering', body: 'Elke boot is door de eigenaar of exploitant verzekerd; dat is een voorwaarde om vermeld te mogen staan. WA-dekking is standaard. Wat verschilt is het eigen risico, en dát is het getal om naar te vragen voordat je tekent.' },
           { title: 'De borg', body: 'Geblokkeerd op de creditcard van de hoofdhuurder, vrijgegeven zodra de boot onbeschadigd terug is. Het bedrag schaalt mee met de waarde van de boot en je hoort het vooraf. Neem een echte creditcard mee — een debitcard wordt bij de meeste bases geweigerd.' },

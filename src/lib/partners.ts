@@ -36,6 +36,32 @@ export const WIBER_URL =
   process.env.NEXT_PUBLIC_WIBER_AFFILIATE_URL ??
   'https://www.awin1.com/cread.php?s=4715915&v=124596&q=598784&r=3064911'
 
+/**
+ * Click&Boat, via Impact (pxf.io).
+ *
+ * From the Click&Boat creative: 7702481 is our Impact account id, 3995680 the
+ * ad, 19914 the campaign. The account id matches the Impact universal tracking
+ * tag already loaded in src/components/consent/ConsentScripts.tsx
+ * (P-A7702481-…), so clicks and the site-wide tag report into the same place.
+ *
+ * Two parts of Impact's creative are deliberately NOT used:
+ *
+ *  • the `imp.pxf.io/i/…` impression pixel — a 0×0 tracking image that fires on
+ *    page load for every visitor. That is a consent question under GDPR, not a
+ *    click, and the UTT above is already consent-gated; adding an ungated pixel
+ *    beside it would undo that work. The click link tracks the commission on
+ *    its own, which is what we are paid on.
+ *
+ *  • the `a.impactradius-go.com` iframe ad unit — it renders Impact's banner
+ *    instead of our own CTA, in a third-party frame we cannot style, that
+ *    shifts layout and is invisible to a crawler that runs no JavaScript. On a
+ *    site built to be readable without JS, an iframe ad is the one shape of CTA
+ *    that cannot work.
+ */
+export const CLICKANDBOAT_URL =
+  process.env.NEXT_PUBLIC_CLICKANDBOAT_AFFILIATE_URL ??
+  'https://click-and-boat.pxf.io/c/7702481/3995680/19914'
+
 /** ClubTickets affiliate base. Existing links elsewhere in the app use ct-link.ts. */
 export const CLUBTICKETS_URL =
   process.env.NEXT_PUBLIC_CLUBTICKETS_AFFILIATE_URL ?? 'https://www.clubtickets.com/'

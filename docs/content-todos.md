@@ -80,10 +80,18 @@ together.
   impression pixel, which we deliberately do **not** render: it fires for every
   visitor on page load, which is a consent question under GDPR rather than a
   click, and the `cread.php` link tracks the commission on its own.
+- **Click&Boat (Impact)** — wired in `src/lib/partners.ts` using the deeplink
+  `click-and-boat.pxf.io/c/7702481/3995680/19914`. The account id `7702481`
+  matches the Impact universal tracking tag already loaded (consent-gated) in
+  `ConsentScripts.tsx`. Impact's `imp.pxf.io` impression pixel and its
+  `impactradius-go.com` iframe ad unit are deliberately not rendered — the
+  pixel would fire ungated for every visitor beside a tag we consent-gate, and
+  an iframe ad is invisible to a crawler that runs no JavaScript.
 - **ClubTickets** — `CLUBTICKETS_URL` currently points at the plain
   `clubtickets.com` homepage. If there is an affiliate deeplink with our
   publisher id, send it and it replaces the constant. As it stands, clicks from
-  `/en/ibiza-club-tickets` are **not tracked to us**.
+  `/en/ibiza-club-tickets` are **not tracked to us**. This is now the only
+  untracked partner.
 
 Both are rendered through `<AffiliateLink>`, which hardcodes
 `rel="sponsored noopener noreferrer"` and a visible disclosure. Never link to a
