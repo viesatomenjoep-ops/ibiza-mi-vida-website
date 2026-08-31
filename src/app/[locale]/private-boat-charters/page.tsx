@@ -8,6 +8,7 @@ import PrivateBoatChartersClient from './PrivateBoatChartersClient'
 import { PageFaq } from '@/components/seo/PageFaq'
 import { BoatAdviceCta } from '@/components/boats/BoatAdviceCta'
 import { SailingRoutes } from '@/components/boats/SailingRoutes'
+import { BoatRentalPromo } from '@/components/hub/BoatRentalPromo'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 
 export const revalidate = 3600
@@ -72,6 +73,7 @@ export default async function PrivateBoatChartersPage({ params: { locale } }: { 
       <FleetPriceBlock locale={l} />
       <SailingRoutes locale={locale} />
       <BoatAdviceCta locale={locale} />
+      <BoatRentalPromo locale={locale} />
       <PageFaq pageKey="private-boat-charters" locale={locale} />
       <AuthorByline locale={locale} topic="private boat charters in Ibiza" />
     </>

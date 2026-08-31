@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { ServiceSchema } from '@/components/seo/ServiceSchema'
 import { SERVICE_COPY } from '@/lib/service-schema-copy'
+import { BoatRentalPromo } from '@/components/hub/BoatRentalPromo'
 import { PageFaq } from '@/components/seo/PageFaq'
 import { QuickFacts } from '@/components/water/QuickFacts'
 import { AuthorByline } from '@/components/seo/AuthorByline'
@@ -71,6 +72,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
       events={events}
       venues={venues}
     />
+    <BoatRentalPromo locale={params.locale} />
     <QuickFacts pageKey="boat-party" locale={params.locale} />
     <PageFaq pageKey="boat-party" locale={params.locale} />
     <AuthorByline locale={params.locale} topic="Ibiza boat parties" />

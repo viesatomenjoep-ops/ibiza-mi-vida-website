@@ -5,6 +5,7 @@ import { getDictionary } from '@/lib/dictionary'
 import HomePageClient from './HomePageClient'
 import { HomeJsonLd } from '@/components/seo/HomeJsonLd'
 import { CarRentalPromo } from '@/components/hub/CarRentalPromo'
+import { BoatRentalPromo } from '@/components/hub/BoatRentalPromo'
 import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { HOME_TITLE, HOME_DESC } from '@/lib/seo-pages'
 import { FLEET } from '@/data/fleet'
@@ -285,6 +286,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
     />
     {/* Server-gerenderd, buiten de client-shell: autoverhuur is commerciële
         content die een crawler zonder JavaScript moet kunnen lezen. */}
+    <BoatRentalPromo locale={params.locale} />
     <CarRentalPromo locale={params.locale} />
     </>
   )

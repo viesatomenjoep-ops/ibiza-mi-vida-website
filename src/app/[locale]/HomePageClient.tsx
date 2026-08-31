@@ -14,7 +14,6 @@ import { HeroShowIntro } from '@/components/home/HeroShowIntro';
 import { HomeCategoryCarousel } from '@/components/home/HomeCategoryCarousel';
 import { HomeUSP } from '@/components/home/HomeUSP';
 import { HomeInstagram } from '@/components/home/HomeInstagram';
-import { HomeTikTok } from '@/components/home/HomeTikTok';
 import { HomeNewsletter } from '@/components/home/HomeNewsletter';
 import { HomeFaq } from '@/components/home/HomeFaq';
 import { ArrowCircle } from '@/components/ui/ArrowCircle';
@@ -358,8 +357,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       {/* INSTAGRAM — the island's vibe on your feed */}
       <HomeInstagram locale={locale} />
-
-      <HomeTikTok locale={locale} />
 
       {/* NEWSLETTER — lead capture */}
       <HomeNewsletter locale={locale} />
