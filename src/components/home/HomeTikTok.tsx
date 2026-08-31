@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { Reveal } from '@/components/ui/Reveal'
+import { SocialBrandMark } from '@/components/home/SocialBrandMark'
 import { getConsent, CONSENT_EVENT } from '@/lib/consent'
 
 type L = Record<string, string>
@@ -105,7 +106,8 @@ export function HomeTikTok({ locale = 'nl' }: { locale?: string }) {
     <section className="border-t border-black/5 bg-white py-12 text-neutral-900 md:py-16">
       <Reveal className="mx-auto max-w-7xl px-4">
         <div className="flex flex-col items-center text-center">
-          <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">
+          <SocialBrandMark />
+          <span className="mt-4 text-[11px] font-bold uppercase tracking-[0.28em] text-gold">
             {t(KICKER, locale)}
           </span>
           <h2 className="mt-3 font-serif text-[1.625rem] font-black tracking-tight text-neutral-900 md:text-4xl">

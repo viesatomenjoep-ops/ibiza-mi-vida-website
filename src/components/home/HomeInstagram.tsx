@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { Instagram } from 'lucide-react'
 import { Reveal } from '@/components/ui/Reveal'
+import { SocialBrandMark } from '@/components/home/SocialBrandMark'
 
 type L = Record<string, string>
 const t = (m: L, locale: string) => m[locale] || m.en
@@ -84,7 +85,8 @@ export function HomeInstagram({ locale = 'nl' }: { locale?: string }) {
     <section className="bg-white text-neutral-900 py-12 md:py-16 border-t border-black/5">
       <Reveal className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col items-center text-center">
-          <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">
+          <SocialBrandMark />
+          <span className="mt-4 text-[11px] font-bold uppercase tracking-[0.28em] text-gold">
             {t(KICKER, locale)}
           </span>
           <h2 className="mt-3 font-serif text-[1.625rem] md:text-4xl font-black tracking-tight text-neutral-900">
