@@ -28,6 +28,14 @@ export const CONTENT_UPDATED: Record<string, string> = {
   contact: '2026-08-30',
   // Keyword pillar pages, written from scratch.
   'boat-rental-ibiza': '2026-08-31',
+  'jet-ski-rental-ibiza': '2026-08-31',
+  'car-rental-ibiza': '2026-08-31',
+  'ibiza-club-tickets': '2026-08-31',
+  'ibiza-guestlist': '2026-08-31',
+  'boat-hire-ibiza-no-licence': '2026-08-31',
+  'boat-rental-with-skipper-ibiza': '2026-08-31',
+  'car-rental-ibiza-airport': '2026-08-31',
+  'convertible-car-rental-ibiza': '2026-08-31',
 }
 
 /** ISO date for a page key, or undefined if we have no honest date for it. */

@@ -126,6 +126,14 @@ function localizedEntriesFor(
  */
 const LOCALIZED_ROUTES: { key: RouteKey; priority: number; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
   { key: 'boat-rental', priority: 0.9, changeFrequency: 'weekly' },
+  { key: 'jet-ski-rental', priority: 0.8, changeFrequency: 'weekly' },
+  { key: 'car-rental', priority: 0.9, changeFrequency: 'weekly' },
+  { key: 'club-tickets-hub', priority: 0.9, changeFrequency: 'daily' },
+  { key: 'guestlist-hub', priority: 0.8, changeFrequency: 'weekly' },
+  { key: 'boat-no-licence', priority: 0.8, changeFrequency: 'weekly' },
+  { key: 'boat-with-skipper', priority: 0.8, changeFrequency: 'weekly' },
+  { key: 'car-rental-airport', priority: 0.7, changeFrequency: 'weekly' },
+  { key: 'convertible-rental', priority: 0.7, changeFrequency: 'weekly' },
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

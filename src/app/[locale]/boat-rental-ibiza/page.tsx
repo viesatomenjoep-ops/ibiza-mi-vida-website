@@ -304,7 +304,7 @@ export default function BoatRentalIbizaPage() {
           },
           {
             label: 'Boat parties in Ibiza',
-            href: 'boat-party-ibiza',
+            href: 'boat-party',
             body: 'The organised version: a ticket, a DJ and a crowd, instead of a boat to yourself.',
           },
           {

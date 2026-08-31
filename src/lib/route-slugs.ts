@@ -96,12 +96,19 @@ export const ROUTE_SLUGS: Record<RouteKey, SlugSet> = {
     fr: 'location-cabriolet-ibiza',
     es: 'alquiler-descapotable-ibiza',
   },
+  // NOT 'boat-party-ibiza'. A page already exists at /[locale]/boat-party with
+  // its own copy, FAQ and Service schema. Publishing a second page about boat
+  // parties on a keyword slug would put two of our own URLs in front of the
+  // same query — they split each other's links and Google picks one, usually
+  // not the one you wanted. The existing route stays canonical; if the keyword
+  // slug is ever wanted, rename that route and 301 the old path rather than
+  // adding a second page.
   'boat-party': {
-    en: 'boat-party-ibiza',
-    nl: 'boat-party-ibiza',
-    de: 'boat-party-ibiza',
-    fr: 'boat-party-ibiza',
-    es: 'boat-party-ibiza',
+    en: 'boat-party',
+    nl: 'boat-party',
+    de: 'boat-party',
+    fr: 'boat-party',
+    es: 'boat-party',
   },
   'club-tickets-hub': {
     en: 'ibiza-club-tickets',
