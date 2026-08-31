@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ServiceSchema } from '@/components/seo/ServiceSchema'
+import { FleetPriceBlock } from '@/components/boats/FleetPriceBlock'
 import { SERVICE_COPY } from '@/lib/service-schema-copy'
 import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { getDictionary } from '@/lib/dictionary'
@@ -65,6 +66,10 @@ export default async function PrivateBoatChartersPage({ params: { locale } }: { 
     <>
       <ServiceSchema name={sc.name[l]} description={sc.description[l]} serviceType={sc.serviceType} path={`${l}/private-boat-charters`} />
       <PrivateBoatChartersClient locale={locale} />
+      {/* Direct onder de hero: "wat kost het" is de eerste vraag, en het
+          antwoord stond nergens op de pagina. Ranges uit de eigen vloot,
+          niet als marktcijfer — zie FleetPriceBlock voor het waarom. */}
+      <FleetPriceBlock locale={l} />
       <SailingRoutes locale={locale} />
       <BoatAdviceCta locale={locale} />
       <PageFaq pageKey="private-boat-charters" locale={locale} />
