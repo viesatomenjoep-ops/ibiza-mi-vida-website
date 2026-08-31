@@ -85,8 +85,14 @@ export function Breadcrumbs({ items, locale }: { items: Crumb[]; locale: string 
   const l = loc(locale)
   if (items.length < 2) return null
   return (
+    // pt-[calc(var(--nav-h)+…)] omdat dit het EERSTE element op de pagina is en
+    // .site-header `position:fixed` staat: 134px op desktop, 116px op mobiel
+    // (globals.css). Zonder die compensatie schuift het kruimelpad — en daarmee
+    // de hele pagina — onder de navigatie, precies zoals het logo op de oude
+    // bootpagina over de kicker viel. --nav-h is de enige bron van waarheid;
+    // gebruik nooit een vast getal.
     <nav aria-label="Breadcrumb" className="border-b border-black/5 bg-white">
-      <ol className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-2 gap-y-1 px-4 py-3 text-[13px] text-neutral-500">
+      <ol className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-2 gap-y-1 px-4 pb-3 pt-[calc(var(--nav-h)+16px)] text-[13px] text-neutral-500">
         {items.map((c, i) => {
           const last = i === items.length - 1
           return (

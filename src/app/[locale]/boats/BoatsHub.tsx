@@ -281,7 +281,10 @@ export default function BoatsHub({ locale, covers }: BoatsHubProps) {
           aria-hidden
           className="pointer-events-none absolute -top-32 left-1/2 h-96 w-[42rem] -translate-x-1/2 rounded-full bg-gold/20 blur-[140px]"
         />
-        <div className="relative mx-auto max-w-5xl px-4 py-16 md:py-24">
+        {/* pt via --nav-h: de site-header is fixed (134px desktop / 116px mobiel).
+            Met een vaste py-16 verdween de kicker eronder — dat is wat er op de
+            oude versie van deze pagina misging. */}
+        <div className="relative mx-auto max-w-5xl px-4 pb-16 pt-[calc(var(--nav-h)+40px)] md:pb-24 md:pt-[calc(var(--nav-h)+64px)]">
           <p className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.28em] text-gold-soft">
             <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-gold-soft" />
             {T.eyebrow}
