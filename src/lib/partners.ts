@@ -73,3 +73,56 @@ export const CLICKANDBOAT_URL =
  * ourselves. A hand-written clubtickets.com URL looks identical, works
  * identically, and earns nothing.
  */
+
+/**
+ * Partner logo assets.
+ *
+ * ── Why these are null and not drawn ──────────────────────────────────────
+ * A logo is a trademark. Recreating one by hand — tracing it, approximating the
+ * wordmark in a similar typeface, generating something close — produces a fake
+ * that is wrong in ways the owner will notice, and using a mark you built
+ * yourself is a trademark problem rather than a design shortcut. So nothing
+ * here is invented.
+ *
+ * Both networks supply the official files to publishers precisely for this, and
+ * using them is covered by the affiliate agreement already in place:
+ *
+ *   • Wiber      — Awin dashboard → the Wiber ES advertiser → Creatives /
+ *                  Brand assets. Take the logo, not a banner.
+ *   • Click&Boat — Impact dashboard → Click&Boat → Ads / Assets, or their
+ *                  press-and-brand page.
+ *
+ * ── How to switch one on ──────────────────────────────────────────────────
+ * Drop the file in `public/partners/`, then fill in the entry below. That is
+ * the whole change: every surface that shows a partner picks it up at once,
+ * and until then each one renders the styled wordmark it renders today.
+ *
+ * `dark` is the version for our dark cards (obsidian ground), so it wants the
+ * white or reversed-out variant. `light` is for white sections. Give the real
+ * intrinsic width and height — Next's <Image> needs them to reserve space, and
+ * a wrong ratio squashes somebody's brand.
+ */
+export interface PartnerLogo {
+  /** Path under /public, e.g. '/partners/wiber-white.svg'. */
+  dark: string | null
+  light: string | null
+  width: number
+  height: number
+}
+
+export const PARTNER_LOGOS: Record<'wiber' | 'clickandboat', PartnerLogo> = {
+  wiber: {
+    // TODO: add from the Awin creative library — see the note above.
+    dark: null,
+    light: null,
+    width: 160,
+    height: 40,
+  },
+  clickandboat: {
+    // TODO: add from the Impact asset library — see the note above.
+    dark: null,
+    light: null,
+    width: 160,
+    height: 40,
+  },
+}

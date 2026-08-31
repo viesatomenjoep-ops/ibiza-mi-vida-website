@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { AffiliateLink } from '@/components/hub/AffiliateLink'
+import { PartnerLogo } from '@/components/partner/PartnerLogo'
+import type { PARTNER_LOGOS } from '@/lib/partners'
 import { WIBER_URL, CLICKANDBOAT_URL } from '@/lib/partners'
 import { slugFor } from '@/lib/route-slugs'
 import { RENTAL_PRICES } from '@/lib/rental-prices'
@@ -37,6 +39,9 @@ import { localeTag } from '@/lib/date-label'
 
 interface CardData {
   kicker: string
+  /** Key in PARTNER_LOGOS — renders the logo once the asset exists. */
+  logoKey: keyof typeof PARTNER_LOGOS
+  logoName: string
   heading: string
   lead: string
   points: string[]
@@ -52,7 +57,12 @@ interface CardData {
 function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
   return (
     <div className="flex flex-col rounded-3xl bg-obsidian p-7 text-white md:p-8">
-      <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-gold-soft">{data.kicker}</p>
+      {/* Toont het echte logo zodra het in public/partners staat; tot die tijd
+          de naam als wordmark. Zie PARTNER_LOGOS in lib/partners.ts. */}
+      <div className="flex h-7 items-center">
+        <PartnerLogo partner={data.logoKey} name={data.logoName} on="dark" />
+      </div>
+      <p className="mt-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white/45">{data.kicker}</p>
 
       <div className="mt-4 flex items-start justify-between gap-5">
         <h3 className="font-serif text-2xl font-black leading-tight tracking-tight text-white">{data.heading}</h3>
@@ -100,6 +110,8 @@ export function RentalsSection({ locale }: { locale: string }) {
 
   const boat: CardData = {
     kicker: BOAT_PROMO.kicker[l],
+    logoKey: 'clickandboat',
+    logoName: 'Click&Boat',
     heading: BOAT_PROMO.heading[l],
     lead: BOAT_PROMO.lead[l],
     points: BOAT_PROMO.points[l],
@@ -114,6 +126,8 @@ export function RentalsSection({ locale }: { locale: string }) {
 
   const car: CardData = {
     kicker: CAR_PROMO.kicker[l],
+    logoKey: 'wiber',
+    logoName: 'Wiber Rent a Car',
     heading: CAR_PROMO.heading[l],
     lead: CAR_PROMO.lead[l],
     points: CAR_PROMO.points[l],
