@@ -62,6 +62,14 @@ export const CLICKANDBOAT_URL =
   process.env.NEXT_PUBLIC_CLICKANDBOAT_AFFILIATE_URL ??
   'https://click-and-boat.pxf.io/c/7702481/3995680/19914'
 
-/** ClubTickets affiliate base. Existing links elsewhere in the app use ct-link.ts. */
-export const CLUBTICKETS_URL =
-  process.env.NEXT_PUBLIC_CLUBTICKETS_AFFILIATE_URL ?? 'https://www.clubtickets.com/'
+/**
+ * ClubTickets does NOT live here.
+ *
+ * Its links need the locale rules (English is unprefixed; inventing /en/
+ * produces a hard 404 on their side), the UTM tagging, and the `aff=CT219`
+ * affiliate id — none of which a bare constant can carry. All of that lives in
+ * src/lib/ct-link.ts: use `ctLink()` for a URL that came out of the feed
+ * already carrying its own `aff`, and `ctBrowseLink()` for one we build
+ * ourselves. A hand-written clubtickets.com URL looks identical, works
+ * identically, and earns nothing.
+ */

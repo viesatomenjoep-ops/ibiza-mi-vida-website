@@ -6,7 +6,7 @@ import { AffiliateLink } from '@/components/hub/AffiliateLink'
 import { Proof } from '@/components/hub/Proof'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { localizedAlternates } from '@/lib/route-slugs'
-import { CLUBTICKETS_URL } from '@/lib/partners'
+import { ctBrowseLink } from '@/lib/ct-link'
 import { contentUpdated } from '@/lib/content-dates'
 import { SITE_NAME, type Locale } from '@/lib/seo'
 
@@ -139,7 +139,7 @@ export default function IbizaClubTicketsPage() {
         }
       >
         <div className="mt-7">
-          <AffiliateLink href={CLUBTICKETS_URL} partner="ClubTickets" locale={LOCALE}>
+          <AffiliateLink href={ctBrowseLink(LOCALE)} partner="ClubTickets" locale={LOCALE}>
             See what is on this week
           </AffiliateLink>
         </div>
@@ -161,7 +161,7 @@ export default function IbizaClubTicketsPage() {
 
       <div className="border-t border-black/5 bg-white pb-14 text-neutral-900">
         <div className="mx-auto max-w-5xl px-4">
-          <AffiliateLink href={CLUBTICKETS_URL} partner="ClubTickets" locale={LOCALE}>
+          <AffiliateLink href={ctBrowseLink(LOCALE)} partner="ClubTickets" locale={LOCALE}>
             Check dates and buy tickets
           </AffiliateLink>
         </div>

@@ -4,6 +4,7 @@ import { getVenues, getAllDates } from '@/lib/clubtickets'
 import { getDictionary } from '@/lib/dictionary'
 import HomePageClient from './HomePageClient'
 import { HomeJsonLd } from '@/components/seo/HomeJsonLd'
+import { CarRentalPromo } from '@/components/hub/CarRentalPromo'
 import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { HOME_TITLE, HOME_DESC } from '@/lib/seo-pages'
 import { FLEET } from '@/data/fleet'
@@ -282,6 +283,9 @@ export default async function Home({ params }: { params: { locale: string } }) {
         typeSlug: (v as any).type?.slug || ''
       }))}
     />
+    {/* Server-gerenderd, buiten de client-shell: autoverhuur is commerciële
+        content die een crawler zonder JavaScript moet kunnen lezen. */}
+    <CarRentalPromo locale={params.locale} />
     </>
   )
 }

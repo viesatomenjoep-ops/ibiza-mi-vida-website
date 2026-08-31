@@ -24,6 +24,7 @@ export type CtSurface =
   | 'artist'             // an artist page
   | 'agenda'             // the water/boat agendas
   | 'app'                // the /m mobile app
+  | 'hub'                // the /ibiza-club-tickets hub page
   | 'site'               // fallback — untagged surface
 
 const UTM_SOURCE = 'ibizamivida.com'
@@ -112,4 +113,36 @@ export function ctLink(
   } catch {
     return url
   }
+}
+
+
+/**
+ * Our ClubTickets affiliate id.
+ *
+ * This is what credits a sale to us, and it is separate from the UTM tagging
+ * above: UTMs answer "which page sent this click", `aff` answers "who gets
+ * paid". Feed URLs already arrive carrying it, which is why ctLink() leaves any
+ * existing `aff` untouched — see the note on that function.
+ *
+ * It is needed explicitly only for links we build ourselves rather than take
+ * from the feed, such as the CTA on the club-tickets hub page. Such a link
+ * without it looks identical, works identically, and earns nothing.
+ */
+export const CT_AFFILIATE_ID = 'CT219'
+
+/**
+ * A ClubTickets link we construct ourselves, rather than one from the feed.
+ *
+ * Carries the affiliate id and goes through ctLink() so it also gets the locale
+ * segment and the UTM tagging every other outbound link has. Use this for any
+ * hand-built ClubTickets URL; use ctLink() directly for anything that came out
+ * of the feed already carrying its own `aff`.
+ */
+export function ctBrowseLink(locale: string, surface: CtSurface = 'hub', path = ''): string {
+  const clean = path.replace(/^\/+/, '')
+  return ctLink(
+    `https://www.clubtickets.com/${clean}?aff=${CT_AFFILIATE_ID}`,
+    locale,
+    surface,
+  )
 }
