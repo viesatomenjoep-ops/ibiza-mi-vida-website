@@ -1,0 +1,126 @@
+# Content TODOs — figures and pages that need you
+
+Everything here is a deliberate gap rather than an oversight. The site's rule is
+that a number is either real or absent: no placeholder prices, no invented
+ratings, no filler copy standing in for a fact. Each item below is a blank that
+only you can fill.
+
+Last reviewed: 31 August 2026.
+
+## 1. Prices — the blocking ones
+
+All live in `src/lib/rental-prices.ts` as `amount: null`. While a value is null:
+
+- the page copy renders correctly **without** the figure (the price clause
+  disappears rather than printing "from €null"),
+- the price table shows the localised "on request",
+- `<SchemaMarkup>` emits the Product with **no Offer node**, because publishing a
+  placeholder price as structured data is a commitment we cannot honour.
+
+Filling one in is a one-line edit and it propagates to all four places at once.
+
+| Constant | What it should be | Used on |
+| --- | --- | --- |
+| `boatWithSkipper` | From-price, full day, skipper included | `/en/boat-rental-ibiza`, `/en/boat-rental-with-skipper-ibiza` |
+| `boatNoLicence` | From-price, full day, licence-free (max 15 hp) | `/en/boat-rental-ibiza`, `/en/boat-hire-ibiza-no-licence` |
+| `boatWithLicence` | From-price, full day, you drive with your own licence | `/en/boat-rental-ibiza` |
+| `jetSki30` | Price for the standard 30-minute slot | `/en/jet-ski-rental-ibiza` |
+| `carPerDay` | From-price per day, all-inclusive (Wiber) | `/en/car-rental-ibiza`, `/en/car-rental-ibiza-airport` |
+| `boatParty` | Per-person ticket price | reserved for the boat-party page |
+
+Also unpriced, and handled the same way (the table shows "on request"):
+
+- Car categories **compact**, **convertible** and **SUV/4x4** on
+  `/en/car-rental-ibiza`. Only the economy row is wired to a constant; if you
+  want per-category prices, say so and they get their own constants rather than
+  being written into the table by hand.
+
+**Do not** replace a null with a guess to make a page look finished. A wrong
+price on a booking site is the most expensive kind of wrong.
+
+## 2. Proof figures
+
+`src/lib/proof.ts`, reviewed monthly by you.
+
+- `ticketsSold` is `null` — the season's ticket count has not been pulled from
+  the booking records. Null renders nothing; it never renders "0".
+- `soldFor` currently lists CamelPhat, Anyma Presents ÆDEN, ANTS and KISS Pool
+  Party. Confirm these are all shows we genuinely sold for, and add or remove as
+  the season goes.
+- `season` and `verified` are the staleness markers. Update `verified` whenever
+  you check the file, even if nothing changed.
+
+**Not in that file, on purpose:** the Google rating and review count. Those are
+fetched live from the Google Business Profile by `src/lib/google-reviews.ts` and
+are never hardcoded. They will start appearing on the pages by themselves once
+the profile is verified and `GOOGLE_PLACES_API_KEY` and `GOOGLE_PLACE_ID` are
+set. Until then every rating block correctly renders nothing. See section 5.
+
+## 3. Unfinished pages already live
+
+`/[locale]/privacy-policy`, `/[locale]/terms-&-conditions` and `/[locale]/legal`
+are **unedited Relume template boilerplate** — "Tagline", "Short heading here",
+lorem ipsum and buttons labelled "Button" — in all five languages. They are
+served with `noindex`, so they are not in search results, and they have been
+removed from the sitemap (a noindexed URL in a sitemap is a contradiction Search
+Console flags).
+
+They are still reachable by anyone who clicks a footer link, and a privacy
+policy and terms of service are legal documents rather than copy I should
+invent. **These need real text from you or your lawyer.** When they are written:
+remove the `noindex` and add the routes back to `STATIC_ROUTES` in
+`src/app/sitemap.ts` in the same change — the two settings must always move
+together.
+
+## 4. Affiliate links
+
+- **Wiber (Awin)** — wired in `src/lib/partners.ts` using the deeplink from your
+  Awin creative: `s=4715915&v=124596&q=598784&r=3064911`. The `r` parameter is
+  the publisher id that credits us. Awin's creative also ships a `cshow.php`
+  impression pixel, which we deliberately do **not** render: it fires for every
+  visitor on page load, which is a consent question under GDPR rather than a
+  click, and the `cread.php` link tracks the commission on its own.
+- **ClubTickets** — `CLUBTICKETS_URL` currently points at the plain
+  `clubtickets.com` homepage. If there is an affiliate deeplink with our
+  publisher id, send it and it replaces the constant. As it stands, clicks from
+  `/en/ibiza-club-tickets` are **not tracked to us**.
+
+Both are rendered through `<AffiliateLink>`, which hardcodes
+`rel="sponsored noopener noreferrer"` and a visible disclosure. Never link to a
+partner with a bare `<a>`.
+
+## 5. Environment variables not yet set
+
+| Variable | Effect while unset |
+| --- | --- |
+| `GOOGLE_PLACES_API_KEY`, `GOOGLE_PLACE_ID` | No Google rating anywhere: the Proof and trust blocks render without a rating line, and no AggregateRating markup is emitted. Correct behaviour, but it means the 5.0 rating is invisible on the site. |
+| `NEXT_PUBLIC_GOOGLE_BUSINESS_URL` | The Google Business Profile is absent from the Organization `sameAs` list, so search engines are not told the profile and the site are the same business. |
+| `NEXT_PUBLIC_CLUBTICKETS_AFFILIATE_URL` | ClubTickets clicks untracked (see section 4). |
+
+## 6. Pages not built yet
+
+Requested and not delivered in this pass. The routes and slugs are already
+defined in `src/lib/route-slugs.ts`, and `ROUTE_LOCALES` correctly lists these
+languages as unpublished, so hreflang and the sitemap stay honest until the
+pages exist.
+
+| Route | Languages still missing |
+| --- | --- |
+| `boat-rental` | `nl` (boot-huren-ibiza), `de` (boot-mieten-ibiza), `fr` (location-bateau-ibiza), `es` (alquiler-barco-ibiza) |
+| `car-rental` | `nl` (auto-huren-ibiza), `de` (mietwagen-ibiza), `fr` (location-voiture-ibiza), `es` (alquiler-coches-ibiza) |
+
+Add a language to `ROUTE_LOCALES` **only after** its page renders, then add the
+route to `LOCALIZED_ROUTES` in `src/app/sitemap.ts`.
+
+## 7. Native review before an indexing push
+
+Any non-English page written by an AI needs a native speaker's eye before it is
+pushed to search engines. Machine-flavoured copy in a language you cannot check
+is the one thing that damages a brand faster than having no page at all.
+
+| Page | Language | Reviewed? |
+| --- | --- | --- |
+| _(none yet — the DE/FR/ES/NL pillars in section 6 are not written)_ | | |
+
+When those pages land, list them here, get a native check, and only then run
+`node scripts/indexnow-ping.mjs` for their URLs.

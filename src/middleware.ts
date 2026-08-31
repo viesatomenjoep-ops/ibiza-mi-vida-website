@@ -99,8 +99,14 @@ function route(request: NextRequest): NextResponse | undefined {
     const first = segments[0]
     if (first) {
       const found = findRouteBySlug(first)
-      if (found && found.locale !== matched) {
-        const correct = ROUTE_SLUGS[found.key][matched]
+      const correct = found ? ROUTE_SLUGS[found.key][matched] : null
+      // Compare SLUGS, not locales. Some routes deliberately use the same slug
+      // in every language (boat-party), so "the slug was found under another
+      // locale" is true for them on every request — and redirecting on that
+      // sent every non-Dutch locale to its own URL forever. The only thing that
+      // warrants a redirect is the slug for THIS locale differing from the one
+      // asked for.
+      if (correct && correct !== first) {
         const rest = segments.slice(1).join('/')
         request.nextUrl.pathname = `/${matched}/${correct}${rest ? `/${rest}` : ''}`
         return NextResponse.redirect(request.nextUrl, 301)

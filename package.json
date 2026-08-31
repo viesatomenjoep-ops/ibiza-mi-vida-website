@@ -17,7 +17,8 @@
     "check:schema": "node scripts/schema-check.mjs",
     "check:hreflang": "node scripts/hreflang-check.mjs",
     "check:onpage": "node scripts/onpage-check.mjs",
-    "check:seo": "node scripts/seo-check.mjs"
+    "check:seo": "node scripts/seo-check.mjs",
+    "ai-report": "node scripts/ai-visibility/report.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

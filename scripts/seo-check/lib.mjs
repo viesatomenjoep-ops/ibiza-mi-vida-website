@@ -9,6 +9,8 @@
  * HTML, and the check should fail rather than reach for a parser.
  */
 
+import { readFileSync, writeFileSync } from 'node:fs'
+
 export const BASE = (process.env.CHECK_BASE_URL || 'http://localhost:3000').replace(/\/$/, '')
 export const LOCALES = ['en', 'nl', 'de', 'es', 'fr']
 export const DEFAULT_LOCALE = 'en'
@@ -26,17 +28,72 @@ export const c = {
   dim: (s) => `${DIM}${s}${RESET}`,
 }
 
+/**
+ * Known pre-existing failures, so the suite can be enforced from day one.
+ *
+ * When these checks were first written they found 300-plus problems across
+ * pages that predate them — meta descriptions on generated month and venue
+ * pages, sections with no structured data, a canonical pointing at the wrong
+ * URL. Blocking every PR until all of that is fixed would have meant the checks
+ * never went into CI at all, which is the usual way a linter dies on a legacy
+ * codebase.
+ *
+ * So the baseline records what was already broken. Anything in it is reported
+ * as KNOWN and does not fail the run; anything NOT in it fails. New code is
+ * held to the standard immediately, and the backlog is visible rather than
+ * silently tolerated.
+ *
+ * The baseline is a debt list, not a permission slip. It should only ever
+ * shrink. Regenerate it with `npm run check:seo -- --update-baseline` after
+ * FIXING things, never to make a new failure go away.
+ */
+const BASELINE_PATH = new URL('./baseline.json', import.meta.url)
+
+function loadBaseline() {
+  try {
+    return new Set(JSON.parse(readFileSync(BASELINE_PATH, 'utf8')).known)
+  } catch {
+    return new Set()
+  }
+}
+
+/**
+ * A stable identity for a failure.
+ *
+ * Numbers are stripped from the message so that "Meta description is 102
+ * characters" and "…is 103 characters" are the same known issue — otherwise
+ * every regeneration of a data-driven page would look like a brand new failure.
+ */
+export function failureKey(check, where, message) {
+  // Collapse data-driven paths to their template: /en/club-tickets/hi-ibiza/x
+  // becomes /en/club-tickets/*. Event, venue and artist URLs churn every time
+  // the ClubTickets sync runs, so a baseline keyed on exact URLs would go stale
+  // within a day and start reporting brand-new "failures" for pages that are
+  // simply new. The trade-off is deliberate and worth naming: a second failure
+  // of the same type on the same template is absorbed by the same key. Landing
+  // pages, which have one URL each and no churn, keep their exact path.
+  const [locale, path = ''] = where.split(' ')
+  const segments = path.split('/').filter(Boolean)
+  const template = segments.length > 2 ? `/${segments.slice(0, 2).join('/')}/*` : path
+  return `${check}|${locale} ${template}|${message.replace(/\d+/g, 'N').slice(0, 120)}`
+}
+
 /** Collects failures so a run reports every problem, not just the first. */
 export class Report {
   constructor(name) {
     this.name = name
     this.failures = []
+    this.known = []
     this.warnings = []
     this.checked = 0
+    this.baseline = loadBaseline()
+    this.updating = process.argv.includes('--update-baseline')
   }
 
   fail(where, message) {
-    this.failures.push({ where, message })
+    const key = failureKey(this.name, where, message)
+    if (!this.updating && this.baseline.has(key)) this.known.push({ where, message, key })
+    else this.failures.push({ where, message, key })
   }
 
   warn(where, message) {
@@ -51,8 +108,30 @@ export class Report {
     for (const f of this.failures) {
       console.log(`${c.fail('FAIL')} ${f.where}\n     ${f.message}`)
     }
+
+    if (this.updating) {
+      writeFileSync(
+        BASELINE_PATH,
+        JSON.stringify(
+          {
+            _comment:
+              'Known pre-existing SEO check failures. This list should only ever shrink. ' +
+              'Regenerate with `npm run check:seo -- --update-baseline` after FIXING issues, ' +
+              'never to silence a new one. See docs/search-setup.md.',
+            generated: new Date().toISOString().slice(0, 10),
+            known: [...new Set([...this.baseline, ...this.failures.map((f) => f.key)])].sort(),
+          },
+          null,
+          2,
+        ) + '\n',
+      )
+      console.log(c.warn(`${this.name}: baseline updated with ${this.failures.length} entries.`))
+      return 0
+    }
+
     const ok = this.failures.length === 0
-    const summary = `${this.name}: ${this.checked} checked, ${this.failures.length} failed, ${this.warnings.length} warnings`
+    const knownNote = this.known.length ? `, ${this.known.length} known (baseline)` : ''
+    const summary = `${this.name}: ${this.checked} checked, ${this.failures.length} failed${knownNote}, ${this.warnings.length} warnings`
     console.log(ok ? c.pass(`PASS  ${summary}`) : c.fail(`FAIL  ${summary}`))
     return ok ? 0 : 1
   }

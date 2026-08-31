@@ -33,6 +33,10 @@ async function main() {
     return 0
   }
 
+  // Uniqueness is judged in a second, sorted pass rather than as pages arrive.
+  // Fetches run concurrently, so "which page did I see this title on first?"
+  // varies between runs — and a check whose message changes run to run cannot
+  // be baselined, and reports a different page as the culprit each time.
   const titles = new Map()
   const descriptions = new Map()
 
@@ -55,9 +59,8 @@ async function main() {
       if (title.length > TITLE_MAX) {
         report.fail(where, `Title is ${title.length} characters (max ${TITLE_MAX}): "${title}"`)
       }
-      const seen = titles.get(title)
-      if (seen) report.fail(where, `Title is identical to ${seen}: "${title}"`)
-      else titles.set(title, where)
+      if (!titles.has(title)) titles.set(title, [])
+      titles.get(title).push(where)
     }
 
     // 2. description
@@ -68,9 +71,8 @@ async function main() {
       if (desc.length < DESC_MIN || desc.length > DESC_MAX) {
         report.fail(where, `Meta description is ${desc.length} characters (want ${DESC_MIN}–${DESC_MAX}): "${desc.slice(0, 80)}…"`)
       }
-      const seen = descriptions.get(desc)
-      if (seen) report.fail(where, `Meta description is identical to ${seen}.`)
-      else descriptions.set(desc, where)
+      if (!descriptions.has(desc)) descriptions.set(desc, [])
+      descriptions.get(desc).push(where)
     }
 
     // 3. one h1
@@ -98,6 +100,20 @@ async function main() {
       previous = level
     }
   })
+
+  // Deterministic duplicate reporting: the alphabetically first URL is treated
+  // as the original and every other one is reported against it, so the same
+  // input always produces the same failures in the same order.
+  for (const [label, map] of [['Title', titles], ['Meta description', descriptions]]) {
+    for (const [value, pages] of map) {
+      if (pages.length < 2) continue
+      const sorted = [...pages].sort()
+      const [original, ...duplicates] = sorted
+      for (const dup of duplicates) {
+        report.fail(dup, `${label} is identical to ${original}: "${value.slice(0, 70)}"`)
+      }
+    }
+  }
 
   return report.finish()
 }

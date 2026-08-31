@@ -117,7 +117,7 @@ export function Navbar() {
       id: 'insider',
       label: t.nav_insider || 'Insider',
       items: [
-        { label: t.nav_guestlist || 'Package Deals', href: '/guestlist' },
+        { label: t.nav_guestlist || 'Guestlist & packages', href: '/guestlist' },
         { label: t.nav_tips || 'Ibiza Tips', href: '/tips' },
         { label: t.nav_prices || 'Ibiza Prices', href: '/ibiza-prices' },
         { label: t.nav_season || 'Ibiza Season', href: '/ibiza-season' },

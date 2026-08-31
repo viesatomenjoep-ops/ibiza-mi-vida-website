@@ -29,7 +29,8 @@ const CHECKS = [
 
 function run(script) {
   return new Promise((resolve) => {
-    const child = spawn(process.execPath, [join(here, script)], { stdio: 'inherit', env: process.env })
+    const passthrough = process.argv.slice(2).filter((a) => a === '--update-baseline')
+    const child = spawn(process.execPath, [join(here, script), ...passthrough], { stdio: 'inherit', env: process.env })
     child.on('close', (code) => resolve(code ?? 1))
   })
 }

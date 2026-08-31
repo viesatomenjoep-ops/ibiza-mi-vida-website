@@ -218,6 +218,77 @@ en de eigen crawl-planning aangewezen.
 - [ ] Eerste echte ping geeft `OK (200)` of `OK (202)`
       (202 = geaccepteerd terwijl de sleutel nog gevalideerd wordt; ook goed)
 
+## Vercel — bot-instellingen die AI-crawlers kunnen blokkeren
+
+Dit is de stap die het vaakst wordt overgeslagen en die het meeste kapotmaakt.
+Een perfecte `robots.txt` doet niets als de edge de crawler al tegenhoudt vóórdat
+het verzoek de applicatie bereikt. Er is dan ook geen enkel signaal in Search
+Console of Bing dat dit meldt: de crawler krijgt een challenge of een 403 en
+verdwijnt gewoon.
+
+**In de repo staat niets dat bots blokkeert.** Er is geen `vercel.json`, en
+`next.config.mjs` bevat geen headers of middleware-regels die crawlers weren.
+Alles wat hieronder kan misgaan, staat dus uitsluitend in het Vercel-dashboard —
+daar moet je het controleren.
+
+### Wat op "Allow" moet staan
+
+Ga naar het project → **Settings → Firewall** (en **Security** waar van
+toepassing), en controleer deze vier:
+
+- [ ] **Attack Challenge Mode: UIT.**
+      Dit is de gevaarlijkste. Attack Challenge Mode zet vóór elke pagina een
+      JavaScript-challenge ("Vercel Security Checkpoint"). Googlebot komt daar
+      meestal doorheen; OAI-SearchBot, PerplexityBot en ClaudeBot voeren geen
+      JavaScript uit en zien dus uitsluitend de challenge-pagina — je hele site
+      wordt voor hen één lege tussenpagina. Zet dit alleen aan tijdens een
+      werkelijke aanval, en zet het daarna weer uit.
+
+- [ ] **Bot-filtering / "Block AI Bots"-regel: UIT.**
+      Vercel biedt een kant-en-klare firewall-regel die AI-crawlers blokkeert.
+      Die is bedoeld voor sites die niet in taalmodellen willen belanden — het
+      exacte tegenovergestelde van wat deze site wil. Staat hij aan, zet hem uit.
+      Controleer ook of BotID / bot-protection niet op de publieke routes staat;
+      dat hoort hooguit op `/api/` en `/admin`.
+
+- [ ] **Custom WAF-regels: geen die op user-agent blokkeert.**
+      Loop de custom rules langs op condities met `User-Agent`, `JA3`, of
+      rate-limits die een crawler raken. Een crawler die honderden pagina's per
+      minuut ophaalt lijkt op misbruik; een rate-limit die daarop afgaat smoort
+      je indexering. Zet AI-crawlers en Googlebot/Bingbot expliciet op **Allow**
+      als er überhaupt regels staan.
+
+- [ ] **Deployment Protection: alleen op previews, niet op productie.**
+      Settings → **Deployment Protection**. Staat Vercel Authentication of
+      Password Protection op de productie-deployment, dan krijgt élke crawler een
+      loginscherm. Previews mogen beschermd zijn; productie nooit.
+
+### Verifiëren dat het werkt
+
+Vraag de site op mét de user-agent van een AI-crawler en kijk of je echte HTML
+terugkrijgt in plaats van een challenge:
+
+```bash
+for ua in "OAI-SearchBot/1.0" "PerplexityBot/1.0" "ClaudeBot/1.0" \
+          "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"; do
+  printf '%-30s ' "${ua%%/*}"
+  curl -s -o /dev/null -w "HTTP %{http_code}  " -A "$ua" https://www.ibizamivida.com/en
+  curl -s -A "$ua" https://www.ibizamivida.com/en | grep -qi "security checkpoint\|challenge" \
+    && echo "CHALLENGE — geblokkeerd" || echo "echte HTML"
+done
+```
+
+Verwacht: viermaal `HTTP 200` en `echte HTML`. Krijg je een 403, een 401 of
+"CHALLENGE", dan staat een van de vier instellingen hierboven aan.
+
+Controleer ook dat een preview-deployment wél op noindex staat — dat regelt de
+middleware zelf, via een `X-Robots-Tag` op elke host die niet de canonieke is:
+
+```bash
+curl -sI https://<een-preview>.vercel.app/en | grep -i x-robots-tag   # noindex verwacht
+curl -sI https://www.ibizamivida.com/en      | grep -i x-robots-tag   # niets verwacht
+```
+
 ## Referentie-URL's
 
 | Doel | URL |

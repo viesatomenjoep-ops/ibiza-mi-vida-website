@@ -1,13 +1,42 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { staticMetadata } from '@/lib/seo-pages'
-import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
+import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { Reveal } from '@/components/ui/Reveal'
 
 export const revalidate = 86400
 
+/**
+ * Metadata for /tips.
+ *
+ * This used to call `staticMetadata(locale, 'ibiza-tips')`, which set the
+ * canonical and every hreflang alternate to `/ibiza-tips`. That route exists,
+ * but only to redirect straight back here — so the canonical pointed at a URL
+ * that redirects to the page declaring it. Google follows a canonical, lands on
+ * a redirect back to the start, and a self-referential loop like that is a
+ * documented way to have a page dropped from the index. It also meant the
+ * page's five language versions all claimed to be a different URL.
+ *
+ * There was no SEO_PAGES entry for either key either, so the title and
+ * description came from the generic fallback and the description was far under
+ * the 140-character minimum. Both are written out properly here.
+ */
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
-  return staticMetadata(params.locale, 'ibiza-tips')
+  const l = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE
+  const TITLE: Record<Locale, string> = {
+    nl: 'Ibiza tips van ons team op het eiland',
+    en: 'Ibiza tips from our team on the island',
+    de: 'Ibiza-Tipps von unserem Team vor Ort',
+    es: 'Consejos de Ibiza de nuestro equipo local',
+    fr: 'Conseils Ibiza de notre équipe sur place',
+  }
+  const DESC: Record<Locale, string> = {
+    nl: 'Baaien, clubs, eten, zonsondergangen en vervoer op Ibiza, met de tips die we vrienden geven: ga vroeg naar Cala Comte en kom in juni of september.',
+    en: 'Coves, clubs, food, sunsets and getting around Ibiza, with the advice we give friends: go early to Cala Comte, and come in June or September.',
+    de: 'Buchten, Clubs, Essen, Sonnenuntergänge und Mobilität auf Ibiza — mit den Tipps für Freunde: früh zur Cala Comte, und komm im Juni oder September.',
+    es: 'Calas, clubs, comida, atardeceres y cómo moverte por Ibiza, con los consejos que damos a los amigos: ve temprano a Cala Comte y ven en junio.',
+    fr: 'Criques, clubs, restaurants, couchers de soleil et transports à Ibiza, avec les conseils qu\u2019on donne aux amis : Cala Comte tôt, et venez en juin.',
+  }
+  return pageMetadata({ locale: l, path: 'tips', title: TITLE[l], description: DESC[l] })
 }
 
 type T = Record<Locale, string>
