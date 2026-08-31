@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { AffiliateLink } from '@/components/hub/AffiliateLink'
+import { PartnerLogo } from '@/components/partner/PartnerLogo'
+import type { PARTNER_LOGOS } from '@/lib/partners'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 
 /**
@@ -73,6 +75,8 @@ export interface PartnerDossierProps {
   pillarLabel: string
   /** Required: states that this page is ours, not the partner's. */
   disclaimer: string
+  /** Key in PARTNER_LOGOS — renders the partner's logo above the kicker. */
+  logoKey?: keyof typeof PARTNER_LOGOS
   children?: React.ReactNode
 }
 
@@ -98,6 +102,7 @@ export function PartnerDossier({
   pillarPath,
   pillarLabel,
   disclaimer,
+  logoKey,
   children,
 }: PartnerDossierProps) {
   const l = (LOCALES as readonly string[]).includes(locale) ? (locale as Locale) : DEFAULT_LOCALE
@@ -107,6 +112,11 @@ export function PartnerDossier({
       {/* ── Masthead ─────────────────────────────────────────────────────── */}
       <section className="bg-obsidian text-white">
         <div className="mx-auto max-w-5xl px-4 py-14 md:py-20">
+          {logoKey && (
+            <div className="mb-5 flex h-8 items-center">
+              <PartnerLogo partner={logoKey} name={partner} on="dark" className="h-8 w-auto object-contain" />
+            </div>
+          )}
           <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold-soft">{kicker}</p>
           <h1 className="mt-4 max-w-3xl font-serif text-3xl font-black leading-[1.08] tracking-tight md:text-5xl">
             {h1}

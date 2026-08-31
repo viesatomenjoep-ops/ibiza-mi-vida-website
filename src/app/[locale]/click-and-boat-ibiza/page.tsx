@@ -100,6 +100,7 @@ export default function ClickAndBoatPartnerPage() {
       <PartnerDossier
         locale={LOCALE}
         partner="Click&Boat"
+        logoKey="clickandboat"
         kicker="Our boat rental partner"
         h1="Click&Boat in Ibiza"
         href={CLICKANDBOAT_URL}

@@ -101,6 +101,7 @@ export default function WiberPartnerPage() {
       <PartnerDossier
         locale={LOCALE}
         partner="Wiber Rent a Car"
+        logoKey="wiber"
         kicker="Our car rental partner"
         h1="Wiber Rent a Car in Ibiza"
         href={WIBER_URL}
