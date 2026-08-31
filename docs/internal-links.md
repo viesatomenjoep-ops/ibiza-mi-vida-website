@@ -47,13 +47,28 @@ Pillar: **`/en/car-rental-ibiza`**
 
 | Page | Links up to | Links sideways to |
 | --- | --- | --- |
-| `car-rental-ibiza` (pillar) | — | `boat-rental-ibiza` ¹, `ibiza-club-tickets` ², `car-rental-ibiza-airport` |
+| `car-rental-ibiza` (pillar) | — | `boat-rental-ibiza` ¹, `wiber-car-rental-ibiza`, `car-rental-ibiza-airport` |
 | `car-rental-ibiza-airport` | `car-rental-ibiza` | `convertible-car-rental-ibiza`, `boat-rental-ibiza` ¹ |
 | `convertible-car-rental-ibiza` | `car-rental-ibiza` | `car-rental-ibiza-airport`, `boat-rental-ibiza` ¹ |
 
-² The second cross-silo link, and the weaker of the two. It exists because
-"how do I get to Amnesia and back" is a real question a car-hire visitor has.
-If the silo ever needs tightening, this is the link to drop first.
+² This footnote used to mark a link from the car pillar to `ibiza-club-tickets`
+as the weakest in the graph and the first to drop. It has been dropped, replaced
+by the Wiber dossier — a link that stays inside the silo and answers the question
+a reader on that page is actually holding.
+
+## Partner dossiers
+
+Two pages target branded trust queries ("Wiber Ibiza", "is Click&Boat legit")
+rather than category queries, so they do not compete with the pillars:
+
+| Page | Hangs under | Links back to |
+| --- | --- | --- |
+| `wiber-car-rental-ibiza` | `car-rental-ibiza` | the pillar, `car-rental-ibiza-airport`, `click-and-boat-ibiza` |
+| `click-and-boat-ibiza` | `boat-rental-ibiza` | the pillar, `boat-hire-ibiza-no-licence`, `wiber-car-rental-ibiza` |
+
+They link to each other deliberately — a reader checking whether one partner is
+trustworthy is often about to check the other — and each is linked from its own
+pillar's related-pages block.
 
 ## Silo 3 — Nightlife
 

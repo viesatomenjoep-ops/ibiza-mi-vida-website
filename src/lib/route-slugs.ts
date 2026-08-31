@@ -43,6 +43,8 @@ export type RouteKey =
   | 'boat-party'
   | 'club-tickets-hub'
   | 'guestlist-hub'
+  | 'wiber-partner'
+  | 'clickandboat-partner'
 
 type SlugSet = Record<Locale, string>
 
@@ -117,6 +119,24 @@ export const ROUTE_SLUGS: Record<RouteKey, SlugSet> = {
     fr: 'billets-clubs-ibiza',
     es: 'entradas-discotecas-ibiza',
   },
+  // Partnerdossiers. Deze mikken op merkzoekopdrachten ("Wiber Ibiza",
+  // "Click and Boat review") — een andere intentie dan "car rental Ibiza", dus
+  // ze concurreren niet met de pillars maar vangen de bezoeker die eerst wil
+  // weten of de partij te vertrouwen is.
+  'wiber-partner': {
+    en: 'wiber-car-rental-ibiza',
+    nl: 'wiber-auto-huren-ibiza',
+    de: 'wiber-mietwagen-ibiza',
+    fr: 'wiber-location-voiture-ibiza',
+    es: 'wiber-alquiler-coches-ibiza',
+  },
+  'clickandboat-partner': {
+    en: 'click-and-boat-ibiza',
+    nl: 'click-and-boat-ibiza',
+    de: 'click-and-boat-ibiza',
+    fr: 'click-and-boat-ibiza',
+    es: 'click-and-boat-ibiza',
+  },
   'guestlist-hub': {
     en: 'ibiza-guestlist',
     nl: 'ibiza-gastenlijst',
@@ -149,6 +169,8 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   'boat-party': ['en'],
   'club-tickets-hub': ['en'],
   'guestlist-hub': ['en'],
+  'wiber-partner': ['en'],
+  'clickandboat-partner': ['en'],
 }
 
 /** The locales a route is published in. */

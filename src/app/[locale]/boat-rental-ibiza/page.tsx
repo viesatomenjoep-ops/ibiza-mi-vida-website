@@ -311,6 +311,11 @@ export default function BoatRentalIbizaPage() {
             body: 'The organised version: a ticket, a DJ and a crowd, instead of a boat to yourself.',
           },
           {
+            label: 'Click&Boat, reviewed',
+            href: 'click-and-boat-ibiza',
+            body: 'Where the boats come from, what varies per listing, and what we check before you pay.',
+          },
+          {
             label: 'Car rental in Ibiza',
             href: 'car-rental-ibiza',
             body: 'How you reach the marina, and the coves that no boat gets you to.',

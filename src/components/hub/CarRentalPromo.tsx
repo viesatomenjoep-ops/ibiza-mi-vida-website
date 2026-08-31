@@ -86,7 +86,7 @@ export function CarRentalPromo({ locale }: { locale: string }) {
       <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl bg-obsidian p-7 text-white md:p-10">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div className="max-w-2xl">
-            <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">Wiber Rent a Car</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold-soft">Wiber Rent a Car</p>
             <h2 className="mt-3 font-serif text-2xl font-black leading-tight tracking-tight text-white md:text-3xl">
               {HEADING[l]}
             </h2>
@@ -115,7 +115,7 @@ export function CarRentalPromo({ locale }: { locale: string }) {
               </AffiliateLink>
               <Link
                 href={href}
-                className="text-[14px] font-semibold text-white underline underline-offset-4 hover:text-gold"
+                className="text-[14px] font-semibold text-white underline underline-offset-4 hover:text-gold-soft"
               >
                 {READ_MORE[l]} →
               </Link>

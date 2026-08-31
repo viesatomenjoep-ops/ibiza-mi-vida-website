@@ -226,9 +226,9 @@ export default function CarRentalIbizaPage() {
             body: 'The coves you cannot drive to, reached the other way.',
           },
           {
-            label: 'Ibiza club tickets',
-            href: 'ibiza-club-tickets',
-            body: 'What the car is for at two in the morning — and why you should not drive it then.',
+            label: 'Wiber Rent a Car, reviewed',
+            href: 'wiber-car-rental-ibiza',
+            body: 'Who our rental partner is, the conditions in full, and who should book elsewhere.',
           },
           {
             label: 'Car rental at Ibiza Airport',
