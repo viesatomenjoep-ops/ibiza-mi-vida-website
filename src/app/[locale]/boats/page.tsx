@@ -6,6 +6,8 @@ import BoatsHub from './BoatsHub'
 import { BoatRentalPromo } from '@/components/hub/BoatRentalPromo'
 import { PageFaq } from '@/components/seo/PageFaq'
 import { AuthorByline } from '@/components/seo/AuthorByline'
+import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
+import { crumbLabel } from '@/lib/breadcrumb-labels'
 
 export const revalidate = 3600
 
@@ -25,6 +27,10 @@ export default async function BoatsPage({ params: { locale } }: { params: { loca
 
   return (
     <>
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[{ name: homeLabel(locale), path: '' }, { name: crumbLabel('boats', locale) }]}
+      />
       <BoatsHub locale={locale} covers={covers} />
       <BoatRentalPromo locale={locale} />
       <PageFaq pageKey="boats" locale={locale} />

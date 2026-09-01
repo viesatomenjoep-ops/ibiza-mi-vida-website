@@ -10,6 +10,8 @@ import { getVenues, getAllDates } from '@/lib/clubtickets';
 import { ItemListJsonLd } from '@/components/seo/ItemListJsonLd';
 import { pickCover } from '@/lib/blank-covers';
 import { eventBasePath } from '@/lib/event-path';
+import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
+import { crumbLabel } from '@/lib/breadcrumb-labels'
 
 export default async function CalendarPage({
   params,
@@ -73,6 +75,10 @@ export default async function CalendarPage({
 
   return (
     <>
+      <BreadcrumbJsonLd
+        locale={params.locale}
+        items={[{ name: homeLabel(params.locale), path: '' }, { name: crumbLabel('calendar', params.locale) }]}
+      />
       <ItemListJsonLd
         entries={listEntries}
         locale={params.locale}

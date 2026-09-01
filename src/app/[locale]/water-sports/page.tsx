@@ -9,6 +9,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 import { getVenues, getAllDates } from '@/lib/clubtickets';
 import { agendaCopy } from '@/lib/agenda-i18n';
 import WaterAgendaClient, { WaterAgendaEvent, WaterAgendaVenue } from '@/components/boats/WaterAgendaClient';
+import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
+import { crumbLabel } from '@/lib/breadcrumb-labels'
 
 export const revalidate = 3600;
 
@@ -57,6 +59,10 @@ export default async function Page({ params }: { params: { locale: string } }) {
   const C = agendaCopy('water-sports', params.locale);
   return (
     <>
+      <BreadcrumbJsonLd
+        locale={params.locale}
+        items={[{ name: homeLabel(params.locale), path: '' }, { name: crumbLabel('water-sports', params.locale) }]}
+      />
     <WaterAgendaClient
       locale={params.locale}
       basePath="water-sports"

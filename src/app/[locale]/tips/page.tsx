@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { Reveal } from '@/components/ui/Reveal'
+import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
+import { crumbLabel } from '@/lib/breadcrumb-labels'
 
 export const revalidate = 86400
 
@@ -191,57 +193,63 @@ export default function TipsPage({ params }: { params: { locale: string } }) {
   const base = `/${locale}`
 
   return (
-    <div className="bg-white text-neutral-900 min-h-screen">
-      {/* ── Hero ── */}
-      <section className="pt-[calc(var(--nav-h)+40px)] pb-12 px-4 text-center">
-        <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{KICKER[locale]}</p>
-        <h1 className="mt-3 font-serif text-4xl md:text-6xl font-black tracking-tight">{TITLE[locale]}</h1>
-        <p className="mx-auto mt-5 max-w-2xl text-base md:text-lg leading-relaxed text-neutral-500">{INTRO[locale]}</p>
-      </section>
+    <>
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[{ name: homeLabel(locale), path: '' }, { name: crumbLabel('tips', locale) }]}
+      />
+      <div className="bg-white text-neutral-900 min-h-screen">
+        {/* ── Hero ── */}
+        <section className="pt-[calc(var(--nav-h)+40px)] pb-12 px-4 text-center">
+          <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{KICKER[locale]}</p>
+          <h1 className="mt-3 font-serif text-4xl md:text-6xl font-black tracking-tight">{TITLE[locale]}</h1>
+          <p className="mx-auto mt-5 max-w-2xl text-base md:text-lg leading-relaxed text-neutral-500">{INTRO[locale]}</p>
+        </section>
 
-      {/* ── Sections ── */}
-      <div className="mx-auto max-w-3xl px-4 pb-4">
-        {SECTIONS.map((s, i) => (
-          <Reveal key={i} className="mb-14">
-            <div className="mb-4 flex items-baseline gap-4">
-              <span className="font-serif text-4xl font-black text-black/10">{String(i + 1).padStart(2, '0')}</span>
-              <h2 className="font-serif text-2xl md:text-3xl font-black tracking-tight">{s.title[locale]}</h2>
-            </div>
-            <p className="mb-5 text-base leading-relaxed text-neutral-600">{s.intro[locale]}</p>
-            <ul className="flex flex-col gap-3">
-              {s.tips.map((tip, j) => (
-                <li key={j} className="flex items-start gap-3.5 rounded-2xl border border-black/8 bg-neutral-50 p-4">
-                  <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-gold/12 text-[11px] font-black text-gold ring-1 ring-gold/25">★</span>
-                  <span className="text-[15px] leading-relaxed text-neutral-700">{tip[locale]}</span>
-                </li>
-              ))}
-            </ul>
-            {s.cta && (
-              <Link
-                href={`${base}${s.cta.href}`}
-                className="mt-5 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-3 font-serif text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-gold"
-              >
-                {s.cta.label[locale]} →
-              </Link>
-            )}
-          </Reveal>
-        ))}
-      </div>
-
-      {/* ── Outro CTA ── */}
-      <section className="relative overflow-hidden bg-obsidian py-16 md:py-20 text-center text-white">
-        <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-gold/20 blur-[120px]" />
-        <div className="relative mx-auto max-w-2xl px-4">
-          <h2 className="font-serif text-3xl md:text-5xl font-black tracking-tight">{OUTRO_TITLE[locale]}</h2>
-          <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-white/65">{OUTRO_TEXT[locale]}</p>
-          <Link
-            href={`${base}/calendar`}
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-gold px-8 py-4 font-serif text-sm font-black uppercase tracking-widest text-white transition-colors hover:bg-white"
-          >
-            {OUTRO_CTA[locale]}
-          </Link>
+        {/* ── Sections ── */}
+        <div className="mx-auto max-w-3xl px-4 pb-4">
+          {SECTIONS.map((s, i) => (
+            <Reveal key={i} className="mb-14">
+              <div className="mb-4 flex items-baseline gap-4">
+                <span className="font-serif text-4xl font-black text-black/10">{String(i + 1).padStart(2, '0')}</span>
+                <h2 className="font-serif text-2xl md:text-3xl font-black tracking-tight">{s.title[locale]}</h2>
+              </div>
+              <p className="mb-5 text-base leading-relaxed text-neutral-600">{s.intro[locale]}</p>
+              <ul className="flex flex-col gap-3">
+                {s.tips.map((tip, j) => (
+                  <li key={j} className="flex items-start gap-3.5 rounded-2xl border border-black/8 bg-neutral-50 p-4">
+                    <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-gold/12 text-[11px] font-black text-gold ring-1 ring-gold/25">★</span>
+                    <span className="text-[15px] leading-relaxed text-neutral-700">{tip[locale]}</span>
+                  </li>
+                ))}
+              </ul>
+              {s.cta && (
+                <Link
+                  href={`${base}${s.cta.href}`}
+                  className="mt-5 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-3 font-serif text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-gold"
+                >
+                  {s.cta.label[locale]} →
+                </Link>
+              )}
+            </Reveal>
+          ))}
         </div>
-      </section>
-    </div>
+
+        {/* ── Outro CTA ── */}
+        <section className="relative overflow-hidden bg-obsidian py-16 md:py-20 text-center text-white">
+          <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-gold/20 blur-[120px]" />
+          <div className="relative mx-auto max-w-2xl px-4">
+            <h2 className="font-serif text-3xl md:text-5xl font-black tracking-tight">{OUTRO_TITLE[locale]}</h2>
+            <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-white/65">{OUTRO_TEXT[locale]}</p>
+            <Link
+              href={`${base}/calendar`}
+              className="mt-8 inline-flex items-center gap-2 rounded-full bg-gold px-8 py-4 font-serif text-sm font-black uppercase tracking-widest text-white transition-colors hover:bg-white"
+            >
+              {OUTRO_CTA[locale]}
+            </Link>
+          </div>
+        </section>
+      </div>
+    </>
   )
 }

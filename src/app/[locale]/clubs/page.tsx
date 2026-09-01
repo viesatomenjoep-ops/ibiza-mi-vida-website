@@ -3,6 +3,8 @@ import { staticMetadata } from '@/lib/seo-pages'
 import { getVenues } from '@/lib/clubtickets'
 import ClubsClient from '@/components/nightlife/ClubsClient'
 import { ItemListJsonLd } from '@/components/seo/ItemListJsonLd'
+import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
+import { crumbLabel } from '@/lib/breadcrumb-labels'
 
 export const revalidate = 3600
 
@@ -85,6 +87,10 @@ export default async function NightlifePage({
 
   return (
     <>
+      <BreadcrumbJsonLd
+        locale={params.locale}
+        items={[{ name: homeLabel(params.locale), path: '' }, { name: crumbLabel('clubs', params.locale) }]}
+      />
       <ItemListJsonLd entries={clubEntries} locale={params.locale} name="Ibiza clubs" />
       <ClubsClient venues={venues || []} translations={translations} locale={params.locale} />
     </>
