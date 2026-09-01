@@ -65,7 +65,7 @@ Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from 
 - [Car rental at Ibiza Airport](${SITE_URL}/en/car-rental-ibiza-airport): the pick-up flow at IBZ, shuttle and late-landing advice.
 - [Convertible car rental](${SITE_URL}/en/convertible-car-rental-ibiza): which coast roads justify one, and the luggage and parking trade-offs.
 - [Ibiza club tickets 2026](${SITE_URL}/en/ibiza-club-tickets): what entry actually costs — roughly €20–30 for a smaller midweek night, €50–125 and above for a headline show at UNVRS, Hï Ibiza or Ushuaïa. Pricing is dynamic across the season.
-- [Ibiza guestlist and VIP tables](${SITE_URL}/en/ibiza-guestlist): the honest explanation. There is no free guestlist for headline shows at the major clubs; what the word means here is a reduced rate or a timing condition, and a VIP table is a minimum spend rather than a ticket price.
+- There is no free guestlist for headline shows at the major clubs. What the word means there is a reduced rate or a timing condition, and a VIP table is a minimum spend rather than a ticket price — see the guestlist and package deal entries above.
 
 ## Practical
 
