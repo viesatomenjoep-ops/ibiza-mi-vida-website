@@ -1,6 +1,27 @@
 'use client'
 
 import { GoogleRatingLine, type GoogleRating } from '@/components/reviews/GoogleRatingLine'
+import { FLEET } from '@/data/fleet'
+
+/**
+ * Drie vlootfoto's als heel lichte achtergrond in de footer.
+ *
+ * Decoratie, geen inhoud: aria-hidden, pointer-events none, en een opacity
+ * van 5–7% zodat de linkkolommen erbovenop gewoon AA blijven halen — de
+ * footer is wit en de tekst donker, en 5% beeld daaronder verandert de
+ * gemeten contrastwaarden niet noemenswaardig. Grayscale zodat felle
+ * bootkleuren niet alsnog doorschemeren.
+ *
+ * Vaste indexen uit de vloot (duurste, middelste, goedkoopste) in plaats
+ * van willekeur: dezelfde build toont dezelfde footer, en de mix van groot
+ * en klein is precies het verhaal van de vloot. De footer heeft in
+ * globals.css al position:relative en overflow:hidden, dus de absolute
+ * lagen kunnen nergens buiten de footer lekken.
+ */
+const FOOT_BOATS = (() => {
+  const opPrijs = [...FLEET].sort((a, b) => b.price.high - a.price.high)
+  return [opPrijs[0], opPrijs[Math.floor(opPrijs.length / 2)], opPrijs[opPrijs.length - 1]].filter(Boolean)
+})()
 
 import { clearConsent } from '@/lib/consent'
 
@@ -105,7 +126,22 @@ export function Footer({ rating = null }: { rating?: GoogleRating | null }) {
 
   return (
     <footer>
-      <div className="wrap">
+      {/* Achtergrondboten — zie FOOT_BOATS hierboven. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 select-none overflow-hidden">
+        {FOOT_BOATS[0] && (
+          <img src={FOOT_BOATS[0].image} alt="" loading="lazy"
+            className="absolute -right-24 -top-10 w-[46rem] max-w-none opacity-[0.07] grayscale" />
+        )}
+        {FOOT_BOATS[1] && (
+          <img src={FOOT_BOATS[1].image} alt="" loading="lazy"
+            className="absolute -left-32 bottom-24 hidden w-[38rem] max-w-none opacity-[0.06] grayscale md:block" />
+        )}
+        {FOOT_BOATS[2] && (
+          <img src={FOOT_BOATS[2].image} alt="" loading="lazy"
+            className="absolute -bottom-16 right-1/4 hidden w-[30rem] max-w-none opacity-[0.05] grayscale lg:block" />
+        )}
+      </div>
+      <div className="wrap relative">
         <div className="foot-grid">
           <div>
             <Link className="foot-brand-c" href={base}>

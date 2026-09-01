@@ -15,6 +15,7 @@ import { HomeCategoryCarousel } from '@/components/home/HomeCategoryCarousel';
 import { HomeUSP } from '@/components/home/HomeUSP';
 import { HomeInstagram } from '@/components/home/HomeInstagram';
 import { HomeNewsletter } from '@/components/home/HomeNewsletter';
+import { HomeFleetCarousel } from '@/components/home/HomeFleetCarousel';
 import { HomeFaq } from '@/components/home/HomeFaq';
 import { ArrowCircle } from '@/components/ui/ArrowCircle';
 import { HomeTonight } from '@/components/home/HomeTonight';
@@ -280,6 +281,11 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           nieuwsbrief; hier volgt het direct op de strip met alles wat geen
           nachtclub is, waar het thuishoort en waar mensen nog kijken. */}
       {rentalsSlot}
+
+      {/* Vlootcarrousel: in de bootzone, direct na de rentals — uitdrukkelijk
+          NIET bij de eventsecties bovenaan. Dure en goedkope boten om en om;
+          zie de selectie-functie voor waarom. */}
+      <HomeFleetCarousel locale={locale} />
 
       {/* Club logo marquee — just the logos — right below "Volledige kalender", above Populaire clubs */}
       <Reveal className="flex items-center bg-neutral-100 py-3 border-t border-b border-black/10">
