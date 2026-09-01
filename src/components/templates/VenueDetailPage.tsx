@@ -23,6 +23,8 @@ const BCP: Record<string, string> = { en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es:
 interface VenueLabels {
   night: string; daytime: string; ibizaSpain: string;
   weeklyKicker: string; weeklyTitlePrefix: string;
+  /** Toegankelijke naam voor de carrouselpijlen — ze hebben geen zichtbare tekst. */
+  prevWeek: string; nextWeek: string;
   posterFromApi: string; tickets: string; ticketsUpper: string; buyTickets: string;
   allEvents: string; agendaPrefix: string;
   aboutPrefix: string; guestlistVip: string;
@@ -35,6 +37,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
   en: {
     night: 'Night', daytime: 'Daytime', ibizaSpain: 'Ibiza, Spain',
     weeklyKicker: 'Weekly parties 2026', weeklyTitlePrefix: 'Regular nights at',
+    prevWeek: 'Previous parties', nextWeek: 'Next parties',
     posterFromApi: 'Poster from API', tickets: 'Tickets', ticketsUpper: 'TICKETS', buyTickets: 'Buy Tickets',
     allEvents: 'All events', agendaPrefix: 'Schedule',
     aboutPrefix: 'About', guestlistVip: 'Package deals & VIP via WhatsApp',
@@ -50,6 +53,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
   nl: {
     night: 'Nacht', daytime: 'Overdag', ibizaSpain: 'Ibiza, Spanje',
     weeklyKicker: 'Wekelijkse parties 2026', weeklyTitlePrefix: 'Vaste avonden in',
+    prevWeek: 'Vorige parties', nextWeek: 'Volgende parties',
     posterFromApi: 'Poster uit API', tickets: 'Tickets', ticketsUpper: 'TICKETS', buyTickets: 'Koop tickets',
     allEvents: 'Alle events', agendaPrefix: 'Agenda',
     aboutPrefix: 'Over', guestlistVip: 'Package deals & VIP via WhatsApp',
@@ -65,6 +69,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
   de: {
     night: 'Nacht', daytime: 'Tagsüber', ibizaSpain: 'Ibiza, Spanien',
     weeklyKicker: 'Wöchentliche Partys 2026', weeklyTitlePrefix: 'Feste Abende im',
+    prevWeek: 'Vorherige Partys', nextWeek: 'Nächste Partys',
     posterFromApi: 'Poster aus API', tickets: 'Tickets', ticketsUpper: 'TICKETS', buyTickets: 'Tickets kaufen',
     allEvents: 'Alle Events', agendaPrefix: 'Programm',
     aboutPrefix: 'Über', guestlistVip: 'Package Deals & VIP über WhatsApp',
@@ -80,6 +85,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
   es: {
     night: 'Noche', daytime: 'De día', ibizaSpain: 'Ibiza, España',
     weeklyKicker: 'Fiestas semanales 2026', weeklyTitlePrefix: 'Noches fijas en',
+    prevWeek: 'Fiestas anteriores', nextWeek: 'Fiestas siguientes',
     posterFromApi: 'Póster de la API', tickets: 'Entradas', ticketsUpper: 'ENTRADAS', buyTickets: 'Comprar entradas',
     allEvents: 'Todos los eventos', agendaPrefix: 'Agenda',
     aboutPrefix: 'Sobre', guestlistVip: 'Package deals y VIP por WhatsApp',
@@ -95,6 +101,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
   fr: {
     night: 'Nuit', daytime: 'En journée', ibizaSpain: 'Ibiza, Espagne',
     weeklyKicker: 'Soirées hebdomadaires 2026', weeklyTitlePrefix: 'Soirées régulières au',
+    prevWeek: 'Fêtes précédentes', nextWeek: 'Fêtes suivantes',
     posterFromApi: 'Affiche via API', tickets: 'Billets', ticketsUpper: 'BILLETS', buyTickets: 'Acheter des billets',
     allEvents: 'Tous les événements', agendaPrefix: 'Agenda',
     aboutPrefix: 'À propos de', guestlistVip: 'Package deals & VIP via WhatsApp',
@@ -280,11 +287,26 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                 <div className="text-xs font-bold tracking-widest uppercase text-neutral-400 mb-2">{T.weeklyKicker}</div>
                 <h2 className="text-3xl md:text-4xl font-serif font-bold">{T.weeklyTitlePrefix} {club.name}</h2>
               </div>
+              {/* Deze twee knoppen hadden geen tekst, geen aria-label en geen title:
+                  een schermlezer zei alleen "knop", en een agent zag niets
+                  bruikbaars. Bovendien was het icoon wit op een witte knop —
+                  currentColor volgt text-white — dus het pijltje verscheen pas
+                  bij hover. Twee lege cirkels tot je er met de muis overheen ging. */}
               <div className="flex gap-2 shrink-0 hidden md:flex">
-                <button onClick={() => scrollRail(weeklyRef, -1)} className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center hover:bg-ibiza-green transition-colors text-white">
+                <button
+                  type="button"
+                  aria-label={T.prevWeek}
+                  onClick={() => scrollRail(weeklyRef, -1)}
+                  className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center text-neutral-900 transition-colors hover:bg-ibiza-green hover:text-white"
+                >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
                 </button>
-                <button onClick={() => scrollRail(weeklyRef, 1)} className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center hover:bg-ibiza-green transition-colors text-white">
+                <button
+                  type="button"
+                  aria-label={T.nextWeek}
+                  onClick={() => scrollRail(weeklyRef, 1)}
+                  className="w-11 h-11 rounded-full border border-black/10 bg-white flex items-center justify-center text-neutral-900 transition-colors hover:bg-ibiza-green hover:text-white"
+                >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
                 </button>
               </div>
@@ -309,7 +331,11 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                     <h3 className="text-lg font-bold leading-tight mb-2 truncate text-neutral-900">{party.name}</h3>
                     <div className="flex justify-between items-center mt-3">
                       <div className="text-xs text-neutral-500 font-semibold uppercase tracking-wider">{T.ticketsUpper}</div>
-                      <button className="bg-ibiza-mint hover:bg-ibiza-green text-white font-bold text-xs px-4 py-2 rounded-full transition-colors">{T.tickets}</button>
+                      {/* Was wit op ibiza-mint (#E4F2ED): 1,15:1, oftewel onzichtbaar
+                          tot je hovert — en dat doet een toetsenbord- of agentgebruiker
+                          nooit. Groen op mint haalt 5,16:1. Dit is de primaire
+                          conversieknop op deze kaart. */}
+                      <span className="bg-ibiza-mint group-hover:bg-ibiza-green text-ibiza-green group-hover:text-white font-bold text-xs px-4 py-2 rounded-full transition-colors">{T.tickets}</span>
                     </div>
                   </div>
                 </Link>
