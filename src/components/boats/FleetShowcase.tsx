@@ -10,6 +10,8 @@ import { FLEET, FLEET_FROM_PRICE, type Boat, type FleetCategory } from '@/data/f
 import { priceForDate, statusForDate, type LiveFleet } from '@/lib/yacht-broker';
 import { FileText, CalendarDays } from 'lucide-react';
 import { BackButton } from '@/components/ui/BackButton';
+import { FavouriteButton } from '@/components/boats/FavouriteButton';
+import { getFavourites, onFavouritesChange } from '@/lib/boat-favourites';
 
 /** WhatsApp business number (digits only). */
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '33666528412';
@@ -69,6 +71,13 @@ interface FleetLabels {
   /* Per boot: dossier + eerlijke voorwaardenregel (vervangt de badge-rij). */
   dossier: string;
   termsNote: string;
+  /* Favorieten → één WhatsApp-aanvraag naar Simon. */
+  favCount: (n: number) => string;
+  favSend: string;
+  favClear: string;
+  favWaIntro: string;                // eerste regel van het verzamelbericht
+  favWaDate: (d: string) => string;  // "Datum: {d}" — alleen als er een datum gekozen is
+  favWaOutro: string;
   catAll: string;
   catYacht: string;                  // "Yachts 50–70 ft"
   catMotorboat: string;              // "Motorboats 20–30 ft"
@@ -97,6 +106,12 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     liveStamp: (t) => `Live status, ${t}`,
     dossier: 'Boat dossier (PDF)',
     termsNote: 'What the rate includes (skipper, fuel, VAT) differs per boat — it is in the dossier and Simon confirms it before you book.',
+    favCount: (n) => `${n} favourite${n === 1 ? '' : 's'}`,
+    favSend: 'Send to Simon in one message',
+    favClear: 'Clear list',
+    favWaIntro: "Hi Ibiza mi Vida! These are my favourite boats:",
+    favWaDate: (d) => `Preferred date: ${d}`,
+    favWaOutro: 'Could you check availability and prices for these?',
     catAll: 'All boats', catYacht: 'Yachts 50 ft+', catMotorboat: 'Motorboats 20–50 ft',
     inquire: 'Inquire information',
     waMessage: (boat) => `Hi Ibiza mi Vida! I'm interested in the private boat ${boat}. Could you send me more information about availability and prices?`,
@@ -121,6 +136,12 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     liveStamp: (t) => `Live stand, ${t}`,
     dossier: 'Bootdossier (PDF)',
     termsNote: 'Wat er bij de prijs inzit (schipper, brandstof, btw) verschilt per boot — het staat in het dossier en Simon bevestigt het voordat je boekt.',
+    favCount: (n) => `${n} favoriet${n === 1 ? '' : 'en'}`,
+    favSend: 'Stuur in één bericht naar Simon',
+    favClear: 'Lijst wissen',
+    favWaIntro: 'Hoi Ibiza mi Vida! Dit zijn mijn favoriete boten:',
+    favWaDate: (d) => `Voorkeursdatum: ${d}`,
+    favWaOutro: 'Kunnen jullie hiervoor beschikbaarheid en prijzen checken?',
     catAll: 'Alle boten', catYacht: 'Jachten 50 ft+', catMotorboat: 'Motorboten 20–50 ft',
     inquire: 'Voor meer informatie',
     waMessage: (boat) => `Hoi Ibiza mi Vida! Ik heb interesse in de private boot ${boat}. Kunnen jullie mij meer informatie sturen over de beschikbaarheid en prijzen?`,
@@ -145,6 +166,12 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     liveStamp: (t) => `Live-Stand, ${t}`,
     dossier: 'Bootsdossier (PDF)',
     termsNote: 'Was im Preis enthalten ist (Skipper, Kraftstoff, MwSt.) unterscheidet sich je Boot — es steht im Dossier und Simon bestätigt es vor der Buchung.',
+    favCount: (n) => `${n} Favorit${n === 1 ? '' : 'en'}`,
+    favSend: 'In einer Nachricht an Simon senden',
+    favClear: 'Liste leeren',
+    favWaIntro: 'Hallo Ibiza mi Vida! Das sind meine Lieblingsboote:',
+    favWaDate: (d) => `Wunschdatum: ${d}`,
+    favWaOutro: 'Könnt ihr dafür Verfügbarkeit und Preise prüfen?',
     catAll: 'Alle Boote', catYacht: 'Yachten 50 ft+', catMotorboat: 'Motorboote 20–50 ft',
     inquire: 'Informationen anfragen',
     waMessage: (boat) => `Hallo Ibiza mi Vida! Ich interessiere mich für das private Boot ${boat}. Können Sie mir mehr Informationen zu Verfügbarkeit und Preisen senden?`,
@@ -169,6 +196,12 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     liveStamp: (t) => `Estado en vivo, ${t}`,
     dossier: 'Dossier del barco (PDF)',
     termsNote: 'Lo que incluye la tarifa (patrón, combustible, IVA) varía según el barco: está en el dossier y Simon lo confirma antes de reservar.',
+    favCount: (n) => `${n} favorito${n === 1 ? '' : 's'}`,
+    favSend: 'Enviar a Simon en un mensaje',
+    favClear: 'Vaciar lista',
+    favWaIntro: '¡Hola Ibiza mi Vida! Estos son mis barcos favoritos:',
+    favWaDate: (d) => `Fecha preferida: ${d}`,
+    favWaOutro: '¿Podéis comprobar disponibilidad y precios?',
     catAll: 'Todos los barcos', catYacht: 'Yates 50 ft+', catMotorboat: 'Lanchas 20–50 ft',
     inquire: 'Solicitar información',
     waMessage: (boat) => `¡Hola Ibiza mi Vida! Me interesa el barco privado ${boat}. ¿Podrían enviarme más información sobre disponibilidad y precios?`,
@@ -193,6 +226,12 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     liveStamp: (t) => `État en direct, ${t}`,
     dossier: 'Dossier du bateau (PDF)',
     termsNote: "Ce que le tarif inclut (skipper, carburant, TVA) varie selon le bateau — c'est dans le dossier et Simon le confirme avant de réserver.",
+    favCount: (n) => `${n} favori${n === 1 ? '' : 's'}`,
+    favSend: 'Envoyer à Simon en un message',
+    favClear: 'Vider la liste',
+    favWaIntro: 'Bonjour Ibiza mi Vida ! Voici mes bateaux favoris :',
+    favWaDate: (d) => `Date souhaitée : ${d}`,
+    favWaOutro: 'Pouvez-vous vérifier la disponibilité et les prix ?',
     catAll: 'Tous les bateaux', catYacht: 'Yachts 50 ft+', catMotorboat: 'Bateaux à moteur 20–50 ft',
     inquire: 'Demander des informations',
     waMessage: (boat) => `Bonjour Ibiza mi Vida ! Je suis intéressé(e) par le bateau privé ${boat}. Pourriez-vous m'envoyer plus d'informations sur la disponibilité et les tarifs ?`,
@@ -230,7 +269,7 @@ function BoatCard({ boat, T, locale, onOpen, live, date, season }: {
   const stKleur = st === 'free' ? 'bg-ibiza-green' : st === 'option' ? 'bg-amber-500' : 'bg-red-500';
   const stTekst = st === 'free' ? T.availFree : st === 'option' ? T.availOption : T.availBooked;
   return (
-    <article id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="group flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
+    <article id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="group relative flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
       {/* Photo */}
       <button
         onClick={onOpen}
@@ -261,6 +300,10 @@ function BoatCard({ boat, T, locale, onOpen, live, date, season }: {
           <Maximize2 size={15} />
         </span>
       </button>
+      {/* Hartje BUITEN de fotoknop: een button in een button is ongeldig HTML
+          en de klik zou ook de lightbox openen. Absoluut gepositioneerd op
+          dezelfde hoek, over de foto heen. */}
+      <FavouriteButton slug={boat.slug} locale={locale} className="absolute right-3 top-3 z-10" />
 
       {/* Info / price panel */}
       <div className="flex flex-1 flex-col p-4">
@@ -299,13 +342,12 @@ function BoatCard({ boat, T, locale, onOpen, live, date, season }: {
             eigen voorwaarden — dezelfde badges zouden voor een deel van de
             boten aantoonbaar onwaar zijn. Wat geldt staat in het dossier. */}
         <div className="mt-2.5">
-          {/* Via /api/dossier en niet rechtstreeks naar de partner: na de
-              eerste klik komt de PDF uit onze eigen edge-cache. Zie de route
-              voor waarom het niet via Cloudinary gaat (401 op PDF-fetch). */}
+          {/* Naar de dossierpagina in eigen huisstijl, zelfde tabblad — de
+              kale PDF was een doodlopende steeg zonder logo of weg terug. De
+              pagina bedt /api/dossier in (eigen edge-cache) en linkt terug
+              naar precies deze kaart via het #boat-anker. */}
           <a
-            href={`/api/dossier/${boat.slug}`}
-            target="_blank"
-            rel="noopener"
+            href={`/${locale}/private-boat-charters/dossier/${boat.slug}`}
             className="inline-flex items-center gap-1.5 text-[11px] font-bold text-ibiza-green underline underline-offset-2 hover:text-black"
           >
             <FileText size={12} /> {T.dossier}
@@ -399,6 +441,10 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
   // renderen op verschillende momenten). Tot die tijd is er simpelweg geen
   // live regel — de statische banden staan er dan al.
   const [live, setLive] = useState<LiveFleet | null>(null);
+  // Favorieten: pas na mount uit localStorage (hydration-veilig), daarna live
+  // synchroon met elk hartje — ook op de dossierpagina in hetzelfde tabblad.
+  const [favs, setFavs] = useState<string[]>([]);
+  useEffect(() => { setFavs(getFavourites()); return onFavouritesChange(setFavs); }, []);
   const [date, setDate] = useState<string | null>(null);
   const [onlyAvailable, setOnlyAvailable] = useState(false);
   useEffect(() => {
@@ -414,13 +460,34 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
   // begrenst daarop, en wie verder vooruit wil komt bij Simon uit.
   const dateInRange = !!(live && date && date >= live.rangeStart && date < live.rangeEnd);
 
-  // Deep-link: when arriving with #boat-<slug>, scroll straight to that boat's card
+  // Deep-link: bij binnenkomst met #boat-<slug> naar die kaart scrollen — en
+  // blijven corrigeren tot de layout stilstaat. De browser doet zelf een
+  // vroege anker-scroll, maar daarna schuift de pagina nog: de live balk
+  // verschijnt zodra de feed geladen is en duwt het grid omlaag. Eén scroll
+  // op een vast moment eindigde daardoor aantoonbaar ~1700px boven de kaart.
+  // Dit interval kijkt 5 seconden lang elke 400ms of de kaart nog ongeveer
+  // bovenin beeld staat, corrigeert instant (geen smooth: die animatie zou
+  // met de volgende controle wedijveren) en stopt na twee opeenvolgende
+  // goede metingen — wie zelf scrolt wordt dus hooguit even gecorrigeerd,
+  // daarna nooit meer.
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const id = window.location.hash.slice(1);
     if (!id) return;
-    const t = setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 350);
-    return () => clearTimeout(t);
+    let goed = 0;
+    let beurten = 0;
+    const iv = setInterval(() => {
+      beurten++;
+      const el = document.getElementById(id);
+      if (el) {
+        const top = el.getBoundingClientRect().top;
+        const inBeeld = top >= -60 && top <= Math.max(200, window.innerHeight * 0.4);
+        if (inBeeld) goed++;
+        else { goed = 0; el.scrollIntoView({ behavior: 'auto', block: 'start' }); }
+      }
+      if (goed >= 2 || beurten >= 13) clearInterval(iv);
+    }, 400);
+    return () => clearInterval(iv);
   }, []);
   const [priceDraft, setPriceDraft] = useState<string>('');
   const isPriceActive = maxPrice < PRICE_MAX;
@@ -457,6 +524,16 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
     const i = filtered.findIndex(b => b.slug === slug);
     setLightbox(i >= 0 ? i : 0);
   }, [filtered]);
+
+  const favBoats = useMemo(() => FLEET.filter(b => favs.includes(b.slug)), [favs]);
+  const favWa = useMemo(() => {
+    if (!favBoats.length) return '#';
+    const regels = favBoats.map(b => `• ${b.model} "${b.name ?? ''}" — https://www.ibizamivida.com/${locale}/private-boat-charters/dossier/${b.slug}`);
+    const delen = [T.favWaIntro, ...regels];
+    if (date) delen.push(T.favWaDate(date));
+    delen.push(T.favWaOutro);
+    return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(delen.join('\n'))}`;
+  }, [favBoats, date, locale, T]);
 
   const nav = useCallback((dir: number) => {
     setLightbox(prev => prev == null ? prev : (prev + dir + filtered.length) % filtered.length);
@@ -622,6 +699,31 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
           <div className="rounded-3xl border border-black/10 bg-neutral-50 py-20 text-center text-black/50">{T.noResults}</div>
         )}
       </section>
+
+      {/* Favorietenbalk — verschijnt zodra er iets bewaard is. bottom-14 op
+          mobiel: onderin zit op sommige pagina's al de partnerbalk, en twee
+          lagen op elkaar maakt beide onleesbaar. */}
+      {favBoats.length > 0 && (
+        <div className="fixed inset-x-0 bottom-0 z-[60] border-t border-black/10 bg-white/95 backdrop-blur-md shadow-[0_-4px_16px_rgba(0,0,0,0.08)]">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3">
+            <span className="inline-flex items-center gap-2 text-sm font-black text-black">
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-red-500/10 text-red-500">♥</span>
+              {T.favCount(favBoats.length)}
+            </span>
+            <span className="hidden min-w-0 flex-1 truncate text-xs text-black/50 sm:block">
+              {favBoats.map(b => b.name ?? b.model).join(' · ')}
+            </span>
+            <a
+              href={favWa}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-auto inline-flex items-center gap-2 rounded-full bg-ibiza-green px-5 py-2.5 text-sm font-bold text-white transition-all hover:brightness-95 active:scale-[0.98]"
+            >
+              <MessageCircle size={15} /> {T.favSend}
+            </a>
+          </div>
+        </div>
+      )}
 
       {/* WhatsApp banner */}
       <section className="mx-auto max-w-6xl px-4 pb-24">
