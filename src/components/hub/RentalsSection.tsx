@@ -5,7 +5,8 @@ import type { PARTNER_LOGOS } from '@/lib/partners'
 import { WIBER_URL, CLICKANDBOAT_URL } from '@/lib/partners'
 import { slugFor } from '@/lib/route-slugs'
 import { RENTAL_PRICES } from '@/lib/rental-prices'
-import { RENTALS_SECTION, BOAT_PROMO, CAR_PROMO } from '@/lib/rental-promo-copy'
+import { RENTALS_SECTION, BOAT_PROMO, CAR_PROMO, BOAT_CATEGORIES, CAR_CATEGORIES, CATEGORIES_LABEL } from '@/lib/rental-promo-copy'
+import { WiberBanner } from '@/components/partner/WiberBanner'
 import { FLEET } from '@/data/fleet'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { localeTag } from '@/lib/date-label'
@@ -39,6 +40,13 @@ import { localeTag } from '@/lib/date-label'
 
 interface CardData {
   kicker: string
+  /** Foto boven de kaart. Alleen eigen beeld — nooit stock voor een partner. */
+  photo?: { src: string; alt: string }
+  /** Wat je bij deze partner kunt huren. Het aanbod, niet de voorwaarden. */
+  categories: string[]
+  categoriesLabel: string
+  /** Rendert onder de knop, achter toestemming. */
+  banner?: React.ReactNode
   /** Key in PARTNER_LOGOS — renders the logo once the asset exists. */
   logoKey: keyof typeof PARTNER_LOGOS
   logoName: string
@@ -56,15 +64,42 @@ interface CardData {
 
 function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
   return (
-    <div className="flex flex-col rounded-3xl bg-obsidian p-7 text-white md:p-8">
-      {/* Toont het echte logo zodra het in public/partners staat; tot die tijd
-          de naam als wordmark. Zie PARTNER_LOGOS in lib/partners.ts. */}
-      <div className="flex h-7 items-center">
-        <PartnerLogo partner={data.logoKey} name={data.logoName} on="dark" />
-      </div>
-      <p className="mt-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white/45">{data.kicker}</p>
+    <div className="flex flex-col overflow-hidden rounded-3xl bg-obsidian text-white">
+      {data.photo && (
+        /* Eigen foto. De kicker en het partnerlogo liggen erop in plaats van
+           erboven, zodat de kaart met beeld begint in plaats van met twee
+           regels grijze bovenkop. */
+        <div className="relative aspect-[16/9] w-full overflow-hidden">
+          <img
+            src={data.photo.src}
+            alt={data.photo.alt}
+            className="h-full w-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+          {/* Verloop, zodat witte tekst op elke foto leesbaar blijft in plaats
+              van te hopen dat de onderkant toevallig donker is. */}
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/35 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white drop-shadow">{data.kicker}</p>
+            <div className="flex h-6 items-center opacity-90">
+              <PartnerLogo partner={data.logoKey} name={data.logoName} on="dark" />
+            </div>
+          </div>
+        </div>
+      )}
 
-      <div className="mt-4 flex items-start justify-between gap-5">
+      <div className="flex flex-1 flex-col p-7 md:p-8">
+      {!data.photo && (
+        <>
+          <div className="flex h-7 items-center">
+            <PartnerLogo partner={data.logoKey} name={data.logoName} on="dark" />
+          </div>
+          <p className="mt-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white/45">{data.kicker}</p>
+        </>
+      )}
+
+      <div className="flex items-start justify-between gap-5">
         <h3 className="font-serif text-2xl font-black leading-tight tracking-tight text-white">{data.heading}</h3>
         {data.price !== null && (
           <p className="shrink-0 text-right">
@@ -85,6 +120,22 @@ function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
         ))}
       </ul>
 
+      {/* Het aanbod zelf. De kaart noemde alleen voorwaarden, waardoor er nergens
+          stond wat je hier eigenlijk kunt huren. */}
+      <div className="mt-6 border-t border-white/10 pt-5">
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/45">{data.categoriesLabel}</p>
+        <ul className="mt-3 flex flex-wrap gap-2">
+          {data.categories.map((c) => (
+            <li
+              key={c}
+              className="rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 text-[13px] font-medium text-white/90"
+            >
+              {c}
+            </li>
+          ))}
+        </ul>
+      </div>
+
       <div className="mt-7 flex flex-col gap-4">
         <AffiliateLink href={data.href} partner={data.partner} locale={locale}>
           {data.cta}
@@ -95,6 +146,8 @@ function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
         >
           {data.readMore} →
         </Link>
+        {data.banner}
+      </div>
       </div>
     </div>
   )
@@ -108,8 +161,18 @@ export function RentalsSection({ locale }: { locale: string }) {
   const boatFrom = priced.length ? Math.min(...priced.map((b) => b.price.low)) : null
   const nf = new Intl.NumberFormat(localeTag(l), { maximumFractionDigits: 0 })
 
+  // Eigen vlootfoto, geen stock: de boot op de kaart is een boot die we echt
+  // varen. Vast gekozen (niet willekeurig) zodat build en client hetzelfde
+  // beeld renderen en er geen hydration-verschil ontstaat.
+  const heroBoat = FLEET.find((b) => b.image?.includes('cap-camarat')) ?? priced[0] ?? FLEET[0]
+
   const boat: CardData = {
     kicker: BOAT_PROMO.kicker[l],
+    photo: heroBoat?.image
+      ? { src: heroBoat.image, alt: `${heroBoat.model} — ${heroBoat.marina}, Ibiza` }
+      : undefined,
+    categories: BOAT_CATEGORIES[l],
+    categoriesLabel: CATEGORIES_LABEL[l],
     logoKey: 'clickandboat',
     logoName: 'Click&Boat',
     heading: BOAT_PROMO.heading[l],
@@ -126,6 +189,13 @@ export function RentalsSection({ locale }: { locale: string }) {
 
   const car: CardData = {
     kicker: CAR_PROMO.kicker[l],
+    // Geen foto: we hebben geen eigen beeld van Wiber's vloot, en een
+    // stockauto naast een echte boot verkoopt een auto die niet bestaat. De
+    // officiële Awin-banner onderaan is wél echt beeld van de partner, en die
+    // mogen we tonen — achter toestemming, omdat hij de vertoning meetelt.
+    categories: CAR_CATEGORIES[l],
+    categoriesLabel: CATEGORIES_LABEL[l],
+    banner: <WiberBanner className="mt-1" />,
     logoKey: 'wiber',
     logoName: 'Wiber Rent a Car',
     heading: CAR_PROMO.heading[l],

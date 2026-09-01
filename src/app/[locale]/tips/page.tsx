@@ -139,7 +139,7 @@ const SECTIONS: TipSection[] = [
       L('Naar de clubs? De Discobus rijdt in het seizoen de hele nacht tussen de hotspots voor een paar euro.', 'Going clubbing? The Discobus runs all night between the hotspots in season for a few euros.', 'Zum Feiern? Der Discobus fährt in der Saison die ganze Nacht zwischen den Hotspots — für ein paar Euro.', '¿De fiesta? El Discobus circula toda la noche entre los puntos clave en temporada por pocos euros.', 'Pour sortir ? Le Discobus circule toute la nuit entre les hotspots en saison, pour quelques euros.'),
       L('Parkeer nooit in de berm bij de baaien — boetes zijn hoog. Ga vroeg voor een echte parkeerplaats.', 'Never park on the verge near the coves — fines are steep. Go early to get a real parking spot.', 'Parke nie am Straßenrand bei den Buchten — die Strafen sind hoch. Fahr früh los für einen echten Parkplatz.', 'Nunca aparques en el arcén junto a las calas — las multas son altas. Llega temprano para una plaza de verdad.', 'Ne vous garez jamais sur le bas-côté près des criques — les amendes sont salées. Partez tôt pour une vraie place.'),
     ],
-    cta: { label: L('Auto & scooter huren', 'Rent a car or scooter', 'Auto & Roller mieten', 'Alquilar coche o moto', 'Louer voiture ou scooter'), href: '/car-scooter-rental' },
+    cta: { label: L('Auto huren', 'Rent a car', 'Auto mieten', 'Alquilar coche', 'Louer une voiture'), href: '/car-rental-ibiza' },
   },
   {
     title: L('Formentera & op het water', 'Formentera & on the water', 'Formentera & auf dem Wasser', 'Formentera y el mar', 'Formentera & sur l’eau'),

@@ -137,7 +137,6 @@ export default function LocationVoitureIbizaPage() {
 
       <InternalLinks heading="Pages liées" locale={LOCALE} links={[
         { label: 'Location de bateau à Ibiza', href: 'location-bateau-ibiza', body: 'Les criques inaccessibles en voiture, vues depuis l’eau.' },
-        { label: 'Voiture & scooter', href: 'car-scooter-rental', body: 'La page existante, avec scooters et quads.' },
         { label: 'Conseils Ibiza', href: 'tips', body: 'Criques, stationnement et meilleure période pour venir.' },
       ]} />
 

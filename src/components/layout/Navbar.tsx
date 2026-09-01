@@ -115,11 +115,9 @@ export function Navbar() {
         { label: t.nav_activities || 'Activities', href: '/activities' },
         { label: t.nav_tours || 'Tours', href: '/tours' },
         { label: t.nav_water_sports || 'Water Sports', href: '/water-sports' },
-        { label: t.nav_drink_packages || 'Drankpakketten', href: '/drink-packages' },
         // Twee items, niet één: 'auto huren' en 'scooter huren' zijn andere
         // zoekopdrachten. Auto's gaan naar de pillar met het echte aanbod.
         { label: t.nav_car_rental || 'Car Rental Ibiza', href: `/${slugFor('car-rental', l)}` },
-        { label: t.nav_scooter_quad || 'Scooter & Quad Rental', href: '/car-scooter-rental' },
       ],
     },
     {

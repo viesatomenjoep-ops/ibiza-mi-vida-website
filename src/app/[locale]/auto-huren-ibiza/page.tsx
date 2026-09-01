@@ -188,7 +188,6 @@ export default function AutoHurenIbizaPage() {
         locale={LOCALE}
         links={[
           { label: 'Boot huren op Ibiza', href: 'boot-huren-ibiza', body: 'De baaien waar je niet naartoe kunt rijden, langs de andere kant benaderd.' },
-          { label: 'Auto & scooter huren', href: 'car-scooter-rental', body: 'De bestaande pagina met scooters en quads erbij.' },
           { label: 'Ibiza tips', href: 'tips', body: 'Baaien, parkeren en wanneer je het beste komt.' },
         ]}
       />

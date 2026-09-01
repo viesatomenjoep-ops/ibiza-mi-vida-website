@@ -274,38 +274,6 @@ export const SEO_PAGES: Record<string, Copy> = {
   // zoekopdrachten op één URL. Auto's hebben sinds vandaag een eigen pillar
   // (/car-rental-ibiza), dus deze pagina is nu de scooterpagina en verwijst
   // voor auto's door. Zo vecht niets meer om dezelfde term.
-  'car-scooter-rental': {
-    title: L(
-      'Scooter & quad huren op Ibiza',
-      'Scooter & quad rental in Ibiza',
-      'Roller & Quad mieten auf Ibiza',
-      'Alquiler de motos y quads en Ibiza',
-      'Location de scooter et quad à Ibiza',
-    ),
-    description: L(
-      'Scooter of quad huren op Ibiza: parkeer overal, sla het verkeer over en zie het eiland op je eigen tempo. Auto huren regel je op onze autopagina.',
-      'Rent a scooter or quad in Ibiza: park anywhere, skip the traffic and see the island at your own pace. Renting a car is on our car rental page.',
-      'Roller oder Quad mieten auf Ibiza: überall parken, den Verkehr umgehen und die Insel im eigenen Tempo sehen. Mietwagen stehen auf unserer Autoseite.',
-      'Alquila una moto o quad en Ibiza: aparca donde quieras, evita el tráfico y recorre la isla a tu ritmo. Los coches están en nuestra página de coches.',
-      'Louez un scooter ou un quad à Ibiza : garez-vous partout, évitez le trafic et parcourez l’île à votre rythme. Les voitures ont leur propre page.',
-    ),
-  },
-  'drink-packages': {
-    title: L(
-      'Ibiza Drankpakketten — Bespaar in de Club',
-      'Ibiza Drink Packages — Save at the Club',
-      'Ibiza Getränkepakete — Spare im Club',
-      'Packs de Bebida Ibiza — Ahorra en el Club',
-      'Forfaits Boissons Ibiza — Économisez en Club',
-    ),
-    description: L(
-      'Vooraf geboekte drankpakketten voor de clubs van Ibiza. Weet wat je betaalt en bespaar op de bar.',
-      'Pre-booked drink packages for Ibiza’s clubs. Know what you pay and save at the bar.',
-      'Vorab gebuchte Getränkepakete für Ibizas Clubs. Weiß, was du zahlst, und spare an der Bar.',
-      'Packs de bebida reservados por adelantado para los clubs de Ibiza. Sabe lo que pagas y ahorra.',
-      'Forfaits boissons réservés à l’avance pour les clubs d’Ibiza. Sachez ce que vous payez et économisez.',
-    ),
-  },
   blog: {
     title: L(
       'Ibiza Blog — Tips, Gidsen & Nieuws',

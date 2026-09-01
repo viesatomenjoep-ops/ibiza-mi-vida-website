@@ -12,9 +12,7 @@ const allCategories = [
   { label: 'Formentera Trips', href: '/formentera-boat-trips', icon: Sun, desc: 'Day trips to paradise' },
   { label: 'Package Deals', href: '/package-deals', icon: CheckCircle, desc: 'Ticket, table and transfer in one price' },
   { label: 'Guestlist', href: '/guestlist', icon: CheckCircle, desc: 'Free sign-up via WhatsApp' },
-  { label: 'Drink Packages', href: '/drink-packages', icon: GlassWater, desc: 'VIP tables & bottle service' },
   { label: 'Car Rental Ibiza', href: '/car-rental-ibiza', icon: Car, desc: 'All-in rate, five minutes from the airport' },
-  { label: 'Scooter & Quad Rental', href: '/car-scooter-rental', icon: Car, desc: 'Park anywhere, skip the traffic' },
 ]
 
 const colors = ['bg-[#0E7C66]', 'bg-[#89F4C7]', 'bg-[#F8B5E5]', 'bg-[#F6FE80]']

@@ -1,35 +1,19 @@
-import type { Metadata } from 'next'
-import { staticMetadata } from '@/lib/seo-pages'
-
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
-  return staticMetadata(params.locale, 'car-scooter-rental')
-}
-
-import { getDictionary } from '@/lib/dictionary'
-import CarScooterRentalClient from './CarScooterRentalClient'
-import { CarRentalPromo } from '@/components/hub/CarRentalPromo'
+import { permanentRedirect } from 'next/navigation'
 
 /**
- * Deze pagina was een lege huls: een zoekbalk, een tab en "binnenkort vind je
- * hier het volledige aanbod" boven een WhatsApp-knop. Voor autoverhuur bestaat
- * dat aanbod wel — via Wiber — dus staat het er nu ook, server-gerenderd onder
- * de bestaande shell in plaats van erin, zodat het zichtbaar is voor crawlers
- * die geen JavaScript draaien.
+ * Weggehaald: dit was een lege huls.
  *
- * De shell blijft staan omdat deze pagina ook over scooters gaat en dat deel
- * echt nog leeg is. Zodra daar aanbod voor is, hoort het in dezelfde vorm.
+ * De pagina toonde een zoekbalk, één tab en "binnenkort vind je hier het
+ * volledige aanbod" boven een WhatsApp-knop. Voor scooters en quads is er geen
+ * aanbod, dus dat bleef ook zo. Een geindexeerde pagina die "komt eraan" zegt
+ * is dunne inhoud: hij staat in de sitemap, wordt gecrawld, en levert de
+ * bezoeker die erop klikt een doodlopende weg.
+ *
+ * Een 301 in plaats van een 404, omdat de URL in de sitemap heeft gestaan en
+ * intern gelinkt was. De autopagina is het juiste doel: dat is de intentie die
+ * deze URL feitelijk nog droeg, en het enige echte aanbod dat erop stond (het
+ * Wiber-blok) staat daar volledig.
  */
-export default async function CarScooterRentalPage({ params: { locale } }: { params: { locale: string } }) {
-  const dict = await getDictionary(locale as any)
-
-  return (
-    <>
-      <CarScooterRentalClient locale={locale} />
-      {/* Op .pl-shell, dat wit is — de promo brengt zijn eigen donkere
-          achtergrond mee en leest daar dus even goed als op de donkere home. */}
-      <div className="bg-white">
-        <CarRentalPromo locale={locale} />
-      </div>
-    </>
-  )
+export default function CarScooterRentalPage({ params }: { params: { locale: string } }) {
+  permanentRedirect(`/${params.locale}/car-rental-ibiza`)
 }

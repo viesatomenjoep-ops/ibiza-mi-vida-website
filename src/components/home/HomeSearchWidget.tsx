@@ -12,9 +12,7 @@ const allCategories = [
   { label: 'Formentera Trips', href: '/formentera-boat-trips' },
   { label: 'Package Deals', href: '/package-deals' },
   { label: 'Guestlist', href: '/guestlist' },
-  { label: 'Drink Packages', href: '/drink-packages' },
   { label: 'Car Rental Ibiza', href: '/car-rental-ibiza' },
-  { label: 'Scooter & Quad Rental', href: '/car-scooter-rental' },
 ]
 
 export function HomeSearchWidget() {

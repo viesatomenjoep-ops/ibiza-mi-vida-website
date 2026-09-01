@@ -137,7 +137,6 @@ export default function AlquilerCochesIbizaPage() {
 
       <InternalLinks heading="Páginas relacionadas" locale={LOCALE} links={[
         { label: 'Alquiler de barco en Ibiza', href: 'alquiler-barco-ibiza', body: 'Las calas a las que no se llega por carretera, desde el agua.' },
-        { label: 'Coche y moto', href: 'car-scooter-rental', body: 'La página existente, con motos y quads.' },
         { label: 'Consejos de Ibiza', href: 'tips', body: 'Calas, aparcamiento y cuándo conviene venir.' },
       ]} />
 

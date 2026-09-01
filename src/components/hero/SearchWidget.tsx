@@ -12,7 +12,6 @@ const serviceOptions = [
   { label: 'Formentera Trip', href: '/formentera-boat-trips' },
   { label: 'Boat Rental Ibiza', href: '/boat-rental-ibiza' },
   { label: 'Car Rental Ibiza', href: '/car-rental-ibiza' },
-  { label: 'Scooter & Quad Rental', href: '/car-scooter-rental' },
 ]
 
 export function SearchWidget() {
