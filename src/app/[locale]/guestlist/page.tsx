@@ -1,29 +1,41 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { staticMetadata } from '@/lib/seo-pages'
 import { getVenues, getAllDates } from '@/lib/clubtickets'
-import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
+import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { Reveal } from '@/components/ui/Reveal'
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
 import { ServiceSchema } from '@/components/seo/ServiceSchema'
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { SERVICE_COPY } from '@/lib/service-schema-copy'
-import { PackageDealPicker } from '@/components/guestlist/PackageDealPicker'
 import { GuestlistSignup } from '@/components/guestlist/GuestlistSignup'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 
 export const revalidate = 3600
 
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
-  return staticMetadata(params.locale, 'guestlist')
+  const l = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE
+  const T2 = (nl: string, en: string, de: string, es: string, fr: string): Record<Locale, string> => ({ nl, en, de, es, fr })
+  const MTITLE = T2('Ibiza guestlist via WhatsApp', 'Ibiza Club Guestlist', 'Ibiza Gästeliste per WhatsApp', 'Lista de invitados en Ibiza', 'Guestlist des clubs à Ibiza')
+  const MDESC = T2(
+    'Op de gastenlijst van een Ibiza-club: wat het echt betekent, wat het per club en per avond verschilt, en hoe Simon je naam gratis via WhatsApp op de lijst zet.',
+    'On the guestlist at an Ibiza club: what it actually means, how it differs per club and night, and how Simon puts your name on the list free over WhatsApp.',
+    'Auf der Gästeliste eines Ibiza-Clubs: was das wirklich heißt, wie es je Club und Abend variiert, und wie Simon deinen Namen gratis per WhatsApp einträgt.',
+    'En la lista de un club de Ibiza: qué significa realmente, cómo varía por club y noche, y cómo Simon pone tu nombre en la lista gratis por WhatsApp.',
+    'Sur la guestlist d’un club à Ibiza : ce que cela signifie vraiment, ce qui varie selon le club et le soir, et comment Simon vous inscrit par WhatsApp.',
+  )
+  return pageMetadata({ locale: l, path: 'guestlist', title: MTITLE[l], description: MDESC[l] })
 }
 
 type T = Record<Locale, string>
 const L = (nl: string, en: string, de: string, es: string, fr: string): T => ({ nl, en, de, es, fr })
 
-const KICKER: T = L('VIP Package Deals', 'VIP Package Deals', 'VIP Package Deals', 'VIP Package Deals', 'VIP Package Deals')
-const TITLE: T = L('Ibiza package deals & guestlist', 'Ibiza package deals & club guestlist', 'Ibiza Package Deals & Guestlist', 'Package deals y guestlist en Ibiza', 'Package deals & guestlist à Ibiza')
+const KICKER: T = L('Gratis aanmelden via WhatsApp', 'Free sign-up via WhatsApp', 'Gratis anmelden per WhatsApp', 'Apúntate gratis por WhatsApp', 'Inscription gratuite via WhatsApp')
+// Alleen guestlist. Package deals hebben sinds de splitsing hun eigen pagina:
+// twee commerciële zoekopdrachten op één URL rankten voor geen van beide, en
+// een antwoordmachine die naar "ibiza guestlist" werd gevraagd kreeg een
+// pagina die de helft van haar woorden aan iets anders besteedde.
+const TITLE: T = L('Ibiza guestlist', 'Ibiza club guestlist', 'Ibiza Gästeliste', 'Lista de invitados Ibiza', 'Guestlist des clubs à Ibiza')
 const INTRO: T = L(
   'Naar binnen bij de beste clubs van Ibiza — zonder rij, zonder gedoe. Simon zet je naam op de lijst via WhatsApp en vertelt je vooraf precies wat er die avond geldt.',
   'Get into Ibiza’s best clubs — no queue, no hassle. Simon puts your name on the list via WhatsApp and tells you beforehand exactly what applies that night.',
@@ -51,6 +63,15 @@ const ANSWER: T = L(
   'La guestlist de un club en Ibiza es una lista de nombres en la puerta. Estar en ella puede significar tres cosas: entrada libre hasta cierta hora, un precio de puerta reducido o una cola más rápida. Cuál de las tres aplica depende del club, la noche y el cartel, y no es fijo: se confirma en cada solicitud. Apuntarse con Ibiza Mi Vida es gratis y va por WhatsApp: envías el club, la fecha y cuántos sois, y Simon confirma lo que aplica esa noche concreta, normalmente en menos de una hora. Una guestlist nunca garantiza la entrada; si está llena o el club no la ofrece esa noche, quedan un package deal o una entrada normal.',
   "La guestlist d'un club à Ibiza est une liste de noms tenue à l'entrée. Y figurer peut signifier trois choses : entrée libre avant une certaine heure, un prix d'entrée réduit, ou une file plus rapide. Laquelle des trois s'applique dépend du club, de la soirée et du line-up, et ce n'est pas figé : c'est confirmé à chaque demande. S'inscrire via Ibiza Mi Vida est gratuit et se fait par WhatsApp : vous envoyez le club, la date et le nombre de personnes, et Simon confirme ce qui s'applique pour cette soirée précise, généralement dans l'heure. Une guestlist ne garantit jamais l'entrée ; si elle est pleine ou que le club n'en propose pas ce soir-là, il reste un package deal ou un billet classique.",
 )
+
+const PKG_Q: T = L(
+  'Met een groep? Bekijk de package deals',
+  'Coming as a group? See the package deals',
+  'Als Gruppe unterwegs? Sieh dir die Package Deals an',
+  '¿Venís en grupo? Mira los package deals',
+  'En groupe ? Voyez les package deals',
+)
+const PKG_LINK: T = L('Naar package deals', 'Go to package deals', 'Zu den Package Deals', 'Ir a package deals', 'Vers les package deals')
 
 const TWO_WAYS: T = L(
   'Twee manieren om binnen te komen',
@@ -344,9 +365,17 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
           <h2 className="mb-6 font-serif text-2xl font-black tracking-tight md:text-3xl">
             {TWO_WAYS[locale]}
           </h2>
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-            <PackageDealPicker locale={locale} />
-            <GuestlistSignup locale={locale} />
+          <GuestlistSignup locale={locale} />
+          {/* Package deals hebben hun eigen pagina; wie hier verkeerd landde is
+              met één klik waar hij moet zijn. */}
+          <div className="mt-6 flex flex-col items-start gap-3 rounded-2xl border border-black/10 bg-neutral-50 p-5 sm:flex-row sm:items-center sm:justify-between">
+            <p className="font-serif text-base font-bold text-neutral-900">{PKG_Q[locale]}</p>
+            <Link
+              href={`/${locale}/package-deals`}
+              className="rounded-full text-[15px] font-semibold text-neutral-900 underline underline-offset-4 outline-none transition-colors hover:text-gold focus-visible:ring-2 focus-visible:ring-gold"
+            >
+              {PKG_LINK[locale]} →
+            </Link>
           </div>
         </Reveal>
       </section>

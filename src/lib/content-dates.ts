@@ -22,7 +22,8 @@ export const CONTENT_UPDATED: Record<string, string> = {
   'ferry-formentera': '2026-08-29',
   'boat-party': '2026-08-29',
   // Package-deal picker + H1 rewrite.
-  guestlist: '2026-08-29',
+  guestlist: '2026-08-31',
+  'package-deals': '2026-08-31',
   // Both rebuilt from scratch, replacing placeholder boilerplate.
   'about-us': '2026-08-30',
   contact: '2026-08-30',

@@ -117,7 +117,11 @@ export function Navbar() {
       id: 'insider',
       label: t.nav_insider || 'Insider',
       items: [
-        { label: t.nav_guestlist || 'Guestlist & packages', href: '/guestlist' },
+        // Twee items, niet één. "Ibiza guestlist" en "Ibiza package deals"
+        // zijn verschillende zoekopdrachten met verschillende intentie; één
+        // menu-item naar één gedeelde pagina liet ze om elkaars plek vechten.
+        { label: t.nav_guestlist || 'Guestlist', href: '/guestlist' },
+        { label: t.nav_packages || 'Package deals', href: '/package-deals' },
         { label: t.nav_tips || 'Ibiza Tips', href: '/tips' },
         { label: t.nav_prices || 'Ibiza Prices', href: '/ibiza-prices' },
         { label: t.nav_season || 'Ibiza Season', href: '/ibiza-season' },

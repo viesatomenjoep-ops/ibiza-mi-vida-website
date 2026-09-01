@@ -174,7 +174,7 @@ export default function IbizaClubTicketsPage() {
         heading="Related pages"
         locale={LOCALE}
         links={[
-          { label: 'Ibiza guestlist and VIP tables', href: 'ibiza-guestlist', body: 'What guestlist really means here, and what a table actually costs.' },
+          { label: 'Ibiza guestlist and VIP tables', href: 'guestlist', body: 'What guestlist really means here, and what a table actually costs.' },
           { label: 'Boat parties in Ibiza', href: 'boat-party', body: 'The daytime version, before the club night starts.' },
           { label: 'Car rental in Ibiza', href: 'car-rental-ibiza', body: 'Getting to Amnesia and back without a taxi surge.' },
         ]}
