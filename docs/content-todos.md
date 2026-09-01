@@ -75,7 +75,7 @@ together.
 ## 4. Affiliate links
 
 - **Wiber (Awin)** — wired in `src/lib/partners.ts` using the deeplink from your
-  Awin creative: `s=4715915&v=124596&q=598784&r=3064911`. The `r` parameter is
+  Awin creative: `s=4715895&v=124596&q=598784&r=3064911`. The `r` parameter is
   the publisher id that credits us. Awin's creative also ships a `cshow.php`
   impression pixel, which we deliberately do **not** render: it fires for every
   visitor on page load, which is a consent question under GDPR rather than a
