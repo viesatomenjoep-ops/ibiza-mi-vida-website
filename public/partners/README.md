@@ -32,3 +32,18 @@ SVG if they offer it, otherwise PNG at 2× the display size with a transparent
 background. Record the file's real intrinsic width and height in
 `PARTNER_LOGOS`: Next's `<Image>` uses them to reserve space, and a wrong
 ratio squashes somebody's brand.
+
+## Only got the standard logo, on white?
+
+That is enough. Fill in `light` and leave `dark` at `null`.
+
+Every surface that shows a partner sits on obsidian, and a partner's default
+asset is usually dark lettering on white — put that straight on a dark card and
+the logo disappears, which is worse than the wordmark it replaces. So when only
+a `light` file exists and the surface is dark, `<PartnerLogo>` wraps it in a
+white rounded chip: the brand keeps its own colours and stays legible, which is
+how partner logos are shown on dark sites generally.
+
+A `dark` file (the reversed-out, usually white variant) is still better where a
+partner supplies one — it sits free on the card with no chip around it. If you
+have both, fill in both; the component picks per surface.
