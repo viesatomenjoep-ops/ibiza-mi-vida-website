@@ -385,9 +385,17 @@ export function Navbar() {
       )}
 
       {/* ── FULLSCREEN MENU OVERLAY ── */}
+      {/* `inert` in plaats van `aria-hidden`, en niet allebei.
+          aria-hidden zegt tegen een schermlezer "negeer dit", maar laat de
+          knoppen en links erin gewoon focusbaar — dat is precies de combinatie
+          die axe afkeurt, en terecht: je tabt dan naar iets wat niemand ziet.
+          `inert` haalt de hele subtree uit de tabvolgorde én uit de
+          toegankelijkheidsboom, dus het doet wat aria-hidden beloofde. React 18
+          typt het attribuut nog niet, vandaar de spread; `visibility:hidden` in
+          globals.css dekt dezelfde bodem voor browsers zonder inert. */}
       <div
         className={`fs-menu${menuOpen ? ' fs-menu--open' : ''}`}
-        aria-hidden={!menuOpen}
+        {...(menuOpen ? {} : ({ inert: '' } as Record<string, string>))}
         role="dialog"
         aria-modal="true"
         aria-label={A11Y.navMenu[currentLocale.code] || A11Y.navMenu.en}
@@ -433,7 +441,10 @@ export function Navbar() {
               </button>
 
               {/* Sub-items */}
-              <div className="fs-items" aria-hidden={openCat !== cat.id}>
+              <div
+                className="fs-items"
+                {...(openCat === cat.id ? {} : ({ inert: '' } as Record<string, string>))}
+              >
                 <div className="fs-items-inner">
                   {cat.items.map((item, ii) => (
                     <Link

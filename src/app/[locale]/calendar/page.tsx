@@ -41,18 +41,23 @@ export default async function CalendarPage({
       ct_events: {
         name: d.eventName,
         slug: d.eventSlug,
-        logo: d.eventLogo,
+        // `logo` ging apart mee als fallback voor `cover`, maar pickCover()
+        // heeft die fallback hier al doorlopen: is cover leeg, dan was logo dat
+        // ook. 129 KB die niets toevoegde.
         cover: pickCover(d.eventCover, d.eventLogo, venueObj?.picture, d.venueCover),
       },
+      // Alleen wat bij deze avond hoort. Het logo, de foto en het type van de
+      // zaak zijn eigenschappen van de venue en stonden hier 1566 keer voor 42
+      // venues — de client haalt ze nu uit allVenues, dat toch al meeging.
       ct_venues: {
         name: d.venueName,
         slug: d.venueSlug,
-        whitelogo: venueObj?.whitelogo || d.venueLogo || venueObj?.picture || '',
-        picture: venueObj?.picture || d.venueCover || '',
-        type_slug: venueObj?.type?.slug || '',
       },
     };
   });
+
+  /** Type per venue-slug, voor de ItemList hieronder. Stond eerst in elk event. */
+  const venueTypeBySlug = new Map(venues.map(v => [v.slug, v.type?.slug || '']));
 
   const lightVenues = venues.map(v => ({
     name: v.name,
@@ -69,7 +74,7 @@ export default async function CalendarPage({
     .filter(e => e.ct_venues.slug && e.ct_events.slug)
     .map(e => ({
       name: `${e.ct_events.name || e.name} — ${e.ct_venues.name}`,
-      path: `${params.locale}/${eventBasePath(e.ct_venues.type_slug)}/${e.ct_venues.slug}/${e.ct_events.slug}`,
+      path: `${params.locale}/${eventBasePath(venueTypeBySlug.get(e.ct_venues.slug || '') || '')}/${e.ct_venues.slug}/${e.ct_events.slug}`,
       date: e.date,
     }));
 
