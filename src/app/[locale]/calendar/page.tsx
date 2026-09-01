@@ -6,9 +6,9 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 }
 
 import EventsExplorer from './EventsExplorer';
-import { getVenues, getAllDates } from '@/lib/clubtickets';
+import { getVenues } from '@/lib/clubtickets';
+import { calendarWindow, INITIAL_DAYS } from '@/lib/calendar-window';
 import { ItemListJsonLd } from '@/components/seo/ItemListJsonLd';
-import { pickCover } from '@/lib/blank-covers';
 import { eventBasePath } from '@/lib/event-path';
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { crumbLabel } from '@/lib/breadcrumb-labels'
@@ -18,43 +18,25 @@ export default async function CalendarPage({
 }: {
   params: { locale: string },
 }) {
-  // Fetch dates and venues statically from JSON
-  const allDates = await getAllDates(params.locale);
+  // De agenda komt uit één mapper, gedeeld met /api/calendar-window, zodat wat
+  // hier gerenderd wordt en wat later bijgeladen wordt niet uit elkaar kan lopen.
   const venues = await getVenues(params.locale);
-  const venuesMap = new Map(venues.map(v => [v.slug, v]));
 
-  // PERF: only ship the next 31 days to the client — the full season (4000+
-  // dates) made the payload huge and froze the calendar.
+  // PERF: veertien dagen in de HTML, niet eenendertig.
+  //
+  // Eenendertig dagen waren 1566 events en bijna 1,5 MB pagina, en dat is wat
+  // de Performance-score onderuit haalde. Veertien dekt precies de weergaven
+  // waar iedereen op binnenkomt — de dagstrip loopt tot vandaag + 13, de week
+  // valt er binnen — dus voor de standaardbezoeker verandert er niets, en een
+  // crawler zonder JavaScript ziet nog steeds wie er deze en volgende week
+  // speelt. 'Maand' en 'jaar' halen de rest op via de API-route.
+  //
+  // Dat is verantwoord omdat de kalender niet de canonieke kopie van een event
+  // is: elk event heeft een eigen indexeerbare detailpagina, en die staan
+  // allemaal in de sitemap.
   const todayStr = new Date().toISOString().split('T')[0];
-  const windowEndStr = new Date(Date.now() + 31 * 86400000).toISOString().split('T')[0];
-  const windowedDates = allDates.filter(d => d.date >= todayStr && d.date <= windowEndStr);
-
-  // Map dates to the format expected by the client
-  const mappedEvents = windowedDates.map(d => {
-    const venueObj = d.venueSlug ? venuesMap.get(d.venueSlug) : undefined;
-    return {
-      id: String(d.id),
-      name: d.name,
-      date: d.date,
-      prices: d.prices,
-      lineUp: d.lineUp,
-      ct_events: {
-        name: d.eventName,
-        slug: d.eventSlug,
-        // `logo` ging apart mee als fallback voor `cover`, maar pickCover()
-        // heeft die fallback hier al doorlopen: is cover leeg, dan was logo dat
-        // ook. 129 KB die niets toevoegde.
-        cover: pickCover(d.eventCover, d.eventLogo, venueObj?.picture, d.venueCover),
-      },
-      // Alleen wat bij deze avond hoort. Het logo, de foto en het type van de
-      // zaak zijn eigenschappen van de venue en stonden hier 1566 keer voor 42
-      // venues — de client haalt ze nu uit allVenues, dat toch al meeging.
-      ct_venues: {
-        name: d.venueName,
-        slug: d.venueSlug,
-      },
-    };
-  });
+  const windowEndStr = new Date(Date.now() + (INITIAL_DAYS - 1) * 86400000).toISOString().split('T')[0];
+  const mappedEvents = await calendarWindow(params.locale, todayStr, windowEndStr);
 
   /** Type per venue-slug, voor de ItemList hieronder. Stond eerst in elk event. */
   const venueTypeBySlug = new Map(venues.map(v => [v.slug, v.type?.slug || '']));
@@ -93,6 +75,7 @@ export default async function CalendarPage({
         events={mappedEvents}
         allVenues={lightVenues}
         locale={params.locale}
+        loadedThrough={windowEndStr}
       />
     </>
   );
