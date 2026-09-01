@@ -7,10 +7,12 @@ import { Search } from 'lucide-react'
 const serviceOptions = [
   { label: 'Private Boat Charter', href: '/private-boat-charters' },
   { label: 'Club Tickets', href: '/club-tickets' },
-  { label: 'Boat Parties', href: '/boat-parties' },
+  { label: 'Boat Parties', href: '/boat-party' },
   { label: 'VIP Catamaran', href: '/vip-catamaran' },
   { label: 'Formentera Trip', href: '/formentera-boat-trips' },
-  { label: 'Car & Scooter Rental', href: '/car-scooter-rental' },
+  { label: 'Boat Rental Ibiza', href: '/boat-rental-ibiza' },
+  { label: 'Car Rental Ibiza', href: '/car-rental-ibiza' },
+  { label: 'Scooter & Quad Rental', href: '/car-scooter-rental' },
 ]
 
 export function SearchWidget() {

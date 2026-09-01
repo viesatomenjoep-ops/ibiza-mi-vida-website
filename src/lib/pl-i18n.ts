@@ -35,12 +35,17 @@ export interface PlPageCopy { title: T; tab: T }
 
 export const PL_PAGES: Record<string, PlPageCopy> = {
   'drink-packages': {
-    title: L('Drankpakketten', 'Drink Packages', 'Getränkepakete', 'Packs de Bebida', 'Forfaits Boissons'),
+    title: L('Drankpakketten op Ibiza', 'Drink packages in Ibiza', 'Getränkepakete auf Ibiza', 'Packs de bebida en Ibiza', 'Forfaits boissons à Ibiza'),
     tab: L('Drankpakketten', 'Drink Packages', 'Getränkepakete', 'Packs de Bebida', 'Forfaits Boissons'),
   },
+  // Auto's hebben een eigen pillar (/car-rental-ibiza, per taal een eigen slug).
+  // Deze pagina houdt daarom alleen scooters en quads over: twee zoekopdrachten
+  // op een URL laten er een verliezen, en 'car rental Ibiza' hoort bij de
+  // pagina die het aanbod echt draagt. Het Wiber-blok blijft eronder staan als
+  // duidelijk ondergeschikte H2 die doorverwijst naar die pillar.
   'car-scooter-rental': {
-    title: L('Auto & Scooter Verhuur', 'Car & Scooter Rental', 'Auto- & Rollervermietung', 'Alquiler de Coches y Motos', 'Location Voiture & Scooter'),
-    tab: L('Verhuur', 'Rental', 'Vermietung', 'Alquiler', 'Location'),
+    title: L('Scooter & quad huren op Ibiza', 'Scooter & quad rental in Ibiza', 'Roller & Quad mieten auf Ibiza', 'Alquiler de motos y quads en Ibiza', 'Location de scooter et quad à Ibiza'),
+    tab: L('Scooters', 'Scooters', 'Roller', 'Motos', 'Scooters'),
   },
 }
 

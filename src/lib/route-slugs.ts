@@ -168,7 +168,8 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   'convertible-rental': ['en'],
   'boat-party': ['en'],
   'club-tickets-hub': ['en'],
-  'guestlist-hub': ['en'],
+  // Alleen nog een 301-doel naar /guestlist — niet publiceren.
+  'guestlist-hub': [],
   'wiber-partner': ['en'],
   'clickandboat-partner': ['en'],
 }

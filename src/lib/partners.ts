@@ -21,10 +21,17 @@
 /**
  * Wiber Rent a Car, via Awin.
  *
- * From the Awin creative for "Wiber ES": s=4715915 (creative), v=124596 and
+ * From the Awin creative for "Wiber ES": s=4715895 (creative), v=124596 and
  * q=598784 (campaign), r=3064911 (our publisher id). The r parameter is the one
  * that credits us — if a link ever loses it, the click is untracked, so copy
  * this constant rather than retyping a URL from a dashboard.
+ *
+ * s stood at 4715915 here: one digit off from the creative, transcribed by hand
+ * instead of pasted. Awin resolves an unknown creative id against the campaign
+ * rather than erroring, so nothing looked broken — the link opened Wiber and the
+ * page rendered — while the clicks were filed under a creative that is not ours.
+ * That is exactly the failure mode this constant exists to prevent: paste the
+ * URL from the creative, never retype it.
  *
  * Awin's own creative pairs this clickthrough with a cshow.php impression
  * pixel. We deliberately do not render that pixel: it is a tracking image that
@@ -34,7 +41,7 @@
  */
 export const WIBER_URL =
   process.env.NEXT_PUBLIC_WIBER_AFFILIATE_URL ??
-  'https://www.awin1.com/cread.php?s=4715915&v=124596&q=598784&r=3064911'
+  'https://www.awin1.com/cread.php?s=4715895&v=124596&q=598784&r=3064911'
 
 /**
  * Click&Boat, via Impact (pxf.io).

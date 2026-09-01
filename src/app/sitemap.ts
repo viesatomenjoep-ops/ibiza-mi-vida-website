@@ -24,6 +24,7 @@ const STATIC_ROUTES: { path: string; priority: number; changeFrequency: Metadata
   { path: '/car-scooter-rental', priority: 0.6, changeFrequency: 'weekly' },
   { path: '/drink-packages', priority: 0.6, changeFrequency: 'weekly' },
   { path: '/guestlist', priority: 0.8, changeFrequency: 'weekly' },
+  { path: '/package-deals', priority: 0.8, changeFrequency: 'weekly' },
   { path: '/tips', priority: 0.6, changeFrequency: 'weekly' },
   // Recomputed from the live agenda on every revalidation, so 'daily' is
   // honest rather than optimistic.
@@ -129,7 +130,6 @@ const LOCALIZED_ROUTES: { key: RouteKey; priority: number; changeFrequency: Meta
   { key: 'jet-ski-rental', priority: 0.8, changeFrequency: 'weekly' },
   { key: 'car-rental', priority: 0.9, changeFrequency: 'weekly' },
   { key: 'club-tickets-hub', priority: 0.9, changeFrequency: 'daily' },
-  { key: 'guestlist-hub', priority: 0.8, changeFrequency: 'weekly' },
   { key: 'boat-no-licence', priority: 0.8, changeFrequency: 'weekly' },
   { key: 'boat-with-skipper', priority: 0.8, changeFrequency: 'weekly' },
   { key: 'car-rental-airport', priority: 0.7, changeFrequency: 'weekly' },
