@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { LocationImage } from '@/components/locations/LocationImage'
 import Link from 'next/link'
 import Image from 'next/image'
 import { locations, locationsByIsland, type LocationData } from '@/lib/locations'
@@ -97,15 +98,12 @@ export default function LocationsIndex({ params }: { params: { locale: string } 
                 className="group flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white text-neutral-900 transition-all hover:border-gold hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)]"
               >
                 <span className="relative block aspect-[4/3] overflow-hidden bg-ibiza-mint">
-                  {loc.imageUrl ? (
-                    <Image
-                      src={loc.imageUrl}
-                      alt={loc.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 33vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  ) : null}
+                  <LocationImage
+                    src={loc.imageUrl}
+                    name={loc.name}
+                    sizes="(max-width: 640px) 100vw, 33vw"
+                    className="transition-transform duration-500 group-hover:scale-105"
+                  />
                 </span>
                 <span className="flex flex-1 flex-col gap-1.5 p-5 text-neutral-900">
                   <strong className="font-serif text-lg font-black leading-tight text-neutral-900">{loc.name}</strong>

@@ -65,11 +65,13 @@ interface CardData {
 function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
   return (
     <div className="flex flex-col overflow-hidden rounded-3xl bg-obsidian text-white">
-      {data.photo && (
-        /* Eigen foto. De kicker en het partnerlogo liggen erop in plaats van
-           erboven, zodat de kaart met beeld begint in plaats van met twee
-           regels grijze bovenkop. */
-        <div className="relative aspect-[16/9] w-full overflow-hidden">
+      {/* Beide kaarten openen met een band van dezelfde hoogte. Eerder had
+          alleen de bootkaart beeld, waardoor de autokaart ernaast uitrekte en
+          er een gat van een half scherm in het midden viel. 21:9 in plaats van
+          16:9: genoeg om de foto te laten werken, niet zoveel dat de kaart een
+          scherm hoog wordt. */}
+      <div className="relative aspect-[21/9] w-full overflow-hidden">
+        {data.photo ? (
           <img
             src={data.photo.src}
             alt={data.photo.alt}
@@ -77,77 +79,69 @@ function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
             loading="lazy"
             decoding="async"
           />
-          {/* Verloop, zodat witte tekst op elke foto leesbaar blijft in plaats
-              van te hopen dat de onderkant toevallig donker is. */}
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/35 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white drop-shadow">{data.kicker}</p>
-            <div className="flex h-6 items-center opacity-90">
-              <PartnerLogo partner={data.logoKey} name={data.logoName} on="dark" />
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="flex flex-1 flex-col p-7 md:p-8">
-      {!data.photo && (
-        <>
-          <div className="flex h-7 items-center">
+        ) : (
+          /* Geen eigen beeld van deze partner, dus een ontworpen band in plaats
+             van een stockfoto die iets toont wat we niet verhuren. */
+          <div aria-hidden className="h-full w-full bg-[radial-gradient(120%_160%_at_15%_0%,rgba(212,175,55,0.28),transparent_60%)] bg-obsidian" />
+        )}
+        {/* Verloop, zodat witte tekst op elke foto leesbaar blijft in plaats
+            van te hopen dat de onderkant toevallig donker is. */}
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/30 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 px-6 pb-4">
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white drop-shadow">{data.kicker}</p>
+          <div className="flex h-5 items-center opacity-90">
             <PartnerLogo partner={data.logoKey} name={data.logoName} on="dark" />
           </div>
-          <p className="mt-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white/45">{data.kicker}</p>
-        </>
-      )}
-
-      <div className="flex items-start justify-between gap-5">
-        <h3 className="font-serif text-2xl font-black leading-tight tracking-tight text-white">{data.heading}</h3>
-        {data.price !== null && (
-          <p className="shrink-0 text-right">
-            <span className="font-serif text-2xl font-black leading-none text-white">€{data.price}</span>
-            <span className="mt-1 block text-[12px] font-normal leading-tight text-white/55">{data.priceLabel}</span>
-          </p>
-        )}
+        </div>
       </div>
 
-      <p className="mt-4 text-[15px] leading-relaxed text-white/75">{data.lead}</p>
+      <div className="flex flex-1 flex-col p-6 md:p-7">
+        <div className="flex items-start justify-between gap-5">
+          <h3 className="font-serif text-[22px] font-black leading-tight tracking-tight text-white md:text-2xl">
+            {data.heading}
+          </h3>
+          {data.price !== null && (
+            <p className="shrink-0 text-right">
+              <span className="font-serif text-2xl font-black leading-none text-white">€{data.price}</span>
+              <span className="mt-0.5 block text-[11px] font-normal leading-tight text-white/55">{data.priceLabel}</span>
+            </p>
+          )}
+        </div>
 
-      <ul className="mt-5 flex-1 space-y-2">
-        {data.points.map((point) => (
-          <li key={point} className="flex items-start gap-3 text-[14px] leading-relaxed text-white/85">
-            <span aria-hidden className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-gold-soft" />
-            {point}
-          </li>
-        ))}
-      </ul>
+        <p className="mt-3 text-[14px] leading-relaxed text-white/70">{data.lead}</p>
 
-      {/* Het aanbod zelf. De kaart noemde alleen voorwaarden, waardoor er nergens
-          stond wat je hier eigenlijk kunt huren. */}
-      <div className="mt-6 border-t border-white/10 pt-5">
-        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/45">{data.categoriesLabel}</p>
-        <ul className="mt-3 flex flex-wrap gap-2">
-          {data.categories.map((c) => (
-            <li
-              key={c}
-              className="rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 text-[13px] font-medium text-white/90"
-            >
-              {c}
-            </li>
-          ))}
-        </ul>
-      </div>
+        {/* Voorwaarden op één regel in plaats van als opsomming: het waren drie
+            korte feiten die drie volle regels kregen. */}
+        <p className="mt-3 text-[13px] leading-relaxed text-white/55">{data.points.join(' · ')}</p>
 
-      <div className="mt-7 flex flex-col gap-4">
-        <AffiliateLink href={data.href} partner={data.partner} locale={locale}>
-          {data.cta}
-        </AffiliateLink>
-        <Link
-          href={data.readMoreHref}
-          className="w-fit rounded-full text-[14px] font-semibold text-white underline underline-offset-4 outline-none transition-colors hover:text-gold-soft focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
-        >
-          {data.readMore} →
-        </Link>
+        {/* Het aanbod zelf. De kaart noemde alleen voorwaarden, waardoor er
+            nergens stond wat je hier eigenlijk kunt huren. */}
+        <div className="mt-5 flex-1">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">{data.categoriesLabel}</p>
+          <ul className="mt-2.5 flex flex-wrap gap-1.5">
+            {data.categories.map((c) => (
+              <li
+                key={c}
+                className="rounded-full border border-white/12 bg-white/[0.06] px-2.5 py-1 text-[12px] font-medium text-white/85"
+              >
+                {c}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+          <AffiliateLink href={data.href} partner={data.partner} locale={locale}>
+            {data.cta}
+          </AffiliateLink>
+          <Link
+            href={data.readMoreHref}
+            className="rounded-full text-[13px] font-semibold text-white/80 underline underline-offset-4 outline-none transition-colors hover:text-gold-soft focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
+          >
+            {data.readMore} →
+          </Link>
+        </div>
         {data.banner}
-      </div>
       </div>
     </div>
   )
@@ -211,15 +205,15 @@ export function RentalsSection({ locale }: { locale: string }) {
   }
 
   return (
-    <section className="bg-white py-16 text-neutral-900 md:py-20">
+    <section className="bg-white py-12 text-neutral-900 md:py-16">
       <div className="mx-auto max-w-6xl px-4">
         <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{RENTALS_SECTION.eyebrow[l]}</p>
-        <h2 className="mt-3 max-w-3xl font-serif text-3xl font-black leading-[1.1] tracking-tight md:text-4xl">
+        <h2 className="mt-2 max-w-3xl font-serif text-[26px] font-black leading-[1.1] tracking-tight md:text-4xl">
           {RENTALS_SECTION.heading[l]}
         </h2>
-        <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-neutral-600">{RENTALS_SECTION.lead[l]}</p>
+        <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-neutral-600">{RENTALS_SECTION.lead[l]}</p>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-2">
+        <div className="mt-8 grid gap-5 lg:grid-cols-2">
           <RentalCard data={boat} locale={l} />
           <RentalCard data={car} locale={l} />
         </div>
