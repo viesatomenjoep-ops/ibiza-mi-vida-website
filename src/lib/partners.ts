@@ -129,6 +129,8 @@ export interface PartnerLogo {
 export const PARTNER_LOGOS: Record<'wiber' | 'clickandboat', PartnerLogo> = {
   wiber: {
     // TODO: add from the Awin creative library — see the note above.
+    // `light` alleen is genoeg: <PartnerLogo> zet er op donkere kaarten een
+    // witte chip omheen, dus een gewoon logo op wit werkt overal.
     dark: null,
     light: null,
     width: 160,
