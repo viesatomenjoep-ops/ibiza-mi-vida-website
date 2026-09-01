@@ -30,11 +30,36 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 type T = Record<Locale, string>
 const L = (nl: string, en: string, de: string, es: string, fr: string): T => ({ nl, en, de, es, fr })
 
-const KICKER: T = L('Gratis aanmelden via WhatsApp', 'Free sign-up via WhatsApp', 'Gratis anmelden per WhatsApp', 'Apúntate gratis por WhatsApp', 'Inscription gratuite via WhatsApp')
-// Alleen guestlist. Package deals hebben sinds de splitsing hun eigen pagina:
-// twee commerciële zoekopdrachten op één URL rankten voor geen van beide, en
-// een antwoordmachine die naar "ibiza guestlist" werd gevraagd kreeg een
-// pagina die de helft van haar woorden aan iets anders besteedde.
+/**
+ * Kop van de pagina: één onderwerp, en dat is de gastenlijst.
+ *
+ * De H1 was 'Ibiza package deals & guestlist' met daarboven de kicker 'VIP
+ * Package Deals'. Twee bezwaren, en het tweede is het echte:
+ *
+ *  1. Het woord waarop deze pagina gevonden wordt — guestlist — stond
+ *     achteraan, achter een term die vooral intern gebruikt wordt.
+ *  2. Een kop die twee dingen aankondigt, gaat over geen van beide. Voor een
+ *     antwoordmachine die moet bepalen waar deze pagina hét antwoord op is, is
+ *     "package deals én guestlist" precies zo bruikbaar als "van alles".
+ *
+ * Package deals zijn daarna hélemaal van deze pagina af: ze hebben een eigen
+ * route (/package-deals) met eigen kop, eigen FAQ en eigen schema. Wat hier
+ * blijft staan is de doorverwijzing onderaan, want de pakketten zijn nog steeds
+ * wat je aangeboden krijgt als de lijst vol zit.
+ *
+ * "Ibiza" blijft staan. De vraag was om er enkel "Guestlist" van te maken, maar
+ * kaal is dat geen onderwerp waar een model iets mee kan: guestlists bestaan in
+ * elke stad. "Ibiza guestlist" is de entiteit waar naar gezocht wordt, en het
+ * weglaten van de plaats zou juist kosten wat deze wijziging moet opleveren.
+ *
+ * De kicker herhaalt de kop niet maar vult hem aan met de twee feiten die de
+ * meeste twijfel wegnemen: het kost niets en het loopt via WhatsApp. Allebei
+ * gedekt door ANSWER hieronder, dus geen belofte die nergens op steunt.
+ */
+// Beide kanten kwamen los van elkaar op dezelfde versmalling uit; de
+// toelichting hierboven komt van master, de titelvarianten hieronder van
+// deze branch omdat ES en FR daar de zoekterm in de eigen taal dragen.
+const KICKER: T = L('Gratis aanmelden via WhatsApp', 'Free sign-up via WhatsApp', 'Kostenlos anmelden per WhatsApp', 'Apúntate gratis por WhatsApp', 'Inscription gratuite via WhatsApp')
 const TITLE: T = L('Ibiza guestlist', 'Ibiza club guestlist', 'Ibiza Gästeliste', 'Lista de invitados Ibiza', 'Guestlist des clubs à Ibiza')
 const INTRO: T = L(
   'Naar binnen bij de beste clubs van Ibiza — zonder rij, zonder gedoe. Simon zet je naam op de lijst via WhatsApp en vertelt je vooraf precies wat er die avond geldt.',

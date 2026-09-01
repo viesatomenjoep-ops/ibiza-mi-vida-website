@@ -93,24 +93,30 @@ export const SEO_PAGES: Record<string, Copy> = {
       'Les meilleures offres du jour à Ibiza : billets, sorties en bateau et activités au meilleur prix. Chaque jour.',
     ),
   },
-  // Carries BOTH terms on purpose. The UI label is now "Package Deals", but
-  // "guestlist" is the term with the search volume and the one this page ranks
-  // for, so it stays in the title and description. Dropping it to match the new
-  // label would have thrown away the keyword.
+  // Carries BOTH terms on purpose — "guestlist" weghalen om bij het interne
+  // label "Package Deals" te passen zou het trefwoord weggooien waarop deze
+  // pagina daadwerkelijk gevonden wordt.
+  //
+  // Wat wél veranderd is, is de volgorde: guestlist staat nu vooraan, in titel
+  // en in omschrijving. Een titel wordt van links naar rechts gewogen en in
+  // zoekresultaten aan de achterkant afgekapt, dus de eerste term bepaalt
+  // waar deze pagina volgens de buitenwereld over gaat. Package deals blijven
+  // er gewoon in staan, alleen niet meer als eerste — zelfde volgorde als de
+  // H1 nu, zie de kop van de guestlist-pagina voor de redenering.
   guestlist: {
     title: L(
-      'Ibiza Package Deals & Gastenlijst — via WhatsApp',
-      'Ibiza Package Deals & Guestlist — via WhatsApp',
-      'Ibiza Package Deals & Gästeliste — per WhatsApp',
-      'Package Deals y Lista de Ibiza — por WhatsApp',
-      'Package Deals & Guestlist Ibiza — via WhatsApp',
+      'Ibiza Guestlist & Package Deals — via WhatsApp',
+      'Ibiza Guestlist & Package Deals — via WhatsApp',
+      'Ibiza Gästeliste & Package Deals — per WhatsApp',
+      'Guestlist de Ibiza y Package Deals — por WhatsApp',
+      'Guestlist Ibiza & Package Deals — via WhatsApp',
     ),
     description: L(
-      'Package deals, groepsdeals en de gastenlijst van de beste clubs op Ibiza. Simon regelt het via WhatsApp en vertelt je vooraf precies wat er die avond geldt.',
-      'Package deals, group deals and the guestlist at Ibiza’s best clubs. Simon arranges it via WhatsApp and tells you beforehand exactly what applies that night.',
-      'Package Deals, Gruppendeals und die Gästeliste der besten Clubs Ibizas. Simon organisiert es per WhatsApp und sagt dir vorher genau, was an dem Abend gilt.',
-      'Package deals, ofertas de grupo y la lista de los mejores clubs de Ibiza. Simon lo gestiona por WhatsApp y te dice antes exactamente qué aplica esa noche.',
-      'Package deals, offres de groupe et la guestlist des meilleurs clubs d’Ibiza. Simon s’en occupe via WhatsApp et vous précise à l’avance ce qui s’applique ce soir-là.',
+      'De gastenlijst van de beste clubs op Ibiza, plus package deals en groepsdeals. Simon regelt het via WhatsApp en vertelt je vooraf precies wat er die avond geldt.',
+      'The guestlist at Ibiza’s best clubs, plus package deals and group deals. Simon arranges it via WhatsApp and tells you beforehand exactly what applies that night.',
+      'Die Gästeliste der besten Clubs Ibizas, dazu Package Deals und Gruppendeals. Simon organisiert es per WhatsApp und sagt dir vorher genau, was an dem Abend gilt.',
+      'La lista de los mejores clubs de Ibiza, más package deals y ofertas de grupo. Simon lo gestiona por WhatsApp y te dice antes exactamente qué aplica esa noche.',
+      'La guestlist des meilleurs clubs d’Ibiza, plus des package deals et offres de groupe. Simon s’en occupe via WhatsApp et vous précise à l’avance ce qui s’applique ce soir-là.',
     ),
   },
   clubs: {
