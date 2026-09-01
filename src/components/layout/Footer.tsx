@@ -1,5 +1,7 @@
 'use client'
 
+import { GoogleRatingLine, type GoogleRating } from '@/components/reviews/GoogleRatingLine'
+
 import { clearConsent } from '@/lib/consent'
 
 import Link from 'next/link'
@@ -25,7 +27,7 @@ const LOCALES = [
   { code: 'fr' },
 ]
 
-export function Footer() {
+export function Footer({ rating = null }: { rating?: GoogleRating | null }) {
   const pathname = usePathname()
   const currentLocale = LOCALES.find(l => pathname.startsWith(`/${l.code}/`) || pathname === `/${l.code}`) || LOCALES[0]
   const base = `/${currentLocale.code}`
@@ -154,6 +156,10 @@ export function Footer() {
         
         <div className="foot-bottom">
           <span>© {new Date().getFullYear()} Ibiza mi Vida · {t.footer_partner || 'Official ClubTickets partner'}</span>
+          {/* Naast de copyrightregel, niet als eigen blok met een kop erboven.
+              Op elke pagina, dus het moet terughoudend blijven — het is een
+              bewijsstuk voor wie het zoekt, geen tweede reclameboodschap. */}
+          {rating && <GoogleRatingLine {...rating} locale={l} />}
         </div>
       </div>
     </footer>

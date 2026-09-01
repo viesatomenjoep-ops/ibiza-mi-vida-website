@@ -381,7 +381,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       <HomeInstagram locale={locale} />
 
       {/* NEWSLETTER — lead capture */}
-      <HomeNewsletter locale={locale} />
+      <HomeNewsletter locale={locale} rating={rating} />
 
       {/* CATEGORIES GRID */}
       <section className="section bg-white text-neutral-900">

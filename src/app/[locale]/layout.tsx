@@ -115,6 +115,8 @@ export default async function RootLayout({
   const { locale } = params;
   const reviews = await getGoogleReviews()
   const rating = reviews ? { value: reviews.rating, count: reviews.total } : null
+  // De footer toont er ook de bron-link bij, dus die krijgt url mee.
+  const footerRating = reviews ? { rating: reviews.rating, total: reviews.total, url: reviews.url } : null
 
   return (
     <html lang={locale || 'en'} className={`${inter.variable} ${oswald.variable} ${outfit.variable} ${montserrat.variable}`}>
@@ -124,7 +126,7 @@ export default async function RootLayout({
           <main id="main-content">
             {children}
           </main>
-          <Footer />
+          <Footer rating={footerRating} />
           <CartDrawer />
           <ScrollProgress />
           <AttributionCapture />

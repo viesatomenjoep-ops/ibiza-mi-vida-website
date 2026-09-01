@@ -1,5 +1,7 @@
 import { MessageCircle } from 'lucide-react'
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
+import { HeroRatingBadge, type HeroRating } from '@/components/home/HeroRatingBadge'
+import { DEFAULT_LOCALE, LOCALES as SEO_LOCALES, type Locale } from '@/lib/seo'
 
 type L = Record<string, string>
 const t = (m: L, locale: string) => m[locale] || m.en
@@ -57,7 +59,8 @@ const PREFILL: L = {
   fr: 'Salut Simon ! J’ai une question sur Ibiza — ',
 }
 
-export function HomeNewsletter({ locale = 'nl' }: { locale?: string }) {
+export function HomeNewsletter({ locale = 'nl', rating = null }: { locale?: string; rating?: HeroRating | null }) {
+  const l: Locale = (SEO_LOCALES as readonly string[]).includes(locale) ? (locale as Locale) : DEFAULT_LOCALE
   const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t(PREFILL, locale))}`
 
   return (
@@ -87,6 +90,19 @@ export function HomeNewsletter({ locale = 'nl' }: { locale?: string }) {
         <p className="mx-auto mt-4 max-w-md text-xs text-white/55">
           {t(NOTE, locale)}
         </p>
+
+        {/* Onder de WhatsApp-knop, want dit is het moment waarop iemand besluit
+            of hij een vreemde gaat aanschrijven. Een beoordeling doet daar meer
+            werk dan waar dan ook op de pagina.
+
+            De donkere badge uit de hero en niet GoogleRatingLine: deze sectie
+            staat op bg-obsidian, en de lichte variant zou hier zwarte tekst op
+            een zwarte achtergrond zijn. */}
+        {rating && (
+          <div className="flex justify-center">
+            <HeroRatingBadge {...rating} locale={l} />
+          </div>
+        )}
       </div>
     </section>
   )

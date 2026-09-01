@@ -57,7 +57,23 @@ export interface GoogleReviewsData {
 
 const ENDPOINT = 'https://places.googleapis.com/v1/places'
 const FIELD_MASK = 'id,displayName,rating,userRatingCount,googleMapsUri,reviews'
-const REVALIDATE_SECONDS = 86_400 // 24h — the Places API bills per call.
+/**
+ * Hoe vers het cijfer is.
+ *
+ * Stond op 24 uur puur om de rekening te drukken, want de Places API rekent
+ * per aanroep en het veldmasker hieronder vraagt `reviews` op — het duurste
+ * onderdeel. Maar 24 uur betekent ook dat een nieuwe beoordeling een dag lang
+ * niet zichtbaar is, en het aantal is juist het cijfer dat groeit.
+ *
+ * Zes uur is de afweging: vier aanroepen per dag, ongeveer 120 per maand. Dat
+ * valt ruim binnen wat het kost om te verwaarlozen, terwijl een nieuwe review
+ * nog dezelfde dagdeel op de site staat.
+ *
+ * Let op dat dit niet per pagina telt. De fetch wordt door Next gecachet op de
+ * URL, dus alle pagina's en alle vijf de talen delen dezelfde aanroep — ook al
+ * roepen zowel de layout als de homepage deze functie aan.
+ */
+const REVALIDATE_SECONDS = 21_600 // 6h
 
 /** Shape of the subset of the Places API (New) response we consume. */
 interface PlacesResponse {
