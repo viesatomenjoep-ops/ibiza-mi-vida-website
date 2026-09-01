@@ -143,7 +143,7 @@ export default async function RestaurantsPage({ params }: { params: { locale: st
 
   return (
     <main className="bg-white text-neutral-900">
-      <BreadcrumbJsonLd locale={l} items={[{ name: homeLabel(l), path: `${l}` }, { name: t(TITLE, l) }]} />
+      <BreadcrumbJsonLd locale={l} items={[{ name: homeLabel(l), path: '' }, { name: t(TITLE, l) }]} />
 
       <section className="mx-auto max-w-3xl px-4 pb-10 pt-[calc(var(--nav-h)+48px)]">
         <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{t(KICKER, l)}</p>

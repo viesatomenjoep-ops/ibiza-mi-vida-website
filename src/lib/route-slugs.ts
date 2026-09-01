@@ -166,7 +166,12 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   'jet-ski-rental': ['en'],
   'car-rental-airport': ['en'],
   'convertible-rental': ['en'],
-  'boat-party': ['en'],
+  // Alle vijf: /nl|de|es|fr/boat-party renderen echt, staan in de sitemap en
+  // dragen een volledige hreflang-cluster — ze lopen via STATIC_ROUTES, niet via
+  // LOCALIZED_ROUTES, dus deze regel werd nergens gelezen. Zodra iemand
+  // boat-party wél aan LOCALIZED_ROUTES toevoegt, zou 'en' alleen vier live
+  // geindexeerde URL's stil uit de sitemap gooien.
+  'boat-party': ['en', 'nl', 'de', 'fr', 'es'],
   'club-tickets-hub': ['en'],
   // Alleen nog een 301-doel naar /guestlist — niet publiceren.
   'guestlist-hub': [],

@@ -5,6 +5,7 @@ import { getVenues, getAllDates } from '@/lib/clubtickets'
 import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { Reveal } from '@/components/ui/Reveal'
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
+import { FaqAccordion } from '@/components/hub/FaqAccordion'
 import { ServiceSchema } from '@/components/seo/ServiceSchema'
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { SERVICE_COPY } from '@/lib/service-schema-copy'
@@ -519,8 +520,19 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
         </section>
       )}
 
+      {/* ── FAQ ──
+          Deze tien vragen stonden alleen in de JSON-LD en nergens op de pagina.
+          Dat is twee dingen tegelijk fout. Google's beleid voor FAQ-markup eist
+          dat de vragen zichtbaar op de pagina staan — markup zonder zichtbare
+          tegenhanger wordt genegeerd en kan een handmatige maatregel opleveren.
+          En het weggeven van tien geschreven antwoorden is zonde: dit is precies
+          het soort zelfstandig citeerbare tekst waar een antwoordmachine uit put.
+          Dezelfde array voedt nu het schema én de pagina, dus ze kunnen niet meer
+          uit elkaar lopen. */}
+      <FaqAccordion faqs={faqs} locale={locale} />
+
       {/* ── Big closing CTA ── */}
-      <AuthorByline locale={locale} topic="Ibiza club package deals" />
+      <AuthorByline locale={locale} topic="Ibiza club guestlist" />
 
       <section className="relative overflow-hidden bg-obsidian py-16 md:py-20 text-center text-white">
         <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-gold/20 blur-[120px]" />

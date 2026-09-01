@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { ROUTE_SLUGS, findRouteBySlug } from '@/lib/route-slugs'
+import { ROUTE_SLUGS, ROUTE_LOCALES, findRouteBySlug } from '@/lib/route-slugs'
 
 const locales = ['en', 'nl', 'de', 'es', 'fr'] as const
 type Loc = (typeof locales)[number]
@@ -99,17 +99,48 @@ function route(request: NextRequest): NextResponse | undefined {
     const first = segments[0]
     if (first) {
       const found = findRouteBySlug(first)
-      const correct = found ? ROUTE_SLUGS[found.key][matched] : null
-      // Compare SLUGS, not locales. Some routes deliberately use the same slug
-      // in every language (boat-party), so "the slug was found under another
-      // locale" is true for them on every request — and redirecting on that
-      // sent every non-Dutch locale to its own URL forever. The only thing that
-      // warrants a redirect is the slug for THIS locale differing from the one
-      // asked for.
-      if (correct && correct !== first) {
+      if (found) {
         const rest = segments.slice(1).join('/')
-        request.nextUrl.pathname = `/${matched}/${correct}${rest ? `/${rest}` : ''}`
-        return NextResponse.redirect(request.nextUrl, 301)
+        const published = ROUTE_LOCALES[found.key]
+        const go = (locale: Loc, slug: string) => {
+          request.nextUrl.pathname = `/${locale}/${slug}${rest ? `/${rest}` : ''}`
+          return NextResponse.redirect(request.nextUrl, 301)
+        }
+
+        // ── Is deze route in deze taal überhaupt gepubliceerd? ──────────────
+        //
+        // ROUTE_SLUGS heeft een slug voor alle vijf de talen; ROUTE_LOCALES zegt
+        // welke daarvan een echte pagina hebben. Dit blok las alleen de eerste,
+        // en vertaalde daardoor een wérkende Engelse slug naar een Duitse die
+        // nergens heen ging: /de/jet-ski-rental-ibiza 301'de naar
+        // /de/jetski-mieten-ibiza, en dat is een 404. Achtentwintig URL's deden
+        // dat, en een 301 wordt gecachet door browsers, CDN's en crawlers — dus
+        // wie er één volgde, bleef hem volgen.
+        //
+        // Erger nog was de kale variant: een Duitser die op /jet-ski-rental-ibiza
+        // klikte werd eerst naar /de/ gestuurd en daarna de muur in. Dat is
+        // precies de vorm van link die in een advertentie of Instagram-bio staat.
+        //
+        // Bestaat de pagina niet in deze taal, stuur dan naar de taal waarin hij
+        // wél bestaat. Een pagina in de verkeerde taal is beter dan geen pagina.
+        if (published.length && !published.includes(matched)) {
+          const target = (published.includes('en') ? 'en' : published[0]) as Loc
+          return go(target, ROUTE_SLUGS[found.key][target])
+        }
+
+        // Een route zonder gepubliceerde talen is puur een 301-doel (guestlist-hub).
+        // Die laten we door naar de pagina zelf, die de doorverwijzing per taal
+        // al goed afhandelt — hier iets verzinnen zou dat dubbelop doen.
+        if (published.length) {
+          // Vergelijk SLUGS, niet locales. Sommige routes gebruiken bewust in elke
+          // taal dezelfde slug (boat-party), dus "de slug is onder een andere taal
+          // gevonden" is voor die routes altijd waar — en daarop redirecten stuurde
+          // elke niet-Nederlandse taal voor eeuwig naar zichzelf. Alleen een slug
+          // die voor DEZE taal anders is dan wat er gevraagd werd, rechtvaardigt een
+          // redirect.
+          const correct = ROUTE_SLUGS[found.key][matched]
+          if (correct && correct !== first) return go(matched, correct)
+        }
       }
     }
 

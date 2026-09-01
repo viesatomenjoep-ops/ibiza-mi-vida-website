@@ -198,7 +198,7 @@ export default async function IbizaSeasonPage({ params }: { params: { locale: st
 
   return (
     <main className="bg-white text-neutral-900">
-      <BreadcrumbJsonLd locale={l} items={[{ name: homeLabel(l), path: `${l}` }, { name: t(TITLE, l) }]} />
+      <BreadcrumbJsonLd locale={l} items={[{ name: homeLabel(l), path: '' }, { name: t(TITLE, l) }]} />
       <FaqJsonLd faqs={questions} />
       <DatasetJsonLd
         locale={l}

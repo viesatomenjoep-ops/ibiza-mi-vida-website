@@ -92,7 +92,7 @@ export default async function ActivitiesPage({ params }: { params: { locale: str
 
   return (
     <main className="bg-white text-neutral-900">
-      <BreadcrumbJsonLd locale={l} items={[{ name: homeLabel(l), path: `${l}` }, { name: TITLE[l] }]} />
+      <BreadcrumbJsonLd locale={l} items={[{ name: homeLabel(l), path: '' }, { name: TITLE[l] }]} />
       <ItemListJsonLd
         entries={items.map((a) => ({ name: a.name, path: `${l}/activities/${a.slug}` }))}
         locale={l}

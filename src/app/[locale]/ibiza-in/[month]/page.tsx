@@ -88,7 +88,7 @@ export default async function MonthPage(
       <BreadcrumbJsonLd
         locale={l}
         items={[
-          { name: homeLabel(l), path: `${l}` },
+          { name: homeLabel(l), path: '' },
           { name: fill(MONTH_COPY.title[l], vars) },
         ]}
       />
