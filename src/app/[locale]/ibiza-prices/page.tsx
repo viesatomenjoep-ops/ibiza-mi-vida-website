@@ -83,7 +83,7 @@ export default async function IbizaPricesPage({ params }: { params: { locale: st
     <main className="bg-white text-neutral-900">
       <BreadcrumbJsonLd
         locale={l}
-        items={[{ name: homeLabel(l), path: `${l}` }, { name: TITLE[l] || TITLE.en }]}
+        items={[{ name: homeLabel(l), path: '' }, { name: TITLE[l] || TITLE.en }]}
       />
       <FaqJsonLd faqs={questions} />
       {/* Deze pagina publiceert een telling, geen mening — zie

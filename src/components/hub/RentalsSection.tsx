@@ -92,7 +92,7 @@ function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
         </div>
       )}
 
-      <div className="flex flex-col p-6 md:p-7">
+      <div className="flex flex-1 flex-col p-6 md:p-7">
         {!data.photo && (
           /* Kicker en merk op één regel: leest als een kop in plaats van als
              twee losse bovenkopjes onder elkaar, en scheelt een regel. */
@@ -137,7 +137,18 @@ function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
           </ul>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+        {/* De banner stond onder de disclosure, helemaal onderaan — het laatste
+            wat je zag in plaats van het beeld van de partner. Hij hoort bij de
+            inhoud, dus staat hij boven de actieregel. En omdat hij hier de
+            ruimte vult die de bootkaart aan zijn foto kwijt is, worden de twee
+            kaarten vanzelf even hoog in plaats van dat er een gat valt. */}
+        {data.banner}
+
+        {/* mt-auto duwt de actieregel naar de onderkant van de kaart. Daardoor
+            liggen de knoppen van beide kaarten op één lijn, ongeacht hoeveel
+            tekst erboven staat — dat is wat een paar kaarten als een paar laat
+            lezen in plaats van als twee losse blokken. */}
+        <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-6">
           <AffiliateLink href={data.href} partner={data.partner} locale={locale}>
             {data.cta}
           </AffiliateLink>
@@ -148,7 +159,6 @@ function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
             {data.readMore} →
           </Link>
         </div>
-        {data.banner}
       </div>
     </div>
   )
@@ -196,7 +206,7 @@ export function RentalsSection({ locale }: { locale: string }) {
     // mogen we tonen — achter toestemming, omdat hij de vertoning meetelt.
     categories: CAR_CATEGORIES[l],
     categoriesLabel: CATEGORIES_LABEL[l],
-    banner: <WiberBanner className="mt-1" />,
+    banner: <WiberBanner className="mt-6 w-full" />,
     logoKey: 'wiber',
     logoName: 'Wiber Rent a Car',
     heading: CAR_PROMO.heading[l],
@@ -220,7 +230,7 @@ export function RentalsSection({ locale }: { locale: string }) {
         </h2>
         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-neutral-600">{RENTALS_SECTION.lead[l]}</p>
 
-        <div className="mt-8 grid items-start gap-5 lg:grid-cols-2">
+        <div className="mt-8 grid gap-5 lg:grid-cols-2">
           <RentalCard data={boat} locale={l} />
           <RentalCard data={car} locale={l} />
         </div>

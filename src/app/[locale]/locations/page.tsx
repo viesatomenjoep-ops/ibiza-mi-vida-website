@@ -68,7 +68,7 @@ export default function LocationsIndex({ params }: { params: { locale: string } 
     <main className="bg-white text-neutral-900">
       <BreadcrumbJsonLd
         locale={l}
-        items={[{ name: homeLabel(l), path: `${l}` }, { name: TITLE[l] }]}
+        items={[{ name: homeLabel(l), path: '' }, { name: TITLE[l] }]}
       />
       <ItemListJsonLd
         entries={locations.map((loc) => ({ name: loc.name, path: `${l}/locations/${loc.slug}` }))}
