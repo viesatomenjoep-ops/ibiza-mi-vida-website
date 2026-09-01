@@ -26,7 +26,10 @@
  * `days` is beschikbaar; 'booked' en 'option' staan er expliciet in.
  */
 
-const BASE = 'https://theyachtbroker.club'
+// www-variant, zoals de partner hem zelf aanlevert. Getest: met en zonder www
+// leveren byte-identieke JSON (58340 bytes), maar www is de canonieke host en
+// scheelt een mogelijke redirect-hop op elke aanroep.
+const BASE = 'https://www.theyachtbroker.club'
 const REVALIDATE_SECONDS = 900 // 15 min — beschikbaarheid verandert per boeking, niet per seconde.
 
 export type DayStatus = 'booked' | 'option'
@@ -82,8 +85,12 @@ function norm(s: string): string {
  */
 export async function getLiveFleet(): Promise<LiveFleet | null> {
   try {
-    // Twee maanden vooruit: genoeg voor "kies een datum" op een charterpagina;
-    // wie verder vooruit wil, komt bij Simon uit en dat is precies goed.
+    // months=2 en niet 1. Zelfde endpoint, alleen een breder venster: 1 geeft
+    // 861 dagvermeldingen (alleen de lopende maand), 2 geeft er 955 en dus ook
+    // de maand erna. Dat is precies wat de datumkiezer op de charterpagina
+    // bruikbaar maakt — met één maand kan een bezoeker begin van de maand
+    // nauwelijks vooruit plannen. Wie verder wil dan twee maanden komt bij
+    // Simon uit, en dat is precies goed.
     const res = await fetch(`${BASE}/api/availability?months=2&start=0`, {
       headers: { 'user-agent': 'ibizamivida.com partner integration' },
       next: { revalidate: REVALIDATE_SECONDS },
