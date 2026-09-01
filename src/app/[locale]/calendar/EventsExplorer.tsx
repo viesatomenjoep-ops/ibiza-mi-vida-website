@@ -20,8 +20,12 @@ interface ExEvent {
   date: string
   prices: string
   lineUp: string
-  ct_events: { name?: string; slug?: string; logo?: string; cover?: string }
-  ct_venues: { name?: string; slug?: string; whitelogo?: string; picture?: string; type_slug?: string }
+  ct_events: { name?: string; slug?: string; cover?: string }
+  // Alleen naam en slug. whitelogo, picture en type_slug zijn eigenschappen van
+  // de venue, niet van de avond, en werden 1566 keer herhaald voor 42 venues —
+  // ruim een kwart van alles wat deze pagina naar de browser stuurde. Ze komen
+  // nu uit allVenues, die toch al werd meegestuurd (en tot nu toe ongebruikt bleef).
+  ct_venues: { name?: string; slug?: string }
 }
 interface LightVenue { name: string; slug: string; whitelogo: string; picture: string; type_slug: string }
 interface Props {
@@ -62,8 +66,15 @@ function lineupArtists(lineUp?: string): string[] {
   return txt.replace(/\s+/g, ' ').trim().split(/[,\-–|]/).map(s => s.trim()).filter(s => s.length > 1)
 }
 
-export default function EventsExplorer({ events, locale }: Props) {
+export default function EventsExplorer({ events, allVenues, locale }: Props) {
   const loc = getLoc(locale)
+  /** Venue op slug — de bron voor logo, foto en type, in plaats van elk veld
+      per avond mee te sturen. */
+  const venueBySlug = useMemo(
+    () => new Map((allVenues ?? []).map(v => [v.slug, v])),
+    [allVenues],
+  )
+  const venueOf = (e: ExEvent) => venueBySlug.get(e.ct_venues?.slug ?? '')
   const T = T_I18N[locale] || T_I18N.en
   const base = `/${locale}`
   const today = useMemo(() => startOfDay(new Date()), [])
@@ -74,7 +85,7 @@ export default function EventsExplorer({ events, locale }: Props) {
 
   // Normalised events for the iOS-style picker wheel
   const pickerEvents: PickerEvent[] = useMemo(() => events
-    .filter(e => e.ct_venues?.type_slug === 'clubbing' && (e.date || '') >= todayStr)
+    .filter(e => venueOf(e)?.type_slug === 'clubbing' && (e.date || '') >= todayStr)
     .map(e => {
       const m = String(e.prices || '').match(/\d+([.,]\d+)?/)
       return {
@@ -82,10 +93,10 @@ export default function EventsExplorer({ events, locale }: Props) {
         clubSlug: e.ct_venues?.slug || '',
         clubName: e.ct_venues?.name || '',
         // real logos only — a photo forced to brightness-0 becomes a black square
-        clubLogo: e.ct_venues?.whitelogo || '',
+        clubLogo: venueOf(e)?.whitelogo || '',
         eventSlug: e.ct_events?.slug || '',
         eventName: e.ct_events?.name || e.name || '',
-        image: e.ct_events?.cover || e.ct_events?.logo || e.ct_venues?.picture || '',
+        image: e.ct_events?.cover || venueOf(e)?.picture || '',
         date: e.date || '',
         price: m ? parseFloat(m[0].replace(',', '.')) : 0,
         lineUp: e.lineUp || '',
@@ -96,7 +107,7 @@ export default function EventsExplorer({ events, locale }: Props) {
 
   // Only clubbing events, upcoming
   const clubEvents = useMemo(
-    () => events.filter(e => e.ct_venues?.type_slug === 'clubbing' && e.date >= todayStr),
+    () => events.filter(e => venueOf(e)?.type_slug === 'clubbing' && e.date >= todayStr),
     [events, todayStr]
   )
 
@@ -226,8 +237,8 @@ export default function EventsExplorer({ events, locale }: Props) {
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {grouped[ds].map(ev => {
-                    const image = ev.ct_events?.cover || ev.ct_events?.logo || ev.ct_venues?.picture || ''
-                    const logoSrc = ev.ct_venues?.whitelogo
+                    const image = ev.ct_events?.cover || venueOf(ev)?.picture || ''
+                    const logoSrc = venueOf(ev)?.whitelogo
                     const slug = ev.ct_venues?.slug || ''
                     const artists = lineupArtists(ev.lineUp).slice(0, 3)
                     const extra = Math.max(0, lineupArtists(ev.lineUp).length - 3)

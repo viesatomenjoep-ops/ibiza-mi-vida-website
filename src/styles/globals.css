@@ -176,6 +176,15 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 }
 
 /* Overlay panel — full-screen, slides in from the right (covers the navbar) */
+/* Dicht is het paneel echt dicht, niet alleen uit beeld geschoven.
+   Met alleen `transform:translateX(100%)` staat het volledige menu nog gewoon
+   in de tabvolgorde: je tabt vanaf de laatste link op de pagina zo het
+   onzichtbare menu in en je focus verdwijnt van het scherm. Lighthouse meldde
+   het als "ARIA hidden element must not be focusable" op div.fs-menu, op elke
+   pagina, want deze navbar staat in de globale layout.
+   `visibility:hidden` haalt de inhoud uit zowel de tabvolgorde als de
+   toegankelijkheidsboom. De 0s-transitie met .25s vertraging laat de
+   sluitanimatie eerst aflopen; bij openen schakelt hij meteen. */
 .fs-menu{
   position:fixed;inset:0;z-index:90;
   background:#0a0a0a;
@@ -183,10 +192,15 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
   padding:0;
   overflow:hidden;
   transform:translateX(100%);
-  transition:transform .25s cubic-bezier(.76,0,.24,1);
+  visibility:hidden;
+  transition:transform .25s cubic-bezier(.76,0,.24,1), visibility 0s linear .25s;
   will-change:transform;
 }
-.fs-menu--open{transform:translateX(0);}
+.fs-menu--open{
+  transform:translateX(0);
+  visibility:visible;
+  transition:transform .25s cubic-bezier(.76,0,.24,1), visibility 0s;
+}
 
 /* Close button */
 .fs-close{
@@ -265,12 +279,20 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 }
 
 /* Sub-items container — smooth accordion */
+/* Ingeklapt is ook hier echt ingeklapt. `overflow:hidden` op een grid van 0fr
+   verbergt de links visueel maar laat ze focusbaar — dezelfde fout als bij
+   .fs-menu, een niveau dieper. */
 .fs-items{
   display:grid;grid-template-rows:0fr;
-  transition:grid-template-rows .38s cubic-bezier(.22,.68,0,1.2);
+  visibility:hidden;
+  transition:grid-template-rows .38s cubic-bezier(.22,.68,0,1.2), visibility 0s linear .38s;
   overflow:hidden;
 }
-.fs-cat--open .fs-items{grid-template-rows:1fr;}
+.fs-cat--open .fs-items{
+  grid-template-rows:1fr;
+  visibility:visible;
+  transition:grid-template-rows .38s cubic-bezier(.22,.68,0,1.2), visibility 0s;
+}
 .fs-items > *{min-height:0;}  /* needed for grid trick */
 .fs-items-inner{overflow:hidden;padding-bottom:8px;}
 
