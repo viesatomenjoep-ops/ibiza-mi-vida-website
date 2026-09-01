@@ -299,10 +299,13 @@ function BoatCard({ boat, T, locale, onOpen, live, date, season }: {
             eigen voorwaarden — dezelfde badges zouden voor een deel van de
             boten aantoonbaar onwaar zijn. Wat geldt staat in het dossier. */}
         <div className="mt-2.5">
+          {/* Via /api/dossier en niet rechtstreeks naar de partner: na de
+              eerste klik komt de PDF uit onze eigen edge-cache. Zie de route
+              voor waarom het niet via Cloudinary gaat (401 op PDF-fetch). */}
           <a
-            href={boat.pdf}
+            href={`/api/dossier/${boat.slug}`}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener"
             className="inline-flex items-center gap-1.5 text-[11px] font-bold text-ibiza-green underline underline-offset-2 hover:text-black"
           >
             <FileText size={12} /> {T.dossier}
