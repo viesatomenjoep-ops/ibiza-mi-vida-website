@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { ChevronDown } from 'lucide-react'
+import { slugFor } from '@/lib/route-slugs'
+import { DEFAULT_LOCALE, LOCALES as SEO_LOCALES, type Locale } from '@/lib/seo'
 
 import en from '@/dictionaries/en.json'
 import nl from '@/dictionaries/nl.json'
@@ -28,6 +30,7 @@ export function Footer() {
   const currentLocale = LOCALES.find(l => pathname.startsWith(`/${l.code}/`) || pathname === `/${l.code}`) || LOCALES[0]
   const base = `/${currentLocale.code}`
   const t = dicts[currentLocale.code] || dicts['en']
+  const l: Locale = (SEO_LOCALES as readonly string[]).includes(currentLocale.code) ? (currentLocale.code as Locale) : DEFAULT_LOCALE
 
   const groups = [
     {
@@ -44,6 +47,7 @@ export function Footer() {
       title: t.nav_on_the_water || 'Op het water',
       links: [
         { href: `${base}/boats`, label: t.nav_boats_hub || 'Ibiza per boot' },
+        { href: `${base}/${slugFor('boat-rental', l)}`, label: t.nav_boat_rental || 'Boat Rental Ibiza' },
         { href: `${base}/private-boat-charters`, label: t.nav_private_charters || 'Private Boat Charters' },
         { href: `${base}/boat-party`, label: t.nav_boat_party || 'Boat Parties' },
         { href: `${base}/shuttle-ferry`, label: t.nav_shuttle_ferry || 'Shuttle Ferry' },
@@ -58,7 +62,8 @@ export function Footer() {
         { href: `${base}/water-sports`, label: t.nav_water_sports || 'Water Sports' },
         { href: `${base}/beach-clubs`, label: t.nav_beach_clubs || 'Beach Clubs' },
         { href: `${base}/drink-packages`, label: t.nav_drink_packages || 'Drankpakketten' },
-        { href: `${base}/car-scooter-rental`, label: t.nav_car_scooter || 'Car & Scooter Rental' },
+        { href: `${base}/${slugFor('car-rental', l)}`, label: t.nav_car_rental || 'Car Rental Ibiza' },
+        { href: `${base}/car-scooter-rental`, label: t.nav_scooter_quad || 'Scooter & Quad Rental' },
         { href: `${base}/guestlist`, label: t.nav_guestlist || 'Guestlist' },
         { href: `${base}/package-deals`, label: t.nav_packages || 'Package deals' },
         { href: `${base}/tips`, label: t.nav_tips || 'Ibiza Tips' },

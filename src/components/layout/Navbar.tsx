@@ -7,6 +7,8 @@ import { LOCALES } from './LanguageSelector'
 import { SpotifyButton } from './SpotifyButton'
 import { MenuYachtSlider } from './MenuYachtSlider'
 import { FLEET } from '@/data/fleet'
+import { slugFor } from '@/lib/route-slugs'
+import { DEFAULT_LOCALE, LOCALES as SEO_LOCALES, type Locale } from '@/lib/seo'
 
 import en from '@/dictionaries/en.json'
 import nl from '@/dictionaries/nl.json'
@@ -81,13 +83,16 @@ export function Navbar() {
   const isPrivateBoat = pathname.startsWith(`${base}/private-boat-charters`) || pathname.startsWith('/private-boat-charters')
   const isHome = pathname === base || pathname === `${base}/` || pathname === '/'
   const t = dicts[currentLocale.code] || dicts['en']
+  // De keyword-pillars (boot, auto) hebben per taal een eigen slug en stonden
+  // in geen enkel menu — ze waren dus alleen via de sitemap te vinden.
+  const l: Locale = (SEO_LOCALES as readonly string[]).includes(currentLocale.code) ? (currentLocale.code as Locale) : DEFAULT_LOCALE
 
   const NAV_CATEGORIES = [
     {
       id: 'events',
       label: t.nav_events_tickets || 'Events & Tickets',
       items: [
-        { label: 'Club Tickets Ibiza', href: '/calendar' },
+        { label: t.nav_club_calendar || 'Ibiza Club Calendar', href: '/calendar' },
         { label: t.nav_this_week || 'This week', href: '/this-week' },
         { label: t.nav_artists || 'Artiesten', href: '/artists' },
         { label: t.nav_clubs_ibiza || 'Clubs Ibiza', href: '/clubs' },
@@ -98,6 +103,7 @@ export function Navbar() {
       label: t.nav_on_the_water || 'Op het Water',
       items: [
         { label: t.nav_private_charters || 'Private Boat Charters', href: '/private-boat-charters' },
+        { label: t.nav_boat_rental || 'Boat Rental Ibiza', href: `/${slugFor('boat-rental', l)}` },
         { label: t.nav_shuttle_ferry || 'Shuttle Ferry', href: '/shuttle-ferry' },
         { label: t.nav_ferry_formentera || 'Ferry Ibiza – Formentera', href: '/ferry-formentera' },
       ],
@@ -110,7 +116,10 @@ export function Navbar() {
         { label: t.nav_tours || 'Tours', href: '/tours' },
         { label: t.nav_water_sports || 'Water Sports', href: '/water-sports' },
         { label: t.nav_drink_packages || 'Drankpakketten', href: '/drink-packages' },
-        { label: t.nav_car_scooter || 'Car & Scooter Rental', href: '/car-scooter-rental' },
+        // Twee items, niet één: 'auto huren' en 'scooter huren' zijn andere
+        // zoekopdrachten. Auto's gaan naar de pillar met het echte aanbod.
+        { label: t.nav_car_rental || 'Car Rental Ibiza', href: `/${slugFor('car-rental', l)}` },
+        { label: t.nav_scooter_quad || 'Scooter & Quad Rental', href: '/car-scooter-rental' },
       ],
     },
     {

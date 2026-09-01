@@ -10,9 +10,11 @@ const allCategories = [
   { label: 'Calendar', href: '/calendar' },
   { label: 'VIP Catamaran', href: '/vip-catamaran' },
   { label: 'Formentera Trips', href: '/formentera-boat-trips' },
-  { label: 'Package Deals', href: '/guestlist' },
+  { label: 'Package Deals', href: '/package-deals' },
+  { label: 'Guestlist', href: '/guestlist' },
   { label: 'Drink Packages', href: '/drink-packages' },
-  { label: 'Car & Scooter Rental', href: '/car-scooter-rental' },
+  { label: 'Car Rental Ibiza', href: '/car-rental-ibiza' },
+  { label: 'Scooter & Quad Rental', href: '/car-scooter-rental' },
 ]
 
 export function HomeSearchWidget() {

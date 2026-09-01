@@ -31,11 +31,11 @@ export const HOME_DESC: Record<Locale, string> = L(
 export const SEO_PAGES: Record<string, Copy> = {
   calendar: {
     title: L(
-      'Ibiza Agenda 2026 — Alle Clubevents & Line-ups',
-      'Ibiza Calendar 2026 — All Club Events & Line-ups',
-      'Ibiza Kalender 2026 — Alle Clubevents & Line-ups',
-      'Agenda Ibiza 2026 — Todos los Eventos y Line-ups',
-      'Agenda Ibiza 2026 — Tous les Événements & Line-ups',
+      'Ibiza Clubagenda 2026 — alle line-ups',
+      'Ibiza Club Calendar 2026 — Every Line-up',
+      'Ibiza Clubkalender 2026 — alle Line-ups',
+      'Agenda de Clubs Ibiza 2026 — Line-ups',
+      'Calendrier des Clubs Ibiza 2026',
     ),
     description: L(
       'Bekijk de complete Ibiza-agenda: alle clubevents, festivals en line-ups per dag. Koop je tickets veilig via de officiële partner.',
@@ -147,11 +147,11 @@ export const SEO_PAGES: Record<string, Copy> = {
   },
   'boat-trip': {
     title: L(
-      'Ibiza Boottochten — Dagtrips & Excursies',
-      'Ibiza Boat Trips — Day Trips & Excursions',
-      'Ibiza Bootstouren — Tagesausflüge & Touren',
-      'Excursiones en Barco Ibiza — Salidas de Día',
-      'Sorties en Bateau Ibiza — Excursions à la Journée',
+      'Boottochten op Ibiza — dagtrips vanaf het water',
+      'Boat trips in Ibiza — day trips on the water',
+      'Bootstouren auf Ibiza — Tagesausflüge auf dem Wasser',
+      'Excursiones en barco por Ibiza — salidas de día',
+      'Sorties en bateau à Ibiza — journées sur l’eau',
     ),
     description: L(
       'Ontdek Ibiza en Formentera vanaf het water met onze boottochten en dagtrips. Zwemstops, zonnedeks en de mooiste baaien.',
@@ -161,45 +161,52 @@ export const SEO_PAGES: Record<string, Copy> = {
       'Découvrez Ibiza et Formentera depuis l’eau avec nos sorties en bateau. Pauses baignade et plus belles criques.',
     ),
   },
+  // Was 'Ibiza Boat Rental — Charters & Yachts', wat frontaal botste met de
+  // pillar /boat-rental-ibiza: twee eigen URL's op één zoekopdracht. Deze
+  // pagina is een hub die naar vijf categorieën routeert, en de titel zegt dat
+  // nu ook — de verhuurintentie hoort bij de pillar.
   boats: {
     title: L(
-      'Ibiza Boten Huren — Charters & Jachten',
-      'Ibiza Boat Rental — Charters & Yachts',
-      'Ibiza Boote Mieten — Charter & Yachten',
-      'Alquiler de Barcos Ibiza — Chárter y Yates',
-      'Location de Bateaux Ibiza — Charters & Yachts',
+      'Ibiza per boot: alle opties op het water',
+      'Ibiza by boat: every option on the water',
+      'Ibiza per Boot: alle Optionen',
+      'Ibiza en barco: todas las opciones',
+      'Ibiza en bateau : toutes les options',
     ),
     description: L(
-      'Huur een boot of jacht op Ibiza met of zonder schipper. Van sloepen tot luxe jachten — de hele vloot op één plek.',
-      'Rent a boat or yacht in Ibiza with or without a skipper. From day boats to luxury yachts — the full fleet in one place.',
-      'Miete ein Boot oder eine Yacht auf Ibiza mit oder ohne Skipper. Von Tagesbooten bis Luxusyachten — die ganze Flotte.',
-      'Alquila un barco o yate en Ibiza con o sin patrón. Desde barcos de día a yates de lujo — toda la flota.',
-      'Louez un bateau ou un yacht à Ibiza avec ou sans skipper. Du bateau à la journée au yacht de luxe — toute la flotte.',
+      'Vijf manieren om Ibiza vanaf het water te zien: privécharter, boottocht, boat party, verhuur en de ferry. Kies je categorie.',
+      'Five ways to see Ibiza from the water: private charter, boat trip, boat party, rental and the ferry. Pick your category.',
+      'Fünf Wege, Ibiza vom Wasser zu sehen: Privatcharter, Bootstour, Boat Party, Vermietung und Fähre. Wähle deine Kategorie.',
+      'Cinco formas de ver Ibiza desde el mar: chárter privado, excursión, boat party, alquiler y ferry. Elige tu categoría.',
+      'Cinq façons de voir Ibiza depuis l’eau : charter privé, sortie, boat party, location et ferry. Choisissez votre catégorie.',
     ),
   },
   tours: {
     title: L(
-      'Ibiza Tours & Excursies — Ontdek het Eiland',
-      'Ibiza Tours & Excursions — Discover the Island',
-      'Ibiza Touren & Ausflüge — Entdecke die Insel',
-      'Tours y Excursiones Ibiza — Descubre la Isla',
-      'Tours & Excursions Ibiza — Découvrez l’Île',
+      'Rondleidingen & excursies op Ibiza',
+      'Guided tours & excursions in Ibiza',
+      'Geführte Touren & Ausflüge auf Ibiza',
+      'Visitas guiadas y excursiones en Ibiza',
+      'Visites guidées & excursions à Ibiza',
     ),
     description: L(
-      'Boek de mooiste tours en excursies op Ibiza: van verborgen baaien tot zonsondergangtrips. Geregeld door lokale experts.',
-      'Book the finest tours and excursions in Ibiza: from hidden coves to sunset trips. Arranged by local experts.',
-      'Buche die schönsten Touren und Ausflüge auf Ibiza: von versteckten Buchten bis Sonnenuntergangstrips.',
-      'Reserva los mejores tours y excursiones en Ibiza: de calas escondidas a salidas al atardecer.',
-      'Réservez les plus belles excursions à Ibiza : des criques cachées aux sorties au coucher du soleil.',
+      'Excursies met gids op Ibiza: Dalt Vila, Es Vedrà, de hippiemarkten en zonsondergangtrips. Ophalen op afgesproken punten.',
+      'Guided excursions in Ibiza: Dalt Vila, Es Vedrà, the hippy markets and sunset trips. Pick-up at agreed points.',
+      'Geführte Ausflüge auf Ibiza: Dalt Vila, Es Vedrà, die Hippiemärkte und Sonnenuntergangstouren. Abholung vereinbart.',
+      'Excursiones guiadas en Ibiza: Dalt Vila, Es Vedrà, los mercadillos hippies y salidas al atardecer.',
+      'Excursions guidées à Ibiza : Dalt Vila, Es Vedrà, les marchés hippies et sorties au coucher du soleil.',
     ),
   },
+  // Leidde met 'Jet Ski', wat sinds /jet-ski-rental-ibiza bestaat de sterkste
+  // term van die pagina wegnam. Jetski blijft in de content staan; de titel
+  // dekt nu de categorie.
   'water-sports': {
     title: L(
-      'Ibiza Watersport — Jetski, Flyboard & Meer',
-      'Ibiza Water Sports — Jet Ski, Flyboard & More',
-      'Ibiza Wassersport — Jetski, Flyboard & mehr',
-      'Deportes Acuáticos Ibiza — Moto de Agua y Más',
-      'Sports Nautiques Ibiza — Jet Ski, Flyboard & Plus',
+      'Watersport op Ibiza — het hele aanbod',
+      'Water sports in Ibiza — the full range',
+      'Wassersport auf Ibiza — das Angebot',
+      'Deportes acuáticos en Ibiza',
+      'Sports nautiques à Ibiza',
     ),
     description: L(
       'Van jetski en flyboard tot parasailing: boek de beste watersport-activiteiten op Ibiza. Voor alle niveaus.',
@@ -211,18 +218,18 @@ export const SEO_PAGES: Record<string, Copy> = {
   },
   activities: {
     title: L(
-      'Ibiza Activiteiten — Beleef het Eiland',
-      'Ibiza Activities — Experience the Island',
-      'Ibiza Aktivitäten — Erlebe die Insel',
-      'Actividades Ibiza — Vive la Isla',
-      'Activités Ibiza — Vivez l’Île',
+      'Wat te doen op Ibiza — alle activiteiten',
+      'Things to do in Ibiza — every activity',
+      'Was tun auf Ibiza — alle Aktivitäten',
+      'Qué hacer en Ibiza — todas las actividades',
+      'Que faire à Ibiza — toutes les activités',
     ),
     description: L(
-      'De leukste activiteiten op Ibiza: van strandclubs en boottochten tot verborgen parels. Alles boekbaar op één plek.',
-      'The best things to do in Ibiza: from beach clubs and boat trips to hidden gems. All bookable in one place.',
-      'Die besten Aktivitäten auf Ibiza: von Beachclubs und Bootstouren bis zu Geheimtipps. Alles an einem Ort buchbar.',
-      'Las mejores actividades en Ibiza: de beach clubs y excursiones en barco a joyas escondidas.',
-      'Les meilleures activités à Ibiza : des beach clubs aux sorties en bateau et pépites cachées.',
+      'Het volledige activiteitenoverzicht van Ibiza, met de agenda per aanbieder. Watersport en rondleidingen hebben een eigen pagina.',
+      'The complete overview of activities in Ibiza, with the agenda per provider. Water sports and guided tours have their own page.',
+      'Die komplette Aktivitätenübersicht für Ibiza, mit Agenda pro Anbieter. Wassersport und Touren haben eigene Seiten.',
+      'El listado completo de actividades en Ibiza, con la agenda por proveedor. Deportes acuáticos y tours tienen su página.',
+      'La liste complète des activités à Ibiza, avec l’agenda par prestataire. Nautisme et visites guidées ont leur page.',
     ),
   },
   'ferry-formentera': {
@@ -257,20 +264,24 @@ export const SEO_PAGES: Record<string, Copy> = {
       'Navettes rapides entre les plages et criques d’Ibiza. Évitez le trafic et voyagez par la mer.',
     ),
   },
+  // Dezelfde fout als guestlist/package deals: 'Auto & Scooter' zijn twee
+  // zoekopdrachten op één URL. Auto's hebben sinds vandaag een eigen pillar
+  // (/car-rental-ibiza), dus deze pagina is nu de scooterpagina en verwijst
+  // voor auto's door. Zo vecht niets meer om dezelfde term.
   'car-scooter-rental': {
     title: L(
-      'Auto & Scooter Huren op Ibiza',
-      'Car & Scooter Rental in Ibiza',
-      'Auto & Roller Mieten auf Ibiza',
-      'Alquiler de Coches y Motos en Ibiza',
-      'Location de Voiture & Scooter à Ibiza',
+      'Scooter & quad huren op Ibiza',
+      'Scooter & quad rental in Ibiza',
+      'Roller & Quad mieten auf Ibiza',
+      'Alquiler de motos y quads en Ibiza',
+      'Location de scooter et quad à Ibiza',
     ),
     description: L(
-      'Ontdek Ibiza op je eigen tempo. Huur een auto of scooter tegen scherpe prijzen, met flexibele ophaalpunten.',
-      'Discover Ibiza at your own pace. Rent a car or scooter at sharp prices, with flexible pickup points.',
-      'Entdecke Ibiza in deinem Tempo. Miete ein Auto oder einen Roller zu fairen Preisen mit flexiblen Abholorten.',
-      'Descubre Ibiza a tu ritmo. Alquila un coche o moto a buen precio, con puntos de recogida flexibles.',
-      'Découvrez Ibiza à votre rythme. Louez une voiture ou un scooter à prix serrés, points de retrait flexibles.',
+      'Scooter of quad huren op Ibiza: parkeer overal, sla het verkeer over en zie het eiland op je eigen tempo. Auto huren regel je op onze autopagina.',
+      'Rent a scooter or quad in Ibiza: park anywhere, skip the traffic and see the island at your own pace. Renting a car is on our car rental page.',
+      'Roller oder Quad mieten auf Ibiza: überall parken, den Verkehr umgehen und die Insel im eigenen Tempo sehen. Mietwagen stehen auf unserer Autoseite.',
+      'Alquila una moto o quad en Ibiza: aparca donde quieras, evita el tráfico y recorre la isla a tu ritmo. Los coches están en nuestra página de coches.',
+      'Louez un scooter ou un quad à Ibiza : garez-vous partout, évitez le trafic et parcourez l’île à votre rythme. Les voitures ont leur propre page.',
     ),
   },
   'drink-packages': {

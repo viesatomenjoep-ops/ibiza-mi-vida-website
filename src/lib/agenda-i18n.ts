@@ -11,7 +11,7 @@ const YEAR = new Date().getFullYear()
 export const AGENDA_COPY: Record<string, AgendaCopy> = {
   activities: {
     kicker: L(`Ibiza Activiteiten ${YEAR}`, `Ibiza Activities ${YEAR}`, `Ibiza Aktivitäten ${YEAR}`, `Actividades Ibiza ${YEAR}`, `Activités Ibiza ${YEAR}`),
-    title: L('Activiteiten', 'Activities', 'Aktivitäten', 'Actividades', 'Activités'),
+    title: L('Activiteiten op Ibiza', 'Things to do in Ibiza', 'Aktivitäten auf Ibiza', 'Actividades en Ibiza', 'Activités à Ibiza'),
     subtitle: L(
       'Alle activiteiten in Ibiza per dag, week en maand — direct te boeken via ClubTickets.',
       'Every activity in Ibiza by day, week and month — book instantly via ClubTickets.',
@@ -22,7 +22,9 @@ export const AGENDA_COPY: Record<string, AgendaCopy> = {
   },
   tours: {
     kicker: L(`Ibiza Tours ${YEAR}`, `Ibiza Tours ${YEAR}`, `Ibiza Touren ${YEAR}`, `Tours Ibiza ${YEAR}`, `Tours Ibiza ${YEAR}`),
-    title: L('Tours', 'Tours', 'Touren', 'Tours', 'Tours'),
+    // 'Tours' alleen zei niets: geen plaats, en niet te onderscheiden van
+    // /activities. Deze pagina is de begeleide helft van dat aanbod.
+    title: L('Rondleidingen op Ibiza', 'Guided tours in Ibiza', 'Geführte Touren auf Ibiza', 'Visitas guiadas en Ibiza', 'Visites guidées à Ibiza'),
     subtitle: L(
       'Alle tours en excursies in Ibiza per dag, week en maand — direct te boeken via ClubTickets.',
       'Every tour and excursion in Ibiza by day, week and month — book instantly via ClubTickets.',
@@ -33,7 +35,9 @@ export const AGENDA_COPY: Record<string, AgendaCopy> = {
   },
   'water-sports': {
     kicker: L(`Ibiza Watersport ${YEAR}`, `Ibiza Water Sports ${YEAR}`, `Ibiza Wassersport ${YEAR}`, `Deportes Acuáticos ${YEAR}`, `Sports Nautiques ${YEAR}`),
-    title: L('Watersport', 'Water Sports', 'Wassersport', 'Deportes Acuáticos', 'Sports Nautiques'),
+    // H1's dragen de plaatsnaam. Voor een antwoordmachine ís 'Ibiza' de
+    // zoekopdracht — een kale 'Water Sports' matcht niets waar iemand op zoekt.
+    title: L('Watersport op Ibiza', 'Water sports in Ibiza', 'Wassersport auf Ibiza', 'Deportes acuáticos en Ibiza', 'Sports nautiques à Ibiza'),
     subtitle: L(
       'Alle watersport-activiteiten in Ibiza per dag, week en maand — direct te boeken via ClubTickets.',
       'Every water sports activity in Ibiza by day, week and month — book instantly via ClubTickets.',
@@ -55,7 +59,7 @@ export const AGENDA_COPY: Record<string, AgendaCopy> = {
   },
   'boat-trip': {
     kicker: L(`Ibiza Boottochten ${YEAR}`, `Ibiza Boat Trips ${YEAR}`, `Ibiza Bootstouren ${YEAR}`, `Paseos en Barco ${YEAR}`, `Sorties en Bateau ${YEAR}`),
-    title: L('Boottochten', 'Boat Trips', 'Bootstouren', 'Paseos en Barco', 'Sorties en Bateau'),
+    title: L('Boottochten op Ibiza', 'Boat trips in Ibiza', 'Bootstouren auf Ibiza', 'Paseos en barco por Ibiza', 'Sorties en bateau à Ibiza'),
     subtitle: L(
       'Alle boottochten en excursies op Ibiza per dag, week en maand — direct te boeken via ClubTickets.',
       'Every boat trip and excursion in Ibiza by day, week and month — book instantly via ClubTickets.',
@@ -77,7 +81,7 @@ export const AGENDA_COPY: Record<string, AgendaCopy> = {
   },
   'shuttle-ferry': {
     kicker: L(`Shuttle Ferry ${YEAR}`, `Shuttle Ferry ${YEAR}`, `Shuttle-Fähre ${YEAR}`, `Shuttle Ferry ${YEAR}`, `Navette Ferry ${YEAR}`),
-    title: L('Shuttle Ferry', 'Shuttle Ferry', 'Shuttle-Fähre', 'Shuttle Ferry', 'Navette Ferry'),
+    title: L('Shuttle ferry op Ibiza', 'Shuttle ferries in Ibiza', 'Shuttle-Fähren auf Ibiza', 'Ferris lanzadera en Ibiza', 'Navettes maritimes à Ibiza'),
     subtitle: L(
       'Alle shuttle- en watertaxi-afvaarten langs de kust van Ibiza, per dag, week en maand — direct te boeken via ClubTickets.',
       'Every shuttle and water-taxi departure along the Ibiza coast, by day, week and month — book instantly via ClubTickets.',
