@@ -29,9 +29,12 @@ interface ExEvent {
 }
 interface LightVenue { name: string; slug: string; whitelogo: string; picture: string; type_slug: string }
 interface Props {
+  /** De dagen die de server al in de HTML heeft gezet. */
   events: ExEvent[]
   allVenues: LightVenue[]
   locale: string
+  /** Laatste dag die in `events` zit, als yyyy-MM-dd. Alles daarna wordt geladen. */
+  loadedThrough: string
 }
 
 type Period = 'day' | 'week' | 'month' | 'year'
@@ -43,14 +46,14 @@ const KEEP_LOGO = ['o-beach-ibiza', 'playa-soleil', 'bambuku-ibiza']
 const T_I18N: Record<string, {
   title: string; sub: string;
   day: string; week: string; month: string; year: string; whole: (p: string) => string;
-  events: (n: number) => string; noEvents: string; tickets: string; view: string; lineupMore: string;
+  events: (n: number) => string; noEvents: string; loading: string; tickets: string; view: string; lineupMore: string;
   today: string; tomorrow: string; upcoming: string;
 }> = {
-  en: { title: 'Ibiza club calendar 2026', sub: 'Discover what’s on across Ibiza — slide through the dates and grab your tickets.', day: 'Day', week: 'Week', month: 'Month', year: 'Year', whole: p => `All ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, noEvents: 'No events for this selection.', tickets: 'Tickets', view: 'View', lineupMore: 'more', today: 'Today', tomorrow: 'Tomorrow', upcoming: 'All upcoming events' },
-  nl: { title: 'Ibiza clubagenda 2026', sub: 'Ontdek wat er speelt op Ibiza — schuif door de data en scoor je tickets.', day: 'Dag', week: 'Week', month: 'Maand', year: 'Jaar', whole: p => `Hele ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, noEvents: 'Geen events voor deze selectie.', tickets: 'Tickets', view: 'Bekijk', lineupMore: 'meer', today: 'Vandaag', tomorrow: 'Morgen', upcoming: 'Alle aankomende events' },
-  de: { title: 'Ibiza Clubkalender 2026', sub: 'Entdecke, was auf Ibiza los ist — wische durch die Daten und sichere dir deine Tickets.', day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', whole: p => `Ganze ${p}`, events: n => `${n} ${n === 1 ? 'Event' : 'Events'}`, noEvents: 'Keine Events für diese Auswahl.', tickets: 'Tickets', view: 'Ansehen', lineupMore: 'mehr', today: 'Heute', tomorrow: 'Morgen', upcoming: 'Alle kommenden Events' },
-  es: { title: 'Agenda de clubs Ibiza 2026', sub: 'Descubre qué hay en Ibiza — desliza por las fechas y consigue tus entradas.', day: 'Día', week: 'Semana', month: 'Mes', year: 'Año', whole: p => `Todo el/la ${p}`, events: n => `${n} ${n === 1 ? 'evento' : 'eventos'}`, noEvents: 'No hay eventos para esta selección.', tickets: 'Entradas', view: 'Ver', lineupMore: 'más', today: 'Hoy', tomorrow: 'Mañana', upcoming: 'Todos los próximos eventos' },
-  fr: { title: 'Agenda des clubs Ibiza 2026', sub: 'Découvrez ce qui se passe à Ibiza — faites défiler les dates et prenez vos billets.', day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Année', whole: p => `Tout le/la ${p}`, events: n => `${n} ${n === 1 ? 'événement' : 'événements'}`, noEvents: 'Aucun événement pour cette sélection.', tickets: 'Billets', view: 'Voir', lineupMore: 'plus', today: 'Aujourd’hui', tomorrow: 'Demain', upcoming: 'Tous les événements à venir' },
+  en: { title: 'Ibiza club calendar 2026', sub: 'Discover what’s on across Ibiza — slide through the dates and grab your tickets.', day: 'Day', week: 'Week', month: 'Month', year: 'Year', whole: p => `All ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, loading: 'Loading the calendar…', noEvents: 'No events for this selection.', tickets: 'Tickets', view: 'View', lineupMore: 'more', today: 'Today', tomorrow: 'Tomorrow', upcoming: 'All upcoming events' },
+  nl: { title: 'Ibiza clubagenda 2026', sub: 'Ontdek wat er speelt op Ibiza — schuif door de data en scoor je tickets.', day: 'Dag', week: 'Week', month: 'Maand', year: 'Jaar', whole: p => `Hele ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, loading: 'Agenda laden…', noEvents: 'Geen events voor deze selectie.', tickets: 'Tickets', view: 'Bekijk', lineupMore: 'meer', today: 'Vandaag', tomorrow: 'Morgen', upcoming: 'Alle aankomende events' },
+  de: { title: 'Ibiza Clubkalender 2026', sub: 'Entdecke, was auf Ibiza los ist — wische durch die Daten und sichere dir deine Tickets.', day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', whole: p => `Ganze ${p}`, events: n => `${n} ${n === 1 ? 'Event' : 'Events'}`, loading: 'Kalender wird geladen…', noEvents: 'Keine Events für diese Auswahl.', tickets: 'Tickets', view: 'Ansehen', lineupMore: 'mehr', today: 'Heute', tomorrow: 'Morgen', upcoming: 'Alle kommenden Events' },
+  es: { title: 'Agenda de clubs Ibiza 2026', sub: 'Descubre qué hay en Ibiza — desliza por las fechas y consigue tus entradas.', day: 'Día', week: 'Semana', month: 'Mes', year: 'Año', whole: p => `Todo el/la ${p}`, events: n => `${n} ${n === 1 ? 'evento' : 'eventos'}`, loading: 'Cargando la agenda…', noEvents: 'No hay eventos para esta selección.', tickets: 'Entradas', view: 'Ver', lineupMore: 'más', today: 'Hoy', tomorrow: 'Mañana', upcoming: 'Todos los próximos eventos' },
+  fr: { title: 'Agenda des clubs Ibiza 2026', sub: 'Découvrez ce qui se passe à Ibiza — faites défiler les dates et prenez vos billets.', day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Année', whole: p => `Tout le/la ${p}`, events: n => `${n} ${n === 1 ? 'événement' : 'événements'}`, loading: 'Chargement de l’agenda…', noEvents: 'Aucun événement pour cette sélection.', tickets: 'Billets', view: 'Voir', lineupMore: 'plus', today: 'Aujourd’hui', tomorrow: 'Demain', upcoming: 'Tous les événements à venir' },
 }
 const getLoc = (l: string) => ({ nl, de, es, fr, en: enUS } as Record<string, Locale>)[l] || enUS
 type Locale = typeof enUS
@@ -66,7 +69,7 @@ function lineupArtists(lineUp?: string): string[] {
   return txt.replace(/\s+/g, ' ').trim().split(/[,\-–|]/).map(s => s.trim()).filter(s => s.length > 1)
 }
 
-export default function EventsExplorer({ events, allVenues, locale }: Props) {
+export default function EventsExplorer({ events: initialEvents, allVenues, locale, loadedThrough }: Props) {
   const loc = getLoc(locale)
   /** Venue op slug — de bron voor logo, foto en type, in plaats van elk veld
       per avond mee te sturen. */
@@ -82,6 +85,25 @@ export default function EventsExplorer({ events, allVenues, locale }: Props) {
 
   const [period, setPeriod] = useState<Period>('week')
   const [activeDay, setActiveDay] = useState<string | null>(null)
+
+  /**
+   * De agenda voorbij wat de server meestuurde.
+   *
+   * De pagina rendert veertien dagen; dat dekt de dag- en weekweergave, en dat
+   * is waar iedereen op binnenkomt. Schakelt iemand naar 'maand' of 'jaar', dan
+   * halen we het ontbrekende stuk erbij in plaats van het bij elke bezoeker
+   * mee te sturen — ook bij de bezoekers die die tabs nooit aanraken.
+   *
+   * `extra` staat los van de server-props zodat een bijlading nooit overschrijft
+   * wat er al stond; ze worden hieronder samengevoegd.
+   */
+  const [extra, setExtra] = useState<ExEvent[]>([])
+  const [loadedTo, setLoadedTo] = useState(loadedThrough)
+  const [loading, setLoading] = useState(false)
+  const events = useMemo(
+    () => (extra.length ? [...initialEvents, ...extra] : initialEvents),
+    [initialEvents, extra],
+  )
 
   // Normalised events for the iOS-style picker wheel
   const pickerEvents: PickerEvent[] = useMemo(() => events
@@ -124,6 +146,32 @@ export default function EventsExplorer({ events, allVenues, locale }: Props) {
 
   const rangeStartStr = format(rangeStart, 'yyyy-MM-dd')
   const rangeEndStr = format(rangeEnd, 'yyyy-MM-dd')
+
+  /**
+   * Haal het stuk agenda op dat de huidige weergave nodig heeft en dat nog niet
+   * geladen is.
+   *
+   * Alleen het ontbrekende stuk: schakel je van week naar maand en daarna naar
+   * jaar, dan komt de maand er één keer bij en daarna alleen de rest van het
+   * jaar. Faalt het verzoek, dan blijft staan wat er al was — een kalender die
+   * twee weken toont is beter dan een lege.
+   */
+  useEffect(() => {
+    if (rangeEndStr <= loadedTo) return
+    let cancelled = false
+    const from = format(addDays(parseISO(loadedTo), 1), 'yyyy-MM-dd')
+    setLoading(true)
+    fetch(`/api/calendar-window?locale=${encodeURIComponent(locale)}&from=${from}&to=${rangeEndStr}`)
+      .then(r => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+      .then((d: { events?: ExEvent[] }) => {
+        if (cancelled) return
+        setExtra(prev => [...prev, ...(d.events ?? [])])
+        setLoadedTo(rangeEndStr)
+      })
+      .catch(() => { /* wat al geladen is blijft staan */ })
+      .finally(() => { if (!cancelled) setLoading(false) })
+    return () => { cancelled = true }
+  }, [rangeEndStr, loadedTo, locale])
 
   const changePeriod = useCallback((p: Period) => {
     setPeriod(p)
@@ -218,7 +266,19 @@ export default function EventsExplorer({ events, allVenues, locale }: Props) {
         </div>
 
         {/* ── Tiles ── */}
-        {totalCount === 0 ? (
+        {totalCount === 0 && loading ? (
+          /* Nog niets te tonen omdat de maand of het jaar nog binnenkomt. Zonder
+             dit stond er "geen events" op het moment dat er juist geladen werd —
+             het ene bericht dat je hier níét wilt geven. */
+          <div
+            role="status"
+            aria-live="polite"
+            className="col-span-full text-center py-20 text-black/50 bg-black/5 rounded-3xl border border-black/10"
+          >
+            <Calendar className="w-12 h-12 mx-auto mb-4 animate-pulse opacity-30 text-ibiza-green" />
+            <p className="font-semibold text-base">{T.loading}</p>
+          </div>
+        ) : totalCount === 0 ? (
           <div className="col-span-full text-center py-20 text-black/50 bg-black/5 rounded-3xl border border-black/10">
             <Calendar className="w-12 h-12 mx-auto mb-4 opacity-30 text-ibiza-green" />
             <p className="font-semibold text-base">{T.noEvents}</p>
