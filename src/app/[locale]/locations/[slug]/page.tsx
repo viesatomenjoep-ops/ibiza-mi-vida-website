@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { LocationImage } from '@/components/locations/LocationImage'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -112,15 +113,13 @@ export default function LocationPage({ params }: { params: { slug: string; local
 
       {/* Hero */}
       <section className="relative h-[50vh] min-h-[400px] w-full bg-slate-900">
-        {location.imageUrl ? (
-          <Image
-            src={location.imageUrl}
-            alt={location.name}
-            fill
-            className="object-cover opacity-70"
-            priority
-          />
-        ) : null}
+        <LocationImage
+          src={location.imageUrl}
+          name={location.name}
+          sizes="100vw"
+          priority
+          className="opacity-70"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
 
         <div className="absolute inset-0 z-10 mx-auto flex max-w-7xl flex-col justify-end px-4 pb-16 md:px-8">
@@ -204,15 +203,12 @@ export default function LocationPage({ params }: { params: { slug: string; local
                 href={`${base}/locations/${loc.slug}`}
                 className="group relative flex h-48 flex-col justify-end overflow-hidden rounded-2xl bg-ibiza-mint p-4 text-neutral-900"
               >
-                {loc.imageUrl ? (
-                  <Image
-                    src={loc.imageUrl}
-                    alt={loc.name}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 25vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                ) : null}
+                <LocationImage
+                  src={loc.imageUrl}
+                  name={loc.name}
+                  sizes="(max-width: 640px) 100vw, 25vw"
+                  className="transition-transform duration-700 group-hover:scale-110"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
                 <h3 className="relative z-10 text-lg font-bold text-white">{loc.name}</h3>
               </Link>

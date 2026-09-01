@@ -81,7 +81,7 @@ together.
   visitor on page load, which is a consent question under GDPR rather than a
   click, and the `cread.php` link tracks the commission on its own.
 - **Click&Boat (Impact)** — wired in `src/lib/partners.ts` using the deeplink
-  `click-and-boat.pxf.io/c/7702481/3995680/19914`. The account id `7702481`
+  `click-and-boat.pxf.io/X4v2Rb` (de door Impact uitgegeven korte link; verving de lange `/c/7702481/3995680/19914`). The account id `7702481`
   matches the Impact universal tracking tag already loaded (consent-gated) in
   `ConsentScripts.tsx`. Impact's `imp.pxf.io` impression pixel and its
   `impactradius-go.com` iframe ad unit are deliberately not rendered — the

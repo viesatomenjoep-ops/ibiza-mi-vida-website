@@ -155,6 +155,25 @@ const CANONICAL_HOST = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.ibizami
   .replace(/\/$/, '')
   .toLowerCase()
 
+/**
+ * Hostvergelijking zonder `www.`, en dat is geen netheid maar een noodrem.
+ *
+ * De noindex-header hieronder bestaat om previews uit de index te houden. Hij
+ * hangt aan één env-var, en die var kon het hele werkende domein raken: staat
+ * NEXT_PUBLIC_SITE_URL op `https://ibizamivida.com` — precies wat .env.example
+ * voorschreef — dan is de canonieke host `ibizamivida.com`, matcht
+ * `www.ibizamivida.com` niet, en krijgt élke pagina van de live site
+ * `noindex, nofollow` mee. Geen foutmelding, geen kapotte pagina: de site
+ * verdwijnt gewoon uit Google en uit elke AI-crawler, en niets in de code wijst
+ * naar de oorzaak.
+ *
+ * www en het kale domein zijn dezelfde site, dus ze horen allebei canoniek te
+ * zijn. Door beide kanten te normaliseren kan een www-verschil deze header niet
+ * meer op de echte site zetten. Previews op *.vercel.app en het losse .es-domein
+ * matchen nog steeds niet en krijgen hem wél.
+ */
+const bareHost = (host: string) => host.replace(/^www\./, '')
+
 /** Local development hosts, which are nobody's SEO problem. */
 const isLocalHost = (host: string) =>
   host.startsWith('localhost') || host.startsWith('127.0.0.1') || host.startsWith('0.0.0.0') || host.startsWith('[::1]')
@@ -179,7 +198,7 @@ export function middleware(request: NextRequest) {
   const res = route(request)
   const host = (request.headers.get('host') ?? '').toLowerCase()
 
-  if (!host || host === CANONICAL_HOST || isLocalHost(host)) return res
+  if (!host || bareHost(host) === bareHost(CANONICAL_HOST) || isLocalHost(host)) return res
 
   const stamped = res ?? NextResponse.next()
   stamped.headers.set('X-Robots-Tag', 'noindex, nofollow')

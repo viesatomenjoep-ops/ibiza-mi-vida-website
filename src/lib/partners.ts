@@ -67,7 +67,16 @@ export const WIBER_URL =
  */
 export const CLICKANDBOAT_URL =
   process.env.NEXT_PUBLIC_CLICKANDBOAT_AFFILIATE_URL ??
-  'https://click-and-boat.pxf.io/c/7702481/3995680/19914'
+  'https://click-and-boat.pxf.io/X4v2Rb'
+
+/**
+ * De korte vorm hierboven is de vanity-link die Impact zelf uitgeeft, en die is
+ * aangeleverd als de juiste. Hij lost aan Impact's kant op naar dezelfde
+ * account- en campagne-ids als de lange `/c/7702481/3995680/19914` die hier
+ * eerst stond, maar wélke creative eraan hangt bepaalt Impact — niet wij. Dat
+ * is precies waarom hij hier staat en niet in de paginatekst: verandert de
+ * campagne, dan is dit één regel.
+ */
 
 /**
  * ClubTickets does NOT live here.
