@@ -65,13 +65,14 @@ interface CardData {
 function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
   return (
     <div className="flex flex-col overflow-hidden rounded-3xl bg-obsidian text-white">
-      {/* Beide kaarten openen met een band van dezelfde hoogte. Eerder had
-          alleen de bootkaart beeld, waardoor de autokaart ernaast uitrekte en
-          er een gat van een half scherm in het midden viel. 21:9 in plaats van
-          16:9: genoeg om de foto te laten werken, niet zoveel dat de kaart een
-          scherm hoog wordt. */}
-      <div className="relative aspect-[21/9] w-full overflow-hidden">
-        {data.photo ? (
+      {/* Alleen een band als er ook echt een foto is.
+          Hier stond een ontworpen verloop voor de kaart zonder beeld, zodat
+          beide kaarten even hoog begonnen. Dat werkte averechts: tweehonderd
+          pixel bijna-zwart valt meer op dan een hoogteverschil. De kaart zonder
+          foto begint nu bij de inhoud, en het raster laat de kaarten hun eigen
+          hoogte houden in plaats van de kortste op te rekken. */}
+      {data.photo && (
+        <div className="relative aspect-[21/9] w-full overflow-hidden">
           <img
             src={data.photo.src}
             alt={data.photo.alt}
@@ -79,23 +80,29 @@ function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
             loading="lazy"
             decoding="async"
           />
-        ) : (
-          /* Geen eigen beeld van deze partner, dus een ontworpen band in plaats
-             van een stockfoto die iets toont wat we niet verhuren. */
-          <div aria-hidden className="h-full w-full bg-[radial-gradient(120%_160%_at_15%_0%,rgba(212,175,55,0.28),transparent_60%)] bg-obsidian" />
-        )}
-        {/* Verloop, zodat witte tekst op elke foto leesbaar blijft in plaats
-            van te hopen dat de onderkant toevallig donker is. */}
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/30 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 px-6 pb-4">
-          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white drop-shadow">{data.kicker}</p>
-          <div className="flex h-5 items-center opacity-90">
-            <PartnerLogo partner={data.logoKey} name={data.logoName} on="dark" />
+          {/* Verloop, zodat witte tekst op elke foto leesbaar blijft in plaats
+              van te hopen dat de onderkant toevallig donker is. */}
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/30 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 px-6 pb-4">
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white drop-shadow">{data.kicker}</p>
+            <div className="flex h-5 items-center opacity-90">
+              <PartnerLogo partner={data.logoKey} name={data.logoName} on="dark" />
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <div className="flex flex-1 flex-col p-6 md:p-7">
+      <div className="flex flex-col p-6 md:p-7">
+        {!data.photo && (
+          /* Kicker en merk op één regel: leest als een kop in plaats van als
+             twee losse bovenkopjes onder elkaar, en scheelt een regel. */
+          <div className="mb-5 flex items-center justify-between gap-4">
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/50">{data.kicker}</p>
+            <div className="flex h-5 items-center opacity-90">
+              <PartnerLogo partner={data.logoKey} name={data.logoName} on="dark" />
+            </div>
+          </div>
+        )}
         <div className="flex items-start justify-between gap-5">
           <h3 className="font-serif text-[22px] font-black leading-tight tracking-tight text-white md:text-2xl">
             {data.heading}
@@ -116,7 +123,7 @@ function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
 
         {/* Het aanbod zelf. De kaart noemde alleen voorwaarden, waardoor er
             nergens stond wat je hier eigenlijk kunt huren. */}
-        <div className="mt-5 flex-1">
+        <div className="mt-5">
           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">{data.categoriesLabel}</p>
           <ul className="mt-2.5 flex flex-wrap gap-1.5">
             {data.categories.map((c) => (
@@ -213,7 +220,7 @@ export function RentalsSection({ locale }: { locale: string }) {
         </h2>
         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-neutral-600">{RENTALS_SECTION.lead[l]}</p>
 
-        <div className="mt-8 grid gap-5 lg:grid-cols-2">
+        <div className="mt-8 grid items-start gap-5 lg:grid-cols-2">
           <RentalCard data={boat} locale={l} />
           <RentalCard data={car} locale={l} />
         </div>
