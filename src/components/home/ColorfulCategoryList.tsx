@@ -29,9 +29,7 @@ const allCategories = [
   { label: 'Formentera Trips', href: '/formentera-boat-trips', icon: Sun, desc: 'Day trips', color: 'bg-rustic-terracotta', group: 'Boats' },
   { label: 'Package Deals', href: '/package-deals', icon: CheckCircle, desc: 'Ticket + table + transfer', color: 'bg-champagne-bronze', group: 'Clubs' },
   { label: 'Guestlist', href: '/guestlist', icon: CheckCircle, desc: 'Free sign-up via WhatsApp', color: 'bg-velvet-obsidian', group: 'Clubs' },
-  { label: 'Drink Packages', href: '/drink-packages', icon: GlassWater, desc: 'VIP tables', color: 'bg-velvet-obsidian', group: 'VIP' },
   { label: 'Car Rental Ibiza', href: '/car-rental-ibiza', icon: Car, desc: 'All-in, from the airport', color: 'bg-rustic-terracotta', group: 'Deals' },
-  { label: 'Scooter & Quad', href: '/car-scooter-rental', icon: Car, desc: 'Park anywhere', color: 'bg-velvet-obsidian', group: 'Deals' },
 ]
 
 const tabs = ['All', 'Boats', 'Clubs', 'VIP', 'Deals']

@@ -51,7 +51,7 @@ Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from 
 - [Formentera ferry](${SITE_URL}/en/ferry-formentera): day trips and crossings to Formentera.
 - [Activities](${SITE_URL}/en/activities), [tours](${SITE_URL}/en/tours) and [water sports](${SITE_URL}/en/water-sports): buggies, jet skis, excursions and island experiences.
 - [Ibiza guestlist](${SITE_URL}/en/guestlist): we put your name on club guestlists via WhatsApp, free to sign up. Being on the list can mean free entry before a set time, a reduced door price, or a faster queue — which one applies depends on the club and the night, and is confirmed in advance. A guestlist is never a guarantee of entry; when it is full or not offered, group and package deals for the same clubs are the alternative, arranged the same way.
-- [Drink packages](${SITE_URL}/en/drink-packages) and VIP tables: bottle service and tables at most clubs, arranged on request.
+- Drink packages and VIP tables: bottle service and tables at most clubs, arranged on request via [package deals](${SITE_URL}/en/package-deals).
 - [All clubs](${SITE_URL}/en/clubs): index of every club we cover, each with its own programme.
 - [Ibiza by boat](${SITE_URL}/en/boats): hub page explaining the difference between a private charter, a boat party, a boat trip and the Formentera ferry.
 

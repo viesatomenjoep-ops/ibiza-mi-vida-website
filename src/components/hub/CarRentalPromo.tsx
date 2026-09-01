@@ -8,20 +8,19 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 /**
  * Wiber car-rental block, for pages that are not the car-rental page itself.
  *
- * It exists because the two places a visitor most obviously looks for car hire
- * — the homepage and /car-scooter-rental — pointed at nothing. The rental page
- * read "the full range will be here soon" above an empty state, which is the
- * worst version of a commercial page: it ranks, it gets clicked, and it hands
- * the visitor a dead end and a WhatsApp button.
+ * It exists because the homepage, where a visitor most obviously looks for car
+ * hire, pointed at nothing. (/car-scooter-rental did too; that page has since
+ * been removed and 301'd here, because "the full range will be here soon" above
+ * an empty state is the worst version of a commercial page: it ranks, it gets
+ * clicked, and it hands the visitor a dead end and a WhatsApp button.)
  *
  * ── Why this carries its own background ───────────────────────────────────
- * It renders on two pages with opposite palettes: the homepage sits on the
- * dark body (globals.css sets `body{background:var(--black)}`), while
- * /car-scooter-rental uses .pl-shell, which is `background:#fff;color:#111`.
- * A block that inherited either one would be invisible on the other — exactly
- * the failure that made the fleet price text unreadable. So the card paints its
- * own dark ground and sets every colour on top of it explicitly, and reads the
- * same either way.
+ * It renders on pages with opposite palettes: the homepage sits on the dark
+ * body (globals.css sets `body{background:var(--black)}`), while the hub pages
+ * are white. A block that inherited either one would be invisible on the other
+ * — exactly the failure that made the fleet price text unreadable. So the card
+ * paints its own dark ground and sets every colour on top of it explicitly, and
+ * reads the same either way.
  *
  * The price clause disappears while `carPerDay` is null, like everywhere else.
  */

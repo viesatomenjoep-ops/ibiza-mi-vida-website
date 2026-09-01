@@ -45,7 +45,6 @@ valt zelden op de pagina die je wilde.
 | `/car-rental-ibiza` (+ 4 taalslugs) | "car rental ibiza" — de commerciële term. Wiber. |
 | `/car-rental-ibiza-airport` | Ophalen op de luchthaven |
 | `/convertible-car-rental-ibiza` | Cabrio |
-| `/car-scooter-rental` | Scooters en quads. De naam van de route is historisch; auto's staan er nog als duidelijk ondergeschikte H2 die doorlinkt naar de pillar. |
 | `/wiber-car-rental-ibiza` | Merkzoekopdracht "Wiber Ibiza" |
 
 ### Watersport
@@ -65,10 +64,9 @@ valt zelden op de pagina die je wilde.
 | `/this-week` | Deze week, tijdgebonden |
 | `/guestlist` | Gratis op de lijst via WhatsApp |
 | `/package-deals` | Betaalde bundels: ticket, tafel, transfer |
-| `/drink-packages` | Drankpakketten in de club |
 | `/beach-clubs` | Strandclubs, geen nachtclubs |
 
-`/club-tickets` en `/ibiza-guestlist` zijn redirects en horen niet in de sitemap.
+`/club-tickets`, `/ibiza-guestlist`, `/car-scooter-rental` en `/drink-packages` zijn redirects en horen niet in de sitemap. De laatste twee waren lege hulzen ("binnenkort vind je hier het volledige aanbod" boven een WhatsApp-knop) en zijn 301'd naar respectievelijk `/car-rental-ibiza` en `/package-deals`.
 
 ### Doen op het eiland
 

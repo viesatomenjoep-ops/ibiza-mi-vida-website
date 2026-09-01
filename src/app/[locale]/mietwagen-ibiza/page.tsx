@@ -137,7 +137,6 @@ export default function MietwagenIbizaPage() {
 
       <InternalLinks heading="Verwandte Seiten" locale={LOCALE} links={[
         { label: 'Boot mieten auf Ibiza', href: 'boot-mieten-ibiza', body: 'Die Buchten, zu denen keine Straße führt — von der Wasserseite.' },
-        { label: 'Auto & Roller mieten', href: 'car-scooter-rental', body: 'Die bestehende Seite mit Rollern und Quads.' },
         { label: 'Ibiza-Tipps', href: 'tips', body: 'Buchten, Parken und wann du am besten kommst.' },
       ]} />
 

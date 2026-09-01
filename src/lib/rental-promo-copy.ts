@@ -43,11 +43,11 @@ export const RENTALS_SECTION: { eyebrow: T; heading: T; lead: T } = {
 
 export const BOAT_PROMO: { kicker: T; heading: T; lead: T; readMore: T; cta: T; fromLabel: T; points: L } = {
   kicker: {
-    nl: 'In samenwerking met Click&Boat',
-    en: 'In partnership with Click&Boat',
-    de: 'In Zusammenarbeit mit Click&Boat',
-    es: 'En colaboración con Click&Boat',
-    fr: 'En partenariat avec Click&Boat',
+    nl: 'Op het water',
+    en: 'On the water',
+    de: 'Auf dem Wasser',
+    es: 'En el mar',
+    fr: 'Sur l’eau',
   },
   heading: {
     nl: 'Zelf een boot uitzoeken',
@@ -95,11 +95,11 @@ export const BOAT_PROMO: { kicker: T; heading: T; lead: T; readMore: T; cta: T; 
 
 export const CAR_PROMO: { kicker: T; heading: T; lead: T; readMore: T; cta: T; fromLabel: T; points: L } = {
   kicker: {
-    nl: 'In samenwerking met Wiber Rent a Car',
-    en: 'In partnership with Wiber Rent a Car',
-    de: 'In Zusammenarbeit mit Wiber Rent a Car',
-    es: 'En colaboración con Wiber Rent a Car',
-    fr: 'En partenariat avec Wiber Rent a Car',
+    nl: 'Over land',
+    en: 'On the island',
+    de: 'Über Land',
+    es: 'Por la isla',
+    fr: 'Sur l’île',
   },
   heading: {
     nl: 'Auto huren bij Wiber',
@@ -143,4 +143,37 @@ export const CAR_PROMO: { kicker: T; heading: T; lead: T; readMore: T; cta: T; f
     es: ['Precio todo incluido, sin sorpresas en el mostrador', 'A cinco minutos del aeropuerto, shuttle gratuito', 'Recogida sin contacto tras un aterrizaje tardío'],
     fr: ['Prix tout compris, pas de surprise au comptoir', 'À cinq minutes de l’aéroport, navette gratuite', 'Prise en charge sans contact après un vol tardif'],
   },
+}
+
+/**
+ * De categorieën die elke kaart toont.
+ *
+ * Dit is het antwoord op "wat kan ik hier eigenlijk huren", en dat stond er
+ * niet: de kaarten noemden voorwaarden maar geen aanbod. Bij de boten komen de
+ * namen uit onze eigen vloot, bij de auto's uit dezelfde categorieënlijst als
+ * de prijstabel op de autopagina — dus geen tweede waarheid die kan gaan
+ * afwijken.
+ */
+export const BOAT_CATEGORIES: L = {
+  nl: ['Sloepen zonder vaarbewijs', 'RIB’s met schipper', 'Motorjachten', 'Catamarans'],
+  en: ['Licence-free day boats', 'RIBs with a skipper', 'Motor yachts', 'Catamarans'],
+  de: ['Boote ohne Führerschein', 'RIBs mit Skipper', 'Motoryachten', 'Katamarane'],
+  es: ['Barcos sin titulación', 'Semirrígidas con patrón', 'Yates a motor', 'Catamaranes'],
+  fr: ['Bateaux sans permis', 'Semi-rigides avec skipper', 'Yachts à moteur', 'Catamarans'],
+}
+
+export const CAR_CATEGORIES: L = {
+  nl: ['Economy', 'Compact', 'Cabrio', 'SUV / 4x4'],
+  en: ['Economy', 'Compact', 'Convertible', 'SUV / 4x4'],
+  de: ['Economy', 'Kompakt', 'Cabrio', 'SUV / 4x4'],
+  es: ['Economy', 'Compacto', 'Descapotable', 'SUV / 4x4'],
+  fr: ['Economy', 'Compacte', 'Cabriolet', 'SUV / 4x4'],
+}
+
+export const CATEGORIES_LABEL: T = {
+  nl: 'Wat je kunt huren',
+  en: 'What you can rent',
+  de: 'Was du mieten kannst',
+  es: 'Qué puedes alquilar',
+  fr: 'Ce que vous pouvez louer',
 }
