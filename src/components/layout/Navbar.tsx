@@ -8,6 +8,7 @@ import { SpotifyButton } from './SpotifyButton'
 import { MenuYachtSlider } from './MenuYachtSlider'
 import { FLEET } from '@/data/fleet'
 import { slugFor } from '@/lib/route-slugs'
+import { localeTag } from '@/lib/date-label'
 import { DEFAULT_LOCALE, LOCALES as SEO_LOCALES, type Locale } from '@/lib/seo'
 
 import en from '@/dictionaries/en.json'
@@ -30,6 +31,29 @@ const OFFICIAL_PARTNER: Record<string, string> = {
   de: 'Offizieller Ticketpartner',
   es: 'Socio oficial de entradas',
   fr: 'Partenaire officiel de billetterie',
+}
+
+/**
+ * Voorleeslabel bij de beoordeling in de partnerbalk.
+ *
+ * Zichtbaar staat er "★ 5,0 · 13" — kort genoeg voor een balk van 0,66rem,
+ * maar als losse tekens zegt dat een schermlezer niets. Vandaar een volzin,
+ * mét de bron erin: dat dit Google's cijfer is en niet ons eigen praatje is
+ * precies waarom het er staat.
+ */
+const RATING_LABEL: Record<string, (r: string, n: number) => string> = {
+  en: (r, n) => `Google rating ${r} out of 5, based on ${n} reviews`,
+  nl: (r, n) => `Google-beoordeling ${r} van 5, op basis van ${n} reviews`,
+  de: (r, n) => `Google-Bewertung ${r} von 5, basierend auf ${n} Rezensionen`,
+  es: (r, n) => `Valoración de Google ${r} sobre 5, basada en ${n} reseñas`,
+  fr: (r, n) => `Note Google ${r} sur 5, basée sur ${n} avis`,
+}
+
+export interface NavRating {
+  /** Gemiddelde zoals Google het teruggeeft, bijv. 5 of 4.6. */
+  value: number
+  /** Aantal beoordelingen waarop dat gemiddelde rust. */
+  count: number
 }
 
 /**
@@ -69,7 +93,7 @@ const A11Y: Record<string, Record<string, string>> = {
   },
 }
 
-export function Navbar() {
+export function Navbar({ rating = null }: { rating?: NavRating | null }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [openCat, setOpenCat] = useState<string | null>('events') // default open
   const pathname = usePathname()
@@ -304,6 +328,40 @@ export function Navbar() {
 
   const toggleCat = (id: string) => setOpenCat(prev => prev === id ? null : id)
 
+  /**
+   * De Google-beoordeling naast de partnertekst.
+   *
+   * Eén keer opgebouwd en op twee plekken gebruikt: de balk bestaat namelijk
+   * in twee gedaanten — bovenaan op de meeste pagina's, en als vaste onderbalk
+   * op de ClubTickets-categorieën en op de homepage zodra je scrolt. Twee
+   * kopieën van deze opmaak zouden vanzelf uit elkaar gaan lopen.
+   *
+   * `null` wanneer er geen cijfer is. Geen plaatshouder, geen "nog geen
+   * beoordelingen", geen skelet: de balk ziet er dan precies zo uit als nu.
+   *
+   * Het getal wordt per taal opgemaakt. Hardgecodeerd zou een Nederlander
+   * "5.0" zien en een Engelsman "5,0" — in beide gevallen het decimaalteken
+   * van de ander. Met minimumFractionDigits blijft het bovendien "5,0" en
+   * verspringt de balk niet zodra het gemiddelde ooit 4,9 wordt.
+   */
+  const ratingMark = (() => {
+    if (!rating) return null
+    const shown = new Intl.NumberFormat(localeTag(currentLocale.code), {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    }).format(rating.value)
+    const label = (RATING_LABEL[currentLocale.code] || RATING_LABEL.en)(shown, rating.count)
+    return (
+      <span className="nav-topbar-rating">
+        <span aria-hidden="true" className="nav-topbar-sep">·</span>
+        <span aria-hidden="true" className="nav-topbar-star">★</span>
+        <span aria-hidden="true">{shown}</span>
+        <span aria-hidden="true" className="nav-topbar-count">({rating.count})</span>
+        <span className="sr-only">{label}</span>
+      </span>
+    )
+  })()
+
   return (
     <>
       <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${onLight ? 'site-header--onlight' : ''} ${isPrivateBoat && !fadeOn ? 'site-header--forcewhite' : ''}`}>
@@ -317,6 +375,7 @@ export function Navbar() {
                 <path d="M7 12.5l3.2 3.2L17 9" stroke="#0D0509" strokeWidth="2.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               {OFFICIAL_PARTNER[currentLocale.code] || OFFICIAL_PARTNER.en}
+              {ratingMark}
             </span>
           </div>
         )}
@@ -380,6 +439,7 @@ export function Navbar() {
               <path d="M7 12.5l3.2 3.2L17 9" stroke="#0D0509" strokeWidth="2.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             {OFFICIAL_PARTNER[currentLocale.code] || OFFICIAL_PARTNER.en}
+            {ratingMark}
           </span>
         </div>
       )}

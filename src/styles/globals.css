@@ -78,6 +78,17 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .nav-partner-bottom .nav-topbar-inner{color:#0D0509}
 .nav-topbar-inner{display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 14px;font-family:var(--font-display),sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;text-align:center;line-height:1.2;text-shadow:none;transition:color .12s ease}
 .nav-topbar-inner svg{width:14px;height:14px;flex-shrink:0;display:block}
+/* Google-beoordeling naast de partnertekst in dezelfde balk.
+   Erft kleur van .nav-topbar-inner, zodat hij meeschakelt met de witte en de
+   zwarte variant van de balk in plaats van een eigen kleur te forceren.
+   De ster staat op --gold en is het enige gekleurde element.
+   Op smalle schermen valt het aantal weg: "OFFICIELE TICKETPARTNER · ★ 5,0 (13)"
+   past niet op 375px bij deze letterafstand, en het cijfer zelf is het punt. */
+.nav-topbar-rating{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.nav-topbar-sep{opacity:.45}
+.nav-topbar-star{color:var(--gold,#C8A24A);font-size:.78rem;line-height:1}
+.nav-topbar-count{opacity:.7;letter-spacing:.08em}
+@media (max-width:420px){.nav-topbar-count{display:none}}
 .nav{
   position:relative;
   width:100%;
