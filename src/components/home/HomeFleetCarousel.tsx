@@ -63,9 +63,10 @@ const fmt = (n: number, locale: string) =>
  * Tegel-carrousel met een greep uit de vloot, voor de homepage.
  *
  * Zelfde rail-patroon als de event-sliders (snap-x, hide-scrollbar) zodat het
- * als één familie voelt. Elke tegel linkt naar de kaart van die boot op de
- * charterpagina via het #boat-anker — daar staan de live beschikbaarheid, de
- * selectors en het dossier. De carrousel zelf toont alleen wat een voorbijganger
+ * als één familie voelt. Elke tegel linkt rechtstreeks naar het dossier van die boot —
+ * op uitdrukkelijk verzoek: het plaatje van een advertentie hoort naar de
+ * advertentie zelf te leiden. Vanaf het dossier is de vloot (met selectors en
+ * live beschikbaarheid) één klik via de terugknop. De carrousel zelf toont alleen wat een voorbijganger
  * nodig heeft om te blijven hangen: foto, naam, haven en de vanafprijs.
  *
  * Staat NIET bij de eventsecties bovenaan: dit hoort in de bootzone van de
@@ -106,7 +107,7 @@ export function HomeFleetCarousel({ locale = 'nl' }: { locale?: string }) {
           {boten.map((b) => (
             <Link
               key={b.slug}
-              href={`${base}/private-boat-charters#boat-${b.slug}`}
+              href={`${base}/private-boat-charters/dossier/${b.slug}`}
               className="group relative w-[240px] shrink-0 snap-start overflow-hidden rounded-3xl border border-black/10 bg-neutral-50 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-xl md:w-[280px]"
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden">

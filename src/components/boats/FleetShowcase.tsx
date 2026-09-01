@@ -2,9 +2,10 @@
 
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import {
   Search, MessageCircle, Anchor, Ship, Waves, Percent, Users, Ruler,
-  MapPin, Maximize2, X, ChevronLeft, ChevronRight, Check, Euro, Lock, LockOpen, SlidersHorizontal,
+  MapPin, X, Check, Euro, Lock, LockOpen, SlidersHorizontal,
 } from 'lucide-react';
 import { FLEET, FLEET_FROM_PRICE, type Boat, type FleetCategory } from '@/data/fleet';
 import { priceForDate, statusForDate, type LiveFleet } from '@/lib/yacht-broker';
@@ -255,8 +256,8 @@ function waLink(boat: Boat, T: FleetLabels) {
 }
 
 // ── Boat advertisement card ─────────────────────────────────────────────────────
-function BoatCard({ boat, T, locale, onOpen, live, date, season }: {
-  boat: Boat; T: FleetLabels; locale: string; onOpen: () => void;
+function BoatCard({ boat, T, locale, live, date, season }: {
+  boat: Boat; T: FleetLabels; locale: string;
   /* Live gegevens voor deze boot, of null zolang de feed niet geladen/bereikbaar is. */
   live: { days: Record<string, 'booked' | 'option'>; price: Partial<Record<'low'|'mid'|'high'|'top', number>> | null; priceBands: { from: string; to: string; price: number }[] | null } | null;
   date: string | null; season: 'low'|'mid'|'high'|'top';
@@ -270,11 +271,15 @@ function BoatCard({ boat, T, locale, onOpen, live, date, season }: {
   const stTekst = st === 'free' ? T.availFree : st === 'option' ? T.availOption : T.availBooked;
   return (
     <article id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="group relative flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
-      {/* Photo */}
-      <button
-        onClick={onOpen}
-        className="relative aspect-[4/3] w-full overflow-hidden cursor-zoom-in"
-        aria-label={T.enlarge}
+      {/* Foto → rechtstreeks het dossier in, op uitdrukkelijk verzoek. De
+          lightbox is vervallen: het plaatje van een advertentie hoort naar de
+          advertentie zelf te leiden, en de dossierpagina heeft de terugknop
+          die de PDF-weergave mist. Link in hetzelfde tabblad, zodat het
+          terugpijltje ook werkt. */}
+      <Link
+        href={`/${locale}/private-boat-charters/dossier/${boat.slug}`}
+        className="relative block aspect-[4/3] w-full overflow-hidden"
+        aria-label={`${T.dossier} — ${boat.model} ${boat.name ?? ''}`}
       >
         <Image
           src={boat.image}
@@ -295,11 +300,11 @@ function BoatCard({ boat, T, locale, onOpen, live, date, season }: {
             </span>
           )}
         </div>
-        {/* Enlarge hint */}
+        {/* Hint dat de foto het dossier opent */}
         <span className="absolute bottom-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/70 text-white opacity-0 backdrop-blur-sm ring-1 ring-white/15 transition-opacity group-hover:opacity-100">
-          <Maximize2 size={15} />
+          <FileText size={14} />
         </span>
-      </button>
+      </Link>
       {/* Hartje BUITEN de fotoknop: een button in een button is ongeldig HTML
           en de klik zou ook de lightbox openen. Absoluut gepositioneerd op
           dezelfde hoek, over de foto heen. */}
@@ -383,44 +388,6 @@ function PriceRow({ label, note, value, T, locale, highlight }: { label: string;
   );
 }
 
-// ── Lightbox ─────────────────────────────────────────────────────────────────
-function Lightbox({ boats, index, onClose, onNav }: { boats: Boat[]; index: number; onClose: () => void; onNav: (dir: number) => void }) {
-  const boat = boats[index];
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-      if (e.key === 'ArrowRight') onNav(1);
-      if (e.key === 'ArrowLeft') onNav(-1);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey); };
-  }, [onClose, onNav]);
-
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4" onClick={onClose}>
-      <button onClick={onClose} className="absolute top-5 right-5 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/20" aria-label="Close">
-        <X size={22} />
-      </button>
-      <button onClick={(e) => { e.stopPropagation(); onNav(-1); }} className="absolute left-4 md:left-8 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/20" aria-label="Previous">
-        <ChevronLeft size={26} />
-      </button>
-      <button onClick={(e) => { e.stopPropagation(); onNav(1); }} className="absolute right-4 md:right-8 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/20" aria-label="Next">
-        <ChevronRight size={26} />
-      </button>
-      <div className="relative w-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
-          <Image src={boat.image} alt={`${boat.model} ${boat.name}`} fill sizes="90vw" className="object-contain" priority />
-        </div>
-        <div className="mt-4 text-center text-white">
-          <h3 className="font-serif text-2xl font-bold">{boat.model}{boat.name && <span className="text-ibiza-green"> {boat.name}</span>}</h3>
-          <p className="text-sm text-white/50">{boat.marina} · {boat.pax} PAX · {boat.length} M</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ── Main showcase ────────────────────────────────────────────────────────────
 export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
   const T = FLEET_I18N[locale] || FLEET_I18N.en;
@@ -429,7 +396,6 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
   const [search, setSearch] = useState('');
   const [marina, setMarina] = useState<string>('all');
   const [category, setCategory] = useState<FleetCategory | 'all'>('all');
-  const [lightbox, setLightbox] = useState<number | null>(null);
 
   // Price filter state
   const [maxPrice, setMaxPrice] = useState<number>(PRICE_MAX);
@@ -520,11 +486,6 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
     });
   }, [search, marina, category, maxPrice, onlyAvailable, dateInRange, live, date]);
 
-  const openAt = useCallback((slug: string) => {
-    const i = filtered.findIndex(b => b.slug === slug);
-    setLightbox(i >= 0 ? i : 0);
-  }, [filtered]);
-
   const favBoats = useMemo(() => FLEET.filter(b => favs.includes(b.slug)), [favs]);
   const favWa = useMemo(() => {
     if (!favBoats.length) return '#';
@@ -535,12 +496,10 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
     return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(delen.join('\n'))}`;
   }, [favBoats, date, locale, T]);
 
-  const nav = useCallback((dir: number) => {
-    setLightbox(prev => prev == null ? prev : (prev + dir + filtered.length) % filtered.length);
-  }, [filtered.length]);
-
   return (
-    <div className="min-h-screen bg-white text-black">
+    // pb-24 wanneer de favorietenbalk vast onderin staat, anders valt de
+    // laatste kaart er half achter weg.
+    <div className={`min-h-screen bg-white text-black ${favBoats.length > 0 ? 'pb-24' : ''}`}>
       <BackButton locale={locale} fallbackHref={`/${locale}`} variant="top" />
       <style dangerouslySetInnerHTML={{ __html: `
         .fleet-range { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 9999px; outline: none; cursor: pointer; }
@@ -642,8 +601,12 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
           de partnerfeed er is — een datumkiezer die niets doet is erger dan
           geen datumkiezer. */}
       {live && date && (
-        <section className="mx-auto max-w-6xl px-4 pt-4">
-          <div className="flex flex-wrap items-center gap-3 rounded-3xl border border-black/10 bg-neutral-50 p-4">
+        <section className="sticky top-[var(--nav-h)] z-40 mx-auto max-w-6xl px-4 pt-4 md:static">
+          {/* Sticky op mobiel: wie door 94 kaarten scrolt moet de datum en het
+              beschikbaarheidsfilter kunnen wisselen zonder terug omhoog te
+              klimmen. Op desktop is dat niet nodig (alles staat in beeld) en
+              zou de balk alleen ruimte vreten — vandaar md:static. */}
+          <div className="flex flex-wrap items-center gap-2 rounded-3xl border border-black/10 bg-white/95 p-3 shadow-md backdrop-blur-md md:gap-3 md:bg-neutral-50 md:p-4 md:shadow-none md:backdrop-blur-none">
             <span className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider text-black">
               <CalendarDays size={16} className="text-ibiza-green" /> {T.pickDate}
             </span>
@@ -653,7 +616,7 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
               min={live.rangeStart}
               max={live.rangeEnd}
               onChange={e => e.target.value && setDate(e.target.value)}
-              className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black"
+              className="min-w-[8.5rem] flex-1 rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black md:flex-none"
               aria-label={T.pickDate}
             />
             <button
@@ -667,7 +630,7 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
             </button>
             {/* Tijdstempel van de feed: een claim "live" zonder tijdstip erbij
                 is niet controleerbaar. */}
-            <span className="ml-auto text-[11px] text-black/40">
+            <span className="w-full text-right text-[10px] text-black/40 md:ml-auto md:w-auto md:text-[11px]">
               {T.liveStamp(new Date(live.generatedAt).toLocaleTimeString(bcp, { hour: '2-digit', minute: '2-digit' }))}
             </span>
           </div>
@@ -688,7 +651,6 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
                 boat={boat}
                 T={T}
                 locale={locale}
-                onOpen={() => openAt(boat.slug)}
                 live={dateInRange ? (live!.boats[boat.brokerKey] ?? null) : null}
                 date={date}
                 season={live?.season ?? 'mid'}
@@ -743,9 +705,6 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
         </div>
       </section>
 
-      {lightbox != null && filtered[lightbox] && (
-        <Lightbox boats={filtered} index={lightbox} onClose={() => setLightbox(null)} onNav={nav} />
-      )}
     </div>
   );
 }
