@@ -176,7 +176,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                   >
                     <div className="w-24 h-24 md:w-32 md:h-32 rounded-[18px] bg-ibiza-mint relative overflow-hidden shrink-0 shadow-inner">
                       {image ? (
-                        <Image src={image} alt={dateObj.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <Image src={image} alt="" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-ibiza-green opacity-50">
                           <Music size={32} />
@@ -191,8 +191,14 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                         </span>
                       </div>
                       
+                      {/* De naam van de avond staat op ct_events, niet op de datum:
+                          `dateObj.name` is bij deze feed vrijwel altijd leeg, dus
+                          deze kop rendeerde als lege <h3>. De kaart heette daardoor
+                          "DI 1 SEPT [UNVRS] vanaf 85 € - 500 €" — datum, zaak, prijs,
+                          geen event. Elk ander oppervlak leest het al goed
+                          (EventsExplorer, CalendarClient, calendar/page). */}
                       <h3 className="text-xl md:text-2xl font-bold text-neutral-900 leading-tight truncate mb-1">
-                        {dateObj.name}
+                        {event?.name || dateObj.name}
                       </h3>
                       
                       <div className="flex items-center gap-1.5 text-sm font-semibold text-neutral-600 mb-2">
