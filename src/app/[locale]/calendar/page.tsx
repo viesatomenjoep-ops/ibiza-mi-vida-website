@@ -58,6 +58,8 @@ export default async function CalendarPage({
       name: `${e.ct_events.name || e.name} — ${e.ct_venues.name}`,
       path: `${params.locale}/${eventBasePath(venueTypeBySlug.get(e.ct_venues.slug || '') || '')}/${e.ct_venues.slug}/${e.ct_events.slug}`,
       date: e.date,
+      image: e.ct_events.cover || undefined,
+      venueName: e.ct_venues.name,
     }));
 
   return (

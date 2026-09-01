@@ -8,6 +8,8 @@ export interface ListEntry {
   /** ISO yyyy-mm-dd — only for events, drives the `startDate` on the item. */
   date?: string
   image?: string
+  /** Naam van de zaak. Alleen voor events; Google eist `location` op een Event. */
+  venueName?: string
 }
 
 /**
@@ -53,12 +55,38 @@ export function ItemListJsonLd({
     inLanguage: l,
     numberOfItems: totalCount ?? entries.length,
     itemListOrder: 'https://schema.org/ItemListOrderAscending',
-    itemListElement: shown.map((e, i) => ({
-      '@type': 'ListItem',
-      position: i + 1,
-      name: e.name,
-      url: `${SITE_URL}/${e.path.replace(/^\//, '')}`,
-    })),
+    // Een ListItem met alleen een naam en een URL komt niet in aanmerking voor
+    // Google's event-carrousel: die eist dat `item` een volledig Event is, met
+    // minstens naam, startDate en location. Deze lijst gaf jarenlang alleen
+    // labels door — de agenda, de belangrijkste pagina van de site, leverde dus
+    // nul events aan de index. `date` en `image` stonden al in het type
+    // beschreven en werden hier stil weggegooid.
+    itemListElement: shown.map((e, i) => {
+      const url = `${SITE_URL}/${e.path.replace(/^\//, '')}`
+      return {
+        '@type': 'ListItem',
+        position: i + 1,
+        ...(e.date
+          ? {
+              item: {
+                '@type': 'MusicEvent',
+                '@id': url,
+                name: e.name,
+                startDate: e.date,
+                eventStatus: 'https://schema.org/EventScheduled',
+                eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+                url,
+                ...(e.image ? { image: e.image } : {}),
+                location: {
+                  '@type': 'Place',
+                  name: e.venueName || 'Ibiza',
+                  address: { '@type': 'PostalAddress', addressLocality: 'Ibiza', addressCountry: 'ES' },
+                },
+              },
+            }
+          : { name: e.name, url }),
+      }
+    }),
   }
 
   return (
