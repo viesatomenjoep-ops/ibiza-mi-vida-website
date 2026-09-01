@@ -6,7 +6,9 @@ import {
   Search, MessageCircle, Anchor, Ship, Waves, Percent, Users, Ruler,
   MapPin, Maximize2, X, ChevronLeft, ChevronRight, Check, Euro, Lock, LockOpen, SlidersHorizontal,
 } from 'lucide-react';
-import { FLEET, FLEET_FROM_PRICE, boatIncludes, type Boat, type FleetInclude, type FleetCategory } from '@/data/fleet';
+import { FLEET, FLEET_FROM_PRICE, type Boat, type FleetCategory } from '@/data/fleet';
+import { priceForDate, statusForDate, type LiveFleet } from '@/lib/yacht-broker';
+import { FileText, CalendarDays } from 'lucide-react';
 import { BackButton } from '@/components/ui/BackButton';
 
 /** WhatsApp business number (digits only). */
@@ -57,10 +59,16 @@ interface FleetLabels {
   seasonMidNoteCompact: string;      // motorboats: "May, June & September"
   seasonHighNote: string;            // "July / August"
   perDay: string;                    // "/ day"
-  includedTitle: string;
-  includes: Record<FleetInclude, string>;
-  fuelNote: string;                  // "*Price does not include fuel."
-  fuelNoteCaptain: (extra: number) => string; // captain +€X or fuel
+  /* Live beschikbaarheid — de partnerfeed. */
+  pickDate: string;                  // label bij de datumkiezer
+  availOnly: string;                 // "Alleen beschikbaar"
+  availFree: string;
+  availOption: string;
+  availBooked: string;
+  liveStamp: (time: string) => string; // "Live stand van HH:MM"
+  /* Per boot: dossier + eerlijke voorwaardenregel (vervangt de badge-rij). */
+  dossier: string;
+  termsNote: string;
   catAll: string;
   catYacht: string;                  // "Yachts 50–70 ft"
   catMotorboat: string;              // "Motorboats 20–30 ft"
@@ -77,19 +85,19 @@ interface FleetLabels {
 const FLEET_I18N: Record<string, FleetLabels> = {
   en: {
     title: 'Private Boat Charters Ibiza',
-    subtitle: 'A hand-picked fleet of luxury yachts from 50 to 70 feet — captain, drinks and water toys included. On the water around Ibiza & Formentera.',
+    subtitle: "94 boats from our partner fleet — 22 ft day boats to 92 ft superyachts, with live availability per day. On the water around Ibiza & Formentera.",
     fromPrice: `From €${FLEET_FROM_PRICE.toLocaleString('en-GB')} / day`,
     searchPlaceholder: 'Search a yacht…',
     allMarinas: 'All marinas',
     pax: 'guests', length: 'length',
     seasonLow: 'Low season', seasonMid: 'Mid season', seasonHigh: 'High season',
-    seasonLowNote: 'Rest of the year', seasonMidNote: 'June / September', seasonMidNoteCompact: 'May, June & September', seasonHighNote: 'July / August',
+    seasonLowNote: "Rest of the year", seasonMidNote: "Shoulder season — window differs per boat", seasonMidNoteCompact: "Shoulder season — window differs per boat", seasonHighNote: "Around July / August",
     perDay: '/ day',
-    includedTitle: 'Included in the price',
-    includes: { captain: 'Captain', mooring: 'Mooring', paddleSurf: 'Paddle surf', towels: 'Towels', drinks: 'Drinks', snorkels: 'Snorkels', vat: 'VAT' },
-    fuelNote: '*Price does not include fuel.',
-    fuelNoteCaptain: (e) => `*Price does not include captain (+€${e}) or fuel.`,
-    catAll: 'All boats', catYacht: 'Yachts 50–70 ft', catMotorboat: 'Motorboats 20–30 ft',
+    pickDate: 'Your date', availOnly: 'Only available', availFree: 'Available', availOption: 'On option', availBooked: 'Booked',
+    liveStamp: (t) => `Live status, ${t}`,
+    dossier: 'Boat dossier (PDF)',
+    termsNote: 'What the rate includes (skipper, fuel, VAT) differs per boat — it is in the dossier and Simon confirms it before you book.',
+    catAll: 'All boats', catYacht: 'Yachts 50 ft+', catMotorboat: 'Motorboats 20–50 ft',
     inquire: 'Inquire information',
     waMessage: (boat) => `Hi Ibiza mi Vida! I'm interested in the private boat ${boat}. Could you send me more information about availability and prices?`,
     bannerTitle: 'Not sure which yacht fits you?',
@@ -101,19 +109,19 @@ const FLEET_I18N: Record<string, FleetLabels> = {
   },
   nl: {
     title: 'Private Boot Charters Ibiza',
-    subtitle: 'Een zorgvuldig samengestelde vloot luxe jachten van 50 tot 70 voet — kapitein, drankjes en watersportspullen inbegrepen. Op het water rond Ibiza & Formentera.',
+    subtitle: "94 boten uit onze partnervloot — van 22 ft dagboten tot 92 ft superjachten, met live beschikbaarheid per dag. Op het water rond Ibiza & Formentera.",
     fromPrice: `Vanaf €${FLEET_FROM_PRICE.toLocaleString('nl-NL')} / dag`,
     searchPlaceholder: 'Zoek een jacht…',
     allMarinas: 'Alle haventjes',
     pax: 'gasten', length: 'lengte',
     seasonLow: 'Laagseizoen', seasonMid: 'Middenseizoen', seasonHigh: 'Hoogseizoen',
-    seasonLowNote: 'Rest van het jaar', seasonMidNote: 'Juni / September', seasonMidNoteCompact: 'Mei, juni & september', seasonHighNote: 'Juli / Augustus',
+    seasonLowNote: "Rest van het jaar", seasonMidNote: "Tussenseizoen — venster verschilt per boot", seasonMidNoteCompact: "Tussenseizoen — venster verschilt per boot", seasonHighNote: "Rond juli / augustus",
     perDay: '/ dag',
-    includedTitle: 'Inbegrepen in de prijs',
-    includes: { captain: 'Kapitein', mooring: 'Ligplaats', paddleSurf: 'Paddle surf', towels: 'Handdoeken', drinks: 'Drankjes', snorkels: 'Snorkels', vat: 'BTW' },
-    fuelNote: '*Prijs is exclusief brandstof.',
-    fuelNoteCaptain: (e) => `*Prijs is exclusief kapitein (+€${e}) en brandstof.`,
-    catAll: 'Alle boten', catYacht: 'Jachten 50–70 ft', catMotorboat: 'Motorboten 20–30 ft',
+    pickDate: 'Jouw datum', availOnly: 'Alleen beschikbaar', availFree: 'Beschikbaar', availOption: 'In optie', availBooked: 'Bezet',
+    liveStamp: (t) => `Live stand, ${t}`,
+    dossier: 'Bootdossier (PDF)',
+    termsNote: 'Wat er bij de prijs inzit (schipper, brandstof, btw) verschilt per boot — het staat in het dossier en Simon bevestigt het voordat je boekt.',
+    catAll: 'Alle boten', catYacht: 'Jachten 50 ft+', catMotorboat: 'Motorboten 20–50 ft',
     inquire: 'Voor meer informatie',
     waMessage: (boat) => `Hoi Ibiza mi Vida! Ik heb interesse in de private boot ${boat}. Kunnen jullie mij meer informatie sturen over de beschikbaarheid en prijzen?`,
     bannerTitle: 'Niet zeker welk jacht bij je past?',
@@ -125,19 +133,19 @@ const FLEET_I18N: Record<string, FleetLabels> = {
   },
   de: {
     title: 'Private Bootscharter Ibiza',
-    subtitle: 'Eine handverlesene Flotte von Luxusyachten von 50 bis 70 Fuß — Kapitän, Getränke und Wasserspielzeug inklusive. Auf dem Wasser rund um Ibiza & Formentera.',
+    subtitle: "94 Boote aus unserer Partnerflotte — vom 22-ft-Tagesboot bis zur 92-ft-Superyacht, mit Live-Verfügbarkeit pro Tag. Rund um Ibiza & Formentera.",
     fromPrice: `Ab €${FLEET_FROM_PRICE.toLocaleString('de-DE')} / Tag`,
     searchPlaceholder: 'Yacht suchen…',
     allMarinas: 'Alle Häfen',
     pax: 'Gäste', length: 'Länge',
     seasonLow: 'Nebensaison', seasonMid: 'Zwischensaison', seasonHigh: 'Hauptsaison',
-    seasonLowNote: 'Restliches Jahr', seasonMidNote: 'Juni / September', seasonMidNoteCompact: 'Mai, Juni & September', seasonHighNote: 'Juli / August',
+    seasonLowNote: "Rest des Jahres", seasonMidNote: "Zwischensaison — Zeitraum je Boot verschieden", seasonMidNoteCompact: "Zwischensaison — Zeitraum je Boot verschieden", seasonHighNote: "Etwa Juli / August",
     perDay: '/ Tag',
-    includedTitle: 'Im Preis enthalten',
-    includes: { captain: 'Kapitän', mooring: 'Liegeplatz', paddleSurf: 'Paddle Surf', towels: 'Handtücher', drinks: 'Getränke', snorkels: 'Schnorchel', vat: 'MwSt.' },
-    fuelNote: '*Preis versteht sich ohne Kraftstoff.',
-    fuelNoteCaptain: (e) => `*Preis ohne Kapitän (+€${e}) und Kraftstoff.`,
-    catAll: 'Alle Boote', catYacht: 'Yachten 50–70 ft', catMotorboat: 'Motorboote 20–30 ft',
+    pickDate: 'Dein Datum', availOnly: 'Nur verfügbare', availFree: 'Verfügbar', availOption: 'Auf Option', availBooked: 'Belegt',
+    liveStamp: (t) => `Live-Stand, ${t}`,
+    dossier: 'Bootsdossier (PDF)',
+    termsNote: 'Was im Preis enthalten ist (Skipper, Kraftstoff, MwSt.) unterscheidet sich je Boot — es steht im Dossier und Simon bestätigt es vor der Buchung.',
+    catAll: 'Alle Boote', catYacht: 'Yachten 50 ft+', catMotorboat: 'Motorboote 20–50 ft',
     inquire: 'Informationen anfragen',
     waMessage: (boat) => `Hallo Ibiza mi Vida! Ich interessiere mich für das private Boot ${boat}. Können Sie mir mehr Informationen zu Verfügbarkeit und Preisen senden?`,
     bannerTitle: 'Nicht sicher, welche Yacht zu Ihnen passt?',
@@ -149,19 +157,19 @@ const FLEET_I18N: Record<string, FleetLabels> = {
   },
   es: {
     title: 'Chárter de Barcos Privados en Ibiza',
-    subtitle: 'Una flota seleccionada de yates de lujo de 50 a 70 pies — capitán, bebidas y material acuático incluidos. En el agua alrededor de Ibiza y Formentera.',
+    subtitle: "94 barcos de nuestra flota asociada — desde lanchas de 22 pies hasta superyates de 92, con disponibilidad en vivo por día. Por Ibiza y Formentera.",
     fromPrice: `Desde €${FLEET_FROM_PRICE.toLocaleString('es-ES')} / día`,
     searchPlaceholder: 'Buscar un yate…',
     allMarinas: 'Todos los puertos',
     pax: 'personas', length: 'eslora',
     seasonLow: 'Temporada baja', seasonMid: 'Temporada media', seasonHigh: 'Temporada alta',
-    seasonLowNote: 'Resto del año', seasonMidNote: 'Junio / Septiembre', seasonMidNoteCompact: 'Mayo, junio y septiembre', seasonHighNote: 'Julio / Agosto',
+    seasonLowNote: "Resto del año", seasonMidNote: "Temporada media — la ventana varía por barco", seasonMidNoteCompact: "Temporada media — la ventana varía por barco", seasonHighNote: "Hacia julio / agosto",
     perDay: '/ día',
-    includedTitle: 'Incluido en el precio',
-    includes: { captain: 'Capitán', mooring: 'Amarre', paddleSurf: 'Paddle surf', towels: 'Toallas', drinks: 'Bebidas', snorkels: 'Snorkel', vat: 'IVA' },
-    fuelNote: '*El precio no incluye combustible.',
-    fuelNoteCaptain: (e) => `*El precio no incluye capitán (+€${e}) ni combustible.`,
-    catAll: 'Todos los barcos', catYacht: 'Yates 50–70 ft', catMotorboat: 'Lanchas 20–30 ft',
+    pickDate: 'Tu fecha', availOnly: 'Solo disponibles', availFree: 'Disponible', availOption: 'En opción', availBooked: 'Ocupado',
+    liveStamp: (t) => `Estado en vivo, ${t}`,
+    dossier: 'Dossier del barco (PDF)',
+    termsNote: 'Lo que incluye la tarifa (patrón, combustible, IVA) varía según el barco: está en el dossier y Simon lo confirma antes de reservar.',
+    catAll: 'Todos los barcos', catYacht: 'Yates 50 ft+', catMotorboat: 'Lanchas 20–50 ft',
     inquire: 'Solicitar información',
     waMessage: (boat) => `¡Hola Ibiza mi Vida! Me interesa el barco privado ${boat}. ¿Podrían enviarme más información sobre disponibilidad y precios?`,
     bannerTitle: '¿No sabes qué yate elegir?',
@@ -173,19 +181,19 @@ const FLEET_I18N: Record<string, FleetLabels> = {
   },
   fr: {
     title: 'Location de Bateaux Privés à Ibiza',
-    subtitle: 'Une flotte sélectionnée de yachts de luxe de 50 à 70 pieds — capitaine, boissons et équipements nautiques inclus. Sur l\'eau autour d\'Ibiza et Formentera.',
+    subtitle: "94 bateaux de notre flotte partenaire — du day-boat de 22 pieds au superyacht de 92, avec disponibilité en direct par jour. Autour d'Ibiza et Formentera.",
     fromPrice: `À partir de €${FLEET_FROM_PRICE.toLocaleString('fr-FR')} / jour`,
     searchPlaceholder: 'Rechercher un yacht…',
     allMarinas: 'Tous les ports',
     pax: 'invités', length: 'longueur',
     seasonLow: 'Basse saison', seasonMid: 'Moyenne saison', seasonHigh: 'Haute saison',
-    seasonLowNote: 'Reste de l\'année', seasonMidNote: 'Juin / Septembre', seasonMidNoteCompact: 'Mai, juin & septembre', seasonHighNote: 'Juillet / Août',
+    seasonLowNote: "Reste de l'année", seasonMidNote: "Moyenne saison — la fenêtre varie selon le bateau", seasonMidNoteCompact: "Moyenne saison — la fenêtre varie selon le bateau", seasonHighNote: "Vers juillet / août",
     perDay: '/ jour',
-    includedTitle: 'Inclus dans le prix',
-    includes: { captain: 'Capitaine', mooring: 'Amarrage', paddleSurf: 'Paddle', towels: 'Serviettes', drinks: 'Boissons', snorkels: 'Tubas', vat: 'TVA' },
-    fuelNote: '*Le prix ne comprend pas le carburant.',
-    fuelNoteCaptain: (e) => `*Le prix ne comprend pas le capitaine (+€${e}) ni le carburant.`,
-    catAll: 'Tous les bateaux', catYacht: 'Yachts 50–70 ft', catMotorboat: 'Bateaux 20–30 ft',
+    pickDate: 'Votre date', availOnly: 'Disponibles seulement', availFree: 'Disponible', availOption: 'En option', availBooked: 'Réservé',
+    liveStamp: (t) => `État en direct, ${t}`,
+    dossier: 'Dossier du bateau (PDF)',
+    termsNote: "Ce que le tarif inclut (skipper, carburant, TVA) varie selon le bateau — c'est dans le dossier et Simon le confirme avant de réserver.",
+    catAll: 'Tous les bateaux', catYacht: 'Yachts 50 ft+', catMotorboat: 'Bateaux à moteur 20–50 ft',
     inquire: 'Demander des informations',
     waMessage: (boat) => `Bonjour Ibiza mi Vida ! Je suis intéressé(e) par le bateau privé ${boat}. Pourriez-vous m'envoyer plus d'informations sur la disponibilité et les tarifs ?`,
     bannerTitle: 'Vous ne savez pas quel yacht choisir ?',
@@ -195,11 +203,6 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     enlarge: 'Agrandir la photo',
     boatsCount: (n) => `${n} ${n === 1 ? 'yacht' : 'yachts'}`,
   },
-};
-
-const INCLUDE_ICON: Record<FleetInclude, React.ReactNode> = {
-  captain: <Ship size={13} />, mooring: <Anchor size={13} />, paddleSurf: <Waves size={13} />,
-  towels: <Check size={13} />, drinks: <Check size={13} />, snorkels: <Check size={13} />, vat: <Percent size={13} />,
 };
 
 const fmt = (n: number, locale: string) => n.toLocaleString(({ en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' } as Record<string, string>)[locale] || 'en-GB');
@@ -213,8 +216,19 @@ function waLink(boat: Boat, T: FleetLabels) {
 }
 
 // ── Boat advertisement card ─────────────────────────────────────────────────────
-function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; locale: string; onOpen: () => void }) {
+function BoatCard({ boat, T, locale, onOpen, live, date, season }: {
+  boat: Boat; T: FleetLabels; locale: string; onOpen: () => void;
+  /* Live gegevens voor deze boot, of null zolang de feed niet geladen/bereikbaar is. */
+  live: { days: Record<string, 'booked' | 'option'>; price: Partial<Record<'low'|'mid'|'high'|'top', number>> | null; priceBands: { from: string; to: string; price: number }[] | null } | null;
+  date: string | null; season: 'low'|'mid'|'high'|'top';
+}) {
   const p = boat.price;
+  // Live status + dagprijs voor de gekozen datum. Geen feed of geen datum →
+  // geen live regel; de statische banden hieronder blijven altijd staan.
+  const st = live && date ? statusForDate(live, date) : null;
+  const liveP = live && date ? priceForDate(live, date, season) : null;
+  const stKleur = st === 'free' ? 'bg-ibiza-green' : st === 'option' ? 'bg-amber-500' : 'bg-red-500';
+  const stTekst = st === 'free' ? T.availFree : st === 'option' ? T.availOption : T.availBooked;
   return (
     <article id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="group flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
       {/* Photo */}
@@ -236,9 +250,11 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
           <span className="inline-flex items-center gap-1 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm ring-1 ring-white/15">
             <Users size={12} className="text-ibiza-green" /> {boat.pax}
           </span>
-          <span className="inline-flex items-center gap-1 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm ring-1 ring-white/15">
-            <Ruler size={12} className="text-ibiza-green" /> {boat.length}M
-          </span>
+          {boat.length != null && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm ring-1 ring-white/15">
+              <Ruler size={12} className="text-ibiza-green" /> {boat.length}M
+            </span>
+          )}
         </div>
         {/* Enlarge hint */}
         <span className="absolute bottom-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/70 text-white opacity-0 backdrop-blur-sm ring-1 ring-white/15 transition-opacity group-hover:opacity-100">
@@ -255,6 +271,21 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
           {boat.model}{boat.name && <span className="text-ibiza-green"> {boat.name}</span>}
         </h3>
 
+        {/* Live: status + dagprijs voor de gekozen datum — alleen wanneer de
+            partnerfeed er echt is. In eigen stijl (groen/amber/rood bolletje),
+            geen kopie van hun kalender. */}
+        {st && (
+          <div className="mt-2 flex items-center justify-between gap-2 rounded-xl bg-neutral-50 px-3 py-2 ring-1 ring-black/5">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-black/70">
+              <span aria-hidden className={`h-2 w-2 rounded-full ${stKleur}`} />
+              {stTekst}
+            </span>
+            {liveP != null && st === 'free' && (
+              <span className="font-serif text-sm font-bold text-black">€{fmt(liveP, locale)} <span className="font-sans text-[10px] font-normal text-black/40">{T.perDay}</span></span>
+            )}
+          </div>
+        )}
+
         {/* Seasonal prices */}
         <div className="mt-2.5 space-y-1 border-t border-black/10 pt-2.5">
           <PriceRow label={T.seasonLow} note={T.seasonLowNote} value={p.low} T={T} locale={locale} />
@@ -262,16 +293,21 @@ function BoatCard({ boat, T, locale, onOpen }: { boat: Boat; T: FleetLabels; loc
           <PriceRow label={T.seasonHigh} note={p.highWindow || T.seasonHighNote} value={p.high} T={T} locale={locale} highlight />
         </div>
 
-        {/* Includes */}
+        {/* Dossier + voorwaarden. Hier stond een vaste badge-rij (kapitein,
+            btw, drankjes…) uit de tijd dat de hele vloot van één leverancier
+            met één pakket kwam. Deze vloot komt van negen verhuurders met elk
+            eigen voorwaarden — dezelfde badges zouden voor een deel van de
+            boten aantoonbaar onwaar zijn. Wat geldt staat in het dossier. */}
         <div className="mt-2.5">
-          <div className="flex flex-wrap gap-1">
-            {boatIncludes(boat).map(inc => (
-              <span key={inc} className="inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-medium text-black/70 ring-1 ring-black/5">
-                <span className="text-ibiza-green">{INCLUDE_ICON[inc]}</span> {T.includes[inc]}
-              </span>
-            ))}
-          </div>
-          <p className="mt-2 text-[10px] italic text-black/40">{boat.captainIncluded ? T.fuelNote : T.fuelNoteCaptain(boat.captainExtra ?? 180)}</p>
+          <a
+            href={boat.pdf}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-[11px] font-bold text-ibiza-green underline underline-offset-2 hover:text-black"
+          >
+            <FileText size={12} /> {T.dossier}
+          </a>
+          <p className="mt-1.5 text-[10px] italic leading-relaxed text-black/40">{T.termsNote}</p>
         </div>
 
         {/* WhatsApp inquiry */}
@@ -354,6 +390,27 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
   const [maxPrice, setMaxPrice] = useState<number>(PRICE_MAX);
   const [priceLocked, setPriceLocked] = useState(false);
 
+  // ── Live laag: partnerfeed + gekozen datum ────────────────────────────────
+  // `date` start op null en wordt pas na mount op vandaag gezet: new Date()
+  // tijdens de render zou een hydration-mismatch geven (server en client
+  // renderen op verschillende momenten). Tot die tijd is er simpelweg geen
+  // live regel — de statische banden staan er dan al.
+  const [live, setLive] = useState<LiveFleet | null>(null);
+  const [date, setDate] = useState<string | null>(null);
+  const [onlyAvailable, setOnlyAvailable] = useState(false);
+  useEffect(() => {
+    setDate(new Date().toISOString().slice(0, 10));
+    let dood = false;
+    fetch('/api/fleet-live')
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => { if (!dood && d?.boats) setLive(d as LiveFleet); })
+      .catch(() => {}); // feed onbereikbaar → geen live laag, geen foutmelding
+    return () => { dood = true; };
+  }, []);
+  // Buiten het opgehaalde bereik valt er niets live te zeggen — de kiezer
+  // begrenst daarop, en wie verder vooruit wil komt bij Simon uit.
+  const dateInRange = !!(live && date && date >= live.rangeStart && date < live.rangeEnd);
+
   // Deep-link: when arriving with #boat-<slug>, scroll straight to that boat's card
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -386,9 +443,12 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
       const matchMarina = marina === 'all' || b.marina === marina;
       const matchSearch = !q || `${b.model} ${b.name ?? ''} ${b.marina}`.toLowerCase().includes(q);
       const matchPrice = b.price.low <= maxPrice;
-      return matchCategory && matchMarina && matchSearch && matchPrice;
+      const matchAvail = !onlyAvailable || !dateInRange || !live || !date
+        ? true
+        : statusForDate(live.boats[b.brokerKey] ?? { days: {}, price: null, priceBands: null }, date) === 'free';
+      return matchCategory && matchMarina && matchSearch && matchPrice && matchAvail;
     });
-  }, [search, marina, category, maxPrice]);
+  }, [search, marina, category, maxPrice, onlyAvailable, dateInRange, live, date]);
 
   const openAt = useCallback((slug: string) => {
     const i = filtered.findIndex(b => b.slug === slug);
@@ -498,6 +558,42 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
         </div>
       </section>
 
+      {/* Live beschikbaarheid: datumkiezer + filter. Alleen zichtbaar wanneer
+          de partnerfeed er is — een datumkiezer die niets doet is erger dan
+          geen datumkiezer. */}
+      {live && date && (
+        <section className="mx-auto max-w-6xl px-4 pt-4">
+          <div className="flex flex-wrap items-center gap-3 rounded-3xl border border-black/10 bg-neutral-50 p-4">
+            <span className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider text-black">
+              <CalendarDays size={16} className="text-ibiza-green" /> {T.pickDate}
+            </span>
+            <input
+              type="date"
+              value={date}
+              min={live.rangeStart}
+              max={live.rangeEnd}
+              onChange={e => e.target.value && setDate(e.target.value)}
+              className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black"
+              aria-label={T.pickDate}
+            />
+            <button
+              onClick={() => setOnlyAvailable(v => !v)}
+              aria-pressed={onlyAvailable}
+              className={`rounded-full px-4 py-2 text-xs font-bold transition-all ${
+                onlyAvailable ? 'bg-ibiza-green text-white shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200'
+              }`}
+            >
+              {T.availOnly}
+            </button>
+            {/* Tijdstempel van de feed: een claim "live" zonder tijdstip erbij
+                is niet controleerbaar. */}
+            <span className="ml-auto text-[11px] text-black/40">
+              {T.liveStamp(new Date(live.generatedAt).toLocaleTimeString(bcp, { hour: '2-digit', minute: '2-digit' }))}
+            </span>
+          </div>
+        </section>
+      )}
+
       <section className="mx-auto max-w-6xl px-4 pt-4">
         <div className="px-1 text-sm font-semibold text-black/50">{T.boatsCount(filtered.length)}</div>
       </section>
@@ -507,7 +603,16 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
         {filtered.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filtered.map(boat => (
-              <BoatCard key={boat.slug} boat={boat} T={T} locale={locale} onOpen={() => openAt(boat.slug)} />
+              <BoatCard
+                key={boat.slug}
+                boat={boat}
+                T={T}
+                locale={locale}
+                onOpen={() => openAt(boat.slug)}
+                live={dateInRange ? (live!.boats[boat.brokerKey] ?? null) : null}
+                date={date}
+                season={live?.season ?? 'mid'}
+              />
             ))}
           </div>
         ) : (

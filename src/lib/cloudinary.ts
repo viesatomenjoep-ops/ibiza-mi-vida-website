@@ -183,6 +183,18 @@ export function cloudinaryImage(publicId: string, opts: ImageOptions = {}): stri
  * Used for the /fleet boat photos so they never ship as raw multi-hundred-KB
  * jpegs from our own origin.
  */
+/**
+ * Als cloudinaryFetchImage, maar voor een absolute URL bij een partner.
+ *
+ * Gebruikt voor de vlootfoto's van The Yacht Broker: Cloudinary haalt het
+ * origineel één keer bij de partner op en serveert daarna vanaf de eigen CDN
+ * (f_auto/q_auto). Zo leunt elke paginaweergave niet op de bandbreedte van de
+ * partner en krijgt de bezoeker WebP/AVIF in plaats van de ruwe JPEG.
+ */
+export function cloudinaryFetchRemote(absoluteUrl: string, width = 1400): string {
+  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/fetch/f_auto,q_auto,c_limit,w_${width}/${encodeURI(absoluteUrl)}`
+}
+
 export function cloudinaryFetchImage(localPath: string, width = 1400): string {
   const origin = 'https://www.ibizamivida.com'
   const source = `${origin}${localPath.startsWith('/') ? localPath : `/${localPath}`}`
