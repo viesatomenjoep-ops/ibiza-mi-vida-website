@@ -1,3 +1,4 @@
+import { FLEET } from '@/data/fleet'
 import type { Locale } from './seo'
 
 /**
@@ -36,10 +37,36 @@ export interface FromPrice {
 const U = (nl: string, en: string, de: string, es: string, fr: string): Record<Locale, string> =>
   ({ nl, en, de, es, fr })
 
+/**
+ * Bootprijzen komen uit de vloot, niet uit dit bestand.
+ *
+ * Ze stonden hier op `null` en de bootpagina zei zes keer "op aanvraag" —
+ * terwijl `src/data/fleet.ts` de echte dagtarieven van eenendertig boten al
+ * bevat en de homepage er zijn "vanaf €363" uit haalt. Twee plekken die
+ * hetzelfde hadden moeten zeggen, zeiden iets anders.
+ *
+ * Afleiden in plaats van overtypen, om dezelfde reden als altijd: een boot
+ * erbij of een tarief eraf verandert de vanaf-prijs, en een met de hand
+ * gekopieerd getal loopt dan stil achter. Dit kan niet verouderen.
+ *
+ * `boatNoLicence` blijft null. Zonder vaarbewijs betekent maximaal 15 pk, en de
+ * vloot legt geen vermogen vast — dus dat cijfer is hier niet af te leiden en
+ * we verzinnen het niet.
+ */
+const lowestDayRate = (predicate: (b: (typeof FLEET)[number]) => boolean): number | null => {
+  const rates = FLEET.filter((b) => predicate(b) && b?.price?.low).map((b) => b.price.low)
+  return rates.length ? Math.min(...rates) : null
+}
+
+/** Goedkoopste jacht waar de schipper bij inbegrepen is. */
+const SKIPPERED_FROM = lowestDayRate((b) => b.captainIncluded === true)
+/** Goedkoopste boot die je zelf vaart. */
+const SELF_DRIVE_FROM = lowestDayRate((b) => b.captainIncluded !== true)
+
 export const RENTAL_PRICES = {
   /** Private boat, full day, skipper included. */
   boatWithSkipper: {
-    amount: null,
+    amount: SKIPPERED_FROM,
     unit: U('per dag, met schipper', 'per day, skipper included', 'pro Tag, mit Skipper',
             'por día, con patrón', 'par jour, skipper inclus'),
   },
@@ -51,7 +78,7 @@ export const RENTAL_PRICES = {
   },
   /** Boat you drive yourself, licence required. */
   boatWithLicence: {
-    amount: null,
+    amount: SELF_DRIVE_FROM,
     unit: U('per dag, eigen vaarbewijs', 'per day, your own licence', 'pro Tag, eigener Führerschein',
             'por día, con tu titulación', 'par jour, avec votre permis'),
   },
