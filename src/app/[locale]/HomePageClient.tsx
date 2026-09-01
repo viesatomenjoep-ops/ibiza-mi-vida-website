@@ -154,6 +154,13 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       <HomeTonight events={pickerEvents} todayStr={todayStr} locale={locale} base={base} />
 
+      {/* Vlootcarrousel: tussen "Vanavond op Ibiza" en Featured Events, op
+          aanwijzing van de plek in de schermafbeelding. Wie net de agenda van
+          vanavond heeft gezien, is precies in de stemming voor de dag ervoor —
+          en dit is de sectie met de hoogste orderwaarde van de site. Dure en
+          goedkope boten om en om; zie de selectie-functie voor waarom. */}
+      <HomeFleetCarousel locale={locale} />
+
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {clubDays.length > 0 && (
         <FeaturedDayRotator
@@ -281,11 +288,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           nieuwsbrief; hier volgt het direct op de strip met alles wat geen
           nachtclub is, waar het thuishoort en waar mensen nog kijken. */}
       {rentalsSlot}
-
-      {/* Vlootcarrousel: in de bootzone, direct na de rentals — uitdrukkelijk
-          NIET bij de eventsecties bovenaan. Dure en goedkope boten om en om;
-          zie de selectie-functie voor waarom. */}
-      <HomeFleetCarousel locale={locale} />
 
       {/* Club logo marquee — just the logos — right below "Volledige kalender", above Populaire clubs */}
       <Reveal className="flex items-center bg-neutral-100 py-3 border-t border-b border-black/10">
