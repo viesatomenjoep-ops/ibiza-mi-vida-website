@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
 import { HubHero, PriceTable, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
+import { WiberDirect } from '@/components/partner/WiberDirect'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { TrustBlock } from '@/components/hub/TrustBlock'
 import { Proof } from '@/components/hub/Proof'
@@ -125,7 +126,9 @@ export default function AutoHurenIbizaPage() {
             </p>
           </>
         }
-      />
+      >
+        <WiberDirect locale={LOCALE} />
+      </HubHero>
 
       <PriceTable
         heading="Wat kost een huurauto op Ibiza?"

@@ -235,8 +235,22 @@ export default async function IbizaSeasonPage({ params }: { params: { locale: st
               {s.venues.map(v => (
                 <tr key={v.slug} className="border-b border-black/5">
                   <th scope="row" className="py-2.5 pr-3 font-semibold">
-                    <Link href={`/${l}/club-tickets/${v.slug}`} className="text-neutral-900 underline decoration-black/20 underline-offset-2 hover:decoration-ibiza-green">
-                      {v.name}
+                    <Link href={`/${l}/club-tickets/${v.slug}`} className="flex items-center gap-2.5 text-neutral-900 hover:text-ibiza-green">
+                      {/* Vaste doos, zodat een breed en een smal merk dezelfde
+                          voetafdruk krijgen en de namen op één lijn blijven. */}
+                      {v.logo ? (
+                        <span className="relative hidden h-5 w-14 shrink-0 items-center justify-start sm:inline-flex">
+                          <img
+                            src={v.logo}
+                            alt=""
+                            aria-hidden
+                            className="max-h-full max-w-full object-contain object-left opacity-75 brightness-0"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </span>
+                      ) : null}
+                      <span className="underline decoration-black/20 underline-offset-2">{v.name}</span>
                     </Link>
                   </th>
                   <td className="py-2.5 px-3 font-semibold tabular-nums text-ibiza-green">{fmtDay(v.lastScheduled, l)}</td>

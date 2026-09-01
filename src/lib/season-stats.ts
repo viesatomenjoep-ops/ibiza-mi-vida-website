@@ -28,6 +28,17 @@ export interface VenueSeason {
   lastScheduled: string
   /** Nights still to come. */
   upcoming: number
+  /**
+   * The venue's official mark from the ClubTickets feed.
+   *
+   * `whitelogo` is a reversed-out file — white artwork on transparency — so it
+   * is invisible on the light table this feeds. The page flattens it with
+   * `brightness-0`, the same treatment ClubLogoSlider already uses, which
+   * renders the official artwork as a silhouette rather than redrawing it.
+   * `picture` is the fallback and is a photo, so it is only reached when a
+   * venue has no mark at all.
+   */
+  logo?: string
 }
 
 export interface MonthCount {
@@ -56,6 +67,7 @@ export async function getSeasonStats(locale: string): Promise<SeasonStats | null
 
   const typeOf = new Map(venues.map(v => [v.slug, (v as any).type?.slug || '']))
   const nameOf = new Map(venues.map(v => [v.slug, v.name]))
+  const logoOf = new Map(venues.map(v => [v.slug, (v as any).whitelogo || (v as any).picture || '']))
   const todayStr = new Date().toISOString().slice(0, 10)
 
   const nights = dates
@@ -82,6 +94,7 @@ export async function getSeasonStats(locale: string): Promise<SeasonStats | null
         first: sorted[0],
         lastScheduled: sorted[sorted.length - 1],
         upcoming: sorted.filter(d => d >= todayStr).length,
+        logo: logoOf.get(slug) || undefined,
       }
     })
     .sort((a, b) => b.lastScheduled.localeCompare(a.lastScheduled) || a.name.localeCompare(b.name))
