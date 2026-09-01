@@ -258,25 +258,30 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
   const endAt = eventDetail?.endAt
   const hasTimes = !!(startAt || endAt)
 
-  // Structured data for Google event rich results — first upcoming date.
-  const schemaPriceMatch = String(d0?.prices || '').match(/\d+([.,]\d+)?/)
+  // Structured data for Google event rich results.
+  //
+  // Alle aankomende data, niet alleen de eerste: een event met twaalf avonden
+  // leverde één vermelding op terwijl de pagina er twaalf toont. De tijden gaan
+  // mee omdat een clubnacht om 23:45 begint en Google een kale datum als
+  // middernacht leest — dan staat de avond op de verkeerde dag.
+  const schemaDates = (eventDates as any[])
+    .filter(d => d?.date)
+    .map(d => ({ date: d.date as string, startAt, endAt, prices: d.prices as string | undefined }))
   const schemaLineup = formatLineUp(d0?.lineUp).split(',').map(a => a.trim()).filter(Boolean).slice(0, 10)
 
   return (
     <div className="bg-white text-black min-h-screen">
-      {d0?.date && (
-        <EventSchema
-          name={eventName}
-          startDate={d0.date}
-          venueName={club.name}
-          description={desc.intro.join(' ').slice(0, 300) || undefined}
-          priceFrom={schemaPriceMatch ? parseFloat(schemaPriceMatch[0].replace(',', '.')) : undefined}
-          image={eventCover || undefined}
-          lineup={schemaLineup}
-          pageUrl={`${SITE_URL}/${locale}/${basePath}/${club.slug}/${eventSlug}`}
-          type={basePath === 'club-tickets' ? 'MusicEvent' : 'Event'}
-        />
-      )}
+      <EventSchema
+        name={eventName}
+        dates={schemaDates}
+        venueName={club.name}
+        venueUrl={`${SITE_URL}/${locale}/${basePath}/${club.slug}`}
+        description={desc.intro.join(' ').slice(0, 300) || undefined}
+        image={eventCover || undefined}
+        lineup={schemaLineup}
+        pageUrl={`${SITE_URL}/${locale}/${basePath}/${club.slug}/${eventSlug}`}
+        type={basePath === 'club-tickets' ? 'MusicEvent' : 'Event'}
+      />
       <FaqJsonLd faqs={faqs} />
       <BreadcrumbJsonLd
         locale={locale}
