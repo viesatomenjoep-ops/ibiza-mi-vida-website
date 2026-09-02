@@ -66,12 +66,16 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .site-header--fade .nav-brand-sub{color:#0D0509}
 .site-header--fade .nav-logo-btn img{filter:brightness(0)}
 .site-header--fade .burger-lines span{background-color:#0D0509}
+.site-header--fade .nav-lang{border-color:rgba(0,0,0,.25);color:rgba(0,0,0,.65);background:rgba(255,255,255,.9)}
+.site-header--fade .nav-lang.active{background:#0D0509;border-color:#0D0509;color:#fff}
 /* Force-white navbar (Private Boat Charters): stays transparent + white, overrides fade/onlight */
 .site-header--forcewhite{background:transparent !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;border-bottom-color:transparent !important}
 .site-header--forcewhite .nav-brand-name,
 .site-header--forcewhite .nav-brand-sub{color:#fff !important}
 .site-header--forcewhite .nav-logo-btn img{filter:brightness(0) invert(1) !important}
 .site-header--forcewhite .burger-lines span{background-color:#fff !important}
+.site-header--forcewhite .nav-lang{border-color:rgba(255,255,255,.35) !important;color:rgba(255,255,255,.85) !important;background:rgba(0,0,0,.28) !important}
+.site-header--forcewhite .nav-lang.active{background:#fff !important;border-color:#fff !important;color:#0D0509 !important}
 .nav-topbar{background:transparent;border-bottom:none;transition:background .3s ease}
 /* Fixed bottom official-partner bar for ClubTickets categories: clean white strip, black text.
    PERF: geen backdrop-filter. Een vaste balk met blur laat iOS bij élke scrollframe
@@ -139,13 +143,25 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .site-header--onlight:not(.site-header--scrolled) .nav-brand-sub{color:#0D0509}
 .site-header--onlight:not(.site-header--scrolled) .nav-logo-btn img{filter:brightness(0)}
 .site-header--onlight:not(.site-header--scrolled) .burger-lines span{background-color:#0D0509}
+.site-header--onlight:not(.site-header--scrolled) .nav-lang-item{background:rgba(255,255,255,.94)}
 .logo-spin{transform-origin:50% 50%;will-change:transform;}
 .burger{width:62px;height:62px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;cursor:pointer;flex-shrink:0}
 /* Always-visible language selector in the navbar (desktop). Follows the navbar
    colour scheme: white on dark heroes, black on light pages. Mobile uses the
    selector in the fullscreen-menu footer instead. */
 .nav-right{display:flex;align-items:center;gap:14px}
-.nav-langs{display:flex;align-items:center;gap:4px}
+/* ── Taalkiezer: onder de hamburger, uitklappend naar beneden ─────────────
+   Stond eerst naast de hamburger en klapte horizontaal uit (max-width), wat
+   de navbar breder maakte naarmate je hem opende. Nu hangt hij absoluut onder
+   de knop: de balk verspringt niet meer, en op een telefoon botst hij niet
+   met het logo.
+
+   De kleur volgt de kop via dezelfde selectoren die de hamburgerstreepjes
+   sturen (--fade, --onlight, --forcewhite). Door aan te haken bij die regels
+   in plaats van eigen kleuren te bedenken, kan de kiezer per definitie niet
+   uit de pas lopen met de balk. */
+.nav-burger-wrap{position:relative;display:flex;align-items:center}
+.nav-langs{position:absolute;top:calc(100% + 6px);right:0;z-index:60;display:flex;flex-direction:column;align-items:stretch;gap:4px}
 .nav-lang{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:30px;padding:0 8px;border:1px solid rgba(255,255,255,.28);border-radius:999px;font-family:var(--font-display),sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.08em;color:rgba(255,255,255,.72);transition:all .15s ease}
 .nav-lang:hover{border-color:#fff;color:#fff}
 .nav-lang.active{background:#fff;border-color:#fff;color:#0D0509}
@@ -159,7 +175,20 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
    met hreflang), maar staan buiten de tabvolgorde én zijn inert-achtig
    afgeschermd via aria-hidden + tabIndex in de component. visibility:hidden
    is de bodem: een paneel dat je alleen wegschuift blijft focusbaar. */
-.nav-lang-item{max-width:0;padding-left:0;padding-right:0;margin-left:-4px;border-color:transparent;opacity:0;visibility:hidden;overflow:hidden;transition:max-width .22s ease,opacity .18s ease,padding .22s ease,margin .22s ease}
+.nav-lang-list{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows .24s ease}
+.nav-langs.is-open .nav-lang-list{grid-template-rows:1fr}
+/* grid-template-rows 0fr→1fr animeert een onbekende hoogte zonder die te
+   moeten meten; een vaste max-height zou bij vier talen precies passen en bij
+   drie of vijf niet.
+
+   De truc vereist PRECIES ÉÉN kind in de grid. Met de vier taallinks los in
+   de container gold de 0fr alleen voor de eerste rij en bleven de andere drie
+   op auto staan — gemeten 153px hoog terwijl hij dicht hoorde te zijn.
+   Vandaar .nav-lang-inner. min-height:0 erop, anders weigert de track te
+   krimpen onder de inhoud. */
+.nav-lang-inner{min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.nav-lang-item{margin-top:4px;opacity:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);transition:opacity .18s ease}
+.nav-langs.is-open .nav-lang-item{opacity:1}
 .nav-langs.is-open .nav-lang-item{max-width:60px;padding-left:8px;padding-right:8px;margin-left:0;opacity:1;visibility:visible}
 @media (prefers-reduced-motion:reduce){.nav-lang-item{transition:none}}
 /* Op mobiel stond de hele rij op display:none — de taalkeuze was daar dus

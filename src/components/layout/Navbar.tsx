@@ -449,39 +449,10 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
 
             {/* Right: language selector (desktop) + hamburger */}
             <div className="nav-right">
-            <div
-              ref={langRef}
-              className={`nav-langs${langOpen ? ' is-open' : ''}`}
-              aria-label={A11Y.language[currentLocale.code] || A11Y.language.en}
-            >
-              {/* De huidige taal is altijd zichtbaar en is tegelijk de knop die
-                  de rest uitklapt. De andere talen zijn echte links, zodat ze
-                  crawlbaar blijven en met een middenklik in een nieuw tabblad
-                  openen. */}
-              <button
-                type="button"
-                onClick={() => setLangOpen(v => !v)}
-                className="nav-lang active nav-lang-toggle"
-                aria-expanded={langOpen}
-                aria-label={`${A11Y.language[currentLocale.code] || A11Y.language.en}: ${currentLocale.label}`}
-              >
-                {currentLocale.label}
-                <ChevronDown size={11} aria-hidden className="nav-lang-chev" />
-              </button>
-              {LOCALES.filter(l => l.code !== currentLocale.code).map(l => (
-                <Link
-                  key={l.code}
-                  href={pathname.replace(/^\/[a-z]{2}(?=\/|$)/, `/${l.code}`) || `/${l.code}`}
-                  className="nav-lang nav-lang-item"
-                  hrefLang={l.code}
-                  onClick={() => { document.cookie = `imv_locale=${l.code}; max-age=31536000; path=/; samesite=lax` }}
-                  tabIndex={langOpen ? undefined : -1}
-                  aria-hidden={langOpen ? undefined : true}
-                >
-                  {l.label}
-                </Link>
-              ))}
-            </div>
+            {/* Hamburger en taalkiezer zitten in één relatieve wikkel: de
+                kiezer hangt eronder in plaats van ernaast. Zo staat hij altijd
+                op dezelfde plek, ongeacht hoe breed de knoppen zijn. */}
+            <div className="nav-burger-wrap">
             <button
               className="burger"
               aria-label={(menuOpen ? A11Y.closeMenu : A11Y.openMenu)[currentLocale.code] || (menuOpen ? A11Y.closeMenu : A11Y.openMenu).en}
@@ -498,6 +469,44 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
                 </div>
               )}
             </button>
+            <div
+              ref={langRef}
+              className={`nav-langs${langOpen ? ' is-open' : ''}`}
+              aria-label={A11Y.language[currentLocale.code] || A11Y.language.en}
+            >
+              {/* De huidige taal is altijd zichtbaar en is tegelijk de knop die
+                  de rest uitklapt — naar beneden nu, niet meer opzij. De andere
+                  talen zijn echte links, zodat ze crawlbaar blijven en met een
+                  middenklik in een nieuw tabblad openen. */}
+              <button
+                type="button"
+                onClick={() => setLangOpen(v => !v)}
+                className="nav-lang active nav-lang-toggle"
+                aria-expanded={langOpen}
+                aria-label={`${A11Y.language[currentLocale.code] || A11Y.language.en}: ${currentLocale.label}`}
+              >
+                {currentLocale.label}
+                <ChevronDown size={11} aria-hidden className="nav-lang-chev" />
+              </button>
+              <div className="nav-lang-list">
+                <div className="nav-lang-inner">
+                {LOCALES.filter(l => l.code !== currentLocale.code).map(l => (
+                  <Link
+                    key={l.code}
+                    href={pathname.replace(/^\/[a-z]{2}(?=\/|$)/, `/${l.code}`) || `/${l.code}`}
+                    className="nav-lang nav-lang-item"
+                    hrefLang={l.code}
+                    onClick={() => { document.cookie = `imv_locale=${l.code}; max-age=31536000; path=/; samesite=lax`; setLangOpen(false) }}
+                    tabIndex={langOpen ? undefined : -1}
+                    aria-hidden={langOpen ? undefined : true}
+                  >
+                    {l.label}
+                  </Link>
+                ))}
+                </div>
+              </div>
+            </div>
+            </div>
             </div>
           </div>
         </nav>
