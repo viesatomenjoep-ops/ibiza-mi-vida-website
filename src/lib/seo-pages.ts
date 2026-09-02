@@ -171,20 +171,23 @@ export const SEO_PAGES: Record<string, Copy> = {
   // pillar /boat-rental-ibiza: twee eigen URL's op één zoekopdracht. Deze
   // pagina is een hub die naar vijf categorieën routeert, en de titel zegt dat
   // nu ook — de verhuurintentie hoort bij de pillar.
+  // /boats draagt sinds de samenvoeging met /boat-rental-ibiza óók de
+  // commerciële term "boot huren": de titel noemt hem, de H1 blijft de hub.
+  // Alle vijf ≤ 44 tekens, zodat de suffix er nog achter past.
   boats: {
     title: L(
-      'Ibiza per boot: alle opties op het water',
-      'Ibiza by boat: every option on the water',
-      'Ibiza per Boot: alle Optionen',
-      'Ibiza en barco: todas las opciones',
-      'Ibiza en bateau : toutes les options',
+      'Boot huren Ibiza — alles op het water',
+      'Boat Rental Ibiza — Every Way on the Water',
+      'Boot mieten Ibiza — alles auf dem Wasser',
+      'Alquiler de barco Ibiza — todo en el mar',
+      'Location bateau Ibiza — tout sur l’eau',
     ),
     description: L(
-      'Vijf manieren om Ibiza vanaf het water te zien: privécharter, boottocht, boat party, verhuur en de ferry. Kies je categorie.',
-      'Five ways to see Ibiza from the water: private charter, boat trip, boat party, rental and the ferry. Pick your category.',
-      'Fünf Wege, Ibiza vom Wasser zu sehen: Privatcharter, Bootstour, Boat Party, Vermietung und Fähre. Wähle deine Kategorie.',
-      'Cinco formas de ver Ibiza desde el mar: chárter privado, excursión, boat party, alquiler y ferry. Elige tu categoría.',
-      'Cinq façons de voir Ibiza depuis l’eau : charter privé, sortie, boat party, location et ferry. Choisissez votre catégorie.',
+      'Boot huren op Ibiza: met schipper, met eigen vaarbewijs of zonder vaarbewijs tot 15 pk — plus boottochten, boat party’s en de ferry, alles op één pagina.',
+      'Rent a boat in Ibiza with a skipper, your own licence, or licence-free up to 15 hp — plus boat trips, boat parties and the Formentera ferry, all on one page.',
+      'Boot mieten auf Ibiza: mit Skipper, eigenem Schein oder führerscheinfrei bis 15 PS — dazu Bootstouren, Boat Partys und die Formentera-Fähre auf einer Seite.',
+      'Alquila un barco en Ibiza con patrón, con tu licencia o sin licencia hasta 15 CV — más excursiones, boat parties y el ferry a Formentera en una sola página.',
+      'Louez un bateau à Ibiza avec skipper, avec votre permis ou sans permis jusqu’à 15 ch — plus sorties, boat parties et ferry pour Formentera, sur une seule page.',
     ),
   },
   tours: {

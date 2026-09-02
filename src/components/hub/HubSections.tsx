@@ -127,17 +127,24 @@ export function HubHero({
   locale,
   updated,
   children,
+  as: Heading = 'h1',
 }: {
   h1: string
   lead: React.ReactNode
   locale: string
   updated?: string
   children?: React.ReactNode
+  /**
+   * Kopniveau. 'h2' wanneer de hero als sectie ín een andere pagina staat —
+   * de bootverhuurgids onderaan /boats — want die pagina heeft zijn eigen H1
+   * en twee H1's op één pagina is er één te veel.
+   */
+  as?: 'h1' | 'h2'
 }) {
   return (
     <section className="bg-white py-12 text-neutral-900 md:py-16">
       <div className="mx-auto max-w-4xl px-4">
-        <h1 className="font-serif text-3xl font-black leading-tight tracking-tight md:text-5xl">{h1}</h1>
+        <Heading className="font-serif text-3xl font-black leading-tight tracking-tight md:text-5xl">{h1}</Heading>
         <div className="mt-5 text-[17px] leading-relaxed text-neutral-700">{lead}</div>
         {children}
         <LastUpdated iso={updated} locale={locale} />

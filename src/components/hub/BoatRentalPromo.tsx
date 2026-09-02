@@ -89,7 +89,8 @@ const POINTS: Record<Locale, string[]> = {
 
 export function BoatRentalPromo({ locale }: { locale: string }) {
   const l = (LOCALES as readonly string[]).includes(locale) ? (locale as Locale) : DEFAULT_LOCALE
-  const href = `/${l}/${slugFor('boat-rental', l)}`
+  // De pillar is opgegaan in /boats; de gids staat daar onderaan.
+  const href = `/${l}/boats`
 
   // Real lowest day rate from our own fleet, or nothing at all.
   const priced = FLEET.filter((b) => b?.price?.low)

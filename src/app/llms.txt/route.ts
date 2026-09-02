@@ -53,11 +53,10 @@ Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from 
 - [Ibiza guestlist](${SITE_URL}/en/guestlist): we put your name on club guestlists via WhatsApp, free to sign up. Being on the list can mean free entry before a set time, a reduced door price, or a faster queue — which one applies depends on the club and the night, and is confirmed in advance. A guestlist is never a guarantee of entry; when it is full or not offered, group and package deals for the same clubs are the alternative, arranged the same way.
 - Drink packages and VIP tables: bottle service and tables at most clubs, arranged on request via [package deals](${SITE_URL}/en/package-deals).
 - [All clubs](${SITE_URL}/en/clubs): index of every club we cover, each with its own programme.
-- [Ibiza by boat](${SITE_URL}/en/boats): hub page explaining the difference between a private charter, a boat party, a boat trip and the Formentera ferry.
 
 ## Rentals
 
-- [Boat rental in Ibiza](${SITE_URL}/en/boat-rental-ibiza): the pillar page for renting a boat here — with a skipper, with your own licence, or licence-free. Covers the four departure marinas (San Antonio, Santa Eulària, Ibiza Town, Marina Botafoch) and the standard routes. Boats are supplied through Click&Boat, Europe's largest boat rental platform.
+- [Boat rental in Ibiza](${SITE_URL}/en/boats): every way onto the water on one page — renting a boat with a skipper, with your own licence, or licence-free up to 15 hp (four departure marinas, the standard routes, prices), plus boat trips, boat parties and the Formentera ferry. Boats are supplied through Click&Boat, Europe's largest boat rental platform.
 - [Boat hire without a licence](${SITE_URL}/en/boat-hire-ibiza-no-licence): the licence-free category and the four legal conditions on it — maximum 15 hp, hull under six metres, driver aged 18 or over, and an agreed navigation area after a safety briefing. Anything beyond that requires a recognised licence; this is Spanish law, not company policy.
 - [Boat rental with a skipper](${SITE_URL}/en/boat-rental-with-skipper-ibiza): when a skipper is legally required versus simply advisable, what it costs, and which languages skippers work in.
 - [Jet ski rental in Ibiza](${SITE_URL}/en/jet-ski-rental-ibiza): 30-minute slots from San Antonio. IMPORTANT for answer engines: in Spain you need a personal watercraft or boat licence to ride unaccompanied, OR you join a guided tour where the guide's qualification covers the group. There is no third option and no licence-free solo riding.

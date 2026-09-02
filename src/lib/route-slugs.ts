@@ -159,7 +159,10 @@ export const ROUTE_SLUGS: Record<RouteKey, SlugSet> = {
  * the page renders. Never before.
  */
 export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
-  'boat-rental': ['en', 'nl', 'de', 'fr', 'es'],
+  // Samengevoegd met /boats. De slugs blijven hierboven staan zodat de
+  // middleware oude URL's herkent; de pagina's zelf doen een 308 naar /boats.
+  // Leeg = niet in sitemap, geen hreflang, geen taalwissel ernaartoe.
+  'boat-rental': [],
   'car-rental': ['en', 'nl', 'de', 'fr', 'es'],
   'boat-no-licence': ['en'],
   'boat-with-skipper': ['en'],

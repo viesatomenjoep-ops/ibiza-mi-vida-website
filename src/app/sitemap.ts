@@ -124,7 +124,6 @@ function localizedEntriesFor(
  * fails, and Search Console counts those against the whole sitemap.
  */
 const LOCALIZED_ROUTES: { key: RouteKey; priority: number; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
-  { key: 'boat-rental', priority: 0.9, changeFrequency: 'weekly' },
   { key: 'jet-ski-rental', priority: 0.8, changeFrequency: 'weekly' },
   { key: 'car-rental', priority: 0.9, changeFrequency: 'weekly' },
   { key: 'club-tickets-hub', priority: 0.9, changeFrequency: 'daily' },

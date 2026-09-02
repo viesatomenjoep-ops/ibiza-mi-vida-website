@@ -128,7 +128,9 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
       label: t.nav_on_the_water || 'Op het Water',
       items: [
         { label: t.nav_private_charters || 'Private Boat Charters', href: '/private-boat-charters' },
-        { label: t.nav_boat_rental || 'Boat Rental Ibiza', href: `/${slugFor('boat-rental', l)}` },
+        // 'Boat Rental Ibiza' stond hier als losse pillar; die is in /boats
+        // opgegaan, dus het menu wijst naar de hub.
+        { label: t.nav_boats_hub || 'Ibiza by boat', href: '/boats' },
         { label: t.nav_shuttle_ferry || 'Shuttle Ferry', href: '/shuttle-ferry' },
         { label: t.nav_ferry_formentera || 'Ferry Ibiza – Formentera', href: '/ferry-formentera' },
       ],

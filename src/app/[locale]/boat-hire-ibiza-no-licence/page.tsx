@@ -43,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const CRUMBS: Crumb[] = [
   { name: 'Home', path: '' },
-  { name: 'Boat rental Ibiza', path: 'boat-rental-ibiza' },
+  { name: 'Ibiza by boat', path: 'boats' },
   { name: 'Without a licence' },
 ]
 
@@ -123,7 +123,7 @@ export default function BoatHireNoLicencePage() {
       <FaqAccordion faqs={FAQS} locale={LOCALE} />
 
       <InternalLinks heading="Related pages" locale={LOCALE} links={[
-        { label: 'Boat rental in Ibiza', href: 'boat-rental-ibiza', body: 'The pillar page: all three ways onto the water, with prices and marinas.' },
+        { label: 'Boat rental in Ibiza', href: 'boats', body: 'The pillar page: all three ways onto the water, with prices and marinas.' },
         { label: 'Boat rental with a skipper', href: 'boat-rental-with-skipper-ibiza', body: 'When someone else drives, and why it is often the cheaper mistake to avoid.' },
         { label: 'Jet ski rental in Ibiza', href: 'jet-ski-rental-ibiza', body: 'The faster, shorter version, with its own licence rules.' },
       ]} />

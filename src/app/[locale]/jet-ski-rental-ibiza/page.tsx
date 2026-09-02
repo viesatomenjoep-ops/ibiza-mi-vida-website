@@ -48,7 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const CRUMBS: Crumb[] = [
   { name: 'Home', path: '' },
-  { name: 'Boat rental Ibiza', path: 'boat-rental-ibiza' },
+  { name: 'Ibiza by boat', path: 'boats' },
   { name: 'Jet ski rental Ibiza' },
 ]
 
@@ -127,7 +127,7 @@ export default function JetSkiRentalIbizaPage() {
             meta: 'No licence needed · guide leads the group',
             body:
               'A qualified guide rides with you and their licence covers the group. You follow a set route, usually along the San Antonio coast towards the sunset cliffs. The only legal way to ride here without a licence of your own.',
-            href: 'boat-rental-ibiza',
+            href: 'boats',
             cta: 'Ask about tours',
           },
           {
@@ -135,7 +135,7 @@ export default function JetSkiRentalIbizaPage() {
             meta: 'Licence required · your own route inside a set zone',
             body:
               'Show a valid personal watercraft or boat licence and you take the machine out yourself, inside a marked area the base defines. More freedom, and you set the pace instead of following one.',
-            href: 'boat-rental-ibiza',
+            href: 'boats',
             cta: 'What licences count',
           },
           {
@@ -239,7 +239,7 @@ export default function JetSkiRentalIbizaPage() {
         links={[
           {
             label: 'Boat rental in Ibiza',
-            href: 'boat-rental-ibiza',
+            href: 'boats',
             body: 'The pillar page: with a skipper, with your own licence, or licence-free up to 15 hp.',
           },
           {
