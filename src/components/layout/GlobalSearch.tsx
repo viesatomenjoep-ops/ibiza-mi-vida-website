@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useRouter } from 'next/navigation'
 import { Search, X } from 'lucide-react'
 
@@ -53,6 +54,17 @@ interface Treffer {
  * Zodra het paneel opengaat halen we daarom de eerstvolgende avonden en de
  * vaste ingangen op, uit dezelfde feed als de zoekresultaten zelf — er staat
  * dus nooit iets tussen dat niet bestaat.
+ *
+ * ── Waarom dit vlak in een portal hangt ───────────────────────────────────
+ * De knop staat in `.nav-center`, en die wikkel wordt met `transform:
+ * translate(-50%,-50%)` gecentreerd. Een voorouder met een transform wordt het
+ * bevattingsblok voor alles wat `position: fixed` is -- dus het zoekvlak nam
+ * niet het scherm maar de pil als kader. Gemeten: paneel 63 pixels breed,
+ * invoerveld 0 pixels. Je zag een sliver naast de knop in plaats van een
+ * zoekbalk.
+ *
+ * Met createPortal hangt het vlak rechtstreeks onder <body> en is er geen
+ * voorouder meer die het kan inperken.
  *
  * ── Zuinigheid ────────────────────────────────────────────────────────────
  * Er gaat geen enkel verzoek uit tot je de knop indrukt. Daarna wordt er 250 ms
@@ -108,6 +120,14 @@ export function GlobalSearch({ locale = 'nl' }: { locale?: string }) {
     return () => clearTimeout(timer)
   }, [vraag, open, haal])
 
+  // Achtergrond niet mee laten scrollen zolang het vlak open is.
+  useEffect(() => {
+    if (!open) return
+    const vorige = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = vorige }
+  }, [open])
+
   const ga = (r: Treffer) => {
     setOpen(false)
     setVraag('')
@@ -129,7 +149,7 @@ export function GlobalSearch({ locale = 'nl' }: { locale?: string }) {
         <Search size={13} aria-hidden />
       </button>
 
-      {open && (
+      {open && typeof document !== 'undefined' && createPortal(
         <div className="nav-search-overlay" role="dialog" aria-modal="true" aria-label={t(L.open, locale)}>
           <div ref={paneelRef} className="nav-search-panel">
             <div className="nav-search-row">
@@ -178,7 +198,8 @@ export function GlobalSearch({ locale = 'nl' }: { locale?: string }) {
               </ul>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   )

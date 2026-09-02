@@ -34,10 +34,10 @@ export async function GET(request: Request) {
     // 1. Search Venues (Clubs)
     const venues = await getVenues(locale);
     const venueTypeBySlug = new Map(venues.map(v => [v.slug, v.type?.slug || '']));
-    const matchedVenues = venues.filter(v => 
-      v.name.toLowerCase().includes(q) || 
-      (v.description && v.description.toLowerCase().includes(q))
-    ).slice(0, 5);
+    // Alleen op naam. Ook de beschrijving doorzoeken leverde bij "arr" de hele
+    // lijst clubs op, omdat dat woorddeel ergens in elke omschrijving voorkomt.
+    // Wie een club zoekt tikt de naam van die club.
+    const matchedVenues = venues.filter(v => v.name.toLowerCase().includes(q)).slice(0, 5);
 
     matchedVenues.forEach(v => {
       results.push({
@@ -153,10 +153,30 @@ export async function GET(request: Request) {
       seen.add(key);
       return true;
     });
-    const rank = (r: any) => ((r.title || '').toLowerCase().startsWith(q) ? 0 : 1);
-    deduped.sort((a, b) => rank(a) - rank(b));
+    // Rangschikken op waar de treffer zit, niet alleen of hij er zit.
+    //
+    // Zonder dit gaf "arr" bovenaan Calvin Harris en Ushuaia Ibiza terug: het
+    // woorddeel zit daar middenin een woord. Wie "arr" tikt is bijna altijd
+    // aan het begin van een naam bezig, dus:
+    //   0 = de titel begint ermee
+    //   1 = een woord in de titel begint ermee
+    //   2 = het staat er ergens middenin
+    const rank = (r: any) => {
+      const titel = (r.title || '').toLowerCase();
+      if (titel.startsWith(q)) return 0;
+      if (new RegExp(`\\b${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).test(titel)) return 1;
+      return 2;
+    };
+    // Treffers middenin een woord alleen tonen als er niets beters is -- niet
+    // "als er weinig beters is". Bij "arm" stonden Armin van Buuren en daarna
+    // elrow, Pikes en La Troya, die alleen matchen omdat het woorddeel ergens
+    // in hun line-up voorkomt. Zodra er ook maar één treffer op een woordgrens
+    // is, is dat wat de bezoeker bedoelde.
+    const scored = deduped.map(r => ({ r, s: rank(r) }));
+    const goed = scored.filter(x => x.s <= 1);
+    const gekozen = (goed.length ? goed : scored).sort((a, b) => a.s - b.s).map(x => x.r);
 
-    return NextResponse.json({ results: deduped.slice(0, 16) });
+    return NextResponse.json({ results: gekozen.slice(0, 16) });
   } catch (error) {
     console.error("Search API error:", error);
     return NextResponse.json({ results: [], error: 'Failed to perform search' }, { status: 500 });
