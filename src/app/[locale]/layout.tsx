@@ -122,7 +122,7 @@ export default async function RootLayout({
   // De footerachtergrond is een muur van clublogo's.
   //
   // Er stonden bootfoto's en excursiefoto's; die zijn mooi maar zeggen niets.
-  // De logo's van Pacha, Amnesia, Ushuaia, Hi en [UNVRS] zijn wel meteen
+  // De logo's van Ushuaia, Hi, [UNVRS], Eden en Ibiza Rocks zijn wel meteen
   // herkenbaar, en dat is precies wat een achtergrond op 6% dekking moet doen:
   // in een oogopslag zeggen waar deze site over gaat, zonder de tekst erboven
   // in de weg te zitten.

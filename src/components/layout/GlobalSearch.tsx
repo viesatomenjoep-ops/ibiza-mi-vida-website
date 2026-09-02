@@ -1,141 +1,185 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Search, Music, MapPin, Calendar, X } from 'lucide-react'
-import Image from 'next/image'
+import { Search, X } from 'lucide-react'
 
-export function GlobalSearch({ locale }: { locale: string }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [query, setQuery] = useState('')
-  const [results, setResults] = useState<any[]>([])
-  const [isSearching, setIsSearching] = useState(false)
+type L5 = Record<string, string>
+const T = (nl: string, en: string, de: string, es: string, fr: string): L5 => ({ nl, en, de, es, fr })
+const t = (m: L5, l: string) => m[l] || m.en
+
+const L = {
+  open: T('Zoeken', 'Search', 'Suchen', 'Buscar', 'Rechercher'),
+  placeholder: T(
+    'Zoek een club, event, artiest of boot',
+    'Search a club, event, artist or boat',
+    'Club, Event, Künstler oder Boot suchen',
+    'Busca un club, evento, artista o barco',
+    'Cherchez un club, événement, artiste ou bateau',
+  ),
+  suggesties: T('Suggesties', 'Suggestions', 'Vorschläge', 'Sugerencias', 'Suggestions'),
+  resultaten: T('Resultaten', 'Results', 'Ergebnisse', 'Resultados', 'Résultats'),
+  niets: T('Niets gevonden', 'Nothing found', 'Nichts gefunden', 'Sin resultados', 'Aucun résultat'),
+  sluit: T('Sluiten', 'Close', 'Schließen', 'Cerrar', 'Fermer'),
+  zoeken: T('Zoeken…', 'Searching…', 'Suche…', 'Buscando…', 'Recherche…'),
+}
+
+interface Treffer {
+  id: string
+  type: string
+  title: string
+  subtitle?: string | null
+  image?: string | null
+  url: string
+}
+
+/**
+ * Zoeken over de hele site, vanuit de navigatiebalk.
+ *
+ * ── Wat dit oplost ────────────────────────────────────────────────────────
+ * De site heeft honderden clubavonden, tweeënveertig aanbieders,
+ * vierennegentig boten en een stuk of vijftien vaste pagina's, en er was geen
+ * enkele manier om iets te zóeken. Wie wist dat "Garage Nation" bestond moest
+ * het via het menu en de juiste dag zien te vinden.
+ *
+ * ── Vorm ──────────────────────────────────────────────────────────────────
+ * De knop is dezelfde zwarte pil als de taalkiezer en staat ernaast, tussen
+ * het logo en het hamburgermenu. Aanklikken vervangt de balk niet maar legt er
+ * een vlak overheen: het veld pakt de volle breedte, de resultaten hangen
+ * eronder.
+ *
+ * ── Suggesties ────────────────────────────────────────────────────────────
+ * Een leeg zoekveld met een knipperende cursor legt het werk bij de bezoeker.
+ * Zodra het paneel opengaat halen we daarom de eerstvolgende avonden en de
+ * vaste ingangen op, uit dezelfde feed als de zoekresultaten zelf — er staat
+ * dus nooit iets tussen dat niet bestaat.
+ *
+ * ── Zuinigheid ────────────────────────────────────────────────────────────
+ * Er gaat geen enkel verzoek uit tot je de knop indrukt. Daarna wordt er 250 ms
+ * gewacht na je laatste toetsaanslag, en elk nieuw verzoek breekt het vorige af
+ * met een AbortController — anders kan een traag antwoord op "gar" over het
+ * snelle antwoord op "garage" heen komen te staan.
+ */
+export function GlobalSearch({ locale = 'nl' }: { locale?: string }) {
+  const [open, setOpen] = useState(false)
+  const [vraag, setVraag] = useState('')
+  const [treffers, setTreffers] = useState<Treffer[]>([])
+  const [bezig, setBezig] = useState(false)
+  const [isSuggestie, setIsSuggestie] = useState(true)
   const router = useRouter()
-  const searchRef = useRef<HTMLDivElement>(null)
+  const veldRef = useRef<HTMLInputElement>(null)
+  const paneelRef = useRef<HTMLDivElement>(null)
+  const lopend = useRef<AbortController | null>(null)
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        setIsOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (query.trim().length > 0) {
-        performSearch(query.trim())
-      } else {
-        setResults([])
-      }
-    }, 300)
-    return () => clearTimeout(timer)
-  }, [query])
-
-  const performSearch = async (searchTerm: string) => {
-    setIsSearching(true)
+  const haal = useCallback(async (term: string) => {
+    lopend.current?.abort()
+    const ac = new AbortController()
+    lopend.current = ac
+    setBezig(true)
     try {
-      const res = await fetch(`/api/search?q=${encodeURIComponent(searchTerm)}&locale=${locale}`)
+      const res = await fetch(`/api/search?q=${encodeURIComponent(term)}&locale=${locale}`, { signal: ac.signal })
       const data = await res.json()
-      setResults(Array.isArray(data.results) ? data.results : [])
-    } catch {
-      setResults([])
+      setTreffers(Array.isArray(data.results) ? data.results : [])
+      setIsSuggestie(term.length === 0)
+    } catch (e) {
+      if ((e as Error)?.name !== 'AbortError') setTreffers([])
+    } finally {
+      if (!ac.signal.aborted) setBezig(false)
     }
-    setIsSearching(false)
-  }
+  }, [locale])
 
-  const navigateTo = (result: any) => {
-    setIsOpen(false)
-    setQuery('')
-    if (result?.url) router.push(result.url)
+  // Openen: focus in het veld en meteen de suggesties ophalen.
+  useEffect(() => {
+    if (!open) return
+    veldRef.current?.focus()
+    const esc = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    const buiten = (e: MouseEvent) => {
+      if (paneelRef.current && !paneelRef.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('keydown', esc)
+    document.addEventListener('mousedown', buiten)
+    return () => { document.removeEventListener('keydown', esc); document.removeEventListener('mousedown', buiten) }
+  }, [open])
+
+  useEffect(() => {
+    if (!open) return
+    const term = vraag.trim()
+    const timer = setTimeout(() => haal(term), term ? 250 : 0)
+    return () => clearTimeout(timer)
+  }, [vraag, open, haal])
+
+  const ga = (r: Treffer) => {
+    setOpen(false)
+    setVraag('')
+    router.push(r.url)
   }
 
   return (
-    <div className="relative" ref={searchRef}>
-      <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className="search-trigger-btn flex items-center justify-center rounded-full transition-colors"
-        aria-label="Search"
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        // Dezelfde klassen als de taalpil, zodat hij automatisch meekleurt met
+        // elke navbarstand (wit op donker, zwart op licht) zonder dat die
+        // regels hier herhaald worden.
+        className="nav-lang active nav-search-btn"
+        aria-label={t(L.open, locale)}
+        aria-expanded={open}
       >
-        <Search size={20} className="text-white" />
+        <Search size={13} aria-hidden />
       </button>
 
-      {isOpen && (
-        <>
-          {/* Mobile backdrop to close when clicking outside */}
-          <div className="fixed inset-0 z-[90] md:hidden" onClick={() => setIsOpen(false)} />
-          <div className="fixed left-3 right-3 top-[64px] md:absolute md:left-auto md:right-0 md:top-[70px] md:w-[420px] md:max-w-[calc(100vw-24px)] bg-white rounded-2xl shadow-2xl border border-black/10 overflow-hidden z-[100] flex flex-col max-h-[70vh] md:max-h-[85vh]">
-            <div className="p-3 md:p-4 border-b border-black/10 flex items-center gap-3 shrink-0">
-              <Search size={18} strokeWidth={2.5} className="text-neutral-400" />
-            <input 
-              type="text" 
-              placeholder="Zoek DJ's, clubs of feesten..." 
-              className="flex-1 outline-none text-black placeholder-neutral-400 font-bold text-sm md:text-base"
-              style={{ color: '#000' }}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              autoFocus
-            />
-            {query && (
-              <button onClick={() => setQuery('')} className="text-black/30 hover:text-black transition-colors">
-                <X size={18} strokeWidth={2.5} />
+      {open && (
+        <div className="nav-search-overlay" role="dialog" aria-modal="true" aria-label={t(L.open, locale)}>
+          <div ref={paneelRef} className="nav-search-panel">
+            <div className="nav-search-row">
+              <Search size={18} aria-hidden className="shrink-0 text-neutral-400" />
+              <input
+                ref={veldRef}
+                type="search"
+                value={vraag}
+                onChange={e => setVraag(e.target.value)}
+                placeholder={t(L.placeholder, locale)}
+                className="nav-search-input"
+                autoComplete="off"
+              />
+              <button type="button" onClick={() => setOpen(false)} aria-label={t(L.sluit, locale)} className="nav-search-close">
+                <X size={18} aria-hidden />
               </button>
-            )}
-          </div>
+            </div>
 
-          <div className="flex-1 overflow-y-auto hide-scrollbar">
-            {isSearching ? (
-              <div className="p-8 text-center text-neutral-400 font-bold text-sm">
-                Aan het zoeken...
-              </div>
-            ) : results.length > 0 ? (
-              <div className="flex flex-col py-2">
-                {results.map((res, i) => (
-                  <button
-                    key={res.id || i}
-                    onClick={() => navigateTo(res)}
-                    className="flex items-center gap-3 md:gap-4 px-4 md:px-5 py-3 hover:bg-neutral-50 transition-colors border-b border-neutral-100 last:border-0 text-left group"
-                  >
-                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-neutral-100 flex items-center justify-center overflow-hidden relative shrink-0 shadow-inner group-hover:scale-105 transition-transform">
-                      {res.image ? (
-                        <Image src={res.image} alt={res.title} fill className="object-cover" />
-                      ) : res.type === 'Artiest' ? (
-                        <Music size={18} className="text-ibiza-green" />
-                      ) : res.type === 'Club' ? (
-                        <MapPin size={18} className="text-ibiza-green" />
-                      ) : (
-                        <Calendar size={18} className="text-ibiza-green" />
-                      )}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-ibiza-green mb-0.5">
-                        {res.type}
-                      </div>
-                      <div className="text-xs md:text-sm font-bold text-black truncate pr-2" style={{ color: '#000' }}>
-                        {res.title}
-                      </div>
-                      {res.subtitle && (
-                        <div className="text-[10px] md:text-xs text-black/50 truncate pr-2">{res.subtitle}</div>
-                      )}
-                    </div>
-                  </button>
+            <div className="nav-search-body">
+              <p className="nav-search-label">
+                {bezig ? t(L.zoeken, locale) : isSuggestie ? t(L.suggesties, locale) : t(L.resultaten, locale)}
+              </p>
+              {!bezig && treffers.length === 0 && (
+                <p className="px-1 py-6 text-center text-sm text-neutral-500">{t(L.niets, locale)}</p>
+              )}
+              <ul className="nav-search-list">
+                {treffers.map(r => (
+                  <li key={r.id}>
+                    <button type="button" onClick={() => ga(r)} className="nav-search-hit">
+                      <span className="nav-search-thumb">
+                        {r.image ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={r.image} alt="" loading="lazy" decoding="async" />
+                        ) : null}
+                      </span>
+                      <span className="min-w-0 flex-1 text-left">
+                        <span className="block truncate text-[14px] font-bold text-neutral-900">{r.title}</span>
+                        {r.subtitle ? (
+                          <span className="block truncate text-[12px] text-neutral-500">{r.subtitle}</span>
+                        ) : null}
+                      </span>
+                      <span className="nav-search-type">{r.type}</span>
+                    </button>
+                  </li>
                 ))}
-              </div>
-            ) : query.length > 0 ? (
-              <div className="p-8 text-center text-neutral-400 font-bold text-sm">
-                Geen resultaten gevonden voor "{query}".
-              </div>
-            ) : (
-              <div className="p-8 text-center text-neutral-400 font-bold text-sm bg-neutral-50/50">
-                Type een naam om te zoeken.
-              </div>
-            )}
+              </ul>
+            </div>
           </div>
         </div>
-        </>
       )}
-    </div>
+    </>
   )
 }

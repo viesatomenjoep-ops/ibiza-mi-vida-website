@@ -183,7 +183,30 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
    het midden groeit duwt de knop zelf omhoog terwijl je erop kijkt. */
 .nav-burger-wrap{display:flex;align-items:center}
 .nav-inner{position:relative}
-.nav-langs{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:60;display:flex;flex-direction:column;align-items:center;gap:4px}
+/* Zoekknop en taalkiezer als paar, samen gecentreerd tussen logo en
+   hamburger. De wikkel draagt de positionering; de kiezer eronder is weer
+   relatief zodat zijn uitklaplijst aan hemzelf hangt en niet aan het midden
+   van de balk. */
+.nav-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:60;display:flex;align-items:center;gap:6px}
+.nav-langs{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px}
+.nav-search-btn{width:34px;min-width:34px;padding:0;cursor:pointer}
+/* Volledig zoekvlak over de balk heen. Geen modaal midden op het scherm: het
+   veld hoort te staan waar je net op geklikt hebt. */
+.nav-search-overlay{position:fixed;inset:0;z-index:80;background:rgba(13,5,9,.45);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);display:flex;justify-content:center;align-items:flex-start;padding:12px}
+.nav-search-panel{width:100%;max-width:640px;margin-top:calc(var(--nav-h) * .35);background:#fff;border-radius:24px;box-shadow:0 30px 80px -30px rgba(0,0,0,.6);overflow:hidden;display:flex;flex-direction:column;max-height:calc(100svh - 24px)}
+.nav-search-row{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid rgba(0,0,0,.08)}
+.nav-search-input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:16px;font-weight:600;color:#0D0509}
+.nav-search-input::placeholder{color:#9a9a9a;font-weight:500}
+.nav-search-close{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;background:rgba(0,0,0,.05);color:#0D0509;flex-shrink:0}
+.nav-search-close:hover{background:rgba(0,0,0,.1)}
+.nav-search-body{overflow-y:auto;padding:10px 10px 14px}
+.nav-search-label{padding:6px 8px;font-family:var(--font-display),sans-serif;font-size:.62rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,0,0,.35)}
+.nav-search-list{display:flex;flex-direction:column;gap:2px;margin:0;padding:0;list-style:none}
+.nav-search-hit{display:flex;align-items:center;gap:12px;width:100%;padding:8px;border-radius:14px;text-align:left;transition:background .12s ease}
+.nav-search-hit:hover,.nav-search-hit:focus-visible{background:rgba(0,0,0,.05)}
+.nav-search-thumb{width:44px;height:44px;flex-shrink:0;border-radius:12px;overflow:hidden;background:#E4F2ED}
+.nav-search-thumb img{width:100%;height:100%;object-fit:cover}
+.nav-search-type{flex-shrink:0;font-family:var(--font-display),sans-serif;font-size:.58rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#0E7C66;background:rgba(14,124,102,.1);border-radius:999px;padding:3px 8px}
 /* Het uitklappaneel mag de navhoogte niet oprekken: het hangt onder de knop
    in plaats van hem mee te laten groeien. */
 .nav-langs .nav-lang-list{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);min-width:100%}

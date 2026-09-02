@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { GlobalSearch } from '@/components/layout/GlobalSearch'
 import { ChevronDown } from 'lucide-react'
 import { LOCALES } from './LanguageSelector'
 import { SpotifyButton } from './SpotifyButton'
@@ -482,6 +483,12 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
                 </div>
               )}
             </button>
+            {/* Zoekknop en taalkiezer staan samen gecentreerd tussen het logo
+                en het hamburgermenu. De wikkel draagt de positionering; de
+                kiezer zelf is weer relatief, zodat zijn uitklaplijst eronder
+                blijft hangen in plaats van onder het midden van de balk. */}
+            <div className="nav-center">
+            <GlobalSearch locale={currentLocale.code} />
             <div
               ref={langRef}
               className={`nav-langs${langOpen ? ' is-open' : ''}`}
@@ -518,6 +525,7 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
                 ))}
                 </div>
               </div>
+            </div>
             </div>
             </div>
             </div>

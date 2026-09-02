@@ -13,8 +13,8 @@ import { optImg } from '@/lib/img'
  *
  * Daarna werd het een mozaïek van bootfoto's en excursiefoto's. Mooi, maar het
  * zei niets: een halfdoorzichtige zeezicht-foto is achtergrondruis. De logo's
- * van Pacha, Amnesia, Ushuaïa, Hï en [UNVRS] herkent iemand in een fractie van
- * een seconde, en dat is precies wat een achtergrond op 6% dekking moet doen —
+ * van Ushuaïa, Hï, [UNVRS], Eden en Ibiza Rocks herkent iemand in een fractie
+ * van een seconde, en dat is precies wat een achtergrond op 6% dekking moet doen —
  * in één oogopslag zeggen waar deze site over gaat zonder de tekst erboven in
  * de weg te zitten.
  *
