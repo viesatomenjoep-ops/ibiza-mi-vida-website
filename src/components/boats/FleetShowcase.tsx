@@ -12,6 +12,7 @@ import { priceForDate, statusForDate, type LiveFleet } from '@/lib/yacht-broker'
 import { FileText, CalendarDays } from 'lucide-react';
 import { BackButton } from '@/components/ui/BackButton';
 import { FavouriteButton } from '@/components/boats/FavouriteButton';
+import { FleetFilterBar, type SortKey } from '@/components/boats/FleetFilterBar';
 import { getFavourites, onFavouritesChange } from '@/lib/boat-favourites';
 
 /** WhatsApp business number (digits only). */
@@ -22,6 +23,7 @@ const FLEET_LOWS = FLEET.map(b => b.price.low);
 const PRICE_MIN = Math.floor(Math.min(...FLEET_LOWS) / 50) * 50;   // ~350
 const PRICE_MAX = Math.ceil(Math.max(...FLEET_LOWS) / 100) * 100;  // ~6600
 const PRICE_STEP = 50;
+const PAX_MAX = Math.max(...FLEET.map(b => b.pax));
 /** Tactical budget presets (per day). Trimmed to the real fleet range. */
 const PRICE_PRESETS = [500, 1000, 2000, 3500, 5000].filter(v => v > PRICE_MIN && v < PRICE_MAX);
 
@@ -399,7 +401,8 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
 
   // Price filter state
   const [maxPrice, setMaxPrice] = useState<number>(PRICE_MAX);
-  const [priceLocked, setPriceLocked] = useState(false);
+  const [minPax, setMinPax] = useState(0);
+  const [sort, setSort] = useState<SortKey>('default');
 
   // ── Live laag: partnerfeed + gekozen datum ────────────────────────────────
   // `date` start op null en wordt pas na mount op vandaag gezet: new Date()
@@ -455,20 +458,9 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
     }, 400);
     return () => clearInterval(iv);
   }, []);
-  const [priceDraft, setPriceDraft] = useState<string>('');
   const isPriceActive = maxPrice < PRICE_MAX;
   const pricePct = ((maxPrice - PRICE_MIN) / (PRICE_MAX - PRICE_MIN)) * 100;
 
-  const applyDraft = useCallback(() => {
-    const n = parseInt(priceDraft.replace(/[^\d]/g, ''), 10);
-    if (!isNaN(n)) {
-      setMaxPrice(Math.min(PRICE_MAX, Math.max(PRICE_MIN, Math.round(n / PRICE_STEP) * PRICE_STEP)));
-      setPriceLocked(true);
-    }
-    setPriceDraft('');
-  }, [priceDraft]);
-
-  const resetPrice = useCallback(() => { setMaxPrice(PRICE_MAX); setPriceLocked(false); setPriceDraft(''); }, []);
 
   const marinas = useMemo(() => Array.from(new Set(FLEET.map(b => b.marina))), []);
 
@@ -479,12 +471,32 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
       const matchMarina = marina === 'all' || b.marina === marina;
       const matchSearch = !q || `${b.model} ${b.name ?? ''} ${b.marina}`.toLowerCase().includes(q);
       const matchPrice = b.price.low <= maxPrice;
+      const matchPax = minPax === 0 || b.pax >= minPax;
       const matchAvail = !onlyAvailable || !dateInRange || !live || !date
         ? true
         : statusForDate(live.boats[b.brokerKey] ?? { days: {}, price: null, priceBands: null }, date) === 'free';
-      return matchCategory && matchMarina && matchSearch && matchPrice && matchAvail;
-    });
-  }, [search, marina, category, maxPrice, onlyAvailable, dateInRange, live, date]);
+      return matchCategory && matchMarina && matchSearch && matchPrice && matchPax && matchAvail;
+    })
+      // Sorteren op de laagseizoensprijs, want dat is ook het bedrag dat op de
+      // kaart als "vanaf" staat. Sorteren op de hoogseizoensprijs zou een
+      // andere volgorde geven dan de getallen die de bezoeker ziet.
+      .sort((a, b) =>
+        sort === 'price-asc' ? a.price.low - b.price.low
+        : sort === 'price-desc' ? b.price.low - a.price.low
+        : 0);
+  }, [search, marina, category, maxPrice, minPax, sort, onlyAvailable, dateInRange, live, date]);
+
+  // Actieve filters tellen voor de wis-knop. `date` telt niet mee: die staat
+  // altijd op vandaag en is geen filter tot je "alleen beschikbaar" aanzet.
+  const actieveFilters =
+    (minPax > 0 ? 1 : 0) + (maxPrice < PRICE_MAX ? 1 : 0) + (marina !== 'all' ? 1 : 0) +
+    (sort !== 'default' ? 1 : 0) + (onlyAvailable ? 1 : 0) + (category !== 'all' ? 1 : 0) +
+    (search.trim() ? 1 : 0);
+
+  const wisFilters = useCallback(() => {
+    setMinPax(0); setMaxPrice(PRICE_MAX); setMarina('all'); setSort('default');
+    setOnlyAvailable(false); setCategory('all'); setSearch('');
+  }, []);
 
   const favBoats = useMemo(() => FLEET.filter(b => favs.includes(b.slug)), [favs]);
   const favWa = useMemo(() => {
@@ -528,114 +540,32 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
         </div>
       </section>
 
-      {/* Price / budget slider — now first under the hero */}
-      <section className="mx-auto max-w-6xl px-4 pt-6">
-        <div className="rounded-3xl border border-black/10 bg-neutral-50 p-5 md:p-6">
-          {/* Header row: label + live value + type-and-lock */}
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center gap-3">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-ibiza-green/15 text-black">
-                <SlidersHorizontal size={18} />
-              </span>
-              <div>
-                <div className="text-sm font-black uppercase tracking-wider text-black">{P.heading}</div>
-                <div className="text-xs text-black/50">{P.sub}</div>
-              </div>
-            </div>
-
-          </div>
-
-          {/* The range slider */}
-          <div className="mt-6">
-            <div className="mb-2 flex items-center justify-between text-sm font-bold text-black">
-              <span className="text-black/50">€{PRICE_MIN.toLocaleString(bcp)}</span>
-              <span className="rounded-full bg-ibiza-green px-3 py-1 text-white">
-                {isPriceActive ? P.upTo(maxPrice.toLocaleString(bcp)) : P.any}
-              </span>
-              <span className="text-black/50">€{PRICE_MAX.toLocaleString(bcp)}+</span>
-            </div>
-            <input
-              type="range"
-              min={PRICE_MIN}
-              max={PRICE_MAX}
-              step={PRICE_STEP}
-              value={maxPrice}
-              disabled={priceLocked}
-              onChange={e => setMaxPrice(parseInt(e.target.value, 10))}
-              className="fleet-range w-full disabled:opacity-60"
-              style={{ background: `linear-gradient(to right, #0E7C66 0%, #0E7C66 ${pricePct}%, #e5e5e5 ${pricePct}%, #e5e5e5 100%)` }}
-              aria-label={P.heading}
-            />
-          </div>
-
-          {/* Tactical preset chips */}
-          <div className="mt-5 flex flex-wrap items-center gap-2">
-            <span className="mr-1 hidden text-xs font-bold uppercase tracking-wider text-black/40 sm:inline">{P.quick}</span>
-            {PRICE_PRESETS.map(v => {
-              const on = maxPrice === v;
-              return (
-                <button
-                  key={v}
-                  onClick={() => { setMaxPrice(v); setPriceLocked(true); setPriceDraft(''); }}
-                  className={`rounded-full px-4 py-2 text-xs font-bold transition-all ${
-                    on ? 'bg-ibiza-green text-white shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200'
-                  }`}
-                >
-                  ≤ €{v.toLocaleString(bcp)}
-                </button>
-              );
-            })}
-            <button
-              onClick={resetPrice}
-              className={`rounded-full px-4 py-2 text-xs font-bold transition-all ${
-                !isPriceActive ? 'bg-ibiza-green text-white shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200'
-              }`}
-            >
-              {P.any}
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Live beschikbaarheid: datumkiezer + filter. Alleen zichtbaar wanneer
-          de partnerfeed er is — een datumkiezer die niets doet is erger dan
-          geen datumkiezer. */}
-      {live && date && (
-        <section className="sticky top-[var(--nav-h)] z-40 mx-auto max-w-6xl px-4 pt-4 md:static">
-          {/* Sticky op mobiel: wie door 94 kaarten scrolt moet de datum en het
-              beschikbaarheidsfilter kunnen wisselen zonder terug omhoog te
-              klimmen. Op desktop is dat niet nodig (alles staat in beeld) en
-              zou de balk alleen ruimte vreten — vandaar md:static. */}
-          <div className="flex flex-wrap items-center gap-2 rounded-3xl border border-black/10 bg-white/95 p-3 shadow-md backdrop-blur-md md:gap-3 md:bg-neutral-50 md:p-4 md:shadow-none md:backdrop-blur-none">
-            <span className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider text-black">
-              <CalendarDays size={16} className="text-ibiza-green" /> {T.pickDate}
-            </span>
-            <input
-              type="date"
-              value={date}
-              min={live.rangeStart}
-              max={live.rangeEnd}
-              onChange={e => e.target.value && setDate(e.target.value)}
-              className="min-w-[8.5rem] flex-1 rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black md:flex-none"
-              aria-label={T.pickDate}
-            />
-            <button
-              onClick={() => setOnlyAvailable(v => !v)}
-              aria-pressed={onlyAvailable}
-              className={`rounded-full px-4 py-2 text-xs font-bold transition-all ${
-                onlyAvailable ? 'bg-ibiza-green text-white shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200'
-              }`}
-            >
-              {T.availOnly}
-            </button>
-            {/* Tijdstempel van de feed: een claim "live" zonder tijdstip erbij
-                is niet controleerbaar. */}
-            <span className="w-full text-right text-[10px] text-black/40 md:ml-auto md:w-auto md:text-[11px]">
-              {T.liveStamp(new Date(live.generatedAt).toLocaleTimeString(bcp, { hour: '2-digit', minute: '2-digit' }))}
-            </span>
-          </div>
-        </section>
-      )}
+      {/* Filterbalk in Airbnb-stijl. Verving een brede budgetschuif plus een
+          losse datumbalk die samen het halve scherm vulden — zie
+          FleetFilterBar voor waarom pillen hier beter werken. */}
+      <FleetFilterBar
+        locale={locale}
+        marinas={marinas}
+        priceMin={PRICE_MIN}
+        priceMax={PRICE_MAX}
+        paxMax={PAX_MAX}
+        date={date}
+        setDate={setDate}
+        dateRange={live ? { start: live.rangeStart, end: live.rangeEnd } : null}
+        onlyAvailable={onlyAvailable}
+        setOnlyAvailable={setOnlyAvailable}
+        liveStamp={live ? new Date(live.generatedAt).toLocaleTimeString(bcp, { hour: '2-digit', minute: '2-digit' }) : null}
+        minPax={minPax}
+        setMinPax={setMinPax}
+        maxPrice={maxPrice}
+        setMaxPrice={setMaxPrice}
+        marina={marina}
+        setMarina={setMarina}
+        sort={sort}
+        setSort={setSort}
+        onClear={wisFilters}
+        activeCount={actieveFilters}
+      />
 
       <section className="mx-auto max-w-6xl px-4 pt-4">
         <div className="px-1 text-sm font-semibold text-black/50">{T.boatsCount(filtered.length)}</div>
