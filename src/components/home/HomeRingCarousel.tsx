@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { FLEET, dossierHref } from '@/data/fleet'
+import { FLEET } from '@/data/fleet'
 import type { PickerEvent } from '@/lib/picker-event'
 import { optImg } from '@/lib/img'
 
@@ -37,7 +37,15 @@ import { optImg } from '@/lib/img'
  * want dat is een hydration-mismatch.
  */
 
-type Kind = 'boats' | 'trips' | 'events'
+/**
+ * De vier groepen uit het hoofdmenu, in dezelfde volgorde.
+ *
+ * Stond eerder op boats/trips/events — drie namen die nergens anders op de
+ * site voorkwamen. Wie het menu opent ziet Events & Tickets, Op het Water,
+ * Beleef het Eiland en Insider; dezelfde woorden op dezelfde plek in dezelfde
+ * volgorde schelen de bezoeker het werk om twee indelingen te leren.
+ */
+type Kind = 'events' | 'water' | 'island' | 'insider'
 
 export interface RingItem {
   key: string
@@ -62,10 +70,12 @@ const T = (nl: string, en: string, de: string, es: string, fr: string): L5 => ({
 const t = (m: L5, l: string) => m[l] || m.en
 const L = {
   kicker: T('Ibiza in beeld', 'Ibiza in pictures', 'Ibiza in Bildern', 'Ibiza en imágenes', 'Ibiza en images'),
-  heading: T('Boten, excursies en events', 'Boats, trips and events', 'Boote, Ausflüge und Events', 'Barcos, excursiones y eventos', 'Bateaux, excursions et événements'),
-  boats: T('Boten', 'Boats', 'Boote', 'Barcos', 'Bateaux'),
-  trips: T('Excursies', 'Trips', 'Ausflüge', 'Excursiones', 'Excursions'),
-  events: T('Events', 'Events', 'Events', 'Eventos', 'Événements'),
+  heading: T('Alles op één eiland', 'Everything on one island', 'Alles auf einer Insel', 'Todo en una isla', 'Tout sur une île'),
+  events: T('Events & Tickets', 'Events & Tickets', 'Events & Tickets', 'Eventos y entradas', 'Événements & billets'),
+  water: T('Op het Water', 'On the Water', 'Auf dem Wasser', 'En el agua', 'Sur l’eau'),
+  island: T('Beleef het Eiland', 'Experience the Island', 'Die Insel erleben', 'Vive la isla', 'Vivez l’île'),
+  insider: T('Insider', 'Insider', 'Insider', 'Insider', 'Insider'),
+  allBoats: T('Alle boten', 'All boats', 'Alle Boote', 'Todos los barcos', 'Tous les bateaux'),
   from: T('vanaf', 'from', 'ab', 'desde', 'dès'),
   perDay: T('/ dag', '/ day', '/ Tag', '/ día', '/ jour'),
   pause: T('Pauzeer de carrousel', 'Pause the carousel', 'Karussell anhalten', 'Pausar el carrusel', 'Mettre en pause'),
@@ -76,10 +86,12 @@ const nf = (n: number, l: string) =>
 
 /** Zes boten: de twee duurste, twee uit het midden, de twee goedkoopste, om en om. */
 /**
- * De ring bevat twee soorten bestemmingen: routes (events, excursies) en één
- * bestand (het bootdossier, een PDF onder /api/dossier). Een <Link> doet
- * client-side navigatie en dat kan een bestand niet — dus dat wordt een gewone
- * <a>. De rest houdt de snelle overgang die next/link geeft.
+ * Alle bestemmingen zijn nu routes binnen de site, geen bestanden meer.
+ * De bootkaarten wezen naar /api/dossier — een PDF, dus een doodlopende steeg
+ * vanuit een carrousel die bedoeld is om je de site ín te trekken. Ze gaan nu
+ * naar de vlootpagina, waar de filters, de live beschikbaarheid en het dossier
+ * allemaal staan. De <a>-tak blijft voor het geval er ooit weer een bestand in
+ * de ring komt.
  */
 function RingLink({ href, children }: { href: string; children: React.ReactNode }) {
   const props = { className: 'ring-link group', draggable: false as const }
@@ -94,7 +106,7 @@ function boatItems(locale: string, base: string): RingItem[] {
   const keuze = [opPrijs[0], opPrijs[opPrijs.length - 1], opPrijs[mid], opPrijs[1], opPrijs[opPrijs.length - 2], opPrijs[mid + 1]].filter(Boolean)
   return keuze.slice(0, 6).map(b => ({
     key: b.slug,
-    href: dossierHref(b.slug),
+    href: `${base}/private-boat-charters`,
     image: b.image,
     imageSet: b.imageSet,
     kicker: b.marina,
@@ -103,14 +115,26 @@ function boatItems(locale: string, base: string): RingItem[] {
   }))
 }
 
-/** Zes unieke excursies uit de dagenlijst van de homepage. */
-function tripItems(days: { items: FeedItem[] }[], base: string): RingItem[] {
+/**
+ * Excursies uit de dagenlijst, gesplitst op waar ze horen.
+ *
+ * De feed bevat boottochten, ferry's naar Formentera én activiteiten op het
+ * land door elkaar. In het menu staan die in twee verschillende groepen, dus
+ * hier ook: `waterPaths` bepaalt wat op het water hoort, de rest is eiland.
+ * Zo levert een klik op "Op het Water" geen buggytour op.
+ */
+const WATER_PATHS = ['boat-trip', 'boat-party', 'ferry-formentera', 'private-boat-charters', 'shuttle-ferry']
+
+function tripItems(days: { items: FeedItem[] }[], base: string, groep: 'water' | 'island'): RingItem[] {
   const out: RingItem[] = []
   const seen = new Set<string>()
   for (const d of days) {
     for (const it of d.items || []) {
       const slug = it.ct_events?.slug || ''
       const venue = it.ct_venues?.slug || ''
+      const path = it.ct_venues?.basePath || 'boat-trip'
+      const opWater = WATER_PATHS.includes(path)
+      if (groep === 'water' ? !opWater : opWater) continue
       if (!slug || !venue || seen.has(slug)) continue
       const img = it.ct_events?.cover || it.ct_events?.logo || ''
       if (!img) continue
@@ -201,15 +225,18 @@ export function HomeRingCarousel({
   events: PickerEvent[]
   experienceDays: { date: string; items: FeedItem[] }[]
 }) {
+  // Vier groepen, zelfde namen en volgorde als het hoofdmenu. "Op het Water"
+  // is de vloot plus de boottochten en ferry's; die horen bij elkaar en staan
+  // in het menu ook onder één kop.
   const alle: { kind: Kind; label: string; items: RingItem[] }[] = [
-    { kind: 'boats', label: t(L.boats, locale), items: boatItems(locale, base) },
-    { kind: 'trips', label: t(L.trips, locale), items: tripItems(experienceDays, base) },
     { kind: 'events', label: t(L.events, locale), items: eventItems(events, locale) },
+    { kind: 'water', label: t(L.water, locale), items: [...boatItems(locale, base), ...tripItems(experienceDays, base, 'water')].slice(0, 6) },
+    { kind: 'island', label: t(L.island, locale), items: tripItems(experienceDays, base, 'island') },
   ]
   // Een ring met minder dan drie kaarten is geen ring; die tab valt weg.
   const rings = alle.filter(r => r.items.length >= 3)
 
-  const [active, setActive] = useState<Kind>(rings[0]?.kind ?? 'boats')
+  const [active, setActive] = useState<Kind>(rings[0]?.kind ?? 'events')
   const [paused, setPaused] = useState(false)
   const [userPaused, setUserPaused] = useState(false)
   const wrap = useRef<HTMLElement>(null)
@@ -242,7 +269,10 @@ export function HomeRingCarousel({
             <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{t(L.kicker, locale)}</p>
             <h2 className="mt-2 font-serif text-[26px] font-black leading-[1.1] tracking-tight md:text-4xl">{t(L.heading, locale)}</h2>
           </div>
-          <div className="flex items-center gap-2" role="tablist" aria-label={t(L.heading, locale)}>
+          {/* Horizontaal veegbaar: vier categorieën met menu-namen passen niet
+              naast een kop op een telefoon van 390px, en afkappen zou de
+              laatste onbereikbaar maken. */}
+          <div className="hide-scrollbar -mx-4 flex w-full items-center gap-2 overflow-x-auto px-4 md:mx-0 md:w-auto md:overflow-visible md:px-0" role="tablist" aria-label={t(L.heading, locale)}>
             {rings.map(r => (
               <button
                 key={r.kind}
@@ -251,7 +281,7 @@ export function HomeRingCarousel({
                 aria-selected={active === r.kind}
                 aria-controls={`ring-${r.kind}`}
                 onClick={() => setActive(r.kind)}
-                className={`rounded-full px-4 py-2 text-xs font-black uppercase tracking-widest outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ibiza-green focus-visible:ring-offset-2 ${
+                className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-xs font-black uppercase tracking-widest outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ibiza-green focus-visible:ring-offset-2 ${
                   active === r.kind ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                 }`}
               >
@@ -265,7 +295,7 @@ export function HomeRingCarousel({
               onClick={() => setUserPaused(p => !p)}
               aria-pressed={userPaused}
               aria-label={userPaused ? t(L.play, locale) : t(L.pause, locale)}
-              className="grid h-9 w-9 place-items-center rounded-full bg-neutral-100 text-neutral-700 outline-none transition-colors hover:bg-neutral-200 focus-visible:ring-2 focus-visible:ring-ibiza-green focus-visible:ring-offset-2"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-neutral-100 text-neutral-700 outline-none transition-colors hover:bg-neutral-200 focus-visible:ring-2 focus-visible:ring-ibiza-green focus-visible:ring-offset-2"
             >
               {userPaused ? (
                 <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden><path d="M3 2l7 4-7 4z" fill="currentColor" /></svg>
