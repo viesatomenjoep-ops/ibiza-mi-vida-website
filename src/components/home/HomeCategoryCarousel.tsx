@@ -97,8 +97,20 @@ const KICKER: Record<string, string> = {
   nl: 'Alles op één eiland', en: 'Everything on one island', es: 'Todo en una isla', de: 'Alles auf einer Insel', fr: 'Tout sur une île',
 }
 
-/** Vintage-autotour van Emove Ibiza, uit onze eigen ClubTickets-data. */
-const EMOVE_FOTO = 'https://media.clubtickets.com/migrated/venue/759d6d70-d783-40c7-be91-a8ba1c4b365d.png'
+/**
+ * Wiber-logo voor de autohuur-kaart.
+ *
+ * Stond eerst op een vintage-autotour uit onze ClubTickets-data: wel een echte
+ * auto, maar van een excursieaanbieder en niet van de partner waar je
+ * daadwerkelijk huurt. Dit is Wibers eigen logobestand, rechtstreeks van
+ * wiberrentacar.com gehaald (2000x1000, transparant) zodat het merk klopt en
+ * niet is nagetekend.
+ *
+ * Wordt met object-contain op een lichte ondergrond getoond: het logo is
+ * grijs-op-transparant en zou op een donkere kaart wegvallen — zie de
+ * behandeling in de kaartweergave.
+ */
+const WIBER_LOGO = '/partners/wiber.png'
 
 // Static fallbacks so every card always has a photo, even without deals data.
 const FALLBACK_IMG: Record<CatKey, string> = {
@@ -133,9 +145,7 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
     boats: deals?.boats?.[0]?.image || FALLBACK_IMG.boats,
     land: deals?.land?.[0]?.image || FALLBACK_IMG.land,
     water: deals?.water?.[0]?.image || FALLBACK_IMG.water,
-    // Emove Ibiza rijdt vintage-autotours: de enige echte auto in onze eigen
-    // data. Beter dan een gekochte stockauto die nergens op onze site staat.
-    car: EMOVE_FOTO,
+    car: WIBER_LOGO,
     tours: deals?.land?.[1]?.image || deals?.land?.[0]?.image || FALLBACK_IMG.tours,
   }
 
@@ -206,7 +216,13 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
               fill
               draggable={false}
               sizes="(max-width: 768px) 90vw, 500px"
-              className="rounded-2xl object-cover shadow-[0_10px_30px_rgba(0,0,0,0.2)] md:rounded-3xl"
+              // Een logo is geen foto: object-cover zou het woordmerk aan
+              // beide kanten afsnijden. De autohuur-kaart toont daarom het
+              // hele logo op een witte ondergrond, de rest blijft
+              // beeldvullend.
+              className={`rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.2)] md:rounded-3xl ${
+                item.image === WIBER_LOGO ? 'bg-white object-contain p-8 md:p-14' : 'object-cover'
+              }`}
               style={getImageStyle(index)}
             />
           ))}
