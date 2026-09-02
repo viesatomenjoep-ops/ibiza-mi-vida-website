@@ -316,6 +316,13 @@ export default function WaterAgendaClient({ title, subtitle, lead, kicker, event
               lettertype — op een telefoon las je "Shuttle ferries in Ibiza"
               twee keer achter elkaar voordat je één vertrektijd zag. De lijst
               eronder heeft geen aankondiging nodig; een streep volstaat. */}
+          {/* De kop blijft bestaan, maar alleen voor schermlezers. Zichtbaar
+              was het de H1 van dezelfde pagina nog een keer, twee
+              vingerbreedtes eronder en kleiner — op een telefoon las je
+              "Shuttle ferries in Ibiza" twee keer voordat je één vertrektijd
+              zag. Weglaten kon niet: dan springt de koppenstructuur van h1
+              naar h3 en verliest een schermlezer het kopje boven deze lijst. */}
+          <h2 className="sr-only">{title}</h2>
           <div className="mb-4"><span className="block h-px w-full bg-black/10" /></div>
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
             {galleryEvents.map(e => (
