@@ -68,8 +68,11 @@ export function BeachClubs({ locale }: { locale: string }) {
               </p>
 
               <ol className="mt-6 list-none space-y-5 border-t border-black/10 pt-6">
+                {/* scroll-mt-24 was 96px en dus kleiner dan de vaste balk (116px
+                    mobiel, 134px desktop): een #club-anker landde erachter.
+                    --nav-h is de enige juiste bron voor die hoogte. */}
                 {area.clubs.map((club, ci) => (
-                  <li key={club.id} id={`club-${club.id}`} className="flex scroll-mt-24 gap-4">
+                  <li key={club.id} id={`club-${club.id}`} className="flex scroll-mt-[calc(var(--nav-h)+12px)] gap-4">
                     <span
                       aria-hidden
                       className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-black/10 bg-white font-serif text-[12px] font-bold text-gold"

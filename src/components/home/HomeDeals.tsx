@@ -129,7 +129,7 @@ export function HomeDeals({ deals, locale = 'nl', onDark = false, slider }: { de
   if (rows.length === 0) return null
 
   return (
-    <section id="deals" className="scroll-mt-24 px-4 pt-3 pb-8 md:pt-4 md:pb-10">
+    <section id="deals" className="scroll-mt-[calc(var(--nav-h)+12px)] px-4 pt-3 pb-8 md:pt-4 md:pb-10">
       <div className="mx-auto w-full max-w-7xl">
         {/* Ticket-stub divider at the top of the deals area */}
         <TicketDivider className="mb-6" light={!onDark} />
