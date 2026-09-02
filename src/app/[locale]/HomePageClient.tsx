@@ -172,6 +172,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           days={clubDays}
           locale={locale}
           todayStr={todayStr}
+          calendarHref={`${base}/calendar`}
           title={({ nl: 'Uitgelichte events', en: 'Featured events', es: 'Eventos destacados', de: 'Ausgewählte Events', fr: 'Événements en vedette' } as Record<string, string>)[locale] || 'Featured events'}
         >
           {(items) => (
@@ -253,6 +254,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           days={experienceDays}
           locale={locale}
           todayStr={todayStr}
+          calendarHref={`${base}/activities-calendar`}
           title={({ nl: 'Op het water & activiteiten', en: 'On the water & activities', es: 'En el agua y actividades', de: 'Auf dem Wasser & Aktivitäten', fr: 'Sur l’eau & activités' } as Record<string, string>)[locale] || 'On the water & activities'}
         >
           {(items) => (

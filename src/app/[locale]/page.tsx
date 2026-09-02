@@ -195,15 +195,22 @@ export default async function Home({ params }: { params: { locale: string } }) {
   // één dag te tonen. Wie 's avonds binnenkomt kreeg anders een programma dat
   // grotendeels al geweest was.
   //
-  // Vier dagen en niet drie: met drie zag je vandaag, morgen en overmorgen, en
-  // wie op woensdag kijkt heeft aan zaterdag meer dan aan vrijdag.
-  const DAYS = 4;
-  // Drie kaarten per dag. Twaalf was te veel om te overzien op een telefoon —
-  // je scrolt dan langs een rij die nooit ophoudt in plaats van te kiezen. Met
-  // drie zie je er twee volledig en een derde half, wat laat zien dat er meer
-  // is zonder de sectie te laten uitdijen. De dagwissel rouleert de rest
-  // vanzelf langs.
-  const PER_DAY = 3;
+  // Zeven dagen: een hele week. Bij vier dagen kon je op woensdag niet zien wat
+  // er zondag speelt, terwijl juist dat de dag is waarop mensen hun weekend
+  // indelen. Zeven is ook de eenheid waarin de bezoeker zelf denkt -- "wie
+  // draait er deze week" -- en het is precies één rij in de dagkiezer.
+  const DAYS = 7;
+  // Tien per dag. Drie was te weinig om iets te kiezen: op een drukke
+  // zaterdag staan er twintig clubavonden op het eiland en je zag er drie,
+  // zonder enige aanwijzing dat er meer was. Tien is genoeg om een echte keuze
+  // te maken en kort genoeg om af te scrollen; wie alles wil ziet dat via de
+  // volledige agenda.
+  //
+  // Dit voedt ook de ringcarrousel bovenaan. Die had bij drie per dag maar
+  // twaalf excursies om uit te putten, en na aftrek van dubbele aanbieders en
+  // items zonder afbeelding bleven er soms drie over -- te weinig voor een
+  // ring, laat staan voor vier categorieen.
+  const PER_DAY = 10;
   const dayList = Array.from({ length: DAYS }, (_, i) => addDays(todayStr, i));
   const onDay = (iso: string) => allDates.filter(d => (d.date || '').slice(0, 10) === iso);
 
