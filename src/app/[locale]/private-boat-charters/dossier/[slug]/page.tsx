@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { ArrowLeft, MessageCircle, Download, MapPin, Users } from 'lucide-react'
 import { FLEET } from '@/data/fleet'
 import { FavouriteButton } from '@/components/boats/FavouriteButton'
+import { DossierPages } from '@/components/boats/DossierPages'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 
@@ -16,13 +17,6 @@ const L = (nl: string, en: string, de: string, es: string, fr: string): T => ({ 
 const BACK: T = L('Terug naar de vloot', 'Back to the fleet', 'Zurück zur Flotte', 'Volver a la flota', 'Retour à la flotte')
 const DOSSIER: T = L('Bootdossier', 'Boat dossier', 'Bootsdossier', 'Dossier del barco', 'Dossier du bateau')
 const OPEN_PDF: T = L('Open het dossier (PDF)', 'Open the dossier (PDF)', 'Dossier öffnen (PDF)', 'Abrir el dossier (PDF)', 'Ouvrir le dossier (PDF)')
-const BACK_HINT: T = L(
-  'De PDF opent hier in dit tabblad — met het terugpijltje van je browser kom je gewoon hier terug.',
-  'The PDF opens in this tab — your browser back arrow brings you right back here.',
-  'Die PDF öffnet in diesem Tab — mit dem Zurück-Pfeil deines Browsers kommst du hierher zurück.',
-  'El PDF se abre en esta pestaña: con la flecha atrás del navegador vuelves aquí.',
-  "Le PDF s'ouvre dans cet onglet — la flèche retour du navigateur vous ramène ici.",
-)
 const ASK: T = L('Vraag Simon naar deze boot', 'Ask Simon about this boat', 'Frag Simon zu diesem Boot', 'Pregunta a Simon por este barco', 'Demandez ce bateau à Simon')
 const GUESTS: T = L('gasten', 'guests', 'Gäste', 'invitados', 'invités')
 const WA_MSG: T = L(
@@ -98,30 +92,14 @@ export default function DossierPage({ params }: { params: { locale: string; slug
         <FavouriteButton slug={boat.slug} locale={l} className="!bg-neutral-900" />
       </div>
 
-      {/* Desktopweergave: de PDF ingebed op de pagina. Alleen vanaf md — op
-          iOS toont een ingebedde PDF vaak alleen de eerste pagina, en dat is
-          precies de klacht waarmee dit blok is omgebouwd. */}
-      <div className="mx-auto max-w-5xl px-4 pb-4">
-        <object data={pdfSrc} type="application/pdf" className="hidden h-[74vh] w-full rounded-2xl border border-black/10 bg-neutral-50 md:block">
-          <iframe src={pdfSrc} title={`${boat.model} ${naam}`} className="h-[74vh] w-full rounded-2xl border border-black/10" />
-        </object>
-
-        {/* Mobiel: geen kreupele inbedding maar de native PDF-weergave van de
-            telefoon — die kan bladeren, zoomen en pagina's tellen. Cruciaal:
-            in HETZELFDE tabblad (geen target=_blank), want alleen dan brengt
-            het terugpijltje je terug naar deze pagina en vandaar naar de
-            vloot. Een nieuw tabblad is precies de doodlopende steeg die we
-            hier aan het oplossen zijn. */}
-        <a href={pdfSrc} className="group relative block overflow-hidden rounded-2xl border border-black/10 md:hidden">
-          <div className="relative aspect-[4/3] w-full">
-            <Image src={boat.image} alt={`${boat.model} ${naam}`} fill sizes="100vw" className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-          </div>
-          <span className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-2 p-5 text-sm font-bold text-white">
-            <Download size={16} /> {OPEN_PDF[l]}
-          </span>
-        </a>
-        <p className="mt-2 text-xs text-neutral-500 md:hidden">{BACK_HINT[l]}</p>
+      {/* Het dossier als eigen content: elke PDF-pagina uitgetekend naar een
+          afbeelding, onder elkaar, volle breedte, gewoon scrollbaar. Hier stond
+          een ingebedde <object>: die gaf op iOS alleen de eerste pagina en op
+          desktop de PDF-werkbalk van de browser, wat oogt als andermans
+          document. Zie DossierPages voor de afwegingen (scherpte, geheugen,
+          pagina-voor-pagina tonen). */}
+      <div className="mx-auto max-w-4xl px-4 pb-4">
+        <DossierPages src={pdfSrc} locale={l} title={`${boat.model} ${naam}`} />
 
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <a
@@ -136,7 +114,7 @@ export default function DossierPage({ params }: { params: { locale: string; slug
               naar deze pagina terugleiden. */}
           <a
             href={pdfSrc}
-            className="hidden items-center gap-1.5 text-sm font-bold text-neutral-600 underline underline-offset-2 hover:text-black md:inline-flex"
+            className="inline-flex items-center gap-1.5 text-sm font-bold text-neutral-600 underline underline-offset-2 hover:text-black"
           >
             <Download size={14} /> {OPEN_PDF[l]}
           </a>

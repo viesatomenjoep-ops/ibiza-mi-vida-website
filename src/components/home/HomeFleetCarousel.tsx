@@ -78,44 +78,51 @@ export function HomeFleetCarousel({ locale = 'nl' }: { locale?: string }) {
   const base = `/${locale}`
 
   return (
-    <section className="bg-white py-14 md:py-20">
-      <div className="mx-auto max-w-7xl">
-        <div className="flex flex-wrap items-end justify-between gap-4 px-4 md:px-8">
-          <div>
-            <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-ibiza-green">
-              <Anchor size={13} /> {KICKER[locale] || KICKER.en}
-            </span>
-            <h2 className="mt-2 font-serif text-3xl font-black tracking-tight text-neutral-900 md:text-5xl">
+    <section className="bg-white py-10 md:py-14">
+      <div>
+        {/* Kop exact op de maat van Featured Events (text-[1.25rem] /
+            sm:text-[1.625rem]) met dezelfde scheidingslijn ernaast. Stond op
+            text-3xl/md:text-5xl en schreeuwde daarmee over elke andere sectie
+            heen — een advertentieblok mag niet groter zijn dan de agenda waar
+            mensen voor komen. Kicker in goud zoals HomeTonight, niet in groen:
+            groen is op deze site de kleur van acties, niet van labels. */}
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <span className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.24em] text-gold">
+            <Anchor size={13} /> {KICKER[locale] || KICKER.en}
+          </span>
+          <div className="mb-4 mt-2 flex flex-wrap items-center gap-4">
+            <h2 className="min-w-0 font-serif text-[1.25rem] font-black leading-tight tracking-tight text-neutral-900 sm:text-[1.625rem]">
               {TITLE[locale] || TITLE.en}
             </h2>
-            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-neutral-600">
-              {SUB[locale] || SUB.en}
-            </p>
+            <span className="hidden h-px flex-1 bg-black/10 sm:block" />
+            <Link
+              href={`${base}/private-boat-charters`}
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-black/10 bg-white px-4 py-2 text-[11px] font-black uppercase tracking-widest text-neutral-700 transition-colors hover:border-ibiza-green hover:text-ibiza-green"
+            >
+              {CTA[locale] || CTA.en} <ArrowRight size={13} />
+            </Link>
           </div>
-          <Link
-            href={`${base}/private-boat-charters`}
-            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-neutral-900 px-6 py-3 text-sm font-bold text-white transition-all hover:bg-ibiza-green active:scale-[0.98]"
-          >
-            {CTA[locale] || CTA.en} <ArrowRight size={16} />
-          </Link>
+          <p className="max-w-2xl text-[14px] leading-relaxed text-neutral-600">
+            {SUB[locale] || SUB.en}
+          </p>
         </div>
 
         <div
-          className="hide-scrollbar mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 md:gap-5 md:px-8"
+          className="hide-scrollbar mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 md:gap-5 md:px-8"
           style={{ WebkitOverflowScrolling: 'touch' }}
         >
           {boten.map((b) => (
             <Link
               key={b.slug}
               href={`${base}/private-boat-charters/dossier/${b.slug}`}
-              className="group relative w-[240px] shrink-0 snap-start overflow-hidden rounded-3xl border border-black/10 bg-neutral-50 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-xl md:w-[280px]"
+              className="group relative w-[210px] shrink-0 snap-start overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-lg md:w-[240px]"
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden">
                 <Image
                   src={b.image}
                   alt={`${b.model} ${b.name ?? ''}`}
                   fill
-                  sizes="280px"
+                  sizes="240px"
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
@@ -123,16 +130,16 @@ export function HomeFleetCarousel({ locale = 'nl' }: { locale?: string }) {
                   <Users size={11} className="text-ibiza-green" /> {b.pax}
                 </span>
               </div>
-              <div className="p-4">
+              <div className="p-3.5">
                 <div className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-neutral-500">
                   <MapPin size={10} className="text-ibiza-green" /> {b.marina}
                 </div>
-                <h3 className="mt-0.5 truncate font-serif text-[15px] font-bold leading-tight text-neutral-900">
+                <h3 className="mt-0.5 truncate font-serif text-[14px] font-bold leading-tight text-neutral-900">
                   {b.model}{b.name && <span className="text-ibiza-green"> {b.name}</span>}
                 </h3>
-                <p className="mt-1.5 text-sm text-neutral-600">
+                <p className="mt-1.5 text-[13px] text-neutral-600">
                   <span className="text-xs">{FROM[locale] || FROM.en}</span>{' '}
-                  <span className="font-serif text-lg font-black text-neutral-900">€{fmt(b.price.low, locale)}</span>{' '}
+                  <span className="font-serif text-[15px] font-black text-neutral-900">€{fmt(b.price.low, locale)}</span>{' '}
                   <span className="text-xs text-neutral-400">{PER_DAY[locale] || PER_DAY.en}</span>
                 </p>
               </div>
