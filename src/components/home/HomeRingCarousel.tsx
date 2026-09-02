@@ -147,7 +147,7 @@ function groepVan(path: string, naam: string): 'water' | 'ferry' | 'island' {
   return 'island'
 }
 
-function tripItems(days: { date?: string; items: FeedItem[] }[], base: string, groep: 'water' | 'ferry' | 'island', locale: string, max = 8): RingItem[] {
+function tripItems(days: { date?: string; items: FeedItem[] }[], base: string, groep: 'water' | 'ferry' | 'island', locale: string, max = 10): RingItem[] {
   const out: RingItem[] = []
   const seen = new Set<string>()
   for (const d of days) {
@@ -194,7 +194,7 @@ function eventItems(events: PickerEvent[], locale: string): RingItem[] {
       meta: e.price > 0 ? `${t(L.from, locale)} €${nf(e.price, locale)}` : undefined,
       date: e.date,
     })
-    if (out.length === 8) break
+    if (out.length === 10) break
   }
   return out
 }
@@ -237,12 +237,16 @@ function Ring({ items, hidden, id, laad, locale }: { items: RingItem[]; hidden: 
     const stap = (nu: number) => {
       const dt = Math.min(nu - vorige, 100) // na een tabwissel niet vooruitspringen
       vorige = nu
-      // Twee keer zo snel als eerst (was 0.0138, ~26 s). Bij die snelheid stond
-      // er op een telefoon minutenlang dezelfde kaart vooraan: je ziet er twee
-      // tegelijk, dus een halve omwenteling duurde dertien seconden voordat de
-      // volgende in beeld kwam. Dertien seconden per ronde loopt door zonder
-      // dat het jaagt.
-      if (!sleep.current.actief && !document.hidden) hoek.current += dt * 0.0276
+      // Traag. Hij heeft hier drie standen gehad: 26 s per ronde, toen 13 s
+      // omdat er te lang dezelfde kaart vooraan stond, en nu 52 s.
+      //
+      // Bij 13 s draaide hij door de kaarten heen: je las "Bingo Brunch" en
+      // voor je bij de prijs was stond hij al schuin weg te draaien. Een ring
+      // die je iets wil laten zien moet je de tijd geven om het te lezen, en
+      // de kaart die vooraan staat blijft nu ruim tien seconden leesbaar.
+      // Wie sneller wil is er zelf bij: slepen werkt en gaat zo hard als je
+      // hand.
+      if (!sleep.current.actief && !document.hidden) hoek.current += dt * 0.0069
       el.style.transform = `translateZ(calc(var(--ring-r) * -1)) rotateY(${hoek.current}deg)`
       raf = requestAnimationFrame(stap)
     }
@@ -355,7 +359,7 @@ export function HomeRingCarousel({
   // in het menu ook onder één kop.
   const alle: { kind: Kind; label: string; items: RingItem[] }[] = [
     { kind: 'events', label: t(L.events, locale), items: eventItems(events, locale) },
-    { kind: 'water', label: t(L.water, locale), items: [...boatItems(locale, base), ...tripItems(experienceDays, base, 'water', locale)].slice(0, 8) },
+    { kind: 'water', label: t(L.water, locale), items: [...boatItems(locale, base), ...tripItems(experienceDays, base, 'water', locale)].slice(0, 10) },
     { kind: 'ferry', label: t(L.ferry, locale), items: tripItems(experienceDays, base, 'ferry', locale) },
     { kind: 'island', label: t(L.island, locale), items: tripItems(experienceDays, base, 'island', locale) },
   ]

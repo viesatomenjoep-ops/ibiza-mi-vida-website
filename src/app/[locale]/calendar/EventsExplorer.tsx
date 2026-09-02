@@ -13,6 +13,7 @@ import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { MapPin, Calendar } from 'lucide-react'
 import type { PickerEvent } from '@/lib/picker-event'
 import { optImg } from '@/lib/img'
+import { eventBasePath } from '@/lib/event-path'
 import { scrollSectionIntoView } from '@/lib/scroll-to-section'
 import { ibizaToday } from '@/lib/date-label'
 
@@ -31,6 +32,23 @@ interface ExEvent {
   ct_venues: { name?: string; slug?: string }
 }
 interface LightVenue { name: string; slug: string; whitelogo: string; picture: string; type_slug: string }
+
+/**
+ * Welke venues deze verkenner toont.
+ *
+ * Dit stond als `type_slug === 'clubbing'` hard in de code, op twee plekken.
+ * Zolang er één agenda was klopte dat. Sinds er ook een activiteitenagenda is
+ * die dezelfde verkenner gebruikt, betekende het dat die pagina zijn eigen
+ * inhoud wegfilterde: elk event daarop is per definitie géén clubavond, dus
+ * de lijst was altijd leeg en de dag zei "geen events voor deze selectie",
+ * terwijl er die vrijdag zesendertig boottochten en excursies waren.
+ *
+ * Een functie doorgeven kan niet -- dit is een client-component die zijn props
+ * van een servercomponent krijgt -- dus het is een stand, geen predicaat.
+ */
+export type ExplorerMode = 'clubs' | 'activities'
+const hoortErbij = (mode: ExplorerMode, typeSlug: string) =>
+  mode === 'clubs' ? typeSlug === 'clubbing' : typeSlug !== 'clubbing'
 interface Props {
   /** De dagen die de server al in de HTML heeft gezet. */
   events: ExEvent[]
@@ -99,7 +117,7 @@ function seededRandom(seed: string): () => number {
   }
 }
 
-export default function EventsExplorer({ events: initialEvents, allVenues, locale, loadedThrough, today: todayProp, seasonDates, heading, sub }: Props & { heading?: string; sub?: string }) {
+export default function EventsExplorer({ events: initialEvents, allVenues, locale, loadedThrough, today: todayProp, seasonDates, heading, sub, mode = 'clubs' }: Props & { heading?: string; sub?: string; mode?: ExplorerMode }) {
   const loc = getLoc(locale)
   /** Venue op slug — de bron voor logo, foto en type, in plaats van elk veld
       per avond mee te sturen. */
@@ -140,7 +158,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
 
   // Normalised events for the iOS-style picker wheel
   const pickerEvents: PickerEvent[] = useMemo(() => events
-    .filter(e => venueOf(e)?.type_slug === 'clubbing' && (e.date || '') >= todayStr)
+    .filter(e => hoortErbij(mode, venueOf(e)?.type_slug || '') && (e.date || '') >= todayStr)
     .map(e => {
       const m = String(e.prices || '').match(/\d+([.,]\d+)?/)
       return {
@@ -155,15 +173,17 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
         date: e.date || '',
         price: m ? parseFloat(m[0].replace(',', '.')) : 0,
         lineUp: e.lineUp || '',
-        href: withDate(`/${locale}/club-tickets/${e.ct_venues?.slug}/${e.ct_events?.slug}`, e.date),
+        // eventBasePath: alleen clubbing woont onder /club-tickets. Een
+        // boottocht daarheen sturen is een gegarandeerde 404.
+        href: withDate(`/${locale}/${eventBasePath(venueOf(e)?.type_slug || '')}/${e.ct_venues?.slug}/${e.ct_events?.slug}`, e.date),
         affLink: (e as any).affLink || '',
       }
-    }), [events, locale, todayStr])
+    }), [events, locale, todayStr, mode])
 
-  // Only clubbing events, upcoming
+  // Alles wat bij deze stand hoort, vanaf vandaag.
   const clubEvents = useMemo(
-    () => events.filter(e => venueOf(e)?.type_slug === 'clubbing' && e.date >= todayStr),
-    [events, todayStr]
+    () => events.filter(e => hoortErbij(mode, venueOf(e)?.type_slug || '') && e.date >= todayStr),
+    [events, todayStr, mode]
   )
 
   // Date range for the current period
@@ -373,7 +393,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
                     const price = priceFrom(ev.prices)
                     // De avond waarop geklikt wordt gaat mee: deze lijst is per dag,
                     // en zonder datum opent de detailpagina op de eerstvolgende.
-                    const href = withDate(`${base}/club-tickets/${slug || 'club'}/${ev.ct_events?.slug || 'event'}`, ev.date)
+                    const href = withDate(`${base}/${eventBasePath(venueOf(ev)?.type_slug || '')}/${slug || 'club'}/${ev.ct_events?.slug || 'event'}`, ev.date)
                     return (
                       <Link
                         key={ev.id}

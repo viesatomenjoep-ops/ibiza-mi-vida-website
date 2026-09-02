@@ -1482,7 +1482,12 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 /* ===== 3D-ringcarrousel (HomeRingCarousel) =====
    Zes kaarten op een cilinder: rotateY(i × 360/n) translateZ(r), in een
    podium met perspective. Alleen `transform` animeert — compositor-only. */
-.ring-section{--ring-r:170px;--ring-w:156px;overflow:hidden}
+/* Mobiel: smallere kaarten op een ruimere straal.
+   Op 156px breed en 170px straal overlapten de buren de voorste kaart tot
+   over de helft -- je zag drie kaarten die in elkaar overliepen in plaats van
+   losse tegels. Smaller en verder weg zet ze uit elkaar, en er passen er meer
+   in beeld. */
+.ring-section{--ring-r:215px;--ring-w:104px;overflow:hidden}
 /* Desktop: ruimere straal en smallere kaarten, zodat er vijf tegelijk in
    beeld staan in plaats van drie. Bij 310px straal en 280px brede kaarten
    overlapten de buren de voorste te ver. */

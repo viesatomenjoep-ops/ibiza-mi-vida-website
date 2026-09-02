@@ -113,6 +113,7 @@ export default async function ActivitiesCalendarPage({ params }: { params: { loc
         loadedThrough={windowEndStr}
         seasonDates={dockDates}
         today={todayStr}
+        mode="activities"
         heading={HEADING[l]}
         sub={SUB[l]}
       />
