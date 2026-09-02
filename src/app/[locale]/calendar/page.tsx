@@ -7,7 +7,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
 import EventsExplorer from './EventsExplorer';
 import { getVenues } from '@/lib/clubtickets';
-import { calendarWindow, INITIAL_DAYS } from '@/lib/calendar-window';
+import { calendarWindow, seasonDates, INITIAL_DAYS } from '@/lib/calendar-window';
 import { ItemListJsonLd } from '@/components/seo/ItemListJsonLd';
 import { eventBasePath } from '@/lib/event-path';
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
@@ -41,6 +41,9 @@ export default async function CalendarPage({
   const todayStr = ibizaToday();
   const windowEndStr = new Date(Date.now() + (INITIAL_DAYS - 1) * 86400000).toISOString().split('T')[0];
   const mappedEvents = await calendarWindow(params.locale, todayStr, windowEndStr);
+  // Alleen de datums, niet de events: het weekdock moet het hele seizoen
+  // kunnen doorbladeren, ook de weken die nog niet geladen zijn.
+  const dockDates = await seasonDates(params.locale, todayStr);
 
   /** Type per venue-slug, voor de ItemList hieronder. Stond eerst in elk event. */
   const venueTypeBySlug = new Map(venues.map(v => [v.slug, v.type?.slug || '']));
@@ -82,6 +85,7 @@ export default async function CalendarPage({
         allVenues={lightVenues}
         locale={params.locale}
         loadedThrough={windowEndStr}
+        seasonDates={dockDates}
         today={todayStr}
       />
     </>

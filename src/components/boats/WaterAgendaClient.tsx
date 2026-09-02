@@ -349,6 +349,7 @@ export default function WaterAgendaClient({ title, subtitle, lead, kicker, event
       {pickerEvents.length > 0 && (
         <WeekDockBar
           eventDates={pickerEvents.map(e => e.date)}
+          today={todayStr}
           weekStart={dockWeekStart}
           setWeekStart={setDockWeekStart}
           activeDay={dockDay}
