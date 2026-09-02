@@ -1,0 +1,72 @@
+name: Live health
+
+# Draait tegen de DRAAIENDE site, niet tegen een build.
+#
+# seo-check.yml bewijst dat de HTML klopt voordat er iets gemerged wordt. Deze
+# workflow bewijst dat de dingen die alleen in productie kunnen breken het nog
+# doen: de partnerfeed van The Yacht Broker, de affiches van ClubTickets, en de
+# x-robots-tag. Alle drie falen STIL — de pagina rendert gewoon door, er komt
+# geen foutmelding, en je merkt het pas als het verkeer al weg is.
+#
+# Twee aanleidingen:
+#  - na elke geslaagde productie-deploy, want een verkeerd gezette
+#    NEXT_PUBLIC_SITE_URL zet de hele site op noindex vanaf dat moment;
+#  - elke ochtend, want de partner kan uitvallen zonder dat wij iets deployen.
+#
+# Geen npm ci en geen build: scripts/live-check.mjs en scripts/fleet-live-check.mjs
+# draaien op kale node zonder afhankelijkheden. Een run kost een halve minuut.
+
+on:
+  deployment_status:
+  schedule:
+    - cron: '0 6 * * *' # 06:00 UTC — 08:00 op Ibiza, voor de dag begint
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Welke host controleren'
+        required: false
+        default: 'https://www.ibizamivida.com'
+
+concurrency:
+  group: live-health
+  cancel-in-progress: false
+
+jobs:
+  live:
+    # Bij deployment_status vuurt GitHub voor élke statuswijziging, ook
+    # 'pending' en 'failure', en ook voor previews. Alleen een geslaagde
+    # productie-deploy is het startsein.
+    if: >-
+      github.event_name != 'deployment_status' ||
+      (github.event.deployment_status.state == 'success' &&
+       contains(github.event.deployment_status.environment, 'Production'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+
+    env:
+      LIVE_BASE_URL: ${{ github.event.inputs.base_url || 'https://www.ibizamivida.com' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Vercel meldt 'success' zodra de deploy klaar is; de nieuwe versie staat
+      # dan meestal al, maar niet gegarandeerd op elke edge. Even wachten
+      # scheelt een vals alarm op de eerste controle.
+      - name: Kort wachten na een deploy
+        if: github.event_name == 'deployment_status'
+        run: sleep 30
+
+      - name: Live site
+        run: npm run check:live
+
+      # Apart van de vorige stap: deze praat rechtstreeks met de partner en
+      # zegt óók hoeveel van de 94 boten nog matchen op brokerKey. Zakt dat
+      # onder 90%, dan heeft de broker boten hernoemd en loopt fleet.ts achter.
+      # `if: always()` zodat één rode stap de andere niet verbergt.
+      - name: Partner-API naast de vloot
+        if: always()
+        run: npm run check:fleet
