@@ -10,8 +10,12 @@ import { BoatAdviceCta } from '@/components/boats/BoatAdviceCta'
 import { SailingRoutes } from '@/components/boats/SailingRoutes'
 import { BoatRentalPromo } from '@/components/hub/BoatRentalPromo'
 import { AuthorByline } from '@/components/seo/AuthorByline'
+import { getLiveFleet, ibizaToday } from '@/lib/yacht-broker'
 
-export const revalidate = 3600
+// 900 en niet 3600: de live beschikbaarheid staat nu in de HTML zelf (zie
+// hieronder) en de partnerfeed wordt 15 minuten gecachet. Een pagina die een
+// uur blijft staan zou een boot als vrij tonen die al drie kwartier weg is.
+export const revalidate = 900
 
 /**
  * Metadata voor de charterpagina.
@@ -63,10 +67,18 @@ export default async function PrivateBoatChartersPage({ params: { locale } }: { 
   const l = (LOCALES as readonly string[]).includes(locale) ? (locale as Locale) : DEFAULT_LOCALE
   const sc = SERVICE_COPY['private-boat-charters']
 
+  // De live laag (beschikbaarheid + dagprijs per boot) komt hier server-side
+  // op, uit dezelfde 15-minutencache als /api/fleet-live. Eerst haalde de
+  // client hem na mount op: één extra verzoek per bezoeker, een layout shift
+  // over 94 kaarten zodra de statusregels verschenen, en een crawler zonder
+  // JavaScript zag de beschikbaarheid nooit. `null` bij storing — dan staan
+  // de statische prijsbanden er gewoon, zonder live regel; niets verzonnen.
+  const live = await getLiveFleet()
+
   return (
     <>
       <ServiceSchema name={sc.name[l]} description={sc.description[l]} serviceType={sc.serviceType} path={`${l}/private-boat-charters`} />
-      <PrivateBoatChartersClient locale={locale} />
+      <PrivateBoatChartersClient locale={locale} live={live} today={ibizaToday()} />
       {/* Direct onder de hero: "wat kost het" is de eerste vraag, en het
           antwoord stond nergens op de pagina. Ranges uit de eigen vloot,
           niet als marktcijfer — zie FleetPriceBlock voor het waarom. */}

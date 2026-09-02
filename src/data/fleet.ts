@@ -46,6 +46,11 @@ export interface Boat {
   length?: number;             // meters
   marina: string;
   image: string;
+  /**
+   * srcset voor de kaartfoto: drie Cloudinary-breedtes, rechtstreeks van de
+   * CDN. Zie FLEET hieronder voor waarom niet via next/image.
+   */
+  imageSet?: string;
   /** Dossier (specificaties, foto's, voorwaarden) zoals de broker het host. */
   pdf: string;
   /** Genormaliseerde naam waarmee live data uit de partner-API gekoppeld wordt. */
@@ -170,10 +175,23 @@ const RAW_FLEET: Boat[] = [
   { slug: 'ironman', model: "Monterey 224 FS", name: "Ironman", pax: 7, marina: "Marina Botafoc", image: "https://theyachtbroker.club/img/ironman.png", pdf: "https://theyachtbroker.club/pdf/ironman.pdf", brokerKey: 'ironman', pdfPages: 4, category: 'motorboat', price: { low: 680, high: 780 } },
 ];
 
-/** Foto's via Cloudinary (f_auto/q_auto), rechtstreeks van de broker gehaald. */
+/**
+ * Foto's via Cloudinary (f_auto/q_auto), rechtstreeks van de broker gehaald.
+ *
+ * `imageSet` is er voor de 94 kaarten op de vlootpagina. Die gingen door
+ * next/image, en dat leverde per kaart een srcset van acht kandidaten tot
+ * 3840px — elk een /_next/image-URL met daarin de Cloudinary-URL met dáárin
+ * de partner-URL, driedubbel ge-encodeerd: ~2 kB srcset per kaart, 185 kB
+ * op de pagina, voor een foto van hooguit 400px breed. En elke foto liep
+ * twee CDN's door (Vercel optimaliseert wat Cloudinary al geoptimaliseerd
+ * had). Drie breedtes rechtstreeks van Cloudinary volstaan: de kaart is
+ * 100vw op mobiel, 50vw op tablet, 25vw op desktop.
+ */
+const CARD_WIDTHS = [480, 768, 1024];
 export const FLEET: Boat[] = RAW_FLEET.map(b => ({
   ...b,
   image: cloudinaryFetchRemote(b.image),
+  imageSet: CARD_WIDTHS.map(w => `${cloudinaryFetchRemote(b.image, w)} ${w}w`).join(', '),
 }));
 
 export const FLEET_FROM_PRICE = Math.min(...FLEET.map(b => b.price.low));

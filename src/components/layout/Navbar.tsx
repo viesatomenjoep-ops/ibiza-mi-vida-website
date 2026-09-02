@@ -292,21 +292,52 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
 
     measure()
     // Re-measure rapidly right after a route change so the colour flips almost instantly
-    // (the new page's hero image may need a frame or two to decode).
-    const quick = [30, 90, 180, 320, 500].map(ms => setTimeout(measure, ms))
-    window.addEventListener('scroll', measure, { passive: true })
+    // (the new page's hero image may need a frame or two to decode). De latere
+    // slagen (1–4 s) vangen een hero die traag binnenkomt — dat deed eerst een
+    // setInterval van 600 ms die nooit stopte.
+    const quick = [30, 90, 180, 320, 500, 1000, 2000, 4000].map(ms => setTimeout(measure, ms))
+
+    // PERF: measure() draaide bij élke scroll-event én elke 600 ms. Het loopt
+    // alle <img>/<video> op de pagina af, leest per element de layout uit
+    // (getBoundingClientRect → forced reflow) en tekent een canvas. Op de
+    // vlootpagina zijn dat 100+ foto's, op de agenda 300+ — per scrollframe.
+    // Dat was de hoofdoorzaak van het haperen op mobiel.
+    //
+    // De kleur hangt alleen af van wat er bovenaan achter de balk staat, en dat
+    // verandert niet door te scrollen. Dus: tijdens scrollen alleen de goedkope
+    // drempelcheck (bovenaan ↔ gescrold), en pas opnieuw meten bij terugkeer
+    // naar de bovenkant. Eén rAF per scroll-burst, geen layout-lezen.
+    let raf = 0
+    let wasTop = true
+    const onScroll = () => {
+      if (raf) return
+      raf = requestAnimationFrame(() => {
+        raf = 0
+        const atTop = window.scrollY <= Math.max(120, window.innerHeight * 0.55)
+        if (atTop === wasTop) return
+        wasTop = atTop
+        if (atTop) measure()
+        else setOnLight(false)
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', measure)
-    const iv = setInterval(measure, 600) // catch late-loading hero media
     return () => {
       cancelled = true
       quick.forEach(clearTimeout)
-      window.removeEventListener('scroll', measure)
+      if (raf) cancelAnimationFrame(raf)
+      window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', measure)
-      clearInterval(iv)
     }
   }, [pathname])
 
-  // Spin the logo fluidly as you scroll (rAF-eased toward a scroll-driven angle)
+  // Spin the logo fluidly as you scroll (rAF-eased toward a scroll-driven angle).
+  //
+  // PERF: dit was een requestAnimationFrame-lus die nooit stopte — 60 tot 120
+  // keer per seconde een transform schrijven, ook als de pagina stilstond. Een
+  // pagina die nooit idle wordt, kan op een telefoon niets anders vloeiend
+  // doen. Nu start de lus bij een scroll-event en stopt hij zodra het logo op
+  // zijn doelhoek staat; stilstaand kost dit nul frames.
   useEffect(() => {
     let raf = 0
     let current = 0
@@ -315,10 +346,15 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
       current += (target - current) * 0.12 // easing = fluid trailing motion
       const el = logoRef.current
       if (el) el.style.transform = `rotate(${current.toFixed(2)}deg)`
-      raf = requestAnimationFrame(loop)
+      raf = Math.abs(target - current) > 0.05 ? requestAnimationFrame(loop) : 0
     }
-    raf = requestAnimationFrame(loop)
-    return () => cancelAnimationFrame(raf)
+    const kick = () => { if (!raf) raf = requestAnimationFrame(loop) }
+    kick()
+    window.addEventListener('scroll', kick, { passive: true })
+    return () => {
+      if (raf) cancelAnimationFrame(raf)
+      window.removeEventListener('scroll', kick)
+    }
   }, [])
   // Lock scroll when menu open
   useEffect(() => {

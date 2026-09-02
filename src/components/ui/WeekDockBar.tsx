@@ -138,7 +138,9 @@ export function WeekDockBar({
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[55] border-t border-black/10 bg-white/95 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] backdrop-blur-md">
+    // PERF: dicht wit zonder backdrop-blur — een vaste balk met blur laat iOS bij
+    // elke scrollframe het stuk pagina eronder opnieuw renderen.
+    <div className="fixed bottom-0 left-0 right-0 z-[55] border-t border-black/10 bg-white shadow-[0_-8px_30px_rgba(0,0,0,0.12)]">
       <div className="mx-auto w-full max-w-3xl px-2 pt-1.5" style={{ paddingBottom: 'max(6px, env(safe-area-inset-bottom))' }}>
         {/* Week navigation.
             The chevrons used to be `bg-white text-white` — a white arrow on a

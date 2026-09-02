@@ -69,6 +69,25 @@ function lineupArtists(lineUp?: string): string[] {
   return txt.replace(/\s+/g, ' ').trim().split(/[,\-–|]/).map(s => s.trim()).filter(s => s.length > 1)
 }
 
+/**
+ * Deterministische pseudo-random (mulberry32) uit een tekstzaad. Zelfde zaad →
+ * zelfde reeks, op server én client; zie de shuffle in `grouped`.
+ */
+function seededRandom(seed: string): () => number {
+  let h = 1779033703 ^ seed.length
+  for (let i = 0; i < seed.length; i++) {
+    h = Math.imul(h ^ seed.charCodeAt(i), 3432918353)
+    h = (h << 13) | (h >>> 19)
+  }
+  let a = h >>> 0
+  return () => {
+    a = (a + 0x6d2b79f5) | 0
+    let t = Math.imul(a ^ (a >>> 15), 1 | a)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
 export default function EventsExplorer({ events: initialEvents, allVenues, locale, loadedThrough }: Props) {
   const loc = getLoc(locale)
   /** Venue op slug — de bron voor logo, foto en type, in plaats van elk veld
@@ -202,13 +221,24 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
 
   // Grouped by date — shuffled per day, with the biggest clubs favoured toward the
   // top (in random order among themselves), so it's never always "Universe first".
+  //
+  // PERF/HYDRATION: de shuffle liep op Math.random(). De server schudde dus in
+  // een andere volgorde dan de browser, elke tegel stond op een andere plek
+  // dan in de HTML, en React gooide bij élke paginalading de complete
+  // server-HTML weg ("Hydration failed … the entire root will switch to client
+  // rendering") om de agenda — 800 kB, 350 foto's — helemaal opnieuw te
+  // renderen. Dat is de agenda die op een telefoon bevroor. Nu is het zaad de
+  // datum: nog steeds een andere volgorde per dag, maar server en client
+  // komen op hetzelfde uit, en de volgorde van een dag verspringt niet meer
+  // bij elke render.
   const grouped = useMemo(() => {
     const TOP = ['unvrs-ibiza', 'hi-ibiza', 'ushuaia-ibiza']
     const m: Record<string, ExEvent[]> = {}
     rangeEvents.forEach(e => { (m[e.date] ||= []).push(e) })
-    Object.values(m).forEach(a => {
+    Object.entries(m).forEach(([ds, a]) => {
+      const rnd = seededRandom(ds)
       // shuffle first, then a stable sort that only lifts the top clubs above the rest
-      for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]] }
+      for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1));[a[i], a[j]] = [a[j], a[i]] }
       a.sort((x, y) => (TOP.includes(x.ct_venues?.slug || '') ? 0 : 1) - (TOP.includes(y.ct_venues?.slug || '') ? 0 : 1))
     })
     return m
