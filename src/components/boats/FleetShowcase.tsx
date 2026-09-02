@@ -615,7 +615,20 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
       />
 
       <section className="mx-auto max-w-6xl px-4 pt-4">
-        <div className="px-1 text-sm font-semibold text-black/50">{T.boatsCount(filtered.length)}</div>
+        {/* Het tijdstempel van de feed hoort te staan wáár de beschikbaarheid
+            staat. Het stond alleen in het datumpaneel, en dat is dicht tot je
+            het opent — de kaarten zeiden dus "Beschikbaar" zonder erbij te
+            zeggen wanneer dat gemeten is. Dit blok is server-gerenderd, dus
+            ook zonder JavaScript zie je hoe vers de stand is. Geen feed, geen
+            regel: dan doen we ook geen uitspraak. */}
+        <div className="flex flex-wrap items-baseline gap-x-2 px-1 text-sm font-semibold text-black/50">
+          <span>{T.boatsCount(filtered.length)}</span>
+          {live && (
+            <span className="text-[12px] font-normal text-black/40">
+              · {T.liveStamp(liveStampTime(live.generatedAt, bcp))}
+            </span>
+          )}
+        </div>
       </section>
 
       {/* Grid */}
