@@ -3,14 +3,21 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { slugFor, type RouteKey } from '@/lib/route-slugs'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import type { DealsData } from '@/components/home/HomeDeals'
 
 // ── The 4 category showcases (was the 01–04 sticky stacked cards) ──────
-type CatKey = 'clubs' | 'boats' | 'land' | 'water'
+type CatKey = 'clubs' | 'boats' | 'land' | 'water' | 'car' | 'tours'
 
-const CONTENT: Record<CatKey, { href: string; title: Record<string, string>; text: Record<string, string> }> = {
+/**
+ * `href` is een vaste route, behalve waar de slug per taal verschilt. Autohuur
+ * heet in het Nederlands /auto-huren-ibiza en in het Engels /car-rental-ibiza;
+ * daar staat de sleutel uit route-slugs, die per taal wordt opgelost. Zonder
+ * dat zou de kaart in vier van de vijf talen naar een 301 wijzen.
+ */
+const CONTENT: Record<CatKey, { href: string; slugKey?: RouteKey; title: Record<string, string>; text: Record<string, string> }> = {
   clubs: {
     href: 'club-tickets',
     title: { nl: 'Club Tickets Ibiza', en: 'Club Tickets Ibiza', es: 'Club Tickets Ibiza', de: 'Club Tickets Ibiza', fr: 'Club Tickets Ibiza' },
@@ -59,13 +66,39 @@ const CONTENT: Record<CatKey, { href: string; title: Record<string, string>; tex
       fr: 'Excursions en bateau, croisières au coucher du soleil et sports nautiques. Des sorties à Formentera au parachute ascensionnel.',
     },
   },
+  car: {
+    href: 'car-rental-ibiza',
+    slugKey: 'car-rental',
+    title: { nl: 'Auto huren', en: 'Car rental', es: 'Alquiler de coches', de: 'Mietwagen', fr: 'Location de voiture' },
+    text: {
+      nl: 'Het eiland is groter dan je denkt. Huur een auto bij onze partner Wiber, vijf minuten van de luchthaven, met gratis shuttle en all-in tarieven.',
+      en: 'The island is bigger than it looks. Rent a car from our partner Wiber, five minutes from the airport, with a free shuttle and all-in rates.',
+      es: 'La isla es más grande de lo que parece. Alquila un coche con nuestro socio Wiber, a cinco minutos del aeropuerto, con shuttle gratis y tarifas todo incluido.',
+      de: 'Die Insel ist größer als sie aussieht. Miete ein Auto bei unserem Partner Wiber, fünf Minuten vom Flughafen, mit Gratis-Shuttle und All-in-Tarifen.',
+      fr: "L'île est plus grande qu'elle n'en a l'air. Louez une voiture chez notre partenaire Wiber, à cinq minutes de l'aéroport, navette gratuite et tarifs tout compris.",
+    },
+  },
+  tours: {
+    href: 'tours',
+    title: { nl: 'Rondleidingen', en: 'Guided tours', es: 'Tours guiados', de: 'Geführte Touren', fr: 'Visites guidées' },
+    text: {
+      nl: 'Ontdek Ibiza met een gids. Van vintage-autotours en grotten tot verborgen baaien — de plekken die je zelf niet zou vinden.',
+      en: 'Discover Ibiza with a guide. From vintage car tours and caves to hidden coves — the places you would not find on your own.',
+      es: 'Descubre Ibiza con guía. De tours en coches clásicos y cuevas a calas escondidas — los lugares que no encontrarías solo.',
+      de: 'Entdecke Ibiza mit Guide. Von Oldtimer-Touren und Höhlen bis zu versteckten Buchten — die Orte, die du allein nicht findest.',
+      fr: 'Découvrez Ibiza avec un guide. Des tours en voitures anciennes et grottes aux criques cachées — les endroits que vous ne trouveriez pas seul.',
+    },
+  },
 }
 
-const ORDER: CatKey[] = ['clubs', 'boats', 'land', 'water']
+const ORDER: CatKey[] = ['clubs', 'boats', 'land', 'water', 'car', 'tours']
 const CTA: Record<string, string> = { nl: 'Bekijk alles', en: 'View all', es: 'Ver todo', de: 'Alles ansehen', fr: 'Tout voir' }
 const KICKER: Record<string, string> = {
   nl: 'Alles op één eiland', en: 'Everything on one island', es: 'Todo en una isla', de: 'Alles auf einer Insel', fr: 'Tout sur une île',
 }
+
+/** Vintage-autotour van Emove Ibiza, uit onze eigen ClubTickets-data. */
+const EMOVE_FOTO = 'https://media.clubtickets.com/migrated/venue/759d6d70-d783-40c7-be91-a8ba1c4b365d.png'
 
 // Static fallbacks so every card always has a photo, even without deals data.
 const FALLBACK_IMG: Record<CatKey, string> = {
@@ -73,6 +106,10 @@ const FALLBACK_IMG: Record<CatKey, string> = {
   boats: '/foto-boot.png',
   land: '/foto-kalender.png',
   water: '/foto-boot.png',
+  // Geen eigen autofoto in de repo. Emove Ibiza rijdt vintage-autotours en
+  // levert daarmee de enige echte auto in onze eigen data — zie imageFor.
+  car: '/foto-kalender.png',
+  tours: '/foto-kalender.png',
 }
 
 function calculateGap(width: number) {
@@ -96,12 +133,18 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
     boats: deals?.boats?.[0]?.image || FALLBACK_IMG.boats,
     land: deals?.land?.[0]?.image || FALLBACK_IMG.land,
     water: deals?.water?.[0]?.image || FALLBACK_IMG.water,
+    // Emove Ibiza rijdt vintage-autotours: de enige echte auto in onze eigen
+    // data. Beter dan een gekochte stockauto die nergens op onze site staat.
+    car: EMOVE_FOTO,
+    tours: deals?.land?.[1]?.image || deals?.land?.[0]?.image || FALLBACK_IMG.tours,
   }
 
   const items = useMemo(() => ORDER.map((key, i) => ({
     key,
     num: String(i + 1).padStart(2, '0'),
-    href: `${base}/${CONTENT[key].href}`,
+    // slugKey wint: die lost de per-taal slug op, zodat de kaart nooit naar
+    // een 301 wijst in een taal waar de route anders heet.
+    href: `${base}/${CONTENT[key].slugKey ? slugFor(CONTENT[key].slugKey!, locale as never) : CONTENT[key].href}`,
     title: CONTENT[key].title[locale] || CONTENT[key].title.en,
     text: CONTENT[key].text[locale] || CONTENT[key].text.en,
     image: imageFor[key],
