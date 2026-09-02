@@ -19,6 +19,7 @@ import { HomeRingCarousel } from '@/components/home/HomeRingCarousel';
 import { ArrowCircle } from '@/components/ui/ArrowCircle';
 import { HomeTonight } from '@/components/home/HomeTonight';
 import { HeroRatingBadge, type HeroRating } from '@/components/home/HeroRatingBadge';
+import { HomeRail } from '@/components/home/HomeRail'
 import { FeaturedDayRotator } from '@/components/home/FeaturedDayRotator';
 import { fmtShortDate } from '@/lib/date-label';
 
@@ -173,23 +174,24 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           locale={locale}
           todayStr={todayStr}
           calendarHref={`${base}/calendar`}
+          weekMax={60}
           title={({ nl: 'Uitgelichte events', en: 'Featured events', es: 'Eventos destacados', de: 'Ausgewählte Events', fr: 'Événements en vedette' } as Record<string, string>)[locale] || 'Featured events'}
         >
           {(items) => (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <HomeRail label={translations.home_featured_events || 'Events'} locale={locale}>
               {items.map((dateObj: any, di: number) => {
                 const venue = dateObj.ct_venues;
                 const event = dateObj.ct_events;
                 const image = event?.cover || event?.logo;
                 
                 return (
-                  <Reveal key={dateObj.id} delay={(di % 3) * 110} as={Link as any} href={`${base}/club-tickets/${venue?.slug || 'club'}/${event?.slug || 'event'}`}
-                    className="bg-white rounded-[24px] p-4 flex gap-5 items-center hover:shadow-lg transition-shadow group border border-black/5"
+                  <Link key={dateObj.id} href={`${base}/club-tickets/${venue?.slug || 'club'}/${event?.slug || 'event'}`}
+                    className="w-[290px] shrink-0 snap-start bg-white rounded-[24px] p-4 flex gap-4 items-center hover:shadow-lg transition-shadow group border border-black/5 sm:w-[330px]"
                   >
-                    <div className="w-24 h-24 md:w-32 md:h-32 rounded-[18px] bg-ibiza-mint relative overflow-hidden shrink-0 shadow-inner">
+                    <div className="w-24 h-24 rounded-[18px] bg-ibiza-mint relative overflow-hidden shrink-0 shadow-inner">
                       {image ? (
-                        <Image src={image} alt="" fill sizes="(max-width:768px) 33vw, 128px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <Image src={image} alt="" fill sizes="96px" loading={di < 3 ? 'eager' : 'lazy'} className="object-cover group-hover:scale-110 transition-transform duration-500" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-ibiza-green opacity-50">
                           <Music size={32} />
@@ -225,13 +227,12 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                       ) : null}
                     </div>
                     
-                    <ArrowCircle className="mr-2 hidden bg-ibiza-mint text-ibiza-green group-hover:bg-ibiza-green group-hover:text-white sm:grid" />
-                  </Reveal>
+                  </Link>
                 );
               })}
-            </div>
-            
-            <div className="mt-10 text-center md:hidden">
+            </HomeRail>
+
+            <div className="mt-8 text-center md:hidden">
               <Link href={`${base}/calendar`} className="inline-flex items-center justify-center gap-2 w-full text-xs font-black tracking-widest uppercase text-black border-2 border-black/10 bg-white hover:border-black rounded-full px-6 py-4 transition-colors">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
                 {translations.home_full_calendar}
@@ -255,22 +256,23 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           locale={locale}
           todayStr={todayStr}
           calendarHref={`${base}/activities-calendar`}
+          weekMax={60}
           title={({ nl: 'Op het water & activiteiten', en: 'On the water & activities', es: 'En el agua y actividades', de: 'Auf dem Wasser & Aktivitäten', fr: 'Sur l’eau & activités' } as Record<string, string>)[locale] || 'On the water & activities'}
         >
           {(items) => (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <HomeRail label={({ nl: 'Op het water & activiteiten', en: 'On the water & activities' } as Record<string, string>)[locale] || 'On the water & activities'} locale={locale}>
               {items.map((dateObj: any, di: number) => {
                 const venue = dateObj.ct_venues;
                 const event = dateObj.ct_events;
                 const image = event?.cover || event?.logo;
                 const href = `${base}/${venue?.basePath || 'boat-trip'}/${venue?.slug || ''}/${event?.slug || ''}`;
                 return (
-                  <Reveal key={dateObj.id} delay={(di % 3) * 90} as={Link as any} href={href}
-                    className="group flex items-center gap-5 rounded-[24px] border border-black/5 bg-white p-4 text-neutral-900 transition-shadow hover:shadow-lg"
+                  <Link key={dateObj.id} href={href}
+                    className="group flex w-[290px] shrink-0 snap-start items-center gap-4 rounded-[24px] border border-black/5 bg-white p-4 text-neutral-900 transition-shadow hover:shadow-lg sm:w-[330px]"
                   >
-                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[18px] bg-ibiza-mint shadow-inner md:h-28 md:w-28">
+                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[18px] bg-ibiza-mint shadow-inner">
                       {image ? (
-                        <Image src={image} alt={event?.name || dateObj.name} fill sizes="120px" className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                        <Image src={image} alt={event?.name || dateObj.name} fill sizes="96px" loading={di < 3 ? 'eager' : 'lazy'} className="object-cover transition-transform duration-500 group-hover:scale-110" />
                       ) : null}
                     </div>
                     <div className="min-w-0 flex-1">
@@ -281,11 +283,10 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                         <div className="mt-1 text-sm font-bold">{translations.home_from} {dateObj.prices}</div>
                       ) : null}
                     </div>
-                    <ArrowCircle className="mr-1 hidden bg-ibiza-mint text-ibiza-green group-hover:bg-ibiza-green group-hover:text-white sm:grid" />
-                  </Reveal>
+                  </Link>
                 );
               })}
-            </div>
+            </HomeRail>
           )}
         </FeaturedDayRotator>
       )}

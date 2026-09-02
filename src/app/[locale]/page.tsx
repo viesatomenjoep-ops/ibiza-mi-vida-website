@@ -200,17 +200,25 @@ export default async function Home({ params }: { params: { locale: string } }) {
   // indelen. Zeven is ook de eenheid waarin de bezoeker zelf denkt -- "wie
   // draait er deze week" -- en het is precies één rij in de dagkiezer.
   const DAYS = 7;
-  // Tien per dag. Drie was te weinig om iets te kiezen: op een drukke
-  // zaterdag staan er twintig clubavonden op het eiland en je zag er drie,
-  // zonder enige aanwijzing dat er meer was. Tien is genoeg om een echte keuze
-  // te maken en kort genoeg om af te scrollen; wie alles wil ziet dat via de
-  // volledige agenda.
+  // Alles wat er die dag is, tot een bovengrens die in de praktijk niet
+  // geraakt wordt. Gemeten over de eerstvolgende negen dagen: hoogstens
+  // zestien clubavonden en tweeenveertig activiteiten per dag.
+  //
+  // Dat kan omdat de stroken hieronder geen raster meer zijn maar een rij die
+  // je naar rechts schuift (zie HomeRail). Een raster van drie kaarten kon
+  // niet meer tonen zonder de pagina te laten uitdijen; een rij houdt dezelfde
+  // hoogte, ongeacht hoeveel erin staat. En er staat altijd maar een dag in de
+  // DOM, met lui geladen afbeeldingen, dus van tweeenveertig kaarten laden er
+  // drie een plaatje tot je schuift.
+  //
+  // De grens van zestig blijft staan als vangnet: als ClubTickets ooit een dag
+  // met tweehonderd regels teruggeeft hoort dat de homepage niet om te leggen.
   //
   // Dit voedt ook de ringcarrousel bovenaan. Die had bij drie per dag maar
   // twaalf excursies om uit te putten, en na aftrek van dubbele aanbieders en
   // items zonder afbeelding bleven er soms drie over -- te weinig voor een
   // ring, laat staan voor vier categorieen.
-  const PER_DAY = 10;
+  const PER_DAY = 60;
   const dayList = Array.from({ length: DAYS }, (_, i) => addDays(todayStr, i));
   const onDay = (iso: string) => allDates.filter(d => (d.date || '').slice(0, 10) === iso);
 

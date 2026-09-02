@@ -107,25 +107,17 @@ export default function AutoHurenIbizaPage() {
 
       <Breadcrumbs items={CRUMBS} locale={LOCALE} />
 
+      {/* De HubHero had hier een inleiding van twee alinea's: hoe Wiber werkt,
+          waar het kantoor staat, de leeftijdsgrens en de toeslag. Op een
+          telefoon vulde dat het hele scherm onder de kop -- je zag geen auto,
+          geen prijs en geen knop voordat je er doorheen had gelezen.
+          Er gaat geen feit verloren: exact dezelfde punten staan verderop in
+          het blok met de voorwaarden, waar ze per stuk opzoekbaar zijn in
+          plaats van als lopende tekst. */}
       <HubHero
         h1="Auto huren op Ibiza"
         locale={LOCALE}
         updated={contentUpdated(PAGE_KEY)}
-        lead={
-          <>
-            <p>
-              Wij boeken autohuur op Ibiza via Wiber Rent a Car: all-in tarief met de verzekering erin, een
-              kantoor op vijf minuten van de luchthaven aan de Ctra. Aeropuerto km 5 in Sant Josep, een
-              gratis shuttle vanaf de terminal en contactloos ophalen.
-              {perDag ? ` Tarieven beginnen bij €${perDag} per dag.` : ''} Minimumleeftijd 21 jaar, met een
-              toeslag van €9 per dag voor bestuurders van 21 tot en met 24.
-            </p>
-            <p className="mt-4">
-              De reden om hier een auto te hebben is niet het ritje van het vliegveld. Het zijn Cala Salada,
-              Cala d&apos;Hort en de noordkust — de delen van het eiland waar geen bus komt.
-            </p>
-          </>
-        }
       >
         <WiberDirect locale={LOCALE} />
       </HubHero>
