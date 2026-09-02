@@ -7,7 +7,7 @@ import {
   Search, MessageCircle, Anchor, Ship, Waves, Percent, Users, Ruler,
   MapPin, X, Check, Euro, Lock, LockOpen, SlidersHorizontal,
 } from 'lucide-react';
-import { FLEET, FLEET_FROM_PRICE, type Boat, type FleetCategory } from '@/data/fleet';
+import { FLEET, FLEET_FROM_PRICE, dossierHref, type Boat, type FleetCategory } from '@/data/fleet';
 import { priceForDate, statusForDate, seasonForDate, ibizaToday, liveStampTime, type LiveFleet } from '@/lib/yacht-broker';
 import { FileText, CalendarDays } from 'lucide-react';
 import { BackButton } from '@/components/ui/BackButton';
@@ -307,13 +307,12 @@ function BoatCard({ boat, T, locale, live, date, season }: {
     : T.seasonLowNote;
   return (
     <article id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="fleet-card group relative flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
-      {/* Foto → rechtstreeks het dossier in, op uitdrukkelijk verzoek. De
-          lightbox is vervallen: het plaatje van een advertentie hoort naar de
-          advertentie zelf te leiden, en de dossierpagina heeft de terugknop
-          die de PDF-weergave mist. Link in hetzelfde tabblad, zodat het
-          terugpijltje ook werkt. */}
-      <Link
-        href={`/${locale}/private-boat-charters/dossier/${boat.slug}`}
+      {/* Foto → rechtstreeks het dossier, zie dossierHref() in data/fleet.ts.
+          Een gewone <a> en geen <Link>: dit is een bestand, geen route, dus
+          client-side navigatie heeft er niets te zoeken. Zelfde tabblad,
+          zodat het terugpijltje van de browser terugbrengt naar deze kaart. */}
+      <a
+        href={dossierHref(boat.slug)}
         className="relative block aspect-[4/3] w-full overflow-hidden"
         aria-label={`${T.dossier} — ${boat.model} ${boat.name ?? ''}`}
       >
@@ -346,7 +345,7 @@ function BoatCard({ boat, T, locale, live, date, season }: {
         <span className="absolute bottom-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/70 text-white opacity-0 backdrop-blur-sm ring-1 ring-white/15 transition-opacity group-hover:opacity-100">
           <FileText size={14} />
         </span>
-      </Link>
+      </a>
       {/* Hartje BUITEN de fotoknop: een button in een button is ongeldig HTML
           en de klik zou ook de lightbox openen. Absoluut gepositioneerd op
           dezelfde hoek, over de foto heen. */}
@@ -391,12 +390,9 @@ function BoatCard({ boat, T, locale, live, date, season }: {
             eigen voorwaarden — dezelfde badges zouden voor een deel van de
             boten aantoonbaar onwaar zijn. Wat geldt staat in het dossier. */}
         <div className="mt-2.5">
-          {/* Naar de dossierpagina in eigen huisstijl, zelfde tabblad — de
-              kale PDF was een doodlopende steeg zonder logo of weg terug. De
-              pagina bedt /api/dossier in (eigen edge-cache) en linkt terug
-              naar precies deze kaart via het #boat-anker. */}
+          {/* Zelfde bestemming als de foto: het dossier zelf. */}
           <a
-            href={`/${locale}/private-boat-charters/dossier/${boat.slug}`}
+            href={dossierHref(boat.slug)}
             className="inline-flex items-center gap-1.5 text-[11px] font-bold text-ibiza-green underline underline-offset-2 hover:text-black"
           >
             <FileText size={12} /> {T.dossier}
@@ -545,7 +541,9 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
   const favBoats = useMemo(() => FLEET.filter(b => favs.includes(b.slug)), [favs]);
   const favWa = useMemo(() => {
     if (!favBoats.length) return '#';
-    const regels = favBoats.map(b => `• ${b.model} "${b.name ?? ''}" — https://www.ibizamivida.com/${locale}/private-boat-charters/dossier/${b.slug}`);
+    // Simon krijgt per boot het dossier zelf, niet een pagina waar het achter
+    // zit — hij opent dit op zijn telefoon terwijl hij aan het bellen is.
+    const regels = favBoats.map(b => `• ${b.model} "${b.name ?? ''}" — https://www.ibizamivida.com${dossierHref(b.slug)}`);
     const delen = [T.favWaIntro, ...regels];
     if (date) delen.push(T.favWaDate(date));
     delen.push(T.favWaOutro);

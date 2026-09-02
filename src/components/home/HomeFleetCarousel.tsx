@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Anchor, ArrowRight, MapPin, Users } from 'lucide-react'
-import { FLEET, type Boat } from '@/data/fleet'
+import { FLEET, dossierHref, type Boat } from '@/data/fleet'
 
 type L5 = Record<string, string>
 
@@ -111,10 +111,12 @@ export function HomeFleetCarousel({ locale = 'nl' }: { locale?: string }) {
           className="hide-scrollbar mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 md:gap-5 md:px-8"
           style={{ WebkitOverflowScrolling: 'touch' }}
         >
+          {/* <a> en geen <Link>: het dossier is een bestand, geen route, dus
+              client-side navigatie heeft er niets te zoeken. */}
           {boten.map((b) => (
-            <Link
+            <a
               key={b.slug}
-              href={`${base}/private-boat-charters/dossier/${b.slug}`}
+              href={dossierHref(b.slug)}
               className="group relative w-[210px] shrink-0 snap-start overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-lg md:w-[240px]"
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden">
@@ -143,7 +145,7 @@ export function HomeFleetCarousel({ locale = 'nl' }: { locale?: string }) {
                   <span className="text-xs text-neutral-400">{PER_DAY[locale] || PER_DAY.en}</span>
                 </p>
               </div>
-            </Link>
+            </a>
           ))}
           <div className="w-4 shrink-0 md:w-8" />
         </div>

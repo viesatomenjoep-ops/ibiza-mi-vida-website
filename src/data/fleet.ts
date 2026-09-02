@@ -195,3 +195,23 @@ export const FLEET: Boat[] = RAW_FLEET.map(b => ({
 }));
 
 export const FLEET_FROM_PRICE = Math.min(...FLEET.map(b => b.price.low));
+
+/**
+ * Waar een klik op een boot heen gaat: het dossier zelf.
+ *
+ * Hier zat een tussenpagina in eigen huisstijl die de PDF inbedde. Op een
+ * telefoon viel dat mee, op desktop niet: je kreeg de PDF-werkbalk van de
+ * browser ingeklemd in onze eigen kop en balk, twee schermranden om elkaar
+ * heen. Een dossier is een document, en een document hoort in de weergave van
+ * de browser — die kan zoeken, printen, opslaan en pagina's overslaan, en die
+ * kan onze pagina niet nadoen.
+ *
+ * /api/dossier en niet de partner-URL: die route valideert de slug tegen de
+ * vloot, serveert vanaf ons eigen domein en houdt het bestand een week in de
+ * edge-cache (gemeten 1,96s rechtstreeks tegen 0,21s daarna).
+ *
+ * Geen locale in het pad — het is één bestand, geen vertaalde pagina.
+ */
+export function dossierHref(slug: string): string {
+  return `/api/dossier/${slug}`;
+}

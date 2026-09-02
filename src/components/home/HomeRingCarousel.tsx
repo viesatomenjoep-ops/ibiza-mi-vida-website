@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { FLEET } from '@/data/fleet'
+import { FLEET, dossierHref } from '@/data/fleet'
 import type { PickerEvent } from '@/lib/picker-event'
 import { optImg } from '@/lib/img'
 
@@ -75,13 +75,26 @@ const nf = (n: number, l: string) =>
   n.toLocaleString(({ en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' } as L5)[l] || 'en-GB')
 
 /** Zes boten: de twee duurste, twee uit het midden, de twee goedkoopste, om en om. */
+/**
+ * De ring bevat twee soorten bestemmingen: routes (events, excursies) en één
+ * bestand (het bootdossier, een PDF onder /api/dossier). Een <Link> doet
+ * client-side navigatie en dat kan een bestand niet — dus dat wordt een gewone
+ * <a>. De rest houdt de snelle overgang die next/link geeft.
+ */
+function RingLink({ href, children }: { href: string; children: React.ReactNode }) {
+  const props = { className: 'ring-link group', draggable: false as const }
+  return href.startsWith('/api/')
+    ? <a href={href} {...props}>{children}</a>
+    : <Link href={href} {...props}>{children}</Link>
+}
+
 function boatItems(locale: string, base: string): RingItem[] {
   const opPrijs = [...FLEET].sort((a, b) => b.price.high - a.price.high)
   const mid = Math.floor(opPrijs.length / 2)
   const keuze = [opPrijs[0], opPrijs[opPrijs.length - 1], opPrijs[mid], opPrijs[1], opPrijs[opPrijs.length - 2], opPrijs[mid + 1]].filter(Boolean)
   return keuze.slice(0, 6).map(b => ({
     key: b.slug,
-    href: `${base}/private-boat-charters/dossier/${b.slug}`,
+    href: dossierHref(b.slug),
     image: b.image,
     imageSet: b.imageSet,
     kicker: b.marina,
@@ -148,7 +161,7 @@ function Ring({ items, hidden, id }: { items: RingItem[]; hidden: boolean; id: s
       <ul className="ring" style={{ ['--n' as string]: items.length }}>
         {items.map((it, i) => (
           <li key={it.key} className="ring-card" style={{ ['--i' as string]: i }}>
-            <Link href={it.href} className="ring-link group" draggable={false}>
+            <RingLink href={it.href}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={it.image}
@@ -169,7 +182,7 @@ function Ring({ items, hidden, id }: { items: RingItem[]; hidden: boolean; id: s
               <span aria-hidden className="ring-arrow">
                 <ArrowUpRight size={14} />
               </span>
-            </Link>
+            </RingLink>
           </li>
         ))}
       </ul>
