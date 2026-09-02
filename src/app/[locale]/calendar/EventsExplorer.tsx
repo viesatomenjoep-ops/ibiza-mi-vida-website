@@ -39,6 +39,12 @@ interface Props {
   loadedThrough: string
   /** Vandaag (Ibiza-tijd) zoals de server hem berekende — zie ibizaToday(). */
   today: string
+  /**
+   * Elke dag van het seizoen waarop iets te doen is. Het dock bladert
+   * hierlangs, ook door weken die nog niet geladen zijn — anders houdt de
+   * agenda op bij de veertien dagen die de server meestuurt.
+   */
+  seasonDates: string[]
 }
 
 type Period = 'day' | 'week' | 'month' | 'year'
@@ -92,7 +98,7 @@ function seededRandom(seed: string): () => number {
   }
 }
 
-export default function EventsExplorer({ events: initialEvents, allVenues, locale, loadedThrough, today: todayProp }: Props) {
+export default function EventsExplorer({ events: initialEvents, allVenues, locale, loadedThrough, today: todayProp, seasonDates }: Props) {
   const loc = getLoc(locale)
   /** Venue op slug — de bron voor logo, foto en type, in plaats van elk veld
       per avond mee te sturen. */
@@ -173,6 +179,27 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
   const rangeStartStr = format(rangeStart, 'yyyy-MM-dd')
   const rangeEndStr = format(rangeEnd, 'yyyy-MM-dd')
 
+  // Welke week het dock toont. Staat hier en niet verderop omdat het
+  // laad-effect hieronder hem nodig heeft.
+  const [dockWeekStart, setDockWeekStart] = useState<string>(() => {
+    const eerste = seasonDates.find(d => d >= todayStr) || todayStr
+    return format(startOfWeek(parseISO(eerste), { weekStartsOn: 1 }), 'yyyy-MM-dd')
+  })
+  const dockWeekEnd = useMemo(
+    () => format(addDays(parseISO(dockWeekStart), 6), 'yyyy-MM-dd'),
+    [dockWeekStart],
+  )
+
+  /**
+   * Tot welke dag we events nodig hebben.
+   *
+   * Twee dingen bepalen dat, en eerder telde alleen het eerste mee: de
+   * periodeknoppen (week/maand) én het weekdock. Bladerde je met het dock naar
+   * een week voorbij de veertien geladen dagen, dan werd er niets bijgeladen en
+   * bleef die week leeg — de agenda hield zichtbaar op halverwege september.
+   */
+  const nodigTot = rangeEndStr > dockWeekEnd ? rangeEndStr : dockWeekEnd
+
   /**
    * Haal het stuk agenda op dat de huidige weergave nodig heeft en dat nog niet
    * geladen is.
@@ -183,21 +210,21 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
    * twee weken toont is beter dan een lege.
    */
   useEffect(() => {
-    if (rangeEndStr <= loadedTo) return
+    if (!nodigTot || nodigTot <= loadedTo) return
     let cancelled = false
     const from = format(addDays(parseISO(loadedTo), 1), 'yyyy-MM-dd')
     setLoading(true)
-    fetch(`/api/calendar-window?locale=${encodeURIComponent(locale)}&from=${from}&to=${rangeEndStr}`)
+    fetch(`/api/calendar-window?locale=${encodeURIComponent(locale)}&from=${from}&to=${nodigTot}`)
       .then(r => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
       .then((d: { events?: ExEvent[] }) => {
         if (cancelled) return
         setExtra(prev => [...prev, ...(d.events ?? [])])
-        setLoadedTo(rangeEndStr)
+        setLoadedTo(nodigTot)
       })
       .catch(() => { /* wat al geladen is blijft staan */ })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
-  }, [rangeEndStr, loadedTo, locale])
+  }, [nodigTot, loadedTo, locale])
 
   const changePeriod = useCallback((p: Period) => {
     setPeriod(p)
@@ -212,10 +239,6 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
   const listRef = useRef<HTMLDivElement>(null)
   const imgByDate = useMemo(() => { const m = new Map<string, string>(); pickerEvents.forEach(e => { if (!m.has(e.date) && e.image) m.set(e.date, e.image) }); return m }, [pickerEvents])
   const imagePool = useMemo(() => Array.from(new Set(pickerEvents.map(e => e.image).filter(Boolean))).slice(0, 12) as string[], [pickerEvents])
-  const [dockWeekStart, setDockWeekStart] = useState<string>(() => {
-    const ds = pickerEvents.map(e => e.date).filter(d => d >= todayStr).sort()[0] || todayStr
-    return format(startOfWeek(parseISO(ds), { weekStartsOn: 1 }), 'yyyy-MM-dd')
-  })
   // Even wachten tot React de nieuwe dag gerenderd heeft, dan pas scrollen —
   // anders meten we de hoogte van de vorige lijst. scrollSectionIntoView rekent
   // de vaste kop mee én gaat naar de bovenkant wanneer er nauwelijks te
@@ -414,9 +437,12 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
       </div>
 
       {/* Fixed bottom week dock — blurred event photos, white text; pick a day to open it */}
-      {pickerEvents.length > 0 && (
+      {seasonDates.length > 0 && (
         <WeekDockBar
-          eventDates={pickerEvents.map(e => e.date)}
+          /* Het hele seizoen, niet alleen wat geladen is — anders kun je niet
+             verder bladeren dan de veertien dagen uit de HTML. */
+          eventDates={seasonDates}
+          today={todayStr}
           weekStart={dockWeekStart}
           setWeekStart={setDockWeekStart}
           activeDay={activeDay}

@@ -53,5 +53,28 @@ export async function calendarWindow(
     })
 }
 
+/**
+ * Elke dag van het seizoen waarop iets te doen is, als yyyy-MM-dd.
+ *
+ * Het weekdock onderaan de agenda leidde zijn bereik af uit de events die
+ * toevallig geladen waren, en dat zijn er veertien dagen. Gevolg: je kon niet
+ * verder bladeren dan twee weken vooruit — begin september hield de agenda op
+ * 15 september op, terwijl het seizoen tot ver in oktober loopt.
+ *
+ * Dit is bewust alleen een lijst datums en niet de events zelf: een seizoen
+ * telt een paar honderd datums (een handvol kB) tegen duizenden events (ruim
+ * een megabyte). Het dock heeft genoeg aan "op welke dagen valt er iets te
+ * kiezen"; de events van een week komen pas als je die week opent.
+ */
+export async function seasonDates(locale: string, fromStr: string): Promise<string[]> {
+  const allDates = await getAllDates(locale)
+  const uniek = new Set<string>()
+  for (const d of allDates) {
+    const dag = String(d.date || '').slice(0, 10)
+    if (dag >= fromStr) uniek.add(dag)
+  }
+  return Array.from(uniek).sort()
+}
+
 /** Dagen die de pagina zelf rendert. Dekt de 'dag'-strip (vandaag + 13) en de week. */
 export const INITIAL_DAYS = 14
