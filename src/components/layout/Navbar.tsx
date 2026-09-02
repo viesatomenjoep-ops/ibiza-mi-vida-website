@@ -474,6 +474,7 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
                   href={pathname.replace(/^\/[a-z]{2}(?=\/|$)/, `/${l.code}`) || `/${l.code}`}
                   className="nav-lang nav-lang-item"
                   hrefLang={l.code}
+                  onClick={() => { document.cookie = `imv_locale=${l.code}; max-age=31536000; path=/; samesite=lax` }}
                   tabIndex={langOpen ? undefined : -1}
                   aria-hidden={langOpen ? undefined : true}
                 >

@@ -17,6 +17,7 @@ import { agendaCopy } from '@/lib/agenda-i18n';
 import WaterAgendaClient, { WaterAgendaEvent, WaterAgendaVenue } from '@/components/boats/WaterAgendaClient';
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { crumbLabel } from '@/lib/breadcrumb-labels'
+import { ibizaToday } from '@/lib/date-label'
 
 export const revalidate = 3600;
 
@@ -26,7 +27,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
   const catSlugs = new Set(catVenues.map(v => v.slug));
 
   const allDates = await getAllDates(params.locale);
-  const todayStr = new Date().toISOString().split('T')[0];
+  const todayStr = ibizaToday();
   // PERF: only ship the next 31 days to the client — the full season would
   // make the payload huge (see the other agenda pages).
   const windowEndStr = new Date(Date.now() + 31 * 86400000).toISOString().split('T')[0];
@@ -70,6 +71,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
       />
     <ServiceSchema name={sc.name[l]} description={sc.description[l]} serviceType={sc.serviceType} path={`${l}/boat-party`} />
     <WaterAgendaClient
+      today={todayStr}
       locale={params.locale}
       basePath="boat-trip"
       kicker={C.kicker}

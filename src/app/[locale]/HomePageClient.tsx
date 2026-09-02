@@ -16,7 +16,6 @@ import { HomeUSP } from '@/components/home/HomeUSP';
 import { HomeInstagram } from '@/components/home/HomeInstagram';
 import { HomeNewsletter } from '@/components/home/HomeNewsletter';
 import { HomeRingCarousel } from '@/components/home/HomeRingCarousel';
-import { HomeFaq } from '@/components/home/HomeFaq';
 import { ArrowCircle } from '@/components/ui/ArrowCircle';
 import { HomeTonight } from '@/components/home/HomeTonight';
 import { HeroRatingBadge, type HeroRating } from '@/components/home/HeroRatingBadge';
@@ -51,6 +50,8 @@ interface HomePageProps {
    * deze component te hangen waar niemand het ziet.
    */
   rentalsSlot?: React.ReactNode;
+  /** Server-gerenderde FAQ: als import stond hij mét 127 kB faq-content in de clientbundle. */
+  faqSlot?: React.ReactNode;
   locale?: string;
   translations?: any;
   featuredClubs?: any[];
@@ -67,7 +68,7 @@ interface HomePageProps {
   rating?: HeroRating | null;
 }
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '', rating = null, rentalsSlot = null }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '', rating = null, rentalsSlot = null, faqSlot = null }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -187,7 +188,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                   >
                     <div className="w-24 h-24 md:w-32 md:h-32 rounded-[18px] bg-ibiza-mint relative overflow-hidden shrink-0 shadow-inner">
                       {image ? (
-                        <Image src={image} alt="" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <Image src={image} alt="" fill sizes="(max-width:768px) 33vw, 128px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-ibiza-green opacity-50">
                           <Music size={32} />
@@ -343,7 +344,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                       fill
                       className="club-card-img"
                       sizes="(max-width:768px) 50vw, 25vw"
-                      priority={idx < 2}
                     />
                   )}
 
@@ -435,7 +435,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       </section>
 
       {/* FAQ — condensed sitewide FAQ, deliberately the very last section */}
-      <HomeFaq locale={locale} />
+      {faqSlot}
     </div>
   );
 }

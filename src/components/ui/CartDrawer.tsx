@@ -78,9 +78,8 @@ export function CartDrawer() {
               <span className="text-2xl font-bold font-serif">€{totalPrice}</span>
             </div>
             <div className="flex flex-col gap-3">
-              <Link href="/checkout" onClick={closeDrawer} className="w-full bg-black text-white text-center py-4 rounded-full font-semibold hover:bg-gray-800 transition-colors">
-                Direct Checkout
-              </Link>
+              {/* 'Direct Checkout' wees naar /checkout, een route die niet bestaat.
+                  WhatsApp is de echte afrekenroute op deze site. */}
               <a href={waLink} target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-2 bg-[#25D366] text-white py-4 rounded-full font-semibold hover:bg-[#128C7E] transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1 1 12 20zm4.5-5.9c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.8 1-.1.1-.3.2-.5 0-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4.2-.4c.1-.1 0-.3 0-.4l-.7-1.7c-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.2 1.6 2.5 4 3.4.6.2 1 .4 1.3.5.6.2 1 .1 1.4.1.4-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1 0-.1-.2-.2-.4-.3z"/>

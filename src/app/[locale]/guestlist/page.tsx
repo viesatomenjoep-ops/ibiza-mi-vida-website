@@ -11,6 +11,7 @@ import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { SERVICE_COPY } from '@/lib/service-schema-copy'
 import { GuestlistSignup } from '@/components/guestlist/GuestlistSignup'
 import { AuthorByline } from '@/components/seo/AuthorByline'
+import { ibizaToday } from '@/lib/date-label'
 
 export const revalidate = 3600
 
@@ -329,7 +330,7 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
   const venues = await getVenues(locale)
   const clubs = venues.filter(v => v.type?.slug === 'clubbing')
 
-  const todayStr = new Date().toISOString().split('T')[0]
+  const todayStr = ibizaToday()
   const clubSlugs = new Set(clubs.map(c => c.slug))
   const allDates = await getAllDates(locale)
   const upcoming = allDates

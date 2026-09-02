@@ -12,6 +12,10 @@ import { ItemListJsonLd } from '@/components/seo/ItemListJsonLd';
 import { eventBasePath } from '@/lib/event-path';
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { crumbLabel } from '@/lib/breadcrumb-labels'
+import { ibizaToday } from '@/lib/date-label'
+
+// Elk uur, net als de andere agendapagina's; stond hier niet.
+export const revalidate = 3600
 
 export default async function CalendarPage({
   params,
@@ -34,7 +38,7 @@ export default async function CalendarPage({
   // Dat is verantwoord omdat de kalender niet de canonieke kopie van een event
   // is: elk event heeft een eigen indexeerbare detailpagina, en die staan
   // allemaal in de sitemap.
-  const todayStr = new Date().toISOString().split('T')[0];
+  const todayStr = ibizaToday();
   const windowEndStr = new Date(Date.now() + (INITIAL_DAYS - 1) * 86400000).toISOString().split('T')[0];
   const mappedEvents = await calendarWindow(params.locale, todayStr, windowEndStr);
 
@@ -78,6 +82,7 @@ export default async function CalendarPage({
         allVenues={lightVenues}
         locale={params.locale}
         loadedThrough={windowEndStr}
+        today={todayStr}
       />
     </>
   );

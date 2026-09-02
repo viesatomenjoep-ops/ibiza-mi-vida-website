@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { ROUTE_SLUGS, ROUTE_LOCALES, findRouteBySlug } from '@/lib/route-slugs'
+import { ROUTE_SLUGS, ROUTE_LOCALES, MERGED_INTO, findRouteBySlug } from '@/lib/route-slugs'
 
 const locales = ['en', 'nl', 'de', 'es', 'fr'] as const
 type Loc = (typeof locales)[number]
@@ -128,9 +128,13 @@ function route(request: NextRequest): NextResponse | undefined {
           return go(target, ROUTE_SLUGS[found.key][target])
         }
 
-        // Een route zonder gepubliceerde talen is puur een 301-doel (guestlist-hub).
-        // Die laten we door naar de pagina zelf, die de doorverwijzing per taal
-        // al goed afhandelt — hier iets verzinnen zou dat dubbelop doen.
+        // Een route zonder gepubliceerde talen is samengevoegd met een andere
+        // pagina (MERGED_INTO). Meteen doorsturen: de vertaalde slugs
+        // (/nl/ibiza-gastenlijst, /de/boot-mieten-ibiza) hebben geen map en
+        // gaven anders een kale 404 in plaats van een 301.
+        if (!published.length && MERGED_INTO[found.key]) {
+          return go(matched, MERGED_INTO[found.key]!)
+        }
         if (published.length) {
           // Vergelijk SLUGS, niet locales. Sommige routes gebruiken bewust in elke
           // taal dezelfde slug (boat-party), dus "de slug is onder een andere taal
@@ -147,11 +151,12 @@ function route(request: NextRequest): NextResponse | undefined {
     // The visitor is on an explicit locale — they clicked a language pill or
     // followed a link. Remember it, so returning to the bare domain later does
     // not override a choice they already made.
-    const res = NextResponse.next()
-    if (request.cookies.get(COOKIE)?.value !== matched) {
-      res.cookies.set(COOKIE, matched, { maxAge: COOKIE_MAX_AGE, sameSite: 'lax', path: '/' })
-    }
-    return res
+    // Geen Set-Cookie hier. Dit blok zette hem zodra de cookie afweek, en een
+    // crawler stuurt nooit cookies — dus élk crawlerverzoek op élke pagina
+    // kreeg een Set-Cookie terug, en een antwoord met Set-Cookie cachet een
+    // CDN niet. De taalkeuze wordt onthouden bij de klik op een taalpil
+    // (client-side, zie Navbar) en bij de 307 hieronder.
+    return NextResponse.next()
   }
 
   const saved = request.cookies.get(COOKIE)?.value
@@ -228,6 +233,15 @@ const isLocalHost = (host: string) =>
 export function middleware(request: NextRequest) {
   const res = route(request)
   const host = (request.headers.get('host') ?? '').toLowerCase()
+
+  // Het kale domein en www zijn dezelfde site, maar allebei 200 serveren maakt
+  // er twee van voor Google. Eén 308 naar de canonieke host — alleen wanneer
+  // het verschil precies 'www.' is, dus previews en localhost blijven met rust.
+  if (host && !isLocalHost(host) && host !== CANONICAL_HOST && bareHost(host) === bareHost(CANONICAL_HOST)) {
+    const url = request.nextUrl.clone()
+    url.host = CANONICAL_HOST
+    return NextResponse.redirect(url, 308)
+  }
 
   if (!host || bareHost(host) === bareHost(CANONICAL_HOST) || isLocalHost(host)) return res
 

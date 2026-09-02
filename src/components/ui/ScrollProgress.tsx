@@ -37,14 +37,19 @@ export function ScrollProgress() {
     apply()
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onScroll)
-    // The partner bar mounts/unmounts as you scroll past the fade threshold —
-    // catch that even if it happens without a matching scroll/resize event.
-    const iv = setInterval(apply, 400)
+    // De partnerbalk mount/unmount als je langs de vouw scrolt. Dat ving een
+    // setInterval van 400 ms op — vier layout-uitlezingen plus een DOM-query,
+    // tweeënhalf keer per seconde, ook als niemand scrolt. Een
+    // MutationObserver op de header vuurt alleen wanneer er echt iets
+    // verandert.
+    const header = document.querySelector('.site-header')
+    const mo = header ? new MutationObserver(onScroll) : null
+    mo?.observe(header!, { childList: true, subtree: true })
     return () => {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
       if (raf) cancelAnimationFrame(raf)
-      clearInterval(iv)
+      mo?.disconnect()
     }
   }, [isHome])
 

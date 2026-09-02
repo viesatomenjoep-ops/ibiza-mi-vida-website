@@ -5,6 +5,7 @@ import { getDictionary } from '@/lib/dictionary'
 import HomePageClient from './HomePageClient'
 import { HomeJsonLd } from '@/components/seo/HomeJsonLd'
 import { RentalsSection } from '@/components/hub/RentalsSection'
+import { HomeFaq } from '@/components/home/HomeFaq'
 import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { HOME_TITLE, HOME_DESC } from '@/lib/seo-pages'
 import { FLEET } from '@/data/fleet'
@@ -12,6 +13,7 @@ import { pickCover } from '@/lib/blank-covers';
 import { eventBasePath } from '@/lib/event-path';
 import { addDays } from '@/lib/date-label';
 import { getGoogleReviews } from '@/lib/google-reviews';
+import { ibizaToday } from '@/lib/date-label';
 
 export const revalidate = 3600
 
@@ -46,12 +48,12 @@ export default async function Home({ params }: { params: { locale: string } }) {
 
   // Fetch upcoming dates from local compiled JSON
   const allDates = await getAllDates(params.locale);
-  const todayStr = new Date().toISOString().split('T')[0];
+  const todayStr = ibizaToday();
 
   // ── LIVE EVENT TRACKER ──
   // Build a per-club map of events happening today (and last night) so the
   // homepage slider can show live status dots. Time-of-day logic runs client-side.
-  const yesterdayStr = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+  const yesterdayStr = addDays(todayStr, -1);
   const dayClubBySlug = new Map(allVenues.map(v => [v.slug, !!(v as any).isDayClub]));
   const liveByClub: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }> = {};
   for (const d of allDates) {
@@ -283,6 +285,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
         typeSlug: (v as any).type?.slug || ''
       }))}
       rentalsSlot={<RentalsSection locale={params.locale} />}
+      faqSlot={<HomeFaq locale={params.locale} />}
     />
     </>
   )
