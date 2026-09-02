@@ -96,19 +96,23 @@ function norm(s: string): string {
  */
 export async function getLiveFleet(): Promise<LiveFleet | null> {
   try {
-    // months=2 en niet 1. Zelfde endpoint, alleen een breder venster: 1 geeft
-    // 861 dagvermeldingen (alleen de lopende maand), 2 geeft er 955 en dus ook
-    // de maand erna. Dat is precies wat de datumkiezer op de charterpagina
-    // bruikbaar maakt — met één maand kan een bezoeker begin van de maand
-    // nauwelijks vooruit plannen. Wie verder wil dan twee maanden komt bij
-    // Simon uit, en dat is precies goed.
+    // months=1 — dit is de aanroep die de partner voert. Hier stond months=2
+    // met een redenering over een breder venster voor de datumkiezer; dat is
+    // niet aan ons om te kiezen. Wij zijn te gast op deze feed en volgen de
+    // aanroep die de broker zelf gebruikt, ook als dat een korter venster
+    // oplevert. Wie verder vooruit wil plannen komt bij Simon uit.
+    //
+    // Het venster staat nergens hardgecodeerd: de UI leest `rangeStart` en
+    // `rangeEnd` uit het antwoord zelf (de datumkiezer begrenst daarop, en
+    // `dateInRange` in FleetShowcase bepaalt er de live regel mee). Een korter
+    // venster past zichzelf dus aan — er is geen tweede plek om bij te werken.
     // TIMEOUT is niet optioneel meer. De charterpagina rendert deze fetch
     // server-side, dus een partner die blijft hangen hangt de paginarender
     // mee — en `fetch` heeft uit zichzelf geen deadline. Na TIMEOUT_MS breken
     // we af en valt de live laag weg; de statische prijsbanden staan er dan
     // gewoon. Een pagina zonder live regel is oneindig veel beter dan een
     // pagina die niet komt.
-    const res = await fetch(`${BASE}/api/availability?months=2&start=0`, {
+    const res = await fetch(`${BASE}/api/availability?months=1&start=0`, {
       headers: {
         'user-agent': 'ibizamivida.com partner integration',
         accept: 'application/json',
