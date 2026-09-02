@@ -13,6 +13,7 @@ import { MapPin, Calendar } from 'lucide-react'
 import type { PickerEvent } from '@/lib/picker-event'
 import { optImg } from '@/lib/img'
 import { scrollSectionIntoView } from '@/lib/scroll-to-section'
+import { ibizaToday } from '@/lib/date-label'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface ExEvent {
@@ -36,6 +37,8 @@ interface Props {
   locale: string
   /** Laatste dag die in `events` zit, als yyyy-MM-dd. Alles daarna wordt geladen. */
   loadedThrough: string
+  /** Vandaag (Ibiza-tijd) zoals de server hem berekende — zie ibizaToday(). */
+  today: string
 }
 
 type Period = 'day' | 'week' | 'month' | 'year'
@@ -89,7 +92,7 @@ function seededRandom(seed: string): () => number {
   }
 }
 
-export default function EventsExplorer({ events: initialEvents, allVenues, locale, loadedThrough }: Props) {
+export default function EventsExplorer({ events: initialEvents, allVenues, locale, loadedThrough, today: todayProp }: Props) {
   const loc = getLoc(locale)
   /** Venue op slug — de bron voor logo, foto en type, in plaats van elk veld
       per avond mee te sturen. */
@@ -100,8 +103,11 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
   const venueOf = (e: ExEvent) => venueBySlug.get(e.ct_venues?.slug ?? '')
   const T = T_I18N[locale] || T_I18N.en
   const base = `/${locale}`
-  const today = useMemo(() => startOfDay(new Date()), [])
-  const todayStr = format(today, 'yyyy-MM-dd')
+  // Van de server, niet `new Date()`: die is hier lokale tijd en op de server
+  // UTC — een andere dag rond middernacht, en dus een hydration-mismatch
+  // waarna React de complete agenda opnieuw rendert.
+  const todayStr = todayProp
+  const today = useMemo(() => parseISO(todayStr), [todayStr])
 
   const [period, setPeriod] = useState<Period>('week')
   const [activeDay, setActiveDay] = useState<string | null>(null)
@@ -321,7 +327,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
         ) : (
           <div className="flex flex-col gap-12">
             {dateKeys.map(ds => (
-              <div key={ds}>
+              <div key={ds} className="[contain-intrinsic-size:auto_640px] [content-visibility:auto]">
                 {/* Day group header (only meaningful for multi-day ranges) */}
                 {!activeDay && (
                   <h3 className="mb-4 flex items-center gap-3 font-serif text-lg font-black capitalize text-black md:text-xl">

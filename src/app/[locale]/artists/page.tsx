@@ -13,6 +13,7 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { ItemListJsonLd } from '@/components/seo/ItemListJsonLd'
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { crumbLabel } from '@/lib/breadcrumb-labels'
+import { optImg } from '@/lib/img'
 
 export const revalidate = 3600
 
@@ -57,8 +58,10 @@ export default async function ArtistsPage({ params }: { params: { locale: string
               >
                 {artist.image ? (
                   <img
-                    src={artist.image}
+                    src={optImg(artist.image, 384)}
                     alt={artist.name || 'Artist'}
+                    loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 w-full h-full object-cover opacity-70 transition-all duration-700 group-hover:scale-110 group-hover:opacity-90"
                   />
                 ) : (

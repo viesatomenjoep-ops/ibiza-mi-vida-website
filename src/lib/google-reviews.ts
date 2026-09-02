@@ -108,9 +108,12 @@ export async function getGoogleReviews(): Promise<GoogleReviewsData | null> {
         'X-Goog-Api-Key': apiKey,
         'X-Goog-FieldMask': FIELD_MASK,
       },
+      // Deze fetch staat in de root layout, dus in het renderpad van élke
+      // pagina. Zonder deadline hangt een Google-storing de hele site.
+      signal: AbortSignal.timeout(2500),
       next: { revalidate: REVALIDATE_SECONDS },
     })
-    if (!res.ok) return null
+    if (!res.ok) { console.warn(`[google-reviews] HTTP ${res.status}`); return null }
 
     const data = (await res.json()) as PlacesResponse
 
@@ -143,8 +146,11 @@ export async function getGoogleReviews(): Promise<GoogleReviewsData | null> {
       url: data.googleMapsUri ?? `https://www.google.com/maps/place/?q=place_id:${placeId}`,
       reviews,
     }
-  } catch {
-    // Network failure, malformed JSON, quota — all mean "we have nothing real".
+  } catch (e) {
+    // Network failure, malformed JSON, quota, timeout — all mean "we have
+    // nothing real". Wél loggen: de balk rendert gewoon door zonder cijfer,
+    // dus zonder logregel merkt niemand dat de koppeling eruit ligt.
+    console.warn(`[google-reviews] niet gebruikt: ${e instanceof Error ? e.message : String(e)}`)
     return null
   }
 }

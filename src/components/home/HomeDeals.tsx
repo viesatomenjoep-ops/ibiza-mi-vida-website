@@ -57,7 +57,10 @@ function DealTile({ d }: { d: Deal }) {
     </>
   )
   const cls = 'deal-card group relative block shrink-0 basis-[92%] snap-center overflow-hidden rounded-3xl border border-white/10 bg-neutral-900 shadow-xl sm:basis-[70%] lg:basis-[35%]'
-  const style = { aspectRatio: '3 / 4', willChange: 'transform, opacity' as const }
+  // Geen will-change: dat hield élke tegel permanent op een eigen compositorlaag
+  // (zie de Reveal-regel in CLAUDE.md). De transform tijdens scrollen promoveert
+  // de laag vanzelf zolang hij beweegt.
+  const style = { aspectRatio: '3 / 4' }
   if (d.ext) return <a data-tile href={d.ext} target="_blank" rel="noopener noreferrer" className={cls} style={style}>{inner}</a>
   return <Link data-tile href={d.href || '#'} className={cls} style={style}>{inner}</Link>
 }

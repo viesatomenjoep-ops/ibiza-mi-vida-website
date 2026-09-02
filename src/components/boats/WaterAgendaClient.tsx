@@ -70,6 +70,8 @@ interface WaterAgendaClientProps {
    */
   lead?: string;
   kicker?: string;
+  /** Vandaag (Ibiza-tijd) van de server — zie ibizaToday(); nooit new Date() in render. */
+  today: string;
   events: WaterAgendaEvent[];
   venues: WaterAgendaVenue[];
   locale: string;
@@ -92,11 +94,13 @@ const priceShort = (p?: string) => {
 };
 const eventImg = (e: WaterAgendaEvent) => e.eventCover || e.eventLogo || e.venueCover || e.venueLogo || '';
 
-export default function WaterAgendaClient({ title, subtitle, lead, kicker, events, venues, locale, basePath = '' }: WaterAgendaClientProps) {
+export default function WaterAgendaClient({ title, subtitle, lead, kicker, events, venues, locale, basePath = '', today: todayProp }: WaterAgendaClientProps) {
   const loc = getLoc(locale);
   const L = getLabels(locale);
-  const today = useMemo(() => new Date(), []);
-  const todayStr = format(today, 'yyyy-MM-dd');
+  // Van de server: new Date() is hier lokale tijd en op de server UTC — een
+  // andere dag rond middernacht, en dus een hydration-mismatch op zes routes.
+  const todayStr = todayProp;
+  const today = useMemo(() => parseISO(todayStr), [todayStr]);
 
   // ── Month-by-month loading ──
   // The server only ships a 31-day window (perf); browsing further ahead

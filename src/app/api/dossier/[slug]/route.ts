@@ -44,6 +44,10 @@ export async function GET(_req: Request, { params }: { params: { slug: string } 
     const res = await fetch(boat.pdf, {
       headers: { 'user-agent': 'ibizamivida.com partner integration' },
       cache: 'no-store',
+      // Ruimer dan een JSON-feed (het bestand is tot ~15 MB), maar wél een
+      // deadline: een partner die de verbinding open houdt zonder bytes te
+      // sturen hield de functie bezet tot de platformtimeout.
+      signal: AbortSignal.timeout(8000),
     })
     if (!res.ok || !res.body) return new NextResponse(null, { status: 502 })
 

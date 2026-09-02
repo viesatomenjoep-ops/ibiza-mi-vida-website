@@ -158,6 +158,18 @@ export const ROUTE_SLUGS: Record<RouteKey, SlugSet> = {
  * Adding a language to a route here is the LAST step of translating it, after
  * the page renders. Never before.
  */
+/**
+ * Routes die in een andere pagina zijn opgegaan. Sleutel = route zonder
+ * gepubliceerde talen (ROUTE_LOCALES leeg), waarde = de slug waar de
+ * middleware élke taalvariant naartoe 301't. Zonder deze tabel gaven de
+ * vertaalde slugs (/nl/ibiza-gastenlijst, /fr/location-bateau-ibiza) een
+ * kale 404, want daar bestaat geen map voor.
+ */
+export const MERGED_INTO: Partial<Record<RouteKey, string>> = {
+  'guestlist-hub': 'guestlist',
+  'boat-rental': 'boats',
+}
+
 export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   // Samengevoegd met /boats. De slugs blijven hierboven staan zodat de
   // middleware oude URL's herkent; de pagina's zelf doen een 308 naar /boats.

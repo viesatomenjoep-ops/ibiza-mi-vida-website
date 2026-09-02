@@ -82,7 +82,7 @@ export function HomeEventSlider({
   useEffect(() => {
     const track = trackRef.current
     if (!track || events.length === 0) return
-    let animationId: number
+    let animationId = 0
     const measure = () => { unitRef.current = track.scrollWidth / 4 }
     measure()
     const play = () => {
@@ -95,12 +95,25 @@ export function HomeEventSlider({
         if (unit) { while (offsetRef.current <= -unit) offsetRef.current += unit; while (offsetRef.current > 0) offsetRef.current -= unit }
         track.style.transform = `translate3d(${offsetRef.current}px,0,0)`
       }
-      animationId = requestAnimationFrame(play)
+      animationId = inView ? requestAnimationFrame(play) : 0
     }
-    play()
+    // PERF: dit was een requestAnimationFrame-lus die nooit stopte — ook
+    // wanneer de rail twee schermen omhoog gescrold was of het tabblad op de
+    // achtergrond stond. Nu draait hij alleen terwijl de rail in beeld is, en
+    // helemaal niet wanneer de bezoeker om minder beweging vraagt (de rail
+    // blijft dan wel sleepbaar).
+    let inView = false
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const io = new IntersectionObserver(([e]) => {
+      const was = inView
+      inView = e.isIntersecting && !document.hidden
+      if (inView && !was && !animationId) play()
+      if (!inView && animationId) { cancelAnimationFrame(animationId); animationId = 0 }
+    }, { threshold: 0.01 })
+    io.observe(track)
     window.addEventListener('resize', measure)
     const remeasure = setTimeout(measure, 400)
-    return () => { cancelAnimationFrame(animationId); window.removeEventListener('resize', measure); clearTimeout(remeasure) }
+    return () => { cancelAnimationFrame(animationId); io.disconnect(); window.removeEventListener('resize', measure); clearTimeout(remeasure) }
   }, [events, speed])
 
   const onPointerDown = (e: React.PointerEvent) => {

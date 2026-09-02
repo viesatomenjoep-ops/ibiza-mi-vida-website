@@ -45,22 +45,6 @@ export const SEO_PAGES: Record<string, Copy> = {
       'Consultez l’agenda complet d’Ibiza : tous les événements, festivals et line-ups par jour. Billets en toute sécurité.',
     ),
   },
-  'club-tickets': {
-    title: L(
-      'Ibiza Club Tickets 2026 — Hï, Ushuaïa, Pacha & meer',
-      'Ibiza Club Tickets 2026 — Hï, Ushuaïa, Pacha & More',
-      'Ibiza Club Tickets 2026 — Hï, Ushuaïa, Pacha & mehr',
-      'Entradas Clubs Ibiza 2026 — Hï, Ushuaïa, Pacha y más',
-      'Billets Clubs Ibiza 2026 — Hï, Ushuaïa, Pacha & plus',
-    ),
-    description: L(
-      'Officiële tickets voor de beste clubs van Ibiza: Hï, Ushuaïa, Pacha, Amnesia en meer. Directe levering, geen verborgen kosten.',
-      'Official tickets for Ibiza’s best clubs: Hï, Ushuaïa, Pacha, Amnesia and more. Instant delivery, no hidden fees.',
-      'Offizielle Tickets für Ibizas beste Clubs: Hï, Ushuaïa, Pacha, Amnesia und mehr. Sofortige Lieferung, keine versteckten Kosten.',
-      'Entradas oficiales para los mejores clubs de Ibiza: Hï, Ushuaïa, Pacha, Amnesia y más. Entrega inmediata, sin costes ocultos.',
-      'Billets officiels pour les meilleurs clubs d’Ibiza : Hï, Ushuaïa, Pacha, Amnesia et plus. Livraison immédiate, sans frais cachés.',
-    ),
-  },
   artists: {
     title: L(
       'Ibiza DJ’s & Artiesten 2026 — Wie speelt waar',
@@ -75,22 +59,6 @@ export const SEO_PAGES: Record<string, Copy> = {
       'Entdecke, welche DJs und Künstler diesen Sommer auf Ibiza spielen — mit allen Terminen, Clubs und Tickets.',
       'Descubre qué DJs y artistas actúan en Ibiza este verano, con todas las fechas, clubs y entradas.',
       'Découvrez quels DJs et artistes jouent à Ibiza cet été, avec toutes les dates, clubs et billets.',
-    ),
-  },
-  'deals-of-the-day': {
-    title: L(
-      'Ibiza Deals van de Dag — Tickets, Boten & Meer',
-      'Ibiza Deals of the Day — Tickets, Boats & More',
-      'Ibiza Angebote des Tages — Tickets, Boote & mehr',
-      'Ofertas del Día Ibiza — Entradas, Barcos y Más',
-      'Offres du Jour Ibiza — Billets, Bateaux & Plus',
-    ),
-    description: L(
-      'De scherpste dagaanbiedingen op Ibiza: clubtickets, boottochten en activiteiten tegen de beste prijs. Elke dag vernieuwd.',
-      'The sharpest daily deals in Ibiza: club tickets, boat trips and activities at the best price. Refreshed every day.',
-      'Die besten Tagesangebote auf Ibiza: Clubtickets, Bootstouren und Aktivitäten zum Bestpreis. Täglich aktualisiert.',
-      'Las mejores ofertas diarias en Ibiza: entradas, excursiones en barco y actividades al mejor precio. Cada día.',
-      'Les meilleures offres du jour à Ibiza : billets, sorties en bateau et activités au meilleur prix. Chaque jour.',
     ),
   },
   // Carries BOTH terms on purpose — "guestlist" weghalen om bij het interne
@@ -277,22 +245,6 @@ export const SEO_PAGES: Record<string, Copy> = {
   // zoekopdrachten op één URL. Auto's hebben sinds vandaag een eigen pillar
   // (/car-rental-ibiza), dus deze pagina is nu de scooterpagina en verwijst
   // voor auto's door. Zo vecht niets meer om dezelfde term.
-  blog: {
-    title: L(
-      'Ibiza Blog — Tips, Gidsen & Nieuws',
-      'Ibiza Blog — Tips, Guides & News',
-      'Ibiza Blog — Tipps, Guides & News',
-      'Blog Ibiza — Consejos, Guías y Noticias',
-      'Blog Ibiza — Conseils, Guides & Actus',
-    ),
-    description: L(
-      'Insider-tips, gidsen en nieuws over Ibiza: clubs, stranden, restaurants en het beste van het eiland.',
-      'Insider tips, guides and news about Ibiza: clubs, beaches, restaurants and the best of the island.',
-      'Insider-Tipps, Guides und News über Ibiza: Clubs, Strände, Restaurants und das Beste der Insel.',
-      'Consejos, guías y noticias sobre Ibiza: clubs, playas, restaurantes y lo mejor de la isla.',
-      'Conseils d’initiés, guides et actus sur Ibiza : clubs, plages, restaurants et le meilleur de l’île.',
-    ),
-  },
   'beach-clubs': {
     title: L(
       'Beachclubs Ibiza 2026 — Ligbedden & VIP-bedden per Gebied',

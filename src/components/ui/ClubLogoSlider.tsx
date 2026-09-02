@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { optImg } from '@/lib/img';
 
 type LiveEvent = { name: string; slug?: string };
 type LiveRecord = { today: LiveEvent[]; lastNight: LiveEvent[]; isDayClub: boolean };
@@ -124,7 +125,7 @@ export function ClubLogoSlider({
     const track = trackRef.current;
     if (!track || clubLogos.length === 0) return;
 
-    let animationId: number;
+    let animationId = 0;
     const measure = () => { unitRef.current = track.scrollWidth / 4; };
     measure();
 
@@ -146,14 +147,28 @@ export function ClubLogoSlider({
         }
         track.style.transform = `translate3d(${offsetRef.current}px,0,0)`;
       }
-      animationId = requestAnimationFrame(play);
+      animationId = inView ? requestAnimationFrame(play) : 0;
     };
 
-    play();
+    // PERF: dit was een requestAnimationFrame-lus die nooit stopte — ook
+    // wanneer de rail twee schermen omhoog gescrold was of het tabblad op de
+    // achtergrond stond. Nu draait hij alleen terwijl de rail in beeld is, en
+    // helemaal niet wanneer de bezoeker om minder beweging vraagt (de rail
+    // blijft dan wel sleepbaar).
+    let inView = false
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const io = new IntersectionObserver(([e]) => {
+      const was = inView
+      inView = e.isIntersecting && !document.hidden
+      if (inView && !was && !animationId) play();
+      if (!inView && animationId) { cancelAnimationFrame(animationId); animationId = 0; }
+    }, { threshold: 0.01 });
+    io.observe(track);
     window.addEventListener('resize', measure);
     const remeasure = setTimeout(measure, 400); // after logos load
     return () => {
       cancelAnimationFrame(animationId);
+      io.disconnect();
       window.removeEventListener('resize', measure);
       clearTimeout(remeasure);
     };
@@ -271,7 +286,7 @@ export function ClubLogoSlider({
                   <span className="relative inline-flex h-9 w-24 md:h-11 md:w-32 items-center justify-center">
                     <StatusBadge status={live.status} count={live.count} />
                     <img
-                      src={club.whitelogo || club.picture}
+                      src={optImg(club.whitelogo || club.picture, 256)}
                       alt={club.name}
                       className={`max-h-full max-w-full object-contain drop-shadow-md pointer-events-none ${onLight ? 'brightness-0' : 'brightness-0 invert'}`}
                       loading="lazy"

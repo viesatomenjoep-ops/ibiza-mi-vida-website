@@ -35,6 +35,23 @@ export function fmtShortDate(iso: string, locale: string): string {
   return `${deel('weekday')} ${deel('day')} ${deel('month')}`.replace(/\s+/g, ' ').trim()
 }
 
+/**
+ * Vandaag als YYYY-MM-DD in Ibiza-tijd (Europe/Madrid).
+ *
+ * `new Date().toISOString().slice(0, 10)` is UTC-vandaag, en Ibiza loopt in het
+ * seizoen twee uur voor: om 00:45 Ibiza-tijd is het in UTC nog gisteren. Elke
+ * pagina die daarmee "vanavond" bepaalde zat tussen middernacht en twee uur een
+ * dag achter — precies het venster waarin de doelgroep de site gebruikt. En
+ * `new Date()` in een client-component is erger: de server (UTC) en de browser
+ * (lokale tijd) komen op een andere dag uit, en dat is een hydration-mismatch.
+ * Server én client rekenen daarom allebei hiermee.
+ */
+export function ibizaToday(): string {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Madrid', year: 'numeric', month: '2-digit', day: '2-digit',
+  }).format(new Date())
+}
+
 /** `2026-08-30` + 2 -> `2026-09-01`. UTC arithmetic, so no DST surprises. */
 export function addDays(iso: string, n: number): string {
   const [y, m, d] = String(iso || '').split('-').map(Number)

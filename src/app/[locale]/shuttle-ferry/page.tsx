@@ -8,6 +8,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 import { getVenues, getAllDates } from '@/lib/clubtickets';
 import { agendaCopy } from '@/lib/agenda-i18n';
 import WaterAgendaClient, { WaterAgendaEvent, WaterAgendaVenue } from '@/components/boats/WaterAgendaClient';
+import { ibizaToday } from '@/lib/date-label';
 
 export const revalidate = 3600;
 
@@ -22,7 +23,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
   const shuttleSlugs = new Set(shuttleVenues.map(v => v.slug));
 
   const allDates = await getAllDates(params.locale);
-  const todayStr = new Date().toISOString().split('T')[0];
+  const todayStr = ibizaToday();
   // PERF: only ship the next 31 days to the client - the full season (1000+ dates)
   // made the page payload huge and froze the browser.
   const windowEndStr = new Date(Date.now() + 31 * 86400000).toISOString().split('T')[0];
@@ -57,6 +58,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
   const C = agendaCopy('shuttle-ferry', params.locale);
   return (
     <WaterAgendaClient
+      today={todayStr}
       locale={params.locale}
       basePath="shuttle-ferry"
       kicker={C.kicker}

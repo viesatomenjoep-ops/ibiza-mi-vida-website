@@ -7,6 +7,7 @@ import { ActivitiesGrid, type ActivityCard } from '@/components/activities/Activ
 import { ItemListJsonLd } from '@/components/seo/ItemListJsonLd'
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { AuthorByline } from '@/components/seo/AuthorByline'
+import { ibizaToday } from '@/lib/date-label'
 
 export const revalidate = 3600
 
@@ -61,7 +62,7 @@ export default async function ActivitiesPage({ params }: { params: { locale: str
   ])
 
   const venues = allVenues.filter((v) => (v as any).type?.slug === 'activities')
-  const todayStr = new Date().toISOString().split('T')[0]
+  const todayStr = ibizaToday()
 
   const items: ActivityCard[] = venues
     .map((v) => {

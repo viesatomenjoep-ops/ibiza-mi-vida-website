@@ -5,6 +5,7 @@ import { getLabels, APP_LOCALES } from '@/components/mobile/i18n'
 import { FLEET } from '@/data/fleet'
 import { cloudinaryVideo, cloudinaryVideoPoster, MEDIA } from '@/lib/cloudinary'
 import { eventBasePath } from '@/lib/event-path'
+import { ibizaToday } from '@/lib/date-label'
 
 export const revalidate = 3600
 
@@ -29,7 +30,7 @@ export default async function MobileAppPage({
   ])
 
   const typeBySlug = new Map(venuesRaw.map(v => [v.slug, v.type?.slug || '']))
-  const todayStr = new Date().toISOString().slice(0, 10)
+  const todayStr = ibizaToday()
 
   // Payload discipline: this whole array ships twice (SSR HTML + hydration),
   // so every byte counts double. 60 days / 450 rows covers every screen;

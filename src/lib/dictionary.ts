@@ -10,7 +10,9 @@ export function getDictionary(locale: string) {
     case 'de': return deDict;
     case 'fr': return frDict;
     case 'es': return esDict;
-    case 'nl':
-    default: return nlDict;
+    case 'nl': return nlDict;
+    // DEFAULT_LOCALE is 'en' — overal, behalve hier. Een onbekende locale gaf
+    // een Nederlandse UI onder een Engelse canonical.
+    default: return enDict;
   }
 }

@@ -1,4 +1,5 @@
 import { getVenues, getAllDates } from '@/lib/clubtickets'
+import { ibizaToday } from '@/lib/date-label'
 
 /**
  * When each Ibiza club stops for the season, counted from the live agenda.
@@ -68,7 +69,7 @@ export async function getSeasonStats(locale: string): Promise<SeasonStats | null
   const typeOf = new Map(venues.map(v => [v.slug, (v as any).type?.slug || '']))
   const nameOf = new Map(venues.map(v => [v.slug, v.name]))
   const logoOf = new Map(venues.map(v => [v.slug, (v as any).whitelogo || (v as any).picture || '']))
-  const todayStr = new Date().toISOString().slice(0, 10)
+  const todayStr = ibizaToday()
 
   const nights = dates
     .map(d => ({ slug: d.venueSlug || '', day: String(d.date || '').slice(0, 10) }))

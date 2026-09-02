@@ -7,6 +7,7 @@ import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { pickCover } from '@/lib/blank-covers'
 import { optImg } from '@/lib/img'
+import { ibizaToday } from '@/lib/date-label'
 
 // Hourly: the whole value of this page is that it is current.
 export const revalidate = 3600
@@ -133,7 +134,7 @@ export default async function ThisWeekPage({ params }: { params: { locale: strin
   const clubbing = new Set(
     venues.filter(v => (v as any).type?.slug === 'clubbing').map(v => v.slug),
   )
-  const todayStr = new Date().toISOString().slice(0, 10)
+  const todayStr = ibizaToday()
   const until = addDays(todayStr, 6)
 
   const nights: Night[] = dates
