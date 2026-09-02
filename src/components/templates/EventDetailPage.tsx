@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { MapPin, ArrowLeft, Check, Info, Camera, HelpCircle, Ticket, Clock, Music, Sparkles, Navigation, AlertCircle, Utensils, Anchor, Waves } from 'lucide-react'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { EventCheckoutButton } from './EventCheckoutButton'
+import type { EventStatus } from '@/lib/clubtickets-live'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
 import { EventDatePicker, PickerLabels } from './EventDatePicker'
 import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
@@ -199,18 +200,56 @@ interface EventDetailPageProps {
    * line-up, de ticketlink en de voorgeselecteerde dag in de kiezer.
    */
   selectedDate?: string;
+  /** Actuele stand bij ClubTickets voor de gekozen avond; zie clubtickets-live.ts. */
+  live?: { status: EventStatus; price: string | null };
   eventSlug: string;
   locale: string;
   basePath: string; // e.g. "tours", "activities"
 }
 
-export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath, selectedDate }: EventDetailPageProps) {
+export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath, selectedDate, live }: EventDetailPageProps) {
   const eventDetail = club.events?.find(e => e.slug === eventSlug)
   const t = dicts[locale] || dicts['en']
   const T = EVENT_I18N[locale] || EVENT_I18N.en
   const S = SECTION_I18N[locale] || SECTION_I18N.en
   const bcp = BCP[locale] || 'en-GB'
   const checkoutLabel = ({ en: 'Checkout', nl: 'Afrekenen', de: 'Zur Kasse', es: 'Finalizar compra', fr: 'Commander' } as Record<string, string>)[locale] || 'Checkout'
+
+  /**
+   * Melding boven de knop, als ClubTickets iets anders zegt dan onze
+   * momentopname.
+   *
+   * De knop blijft altijd staan. Bij uitverkocht kan er teruggave komen en bij
+   * een verplaatste avond staat op de clubpagina wat er in de plaats komt --
+   * iemand die dat wil proberen de weg afsnijden levert niets op behalve een
+   * doodlopende pagina.
+   */
+  const MELDING: Record<string, Record<string, string>> = {
+    soldout: {
+      nl: 'Uitverkocht — er zijn nu geen kaarten meer beschikbaar',
+      en: 'Sold out — no tickets available right now',
+      de: 'Ausverkauft — derzeit keine Tickets verfügbar',
+      es: 'Agotado — ahora mismo no hay entradas',
+      fr: 'Complet — aucun billet disponible pour le moment',
+    },
+    notonsale: {
+      nl: 'Nog niet in de verkoop',
+      en: 'Not on sale yet',
+      de: 'Noch nicht im Verkauf',
+      es: 'Aún no está a la venta',
+      fr: 'Pas encore en vente',
+    },
+    gone: {
+      nl: 'Deze avond staat niet meer in de agenda van ClubTickets',
+      en: 'This date is no longer in the ClubTickets agenda',
+      de: 'Dieser Termin steht nicht mehr im ClubTickets-Kalender',
+      es: 'Esta fecha ya no está en la agenda de ClubTickets',
+      fr: "Cette date ne figure plus dans l'agenda ClubTickets",
+    },
+  }
+  const meldingTekst = live && MELDING[live.status]
+    ? (MELDING[live.status][locale] || MELDING[live.status].en)
+    : null
   /**
    * De avond die deze pagina toont.
    *
@@ -386,6 +425,15 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
 
       {/* Full-width Checkout button directly under the event image */}
       <div className="mx-auto max-w-7xl px-4 mt-6 md:mt-8 md:px-8">
+        {meldingTekst && (
+          <p
+            role="status"
+            className="mb-3 flex items-center gap-2 rounded-2xl border border-amber-300/60 bg-amber-50 px-4 py-3 text-[13px] font-bold text-amber-900"
+          >
+            <span aria-hidden className="text-base leading-none">⚠</span>
+            {meldingTekst}
+          </p>
+        )}
         <EventCheckoutButton affLink={checkoutAff} locale={locale} label={checkoutLabel} variant="full" />
       </div>
 

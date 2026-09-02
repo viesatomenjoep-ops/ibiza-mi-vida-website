@@ -18,6 +18,7 @@ import { notFound } from 'next/navigation'
 import { getVenues, getAllDates } from '@/lib/clubtickets'
 import { EventDetailPage } from '@/components/templates/EventDetailPage'
 import { dateParam } from '@/lib/event-date-param'
+import { liveVoorEvent } from '@/lib/clubtickets-live'
 
 export const revalidate = 3600
 
@@ -35,6 +36,12 @@ export default async function EventPage({ params, searchParams }: Props) {
   const eventDates = allDates.filter(d => d.venueSlug === venue.slug && d.eventSlug === params.eventSlug);
   if (eventDates.length === 0) notFound();
 
+  // Actuele stand bij ClubTickets voor deze avond. Zie clubtickets-live.ts:
+  // faalt of vertraagt dit, dan komt er undefined uit en rendert de pagina
+  // precies zoals hij dat zonder deze call ook deed.
+  const gekozenDatum = dateParam(searchParams)
+  const live = await liveVoorEvent(eventDates as any, gekozenDatum, params.locale)
+
   return (
     <EventDetailPage 
       eventDates={eventDates as any} 
@@ -42,7 +49,8 @@ export default async function EventPage({ params, searchParams }: Props) {
       club={venue as any} 
       locale={params.locale} 
       basePath="water-sports"
-      selectedDate={dateParam(searchParams)}
+      selectedDate={gekozenDatum}
+      live={live}
     />
   )
 }
