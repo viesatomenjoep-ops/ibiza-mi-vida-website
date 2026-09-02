@@ -99,7 +99,13 @@ export default function DossierPage({ params }: { params: { locale: string; slug
           document. Zie DossierPages voor de afwegingen (scherpte, geheugen,
           pagina-voor-pagina tonen). */}
       <div className="mx-auto max-w-4xl px-4 pb-4">
-        <DossierPages src={pdfSrc} locale={l} title={`${boat.model} ${naam}`} />
+        <DossierPages
+          pdfUrl={boat.pdf}
+          pages={boat.pdfPages ?? 0}
+          locale={l}
+          title={`${boat.model} ${naam}`}
+          fallbackHref={pdfSrc}
+        />
 
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <a
