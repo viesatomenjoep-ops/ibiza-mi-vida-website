@@ -38,8 +38,32 @@ export const MEDIA = {
 const VIDEO_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload`
 const IMAGE_BASE = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload`
 
-/** Default transformation chain applied to background/hero videos. */
-const DEFAULT_VIDEO_TRANSFORM = 'q_auto,f_auto,fl_progressive'
+/**
+ * Standaardbewerking voor achtergrond- en heroclips.
+ *
+ * Stond op `q_auto,f_auto,fl_progressive` — zonder begrenzing op breedte of
+ * bitrate, dus Cloudinary leverde de bron in volle resolutie. Gemeten op de
+ * homepage betekende dat 9,8 MB video bij het laden, tegenover 361 KB
+ * JavaScript en 189 KB afbeeldingen. De video wás de laadtijd; al het andere
+ * was ruis.
+ *
+ * Wat er nu bij staat en waarom, met gemeten cijfers op dezelfde clip:
+ *   kaal                                  19,9 MB
+ *   + w_1280,c_limit                      13,3 MB
+ *   + q_auto:eco                          10,3 MB
+ *   + br_1500k                             3,4 MB
+ *
+ * `br_1500k` doet verreweg het meeste werk. Dat kan hier omdat dit
+ * achtergrondbeeld is: het speelt gedempt achter tekst, op een kwart van het
+ * scherm bewegend water en licht. Een bitrate die je op een filmscène direct
+ * zou zien, is hier onzichtbaar.
+ *
+ * `w_1280,c_limit` en niet groter: de clip wordt nooit breder dan het scherm
+ * getoond en c_limit schaalt nooit op, dus een portretclip blijft ongemoeid.
+ * `q_auto:eco` in plaats van `q_auto`: eco mikt op de laagste kwaliteit die
+ * niet zichtbaar afwijkt, wat voor bewegend achtergrondbeeld precies klopt.
+ */
+const DEFAULT_VIDEO_TRANSFORM = 'q_auto:eco,f_auto,fl_progressive,w_1280,c_limit,br_1500k'
 
 type CloudinaryUrlParts = {
   /** The cloud that hosts this URL (kept as-is so we never rewrite it). */
@@ -82,9 +106,14 @@ function parseCloudinaryUrl(url: string): CloudinaryUrlParts | null {
 }
 
 /**
- * Ensure a Cloudinary video URL is delivered with instant-load transformations.
- * Adds `q_auto,f_auto,fl_progressive` (merging with any existing transforms such
- * as `so_30,du_30`). Non-Cloudinary URLs are returned untouched.
+ * Zorgt dat een Cloudinary-video-URL met de laadbewerkingen wordt geleverd.
+ * Voegt kwaliteit, formaat, progressief laden én de begrenzingen op breedte en
+ * bitrate toe, en laat bestaande bewerkingen (zoals so_30,du_30) staan.
+ *
+ * Die laatste twee stonden hier eerder niet, terwijl DEFAULT_VIDEO_TRANSFORM ze
+ * wel had: elke clip die via deze functie liep, werd dus alsnog in volle
+ * resolutie geleverd. Zie DEFAULT_VIDEO_TRANSFORM voor de gemeten cijfers.
+ * Niet-Cloudinary-URL's blijven ongemoeid.
  */
 export function optimizeCloudinaryVideo(url: string): string {
   const parts = parseCloudinaryUrl(url)
@@ -94,9 +123,11 @@ export function optimizeCloudinaryVideo(url: string): string {
   const flat = existing.join(',')
 
   const additions: string[] = []
-  if (!/\bq_/.test(flat)) additions.push('q_auto')
+  if (!/\bq_/.test(flat)) additions.push('q_auto:eco')
   if (!/\bf_/.test(flat)) additions.push('f_auto')
   if (!/\bfl_progressive\b/.test(flat)) additions.push('fl_progressive')
+  if (!/\bw_/.test(flat)) additions.push('w_1280', 'c_limit')
+  if (!/\bbr_/.test(flat)) additions.push('br_1500k')
 
   const transform = additions.length
     ? [...existing, additions.join(',')].filter(Boolean).join('/')

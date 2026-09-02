@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { ServiceSchema } from '@/components/seo/ServiceSchema'
 import { FleetPriceBlock } from '@/components/boats/FleetPriceBlock'
+import { FleetAnswers } from '@/components/boats/FleetAnswers'
 import { SERVICE_COPY } from '@/lib/service-schema-copy'
 import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { getDictionary } from '@/lib/dictionary'
@@ -83,6 +84,10 @@ export default async function PrivateBoatChartersPage({ params: { locale } }: { 
           antwoord stond nergens op de pagina. Ranges uit de eigen vloot,
           niet als marktcijfer — zie FleetPriceBlock voor het waarom. */}
       <FleetPriceBlock locale={l} />
+      {/* Berekende antwoorden op de prijs- en keuzevragen. Staat vóór de
+          vaarroutes: wie op "goedkoopste boot" binnenkomt wil eerst dat
+          getal zien, niet eerst een route. Zie FleetAnswers. */}
+      <FleetAnswers locale={l} />
       <SailingRoutes locale={locale} />
       <BoatAdviceCta locale={locale} />
       <BoatRentalPromo locale={locale} />
