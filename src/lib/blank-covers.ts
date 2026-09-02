@@ -27,3 +27,21 @@ export function pickCover(...candidates: (string | undefined | null)[]): string 
   }
   return ''
 }
+
+/**
+ * Herstelt beeld-URL's die op een hoofdletterextensie eindigen.
+ *
+ * ClubTickets levert een handvol URL's als `.JPG`; hun opslag is
+ * hoofdlettergevoelig en geeft daarop een 403 terwijl exact dezelfde URL met
+ * `.jpg` een 200 geeft. Gemeten op de Formentera Cruise:
+ *   media.clubtickets.com/event/6a60da41d12e9.JPG  → 403
+ *   media.clubtickets.com/event/6a60da41d12e9.jpg  → 200
+ *
+ * Het zijn er maar twee in de hele feed, maar het gevolg is een pagina zonder
+ * enig beeld — precies wat op de Formentera Cruise te zien was. Dit draait bij
+ * het inlezen, zodat geen enkele consument er nog last van heeft.
+ */
+export function fixImageCase(url?: string | null): string {
+  if (!url) return ''
+  return url.replace(/\.(JPG|JPEG|PNG|WEBP|GIF)(\?|$)/, (_m, ext: string, staart: string) => `.${ext.toLowerCase()}${staart}`)
+}

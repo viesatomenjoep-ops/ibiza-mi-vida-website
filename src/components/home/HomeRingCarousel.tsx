@@ -78,8 +78,6 @@ const L = {
   allBoats: T('Alle boten', 'All boats', 'Alle Boote', 'Todos los barcos', 'Tous les bateaux'),
   from: T('vanaf', 'from', 'ab', 'desde', 'dès'),
   perDay: T('/ dag', '/ day', '/ Tag', '/ día', '/ jour'),
-  pause: T('Pauzeer de carrousel', 'Pause the carousel', 'Karussell anhalten', 'Pausar el carrusel', 'Mettre en pause'),
-  play: T('Laat de carrousel draaien', 'Play the carousel', 'Karussell abspielen', 'Reproducir el carrusel', 'Lancer le carrousel'),
 }
 const nf = (n: number, l: string) =>
   n.toLocaleString(({ en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' } as L5)[l] || 'en-GB')
@@ -175,14 +173,91 @@ function eventItems(events: PickerEvent[], locale: string): RingItem[] {
   return out
 }
 
+/**
+ * De ring draait uit JavaScript in plaats van uit een CSS-animatie.
+ *
+ * ── Waarom die omzetting nodig was ────────────────────────────────────────
+ * Een CSS-keyframe kun je niet slepen: hij bepaalt zelf elke frame de
+ * transform en overschrijft alles wat jij ertussen zet. Om de ring met muis
+ * of vinger te kunnen verdraaien moet de hoek dus in ons beheer zijn.
+ *
+ * De hoek staat in een ref en wordt per frame rechtstreeks op het element
+ * geschreven, niet in state: state zou zestig keer per seconde een render
+ * uitlokken voor een waarde die alleen in een transform terechtkomt.
+ *
+ * ── Altijd draaien ───────────────────────────────────────────────────────
+ * Geen pauze bij hover en geen pauzeknop meer. Wat blijft is pauzeren buiten
+ * beeld en bij een tabblad op de achtergrond — dat is geen ontwerpkeuze maar
+ * zuinigheid: een ring die niemand ziet hoeft geen frames te tekenen. Tijdens
+ * het slepen staat de automatische rotatie stil, anders vecht hij met je hand.
+ *
+ * `prefers-reduced-motion` blijft gerespecteerd: dan wordt het een platte
+ * scroll-rail via CSS en laten we de hoek met rust.
+ */
 function Ring({ items, hidden, id }: { items: RingItem[]; hidden: boolean; id: string }) {
+  const ringRef = useRef<HTMLUListElement>(null)
+  const hoek = useRef(0)
+  const sleep = useRef<{ actief: boolean; startX: number; startHoek: number; bewogen: boolean }>({
+    actief: false, startX: 0, startHoek: 0, bewogen: false,
+  })
+
+  useEffect(() => {
+    const el = ringRef.current
+    if (!el || hidden) return
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
+
+    let raf = 0
+    let vorige = performance.now()
+    const stap = (nu: number) => {
+      const dt = Math.min(nu - vorige, 100) // na een tabwissel niet vooruitspringen
+      vorige = nu
+      if (!sleep.current.actief && !document.hidden) hoek.current += dt * 0.0138 // ~26s per omwenteling
+      el.style.transform = `translateZ(calc(var(--ring-r) * -1)) rotateY(${hoek.current}deg)`
+      raf = requestAnimationFrame(stap)
+    }
+    raf = requestAnimationFrame(stap)
+    return () => cancelAnimationFrame(raf)
+  }, [hidden])
+
+  // Slepen met muis én vinger via pointer events: één implementatie voor
+  // allebei. touch-action:pan-y in de CSS laat verticaal scrollen door, zodat
+  // de pagina niet vastloopt als je over de ring veegt.
+  const omlaag = (e: React.PointerEvent) => {
+    sleep.current = { actief: true, startX: e.clientX, startHoek: hoek.current, bewogen: false }
+    ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
+  }
+  const beweeg = (e: React.PointerEvent) => {
+    if (!sleep.current.actief) return
+    const dx = e.clientX - sleep.current.startX
+    if (Math.abs(dx) > 4) sleep.current.bewogen = true
+    hoek.current = sleep.current.startHoek + dx * 0.35
+  }
+  const omhoog = (e: React.PointerEvent) => {
+    sleep.current.actief = false
+    ;(e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId)
+  }
+  // Een sleep mag geen klik worden: zonder dit opent elke veeg de kaart
+  // waarop je toevallig begon.
+  const opKlik = (e: React.MouseEvent) => {
+    if (sleep.current.bewogen) { e.preventDefault(); e.stopPropagation() }
+  }
+
   return (
-    <div id={id} className="ring-stage" hidden={hidden}>
+    <div
+      id={id}
+      className="ring-stage"
+      hidden={hidden}
+      onPointerDown={omlaag}
+      onPointerMove={beweeg}
+      onPointerUp={omhoog}
+      onPointerCancel={omhoog}
+      onClickCapture={opKlik}
+    >
       {/* Zijkanten dimmen naar de achtergrondkleur, zoals een ring in een
           etalage: de voorste kaart is scherp, wat wegdraait vervaagt. */}
       <div aria-hidden className="ring-fade ring-fade-l" />
       <div aria-hidden className="ring-fade ring-fade-r" />
-      <ul className="ring" style={{ ['--n' as string]: items.length }}>
+      <ul ref={ringRef} className="ring" style={{ ['--n' as string]: items.length }}>
         {items.map((it, i) => (
           <li key={it.key} className="ring-card" style={{ ['--i' as string]: i }}>
             <RingLink href={it.href}>
@@ -237,22 +312,8 @@ export function HomeRingCarousel({
   const rings = alle.filter(r => r.items.length >= 3)
 
   const [active, setActive] = useState<Kind>(rings[0]?.kind ?? 'events')
-  const [paused, setPaused] = useState(false)
-  const [userPaused, setUserPaused] = useState(false)
   const wrap = useRef<HTMLElement>(null)
   const inView = useRef(true)
-
-  // Pauzeren buiten beeld en bij een tabblad op de achtergrond: een ring die
-  // niemand ziet hoeft niet te draaien.
-  useEffect(() => {
-    const el = wrap.current
-    if (!el || typeof IntersectionObserver === 'undefined') return
-    const apply = () => setPaused(document.hidden || !inView.current)
-    const io = new IntersectionObserver(([e]) => { inView.current = e.isIntersecting; apply() }, { threshold: 0.05 })
-    io.observe(el)
-    document.addEventListener('visibilitychange', apply)
-    return () => { io.disconnect(); document.removeEventListener('visibilitychange', apply) }
-  }, [])
 
   if (!rings.length) return null
 
@@ -260,7 +321,6 @@ export function HomeRingCarousel({
     <section
       ref={wrap}
       className="ring-section bg-white py-12 text-neutral-900 md:py-16"
-      data-paused={paused || userPaused ? '' : undefined}
       aria-label={t(L.heading, locale)}
     >
       <div className="mx-auto max-w-6xl px-4">
@@ -288,21 +348,6 @@ export function HomeRingCarousel({
                 {r.label}
               </button>
             ))}
-            {/* Pauzeknop: bewegende inhoud die langer dan vijf seconden duurt
-                hoort te stoppen te zijn (WCAG 2.2.2), niet alleen via hover. */}
-            <button
-              type="button"
-              onClick={() => setUserPaused(p => !p)}
-              aria-pressed={userPaused}
-              aria-label={userPaused ? t(L.play, locale) : t(L.pause, locale)}
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-neutral-100 text-neutral-700 outline-none transition-colors hover:bg-neutral-200 focus-visible:ring-2 focus-visible:ring-ibiza-green focus-visible:ring-offset-2"
-            >
-              {userPaused ? (
-                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden><path d="M3 2l7 4-7 4z" fill="currentColor" /></svg>
-              ) : (
-                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden><path d="M3 2h2v8H3zM7 2h2v8H7z" fill="currentColor" /></svg>
-              )}
-            </button>
           </div>
         </div>
       </div>

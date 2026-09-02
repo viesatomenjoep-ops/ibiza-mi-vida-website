@@ -225,9 +225,34 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
 
   const d0 = eventDates[0] as any
   const eventName = eventDetail?.name || d0?.eventName || 'Event'
-  // Prefer the per-event image from the ClubTickets dates feed (always populated),
-  // then the venue's event object, then the venue photo — so no event renders blank.
-  const eventCover = d0?.eventCover || eventDetail?.cover || d0?.eventLogo || eventDetail?.logo || d0?.venueCover || club.cover || club.picture || ''
+  /**
+   * Twee BESCHIKBARE beelden, niet één beeld twee keer.
+   *
+   * De hero tekende hetzelfde bestand twee keer: scherp op de voorgrond en
+   * uitvergroot-vervaagd erachter. Dat oogt als een truc omdat het er een is —
+   * de achtergrond voegt geen informatie toe, alleen kleur.
+   *
+   * ClubTickets levert per event meerdere, echt verschillende beelden:
+   *   cover / eventCover   het brede sfeerbeeld van het event
+   *   logo  / eventLogo    de vierkante flyer, meestal met de artiestennaam
+   *   venueCover           een brede foto van de zaal
+   * Voorgrond is de flyer (dat is waar iemand op klikt en op herkent),
+   * achtergrond een ánder beeld van hetzelfde event of dezelfde zaal.
+   *
+   * De uitwijk blijft dezelfde plaat vervaagd: bij een event dat maar één
+   * beeld heeft is dat nog altijd beter dan een grijs vlak, en de bezoeker
+   * ziet het verschil niet omdat hij hem nooit naast een echte achtergrond
+   * ziet staan.
+   */
+  const kandidaten = [
+    d0?.eventLogo, eventDetail?.logo,
+    d0?.eventCover, eventDetail?.cover,
+    d0?.venueCover, club.cover, club.picture,
+  ].filter(Boolean) as string[]
+  const eventCover = kandidaten[0] || ''
+  // Eerste kandidaat die niet gelijk is aan de voorgrond; anders de voorgrond
+  // zelf, die dan vervaagd wordt getekend zoals voorheen.
+  const heroBackdrop = kandidaten.find(u => u !== eventCover) || eventCover
   const description = eventDetail?.description || club.description || ''
 
   const R = ROUTE_I18N[locale] || ROUTE_I18N.en
@@ -327,13 +352,13 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
                 browser één keer downloadt en het beeld twee keer tekent in
                 plaats van twee bestanden op te halen. */}
             <Image
-              src={eventCover}
+              src={heroBackdrop}
               alt=""
               aria-hidden
               fill
               sizes="100vw"
-              quality={85}
-              className="scale-125 object-cover blur-2xl brightness-50"
+              quality={60}
+              className={`object-cover brightness-50 ${heroBackdrop === eventCover ? 'scale-125 blur-2xl' : 'blur-sm'}`}
             />
             <Image
               src={eventCover}
