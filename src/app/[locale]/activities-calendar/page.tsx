@@ -43,9 +43,13 @@ const DESC: Record<Locale, string> = {
   es: 'Todas las excursiones en barco, motos de agua, buggies, cuevas y viajes a Formentera en Ibiza, día a día, con el precio actual.',
   fr: 'Toutes les sorties en bateau, jet-skis, buggys, grottes et traversées vers Formentera à Ibiza, jour par jour, au prix actuel.',
 }
+// Kort. "Ibiza activiteitenagenda" is een woord van 22 letters achter een
+// plaatsnaam: op een telefoon brak dat af tot "ACTIVITEITENAGENDA" dwars over
+// de schermrand heen. Een kop hoort niet uit te leggen wat de pagina is als de
+// zin eronder dat al doet.
 const HEADING: Record<Locale, string> = {
-  nl: 'Ibiza activiteitenagenda', en: 'Ibiza activities calendar', de: 'Ibiza Aktivitätenkalender',
-  es: 'Agenda de actividades Ibiza', fr: 'Agenda des activités Ibiza',
+  nl: 'Activiteiten', en: 'Activities', de: 'Aktivitäten',
+  es: 'Actividades', fr: 'Activités',
 }
 const SUB: Record<Locale, string> = {
   nl: 'Boottochten, jetski’s, buggy’s, grotten en Formentera — schuif door de data en boek.',

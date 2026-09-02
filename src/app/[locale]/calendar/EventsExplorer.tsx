@@ -24,7 +24,7 @@ interface ExEvent {
   date: string
   prices: string
   lineUp: string
-  ct_events: { name?: string; slug?: string; cover?: string }
+  ct_events: { name?: string; slug?: string; cover?: string; blurb?: string }
   // Alleen naam en slug. whitelogo, picture en type_slug zijn eigenschappen van
   // de venue, niet van de avond, en werden 1566 keer herhaald voor 42 venues —
   // ruim een kwart van alles wat deze pagina naar de browser stuurde. Ze komen
@@ -434,14 +434,23 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
                           <h3 className="text-lg font-bold text-black leading-snug mb-1 group-hover:text-ibiza-green transition-colors line-clamp-2">
                             {ev.ct_events?.name || ev.name}
                           </h3>
-                          {artists.length > 0 && (
+                          {artists.length > 0 ? (
                             <div className="mt-2 flex flex-wrap gap-1.5">
                               {artists.map((a, i) => (
                                 <span key={i} className="rounded-full bg-black/5 px-2.5 py-1 text-[11px] font-semibold text-black/70 ring-1 ring-black/10">{a}</span>
                               ))}
                               {extra > 0 && <span className="rounded-full px-2.5 py-1 text-[11px] font-semibold text-ibiza-green">+{extra} {T.lineupMore}</span>}
                             </div>
-                          )}
+                          ) : ev.ct_events?.blurb ? (
+                            /* Geen line-up in de feed -- dat is bij negen van de tien
+                               avonden zo, en dan staat er letterlijk een leeg
+                               alineablokje. Deze kaarten toonden dus alleen een titel
+                               en een prijs. De eerste zin uit de eventbeschrijving
+                               zegt wel wat voor avond het is, en die hebben ze
+                               allemaal. Niets verzonnen: dit is de tekst van
+                               ClubTickets zelf, in de taal van de pagina. */
+                            <p className="mt-2 line-clamp-2 text-[12px] leading-snug text-black/55">{ev.ct_events.blurb}</p>
+                          ) : null}
                           <div className="text-xs font-semibold text-black/50 flex items-center gap-1.5 mb-5 mt-auto pt-3">
                             <MapPin size={14} className="text-black/40" /> {ev.ct_venues?.name || 'Ibiza'}
                           </div>

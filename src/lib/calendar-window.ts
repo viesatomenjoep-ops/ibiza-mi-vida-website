@@ -1,4 +1,5 @@
-import { getVenues, getAllDates } from '@/lib/clubtickets'
+import { getVenues, getAllDates, getAllEvents } from '@/lib/clubtickets'
+import { stripHtml } from '@/lib/html-utils'
 import { pickCover } from '@/lib/blank-covers'
 
 /**
@@ -21,8 +22,33 @@ export interface CalendarEvent {
   date: string
   prices: string
   lineUp: string
-  ct_events: { name?: string; slug?: string; cover?: string }
+  /**
+   * `blurb` is de eerste zin uit de eventbeschrijving.
+   *
+   * Tien procent van de avonden heeft een line-up in de feed; bij de andere
+   * negentig procent staat er letterlijk een leeg alineablokje. Die kaarten
+   * toonden dus alleen een titel en een prijs. Een beschrijving hebben ze
+   * allemaal wel -- geteld: 157 van de 157 events, in alle vijf de talen --
+   * en daar staat in wat voor avond het is.
+   */
+  ct_events: { name?: string; slug?: string; cover?: string; blurb?: string }
   ct_venues: { name?: string; slug?: string }
+}
+
+/**
+ * Eerste zin, zonder opmaak, hoogstens 150 tekens.
+ *
+ * De beschrijvingen zijn HTML en lopen soms over vijf alinea's. Op een
+ * kaartje van vier centimeter hoog past een zin; die eerste zin zegt in deze
+ * feed steevast wat voor avond het is ("Garage Nation brengt zeven weken
+ * originele UK Garage naar Eden").
+ */
+function eersteZin(html?: string): string | undefined {
+  const kaal = stripHtml(html || '').replace(/\s+/g, ' ').trim()
+  if (kaal.length < 20) return undefined
+  const punt = kaal.search(/[.!?](\s|$)/)
+  const zin = punt > 30 ? kaal.slice(0, punt + 1) : kaal
+  return zin.length > 150 ? zin.slice(0, 147).trimEnd() + '…' : zin
 }
 
 export async function calendarWindow(
@@ -30,8 +56,9 @@ export async function calendarWindow(
   fromStr: string,
   toStr: string,
 ): Promise<CalendarEvent[]> {
-  const [allDates, venues] = await Promise.all([getAllDates(locale), getVenues(locale)])
+  const [allDates, venues, events] = await Promise.all([getAllDates(locale), getVenues(locale), getAllEvents(locale)])
   const venuesMap = new Map(venues.map((v) => [v.slug, v]))
+  const eventBlurbs = new Map(events.map((e) => [e.slug, e.description]))
 
   return allDates
     .filter((d) => d.date >= fromStr && d.date <= toStr)
@@ -47,6 +74,7 @@ export async function calendarWindow(
           name: d.eventName,
           slug: d.eventSlug,
           cover: pickCover(d.eventCover, d.eventLogo, venueObj?.picture, d.venueCover),
+          blurb: eersteZin(eventBlurbs.get(d.eventSlug || '')),
         },
         ct_venues: { name: d.venueName, slug: d.venueSlug },
       }

@@ -20,6 +20,7 @@ import { ArrowCircle } from '@/components/ui/ArrowCircle';
 import { HomeTonight } from '@/components/home/HomeTonight';
 import { HeroRatingBadge, type HeroRating } from '@/components/home/HeroRatingBadge';
 import { HomeRail } from '@/components/home/HomeRail'
+import { HomeVimeo } from '@/components/home/HomeVimeo'
 import { FeaturedDayRotator } from '@/components/home/FeaturedDayRotator';
 import { fmtShortDate } from '@/lib/date-label';
 
@@ -151,6 +152,12 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         )}
 
       </header>
+
+      {/* Direct onder de hero: het eerste wat je ziet nadat je de kop en de
+          knop hebt gezien, en voordat de agenda begint. Laadt als poster met
+          een afspeelknop -- de speler van Vimeo komt pas in de pagina als je
+          erop tikt. Zie HomeVimeo voor waarom. */}
+      <HomeVimeo id="352653740" hash="36444999f9" locale={locale} />
 
       <HomeCategoryCarousel deals={deals} base={base} locale={locale} />
 
