@@ -2,10 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, MessageCircle, Download, MapPin, Users } from 'lucide-react'
+import { ArrowLeft, MessageCircle, FileText, MapPin, Users } from 'lucide-react'
 import { FLEET } from '@/data/fleet'
 import { FavouriteButton } from '@/components/boats/FavouriteButton'
-import { DossierPages } from '@/components/boats/DossierPages'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 
@@ -16,7 +15,15 @@ const L = (nl: string, en: string, de: string, es: string, fr: string): T => ({ 
 
 const BACK: T = L('Terug naar de vloot', 'Back to the fleet', 'Zurück zur Flotte', 'Volver a la flota', 'Retour à la flotte')
 const DOSSIER: T = L('Bootdossier', 'Boat dossier', 'Bootsdossier', 'Dossier del barco', 'Dossier du bateau')
-const OPEN_PDF: T = L('Open het dossier (PDF)', 'Open the dossier (PDF)', 'Dossier öffnen (PDF)', 'Abrir el dossier (PDF)', 'Ouvrir le dossier (PDF)')
+const OPEN_PDF: T = L('Open het dossier', 'Open the dossier', 'Dossier öffnen', 'Abrir el dossier', 'Ouvrir le dossier')
+const PAGES: T = L('pagina’s', 'pages', 'Seiten', 'páginas', 'pages')
+const TERMS: T = L(
+  'In het dossier staan de foto’s, de afmetingen en de voorwaarden van deze boot. Wat er bij de prijs inzit — schipper, brandstof, btw — verschilt per boot; Simon bevestigt het voordat je boekt.',
+  'The dossier holds the photos, the dimensions and the terms for this boat. What the rate includes — skipper, fuel, VAT — differs per boat; Simon confirms it before you book.',
+  'Im Dossier stehen die Fotos, die Maße und die Bedingungen dieses Bootes. Was im Preis enthalten ist — Skipper, Kraftstoff, MwSt. — unterscheidet sich je Boot; Simon bestätigt es vor der Buchung.',
+  'El dossier recoge las fotos, las medidas y las condiciones de este barco. Lo que incluye la tarifa — patrón, combustible, IVA — varía según el barco; Simon lo confirma antes de reservar.',
+  'Le dossier contient les photos, les dimensions et les conditions de ce bateau. Ce que le tarif inclut — skipper, carburant, TVA — varie selon le bateau ; Simon le confirme avant réservation.',
+)
 const ASK: T = L('Vraag Simon naar deze boot', 'Ask Simon about this boat', 'Frag Simon zu diesem Boot', 'Pregunta a Simon por este barco', 'Demandez ce bateau à Simon')
 const GUESTS: T = L('gasten', 'guests', 'Gäste', 'invitados', 'invités')
 const WA_MSG: T = L(
@@ -92,38 +99,62 @@ export default function DossierPage({ params }: { params: { locale: string; slug
         <FavouriteButton slug={boat.slug} locale={l} className="!bg-neutral-900" />
       </div>
 
-      {/* Het dossier als eigen content: elke PDF-pagina uitgetekend naar een
-          afbeelding, onder elkaar, volle breedte, gewoon scrollbaar. Hier stond
-          een ingebedde <object>: die gaf op iOS alleen de eerste pagina en op
-          desktop de PDF-werkbalk van de browser, wat oogt als andermans
-          document. Zie DossierPages voor de afwegingen (scherpte, geheugen,
-          pagina-voor-pagina tonen). */}
-      <div className="mx-auto max-w-4xl px-4 pb-4">
-        <DossierPages
-          pdfUrl={boat.pdf}
-          pages={boat.pdfPages ?? 0}
-          locale={l}
-          title={`${boat.model} ${naam}`}
-          fallbackHref={pdfSrc}
-        />
+      {/* Geen PDF-preview meer op deze pagina, op uitdrukkelijk verzoek om
+          snelheid. Zelfs de lichte Cloudinary-omzetting laadde bij binnenkomst
+          honderden kilobytes aan pagina's die de meeste bezoekers nooit
+          openslaan. Nu laadt deze pagina niets van het dossier: de foto komt
+          uit de vlootlijst en staat bij de meeste bezoekers al in de cache,
+          en het dossier wordt pas opgehaald als iemand er echt op klikt.
 
-        <div className="mt-3 flex flex-wrap items-center gap-3">
-          <a
-            href={wa}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-ibiza-green px-6 py-3 text-sm font-bold text-white transition-all hover:brightness-95 active:scale-[0.98]"
-          >
-            <MessageCircle size={16} /> {ASK[l]}
-          </a>
-          {/* Zelfde tabblad, ook op desktop: het terugpijltje moet altijd
-              naar deze pagina terugleiden. */}
-          <a
-            href={pdfSrc}
-            className="inline-flex items-center gap-1.5 text-sm font-bold text-neutral-600 underline underline-offset-2 hover:text-black"
-          >
-            <Download size={14} /> {OPEN_PDF[l]}
-          </a>
+          De knop wijst naar /api/dossier en niet rechtstreeks naar de partner.
+          Dat is gemeten sneller: rechtstreeks duurde 1,96s, via onze route na
+          de eerste bezoeker 0,21s omdat het dan uit de edge-cache komt. Zelfde
+          bestand, zelfde bron, alleen dichterbij. */}
+      <div className="mx-auto max-w-4xl px-4 pb-6">
+        <div className="overflow-hidden rounded-3xl border border-black/10 bg-white shadow-sm">
+          <div className="relative aspect-[16/10] w-full">
+            <Image
+              src={boat.image}
+              alt={`${boat.model} ${naam}`}
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 900px"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-center gap-2 p-4 text-white sm:hidden">
+              <span className="inline-flex items-center gap-1 rounded-full bg-black/55 px-2.5 py-1 text-[11px] font-bold backdrop-blur-sm">
+                <Users size={11} /> {boat.pax} {GUESTS[l]}
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-black/55 px-2.5 py-1 text-[11px] font-bold backdrop-blur-sm">
+                <MapPin size={11} /> {boat.marina}
+              </span>
+            </div>
+          </div>
+
+          <div className="p-5">
+            <p className="text-[13px] leading-relaxed text-neutral-600">{TERMS[l]}</p>
+
+            <div className="mt-4 flex flex-col gap-2.5 sm:flex-row">
+              {/* Zelfde tabblad: alleen dan brengt het terugpijltje van de
+                  browser je terug naar deze pagina, en vandaar naar de vloot. */}
+              <a
+                href={pdfSrc}
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-neutral-900 px-6 py-3.5 text-sm font-black uppercase tracking-wider text-white transition-all hover:bg-black active:scale-[0.98]"
+              >
+                <FileText size={16} /> {OPEN_PDF[l]}
+                {boat.pdfPages ? <span className="font-sans text-[11px] font-normal normal-case tracking-normal text-white/60">· {boat.pdfPages} {PAGES[l]}</span> : null}
+              </a>
+              <a
+                href={wa}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-ibiza-green px-6 py-3.5 text-sm font-black uppercase tracking-wider text-white transition-all hover:brightness-95 active:scale-[0.98]"
+              >
+                <MessageCircle size={16} /> {ASK[l]}
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

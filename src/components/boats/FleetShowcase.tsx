@@ -13,7 +13,7 @@ import { FileText, CalendarDays } from 'lucide-react';
 import { BackButton } from '@/components/ui/BackButton';
 import { FavouriteButton } from '@/components/boats/FavouriteButton';
 import { FleetFilterBar, type SortKey } from '@/components/boats/FleetFilterBar';
-import { getFavourites, onFavouritesChange } from '@/lib/boat-favourites';
+import { getFavourites, onFavouritesChange, toggleFavourite } from '@/lib/boat-favourites';
 
 /** WhatsApp business number (digits only). */
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '33666528412';
@@ -81,6 +81,7 @@ interface FleetLabels {
   favWaIntro: string;                // eerste regel van het verzamelbericht
   favWaDate: (d: string) => string;  // "Datum: {d}" — alleen als er een datum gekozen is
   favWaOutro: string;
+  favRemove: string;                 // voorleeslabel bij het kruisje
   catAll: string;
   catYacht: string;                  // "Yachts 50–70 ft"
   catMotorboat: string;              // "Motorboats 20–30 ft"
@@ -115,6 +116,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaIntro: "Hi Ibiza mi Vida! These are my favourite boats:",
     favWaDate: (d) => `Preferred date: ${d}`,
     favWaOutro: 'Could you check availability and prices for these?',
+    favRemove: 'Remove',
     catAll: 'All boats', catYacht: 'Yachts 50 ft+', catMotorboat: 'Motorboats 20–50 ft',
     inquire: 'Inquire information',
     waMessage: (boat) => `Hi Ibiza mi Vida! I'm interested in the private boat ${boat}. Could you send me more information about availability and prices?`,
@@ -145,6 +147,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaIntro: 'Hoi Ibiza mi Vida! Dit zijn mijn favoriete boten:',
     favWaDate: (d) => `Voorkeursdatum: ${d}`,
     favWaOutro: 'Kunnen jullie hiervoor beschikbaarheid en prijzen checken?',
+    favRemove: 'Verwijder',
     catAll: 'Alle boten', catYacht: 'Jachten 50 ft+', catMotorboat: 'Motorboten 20–50 ft',
     inquire: 'Voor meer informatie',
     waMessage: (boat) => `Hoi Ibiza mi Vida! Ik heb interesse in de private boot ${boat}. Kunnen jullie mij meer informatie sturen over de beschikbaarheid en prijzen?`,
@@ -175,6 +178,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaIntro: 'Hallo Ibiza mi Vida! Das sind meine Lieblingsboote:',
     favWaDate: (d) => `Wunschdatum: ${d}`,
     favWaOutro: 'Könnt ihr dafür Verfügbarkeit und Preise prüfen?',
+    favRemove: 'Entfernen',
     catAll: 'Alle Boote', catYacht: 'Yachten 50 ft+', catMotorboat: 'Motorboote 20–50 ft',
     inquire: 'Informationen anfragen',
     waMessage: (boat) => `Hallo Ibiza mi Vida! Ich interessiere mich für das private Boot ${boat}. Können Sie mir mehr Informationen zu Verfügbarkeit und Preisen senden?`,
@@ -205,6 +209,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaIntro: '¡Hola Ibiza mi Vida! Estos son mis barcos favoritos:',
     favWaDate: (d) => `Fecha preferida: ${d}`,
     favWaOutro: '¿Podéis comprobar disponibilidad y precios?',
+    favRemove: 'Quitar',
     catAll: 'Todos los barcos', catYacht: 'Yates 50 ft+', catMotorboat: 'Lanchas 20–50 ft',
     inquire: 'Solicitar información',
     waMessage: (boat) => `¡Hola Ibiza mi Vida! Me interesa el barco privado ${boat}. ¿Podrían enviarme más información sobre disponibilidad y precios?`,
@@ -235,6 +240,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaIntro: 'Bonjour Ibiza mi Vida ! Voici mes bateaux favoris :',
     favWaDate: (d) => `Date souhaitée : ${d}`,
     favWaOutro: 'Pouvez-vous vérifier la disponibilité et les prix ?',
+    favRemove: 'Retirer',
     catAll: 'Tous les bateaux', catYacht: 'Yachts 50 ft+', catMotorboat: 'Bateaux à moteur 20–50 ft',
     inquire: 'Demander des informations',
     waMessage: (boat) => `Bonjour Ibiza mi Vida ! Je suis intéressé(e) par le bateau privé ${boat}. Pourriez-vous m'envoyer plus d'informations sur la disponibilité et les tarifs ?`,
@@ -597,14 +603,31 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
           lagen op elkaar maakt beide onleesbaar. */}
       {favBoats.length > 0 && (
         <div className="fixed inset-x-0 bottom-0 z-[60] border-t border-black/10 bg-white/95 backdrop-blur-md shadow-[0_-4px_16px_rgba(0,0,0,0.08)]">
-          <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-2 px-4 py-2.5 sm:gap-3 sm:py-3">
             <span className="inline-flex items-center gap-2 text-sm font-black text-black">
               <span className="grid h-7 w-7 place-items-center rounded-full bg-red-500/10 text-red-500">♥</span>
               {T.favCount(favBoats.length)}
             </span>
-            <span className="hidden min-w-0 flex-1 truncate text-xs text-black/50 sm:block">
-              {favBoats.map(b => b.name ?? b.model).join(' · ')}
-            </span>
+            {/* Elke favoriet als chipje met een kruisje. Stond eerst als een
+                platte opsomming van namen: je zag wél wat er in zat maar kon er
+                niets uit halen zonder terug te scrollen naar het hartje op de
+                kaart — en bij 94 kaarten is dat ver. Horizontaal scrollbaar,
+                want vier namen passen niet op een telefoon. */}
+            <div className="hide-scrollbar order-3 -mx-1 flex w-full min-w-0 gap-1.5 overflow-x-auto px-1 sm:order-none sm:w-auto sm:flex-1">
+              {favBoats.map(b => (
+                <span key={b.slug} className="inline-flex shrink-0 items-center gap-1 rounded-full bg-neutral-100 py-1 pl-3 pr-1 text-[11px] font-bold text-neutral-700">
+                  {b.name ?? b.model}
+                  <button
+                    type="button"
+                    onClick={() => toggleFavourite(b.slug)}
+                    aria-label={`${T.favRemove} ${b.name ?? b.model}`}
+                    className="grid h-5 w-5 place-items-center rounded-full text-neutral-400 transition-colors hover:bg-neutral-300 hover:text-black"
+                  >
+                    <X size={12} />
+                  </button>
+                </span>
+              ))}
+            </div>
             <a
               href={favWa}
               target="_blank"
