@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
-import { HubHero, PriceTable, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
+import { HubHero, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { WiberDirect } from '@/components/partner/WiberDirect'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { TrustBlock } from '@/components/hub/TrustBlock'
@@ -130,18 +130,6 @@ export default function AutoHurenIbizaPage() {
         <WiberDirect locale={LOCALE} />
       </HubHero>
 
-      <PriceTable
-        heading="Wat kost een huurauto op Ibiza?"
-        locale={LOCALE}
-        caption="Vanafprijzen per categorie"
-        intro="Vanafprijzen per dag, all-in. In juli en augustus lopen de tarieven stevig op en zijn de goedkope categorieën het eerst weg — het verschil tussen in april en in juli boeken is groter dan het verschil tussen de categorieën."
-        rows={[
-          { label: 'Economy', note: 'Twee volwassenen, handbagage, parkeren in de stad', amount: RENTAL_PRICES.carPerDay.amount, unit: RENTAL_PRICES.carPerDay.unit.nl },
-          { label: 'Compact', note: 'Vier volwassenen met echte koffers', amount: null, unit: RENTAL_PRICES.carPerDay.unit.nl },
-          { label: 'Cabrio', note: 'Twee personen, kleine kofferbak, kustwegen', amount: null, unit: RENTAL_PRICES.carPerDay.unit.nl },
-          { label: 'SUV / 4x4', note: 'Onverharde wegen en afgelegen baaien', amount: null, unit: RENTAL_PRICES.carPerDay.unit.nl },
-        ]}
-      />
 
       <ItemGrid
         heading="De voorwaarden, meteen op tafel"

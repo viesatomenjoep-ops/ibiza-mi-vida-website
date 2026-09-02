@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
-import { HubHero, PriceTable, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
+import { HubHero, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { WiberDirect } from '@/components/partner/WiberDirect'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { TrustBlock } from '@/components/hub/TrustBlock'
@@ -82,18 +82,6 @@ export default function MietwagenIbizaPage() {
         <WiberDirect locale={LOCALE} />
       </HubHero>
 
-      <PriceTable
-        heading="Was ein Mietwagen auf Ibiza kostet"
-        locale={LOCALE}
-        caption="Ab-Preise pro Kategorie"
-        intro="Ab-Preise pro Tag, all-inclusive. Im Juli und August steigen die Tarife deutlich und die günstigen Kategorien sind zuerst weg — der Unterschied zwischen Buchen im April und im Juli ist größer als der zwischen den Kategorien."
-        rows={[
-          { label: 'Economy', note: 'Zwei Erwachsene, Handgepäck, Stadtparken', amount: RENTAL_PRICES.carPerDay.amount, unit: RENTAL_PRICES.carPerDay.unit.de },
-          { label: 'Kompakt', note: 'Vier Erwachsene mit richtigem Gepäck', amount: null, unit: RENTAL_PRICES.carPerDay.unit.de },
-          { label: 'Cabrio', note: 'Zwei Personen, kleiner Kofferraum, Küstenstraßen', amount: null, unit: RENTAL_PRICES.carPerDay.unit.de },
-          { label: 'SUV / 4x4', note: 'Schotterpisten und abgelegene Buchten', amount: null, unit: RENTAL_PRICES.carPerDay.unit.de },
-        ]}
-      />
 
       <ItemGrid
         heading="Die Bedingungen, gleich vorweg"

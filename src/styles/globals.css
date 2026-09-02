@@ -160,8 +160,22 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
    sturen (--fade, --onlight, --forcewhite). Door aan te haken bij die regels
    in plaats van eigen kleuren te bedenken, kan de kiezer per definitie niet
    uit de pas lopen met de balk. */
-.nav-burger-wrap{position:relative;display:flex;align-items:center}
-.nav-langs{position:absolute;top:calc(100% + 6px);right:0;z-index:60;display:flex;flex-direction:column;align-items:stretch;gap:4px}
+/* De kiezer hing onder de hamburger en viel daar over de inhoud zodra de
+   balk smal werd. Nu staat hij midden tussen het logo en de hamburger:
+   absoluut gepositioneerd ten opzichte van de navrij, op de halve breedte.
+
+   Dit gaat bewust via CSS en niet door het blok in de markup te verplaatsen —
+   de knop zit in dezelfde wikkel als de hamburger en die volgorde is voor een
+   schermlezer prima. Alleen waar hij getekend wordt verandert.
+
+   Vanaf de bovenkant uitklappen (top, geen translateY): een paneel dat vanuit
+   het midden groeit duwt de knop zelf omhoog terwijl je erop kijkt. */
+.nav-burger-wrap{display:flex;align-items:center}
+.nav-inner{position:relative}
+.nav-langs{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:60;display:flex;flex-direction:column;align-items:center;gap:4px}
+/* Het uitklappaneel mag de navhoogte niet oprekken: het hangt onder de knop
+   in plaats van hem mee te laten groeien. */
+.nav-langs .nav-lang-list{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);min-width:100%}
 .nav-lang{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:30px;padding:0 8px;border:1px solid rgba(255,255,255,.28);border-radius:999px;font-family:var(--font-display),sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.08em;color:rgba(255,255,255,.72);transition:all .15s ease}
 .nav-lang:hover{border-color:#fff;color:#fff}
 .nav-lang.active{background:#fff;border-color:#fff;color:#0D0509}

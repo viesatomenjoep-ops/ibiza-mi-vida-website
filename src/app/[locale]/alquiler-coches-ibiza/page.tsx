@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
-import { HubHero, PriceTable, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
+import { HubHero, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { WiberDirect } from '@/components/partner/WiberDirect'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { TrustBlock } from '@/components/hub/TrustBlock'
@@ -82,18 +82,6 @@ export default function AlquilerCochesIbizaPage() {
         <WiberDirect locale={LOCALE} />
       </HubHero>
 
-      <PriceTable
-        heading="Qué cuesta alquilar coche en Ibiza"
-        locale={LOCALE}
-        caption="Precios desde, por categoría"
-        intro="Precios desde, por día y todo incluido. En julio y agosto las tarifas suben con fuerza y las categorías económicas se agotan primero — la diferencia entre reservar en abril y en julio supera la diferencia entre categorías."
-        rows={[
-          { label: 'Económico', note: 'Dos adultos, equipaje de mano, aparcar en ciudad', amount: RENTAL_PRICES.carPerDay.amount, unit: RENTAL_PRICES.carPerDay.unit.es },
-          { label: 'Compacto', note: 'Cuatro adultos con maletas de verdad', amount: null, unit: RENTAL_PRICES.carPerDay.unit.es },
-          { label: 'Descapotable', note: 'Dos personas, maletero pequeño, carreteras de costa', amount: null, unit: RENTAL_PRICES.carPerDay.unit.es },
-          { label: 'SUV / 4x4', note: 'Caminos de tierra y calas remotas', amount: null, unit: RENTAL_PRICES.carPerDay.unit.es },
-        ]}
-      />
 
       <ItemGrid
         heading="Las condiciones, por delante"

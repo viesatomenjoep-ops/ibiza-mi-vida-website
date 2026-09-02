@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
-import { HubHero, PriceTable, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
+import { HubHero, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { WiberDirect } from '@/components/partner/WiberDirect'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { TrustBlock } from '@/components/hub/TrustBlock'
@@ -82,18 +82,6 @@ export default function LocationVoitureIbizaPage() {
         <WiberDirect locale={LOCALE} />
       </HubHero>
 
-      <PriceTable
-        heading="Combien coûte une location de voiture à Ibiza ?"
-        locale={LOCALE}
-        caption="Prix à partir de, par catégorie"
-        intro="Prix à partir de, par jour, tout compris. Les tarifs grimpent fortement en juillet et août et les catégories économiques partent en premier — l’écart entre réserver en avril et en juillet dépasse l’écart entre les catégories."
-        rows={[
-          { label: 'Économique', note: 'Deux adultes, bagage cabine, stationnement en ville', amount: RENTAL_PRICES.carPerDay.amount, unit: RENTAL_PRICES.carPerDay.unit.fr },
-          { label: 'Compacte', note: 'Quatre adultes avec de vraies valises', amount: null, unit: RENTAL_PRICES.carPerDay.unit.fr },
-          { label: 'Cabriolet', note: 'Deux personnes, petit coffre, routes côtières', amount: null, unit: RENTAL_PRICES.carPerDay.unit.fr },
-          { label: 'SUV / 4x4', note: 'Pistes en terre et criques isolées', amount: null, unit: RENTAL_PRICES.carPerDay.unit.fr },
-        ]}
-      />
 
       <ItemGrid
         heading="Les conditions, annoncées d’emblée"

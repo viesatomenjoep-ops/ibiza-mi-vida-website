@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
-import { HubHero, PriceTable, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
+import { HubHero, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { WiberDirect } from '@/components/partner/WiberDirect'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { TrustBlock } from '@/components/hub/TrustBlock'
@@ -133,18 +133,6 @@ export default function CarRentalIbizaPage() {
         <WiberDirect locale={LOCALE} />
       </HubHero>
 
-      <PriceTable
-        heading="What car hire costs in Ibiza"
-        locale={LOCALE}
-        caption="Starting prices per car category"
-        intro="Starting prices per day, all-inclusive. Rates climb steeply in July and August and the cheap categories sell out first, so the gap between booking in April and booking in July is larger than the gap between categories."
-        rows={[
-          { label: 'Economy', note: 'Two adults, hand luggage, town parking', amount: RENTAL_PRICES.carPerDay.amount, unit: RENTAL_PRICES.carPerDay.unit.en },
-          { label: 'Compact', note: 'Four adults with real luggage', amount: null, unit: RENTAL_PRICES.carPerDay.unit.en },
-          { label: 'Convertible', note: 'Two adults, small boot, coast roads', amount: null, unit: RENTAL_PRICES.carPerDay.unit.en },
-          { label: 'SUV / 4x4', note: 'Dirt tracks and remote coves', amount: null, unit: RENTAL_PRICES.carPerDay.unit.en },
-        ]}
-      />
 
       <ItemGrid
         heading="The conditions, stated up front"
