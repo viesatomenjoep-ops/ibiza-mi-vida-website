@@ -89,6 +89,7 @@ import { AiReferralTagger } from '@/components/AiReferralTagger'
 import { ConsentBanner } from '@/components/consent/ConsentBanner'
 import { ConsentScripts } from '@/components/consent/ConsentScripts'
 import { getGoogleReviews } from '@/lib/google-reviews'
+import { getVenues } from '@/lib/clubtickets'
 
 /**
  * De Google-beoordeling wordt hier opgehaald en niet in de Navbar zelf.
@@ -113,8 +114,16 @@ export default async function RootLayout({
   params: { locale: string }
 }) {
   const { locale } = params;
-  const reviews = await getGoogleReviews()
+  const [reviews, venues] = await Promise.all([getGoogleReviews(), getVenues(locale)])
   const rating = reviews ? { value: reviews.rating, count: reviews.total } : null
+  // Boten en activiteiten voor het footermozaïek. getVenues() cachet per
+  // Node-proces en wordt op de meeste pagina's toch al aangeroepen, dus dit
+  // kost de layout geen tweede parse van de feed. Alleen de URL's gaan mee.
+  const activityImages = venues
+    .filter(v => ['boat', 'activities', 'formentera-day-trip'].includes(v.type?.slug || ''))
+    .map(v => v.cover || v.picture)
+    .filter((u): u is string => !!u)
+    .slice(0, 8)
   // De footer toont er ook de bron-link bij, dus die krijgt url mee.
   const footerRating = reviews ? { rating: reviews.rating, total: reviews.total, url: reviews.url } : null
 
@@ -126,7 +135,7 @@ export default async function RootLayout({
           <main id="main-content">
             {children}
           </main>
-          <Footer rating={footerRating} />
+          <Footer rating={footerRating} activityImages={activityImages} />
           <CartDrawer />
           <ScrollProgress />
           <AttributionCapture />

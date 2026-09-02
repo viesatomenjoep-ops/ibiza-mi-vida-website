@@ -118,8 +118,8 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaOutro: 'Could you check availability and prices for these?',
     favRemove: 'Remove',
     catAll: 'All boats', catYacht: 'Yachts 50 ft+', catMotorboat: 'Motorboats 20–50 ft',
-    inquire: 'Inquire information',
-    waMessage: (boat) => `Hi Ibiza mi Vida! I'm interested in the private boat ${boat}. Could you send me more information about availability and prices?`,
+    inquire: 'Book this boat now',
+    waMessage: (boat) => `Hi Ibiza mi Vida! I would like to book the private boat ${boat}. Could you confirm availability and the price?`,
     bannerTitle: 'Not sure which yacht fits you?',
     bannerText: 'Tell us your dates and group size — we\'ll match you with the perfect boat and handle everything.',
     whatsapp: 'WhatsApp us',
@@ -149,8 +149,8 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaOutro: 'Kunnen jullie hiervoor beschikbaarheid en prijzen checken?',
     favRemove: 'Verwijder',
     catAll: 'Alle boten', catYacht: 'Jachten 50 ft+', catMotorboat: 'Motorboten 20–50 ft',
-    inquire: 'Voor meer informatie',
-    waMessage: (boat) => `Hoi Ibiza mi Vida! Ik heb interesse in de private boot ${boat}. Kunnen jullie mij meer informatie sturen over de beschikbaarheid en prijzen?`,
+    inquire: 'Boek deze boot direct',
+    waMessage: (boat) => `Hoi Ibiza mi Vida! Ik wil de private boot ${boat} graag boeken. Kunnen jullie de beschikbaarheid en de prijs bevestigen?`,
     bannerTitle: 'Niet zeker welk jacht bij je past?',
     bannerText: 'Geef je datums en groepsgrootte door — wij regelen de perfecte boot en alles eromheen.',
     whatsapp: 'WhatsApp ons',
@@ -180,8 +180,8 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaOutro: 'Könnt ihr dafür Verfügbarkeit und Preise prüfen?',
     favRemove: 'Entfernen',
     catAll: 'Alle Boote', catYacht: 'Yachten 50 ft+', catMotorboat: 'Motorboote 20–50 ft',
-    inquire: 'Informationen anfragen',
-    waMessage: (boat) => `Hallo Ibiza mi Vida! Ich interessiere mich für das private Boot ${boat}. Können Sie mir mehr Informationen zu Verfügbarkeit und Preisen senden?`,
+    inquire: 'Dieses Boot direkt buchen',
+    waMessage: (boat) => `Hallo Ibiza mi Vida! Ich möchte das Privatboot ${boat} buchen. Können Sie Verfügbarkeit und Preis bestätigen?`,
     bannerTitle: 'Nicht sicher, welche Yacht zu Ihnen passt?',
     bannerText: 'Nennen Sie uns Ihre Daten und Gruppengröße — wir finden das perfekte Boot und kümmern uns um alles.',
     whatsapp: 'WhatsApp',
@@ -211,8 +211,8 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaOutro: '¿Podéis comprobar disponibilidad y precios?',
     favRemove: 'Quitar',
     catAll: 'Todos los barcos', catYacht: 'Yates 50 ft+', catMotorboat: 'Lanchas 20–50 ft',
-    inquire: 'Solicitar información',
-    waMessage: (boat) => `¡Hola Ibiza mi Vida! Me interesa el barco privado ${boat}. ¿Podrían enviarme más información sobre disponibilidad y precios?`,
+    inquire: 'Reserva este barco ya',
+    waMessage: (boat) => `¡Hola Ibiza mi Vida! Quiero reservar el barco privado ${boat}. ¿Podéis confirmar la disponibilidad y el precio?`,
     bannerTitle: '¿No sabes qué yate elegir?',
     bannerText: 'Dinos tus fechas y el tamaño del grupo — te buscamos el barco perfecto y lo organizamos todo.',
     whatsapp: 'Escríbenos por WhatsApp',
@@ -242,8 +242,8 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaOutro: 'Pouvez-vous vérifier la disponibilité et les prix ?',
     favRemove: 'Retirer',
     catAll: 'Tous les bateaux', catYacht: 'Yachts 50 ft+', catMotorboat: 'Bateaux à moteur 20–50 ft',
-    inquire: 'Demander des informations',
-    waMessage: (boat) => `Bonjour Ibiza mi Vida ! Je suis intéressé(e) par le bateau privé ${boat}. Pourriez-vous m'envoyer plus d'informations sur la disponibilité et les tarifs ?`,
+    inquire: 'Réservez ce bateau',
+    waMessage: (boat) => `Bonjour Ibiza mi Vida ! Je souhaite réserver le bateau privé ${boat}. Pouvez-vous confirmer la disponibilité et le tarif ?`,
     bannerTitle: 'Vous ne savez pas quel yacht choisir ?',
     bannerText: 'Indiquez-nous vos dates et la taille du groupe — nous trouvons le bateau parfait et nous nous occupons de tout.',
     whatsapp: 'WhatsApp',
@@ -259,8 +259,11 @@ function boatLabel(boat: Boat) {
   return boat.name ? `${boat.model} "${boat.name}"` : boat.model;
 }
 
-function waLink(boat: Boat, T: FleetLabels) {
-  return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(T.waMessage(boatLabel(boat)))}`;
+function waLink(boat: Boat, T: FleetLabels, date?: string | null) {
+  // De gekozen datum gaat mee. Zonder datum is een "boek deze boot"-bericht
+  // alsnog een vraag om informatie, en moet Simon eerst terugvragen wanneer.
+  const tekst = T.waMessage(boatLabel(boat)) + (date ? `\n${T.favWaDate(date)}` : '');
+  return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(tekst)}`;
 }
 
 // ── Boat advertisement card ─────────────────────────────────────────────────────
@@ -402,11 +405,13 @@ function BoatCard({ boat, T, locale, live, date, season }: {
         </div>
 
         {/* WhatsApp inquiry */}
+        {/* De bestelknop van de kaart. Gloed via .book-cta — statisch, want er
+            staan er 94 op deze pagina; zie de kop van die regel in globals.css. */}
         <a
-          href={waLink(boat, T)}
+          href={waLink(boat, T, date)}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-ibiza-green px-4 py-2 text-sm font-bold text-white transition-all hover:brightness-95 active:scale-[0.98]"
+          className="book-cta mt-3.5 inline-flex items-center justify-center gap-2 rounded-full bg-ibiza-green px-4 py-2.5 text-sm font-black text-white"
         >
           <MessageCircle size={16} /> {T.inquire}
         </a>

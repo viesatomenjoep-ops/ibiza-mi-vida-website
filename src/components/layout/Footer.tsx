@@ -2,26 +2,53 @@
 
 import { GoogleRatingLine, type GoogleRating } from '@/components/reviews/GoogleRatingLine'
 import { FLEET } from '@/data/fleet'
+import { optImg } from '@/lib/img'
 
 /**
- * Drie vlootfoto's als heel lichte achtergrond in de footer.
+ * Achtergrondmozaïek van boten en activiteiten, over de hele footer.
  *
- * Decoratie, geen inhoud: aria-hidden, pointer-events none, en een opacity
- * van 5–7% zodat de linkkolommen erbovenop gewoon AA blijven halen — de
- * footer is wit en de tekst donker, en 5% beeld daaronder verandert de
- * gemeten contrastwaarden niet noemenswaardig. Grayscale zodat felle
- * bootkleuren niet alsnog doorschemeren.
+ * Hier stonden drie losse vlootfoto's absoluut gepositioneerd — één
+ * rechtsboven, één linksonder, één onderin. Op elk ander formaat dan waarop
+ * ze waren neergezet vielen ze half buiten beeld of lieten ze de helft van de
+ * footer leeg, en dat zag eruit als een afbeelding die niet geladen was.
  *
- * Vaste indexen uit de vloot (duurste, middelste, goedkoopste) in plaats
- * van willekeur: dezelfde build toont dezelfde footer, en de mix van groot
- * en klein is precies het verhaal van de vloot. De footer heeft in
- * globals.css al position:relative en overflow:hidden, dus de absolute
- * lagen kunnen nergens buiten de footer lekken.
+ * Nu een raster dat `inset-0` vult: 3 kolommen op mobiel, 6 op desktop, met
+ * `auto-rows-fr` zodat de rijen samen altijd precies de hoogte van de footer
+ * innemen — geen gaten, geen overloop, op elk formaat. Twaalf tegels: op
+ * desktop 6×2, op mobiel 3×4, beide gevuld.
+ *
+ * De tegels wisselen boten (uit de eigen vloot) af met activiteiten en
+ * boottochten uit de ClubTickets-feed, die de layout server-side meegeeft.
+ * Decoratie, geen inhoud: aria-hidden, pointer-events none, grayscale, en
+ * 7% dekking — de footer is wit met donkere tekst, en 7% beeld daaronder
+ * verandert de gemeten contrastwaarden niet noemenswaardig. Kleine
+ * afmetingen via optImg: twaalf plaatjes op 7% hoeven geen megabytes te zijn.
+ *
+ * Vaste keuze uit de vloot (op prijs gesorteerd, gelijk verdeeld) in plaats
+ * van willekeur: dezelfde build toont dezelfde footer en er is geen
+ * hydration-verschil.
  */
+const FOOT_TILES = 12
 const FOOT_BOATS = (() => {
   const opPrijs = [...FLEET].sort((a, b) => b.price.high - a.price.high)
-  return [opPrijs[0], opPrijs[Math.floor(opPrijs.length / 2)], opPrijs[opPrijs.length - 1]].filter(Boolean)
+  const stap = Math.max(1, Math.floor(opPrijs.length / 6))
+  return Array.from({ length: 6 }, (_, i) => opPrijs[i * stap]).filter(Boolean).map(b => b.image)
 })()
+
+/** Boten en activiteiten om en om, tot FOOT_TILES tegels. */
+function footTiles(activities: string[]): string[] {
+  const out: string[] = []
+  const a = [...FOOT_BOATS], b = [...activities]
+  while (out.length < FOOT_TILES && (a.length || b.length)) {
+    const x = a.shift(); if (x) out.push(x)
+    const y = b.shift(); if (y && out.length < FOOT_TILES) out.push(y)
+  }
+  // Te weinig bronbeeld? Dan herhalen tot het raster vol is — een gat in het
+  // mozaïek valt meer op dan een tegel die twee keer voorkomt.
+  let i = 0
+  while (out.length < FOOT_TILES && out.length) out.push(out[i++ % out.length])
+  return out
+}
 
 import { clearConsent } from '@/lib/consent'
 
@@ -48,7 +75,12 @@ const LOCALES = [
   { code: 'fr' },
 ]
 
-export function Footer({ rating = null }: { rating?: GoogleRating | null }) {
+export function Footer({ rating = null, activityImages = [] }: {
+  rating?: GoogleRating | null
+  /** Covers van boot- en activiteitenvenues uit de ClubTickets-feed; zie layout.tsx. */
+  activityImages?: string[]
+}) {
+  const tiles = footTiles(activityImages)
   const pathname = usePathname()
   const currentLocale = LOCALES.find(l => pathname.startsWith(`/${l.code}/`) || pathname === `/${l.code}`) || LOCALES[0]
   const base = `/${currentLocale.code}`
@@ -126,20 +158,13 @@ export function Footer({ rating = null }: { rating?: GoogleRating | null }) {
 
   return (
     <footer>
-      {/* Achtergrondboten — zie FOOT_BOATS hierboven. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 select-none overflow-hidden">
-        {FOOT_BOATS[0] && (
-          <img src={FOOT_BOATS[0].image} alt="" loading="lazy"
-            className="absolute -right-24 -top-10 w-[46rem] max-w-none opacity-[0.07] grayscale" />
-        )}
-        {FOOT_BOATS[1] && (
-          <img src={FOOT_BOATS[1].image} alt="" loading="lazy"
-            className="absolute -left-32 bottom-24 hidden w-[38rem] max-w-none opacity-[0.06] grayscale md:block" />
-        )}
-        {FOOT_BOATS[2] && (
-          <img src={FOOT_BOATS[2].image} alt="" loading="lazy"
-            className="absolute -bottom-16 right-1/4 hidden w-[30rem] max-w-none opacity-[0.05] grayscale lg:block" />
-        )}
+      {/* Achtergrondmozaïek — zie footTiles hierboven. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 grid select-none auto-rows-fr grid-cols-3 overflow-hidden lg:grid-cols-6">
+        {tiles.map((src, i) => (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img key={i} src={optImg(src, 384)} alt="" loading="lazy" decoding="async"
+            className="h-full w-full object-cover opacity-[0.07] grayscale" />
+        ))}
       </div>
       <div className="wrap relative">
         <div className="foot-grid">

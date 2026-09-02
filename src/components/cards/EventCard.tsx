@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { fmtShortDate } from '@/lib/date-label'
 import { Calendar, Clock, Users, ExternalLink } from 'lucide-react'
 import { useCart } from '@/context/cart-context'
 import type { ClubEvent } from '@/types/club'
@@ -12,12 +13,10 @@ interface EventCardProps {
 }
 
 function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString('en-GB', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
+  // Deterministisch, zie fmtShortDate: toLocaleDateString met weekdag+dag+maand
+  // zet in Node andere leestekens dan in Chrome en gaf een hydration-mismatch.
+  const iso = String(dateStr).slice(0, 10)
+  return `${fmtShortDate(iso, 'en')} ${iso.slice(0, 4)}`
 }
 
 function formatTime(time: string | null): string | null {

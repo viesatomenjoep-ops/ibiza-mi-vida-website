@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useRef } from 'react'
+import { fmtShortDate } from '@/lib/date-label'
 import Image from 'next/image'
 import Link from 'next/link'
 import { cleanHtml } from '@/lib/html-utils'
@@ -368,7 +369,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                    </div>
                    <div className="flex-1 min-w-0">
                       <div className="text-neutral-500 text-xs font-bold tracking-wider uppercase mb-1">
-                         {new Date(date.date).toLocaleDateString(bcp, { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' })}
+                         {fmtShortDate(String(date.date).slice(0, 10), locale)}
                       </div>
                       <h3 className="text-lg md:text-xl font-bold truncate text-neutral-900">{eventName}</h3>
                    </div>
