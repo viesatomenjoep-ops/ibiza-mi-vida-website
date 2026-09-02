@@ -5,6 +5,8 @@ import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { localeTag, addDays } from '@/lib/date-label'
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { AuthorByline } from '@/components/seo/AuthorByline'
+import { pickCover } from '@/lib/blank-covers'
+import { optImg } from '@/lib/img'
 
 // Hourly: the whole value of this page is that it is current.
 export const revalidate = 3600
@@ -60,6 +62,17 @@ interface Night {
   eventSlug: string
   lineUp: string
   prices: string
+  /** Affiche van de avond. Leeg wanneer alle bronnen een placeholder zijn. */
+  image: string
+}
+
+/** Eén club op één avond, met wat daar draait. */
+interface ClubNight {
+  slug: string
+  name: string
+  /** Het witte clublogo, of leeg — dan draagt de naam de herkenning. */
+  whiteLogo: string
+  nights: Night[]
 }
 
 /**
@@ -74,6 +87,27 @@ interface Night {
  * So this is the same feed rendered as headings, names and line-ups in the
  * HTML, one section per day, seven days out. No filtering UI on purpose: the
  * page has one job, which is to be legible without interaction.
+ *
+ * ── Waarom er nu beeld bij staat, en in deze vorm ─────────────────────────
+ * De pagina was een kale opsomming, terwijl de ClubTickets-feed voor élke
+ * avond een affiche meelevert en voor een deel van de clubs een wit logo. Dat
+ * ongebruikt laten kost herkenning: een clubnacht koop je op de naam die je
+ * kent en het beeld dat je eerder zag, niet op een regel tekst.
+ *
+ * Het is bewust géén kaartenraster geworden. Dit is de pagina die "wie draait
+ * er deze week" moet beantwoorden, ook voor een antwoordmachine, en een raster
+ * duwt de line-ups — het eigenlijke antwoord — onder de vouw. Het blijft dus
+ * een lijst; elke avond krijgt er alleen een affiche naast.
+ *
+ * De avonden zijn nu per club gegroepeerd in plaats van als platte rij. Dat
+ * scheelde niet alleen "· EDEN IBIZA" achter elke regel: het geeft het
+ * clublogo een plek waar het op leesbare grootte kan staan in plaats van als
+ * postzegel op een miniatuur. Zestien van de 42 clubs leveren een wit logo;
+ * de rest toont alleen de naam. Daarom staat de naam er áltijd en is het logo
+ * de toevoeging — nooit andersom, anders wordt de lijst ongelijk.
+ *
+ * `pickCover` filtert de zwarte placeholders van ClubTickets weg, zodat een
+ * avond zonder affiche een rustig vlak krijgt in plaats van een zwart gat.
  *
  * Deliberately not marked up as Event schema. Google's Event rich results are
  * for the organiser or the ticketing platform, and we are a reseller — venue
@@ -116,7 +150,17 @@ export default async function ThisWeekPage({ params }: { params: { locale: strin
       eventSlug: d.eventSlug || '',
       lineUp: String(d.lineUp || '').trim(),
       prices: String(d.prices || '').trim(),
+      // Volgorde van voorkeur: de affiche van het event, dan het eventlogo,
+      // dan de foto van de club. pickCover slaat de bekende zwarte
+      // placeholders over in plaats van ze als plaatje te tonen.
+      image: pickCover(d.eventCover, d.eventLogo, d.venueCover),
     }))
+
+  // Het witte clublogo hoort bij de venue, niet bij de avond — dus één keer
+  // opzoeken in plaats van per event meeslepen.
+  const whiteLogoBySlug = new Map(
+    venues.map(v => [v.slug, String((v as any).whitelogo || '')]),
+  )
 
   const days = Array.from({ length: 7 }, (_, i) => addDays(todayStr, i))
   const byDay = new Map<string, Night[]>()
@@ -125,7 +169,24 @@ export default async function ThisWeekPage({ params }: { params: { locale: strin
     if (g) g.push(n)
     else byDay.set(n.day, [n])
   }
-  for (const g of Array.from(byDay.values())) g.sort((a, b) => a.venueName.localeCompare(b.venueName))
+
+  /** Eén avond, gegroepeerd per club en alfabetisch op clubnaam. */
+  const clubsFor = (day: string): ClubNight[] => {
+    const perClub = new Map<string, ClubNight>()
+    for (const n of byDay.get(day) || []) {
+      const g = perClub.get(n.venueSlug)
+      if (g) g.nights.push(n)
+      else perClub.set(n.venueSlug, {
+        slug: n.venueSlug,
+        name: n.venueName,
+        whiteLogo: whiteLogoBySlug.get(n.venueSlug) || '',
+        nights: [n],
+      })
+    }
+    return Array.from(perClub.values())
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(c => ({ ...c, nights: c.nights.sort((a, b) => a.eventName.localeCompare(b.eventName)) }))
+  }
 
   const total = nights.length
   const clubCount = new Set(nights.map(n => n.venueSlug)).size
@@ -160,36 +221,96 @@ export default async function ThisWeekPage({ params }: { params: { locale: strin
 
       <section className="mx-auto max-w-3xl px-4 pb-12">
         {days.map(day => {
-          const list = byDay.get(day) || []
+          const clubs = clubsFor(day)
+          const isTonight = day === todayStr
           return (
-            <div key={day} className="mb-9">
-              <h2 className="border-b border-black/10 pb-2 font-serif text-xl font-black tracking-tight sm:text-2xl">
-                {dayHeading(day, todayStr, l)}
+            /* content-visibility: zeven avonden met tachtig affiches staan
+               allemaal in de HTML (dat is de hele bedoeling van deze pagina),
+               maar de browser hoeft alleen te lay-outen wat in beeld komt. */
+            <div key={day} className="mb-10 [contain-intrinsic-size:auto_640px] [content-visibility:auto]">
+              <h2 className="flex items-center gap-2.5 border-b border-black/10 pb-2 font-serif text-xl font-black tracking-tight sm:text-2xl">
+                {isTonight && <span className="live-dot" aria-hidden />}
+                <span className={isTonight ? 'text-ibiza-green' : undefined}>
+                  {dayHeading(day, todayStr, l)}
+                </span>
               </h2>
-              {list.length === 0 ? (
+
+              {clubs.length === 0 ? (
                 <p className="mt-3 text-sm text-neutral-500">{t(NOTHING, l)}</p>
               ) : (
-                <ul className="mt-4 space-y-4">
-                  {list.map(n => (
-                    <li key={n.id}>
-                      <h3 className="font-serif text-base font-black leading-snug sm:text-lg">
-                        <Link
-                          href={`/${l}/club-tickets/${n.venueSlug}/${n.eventSlug}`}
-                          className="text-neutral-900 underline decoration-black/20 underline-offset-2 hover:decoration-ibiza-green"
-                        >
-                          {n.eventName}
-                        </Link>
-                        <span className="font-sans text-sm font-semibold text-neutral-500"> · {n.venueName}</span>
+                <div className="mt-5 space-y-6">
+                  {clubs.map(club => (
+                    <div key={club.slug}>
+                      {/* Clubkop: de naam draagt het altijd, het logo komt
+                          erbij als de club er een levert. Wit logo dus op een
+                          donkere chip — rechtstreeks op wit is het onzichtbaar. */}
+                      <h3 className="flex items-center gap-2.5">
+                        {club.whiteLogo ? (
+                          /* Klein en donker: het logo is de herkenning, niet de
+                             kop. Groter gaf een zwarte balk die zwaarder woog
+                             dan de naam van het event eronder. */
+                          <span className="inline-flex h-6 shrink-0 items-center rounded-md bg-obsidian px-2">
+                            <img
+                              src={optImg(club.whiteLogo, 208)}
+                              alt=""
+                              aria-hidden
+                              loading="lazy"
+                              decoding="async"
+                              className="h-3 w-auto max-w-[84px] object-contain"
+                            />
+                          </span>
+                        ) : null}
+                        <span className="font-sans text-xs font-black uppercase tracking-[0.16em] text-neutral-900">
+                          {club.name}
+                        </span>
                       </h3>
-                      {n.lineUp ? (
-                        <p className="mt-0.5 text-sm leading-relaxed text-neutral-700">{n.lineUp}</p>
-                      ) : null}
-                      {n.prices ? (
-                        <p className="mt-0.5 text-sm font-bold text-ibiza-green">{n.prices}</p>
-                      ) : null}
-                    </li>
+
+                      <ul className="mt-3 space-y-1">
+                        {club.nights.map(n => (
+                          <li key={n.id}>
+                            <Link
+                              href={`/${l}/club-tickets/${n.venueSlug}/${n.eventSlug}`}
+                              className="group -mx-2 flex gap-3 rounded-2xl px-2 py-2 outline-none transition-colors hover:bg-neutral-50 focus-visible:ring-2 focus-visible:ring-ibiza-green focus-visible:ring-offset-2 sm:gap-4"
+                            >
+                              {/* self-start: zonder dat rekt de affiche als flex-kind mee met de
+                                    tekst ernaast, en dan klopt 4:3 niet meer — een avond
+                                    met een lange line-up kreeg een uitgerekte poster. */}
+                              <span className="relative block w-[104px] shrink-0 self-start overflow-hidden rounded-xl bg-ibiza-mint sm:w-[152px]">
+                                <span className="block aspect-[4/3]" />
+                                {n.image ? (
+                                  <img
+                                    src={optImg(n.image, 384)}
+                                    srcSet={`${optImg(n.image, 208)} 208w, ${optImg(n.image, 384)} 384w`}
+                                    sizes="(max-width: 640px) 104px, 152px"
+                                    alt=""
+                                    aria-hidden
+                                    loading="lazy"
+                                    decoding="async"
+                                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                                  />
+                                ) : null}
+                              </span>
+
+                              <span className="min-w-0 flex-1 py-0.5">
+                                <h4 className="font-serif text-base font-black leading-snug text-neutral-900 decoration-ibiza-green decoration-2 underline-offset-2 group-hover:underline sm:text-lg">
+                                  {n.eventName}
+                                </h4>
+                                {n.lineUp ? (
+                                  <span className="mt-1 line-clamp-2 block text-[13px] leading-relaxed text-neutral-600 sm:text-sm">
+                                    {n.lineUp}
+                                  </span>
+                                ) : null}
+                                {n.prices ? (
+                                  <span className="mt-1 block text-sm font-bold text-ibiza-green">{n.prices}</span>
+                                ) : null}
+                              </span>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   ))}
-                </ul>
+                </div>
               )}
             </div>
           )
