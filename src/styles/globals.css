@@ -997,7 +997,7 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 @keyframes slide{to{transform:translateX(-50%)}}
 
 /* ===== sliders (functie uit v3, donker & scherp) ===== */
-.slider{display:flex;gap:1px;overflow-x:auto;scroll-snap-type:x mandatory;background:var(--line);border:1px solid var(--line);scrollbar-width:none}
+.slider{display:flex;gap:1px;overflow-x:auto;scroll-snap-type:x proximity;background:var(--line);border:1px solid var(--line);scrollbar-width:none}
 .slider::-webkit-scrollbar{display:none}
 .slide-club{flex:none;width:212px;scroll-snap-align:start;position:relative;aspect-ratio:3/3.6;display:flex;align-items:flex-end;padding:16px;background:var(--black);transition:filter .2s}
 .slide-club:hover{filter:brightness(1.18)}
@@ -1433,7 +1433,7 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 @keyframes livePulse{0%{transform:scale(1);opacity:.65}70%{transform:scale(2.8);opacity:0}100%{transform:scale(2.8);opacity:0}}
 
 /* Horizontal rail on mobile, wrapping grid from md up. */
-.tonight-rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(210px,72vw);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:6px;scrollbar-width:none}
+.tonight-rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(210px,72vw);gap:14px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding-bottom:6px;scrollbar-width:none}
 .tonight-rail::-webkit-scrollbar{display:none}
 .tonight-card{scroll-snap-align:start;display:flex;flex-direction:column;overflow:hidden;border-radius:22px;border:1px solid rgba(0,0,0,.07);background:#fff;transition:box-shadow .3s ease,transform .3s ease,border-color .3s ease}
 .tonight-card:hover{border-color:rgba(14,124,102,.45);box-shadow:0 20px 44px -26px rgba(0,0,0,.5);transform:translateY(-3px)}
@@ -1506,7 +1506,7 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 /* Zonder beweging: dezelfde zes kaarten als een vlakke scroll-rail. */
 @media (prefers-reduced-motion:reduce){
   .ring-stage{height:auto;perspective:none}
-  .ring{position:static;display:flex;gap:14px;overflow-x:auto;padding:4px 16px 12px;scroll-snap-type:x mandatory;transform:none;animation:none;transform-style:flat;scrollbar-width:none}
+  .ring{position:static;display:flex;gap:14px;overflow-x:auto;padding:4px 16px 12px;scroll-snap-type:x proximity;transform:none;animation:none;transform-style:flat;scrollbar-width:none}
   .ring::-webkit-scrollbar{display:none}
   .ring-card{position:static;flex:0 0 var(--ring-w);margin:0;transform:none;scroll-snap-align:start}
   .ring{width:auto;height:auto;left:auto;top:auto}

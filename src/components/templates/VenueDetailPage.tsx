@@ -314,7 +314,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
               </div>
             </div>
 
-            <div ref={weeklyRef} className="flex gap-4 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory">
+            <div ref={weeklyRef} className="flex gap-4 overflow-x-auto pb-4 hide-scrollbar snap-x snap-proximity">
               {weeklyParties.map((party, i) => (
                 <Link href={`/${locale}/${basePath}/${club.slug}/${party.slug}`} key={i} className="flex-none w-[260px] md:w-[280px] bg-white rounded-3xl overflow-hidden border border-black/5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group snap-start">
                   <div className="h-[230px] relative bg-gradient-to-br from-ibiza-mint to-ibiza-blue overflow-hidden">

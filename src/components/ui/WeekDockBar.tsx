@@ -182,7 +182,7 @@ export function WeekDockBar({
           </button>
         </div>
         {/* Swipeable weeks — the 7 blocks slide with the thumb, snapping per week */}
-        <div ref={scrollRef} onScroll={onScroll} className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div ref={scrollRef} onScroll={onScroll} className="flex snap-x snap-proximity overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {weeks.map(ws => {
             const wd = Array.from({ length: 7 }, (_, i) => format(addDays(parseISO(ws), i), 'yyyy-MM-dd'))
             return <div key={ws} className="grid min-w-full shrink-0 snap-center grid-cols-7 gap-1">{wd.map((ds, i) => renderTile(ds, i))}</div>

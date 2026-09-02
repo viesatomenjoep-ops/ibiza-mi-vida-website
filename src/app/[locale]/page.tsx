@@ -36,20 +36,38 @@ export default async function Home({ params }: { params: { locale: string } }) {
   // simply carries no badge rather than a made-up one.
   const reviews = await getGoogleReviews()
 
-  // Fetch top featured clubs from local compiled JSON
   const allVenues = await getVenues(params.locale);
-  const featuredClubs = allVenues
-    .filter(v => ['hi-ibiza', 'ushuaia-ibiza', 'eden-ibiza', 'es-paradis'].includes(v.slug))
-    .map(v => ({
-      name: v.name,
-      slug: v.slug,
-      whitelogo: v.whitelogo,
-      cover: v.cover
-    }));
 
   // Fetch upcoming dates from local compiled JSON
   const allDates = await getAllDates(params.locale);
   const todayStr = ibizaToday();
+
+  /**
+   * Uitgelichte clubs, roulerend in plaats van vier vaste namen.
+   *
+   * Stond hardgecodeerd op Hi, Ushuaia, Eden en Es Paradis. Wie twee dagen op
+   * rij kijkt zag dus twee keer hetzelfde, terwijl er vijftien clubs in de
+   * agenda staan — en de club die vanavond zijn openingsavond heeft stond er
+   * misschien niet bij.
+   *
+   * De volgorde draait mee met de dag van het jaar. Dat is bewust geen
+   * willekeur: dezelfde dag geeft dezelfde volgorde, dus server en browser
+   * renderen hetzelfde en er ontstaat geen hydration-mismatch. Elke dag
+   * schuift het venster vier clubs op, zodat over vier dagen de hele lijst
+   * langskomt.
+   *
+   * Clubs zonder logo vallen af: een kaart met een lege plek is slechter dan
+   * een kaart minder.
+   */
+  const clubPool = allVenues.filter(v => v.type?.slug === 'clubbing' && v.whitelogo);
+  const dagVanJaar = Math.floor(
+    (Date.parse(todayStr) - Date.parse(todayStr.slice(0, 4) + '-01-01')) / 86400000,
+  );
+  const start = clubPool.length ? (dagVanJaar * 4) % clubPool.length : 0;
+  const featuredClubs = Array.from({ length: Math.min(4, clubPool.length) }, (_, i) => {
+    const v = clubPool[(start + i) % clubPool.length];
+    return { name: v.name, slug: v.slug, whitelogo: v.whitelogo, cover: v.cover };
+  });
 
   // ── LIVE EVENT TRACKER ──
   // Build a per-club map of events happening today (and last night) so the
@@ -173,10 +191,19 @@ export default async function Home({ params }: { params: { locale: string } }) {
     }
   });
 
-  // Both featured strips cycle through this many days rather than showing one.
-  // A visitor arriving in the evening was being shown a programme that had
-  // largely already happened.
-  const DAYS = 3;
+  // Beide uitgelichte stroken lopen door dit aantal dagen heen in plaats van
+  // één dag te tonen. Wie 's avonds binnenkomt kreeg anders een programma dat
+  // grotendeels al geweest was.
+  //
+  // Vier dagen en niet drie: met drie zag je vandaag, morgen en overmorgen, en
+  // wie op woensdag kijkt heeft aan zaterdag meer dan aan vrijdag.
+  const DAYS = 4;
+  // Drie kaarten per dag. Twaalf was te veel om te overzien op een telefoon —
+  // je scrolt dan langs een rij die nooit ophoudt in plaats van te kiezen. Met
+  // drie zie je er twee volledig en een derde half, wat laat zien dat er meer
+  // is zonder de sectie te laten uitdijen. De dagwissel rouleert de rest
+  // vanzelf langs.
+  const PER_DAY = 3;
   const dayList = Array.from({ length: DAYS }, (_, i) => addDays(todayStr, i));
   const onDay = (iso: string) => allDates.filter(d => (d.date || '').slice(0, 10) === iso);
 
@@ -234,7 +261,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
           { rows: ofType('boat'), weight: 1 },
           { rows: ofType('formentera-day-trip'), weight: 1 },
         ],
-        12,
+        PER_DAY,
       ).map(mapDate),
     };
   }).filter(d => d.items.length > 0);
@@ -244,7 +271,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
     // Same provider-spread as the experiences grid: a club with four rooms
     // billed as four events should not take a third of the night's line-up.
     items: spreadByVenue(onDay(iso).filter(d => clubbingSlugs.has(d.venueSlug || '')))
-      .slice(0, 12)
+      .slice(0, PER_DAY)
       .map(d => ({
         id: d.id,
         name: d.name,

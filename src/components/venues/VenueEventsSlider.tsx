@@ -87,7 +87,7 @@ export function VenueEventsSlider({ title, events, venueSlug, basePath, theme = 
         
         <div 
           ref={scrollRef}
-          className="hide-scrollbar flex gap-4 md:gap-6 px-4 md:px-8 overflow-x-auto snap-x snap-mandatory py-2 pb-6 w-full"
+          className="hide-scrollbar flex gap-4 md:gap-6 px-4 md:px-8 overflow-x-auto snap-x snap-proximity py-2 pb-6 w-full"
           style={{ WebkitOverflowScrolling: 'touch' }}
         >
           {events.map((event, i) => {

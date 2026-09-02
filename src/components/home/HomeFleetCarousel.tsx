@@ -108,7 +108,7 @@ export function HomeFleetCarousel({ locale = 'nl' }: { locale?: string }) {
         </div>
 
         <div
-          className="hide-scrollbar mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 md:gap-5 md:px-8"
+          className="hide-scrollbar mt-6 flex snap-x snap-proximity gap-4 overflow-x-auto px-4 pb-4 md:gap-5 md:px-8"
           style={{ WebkitOverflowScrolling: 'touch' }}
         >
           {/* <a> en geen <Link>: het dossier is een bestand, geen route, dus

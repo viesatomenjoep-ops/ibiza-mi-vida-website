@@ -28,7 +28,7 @@ export async function ClubTicketsSlider() {
       </div>
 
       <div className="w-full pb-8">
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 md:gap-8 px-4 md:px-[5%] pb-12 pt-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div className="flex overflow-x-auto snap-x snap-proximity gap-4 md:gap-8 px-4 md:px-[5%] pb-12 pt-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           <style dangerouslySetInnerHTML={{ __html: `
             .hide-scrollbar::-webkit-scrollbar { display: none; }
           `}} />
