@@ -8,7 +8,7 @@ import {
   MapPin, X, Check, Euro, Lock, LockOpen, SlidersHorizontal,
 } from 'lucide-react';
 import { FLEET, FLEET_FROM_PRICE, type Boat, type FleetCategory } from '@/data/fleet';
-import { priceForDate, statusForDate, type LiveFleet } from '@/lib/yacht-broker';
+import { priceForDate, statusForDate, ibizaToday, liveStampTime, type LiveFleet } from '@/lib/yacht-broker';
 import { FileText, CalendarDays } from 'lucide-react';
 import { BackButton } from '@/components/ui/BackButton';
 import { FavouriteButton } from '@/components/boats/FavouriteButton';
@@ -278,7 +278,7 @@ function BoatCard({ boat, T, locale, live, date, season }: {
   const stKleur = st === 'free' ? 'bg-ibiza-green' : st === 'option' ? 'bg-amber-500' : 'bg-red-500';
   const stTekst = st === 'free' ? T.availFree : st === 'option' ? T.availOption : T.availBooked;
   return (
-    <article id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="group relative flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
+    <article id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="fleet-card group relative flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
       {/* Foto → rechtstreeks het dossier in, op uitdrukkelijk verzoek. De
           lightbox is vervallen: het plaatje van een advertentie hoort naar de
           advertentie zelf te leiden, en de dossierpagina heeft de terugknop
@@ -289,12 +289,18 @@ function BoatCard({ boat, T, locale, live, date, season }: {
         className="relative block aspect-[4/3] w-full overflow-hidden"
         aria-label={`${T.dossier} — ${boat.model} ${boat.name ?? ''}`}
       >
-        <Image
+        {/* Gewone <img> met een srcset van drie Cloudinary-breedtes — zie
+            FLEET in src/data/fleet.ts voor waarom niet next/image. lazy +
+            async: 94 foto's mogen nooit de eerste paint ophouden. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={boat.image}
+          srcSet={boat.imageSet}
           alt={`${boat.model} ${boat.name}`}
-          fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
         {/* Spec badges */}
@@ -397,7 +403,19 @@ function PriceRow({ label, note, value, T, locale, highlight }: { label: string;
 }
 
 // ── Main showcase ────────────────────────────────────────────────────────────
-export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
+export default function FleetShowcase({ locale = 'nl', initialLive = null, initialDate }: {
+  locale: string;
+  /**
+   * Live laag, server-side opgehaald door de pagina. Stond hier eerst als
+   * fetch('/api/fleet-live') na mount: een extra verzoek per bezoeker, de
+   * live regel die pas ná hydration in elke kaart verscheen (layout shift
+   * over 94 kaarten) en een crawler zonder JavaScript die de beschikbaarheid
+   * nooit zag. Nu staat hij in de eerste HTML.
+   */
+  initialLive?: LiveFleet | null;
+  /** Vandaag (Ibiza-tijd) zoals de server hem rendert; zie ibizaToday(). */
+  initialDate?: string | null;
+}) {
   const T = FLEET_I18N[locale] || FLEET_I18N.en;
   const P = PRICE_I18N[locale] || PRICE_I18N.en;
   const bcp = ({ en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' } as Record<string, string>)[locale] || 'en-GB';
@@ -415,36 +433,33 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
   // tijdens de render zou een hydration-mismatch geven (server en client
   // renderen op verschillende momenten). Tot die tijd is er simpelweg geen
   // live regel — de statische banden staan er dan al.
-  const [live, setLive] = useState<LiveFleet | null>(null);
+  const live = initialLive;
   // Favorieten: pas na mount uit localStorage (hydration-veilig), daarna live
   // synchroon met elk hartje — ook op de dossierpagina in hetzelfde tabblad.
   const [favs, setFavs] = useState<string[]>([]);
   useEffect(() => { setFavs(getFavourites()); return onFavouritesChange(setFavs); }, []);
-  const [date, setDate] = useState<string | null>(null);
+  // Start op de serverdatum (zelfde waarde als in de HTML, dus geen
+  // hydration-mismatch) en corrigeer na mount alleen als de dag intussen
+  // verstreken is — een pagina uit de cache rond middernacht.
+  const [date, setDate] = useState<string | null>(initialDate ?? null);
   const [onlyAvailable, setOnlyAvailable] = useState(false);
   useEffect(() => {
-    setDate(new Date().toISOString().slice(0, 10));
-    let dood = false;
-    fetch('/api/fleet-live')
-      .then(r => (r.ok ? r.json() : null))
-      .then(d => { if (!dood && d?.boats) setLive(d as LiveFleet); })
-      .catch(() => {}); // feed onbereikbaar → geen live laag, geen foutmelding
-    return () => { dood = true; };
-  }, []);
+    const vandaag = ibizaToday();
+    setDate(d => (d === null || d === initialDate) && d !== vandaag ? vandaag : d);
+  }, [initialDate]);
   // Buiten het opgehaalde bereik valt er niets live te zeggen — de kiezer
   // begrenst daarop, en wie verder vooruit wil komt bij Simon uit.
   const dateInRange = !!(live && date && date >= live.rangeStart && date < live.rangeEnd);
 
   // Deep-link: bij binnenkomst met #boat-<slug> naar die kaart scrollen — en
-  // blijven corrigeren tot de layout stilstaat. De browser doet zelf een
-  // vroege anker-scroll, maar daarna schuift de pagina nog: de live balk
-  // verschijnt zodra de feed geladen is en duwt het grid omlaag. Eén scroll
-  // op een vast moment eindigde daardoor aantoonbaar ~1700px boven de kaart.
-  // Dit interval kijkt 5 seconden lang elke 400ms of de kaart nog ongeveer
-  // bovenin beeld staat, corrigeert instant (geen smooth: die animatie zou
-  // met de volgende controle wedijveren) en stopt na twee opeenvolgende
-  // goede metingen — wie zelf scrolt wordt dus hooguit even gecorrigeerd,
-  // daarna nooit meer.
+  // even blijven corrigeren tot de layout stilstaat. De browser doet zelf een
+  // vroege anker-scroll, maar daarna kan de pagina nog schuiven (webfonts,
+  // de favorietenbalk). Vroeger was de grote verschuiver de live balk die pas
+  // na de fetch in elke kaart verscheen (~1700px); die staat nu al in de
+  // HTML, dus 2,4 seconden volstaat waar het 5 was. Instant scroll (geen
+  // smooth: die animatie zou met de volgende controle wedijveren), stopt na
+  // twee opeenvolgende goede metingen — wie zelf scrolt wordt hooguit even
+  // gecorrigeerd, daarna nooit meer.
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const id = window.location.hash.slice(1);
@@ -460,7 +475,7 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
         if (inBeeld) goed++;
         else { goed = 0; el.scrollIntoView({ behavior: 'auto', block: 'start' }); }
       }
-      if (goed >= 2 || beurten >= 13) clearInterval(iv);
+      if (goed >= 2 || beurten >= 6) clearInterval(iv);
     }, 400);
     return () => clearInterval(iv);
   }, []);
@@ -478,9 +493,14 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
       const matchSearch = !q || `${b.model} ${b.name ?? ''} ${b.marina}`.toLowerCase().includes(q);
       const matchPrice = b.price.low <= maxPrice;
       const matchPax = minPax === 0 || b.pax >= minPax;
+      // "Alleen beschikbaar" toont uitsluitend boten waarvan de feed het
+      // zégt. Een boot die niet in de feed staat kreeg eerst een lege
+      // dagenlijst mee en gold daarmee als vrij — de kaart toonde geen
+      // status, maar het filter beloofde wél beschikbaarheid.
+      const lb = live && dateInRange ? live.boats[b.brokerKey] : undefined;
       const matchAvail = !onlyAvailable || !dateInRange || !live || !date
         ? true
-        : statusForDate(live.boats[b.brokerKey] ?? { days: {}, price: null, priceBands: null }, date) === 'free';
+        : !!lb && statusForDate(lb, date) === 'free';
       return matchCategory && matchMarina && matchSearch && matchPrice && matchPax && matchAvail;
     })
       // Sorteren op de laagseizoensprijs, want dat is ook het bedrag dat op de
@@ -525,6 +545,14 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
         .fleet-range::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.12); }
         .fleet-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #0E7C66; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; }
         .fleet-range:disabled::-webkit-slider-thumb { cursor: not-allowed; border-color: #9ca3af; }
+        /* PERF: 94 kaarten staan allemaal in de HTML (crawlers zonder JS moeten
+           de hele vloot zien), maar de browser hoeft alleen te lay-outen en te
+           schilderen wat in beeld is. content-visibility:auto slaat de rest
+           over tot je erheen scrolt; de intrinsic-size houdt de scrollbalk
+           stabiel en 'auto' onthoudt de echte hoogte zodra een kaart één keer
+           gerenderd is. scrollIntoView op een #boat-anker werkt er gewoon
+           doorheen. */
+        .fleet-card { content-visibility: auto; contain-intrinsic-size: auto 560px; }
       ` }} />
       {/* Hero — boat image as a full-bleed background; on mobile it fills the first viewport so the
           budget bar only appears once you scroll down. */}
@@ -560,7 +588,7 @@ export default function FleetShowcase({ locale = 'nl' }: { locale: string }) {
         dateRange={live ? { start: live.rangeStart, end: live.rangeEnd } : null}
         onlyAvailable={onlyAvailable}
         setOnlyAvailable={setOnlyAvailable}
-        liveStamp={live ? new Date(live.generatedAt).toLocaleTimeString(bcp, { hour: '2-digit', minute: '2-digit' }) : null}
+        liveStamp={live ? liveStampTime(live.generatedAt, bcp) : null}
         minPax={minPax}
         setMinPax={setMinPax}
         maxPrice={maxPrice}

@@ -58,7 +58,7 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .topbar a{color:var(--black);text-decoration:underline}
 /* Fixed site header = topbar strip + navbar. --nav-h is the single source of truth
    for how far page content must sit below it (used across every page). */
-.site-header{position:fixed;top:0;left:0;width:100%;z-index:60;background:transparent;transition:background .3s ease,backdrop-filter .3s ease}
+.site-header{position:fixed;top:0;left:0;width:100%;z-index:60;background:transparent;transition:background .3s ease}
 /* On scroll the navbar becomes a clean, sharp SOLID WHITE bar (no blur) with black text. */
 .site-header--fade{background:#fff;border-bottom:1px solid rgba(0,0,0,.08)}
 .site-header--fade .nav-topbar-inner,
@@ -73,8 +73,11 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .site-header--forcewhite .nav-logo-btn img{filter:brightness(0) invert(1) !important}
 .site-header--forcewhite .burger-lines span{background-color:#fff !important}
 .nav-topbar{background:transparent;border-bottom:none;transition:background .3s ease}
-/* Fixed bottom official-partner bar for ClubTickets categories: clean white strip, black text */
-.nav-partner-bottom{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -4px 16px rgba(0,0,0,.06);pointer-events:none}
+/* Fixed bottom official-partner bar for ClubTickets categories: clean white strip, black text.
+   PERF: geen backdrop-filter. Een vaste balk met blur laat iOS bij élke scrollframe
+   het stuk pagina eronder opnieuw blurren — dat is de klassieke scroll-hapering.
+   De balk was al 94% dekkend; dicht wit ziet er hetzelfde uit en kost niets. */
+.nav-partner-bottom{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;align-items:center;justify-content:center;background:#fff;border-top:1px solid rgba(0,0,0,.08);box-shadow:0 -4px 16px rgba(0,0,0,.06);pointer-events:none}
 .nav-partner-bottom .nav-topbar-inner{color:#0D0509}
 .nav-topbar-inner{display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 14px;font-family:var(--font-display),sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;text-align:center;line-height:1.2;text-shadow:none;transition:color .12s ease}
 .nav-topbar-inner svg{width:14px;height:14px;flex-shrink:0;display:block}
@@ -181,9 +184,10 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
    ═══════════════════════════════════════════════ */
 
 /* Backdrop */
+/* PERF: geen backdrop-filter — een schermvullende blur over de hele pagina
+   (agenda: honderden kaarten) is precies wat het menu op iOS liet vastlopen. */
 .fs-backdrop{
-  position:fixed;inset:0;z-index:89;background:rgba(0,0,0,.4);
-  backdrop-filter:blur(4px);
+  position:fixed;inset:0;z-index:89;background:rgba(0,0,0,.5);
 }
 
 /* Overlay panel — full-screen, slides in from the right (covers the navbar) */

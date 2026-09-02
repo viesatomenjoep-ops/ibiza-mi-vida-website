@@ -183,7 +183,9 @@ export default function CalendarClient({ events, allVenues, allArtists, dict, lo
       </div>
 
         {/* ── Tactical selector bar (sticky) ── */}
-        <div className="sticky top-[70px] md:top-[84px] z-40 mt-5 bg-neutral-50/95 backdrop-blur-md border-y border-black/5">
+        {/* PERF: dicht (geen /95 + backdrop-blur): een sticky balk met blur wordt op
+            iOS elke scrollframe opnieuw geblurd over de kaarten eronder. */}
+        <div className="sticky top-[70px] md:top-[84px] z-40 mt-5 bg-neutral-50 border-y border-black/5">
           <div className="w-full max-w-7xl mx-auto px-4 py-3 md:py-4 flex flex-col items-center gap-3">
 
             {/* Primary: time range segmented control */}

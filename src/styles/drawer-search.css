@@ -1,6 +1,7 @@
 /* ---------- MENU DRAWER ---------- */
-.drawer-scrim{position:fixed;inset:0;z-index:998;background:rgba(20,34,30,.4);
-  backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:.4s}
+/* PERF: geen backdrop-filter op schermvullende scrims (zie .fs-backdrop in globals.css) */
+.drawer-scrim{position:fixed;inset:0;z-index:998;background:rgba(20,34,30,.5);
+  opacity:0;visibility:hidden;transition:.4s}
 .drawer-scrim.open{opacity:1;visibility:visible}
 .drawer{position:fixed;inset:0;z-index:999;background:var(--cotton);
   display:flex;flex-direction:column;overflow:hidden;
@@ -39,8 +40,8 @@
 @media(prefers-reduced-motion:reduce){.drawer,.drawer-link{transition:opacity .2s!important}.drawer{clip-path:none!important}}
 
 /* ---------- SEARCH OVERLAY ---------- */
-.search-overlay{position:fixed;inset:0;z-index:1001;background:rgba(20,34,30,.55);
-  backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:.28s;padding:80px 20px 20px}
+.search-overlay{position:fixed;inset:0;z-index:1001;background:rgba(20,34,30,.65);
+  opacity:0;visibility:hidden;transition:.28s;padding:80px 20px 20px}
 .search-overlay.open{opacity:1;visibility:visible}
 .search-panel{max-width:640px;margin:0 auto;background:var(--cotton);border-radius:24px;
   box-shadow:0 30px 80px rgba(0,0,0,.3);overflow:hidden;transform:translateY(-16px);transition:.28s}

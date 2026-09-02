@@ -139,3 +139,27 @@ export function priceForDate(b: LiveBoat, iso: string, season: Season): number |
 export function statusForDate(b: LiveBoat, iso: string): 'free' | DayStatus {
   return b.days[iso] ?? 'free'
 }
+
+/**
+ * Vandaag als YYYY-MM-DD in Ibiza-tijd. De beschikbaarheid is per Ibiza-dag;
+ * `toISOString()` gaf de UTC-dag, en die loopt 's avonds twee uur achter —
+ * dan stond om 00:30 nog "vandaag" van gisteren voorgeselecteerd. Server en
+ * client rekenen allebei hiermee, zodat de eerste render al klopt.
+ */
+export function ibizaToday(): string {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Madrid', year: 'numeric', month: '2-digit', day: '2-digit',
+  }).format(new Date())
+}
+
+/**
+ * "HH:MM" van het feedtijdstip, in Ibiza-tijd. Vaste tijdzone en niet die van
+ * het apparaat: de live laag wordt nu server-side gerenderd, en een server in
+ * UTC die "08:15" schrijft waar de browser "10:15" verwacht is een
+ * hydration-mismatch. Bovendien is de Ibiza-tijd hier de enige die klopt.
+ */
+export function liveStampTime(generatedAt: string, bcp47: string): string {
+  return new Date(generatedAt).toLocaleTimeString(bcp47, {
+    hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Madrid',
+  })
+}
