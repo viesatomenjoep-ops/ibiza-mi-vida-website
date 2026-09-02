@@ -15,7 +15,7 @@ import { HomeCategoryCarousel } from '@/components/home/HomeCategoryCarousel';
 import { HomeUSP } from '@/components/home/HomeUSP';
 import { HomeInstagram } from '@/components/home/HomeInstagram';
 import { HomeNewsletter } from '@/components/home/HomeNewsletter';
-import { HomeFleetCarousel } from '@/components/home/HomeFleetCarousel';
+import { HomeRingCarousel } from '@/components/home/HomeRingCarousel';
 import { HomeFaq } from '@/components/home/HomeFaq';
 import { ArrowCircle } from '@/components/ui/ArrowCircle';
 import { HomeTonight } from '@/components/home/HomeTonight';
@@ -159,7 +159,10 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           vanavond heeft gezien, is precies in de stemming voor de dag ervoor —
           en dit is de sectie met de hoogste orderwaarde van de site. Dure en
           goedkope boten om en om; zie de selectie-functie voor waarom. */}
-      <HomeFleetCarousel locale={locale} />
+      {/* 3D-ring met boten, excursies en events — verving de platte rij van
+          twaalf boten. Zie HomeRingCarousel voor waarom de animatie de site
+          niet zwaarder maakt. */}
+      <HomeRingCarousel locale={locale} base={base} events={pickerEvents} experienceDays={experienceDays} />
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {clubDays.length > 0 && (
