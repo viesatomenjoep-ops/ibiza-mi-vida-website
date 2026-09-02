@@ -193,19 +193,35 @@ function sectionIcon(title: string) {
 interface EventDetailPageProps {
   club: CTVenue;
   eventDates: CTEventDate[];
+  /**
+   * De datum waarop de bezoeker klikte (yyyy-MM-dd), als die uit de lijst
+   * kwam waar hij vandaan komt. Bepaalt welke avond deze pagina toont: de
+   * line-up, de ticketlink en de voorgeselecteerde dag in de kiezer.
+   */
+  selectedDate?: string;
   eventSlug: string;
   locale: string;
   basePath: string; // e.g. "tours", "activities"
 }
 
-export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath }: EventDetailPageProps) {
+export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath, selectedDate }: EventDetailPageProps) {
   const eventDetail = club.events?.find(e => e.slug === eventSlug)
   const t = dicts[locale] || dicts['en']
   const T = EVENT_I18N[locale] || EVENT_I18N.en
   const S = SECTION_I18N[locale] || SECTION_I18N.en
   const bcp = BCP[locale] || 'en-GB'
   const checkoutLabel = ({ en: 'Checkout', nl: 'Afrekenen', de: 'Zur Kasse', es: 'Finalizar compra', fr: 'Commander' } as Record<string, string>)[locale] || 'Checkout'
-  const checkoutAff = (eventDates.find(d => (d as any).affLink)?.affLink || eventDates[0]?.affLink || '') as string
+  /**
+   * De avond die deze pagina toont.
+   *
+   * Stond hier hard op eventDates[0], de eerstvolgende datum. Een club die
+   * elke week dezelfde naam draait heeft tientallen datums met elk een eigen
+   * line-up en prijs: klikte je in de agenda op David Guetta van maandag de
+   * 14e, dan kreeg je de line-up en de ticketlink van de 7e. Verwarrend, en
+   * bij een andere hoofdact ronduit fout.
+   */
+  const gekozen = (selectedDate && eventDates.find(d => String(d.date).slice(0, 10) === selectedDate)) || eventDates[0]
+  const checkoutAff = ((gekozen as any)?.affLink || eventDates.find(d => (d as any).affLink)?.affLink || eventDates[0]?.affLink || '') as string
 
   const d0 = eventDates[0] as any
   const eventName = eventDetail?.name || d0?.eventName || 'Event'
@@ -241,7 +257,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
     ? `${t.event_next_dates || 'Upcoming dates:'} ${upcoming.join(', ')}${eventDates.length > 3 ? '…' : '.'}`
     : (t.event_see_dates || 'See all upcoming dates above.')
   const timeText = eventDetail?.startAt ? `${t.event_start_time || 'Start time'} ${eventDetail.startAt}.` : ''
-  const lineupText = formatLineUp(eventDates[0]?.lineUp)
+  const lineupText = formatLineUp(gekozen?.lineUp || eventDates[0]?.lineUp)
   const faqs = T.faqs({ event: eventName, venue: club.name, datesText, timeText, lineupText })
 
   // Line-up per date (only dates that actually carry a line-up)
@@ -375,6 +391,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                 eventCover={eventCover}
                 locale={locale}
                 labels={PICKER_I18N[locale] || PICKER_I18N.en}
+                initialDay={selectedDate}
               />
             </AnimatedSection>
           </div>

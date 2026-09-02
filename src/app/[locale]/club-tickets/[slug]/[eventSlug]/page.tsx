@@ -2,12 +2,14 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getVenues, getAllDates } from '@/lib/clubtickets'
 import { EventDetailPage } from '@/components/templates/EventDetailPage'
+import { dateParam } from '@/lib/event-date-param'
 import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
 
 export const revalidate = 3600
 
 interface Props {
   params: { slug: string; eventSlug: string; locale: string }
+  searchParams?: { date?: string | string[] }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -23,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   })
 }
 
-export default async function EventPage({ params }: Props) {
+export default async function EventPage({ params, searchParams }: Props) {
   // Same data source as every other category (activities/boat-trip/tours/...):
   // the fast, always-available local JSON feed — NOT Supabase, which crashed
   // this route (and every /club-tickets/[slug]/[eventSlug] page) whenever its
@@ -43,6 +45,7 @@ export default async function EventPage({ params }: Props) {
       club={venue as any}
       locale={params.locale}
       basePath="club-tickets"
+      selectedDate={dateParam(searchParams)}
     />
   )
 }

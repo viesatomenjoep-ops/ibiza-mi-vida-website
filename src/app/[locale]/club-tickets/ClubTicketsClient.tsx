@@ -1,4 +1,5 @@
 'use client';
+import { withDate } from '@/lib/event-date-param'
 
 import React, { useState, useMemo, useRef } from 'react';
 import Link from 'next/link';
@@ -199,7 +200,7 @@ export default function ClubTicketsClient({
       date: e.date || '',
       price: parsePrice(e.prices),
       lineUp: e.lineUp || '',
-      href: `/${locale}/club-tickets/${e.venueSlug}/${e.eventSlug}`,
+      href: withDate(`/${locale}/club-tickets/${e.venueSlug}/${e.eventSlug}`, e.date),
       affLink: (e as any).affLink || '',
     };
   }), [initialEvents, venues, locale]);

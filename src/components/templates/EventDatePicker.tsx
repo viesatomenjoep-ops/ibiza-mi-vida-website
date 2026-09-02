@@ -48,6 +48,8 @@ interface Props {
   eventCover: string
   locale: string
   labels: PickerLabels
+  /** Datum waarop de bezoeker klikte (yyyy-MM-dd). Zie activeDay hieronder. */
+  initialDay?: string
 }
 
 const getLoc = (l: string) => ({ nl, de, es, fr, en: enUS } as Record<string, Locale>)[l] || enUS
@@ -60,7 +62,7 @@ function formatLineUp(lineUp?: string): string {
   return text
 }
 
-export function EventDatePicker({ dates, eventName, eventCover, locale, labels: L }: Props) {
+export function EventDatePicker({ dates, eventName, eventCover, locale, labels: L, initialDay }: Props) {
   const loc = getLoc(locale)
   const today = useMemo(() => startOfDay(new Date()), [])
   const todayStr = format(today, 'yyyy-MM-dd')
@@ -73,7 +75,12 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
     [dates, todayStr]
   )
 
-  const [activeDay, setActiveDay] = useState<string | null>(null)
+  // De dag waarop de bezoeker geklikt heeft, als die is meegegeven. Zonder dit
+  // opende de kiezer altijd op de eerstvolgende datum: klikte je op David
+  // Guetta van maandag de 14e, dan stond de 7e voorgeselecteerd.
+  const [activeDay, setActiveDay] = useState<string | null>(
+    initialDay && upcoming.some(d => d.date === initialDay) ? initialDay : null,
+  )
   const [pickerOpen, setPickerOpen] = useState(false)
   const availableDates = useMemo(() => Array.from(new Set(upcoming.map(d => d.date))), [upcoming])
 
@@ -85,7 +92,12 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
   }, [])
 
   const monday = useCallback((dt: Date) => startOfWeek(dt, { weekStartsOn: 1 }), [])
-  const firstMonday = useMemo(() => format(monday(parseISO(upcoming[0]?.date || todayStr)), 'yyyy-MM-dd'), [upcoming, todayStr, monday])
+  // Ook de week volgt de gekozen dag, anders staat de juiste datum wel
+  // geselecteerd maar buiten beeld.
+  const firstMonday = useMemo(
+    () => format(monday(parseISO(initialDay || upcoming[0]?.date || todayStr)), 'yyyy-MM-dd'),
+    [upcoming, todayStr, monday, initialDay],
+  )
   const lastMonday = useMemo(() => format(monday(parseISO(upcoming[upcoming.length - 1]?.date || todayStr)), 'yyyy-MM-dd'), [upcoming, todayStr, monday])
   const [weekStart, setWeekStart] = useState<string>(firstMonday)
 
