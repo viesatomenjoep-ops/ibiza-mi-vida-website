@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { ChevronDown } from 'lucide-react'
 import { LOCALES } from './LanguageSelector'
 import { SpotifyButton } from './SpotifyButton'
 import { MenuYachtSlider } from './MenuYachtSlider'
@@ -160,12 +161,26 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
     },
   ]
 
+  // Taalkiezer: één zichtbare taal, uitklappen om te wisselen. Vijf pillen
+  // naast elkaar pasten niet op een telefoon en stonden daar dus op
+  // display:none — de taalkeuze was op mobiel onbereikbaar buiten het menu.
+  const [langOpen, setLangOpen] = useState(false)
+  const langRef = useRef<HTMLDivElement>(null)
   const [isScrolled, setIsScrolled] = useState(false)
   const [fadeOn, setFadeOn] = useState(false)
   const [onLight, setOnLight] = useState(false)
   const logoRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => { setMenuOpen(false) }, [pathname])
+  useEffect(() => { setLangOpen(false) }, [pathname])
+  useEffect(() => {
+    if (!langOpen) return
+    const buiten = (e: MouseEvent) => { if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false) }
+    const esc = (e: KeyboardEvent) => { if (e.key === 'Escape') setLangOpen(false) }
+    document.addEventListener('mousedown', buiten)
+    document.addEventListener('keydown', esc)
+    return () => { document.removeEventListener('mousedown', buiten); document.removeEventListener('keydown', esc) }
+  }, [langOpen])
 
   // Shrink navbar on scroll + activate the top dissolve/blur zone as soon as you scroll a touch
   useEffect(() => {
@@ -432,13 +447,33 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
 
             {/* Right: language selector (desktop) + hamburger */}
             <div className="nav-right">
-            <div className="nav-langs" aria-label={A11Y.language[currentLocale.code] || A11Y.language.en}>
-              {LOCALES.map(l => (
+            <div
+              ref={langRef}
+              className={`nav-langs${langOpen ? ' is-open' : ''}`}
+              aria-label={A11Y.language[currentLocale.code] || A11Y.language.en}
+            >
+              {/* De huidige taal is altijd zichtbaar en is tegelijk de knop die
+                  de rest uitklapt. De andere talen zijn echte links, zodat ze
+                  crawlbaar blijven en met een middenklik in een nieuw tabblad
+                  openen. */}
+              <button
+                type="button"
+                onClick={() => setLangOpen(v => !v)}
+                className="nav-lang active nav-lang-toggle"
+                aria-expanded={langOpen}
+                aria-label={`${A11Y.language[currentLocale.code] || A11Y.language.en}: ${currentLocale.label}`}
+              >
+                {currentLocale.label}
+                <ChevronDown size={11} aria-hidden className="nav-lang-chev" />
+              </button>
+              {LOCALES.filter(l => l.code !== currentLocale.code).map(l => (
                 <Link
                   key={l.code}
                   href={pathname.replace(/^\/[a-z]{2}(?=\/|$)/, `/${l.code}`) || `/${l.code}`}
-                  className={`nav-lang${currentLocale.code === l.code ? ' active' : ''}`}
-                  aria-current={currentLocale.code === l.code ? 'true' : undefined}
+                  className="nav-lang nav-lang-item"
+                  hrefLang={l.code}
+                  tabIndex={langOpen ? undefined : -1}
+                  aria-hidden={langOpen ? undefined : true}
                 >
                   {l.label}
                 </Link>

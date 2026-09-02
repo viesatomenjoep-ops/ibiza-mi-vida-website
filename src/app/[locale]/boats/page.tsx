@@ -24,6 +24,9 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 export default async function BoatsPage({ params: { locale } }: { params: { locale: string } }) {
   const venues = await getVenues(locale)
   const covers = boatCategoryCovers(venues as any)
+  // Hero: een echte boottocht uit de feed als die er is, anders onze eigen
+  // vlootfoto — nooit een leeg vlak.
+  const heroImage = covers['boat-trip'] || covers['boat-party'] || covers['private-boat-charters'] || '/fleet/cover.jpeg'
 
   return (
     <>
@@ -31,7 +34,7 @@ export default async function BoatsPage({ params: { locale } }: { params: { loca
         locale={locale}
         items={[{ name: homeLabel(locale), path: '' }, { name: crumbLabel('boats', locale) }]}
       />
-      <BoatsHub locale={locale} covers={covers} />
+      <BoatsHub locale={locale} covers={covers} heroImage={heroImage} />
       <BoatRentalPromo locale={locale} />
       <PageFaq pageKey="boats" locale={locale} />
       <AuthorByline locale={locale} topic="boat trips in Ibiza" />

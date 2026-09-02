@@ -40,6 +40,8 @@ import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 export interface BoatsHubProps {
   locale: string
   covers: Record<BoatCategory, string | null>
+  /** Foto achter de hero. Uit de venue-feed, met de eigen vlootfoto als bodem. */
+  heroImage: string
 }
 
 // ── Full 5-locale copy for the boats hub ──
@@ -260,7 +262,7 @@ function CategoryCard({
   )
 }
 
-export default function BoatsHub({ locale, covers }: BoatsHubProps) {
+export default function BoatsHub({ locale, covers, heroImage }: BoatsHubProps) {
   const T = I18N[locale] || I18N.en
   const alt = ALT[locale] || ALT.en
   const base = `/${locale}`
@@ -277,10 +279,21 @@ export default function BoatsHub({ locale, covers }: BoatsHubProps) {
     <>
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-obsidian text-white">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-32 left-1/2 h-96 w-[42rem] -translate-x-1/2 rounded-full bg-gold/20 blur-[140px]"
+        {/* Foto achter de hero. Dit was een zwart vlak met een gouden gloed —
+            de enige pagina van de site die over boten gaat en er geen liet
+            zien. Verloop van links (dekkend, waar de tekst staat) naar rechts
+            (open), plus een vaste donkere bodem zodat wit op elke foto AA
+            blijft halen. priority: dit is de LCP-afbeelding van de pagina. */}
+        <Image
+          src={heroImage}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
         />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-obsidian via-obsidian/85 to-obsidian/35" />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-obsidian/70 via-transparent to-obsidian/30" />
         {/* pt via --nav-h: de site-header is fixed (134px desktop / 116px mobiel).
             Met een vaste py-16 verdween de kicker eronder — dat is wat er op de
             oude versie van deze pagina misging. */}

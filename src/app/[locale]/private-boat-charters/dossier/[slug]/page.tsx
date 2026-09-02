@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, MessageCircle, FileText, MapPin, Users } from 'lucide-react'
 import { FLEET } from '@/data/fleet'
@@ -24,14 +23,22 @@ const TERMS: T = L(
   'El dossier recoge las fotos, las medidas y las condiciones de este barco. Lo que incluye la tarifa — patrón, combustible, IVA — varía según el barco; Simon lo confirma antes de reservar.',
   'Le dossier contient les photos, les dimensions et les conditions de ce bateau. Ce que le tarif inclut — skipper, carburant, TVA — varie selon le bateau ; Simon le confirme avant réservation.',
 )
-const ASK: T = L('Vraag Simon naar deze boot', 'Ask Simon about this boat', 'Frag Simon zu diesem Boot', 'Pregunta a Simon por este barco', 'Demandez ce bateau à Simon')
+const ASK: T = L('Boek deze boot direct', 'Book this boat now', 'Dieses Boot direkt buchen', 'Reserva este barco ya', 'Réservez ce bateau')
+const FULL: T = L('Volledig scherm', 'Full screen', 'Vollbild', 'Pantalla completa', 'Plein écran')
+const NO_EMBED: T = L(
+  'Kan het dossier hier niet tonen. Open het in een nieuw venster.',
+  'Cannot display the dossier here. Open it in a new window.',
+  'Das Dossier kann hier nicht angezeigt werden. In neuem Fenster öffnen.',
+  'No se puede mostrar el dossier aquí. Ábrelo en una ventana nueva.',
+  'Impossible d’afficher le dossier ici. Ouvrez-le dans une nouvelle fenêtre.',
+)
 const GUESTS: T = L('gasten', 'guests', 'Gäste', 'invitados', 'invités')
 const WA_MSG: T = L(
-  'Hoi Ibiza mi Vida! Ik bekijk het dossier van {boat} en wil graag beschikbaarheid en prijs weten.',
-  'Hi Ibiza mi Vida! I am looking at the dossier of {boat} and would like to know availability and price.',
-  'Hallo Ibiza mi Vida! Ich schaue mir das Dossier der {boat} an und würde gern Verfügbarkeit und Preis erfahren.',
-  '¡Hola Ibiza mi Vida! Estoy viendo el dossier de {boat} y me gustaría saber disponibilidad y precio.',
-  'Bonjour Ibiza mi Vida ! Je consulte le dossier du {boat} et j’aimerais connaître la disponibilité et le prix.',
+  'Hoi Ibiza mi Vida! Ik heb het dossier van {boat} bekeken en wil deze boot graag boeken. Kunnen jullie de beschikbaarheid en de prijs bevestigen?',
+  'Hi Ibiza mi Vida! I have read the dossier of {boat} and would like to book this boat. Could you confirm availability and the price?',
+  'Hallo Ibiza mi Vida! Ich habe das Dossier der {boat} gelesen und möchte dieses Boot buchen. Können Sie Verfügbarkeit und Preis bestätigen?',
+  '¡Hola Ibiza mi Vida! He visto el dossier de {boat} y quiero reservar este barco. ¿Podéis confirmar la disponibilidad y el precio?',
+  'Bonjour Ibiza mi Vida ! J’ai consulté le dossier du {boat} et je souhaite réserver ce bateau. Pouvez-vous confirmer la disponibilité et le tarif ?',
 )
 
 function boatFor(slug: string) {
@@ -77,12 +84,13 @@ export default function DossierPage({ params }: { params: { locale: string; slug
   const pdfSrc = `/api/dossier/${boat.slug}`
 
   return (
-    <div className="min-h-screen bg-white pt-[calc(var(--nav-h)+12px)] text-black">
-      {/* Kopregel: terug · bootnaam · hartje */}
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-3 px-4 py-3">
+    <div className="min-h-screen bg-neutral-100 pt-[calc(var(--nav-h)+8px)] text-black">
+      {/* Kopregel: terug · bootnaam · hartje. Slank gehouden — het dossier is
+          de pagina, dit is alleen de lijst eromheen. */}
+      <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-3 px-4 py-2.5">
         <Link
           href={terug}
-          className="inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-4 py-2 text-sm font-bold text-black transition-colors hover:bg-neutral-200"
+          className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-bold text-black ring-1 ring-black/10 transition-colors hover:bg-neutral-200"
         >
           <ArrowLeft size={16} /> {BACK[l]}
         </Link>
@@ -99,62 +107,60 @@ export default function DossierPage({ params }: { params: { locale: string; slug
         <FavouriteButton slug={boat.slug} locale={l} className="!bg-neutral-900" />
       </div>
 
-      {/* Geen PDF-preview meer op deze pagina, op uitdrukkelijk verzoek om
-          snelheid. Zelfs de lichte Cloudinary-omzetting laadde bij binnenkomst
-          honderden kilobytes aan pagina's die de meeste bezoekers nooit
-          openslaan. Nu laadt deze pagina niets van het dossier: de foto komt
-          uit de vlootlijst en staat bij de meeste bezoekers al in de cache,
-          en het dossier wordt pas opgehaald als iemand er echt op klikt.
+      {/* Het dossier zelf, meteen.
+          Hier stond een tussenstap: een foto met een knop "open het dossier",
+          dus je klikte op een boot om een pagina te krijgen die zei dat je nog
+          een keer moest klikken. Nu staat het document er direct, in de
+          PDF-weergave van de browser — die streamt en toont de eerste pagina
+          voordat de rest binnen is.
 
-          De knop wijst naar /api/dossier en niet rechtstreeks naar de partner.
-          Dat is gemeten sneller: rechtstreeks duurde 1,96s, via onze route na
-          de eerste bezoeker 0,21s omdat het dan uit de edge-cache komt. Zelfde
-          bestand, zelfde bron, alleen dichterbij. */}
-      <div className="mx-auto max-w-4xl px-4 pb-6">
-        <div className="overflow-hidden rounded-3xl border border-black/10 bg-white shadow-sm">
-          <div className="relative aspect-[16/10] w-full">
-            <Image
-              src={boat.image}
-              alt={`${boat.model} ${naam}`}
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 900px"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-center gap-2 p-4 text-white sm:hidden">
-              <span className="inline-flex items-center gap-1 rounded-full bg-black/55 px-2.5 py-1 text-[11px] font-bold backdrop-blur-sm">
-                <Users size={11} /> {boat.pax} {GUESTS[l]}
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-black/55 px-2.5 py-1 text-[11px] font-bold backdrop-blur-sm">
-                <MapPin size={11} /> {boat.marina}
-              </span>
-            </div>
+          <object> en niet <iframe>: de inhoud tussen de tags is de terugval als
+          de browser geen PDF kan inbedden (iOS doet dat wisselend). Die terugval
+          is een echte link, geen leeg vlak, en de knop onderaan werkt sowieso. */}
+      <div className="mx-auto max-w-5xl px-3 pb-32">
+        <object
+          data={pdfSrc}
+          type="application/pdf"
+          aria-label={`${DOSSIER[l]} — ${boat.model} ${naam}`}
+          className="block h-[74svh] min-h-[420px] w-full rounded-2xl bg-white shadow-lg ring-1 ring-black/10"
+        >
+          <div className="flex h-full flex-col items-center justify-center gap-4 rounded-2xl bg-white p-8 text-center">
+            <p className="text-sm text-neutral-600">{NO_EMBED[l]}</p>
+            <a
+              href={pdfSrc}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-3 text-sm font-black uppercase tracking-wider text-white"
+            >
+              <FileText size={16} /> {OPEN_PDF[l]}
+            </a>
           </div>
+        </object>
 
-          <div className="p-5">
-            <p className="text-[13px] leading-relaxed text-neutral-600">{TERMS[l]}</p>
+        <p className="mx-auto mt-4 max-w-3xl text-center text-[12px] leading-relaxed text-neutral-500">{TERMS[l]}</p>
+      </div>
 
-            <div className="mt-4 flex flex-col gap-2.5 sm:flex-row">
-              {/* Zelfde tabblad: alleen dan brengt het terugpijltje van de
-                  browser je terug naar deze pagina, en vandaar naar de vloot. */}
-              <a
-                href={pdfSrc}
-                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-neutral-900 px-6 py-3.5 text-sm font-black uppercase tracking-wider text-white transition-all hover:bg-black active:scale-[0.98]"
-              >
-                <FileText size={16} /> {OPEN_PDF[l]}
-                {boat.pdfPages ? <span className="font-sans text-[11px] font-normal normal-case tracking-normal text-white/60">· {boat.pdfPages} {PAGES[l]}</span> : null}
-              </a>
-              <a
-                href={wa}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-ibiza-green px-6 py-3.5 text-sm font-black uppercase tracking-wider text-white transition-all hover:brightness-95 active:scale-[0.98]"
-              >
-                <MessageCircle size={16} /> {ASK[l]}
-              </a>
-            </div>
-          </div>
+      {/* Boeken vanuit het dossier. Vast onderin, want je neemt dat besluit
+          terwijl je op pagina zeven van de PDF zit — niet bovenaan. */}
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-white pb-[env(safe-area-inset-bottom)] shadow-[0_-6px_24px_-12px_rgba(0,0,0,0.35)]">
+        <div className="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center">
+          <a
+            href={wa}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="book-cta inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-ibiza-green px-6 py-3.5 text-sm font-black uppercase tracking-wider text-white"
+          >
+            <MessageCircle size={16} /> {ASK[l]}
+          </a>
+          <a
+            href={pdfSrc}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-bold text-neutral-700 ring-1 ring-black/12 transition-colors hover:bg-neutral-100"
+          >
+            <FileText size={15} /> {FULL[l]}
+            {boat.pdfPages ? <span className="font-sans text-[11px] font-normal text-neutral-400">· {boat.pdfPages} {PAGES[l]}</span> : null}
+          </a>
         </div>
       </div>
     </div>

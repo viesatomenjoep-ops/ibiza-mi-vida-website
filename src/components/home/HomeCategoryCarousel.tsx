@@ -45,7 +45,11 @@ const CONTENT: Record<CatKey, { href: string; title: Record<string, string>; tex
     },
   },
   water: {
-    href: 'water-sports',
+    // Naar de bootenhub en niet naar /water-sports: deze kaart belooft
+    // "alles op en rond de zee" — boottochten, sunset cruises én watersport —
+    // en /boats is de pagina die dat hele aanbod verdeelt. /water-sports is
+    // één van de takken daaronder.
+    href: 'boats',
     title: { nl: 'Op het water', en: 'On the water', es: 'En el agua', de: 'Auf dem Wasser', fr: "Sur l'eau" },
     text: {
       nl: 'Boottochten, sunset cruises en watersport. Van Formentera-trips tot parasailing — alles op en rond de zee.',
