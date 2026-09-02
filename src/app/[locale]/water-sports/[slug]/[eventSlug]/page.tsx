@@ -17,14 +17,16 @@ export async function generateMetadata({ params }: { params: { slug: string; eve
 import { notFound } from 'next/navigation'
 import { getVenues, getAllDates } from '@/lib/clubtickets'
 import { EventDetailPage } from '@/components/templates/EventDetailPage'
+import { dateParam } from '@/lib/event-date-param'
 
 export const revalidate = 3600
 
 interface Props {
   params: { slug: string; eventSlug: string; locale: string }
+  searchParams?: { date?: string | string[] }
 }
 
-export default async function EventPage({ params }: Props) {
+export default async function EventPage({ params, searchParams }: Props) {
   const venues = await getVenues(params.locale);
   const venue = venues.find(v => v.slug === params.slug && v.type.slug === 'activities');
   if (!venue) notFound();
@@ -40,6 +42,7 @@ export default async function EventPage({ params }: Props) {
       club={venue as any} 
       locale={params.locale} 
       basePath="water-sports"
+      selectedDate={dateParam(searchParams)}
     />
   )
 }

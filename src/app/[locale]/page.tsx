@@ -11,6 +11,7 @@ import { HOME_TITLE, HOME_DESC } from '@/lib/seo-pages'
 import { FLEET } from '@/data/fleet'
 import { pickCover } from '@/lib/blank-covers';
 import { eventBasePath } from '@/lib/event-path';
+import { withDate } from '@/lib/event-date-param'
 import { addDays } from '@/lib/date-label';
 import { getGoogleReviews } from '@/lib/google-reviews';
 import { ibizaToday } from '@/lib/date-label';
@@ -93,7 +94,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
         date: d.date || '',
         price: m ? parseFloat(m[0].replace(',', '.')) : 0,
         lineUp: d.lineUp || '',
-        href: `/${params.locale}/club-tickets/${d.venueSlug}/${d.eventSlug}`,
+        href: withDate(`/${params.locale}/club-tickets/${d.venueSlug}/${d.eventSlug}`, d.date),
         affLink: d.affLink || '',
       };
     });

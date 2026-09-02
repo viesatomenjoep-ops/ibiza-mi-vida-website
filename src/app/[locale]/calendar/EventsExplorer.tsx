@@ -3,6 +3,7 @@
 import React, { useMemo, useState, useCallback, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { WeekDockBar } from '@/components/ui/WeekDockBar'
+import { withDate } from '@/lib/event-date-param'
 import { ScrollCue } from '@/components/ui/ScrollCue'
 import {
   format, addDays, startOfWeek, endOfWeek, startOfMonth, endOfMonth,
@@ -154,7 +155,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
         date: e.date || '',
         price: m ? parseFloat(m[0].replace(',', '.')) : 0,
         lineUp: e.lineUp || '',
-        href: `/${locale}/club-tickets/${e.ct_venues?.slug}/${e.ct_events?.slug}`,
+        href: withDate(`/${locale}/club-tickets/${e.ct_venues?.slug}/${e.ct_events?.slug}`, e.date),
         affLink: (e as any).affLink || '',
       }
     }), [events, locale, todayStr])
@@ -367,7 +368,9 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
                     const artists = lineupArtists(ev.lineUp).slice(0, 3)
                     const extra = Math.max(0, lineupArtists(ev.lineUp).length - 3)
                     const price = priceFrom(ev.prices)
-                    const href = `${base}/club-tickets/${slug || 'club'}/${ev.ct_events?.slug || 'event'}`
+                    // De avond waarop geklikt wordt gaat mee: deze lijst is per dag,
+                    // en zonder datum opent de detailpagina op de eerstvolgende.
+                    const href = withDate(`${base}/club-tickets/${slug || 'club'}/${ev.ct_events?.slug || 'event'}`, ev.date)
                     return (
                       <Link
                         key={ev.id}
