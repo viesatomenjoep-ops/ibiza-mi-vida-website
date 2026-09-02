@@ -47,7 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const CRUMBS: Crumb[] = [
   { name: 'Home', path: '' },
-  { name: 'Boat rental Ibiza', path: 'boat-rental-ibiza' },
+  { name: 'Ibiza by boat', path: 'boats' },
   { name: 'Click&Boat' },
 ]
 
@@ -175,7 +175,7 @@ export default function ClickAndBoatPartnerPage() {
         heading="Related pages"
         locale={LOCALE}
         links={[
-          { label: 'Boat rental in Ibiza', href: 'boat-rental-ibiza', body: 'The full picture: three ways onto the water, four marinas and the routes.' },
+          { label: 'Boat rental in Ibiza', href: 'boats', body: 'The full picture: three ways onto the water, four marinas and the routes.' },
           { label: 'Boat hire without a licence', href: 'boat-hire-ibiza-no-licence', body: 'The 15 hp category and the four legal conditions on it.' },
           { label: 'Wiber, our car partner', href: 'wiber-car-rental-ibiza', body: 'The same treatment for the company behind our car hire.' },
         ]}

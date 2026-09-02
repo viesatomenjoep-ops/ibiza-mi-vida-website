@@ -111,7 +111,7 @@ export default function CarRentalAirportPage() {
       <InternalLinks heading="Related pages" locale={LOCALE} links={[
         { label: 'Car rental in Ibiza', href: 'car-rental-ibiza', body: 'The pillar page: conditions, categories, and why a car is worth it here.' },
         { label: 'Convertible car rental', href: 'convertible-car-rental-ibiza', body: 'The coast roads it is actually worth booking one for.' },
-        { label: 'Boat rental in Ibiza', href: 'boat-rental-ibiza', body: 'Where you drive to, and what you do when you get there.' },
+        { label: 'Boat rental in Ibiza', href: 'boats', body: 'Where you drive to, and what you do when you get there.' },
       ]} />
 
       <AuthorByline locale={LOCALE} topic="car rental at Ibiza Airport" />

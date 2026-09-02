@@ -102,7 +102,6 @@ export function Footer({ rating = null, activityImages = [] }: {
       title: t.nav_on_the_water || 'Op het water',
       links: [
         { href: `${base}/boats`, label: t.nav_boats_hub || 'Ibiza per boot' },
-        { href: `${base}/${slugFor('boat-rental', l)}`, label: t.nav_boat_rental || 'Boat Rental Ibiza' },
         { href: `${base}/private-boat-charters`, label: t.nav_private_charters || 'Private Boat Charters' },
         { href: `${base}/boat-party`, label: t.nav_boat_party || 'Boat Parties' },
         { href: `${base}/shuttle-ferry`, label: t.nav_shuttle_ferry || 'Shuttle Ferry' },

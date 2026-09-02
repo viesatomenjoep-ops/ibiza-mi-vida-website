@@ -187,7 +187,7 @@ export default function AutoHurenIbizaPage() {
         heading="Gerelateerde pagina's"
         locale={LOCALE}
         links={[
-          { label: 'Boot huren op Ibiza', href: 'boot-huren-ibiza', body: 'De baaien waar je niet naartoe kunt rijden, langs de andere kant benaderd.' },
+          { label: 'Boot huren op Ibiza', href: 'boats', body: 'De baaien waar je niet naartoe kunt rijden, langs de andere kant benaderd.' },
           { label: 'Ibiza tips', href: 'tips', body: 'Baaien, parkeren en wanneer je het beste komt.' },
         ]}
       />

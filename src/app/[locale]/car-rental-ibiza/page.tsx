@@ -225,7 +225,7 @@ export default function CarRentalIbizaPage() {
         links={[
           {
             label: 'Boat rental in Ibiza',
-            href: 'boat-rental-ibiza',
+            href: 'boats',
             body: 'The coves you cannot drive to, reached the other way.',
           },
           {

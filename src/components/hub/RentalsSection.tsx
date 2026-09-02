@@ -181,7 +181,7 @@ export function RentalsSection({ locale }: { locale: string }) {
     cta: BOAT_PROMO.cta[l],
     partner: 'Click&Boat',
     readMore: BOAT_PROMO.readMore[l],
-    readMoreHref: `/${l}/${slugFor('boat-rental', l)}`,
+    readMoreHref: `/${l}/boats`,
   }
 
   const car: CardData = {

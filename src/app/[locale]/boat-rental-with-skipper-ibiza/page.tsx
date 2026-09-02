@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const CRUMBS: Crumb[] = [
   { name: 'Home', path: '' },
-  { name: 'Boat rental Ibiza', path: 'boat-rental-ibiza' },
+  { name: 'Ibiza by boat', path: 'boats' },
   { name: 'With a skipper' },
 ]
 
@@ -111,7 +111,7 @@ export default function BoatWithSkipperPage() {
       <FaqAccordion faqs={FAQS} locale={LOCALE} />
 
       <InternalLinks heading="Related pages" locale={LOCALE} links={[
-        { label: 'Boat rental in Ibiza', href: 'boat-rental-ibiza', body: 'The pillar page: all three ways onto the water, with marinas and routes.' },
+        { label: 'Boat rental in Ibiza', href: 'boats', body: 'The pillar page: all three ways onto the water, with marinas and routes.' },
         { label: 'Boat hire without a licence', href: 'boat-hire-ibiza-no-licence', body: 'The other end of the range: 15 hp, no paperwork, nearby coves.' },
         { label: 'Boat parties in Ibiza', href: 'boat-party', body: 'When you want the crowd rather than the boat to yourself.' },
       ]} />

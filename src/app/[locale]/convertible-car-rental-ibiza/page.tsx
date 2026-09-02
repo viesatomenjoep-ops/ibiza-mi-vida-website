@@ -117,7 +117,7 @@ export default function ConvertibleRentalPage() {
       <InternalLinks heading="Related pages" locale={LOCALE} links={[
         { label: 'Car rental in Ibiza', href: 'car-rental-ibiza', body: 'The pillar page: all categories, conditions and parking advice.' },
         { label: 'Car rental at Ibiza Airport', href: 'car-rental-ibiza-airport', body: 'The pick-up flow, shuttle and what to do after a late landing.' },
-        { label: 'Boat rental in Ibiza', href: 'boat-rental-ibiza', body: 'Cala d\'Hort from the water instead of the cliff road.' },
+        { label: 'Boat rental in Ibiza', href: 'boats', body: 'Cala d\'Hort from the water instead of the cliff road.' },
       ]} />
 
       <AuthorByline locale={LOCALE} topic="convertible car rental in Ibiza" />
