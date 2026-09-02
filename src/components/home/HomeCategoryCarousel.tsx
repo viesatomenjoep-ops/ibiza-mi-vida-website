@@ -188,6 +188,41 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
   const handleNext = useCallback(() => { setActiveIndex(prev => (prev + 1) % count); stopAutoplay() }, [count])
   const handlePrev = useCallback(() => { setActiveIndex(prev => (prev - 1 + count) % count); stopAutoplay() }, [count])
 
+  /**
+   * Vegen met duim en muis.
+   *
+   * De waaier had alleen twee pijlknoppen en een timer van vijf seconden. Op
+   * een telefoon is dat de verkeerde afspraak: elke andere carrousel op elk
+   * ander scherm doe je met je duim, en wie hier veegde kreeg niets -- of
+   * erger, hij opende de kaart waarop hij toevallig begon.
+   *
+   * Pointer events dekken vinger en muis in een implementatie. Een verplaatsing
+   * van meer dan 45 pixels telt als een veeg; daaronder is het een tik en mag
+   * de link gewoon werken. `touchAction: pan-y` laat verticaal scrollen door,
+   * zodat de pagina niet blokkeert als je schuin over de kaart veegt.
+   */
+  const veeg = useRef<{ actief: boolean; startX: number; verplaatst: number }>({
+    actief: false, startX: 0, verplaatst: 0,
+  })
+  const veegStart = (e: React.PointerEvent) => {
+    veeg.current = { actief: true, startX: e.clientX, verplaatst: 0 }
+  }
+  const veegBeweeg = (e: React.PointerEvent) => {
+    if (!veeg.current.actief) return
+    veeg.current.verplaatst = e.clientX - veeg.current.startX
+  }
+  const veegEind = () => {
+    if (!veeg.current.actief) return
+    const dx = veeg.current.verplaatst
+    veeg.current.actief = false
+    if (Math.abs(dx) < 45) return
+    if (dx < 0) handleNext(); else handlePrev()
+  }
+  // Een veeg mag geen klik worden.
+  const veegKlik = (e: React.MouseEvent) => {
+    if (Math.abs(veeg.current.verplaatst) >= 45) { e.preventDefault(); e.stopPropagation() }
+  }
+
   // 3D fan positions: centre card front, neighbours tucked behind left/right.
   function getImageStyle(index: number): React.CSSProperties {
     const gap = calculateGap(containerWidth)
@@ -204,10 +239,22 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
 
   return (
     <section className="w-full bg-neutral-100 px-4 py-8 md:py-16">
-      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-6 md:grid-cols-2 md:gap-20">
+      {/* text-center op mobiel: de waaier staat gecentreerd in zijn kolom, maar
+          de tekst ernaast stond links en dat trok het geheel scheef. Vanaf de
+          tweekolomsopmaak lijnt alles weer links uit. */}
+      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-6 text-center md:grid-cols-2 md:gap-20 md:text-left">
 
         {/* Photo fan — smaller on mobile so the whole card fits one comfortable screen-scroll */}
-        <div ref={imageContainerRef} className="relative h-48 w-full sm:h-72 md:h-96" style={{ perspective: '1000px' }}>
+        <div
+          ref={imageContainerRef}
+          className="relative h-48 w-full cursor-grab touch-pan-y select-none active:cursor-grabbing sm:h-72 md:h-96"
+          style={{ perspective: '1000px' }}
+          onPointerDown={veegStart}
+          onPointerMove={veegBeweeg}
+          onPointerUp={veegEind}
+          onPointerCancel={veegEind}
+          onClickCapture={veegKlik}
+        >
           {items.map((item, index) => (
             <Image
               key={item.key}
