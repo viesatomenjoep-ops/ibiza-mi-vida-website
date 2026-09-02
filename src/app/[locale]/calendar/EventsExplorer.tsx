@@ -99,7 +99,7 @@ function seededRandom(seed: string): () => number {
   }
 }
 
-export default function EventsExplorer({ events: initialEvents, allVenues, locale, loadedThrough, today: todayProp, seasonDates }: Props) {
+export default function EventsExplorer({ events: initialEvents, allVenues, locale, loadedThrough, today: todayProp, seasonDates, heading, sub }: Props & { heading?: string; sub?: string }) {
   const loc = getLoc(locale)
   /** Venue op slug — de bron voor logo, foto en type, in plaats van elk veld
       per avond mee te sturen. */
@@ -303,11 +303,14 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
       <section className="pt-[calc(var(--nav-h)+12px)] pb-0 relative z-10 flex flex-col items-center text-center px-4">
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
           <div className="flex flex-col gap-1 text-center mb-0">
+            {/* De kop is overschrijfbaar: dezelfde verkenner draait op de
+                clubagenda en op de activiteitenagenda, en "Ibiza clubagenda"
+                boven een lijst buggytours klopt niet. */}
             <h1 className="text-4xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
-              {T.title}
+              {heading || T.title}
             </h1>
             <p className="hidden md:block font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-2">
-              {T.sub}
+              {sub || T.sub}
             </p>
           </div>
         </div>

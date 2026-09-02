@@ -288,6 +288,22 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </FeaturedDayRotator>
       )}
 
+      {/* Zelfde uitgang als bij de clubstrook: wie meer wil dan drie kaarten
+          per dag moet ergens heen kunnen. /calendar is de clubagenda en toont
+          alles door elkaar; deze knop gaat naar de agenda met álles behalve
+          clubavonden — boottochten, jetski's, buggy's, grotten, Formentera. */}
+      {experienceDays.length > 0 && (
+        <div className="mx-auto -mt-2 mb-10 flex max-w-7xl px-4 md:px-8">
+          <Link
+            href={`${base}/activities-calendar`}
+            className="inline-flex items-center gap-2 rounded-full border border-black/12 bg-white px-5 py-2.5 text-[11px] font-black uppercase tracking-widest text-neutral-700 transition-colors hover:border-ibiza-green hover:text-ibiza-green"
+          >
+            {({ nl: 'Hele activiteitenagenda', en: 'Full activities calendar', de: 'Ganzer Aktivitätenkalender', es: 'Agenda completa de actividades', fr: 'Agenda complet des activités' } as Record<string, string>)[locale] || 'Full activities calendar'}
+            <span aria-hidden>↗</span>
+          </Link>
+        </div>
+      )}
+
       {/* Boten en auto's. Stond onderaan de pagina, onder Instagram en de
           nieuwsbrief; hier volgt het direct op de strip met alles wat geen
           nachtclub is, waar het thuishoort en waar mensen nog kijken. */}
