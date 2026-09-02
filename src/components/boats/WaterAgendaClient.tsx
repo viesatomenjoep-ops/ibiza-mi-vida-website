@@ -12,6 +12,7 @@ import { WeekDockBar } from '@/components/ui/WeekDockBar';
 import { ScrollCue } from '@/components/ui/ScrollCue';
 import { optImg } from '@/lib/img';
 import { ctLink } from '@/lib/ct-link';
+import { scrollSectionIntoView } from '@/lib/scroll-to-section';
 
 // ── i18n labels (en, nl, de, es, fr) ──
 interface AgendaLabels {
@@ -161,7 +162,10 @@ export default function WaterAgendaClient({ title, subtitle, lead, kicker, event
     const weekEndStr = format(addDays(parseISO(dockWeekStart), 6), 'yyyy-MM-dd');
     return sorted.filter(e => e.date >= dockWeekStart && e.date <= weekEndStr);
   }, [pickerEvents, dockDay, dockWeekStart]);
-  React.useEffect(() => { if (!dockDay || !galleryRef.current) return; const el = galleryRef.current; const t = setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 90); return () => clearTimeout(t); }, [dockDay]);
+  // Zie scrollSectionIntoView: rekent de vaste kop mee en gaat naar boven
+  // wanneer er nauwelijks te scrollen valt, zodat de paginatitel niet half
+  // achter de balk blijft hangen.
+  React.useEffect(() => { if (!dockDay || !galleryRef.current) return; const el = galleryRef.current; const t = setTimeout(() => scrollSectionIntoView(el, { gap: 24 }), 90); return () => clearTimeout(t); }, [dockDay]);
 
   // Lazy-load months when browsing past the shipped 31-day window.
   React.useEffect(() => { ensureMonth(activeMonth); }, [activeMonth, ensureMonth]);

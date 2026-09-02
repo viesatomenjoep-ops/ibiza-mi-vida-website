@@ -11,6 +11,7 @@ import { EventTicketSelector } from './EventTicketSelector'
 import { WeekDockBar } from '@/components/ui/WeekDockBar'
 import { DatePickerModal } from '@/components/ui/DatePickerModal'
 import { optImg } from '@/lib/img'
+import { scrollSectionIntoView } from '@/lib/scroll-to-section'
 
 type Period = 'day' | 'week' | 'month' | 'year'
 
@@ -107,7 +108,9 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
 
   // When a day is picked, glide the matching event(s) into view (feels like it "opens")
   const tilesRef = useRef<HTMLDivElement>(null)
-  useEffect(() => { if (activeDay && tilesRef.current) tilesRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, [activeDay])
+  // Zelfde regel als op de agenda: de vaste kop meerekenen, en naar boven in
+  // plaats van de titel doormidden snijden wanneer er weinig te scrollen valt.
+  useEffect(() => { if (activeDay) scrollSectionIntoView(tilesRef.current, { gap: 16 }) }, [activeDay])
 
   return (
     <div ref={tilesRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 16px)' }} className="flex flex-col gap-5">

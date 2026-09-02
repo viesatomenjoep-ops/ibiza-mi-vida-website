@@ -10,6 +10,7 @@ import { VenueSchema } from '@/components/seo/VenueSchema'
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
 import { BreadcrumbJsonLd, homeLabel, sectionLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { ClubHistory } from '@/components/venues/ClubHistory'
+import { scrollSectionIntoView } from '@/lib/scroll-to-section';
 
 interface VenueDetailPageProps {
   club: any;
@@ -474,10 +475,11 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
         </div>
         <button 
           onClick={() => {
-            const el = document.getElementById('tickets');
-            if (el) {
-              window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' });
-            }
+            // Stond op `el.offsetTop - 120`: twee fouten in één regel.
+            // offsetTop is relatief aan de offsetParent en niet aan het
+            // document, en 120 is een verzonnen balkhoogte (de echte is 134
+            // op desktop, 116 op mobiel). scrollSectionIntoView leest --nav-h.
+            scrollSectionIntoView(document.getElementById('tickets'), { gap: 16 });
           }}
           className="bg-ibiza-green text-white font-black uppercase tracking-wider px-8 py-3.5 rounded-full hover:brightness-95 transition-all shadow-lg active:scale-95"
         >

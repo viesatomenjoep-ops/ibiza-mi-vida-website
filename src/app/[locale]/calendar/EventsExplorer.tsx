@@ -12,6 +12,7 @@ import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { MapPin, Calendar } from 'lucide-react'
 import type { PickerEvent } from '@/lib/picker-event'
 import { optImg } from '@/lib/img'
+import { scrollSectionIntoView } from '@/lib/scroll-to-section'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface ExEvent {
@@ -209,10 +210,14 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
     const ds = pickerEvents.map(e => e.date).filter(d => d >= todayStr).sort()[0] || todayStr
     return format(startOfWeek(parseISO(ds), { weekStartsOn: 1 }), 'yyyy-MM-dd')
   })
+  // Even wachten tot React de nieuwe dag gerenderd heeft, dan pas scrollen —
+  // anders meten we de hoogte van de vorige lijst. scrollSectionIntoView rekent
+  // de vaste kop mee én gaat naar de bovenkant wanneer er nauwelijks te
+  // scrollen valt; scrollIntoView sneed hier de H1 doormidden.
   useEffect(() => {
     if (!activeDay || !listRef.current) return
     const el = listRef.current
-    const t = setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 90)
+    const t = setTimeout(() => scrollSectionIntoView(el, { gap: 24 }), 90)
     return () => clearTimeout(t)
   }, [activeDay])
 

@@ -31,6 +31,17 @@
 // scheelt een mogelijke redirect-hop op elke aanroep.
 const BASE = 'https://www.theyachtbroker.club'
 const REVALIDATE_SECONDS = 900 // 15 min — beschikbaarheid verandert per boeking, niet per seconde.
+const TIMEOUT_MS = 3500 // zie getLiveFleet: een trage partner mag de pagina niet ophouden.
+
+/**
+ * Waarom een log en niet stilte: de live laag valt weg zónder dat er iets
+ * kapot lijkt — de pagina rendert gewoon door met de statische banden. Precies
+ * daarom merkte niemand het als de koppeling eruit lag. Deze regel staat in de
+ * Vercel-logs; `npm run check:fleet` is de handmatige tegenhanger.
+ */
+function waarschuw(reden: string): void {
+  console.warn(`[yacht-broker] live feed niet gebruikt: ${reden}`)
+}
 
 export type DayStatus = 'booked' | 'option'
 export type Season = 'low' | 'mid' | 'high' | 'top'
@@ -91,13 +102,29 @@ export async function getLiveFleet(): Promise<LiveFleet | null> {
     // bruikbaar maakt — met één maand kan een bezoeker begin van de maand
     // nauwelijks vooruit plannen. Wie verder wil dan twee maanden komt bij
     // Simon uit, en dat is precies goed.
+    // TIMEOUT is niet optioneel meer. De charterpagina rendert deze fetch
+    // server-side, dus een partner die blijft hangen hangt de paginarender
+    // mee — en `fetch` heeft uit zichzelf geen deadline. Na TIMEOUT_MS breken
+    // we af en valt de live laag weg; de statische prijsbanden staan er dan
+    // gewoon. Een pagina zonder live regel is oneindig veel beter dan een
+    // pagina die niet komt.
     const res = await fetch(`${BASE}/api/availability?months=2&start=0`, {
-      headers: { 'user-agent': 'ibizamivida.com partner integration' },
+      headers: {
+        'user-agent': 'ibizamivida.com partner integration',
+        accept: 'application/json',
+      },
+      signal: AbortSignal.timeout(TIMEOUT_MS),
       next: { revalidate: REVALIDATE_SECONDS },
     })
-    if (!res.ok) return null
+    if (!res.ok) {
+      waarschuw(`HTTP ${res.status}`)
+      return null
+    }
     const data = (await res.json()) as ApiResponse
-    if (!data?.boats?.length || !data.generatedAt) return null
+    if (!data?.boats?.length || !data.generatedAt) {
+      waarschuw('antwoord zonder boats[] of generatedAt')
+      return null
+    }
 
     const boats: Record<string, LiveBoat> = {}
     for (const b of data.boats) {
@@ -114,7 +141,8 @@ export async function getLiveFleet(): Promise<LiveFleet | null> {
       season: data.season,
       boats,
     }
-  } catch {
+  } catch (e) {
+    waarschuw(e instanceof Error ? e.message : String(e))
     return null
   }
 }
@@ -133,6 +161,27 @@ export function priceForDate(b: LiveBoat, iso: string, season: Season): number |
     return null
   }
   return b.price?.[season] ?? null
+}
+
+/**
+ * In welk seizoen valt een datum, volgens onze eigen banden.
+ *
+ * Juli en augustus zijn hoogseizoen — verder niets. Mei, juni, september en
+ * oktober zijn tussenseizoen, de rest van het jaar laag.
+ *
+ * Let op waar dit WEL en NIET voor gebruikt wordt. Dit bepaalt welke van de
+ * drie statische prijsbanden van een boot de kaart toont wanneer de live feed
+ * niets over die datum zegt — een vanafprijs met een label, geen offerte. De
+ * live dagprijs komt onveranderd uit priceForDate() met het seizoen dat de
+ * partner-API zelf meegeeft; die rekent met de banden van de broker en daar
+ * wijken wij niet vanaf (zie de kop van dit bestand). Het tussenseizoen houdt
+ * daarom ook een voorzichtig bijschrift: het exacte venster verschilt per boot.
+ */
+export function seasonForDate(iso: string): 'low' | 'mid' | 'high' {
+  const maand = Number(iso.slice(5, 7))
+  if (maand === 7 || maand === 8) return 'high'
+  if (maand === 5 || maand === 6 || maand === 9 || maand === 10) return 'mid'
+  return 'low'
 }
 
 /** Beschikbaarheid voor een datum. Geen vermelding = beschikbaar. */

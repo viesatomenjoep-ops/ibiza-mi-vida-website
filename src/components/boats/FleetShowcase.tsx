@@ -8,7 +8,7 @@ import {
   MapPin, X, Check, Euro, Lock, LockOpen, SlidersHorizontal,
 } from 'lucide-react';
 import { FLEET, FLEET_FROM_PRICE, type Boat, type FleetCategory } from '@/data/fleet';
-import { priceForDate, statusForDate, ibizaToday, liveStampTime, type LiveFleet } from '@/lib/yacht-broker';
+import { priceForDate, statusForDate, seasonForDate, ibizaToday, liveStampTime, type LiveFleet } from '@/lib/yacht-broker';
 import { FileText, CalendarDays } from 'lucide-react';
 import { BackButton } from '@/components/ui/BackButton';
 import { FavouriteButton } from '@/components/boats/FavouriteButton';
@@ -104,7 +104,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     allMarinas: 'All marinas',
     pax: 'guests', length: 'length',
     seasonLow: 'Low season', seasonMid: 'Mid season', seasonHigh: 'High season',
-    seasonLowNote: "Rest of the year", seasonMidNote: "Shoulder season — window differs per boat", seasonMidNoteCompact: "Shoulder season — window differs per boat", seasonHighNote: "Around July / August",
+    seasonLowNote: "Rest of the year", seasonMidNote: "Shoulder season — window differs per boat", seasonMidNoteCompact: "Shoulder season — window differs per boat", seasonHighNote: "July and August",
     perDay: '/ day',
     pickDate: 'Your date', availOnly: 'Only available', availFree: 'Available', availOption: 'On option', availBooked: 'Booked',
     liveStamp: (t) => `Live status, ${t}`,
@@ -135,7 +135,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     allMarinas: 'Alle haventjes',
     pax: 'gasten', length: 'lengte',
     seasonLow: 'Laagseizoen', seasonMid: 'Middenseizoen', seasonHigh: 'Hoogseizoen',
-    seasonLowNote: "Rest van het jaar", seasonMidNote: "Tussenseizoen — venster verschilt per boot", seasonMidNoteCompact: "Tussenseizoen — venster verschilt per boot", seasonHighNote: "Rond juli / augustus",
+    seasonLowNote: "Rest van het jaar", seasonMidNote: "Tussenseizoen — venster verschilt per boot", seasonMidNoteCompact: "Tussenseizoen — venster verschilt per boot", seasonHighNote: "Juli en augustus",
     perDay: '/ dag',
     pickDate: 'Jouw datum', availOnly: 'Alleen beschikbaar', availFree: 'Beschikbaar', availOption: 'In optie', availBooked: 'Bezet',
     liveStamp: (t) => `Live stand, ${t}`,
@@ -166,7 +166,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     allMarinas: 'Alle Häfen',
     pax: 'Gäste', length: 'Länge',
     seasonLow: 'Nebensaison', seasonMid: 'Zwischensaison', seasonHigh: 'Hauptsaison',
-    seasonLowNote: "Rest des Jahres", seasonMidNote: "Zwischensaison — Zeitraum je Boot verschieden", seasonMidNoteCompact: "Zwischensaison — Zeitraum je Boot verschieden", seasonHighNote: "Etwa Juli / August",
+    seasonLowNote: "Rest des Jahres", seasonMidNote: "Zwischensaison — Zeitraum je Boot verschieden", seasonMidNoteCompact: "Zwischensaison — Zeitraum je Boot verschieden", seasonHighNote: "Juli und August",
     perDay: '/ Tag',
     pickDate: 'Dein Datum', availOnly: 'Nur verfügbare', availFree: 'Verfügbar', availOption: 'Auf Option', availBooked: 'Belegt',
     liveStamp: (t) => `Live-Stand, ${t}`,
@@ -197,7 +197,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     allMarinas: 'Todos los puertos',
     pax: 'personas', length: 'eslora',
     seasonLow: 'Temporada baja', seasonMid: 'Temporada media', seasonHigh: 'Temporada alta',
-    seasonLowNote: "Resto del año", seasonMidNote: "Temporada media — la ventana varía por barco", seasonMidNoteCompact: "Temporada media — la ventana varía por barco", seasonHighNote: "Hacia julio / agosto",
+    seasonLowNote: "Resto del año", seasonMidNote: "Temporada media — la ventana varía por barco", seasonMidNoteCompact: "Temporada media — la ventana varía por barco", seasonHighNote: "Julio y agosto",
     perDay: '/ día',
     pickDate: 'Tu fecha', availOnly: 'Solo disponibles', availFree: 'Disponible', availOption: 'En opción', availBooked: 'Ocupado',
     liveStamp: (t) => `Estado en vivo, ${t}`,
@@ -228,7 +228,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     allMarinas: 'Tous les ports',
     pax: 'invités', length: 'longueur',
     seasonLow: 'Basse saison', seasonMid: 'Moyenne saison', seasonHigh: 'Haute saison',
-    seasonLowNote: "Reste de l'année", seasonMidNote: "Moyenne saison — la fenêtre varie selon le bateau", seasonMidNoteCompact: "Moyenne saison — la fenêtre varie selon le bateau", seasonHighNote: "Vers juillet / août",
+    seasonLowNote: "Reste de l'année", seasonMidNote: "Moyenne saison — la fenêtre varie selon le bateau", seasonMidNoteCompact: "Moyenne saison — la fenêtre varie selon le bateau", seasonHighNote: "Juillet et août",
     perDay: '/ jour',
     pickDate: 'Votre date', availOnly: 'Disponibles seulement', availFree: 'Disponible', availOption: 'En option', availBooked: 'Réservé',
     liveStamp: (t) => `État en direct, ${t}`,
@@ -272,11 +272,36 @@ function BoatCard({ boat, T, locale, live, date, season }: {
 }) {
   const p = boat.price;
   // Live status + dagprijs voor de gekozen datum. Geen feed of geen datum →
-  // geen live regel; de statische banden hieronder blijven altijd staan.
+  // geen live regel; de statische band hieronder staat er dan alleen.
   const st = live && date ? statusForDate(live, date) : null;
   const liveP = live && date ? priceForDate(live, date, season) : null;
   const stKleur = st === 'free' ? 'bg-ibiza-green' : st === 'option' ? 'bg-amber-500' : 'bg-red-500';
   const stTekst = st === 'free' ? T.availFree : st === 'option' ? T.availOption : T.availBooked;
+
+  // ── Eén prijs: die van de gekozen datum ────────────────────────────────
+  //
+  // Hier stonden drie regels onder elkaar — laag-, tussen- en hoogseizoen —
+  // plús de live dagprijs erboven. Op een dag in het laagseizoen betekende dat
+  // vier prijzen op één kaart waarvan er twee hetzelfde getal waren, en 94
+  // kaarten lang. Een bezoeker die 2 september kiest hoeft niet te weten wat
+  // augustus kost; die kiest augustus wel als hij dat wil weten.
+  //
+  // De volgorde van betrouwbaarheid: de live dagprijs van de partner als die
+  // er is (exact, voor precies die datum), anders de statische band van het
+  // seizoen waar de datum in valt.
+  const dag = date ?? ibizaToday();
+  const seizoen = seasonForDate(dag);
+  // Een boot zonder tussenseizoensprijs valt in die maanden op de lage band —
+  // dan hoort het label dat ook te zeggen in plaats van een prijs onder de
+  // verkeerde kop te zetten.
+  const band = seizoen === 'mid' && p.mid == null ? 'low' : seizoen;
+  const bandPrijs = band === 'high' ? p.high : band === 'mid' ? (p.mid as number) : p.low;
+  const prijs = liveP ?? bandPrijs;
+  const seizoenLabel = band === 'high' ? T.seasonHigh : band === 'mid' ? T.seasonMid : T.seasonLow;
+  const seizoenNoot =
+    band === 'high' ? (p.highWindow || T.seasonHighNote)
+    : band === 'mid' ? (boat.category === 'motorboat' ? T.seasonMidNoteCompact : T.seasonMidNote)
+    : T.seasonLowNote;
   return (
     <article id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="fleet-card group relative flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
       {/* Foto → rechtstreeks het dossier in, op uitdrukkelijk verzoek. De
@@ -333,26 +358,28 @@ function BoatCard({ boat, T, locale, live, date, season }: {
           {boat.model}{boat.name && <span className="text-ibiza-green"> {boat.name}</span>}
         </h3>
 
-        {/* Live: status + dagprijs voor de gekozen datum — alleen wanneer de
+        {/* Live beschikbaarheid voor de gekozen datum — alleen wanneer de
             partnerfeed er echt is. In eigen stijl (groen/amber/rood bolletje),
-            geen kopie van hun kalender. */}
+            geen kopie van hun kalender. De prijs stond hier ook nog eens; die
+            staat nu één keer, hieronder. */}
         {st && (
-          <div className="mt-2 flex items-center justify-between gap-2 rounded-xl bg-neutral-50 px-3 py-2 ring-1 ring-black/5">
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-black/70">
-              <span aria-hidden className={`h-2 w-2 rounded-full ${stKleur}`} />
-              {stTekst}
-            </span>
-            {liveP != null && st === 'free' && (
-              <span className="font-serif text-sm font-bold text-black">€{fmt(liveP, locale)} <span className="font-sans text-[10px] font-normal text-black/40">{T.perDay}</span></span>
-            )}
+          <div className="mt-2 flex items-center gap-1.5 rounded-xl bg-neutral-50 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-black/70 ring-1 ring-black/5">
+            <span aria-hidden className={`h-2 w-2 rounded-full ${stKleur}`} />
+            {stTekst}
           </div>
         )}
 
-        {/* Seasonal prices */}
-        <div className="mt-2.5 space-y-1 border-t border-black/10 pt-2.5">
-          <PriceRow label={T.seasonLow} note={T.seasonLowNote} value={p.low} T={T} locale={locale} />
-          {p.mid != null && <PriceRow label={T.seasonMid} note={boat.category === 'motorboat' ? T.seasonMidNoteCompact : T.seasonMidNote} value={p.mid} T={T} locale={locale} />}
-          <PriceRow label={T.seasonHigh} note={p.highWindow || T.seasonHighNote} value={p.high} T={T} locale={locale} highlight />
+        {/* De prijs voor de gekozen datum, met het seizoen als bijschrift. */}
+        <div className="mt-2.5 flex items-end justify-between gap-2 border-t border-black/10 pt-2.5">
+          <div className="min-w-0">
+            <div className={`truncate text-[11px] font-bold uppercase tracking-wider ${band === 'high' ? 'text-ibiza-green' : 'text-black/70'}`}>
+              {seizoenLabel}
+            </div>
+            <div className="truncate text-[10px] text-black/40">{seizoenNoot}</div>
+          </div>
+          <div className="shrink-0 whitespace-nowrap font-serif text-lg font-bold text-black">
+            €{fmt(prijs, locale)} <span className="font-sans text-[10px] font-normal text-black/40">{T.perDay}</span>
+          </div>
         </div>
 
         {/* Dossier + voorwaarden. Hier stond een vaste badge-rij (kapitein,
@@ -385,20 +412,6 @@ function BoatCard({ boat, T, locale, live, date, season }: {
         </a>
       </div>
     </article>
-  );
-}
-
-function PriceRow({ label, note, value, T, locale, highlight }: { label: string; note: string; value: number; T: FleetLabels; locale: string; highlight?: boolean }) {
-  return (
-    <div className="flex items-baseline justify-between gap-2">
-      <div className="min-w-0">
-        <div className={`truncate text-[11px] font-bold uppercase tracking-wider ${highlight ? 'text-ibiza-green' : 'text-black/70'}`}>{label}</div>
-        <div className="truncate text-[10px] text-black/40">{note}</div>
-      </div>
-      <div className={`shrink-0 whitespace-nowrap font-serif font-bold ${highlight ? 'text-lg text-black' : 'text-base text-black/85'}`}>
-        €{fmt(value, locale)} <span className="text-[10px] font-sans font-normal text-black/40">{T.perDay}</span>
-      </div>
-    </div>
   );
 }
 
@@ -602,7 +615,20 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
       />
 
       <section className="mx-auto max-w-6xl px-4 pt-4">
-        <div className="px-1 text-sm font-semibold text-black/50">{T.boatsCount(filtered.length)}</div>
+        {/* Het tijdstempel van de feed hoort te staan wáár de beschikbaarheid
+            staat. Het stond alleen in het datumpaneel, en dat is dicht tot je
+            het opent — de kaarten zeiden dus "Beschikbaar" zonder erbij te
+            zeggen wanneer dat gemeten is. Dit blok is server-gerenderd, dus
+            ook zonder JavaScript zie je hoe vers de stand is. Geen feed, geen
+            regel: dan doen we ook geen uitspraak. */}
+        <div className="flex flex-wrap items-baseline gap-x-2 px-1 text-sm font-semibold text-black/50">
+          <span>{T.boatsCount(filtered.length)}</span>
+          {live && (
+            <span className="text-[12px] font-normal text-black/40">
+              · {T.liveStamp(liveStampTime(live.generatedAt, bcp))}
+            </span>
+          )}
+        </div>
       </section>
 
       {/* Grid */}
