@@ -87,14 +87,35 @@ export function EventSchema({
       const priceMatch = String(d.prices || '').match(/\d+([.,]\d+)?/)
       const price = priceMatch ? parseFloat(priceMatch[0].replace(',', '.')) : undefined
       // Eindigt de avond eerder op de klok dan hij begon, dan is dat de ochtend erna.
-      const endDay = d.endAt && d.startAt && d.endAt < d.startAt ? nextDay(d.date) : d.date
+      //
+      // ── Waarom hier een geloofwaardigheidstoets omheen staat ──────────────
+      // ClubTickets zet '00:00' neer als het sluitingsuur onbekend is. Omdat
+      // '00:00' als tekst vóór '23:30' komt, rolde de datum naar de volgende
+      // dag en werd de eindtijd een half uur ná het begin. Gevolg: we
+      // publiceerden Carl Cox, David Guetta, FISHER en elrow naar Google als
+      // events van dertig minuten -- 42 van de 155 events, in alle vijf de
+      // talen. Gemeten, niet vermoed: alle 42 hebben `endIsDefined: false`.
+      //
+      // Alleen op `endIsDefined` afgaan is te grof: acht events (SHINE
+      // 18:00-04:00, boottochten van 09:15 tot 14:00) hebben dat ook op false
+      // staan terwijl hun eindtijd prima klopt. Vandaar de combinatie:
+      // '00:00' of korter dan twee uur telt als onbekend.
+      //
+      // endDate is optioneel voor Google. Niets zeggen is beter dan iets
+      // onwaars zeggen.
+      const inMinuten = (t: string) => { const [u, m] = t.split(':').map(Number); return u * 60 + m }
+      const duurMin = d.startAt && d.endAt
+        ? ((inMinuten(d.endAt) - inMinuten(d.startAt)) % 1440 + 1440) % 1440 || 1440
+        : undefined
+      const eindBekend = Boolean(d.endAt) && d.endAt !== '00:00' && (duurMin === undefined || duurMin >= 120)
+      const endDay = eindBekend && d.endAt! < (d.startAt ?? '') ? nextDay(d.date) : d.date
 
       return {
         '@type': type,
         '@id': `${pageUrl}#${d.date}`,
         name,
         startDate: d.startAt ? isoAt(d.date, d.startAt) : d.date,
-        ...(d.endAt ? { endDate: isoAt(endDay, d.endAt) } : {}),
+        ...(eindBekend ? { endDate: isoAt(endDay, d.endAt!) } : {}),
         eventStatus: 'https://schema.org/EventScheduled',
         eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
         ...(description ? { description } : {}),

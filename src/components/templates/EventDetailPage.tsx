@@ -339,7 +339,18 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
 
   // Times come from the ClubTickets event record (startAt / endAt)
   const startAt = eventDetail?.startAt
-  const endAt = eventDetail?.endAt
+  const rawEndAt = eventDetail?.endAt
+  // Zelfde toets als in EventSchema: ClubTickets zet '00:00' neer als het
+  // sluitingsuur onbekend is, en op de pagina stond daardoor letterlijk
+  // "Sluit 00:00" bij een avond die om 23:30 begint. Onbekend is onbekend --
+  // dan tonen we die regel niet, in plaats van een halfuur durende Carl Cox.
+  const eindMinuten = (t?: string) => { if (!t) return undefined; const [u, m] = t.split(':').map(Number); return u * 60 + m }
+  const startMin = eindMinuten(startAt)
+  const eindMin = eindMinuten(rawEndAt)
+  const duurMin = startMin !== undefined && eindMin !== undefined
+    ? ((eindMin - startMin) % 1440 + 1440) % 1440 || 1440
+    : undefined
+  const endAt = rawEndAt && rawEndAt !== '00:00' && (duurMin === undefined || duurMin >= 120) ? rawEndAt : undefined
   const hasTimes = !!(startAt || endAt)
 
   // Structured data for Google event rich results.
