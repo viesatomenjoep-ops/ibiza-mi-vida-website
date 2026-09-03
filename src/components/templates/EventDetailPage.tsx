@@ -361,6 +361,11 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
         lineup={schemaLineup}
         pageUrl={`${SITE_URL}/${locale}/${basePath}/${club.slug}/${eventSlug}`}
         type={basePath === 'club-tickets' ? 'MusicEvent' : 'Event'}
+        /* De live-controle geldt voor de gekozen avond; alleen die weten we
+           met zekerheid. De andere datums blijven op InStock staan omdat we
+           daar geen bewijs voor het tegendeel hebben -- gokken hoort niet in
+           gestructureerde data. */
+        soldOutDates={live?.status === 'soldout' && gekozen?.date ? [String(gekozen.date).slice(0, 10)] : []}
       />
       <FaqJsonLd faqs={faqs} />
       <BreadcrumbJsonLd
@@ -434,7 +439,14 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
             {meldingTekst}
           </p>
         )}
-        <EventCheckoutButton affLink={checkoutAff} locale={locale} label={checkoutLabel} variant="full" />
+        <EventCheckoutButton
+          affLink={checkoutAff}
+          locale={locale}
+          label={checkoutLabel}
+          variant="full"
+          eventName={eventName}
+          price={(() => { const m = String(gekozen?.prices || '').match(/\d+(?:[.,]\d+)?/); return m ? parseFloat(m[0].replace(',', '.')) : undefined })()}
+        />
       </div>
 
       <div className="mx-auto max-w-7xl px-4 py-10 pb-32 md:px-8">

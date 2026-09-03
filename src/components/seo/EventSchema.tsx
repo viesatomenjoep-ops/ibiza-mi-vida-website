@@ -21,6 +21,8 @@ interface EventSchemaProps {
   pageUrl: string
   /** 'MusicEvent' for club nights (default); 'Event' for tours/activities/boats. */
   type?: 'MusicEvent' | 'Event'
+  /** Datums (yyyy-mm-dd) die volgens ClubTickets nu uitverkocht zijn. */
+  soldOutDates?: string[]
 }
 
 /**
@@ -60,6 +62,7 @@ export function EventSchema({
   lineup = [],
   pageUrl,
   type = 'MusicEvent',
+  soldOutDates = [],
 }: EventSchemaProps) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.ibizamivida.com'
   /** Zomertijd op Ibiza. Zie de kop. */
@@ -110,7 +113,14 @@ export function EventSchema({
             '@type': 'Offer',
             priceCurrency: 'EUR',
             price: String(price),
-            availability: 'https://schema.org/InStock',
+            // Klopt met wat ClubTickets nú zegt, niet met wat we hopen.
+            // Google waarschuwt in Search Console als de beschikbaarheid in het
+            // schema niet overeenkomt met wat de bezoeker op de pagina ziet, en
+            // een event dat als InStock staat maar uitverkocht is, verliest zijn
+            // rich result. Zie clubtickets-live.ts voor hoe die stand ontstaat.
+            availability: soldOutDates.includes(d.date)
+              ? 'https://schema.org/SoldOut'
+              : 'https://schema.org/InStock',
             url: pageUrl,
             // Zelfstandig, geen @id-verwijzing: het Organization-knooppunt met
             // dat id wordt alleen op de homepage uitgezonden, dus hier zou de

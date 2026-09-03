@@ -3,6 +3,7 @@
 import { Ticket } from 'lucide-react'
 import { ctLink, type CtSurface } from '@/lib/ct-link'
 import { getAiSource } from '@/lib/attribution'
+import { trackOutbound } from '@/lib/track-outbound'
 
 // Allow-list: `from` comes off the URL, so it is untrusted input and must never
 // be reflected into an outbound link unchecked.
@@ -50,8 +51,10 @@ const ALLOWED_FROM = new Set(['homepage-tonight', 'homepage-featured', 'homepage
  * tabblad. Bewust geen `noreferrer`: dat strookt de verwijzende header, en die
  * wil je bij een affiliatepartner niet weggooien.
  */
-export function EventCheckoutButton({ affLink, locale = 'nl', label, variant = 'full' }: {
+export function EventCheckoutButton({ affLink, locale = 'nl', label, variant = 'full', eventName, price }: {
   affLink?: string; locale?: string; label: string; variant?: 'full' | 'pill'
+  /** Naam en vanafprijs, puur om de klik te kunnen meten. */
+  eventName?: string; price?: number
 }) {
   // Server-veilige standaard: dezelfde string op de server en bij de eerste
   // client-render, dus geen hydration-mismatch.
@@ -67,6 +70,10 @@ export function EventCheckoutButton({ affLink, locale = 'nl', label, variant = '
     const from = new URLSearchParams(window.location.search).get('from')
     const surface = (from && ALLOWED_FROM.has(from) ? from : 'event') as CtSurface
     e.currentTarget.href = ctLink(affLink, locale, surface, undefined, getAiSource())
+    // Zonder dit is er in GA4 geen enkel spoor van de belangrijkste klik op de
+    // site: je ziet dat mensen de pagina bekijken en verder niets. Zie
+    // track-outbound.ts.
+    trackOutbound({ partner: 'ClubTickets', surface, item: eventName, value: price })
   }
 
   const cls = variant === 'pill'
