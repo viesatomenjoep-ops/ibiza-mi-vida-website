@@ -4,6 +4,8 @@ import { MapPin, ArrowLeft, Check, Info, Camera, HelpCircle, Ticket, Clock, Musi
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { EventCheckoutButton } from './EventCheckoutButton'
 import type { EventStatus } from '@/lib/clubtickets-live'
+import { GoogleRatingLine } from '@/components/reviews/GoogleRatingLine'
+import type { Locale } from '@/lib/seo'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
 import { EventDatePicker, PickerLabels } from './EventDatePicker'
 import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
@@ -202,12 +204,14 @@ interface EventDetailPageProps {
   selectedDate?: string;
   /** Actuele stand bij ClubTickets voor de gekozen avond; zie clubtickets-live.ts. */
   live?: { status: EventStatus; price: string | null };
+  /** Echte Google-beoordeling, of niets. Zie google-reviews.ts. */
+  rating?: { rating: number; total: number; url: string } | null;
   eventSlug: string;
   locale: string;
   basePath: string; // e.g. "tours", "activities"
 }
 
-export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath, selectedDate, live }: EventDetailPageProps) {
+export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath, selectedDate, live, rating }: EventDetailPageProps) {
   const eventDetail = club.events?.find(e => e.slug === eventSlug)
   const t = dicts[locale] || dicts['en']
   const T = EVENT_I18N[locale] || EVENT_I18N.en
@@ -447,6 +451,15 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
           eventName={eventName}
           price={(() => { const m = String(gekozen?.prices || '').match(/\d+(?:[.,]\d+)?/); return m ? parseFloat(m[0].replace(',', '.')) : undefined })()}
         />
+        {/* Sterren pal onder de knop. Het moment waarop iemand besluit te
+            klikken is het enige moment waarop een beoordeling iets waard is;
+            in de footer leest niemand hem meer. Rendert niets zolang er geen
+            echt cijfer van Google is -- zie google-reviews.ts. */}
+        {rating ? (
+          <div className="mt-3 flex justify-center">
+            <GoogleRatingLine {...rating} locale={locale as Locale} />
+          </div>
+        ) : null}
       </div>
 
       <div className="mx-auto max-w-7xl px-4 py-10 pb-32 md:px-8">

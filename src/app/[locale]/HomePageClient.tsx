@@ -153,12 +153,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       </header>
 
-      {/* Direct onder de hero: het eerste wat je ziet nadat je de kop en de
-          knop hebt gezien, en voordat de agenda begint. Laadt als poster met
-          een afspeelknop -- de speler van Vimeo komt pas in de pagina als je
-          erop tikt. Zie HomeVimeo voor waarom. */}
-      <HomeVimeo id="352653740" hash="36444999f9" locale={locale} />
-
       <HomeCategoryCarousel deals={deals} base={base} locale={locale} />
 
       <HomeTonight events={pickerEvents} todayStr={todayStr} locale={locale} base={base} />
@@ -313,6 +307,15 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           </Link>
         </div>
       )}
+
+      {/* De film staat hier en niet onder de hero. Onder de hero kwam hij vóór
+          alles wat te koop is: je zag een kop, een knop en dan een video, en
+          moest daar eerst langs om bij een event te komen. Hier heeft de
+          bezoeker net de hele agenda gezien -- clubs, boten, activiteiten --
+          en is dit de adempauze erna in plaats van een drempel ervoor.
+          Laadt als poster met een afspeelknop; de speler van Vimeo komt pas in
+          de pagina als je erop tikt. Zie HomeVimeo. */}
+      <HomeVimeo id="352653740" hash="36444999f9" locale={locale} />
 
       {/* Boten en auto's. Stond onderaan de pagina, onder Instagram en de
           nieuwsbrief; hier volgt het direct op de strip met alles wat geen

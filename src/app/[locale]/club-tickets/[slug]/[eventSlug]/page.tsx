@@ -4,6 +4,7 @@ import { getVenues, getAllDates } from '@/lib/clubtickets'
 import { EventDetailPage } from '@/components/templates/EventDetailPage'
 import { dateParam } from '@/lib/event-date-param'
 import { liveVoorEvent } from '@/lib/clubtickets-live'
+import { getGoogleReviews } from '@/lib/google-reviews'
 import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
 
 export const revalidate = 3600
@@ -44,6 +45,8 @@ export default async function EventPage({ params, searchParams }: Props) {
   // precies zoals hij dat zonder deze call ook deed.
   const gekozenDatum = dateParam(searchParams)
   const live = await liveVoorEvent(eventDates as any, gekozenDatum, params.locale)
+  // Gecachet per zes uur en gedeeld met de layout: dit kost geen tweede aanroep.
+  const reviews = await getGoogleReviews()
 
   return (
     <EventDetailPage
@@ -54,6 +57,7 @@ export default async function EventPage({ params, searchParams }: Props) {
       basePath="club-tickets"
       selectedDate={gekozenDatum}
       live={live}
+      rating={reviews ? { rating: reviews.rating, total: reviews.total, url: reviews.url } : null}
     />
   )
 }
