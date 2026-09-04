@@ -122,5 +122,25 @@ try {
   }
 } catch (e) { fout(`onbereikbaar: ${e?.message || e}`) }
 
+// ── 5. Staan de echte Google-reviews op de site? ─────────────────────────
+// Bewust géén harde fout zolang de koppeling nooit gewerkt heeft: dat is een
+// configuratiestand (GOOGLE_PLACES_API_KEY + GOOGLE_PLACE_ID in Vercel), geen
+// storing. Maar zodra hij ooit gewerkt heeft, is wegvallen wél stil — de
+// site rendert gewoon door zonder cijfer. Daarom staat het hier zichtbaar.
+console.log('\nGoogle-reviews')
+try {
+  const res = await haal(`${BASE}/en`)
+  const html = (await res.text()).replace(/<!-- -->/g, '')
+  const badge = /Google rating [\d.,]+ out of 5, based on \d+ reviews/i.test(html) || /aria-label="[^"]*out of 5[^"]*"/i.test(html)
+  const teksten = (html.match(/What guests say on Google/g) || []).length
+  const schema = /"@type"\s*:\s*"AggregateRating"/.test(html)
+  if (badge || teksten || schema) {
+    ok(`gekoppeld — cijfer ${badge ? 'zichtbaar' : 'ontbreekt'}, reviewsectie ${teksten ? 'aanwezig' : 'ontbreekt'}, AggregateRating-schema ${schema ? 'aanwezig' : 'ontbreekt'}`)
+    if (!badge || !teksten || !schema) fout('de drie horen samen te gaan (zelfde bron); één ervan ontbreekt')
+  } else {
+    console.log('  \x1b[33m⚠\x1b[0m niet gekoppeld: geen cijfer, geen reviewsectie, geen schema op /en. Zet GOOGLE_PLACES_API_KEY en GOOGLE_PLACE_ID in Vercel (zie .env.example).')
+  }
+} catch (e) { fout(`onbereikbaar: ${e?.message || e}`) }
+
 console.log(mislukt === 0 ? '\n\x1b[32mPASS  live: alles in orde\x1b[0m' : `\n\x1b[31mFAIL  live: ${mislukt} controle(s) mislukt\x1b[0m`)
 process.exit(mislukt === 0 ? 0 : 1)

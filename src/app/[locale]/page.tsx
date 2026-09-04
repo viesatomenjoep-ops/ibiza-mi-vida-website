@@ -14,6 +14,8 @@ import { eventBasePath } from '@/lib/event-path';
 import { withDate } from '@/lib/event-date-param'
 import { addDays } from '@/lib/date-label';
 import { getGoogleReviews } from '@/lib/google-reviews';
+import { GoogleReviews } from '@/components/reviews/GoogleReviews';
+import { ReviewSchema } from '@/components/seo/ReviewSchema';
 import { ibizaToday } from '@/lib/date-label';
 
 export const revalidate = 3600
@@ -305,6 +307,10 @@ export default async function Home({ params }: { params: { locale: string } }) {
       })),
   })).filter(d => d.items.length > 0);
 
+  // reviewsSlot: zichtbare reviews én hun Review/AggregateRating-markup op
+  // dezelfde pagina, uit dezelfde gecachte fetch. Schema zonder zichtbare
+  // tegenhanger is een overtreding van Google's beleid, en zichtbaar zonder
+  // schema laat rich results liggen. Allebei renderen niets zonder echte data.
   return (
     <>
     <HomeJsonLd locale={params.locale} />
@@ -328,6 +334,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
         typeSlug: (v as any).type?.slug || ''
       }))}
       rentalsSlot={<RentalsSection locale={params.locale} />}
+      reviewsSlot={<><GoogleReviews locale={params.locale} /><ReviewSchema /></>}
       faqSlot={<HomeFaq locale={params.locale} />}
     />
     </>

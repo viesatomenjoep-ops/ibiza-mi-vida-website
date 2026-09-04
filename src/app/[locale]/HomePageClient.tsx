@@ -52,6 +52,13 @@ interface HomePageProps {
    * deze component te hangen waar niemand het ziet.
    */
   rentalsSlot?: React.ReactNode;
+  /**
+   * De echte Google-reviews, server-gerenderd (GoogleReviews + ReviewSchema).
+   * Een slot en geen import: GoogleReviews is een async server-component en
+   * dit bestand is een client-component. Rendert niets zolang het
+   * Bedrijfsprofiel niet gekoppeld is — dat is de bedoeling, geen fout.
+   */
+  reviewsSlot?: React.ReactNode;
   /** Server-gerenderde FAQ: als import stond hij mét 127 kB faq-content in de clientbundle. */
   faqSlot?: React.ReactNode;
   locale?: string;
@@ -70,7 +77,7 @@ interface HomePageProps {
   rating?: HeroRating | null;
 }
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '', rating = null, rentalsSlot = null, faqSlot = null }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '', rating = null, rentalsSlot = null, reviewsSlot = null, faqSlot = null }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -416,6 +423,12 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       {/* WHY US — trust-building USP row */}
       <HomeUSP locale={locale} />
+
+      {/* GOOGLE REVIEWS — echte beoordelingen, direct onder de beloftes. Het
+          cijfer stond al in de hero en de footer; de reviews zelf alleen op
+          /about-us, waar bijna niemand komt. Sociale bewijskracht hoort op de
+          pagina met het meeste verkeer, naast de USP's die ze onderbouwen. */}
+      {reviewsSlot}
 
       {/* INSTAGRAM — the island's vibe on your feed */}
       <HomeInstagram locale={locale} />
