@@ -28,7 +28,7 @@ export const CONTENT_UPDATED: Record<string, string> = {
   'about-us': '2026-08-30',
   contact: '2026-08-30',
   // Keyword pillar pages, written from scratch.
-  'boat-rental-ibiza': '2026-08-31',
+  'boat-rental-ibiza': '2026-09-04',
   'jet-ski-rental-ibiza': '2026-08-31',
   'car-rental-ibiza': '2026-08-31',
   'ibiza-club-tickets': '2026-08-31',
