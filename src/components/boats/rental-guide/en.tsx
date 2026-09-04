@@ -19,6 +19,8 @@ import { AuthorByline } from '@/components/seo/AuthorByline'
 import { RENTAL_PRICES } from '@/lib/rental-prices'
 import { CLICKANDBOAT_URL } from '@/lib/partners'
 import { contentUpdated } from '@/lib/content-dates'
+import { getFleetStats, topBrands } from '@/lib/fleet-stats'
+import { FLEET } from '@/data/fleet'
 import { type Locale } from '@/lib/seo'
 
 
@@ -42,6 +44,26 @@ const PAGE_KEY = 'boat-rental-ibiza'
 /** Price clause that simply disappears while the figure is unconfirmed. */
 const skipperPrice = RENTAL_PRICES.boatWithSkipper.amount
 const noLicencePrice = RENTAL_PRICES.boatNoLicence.amount
+
+/**
+ * Onze eigen vloot, in cijfers — uit fleet.ts, nooit overgetypt.
+ *
+ * Dit is wat een antwoordmachine citeert bij "rent a boat Ibiza": aantallen,
+ * vanafprijzen en merknamen. Die stonden al op /private-boat-charters, maar
+ * niet in de eerste alinea van déze pagina, en dit is de pagina die voor die
+ * zoekopdracht gevonden wordt. Het is uitdrukkelijk "our own fleet": de rest
+ * van de gids beschrijft het Click&Boat-aanbod, en dat vertrekt uit andere
+ * havens — die twee mogen niet als één claim samensmelten.
+ */
+const fleet = getFleetStats()
+const brands = topBrands(6)
+const eur = (n: number) => `€${Math.round(n).toLocaleString('en-GB')}`
+const lowFor = (cat: 'motorboat' | 'yacht'): number | null => {
+  const prijzen = FLEET.filter((b) => b.category === cat && b.price?.low > 0).map((b) => b.price.low)
+  return prijzen.length ? Math.min(...prijzen) : null
+}
+const motorLow = lowFor('motorboat')
+const yachtLow = lowFor('yacht')
 
 
 
@@ -110,6 +132,18 @@ export function BoatRentalGuide() {
               {skipperPrice ? ` A skippered day charter starts at €${skipperPrice}.` : ''}
               {noLicencePrice ? ` Licence-free boats start at €${noLicencePrice}.` : ''}
             </p>
+            {fleet && motorLow !== null && yachtLow !== null ? (
+              <p className="mt-4">
+                Our own skippered fleet holds {fleet.total} boats from {fleet.marinas.length} marinas —{' '}
+                {fleet.motorboats} motorboats from {eur(motorLow)} a day and {fleet.yachts} yachts from{' '}
+                {eur(yachtLow)}, for up to {fleet.maxPax} guests, with brands such as {brands.join(', ')}.
+                Every boat shows{' '}
+                <a href="/en/private-boat-charters" className="font-semibold text-neutral-900 underline underline-offset-2">
+                  live availability per day
+                </a>
+                , straight from the operator&apos;s calendar.
+              </p>
+            ) : null}
             <p className="mt-4">
               Boats leave from four marinas, and which one you pick shapes the day more than the boat does:
               San Antonio for the west-coast beaches, Santa Eulària for the quieter north, Ibiza Town and

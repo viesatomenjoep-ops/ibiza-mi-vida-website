@@ -76,6 +76,33 @@ export function getFleetStats(): FleetStats | null {
   }
 }
 
+/**
+ * Merken in de vloot, meest voorkomend eerst — uit de modelnamen, nooit
+ * overgetypt. Antwoordmachines citeren bij "rent a boat Ibiza" letterlijk
+ * merknamen (De Antonio, Saxdor, Sunseeker, Pershing); wij hebben ze in de
+ * vloot, dus ze horen in de tekst — maar alleen zolang ze er echt in zitten.
+ *
+ * De modelnaam begint met het merk. Twee-woordsmerken staan expliciet, en
+ * een achtervoegsel als "Yachts"/"Marine" hoort niet bij de naam.
+ */
+export function topBrands(n = 6): string[] {
+  const TWEE = ['De Antonio', 'Sea Ray', 'Cap Camarat', 'Say Carbon', 'Evo Yachts', 'Sessa Marine']
+  const merk = (model: string): string => {
+    const twee = TWEE.find((t) => model.startsWith(t + ' '))
+    const naam = twee ?? model.split(' ')[0]
+    return naam.replace(/\s+(Yachts|Marine)$/, '')
+  }
+  const telling = new Map<string, number>()
+  for (const b of FLEET) {
+    const m = merk(b.model)
+    telling.set(m, (telling.get(m) ?? 0) + 1)
+  }
+  return Array.from(telling.entries())
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, n)
+    .map(([m]) => m)
+}
+
 /** Naam zoals we een boot noemen: model plus eigennaam. */
 export function boatLabel(b: Boat): string {
   return b.name ? `${b.model} ${b.name}` : b.model
