@@ -16,19 +16,18 @@ export async function generateMetadata({ params }: { params: { slug: string; eve
 
 import { notFound } from 'next/navigation'
 import { getVenues, getAllDates } from '@/lib/clubtickets'
+import { getLiveEvent } from '@/lib/clubtickets-live'
+import { mergeEventDates } from '@/lib/merge-event-dates'
+import { ibizaToday } from '@/lib/date-label'
 import { EventDetailPage } from '@/components/templates/EventDetailPage'
-import { dateParam } from '@/lib/event-date-param'
-import { liveVoorEvent } from '@/lib/clubtickets-live'
-import { getGoogleReviews } from '@/lib/google-reviews'
 
-export const revalidate = 3600
+export const revalidate = 900
 
 interface Props {
   params: { slug: string; eventSlug: string; locale: string }
-  searchParams?: { date?: string | string[] }
 }
 
-export default async function EventPage({ params, searchParams }: Props) {
+export default async function EventPage({ params }: Props) {
   const venues = await getVenues(params.locale);
   const venue = venues.find(v => v.slug === params.slug && v.type.slug === 'formentera-day-trip');
   if (!venue) notFound();
@@ -37,24 +36,21 @@ export default async function EventPage({ params, searchParams }: Props) {
   const eventDates = allDates.filter(d => d.venueSlug === venue.slug && d.eventSlug === params.eventSlug);
   if (eventDates.length === 0) notFound();
 
-  // Actuele stand bij ClubTickets voor deze avond. Zie clubtickets-live.ts:
-  // faalt of vertraagt dit, dan komt er undefined uit en rendert de pagina
-  // precies zoals hij dat zonder deze call ook deed.
-  const gekozenDatum = dateParam(searchParams)
-  const live = await liveVoorEvent(eventDates as any, gekozenDatum, params.locale)
-  // Gecachet per zes uur en gedeeld met de layout: dit kost geen tweede aanroep.
-  const reviews = await getGoogleReviews()
+  // Live overlay — see the club-tickets route. null on any failure → the merge
+  // passes the JSON rows through untouched.
+  const eventId = eventDates[0]?.eventId ?? 0;
+  const live = await getLiveEvent(venue.id, eventId, params.locale);
+  const dates = mergeEventDates(eventDates, live, ibizaToday());
 
   return (
-    <EventDetailPage 
-      eventDates={eventDates as any} 
+    <EventDetailPage
+      eventDates={dates}
+      liveTimes={live ? { startAt: live.startAt, endAt: live.endAt } : undefined}
+      eventSoldOut={live?.soldOut ?? false}
       eventSlug={params.eventSlug}
-      club={venue as any} 
-      locale={params.locale} 
+      club={venue as any}
+      locale={params.locale}
       basePath="shuttle-ferry"
-      selectedDate={gekozenDatum}
-      live={live}
-      rating={reviews ? { rating: reviews.rating, total: reviews.total, url: reviews.url } : null}
     />
   )
 }
