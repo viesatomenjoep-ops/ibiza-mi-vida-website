@@ -135,8 +135,18 @@ try {
   const teksten = (html.match(/What guests say on Google/g) || []).length
   const schema = /"@type"\s*:\s*"AggregateRating"/.test(html)
   if (badge || teksten || schema) {
-    ok(`gekoppeld — cijfer ${badge ? 'zichtbaar' : 'ontbreekt'}, reviewsectie ${teksten ? 'aanwezig' : 'ontbreekt'}, AggregateRating-schema ${schema ? 'aanwezig' : 'ontbreekt'}`)
-    if (!badge || !teksten || !schema) fout('de drie horen samen te gaan (zelfde bron); één ervan ontbreekt')
+    ok(`gekoppeld — cijfer ${badge ? 'zichtbaar' : 'ontbreekt'}, AggregateRating-schema ${schema ? 'aanwezig' : 'ontbreekt'}, reviewsectie ${teksten ? 'aanwezig' : 'ontbreekt'}`)
+    // Zo zit de code in elkaar, en daar toetst dit op:
+    //  - het cijfer komt uit rating + aantal en staat los van de teksten;
+    //  - GoogleReviews én ReviewSchema renderen allebei alleen als er
+    //    geschreven reviews zijn (reviews.length > 0) — dus die twee horen
+    //    altijd sámen aan of sámen uit te staan.
+    // Een profiel met beoordelingen maar zonder geschreven review geeft dus
+    // terecht: cijfer ja, sectie nee, schema nee. Dat is informatie, geen
+    // storing. Uit elkaar lopen van sectie en schema is wél een storing.
+    if (teksten !== schema) fout('reviewsectie en Review/AggregateRating-schema komen uit dezelfde bron (reviews.length > 0) en horen samen te gaan; één ervan ontbreekt')
+    else if (!badge) fout('reviews zonder cijfer kan niet: de rating ontbreekt terwijl er wel reviews renderen')
+    else if (!teksten) console.log('  \x1b[33m⚠\x1b[0m cijfer staat, maar geen geschreven reviews (nog): sectie en schema blijven dan allebei bewust weg')
   } else {
     console.log('  \x1b[33m⚠\x1b[0m niet gekoppeld: geen cijfer, geen reviewsectie, geen schema op /en. Zet GOOGLE_PLACES_API_KEY en GOOGLE_PLACE_ID in Vercel (zie .env.example).')
   }
