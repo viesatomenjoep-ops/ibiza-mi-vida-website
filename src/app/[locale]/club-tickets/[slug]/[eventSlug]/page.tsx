@@ -1,10 +1,16 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getVenues, getAllDates } from '@/lib/clubtickets'
+import { getLiveEvent } from '@/lib/clubtickets-live'
+import { mergeEventDates } from '@/lib/merge-event-dates'
+import { ibizaToday } from '@/lib/date-label'
 import { EventDetailPage } from '@/components/templates/EventDetailPage'
 import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
 
-export const revalidate = 3600
+// 900, not 3600: the live overlay (prices, sold-out state) is in the HTML and
+// the partner feed is cached 15 min, so a page held for an hour could show a
+// tier that sold out 45 minutes ago. Matches the boats charter page.
+export const revalidate = 900
 
 interface Props {
   params: { slug: string; eventSlug: string; locale: string }
@@ -36,9 +42,18 @@ export default async function EventPage({ params }: Props) {
   const eventDates = allDates.filter(d => d.venueSlug === venue.slug && d.eventSlug === params.eventSlug)
   if (eventDates.length === 0) notFound()
 
+  // Live overlay: fresher prices, sold-out state and line-ups than the nightly
+  // JSON (see src/lib/clubtickets-live.ts). `null` on any failure — the merge
+  // then passes the JSON rows through untouched, so the page is unchanged.
+  const eventId = eventDates[0]?.eventId ?? 0
+  const live = await getLiveEvent(venue.id, eventId, params.locale)
+  const dates = mergeEventDates(eventDates, live, ibizaToday())
+
   return (
     <EventDetailPage
-      eventDates={eventDates as any}
+      eventDates={dates}
+      liveTimes={live ? { startAt: live.startAt, endAt: live.endAt } : undefined}
+      eventSoldOut={live?.soldOut ?? false}
       eventSlug={params.eventSlug}
       club={venue as any}
       locale={params.locale}

@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { MapPin, ArrowLeft, Check, Info, Camera, HelpCircle, Ticket, Clock, Music, Sparkles, Navigation, AlertCircle, Utensils, Anchor, Waves } from 'lucide-react'
 import { AnimatedSection } from '@/components/ui/AnimatedSection'
 import { EventCheckoutButton } from './EventCheckoutButton'
-import { CTVenue, CTEventDate } from '@/lib/clubtickets'
+import { CTVenue } from '@/lib/clubtickets'
+import type { MergedEventDate } from '@/lib/merge-event-dates'
 import { EventDatePicker, PickerLabels } from './EventDatePicker'
 import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
 import { BackButton } from '@/components/ui/BackButton'
@@ -147,11 +148,11 @@ const BCP: Record<string, string> = { en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es:
 
 // Labels for the calendar date-picker (day/week/month selector + tiles)
 const PICKER_I18N: Record<string, PickerLabels> = {
-  en: { day: 'Day', week: 'Week', month: 'Month', year: 'Year', wholeWeek: 'All week', wholeMonth: 'All month', price: 'Price', available: 'Price shown at checkout', noDates: 'No dates for this selection.', today: 'Today', tomorrow: 'Tomorrow' },
-  nl: { day: 'Dag', week: 'Week', month: 'Maand', year: 'Jaar', wholeWeek: 'Hele week', wholeMonth: 'Hele maand', price: 'Prijs', available: 'Prijs bij het afrekenen', noDates: 'Geen data voor deze selectie.', today: 'Vandaag', tomorrow: 'Morgen' },
-  de: { day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', wholeWeek: 'Ganze Woche', wholeMonth: 'Ganzer Monat', price: 'Preis', available: 'Preis beim Checkout', noDates: 'Keine Termine für diese Auswahl.', today: 'Heute', tomorrow: 'Morgen' },
-  es: { day: 'Día', week: 'Semana', month: 'Mes', year: 'Año', wholeWeek: 'Toda la semana', wholeMonth: 'Todo el mes', price: 'Precio', available: 'Precio al finalizar la compra', noDates: 'No hay fechas para esta selección.', today: 'Hoy', tomorrow: 'Mañana' },
-  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Année', wholeWeek: 'Toute la semaine', wholeMonth: 'Tout le mois', price: 'Prix', available: 'Prix affiché au paiement', noDates: 'Aucune date pour cette sélection.', today: "Aujourd'hui", tomorrow: 'Demain' },
+  en: { day: 'Day', week: 'Week', month: 'Month', year: 'Year', wholeWeek: 'All week', wholeMonth: 'All month', price: 'Price', available: 'Price shown at checkout', noDates: 'No dates for this selection.', today: 'Today', tomorrow: 'Tomorrow', from: 'From', soldOut: 'Sold out' },
+  nl: { day: 'Dag', week: 'Week', month: 'Maand', year: 'Jaar', wholeWeek: 'Hele week', wholeMonth: 'Hele maand', price: 'Prijs', available: 'Prijs bij het afrekenen', noDates: 'Geen data voor deze selectie.', today: 'Vandaag', tomorrow: 'Morgen', from: 'Vanaf', soldOut: 'Uitverkocht' },
+  de: { day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', wholeWeek: 'Ganze Woche', wholeMonth: 'Ganzer Monat', price: 'Preis', available: 'Preis beim Checkout', noDates: 'Keine Termine für diese Auswahl.', today: 'Heute', tomorrow: 'Morgen', from: 'Ab', soldOut: 'Ausverkauft' },
+  es: { day: 'Día', week: 'Semana', month: 'Mes', year: 'Año', wholeWeek: 'Toda la semana', wholeMonth: 'Todo el mes', price: 'Precio', available: 'Precio al finalizar la compra', noDates: 'No hay fechas para esta selección.', today: 'Hoy', tomorrow: 'Mañana', from: 'Desde', soldOut: 'Agotado' },
+  fr: { day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Année', wholeWeek: 'Toute la semaine', wholeMonth: 'Tout le mois', price: 'Prix', available: 'Prix affiché au paiement', noDates: 'Aucune date pour cette sélection.', today: "Aujourd'hui", tomorrow: 'Demain', from: 'Dès', soldOut: 'Complet' },
 }
 
 /** Turn the API "requirements" HTML into a clean list of bullet points. */
@@ -192,19 +193,24 @@ function sectionIcon(title: string) {
 
 interface EventDetailPageProps {
   club: CTVenue;
-  eventDates: CTEventDate[];
+  eventDates: MergedEventDate[];
   eventSlug: string;
   locale: string;
   basePath: string; // e.g. "tours", "activities"
+  /** Live door/close times, preferred over the ClubTickets record when present. */
+  liveTimes?: { startAt?: string; endAt?: string };
+  /** Every upcoming date sold out — hero checkout shows a sold-out state. */
+  eventSoldOut?: boolean;
 }
 
-export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath }: EventDetailPageProps) {
+export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath, liveTimes, eventSoldOut = false }: EventDetailPageProps) {
   const eventDetail = club.events?.find(e => e.slug === eventSlug)
   const t = dicts[locale] || dicts['en']
   const T = EVENT_I18N[locale] || EVENT_I18N.en
   const S = SECTION_I18N[locale] || SECTION_I18N.en
   const bcp = BCP[locale] || 'en-GB'
   const checkoutLabel = ({ en: 'Checkout', nl: 'Afrekenen', de: 'Zur Kasse', es: 'Finalizar compra', fr: 'Commander' } as Record<string, string>)[locale] || 'Checkout'
+  const soldOutLabel = ({ en: 'Sold out', nl: 'Uitverkocht', de: 'Ausverkauft', es: 'Agotado', fr: 'Complet' } as Record<string, string>)[locale] || 'Sold out'
   const checkoutAff = (eventDates.find(d => (d as any).affLink)?.affLink || eventDates[0]?.affLink || '') as string
 
   const d0 = eventDates[0] as any
@@ -253,9 +259,10 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
     .filter(d => d.artists.length > 0)
   const hasLineup = lineupDates.length > 0
 
-  // Times come from the ClubTickets event record (startAt / endAt)
-  const startAt = eventDetail?.startAt
-  const endAt = eventDetail?.endAt
+  // Times: the live feed first (fresher), then the ClubTickets event record.
+  // These also feed schemaDates below.
+  const startAt = liveTimes?.startAt || eventDetail?.startAt
+  const endAt = liveTimes?.endAt || eventDetail?.endAt
   const hasTimes = !!(startAt || endAt)
 
   // Structured data for Google event rich results.
@@ -266,7 +273,14 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
   // middernacht leest — dan staat de avond op de verkeerde dag.
   const schemaDates = (eventDates as any[])
     .filter(d => d?.date)
-    .map(d => ({ date: d.date as string, startAt, endAt, prices: d.prices as string | undefined }))
+    .map(d => ({
+      date: d.date as string,
+      startAt,
+      endAt,
+      prices: d.prices as string | undefined,
+      lowestAvailablePrice: (d.lowestAvailablePrice ?? null) as number | null,
+      soldOut: (d.soldOut ?? false) as boolean,
+    }))
   const schemaLineup = formatLineUp(d0?.lineUp).split(',').map(a => a.trim()).filter(Boolean).slice(0, 10)
 
   return (
@@ -345,7 +359,14 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
 
       {/* Full-width Checkout button directly under the event image */}
       <div className="mx-auto max-w-7xl px-4 mt-6 md:mt-8 md:px-8">
-        <EventCheckoutButton affLink={checkoutAff} locale={locale} label={checkoutLabel} variant="full" />
+        <EventCheckoutButton
+          affLink={checkoutAff}
+          locale={locale}
+          label={checkoutLabel}
+          variant="full"
+          soldOut={eventSoldOut}
+          soldOutLabel={soldOutLabel}
+        />
       </div>
 
       <div className="mx-auto max-w-7xl px-4 py-10 pb-32 md:px-8">
@@ -370,6 +391,8 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath 
                   prices: d.prices,
                   lineUp: d.lineUp,
                   affLink: d.affLink,
+                  lowestAvailablePrice: d.lowestAvailablePrice ?? null,
+                  soldOut: d.soldOut ?? false,
                 }))}
                 eventName={eventName}
                 eventCover={eventCover}

@@ -12,6 +12,8 @@ interface EventTicketSelectorProps {
   image?: string
   affLink?: string
   locale?: string
+  /** Live: every tier for this date is sold out — disable the button. */
+  soldOut?: boolean
 }
 
 /**
@@ -32,16 +34,19 @@ interface EventTicketSelectorProps {
  * AI-bron uit sessionStorage, die de server niet kan zien. Als href tijdens
  * render zou dat een hydration-mismatch geven.
  */
-export function EventTicketSelector({ affLink, locale = 'nl' }: EventTicketSelectorProps) {
+export function EventTicketSelector({ affLink, locale = 'nl', soldOut = false }: EventTicketSelectorProps) {
   const go = () => {
-    if (!affLink) return
+    if (!affLink || soldOut) return
     window.open(ctLink(affLink, locale, 'event', undefined, getAiSource()), '_blank', 'noopener')
   }
 
   return (
     <button
       onClick={go}
-      className="bg-ibiza-green text-white px-6 py-3 rounded-xl font-black text-sm uppercase tracking-wider transition-all hover:brightness-95 hover:scale-105 whitespace-nowrap shadow-md flex items-center justify-center gap-2"
+      disabled={soldOut}
+      className={`bg-ibiza-green text-white px-6 py-3 rounded-xl font-black text-sm uppercase tracking-wider transition-all whitespace-nowrap shadow-md flex items-center justify-center gap-2 ${
+        soldOut ? 'cursor-not-allowed opacity-40' : 'hover:brightness-95 hover:scale-105'
+      }`}
     >
       Tickets
       <ExternalLink size={16} />

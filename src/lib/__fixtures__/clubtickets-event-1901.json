@@ -1,0 +1,79 @@
+{
+  "locale": "en",
+  "data": {
+    "id": 1901,
+    "name": "elrow Ibiza",
+    "slug": "elrow-ibiza",
+    "logo": "https://media.clubtickets.com/migrated/event/969d0fd2-e3c6-4c9a-a27c-d638f5866d7e.jpg",
+    "cover": "https://media.clubtickets.com/migrated/event/70622a55-a319-4d8b-8d43-4effc2011ed4.jpg",
+    "whitelogo": "https://media.clubtickets.com/migrated/event/09ee0f24-61cb-46ff-bdb6-cf25073c8345.png",
+    "startAt": "23:30",
+    "endAt": "00:00",
+    "endIsDefined": false,
+    "startAtNextDay": false,
+    "endAtNextDay": false,
+    "venue": {
+      "id": 319,
+      "name": "[UNVRS]",
+      "slug": "unvrs-ibiza",
+      "affLink": "https://www.clubtickets.com/clubbing/unvrs-ibiza?aff=CT219",
+      "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/319?locale=en"
+    },
+    "dates": [
+      {
+        "id": 162227,
+        "date": "2026-09-05",
+        "name": "",
+        "lineUp": "<p>Bastian Bux B2B MENESIX</p><p>Olive F</p><p>Patrick Topping</p><p>Us Two</p>",
+        "prices": "85 € - 250 €",
+        "lowestAvailablePrice": 85,
+        "affLink": "https://www.clubtickets.com/clubbing/unvrs-ibiza/elrow-ibiza/2026-09-05?aff=CT219"
+      },
+      {
+        "id": 162228,
+        "date": "2026-09-12",
+        "name": "",
+        "lineUp": "<p>AAT </p><p>Ilario Alicante</p><p>Joris Voorn</p><p>Toni Varga</p>",
+        "prices": "85 € - 250 €",
+        "lowestAvailablePrice": 85,
+        "affLink": "https://www.clubtickets.com/clubbing/unvrs-ibiza/elrow-ibiza/2026-09-12?aff=CT219"
+      },
+      {
+        "id": 162229,
+        "date": "2026-09-19",
+        "name": "",
+        "lineUp": "<p>Bora Uzer</p><p>De La Swing</p><p>Joëlla Jackson B2B Rendher</p><p>Wade</p>",
+        "prices": "85 € - 250 €",
+        "lowestAvailablePrice": 85,
+        "affLink": "https://www.clubtickets.com/clubbing/unvrs-ibiza/elrow-ibiza/2026-09-19?aff=CT219"
+      },
+      {
+        "id": 162230,
+        "date": "2026-09-26",
+        "name": "",
+        "lineUp": "<p>Kölsch B2B Joris Voorn</p><p>Rendher</p><p>Tini Gessler</p>",
+        "prices": "85 € - 250 €",
+        "lowestAvailablePrice": 85,
+        "affLink": "https://www.clubtickets.com/clubbing/unvrs-ibiza/elrow-ibiza/2026-09-26?aff=CT219"
+      },
+      {
+        "id": 162231,
+        "date": "2026-10-03",
+        "name": "",
+        "lineUp": "<p>AAT </p><p>Chelina Manuhutu B2B Tini Gessler</p><p>Ilario Alicante</p><p>Paco Osuna</p>",
+        "prices": "85 € - 250 €",
+        "lowestAvailablePrice": 85,
+        "affLink": "https://www.clubtickets.com/clubbing/unvrs-ibiza/elrow-ibiza/2026-10-03?aff=CT219"
+      }
+    ],
+    "description": "Prepare for a psychedelic adventure of epic proportions as elrow returns to Saturday nights at [UNVRS] from 6th June - 3rd October 2026.<br />\r\n<p class=\"tdfocus-1768238313248\">Reality warps beyond all recognition as you blast off through a technicoloured wormhole and Enter The WORTEX…</p>",
+    "requirements": "<p class=\"tdfocus-1734540163041\">- [UNVRS] operates an over 18s policy. Anyone under the age of 18 will be refused entry…</p>",
+    "type": {
+      "id": 1,
+      "name": "Clubbing",
+      "slug": "clubbing"
+    },
+    "affLink": "https://www.clubtickets.com/clubbing/unvrs-ibiza/elrow-ibiza?aff=CT219",
+    "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/319/event/1901?locale=en"
+  }
+}

@@ -70,3 +70,12 @@ jobs:
       - name: Partner-API naast de vloot
         if: always()
         run: npm run check:fleet
+
+      # De live ClubTickets event-API die de prijs- en uitverkocht-overlay op de
+      # eventpagina's voedt (src/lib/clubtickets-live.ts). Valt die weg, dan
+      # tonen de pagina's stil de oudere JSON-stand. Controleert bereikbaarheid,
+      # het aantal datums live vs. in de JSON, en of lowestAvailablePrice
+      # terugkomt.
+      - name: Live event-API naast de agenda
+        if: always()
+        run: npm run check:event

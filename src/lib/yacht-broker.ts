@@ -41,6 +41,11 @@ const TIMEOUT_MS = 3500 // zie getLiveFleet: een trage partner mag de pagina nie
  */
 function waarschuw(reden: string): void {
   console.warn(`[yacht-broker] live feed niet gebruikt: ${reden}`)
+  // Naar Sentry zodat een aanhoudende storing zichtbaar is zonder in de
+  // Vercel-logs te graven. Fire-and-forget; mag de terugvalpad nooit breken.
+  void import('@sentry/nextjs')
+    .then((Sentry) => Sentry.captureMessage(`[yacht-broker] ${reden}`, 'warning'))
+    .catch(() => {})
 }
 
 export type DayStatus = 'booked' | 'option'

@@ -1,0 +1,53 @@
+{
+  "_synthetic": "Hand-built. No live sold-out date was found across 4 probed events on 2026-09-04. Follows ClubTickets' documented contract: a sold-out date has prices:\"\" and lowestAvailablePrice:null. Replace with a real capture when check:event finds one. Based on the shape of venue 319 / event 1975 (Anyma Presents ÆDEN).",
+  "locale": "en",
+  "data": {
+    "id": 1975,
+    "name": "Anyma Presents ÆDEN",
+    "slug": "anyma",
+    "logo": "https://media.clubtickets.com/migrated/event/a208dae7-b6f0-4fa5-864d-5acc3d2b1768.jpg",
+    "cover": "https://media.clubtickets.com/migrated/event/8a2fff49-e3d4-4a63-9095-5beec4ce6b4b.jpg",
+    "whitelogo": "",
+    "startAt": "23:30",
+    "endAt": "00:00",
+    "endIsDefined": false,
+    "startAtNextDay": false,
+    "endAtNextDay": false,
+    "venue": {
+      "id": 319,
+      "name": "[UNVRS]",
+      "slug": "unvrs-ibiza",
+      "affLink": "https://www.clubtickets.com/clubbing/unvrs-ibiza?aff=CT219",
+      "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/319?locale=en"
+    },
+    "dates": [
+      {
+        "id": 164704,
+        "date": "2026-09-08",
+        "name": "",
+        "lineUp": "<p><b>MAIN ROOM</b></p><p>Anyma</p><p>Amelie Lens</p>",
+        "prices": "",
+        "lowestAvailablePrice": null,
+        "affLink": "https://www.clubtickets.com/clubbing/unvrs-ibiza/anyma/2026-09-08?aff=CT219"
+      },
+      {
+        "id": 164705,
+        "date": "2026-09-15",
+        "name": "",
+        "lineUp": "<p><b>MAIN ROOM</b></p><p>Anyma</p><p>Cassian B2B Kevin De Vries</p>",
+        "prices": "85 € - 500 €",
+        "lowestAvailablePrice": 85,
+        "affLink": "https://www.clubtickets.com/clubbing/unvrs-ibiza/anyma/2026-09-15?aff=CT219"
+      }
+    ],
+    "description": "Anyma Presents ÆDEN at [UNVRS]<br />\r\n<p>Following a fully sold-out debut season…</p>",
+    "requirements": "<p>- [UNVRS] operates an over 18s policy…</p>",
+    "type": {
+      "id": 1,
+      "name": "Clubbing",
+      "slug": "clubbing"
+    },
+    "affLink": "https://www.clubtickets.com/clubbing/unvrs-ibiza/anyma?aff=CT219",
+    "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/319/event/1975?locale=en"
+  }
+}

@@ -1,7 +1,11 @@
 import { stripHtml, cleanHtml } from './html-utils';
 import { isBlankCover } from './blank-covers';
 
-export const API_KEY = '80aac9f0b1a44b63060b083f3813271a';
+// ClubTickets affiliate key. Read from the environment so the repo is not the
+// only place it lives; the literal stays as a fallback so `next build` and CI
+// (which have no env set) keep working with no behaviour change. The same var
+// feeds scripts/sync-clubtickets.mjs — one key, two callers.
+export const API_KEY = process.env.CLUBTICKETS_API_KEY || '80aac9f0b1a44b63060b083f3813271a';
 export const BASE_URL = `https://affiliates.clubtickets.com/api/affiliate/${API_KEY}/get`;
 
 const SUPPORTED_LOCALES = ['en', 'nl', 'de', 'es', 'fr'] as const;
@@ -69,6 +73,13 @@ export interface CTEventDate {
   lineUp: string;
   prices: string;
   affLink: string;
+  /**
+   * Cheapest currently in-stock ticket as a number; `null` when every tier is
+   * sold out. Populated by the nightly sync and overlaid live on the event
+   * detail pages (see src/lib/clubtickets-live.ts). Optional so historical JSON
+   * without the field still typechecks.
+   */
+  lowestAvailablePrice?: number | null;
   // Enhanced properties added by sync script:
   eventName?: string;
   eventSlug?: string;

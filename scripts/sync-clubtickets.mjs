@@ -2,7 +2,10 @@ import fs from 'fs';
 import path from 'path';
 
 const LOCALES = ['en', 'nl', 'de', 'es', 'fr'];
-const API_KEY = '80aac9f0b1a44b63060b083f3813271a';
+// Same var as src/lib/clubtickets.ts; literal kept as a fallback so a run with
+// no env set still works. Set CLUBTICKETS_API_KEY as a repo secret + pass it in
+// the workflow env to stop the key living only in the repo.
+const API_KEY = process.env.CLUBTICKETS_API_KEY || '80aac9f0b1a44b63060b083f3813271a';
 const BASE_URL = `https://affiliates.clubtickets.com/api/affiliate/${API_KEY}/get`;
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -191,6 +194,10 @@ async function syncLocale(locale) {
               eventLogo: enhancedEvent.logo,
               eventId: enhancedEvent.id,
               venueId: v.id,
+              // Explicit + normalised (undefined -> null): the event pages overlay
+              // this live, but this keeps the JSON fallback fresh and the shape
+              // aligned with src/lib/clubtickets-live.ts.
+              lowestAvailablePrice: typeof d.lowestAvailablePrice === 'number' ? d.lowestAvailablePrice : null,
               lineUp: d.lineUp ? d.lineUp.replace(/<\/?[^>]+(>|$)/g, ' ').replace(/\s+/g, ' ').trim() : ''
             };
             allData.dates.push(dateObj);

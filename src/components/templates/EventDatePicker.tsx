@@ -30,6 +30,10 @@ export interface PickerDate {
   prices?: string
   lineUp?: string
   affLink?: string | null
+  /** Live: cheapest in-stock tier as a number; null when unknown or sold out. */
+  lowestAvailablePrice?: number | null
+  /** Live: every tier for this date is sold out. */
+  soldOut?: boolean
 }
 
 // NOTE: every field must be a plain string — this object is passed from a Server
@@ -40,6 +44,10 @@ export interface PickerLabels {
   wholeWeek: string; wholeMonth: string
   price: string; available: string; noDates: string
   today: string; tomorrow: string
+  /** "From" prefix for a live lowest price, e.g. "From €85". Optional — English fallback. */
+  from?: string
+  /** Shown instead of a price when the date is sold out. Optional — English fallback. */
+  soldOut?: string
 }
 
 interface Props {
@@ -185,7 +193,17 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
                         does for 2,737 of 2,742 dates; for the handful without,
                         printing "Available" under a heading that says PRICE
                         reads as though the price is the word "Available". */}
-                    {dateObj.prices ? (
+                    {dateObj.soldOut ? (
+                      <span className="mb-3 rounded-full bg-neutral-200 px-3 py-1 text-xs font-bold uppercase tracking-wider text-neutral-500">
+                        {L.soldOut || 'Sold out'}
+                      </span>
+                    ) : dateObj.lowestAvailablePrice != null ? (
+                      <>
+                        <span className="text-xs font-semibold uppercase tracking-wider text-black/60">{L.price}</span>
+                        <span className="text-lg font-bold text-black">{L.from || 'From'} €{dateObj.lowestAvailablePrice}</span>
+                        <span className="mb-3 text-xs text-black/45">{dateObj.prices}</span>
+                      </>
+                    ) : dateObj.prices ? (
                       <>
                         <span className="text-xs font-semibold uppercase tracking-wider text-black/60">{L.price}</span>
                         <span className="mb-3 text-lg font-bold text-black">{dateObj.prices}</span>
@@ -201,6 +219,7 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
                       image={eventCover}
                       affLink={dateObj.affLink || ''}
                       locale={locale}
+                      soldOut={dateObj.soldOut}
                     />
                   </div>
                 </div>

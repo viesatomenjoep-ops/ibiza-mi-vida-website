@@ -16,9 +16,12 @@ export async function generateMetadata({ params }: { params: { slug: string; eve
 
 import { notFound } from 'next/navigation'
 import { getVenues, getAllDates } from '@/lib/clubtickets'
+import { getLiveEvent } from '@/lib/clubtickets-live'
+import { mergeEventDates } from '@/lib/merge-event-dates'
+import { ibizaToday } from '@/lib/date-label'
 import { EventDetailPage } from '@/components/templates/EventDetailPage'
 
-export const revalidate = 3600
+export const revalidate = 900
 
 interface Props {
   params: { slug: string; eventSlug: string; locale: string }
@@ -33,9 +36,17 @@ export default async function EventPage({ params }: Props) {
   const eventDates = allDates.filter(d => d.venueSlug === venue.slug && d.eventSlug === params.eventSlug);
   if (eventDates.length === 0) notFound();
 
+  // Live overlay — see the club-tickets route. null on any failure → the merge
+  // passes the JSON rows through untouched.
+  const eventId = eventDates[0]?.eventId ?? 0;
+  const live = await getLiveEvent(venue.id, eventId, params.locale);
+  const dates = mergeEventDates(eventDates, live, ibizaToday());
+
   return (
     <EventDetailPage
-      eventDates={eventDates as any}
+      eventDates={dates}
+      liveTimes={live ? { startAt: live.startAt, endAt: live.endAt } : undefined}
+      eventSoldOut={live?.soldOut ?? false}
       eventSlug={params.eventSlug}
       club={venue as any}
       locale={params.locale}

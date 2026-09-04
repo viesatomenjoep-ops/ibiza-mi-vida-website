@@ -50,8 +50,8 @@ const ALLOWED_FROM = new Set(['homepage-tonight', 'homepage-featured', 'homepage
  * tabblad. Bewust geen `noreferrer`: dat strookt de verwijzende header, en die
  * wil je bij een affiliatepartner niet weggooien.
  */
-export function EventCheckoutButton({ affLink, locale = 'nl', label, variant = 'full' }: {
-  affLink?: string; locale?: string; label: string; variant?: 'full' | 'pill'
+export function EventCheckoutButton({ affLink, locale = 'nl', label, variant = 'full', soldOut = false, soldOutLabel = 'Sold out' }: {
+  affLink?: string; locale?: string; label: string; variant?: 'full' | 'pill'; soldOut?: boolean; soldOutLabel?: string
 }) {
   // Server-veilige standaard: dezelfde string op de server en bij de eerste
   // client-render, dus geen hydration-mismatch.
@@ -72,6 +72,17 @@ export function EventCheckoutButton({ affLink, locale = 'nl', label, variant = '
   const cls = variant === 'pill'
     ? 'inline-flex items-center gap-2.5 rounded-2xl border border-black/10 bg-black/5 px-5 py-3 font-serif font-black uppercase text-black shadow-sm transition-colors hover:bg-white'
     : 'flex w-full items-center gap-3 rounded-2xl border border-black/10 bg-black/5 p-4 font-serif text-lg font-black uppercase text-black shadow-md transition-colors hover:bg-white md:p-5 md:text-xl'
+
+  // Sold out: a visible, disabled control — not a hidden route. Crawlers still
+  // see the event; there is just nothing to buy right now.
+  if (soldOut) {
+    return (
+      <span className={`${cls} pointer-events-none opacity-60`} aria-disabled="true">
+        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-neutral-400 text-white"><Ticket size={18} /></span>
+        {soldOutLabel}
+      </span>
+    )
+  }
 
   if (!href) return null
 

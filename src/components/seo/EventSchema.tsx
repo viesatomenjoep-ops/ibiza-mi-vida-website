@@ -6,6 +6,11 @@ export interface EventDate {
   endAt?: string
   /** Ruwe prijsstring van die avond, bijv. '30 € - 150 €'. */
   prices?: string
+  /** Live: goedkoopste beschikbare tier als getal. Voorkeur boven het parsen
+   *  van `prices`; `null`/afwezig bij uitverkocht of onbekend. */
+  lowestAvailablePrice?: number | null
+  /** Live: elke tier voor die avond is uitverkocht. */
+  soldOut?: boolean
 }
 
 interface EventSchemaProps {
@@ -81,8 +86,16 @@ export function EventSchema({
   const nodes = dates
     .filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d.date || ''))
     .map((d) => {
+      // De live, bevestigde ondergrens eerst; anders het eerste getal uit de
+      // prijsstring. Bij uitverkocht is er geen prijs — dan géén Offer (nooit
+      // price: 0), de datum blijft wel een Event.
       const priceMatch = String(d.prices || '').match(/\d+([.,]\d+)?/)
-      const price = priceMatch ? parseFloat(priceMatch[0].replace(',', '.')) : undefined
+      const price =
+        typeof d.lowestAvailablePrice === 'number'
+          ? d.lowestAvailablePrice
+          : priceMatch
+            ? parseFloat(priceMatch[0].replace(',', '.'))
+            : undefined
       // Eindigt de avond eerder op de klok dan hij begon, dan is dat de ochtend erna.
       const endDay = d.endAt && d.startAt && d.endAt < d.startAt ? nextDay(d.date) : d.date
 
@@ -110,7 +123,9 @@ export function EventSchema({
             '@type': 'Offer',
             priceCurrency: 'EUR',
             price: String(price),
-            availability: 'https://schema.org/InStock',
+            availability: d.soldOut
+              ? 'https://schema.org/SoldOut'
+              : 'https://schema.org/InStock',
             url: pageUrl,
             // Zelfstandig, geen @id-verwijzing: het Organization-knooppunt met
             // dat id wordt alleen op de homepage uitgezonden, dus hier zou de
