@@ -122,5 +122,38 @@ try {
   }
 } catch (e) { fout(`onbereikbaar: ${e?.message || e}`) }
 
+// ── 5. Staan de echte Google-reviews op de site? ─────────────────────────
+// Bewust géén harde fout zolang de koppeling nooit gewerkt heeft: dat is een
+// configuratiestand (GOOGLE_PLACES_API_KEY + GOOGLE_PLACE_ID in Vercel), geen
+// storing. Maar zodra hij ooit gewerkt heeft, is wegvallen wél stil — de
+// site rendert gewoon door zonder cijfer. Daarom staat het hier zichtbaar.
+console.log('\nGoogle-reviews')
+try {
+  const res = await haal(`${BASE}/en`)
+  const html = (await res.text()).replace(/<!-- -->/g, '')
+  const badge = /Google rating [\d.,]+ out of 5, based on \d+ reviews/i.test(html) || /aria-label="[^"]*out of 5[^"]*"/i.test(html)
+  // Alle drie booleans. De eerste versie telde de reviewsectie als getal en
+  // vergeleek dat met een boolean: 0 !== false is in JavaScript wáár, dus
+  // "allebei afwezig" werd gemeld als "lopen uit elkaar".
+  const teksten = /What guests say on Google/.test(html)
+  const schema = /"@type"\s*:\s*"AggregateRating"/.test(html)
+  if (badge || teksten || schema) {
+    ok(`gekoppeld — cijfer ${badge ? 'zichtbaar' : 'ontbreekt'}, AggregateRating-schema ${schema ? 'aanwezig' : 'ontbreekt'}, reviewsectie ${teksten ? 'aanwezig' : 'ontbreekt'}`)
+    // Zo zit de code in elkaar, en daar toetst dit op:
+    //  - het cijfer komt uit rating + aantal en staat los van de teksten;
+    //  - GoogleReviews én ReviewSchema renderen allebei alleen als er
+    //    geschreven reviews zijn (reviews.length > 0) — dus die twee horen
+    //    altijd sámen aan of sámen uit te staan.
+    // Een profiel met beoordelingen maar zonder geschreven review geeft dus
+    // terecht: cijfer ja, sectie nee, schema nee. Dat is informatie, geen
+    // storing. Uit elkaar lopen van sectie en schema is wél een storing.
+    if (teksten !== schema) fout('reviewsectie en Review/AggregateRating-schema komen uit dezelfde bron (reviews.length > 0) en horen samen te gaan; één ervan ontbreekt')
+    else if (!badge) fout('reviews zonder cijfer kan niet: de rating ontbreekt terwijl er wel reviews renderen')
+    else if (!teksten) console.log('  \x1b[33m⚠\x1b[0m cijfer staat, maar geen geschreven reviews (nog): sectie en schema blijven dan allebei bewust weg')
+  } else {
+    console.log('  \x1b[33m⚠\x1b[0m niet gekoppeld: geen cijfer, geen reviewsectie, geen schema op /en. Zet GOOGLE_PLACES_API_KEY en GOOGLE_PLACE_ID in Vercel (zie .env.example).')
+  }
+} catch (e) { fout(`onbereikbaar: ${e?.message || e}`) }
+
 console.log(mislukt === 0 ? '\n\x1b[32mPASS  live: alles in orde\x1b[0m' : `\n\x1b[31mFAIL  live: ${mislukt} controle(s) mislukt\x1b[0m`)
 process.exit(mislukt === 0 ? 0 : 1)

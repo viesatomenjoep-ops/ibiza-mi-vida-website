@@ -37,10 +37,12 @@ export function HomeJsonLd({ locale = 'nl' }: { locale?: string }) {
     // ?is_from_webapp=... achter als je hem uit de app kopieert, en die hoort
     // hier niet in.
     //
-    // Aanvullen zodra ze bestaan: Google Bedrijfsprofiel en TripAdvisor.
+    // Aanvullen zodra ze bestaan: TripAdvisor. Het Google Bedrijfsprofiel
+    // bestaat en is geverifieerd; zelfde cid-vorm als in SchemaMarkup.
     sameAs: [
       'https://www.instagram.com/ibizamivida/',
       'https://www.tiktok.com/@ibizamivida',
+      'https://maps.google.com/?cid=2584947247658109964',
     ],
     // E-E-A-T: names a real person behind the business. Referenced by @id — the
     // Person itself is emitted alongside, and declared identically on /about-us

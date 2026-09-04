@@ -83,12 +83,15 @@ function sameAs(): string[] {
   const links = [
     'https://www.instagram.com/ibizamivida/',
     'https://www.tiktok.com/@ibizamivida',
+    // Het Google Bedrijfsprofiel, in de stabiele cid-vorm (de /maps/place/…-URL
+    // bevat sessieparameters). Dit is de entiteitskoppeling die de reviews
+    // aan deze Organization bindt — en precies wat een antwoordmachine
+    // gebruikt om "Ibiza mi Vida" als één bedrijf te herkennen.
+    'https://maps.google.com/?cid=2584947247658109964',
   ]
-  // The Google Business Profile is still being verified at the time of writing,
-  // so it is env-driven rather than hardcoded: it appears in sameAs the moment
-  // the URL exists, and stays absent until then.
+  // Een afwijkende of extra profiel-URL kan via env erbij; dubbel wordt ontdubbeld.
   const gbp = process.env.NEXT_PUBLIC_GOOGLE_BUSINESS_URL
-  if (gbp) links.push(gbp)
+  if (gbp && !links.includes(gbp)) links.push(gbp)
   return links
 }
 
