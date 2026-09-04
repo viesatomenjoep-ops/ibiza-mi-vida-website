@@ -132,7 +132,10 @@ try {
   const res = await haal(`${BASE}/en`)
   const html = (await res.text()).replace(/<!-- -->/g, '')
   const badge = /Google rating [\d.,]+ out of 5, based on \d+ reviews/i.test(html) || /aria-label="[^"]*out of 5[^"]*"/i.test(html)
-  const teksten = (html.match(/What guests say on Google/g) || []).length
+  // Alle drie booleans. De eerste versie telde de reviewsectie als getal en
+  // vergeleek dat met een boolean: 0 !== false is in JavaScript wáár, dus
+  // "allebei afwezig" werd gemeld als "lopen uit elkaar".
+  const teksten = /What guests say on Google/.test(html)
   const schema = /"@type"\s*:\s*"AggregateRating"/.test(html)
   if (badge || teksten || schema) {
     ok(`gekoppeld — cijfer ${badge ? 'zichtbaar' : 'ontbreekt'}, AggregateRating-schema ${schema ? 'aanwezig' : 'ontbreekt'}, reviewsectie ${teksten ? 'aanwezig' : 'ontbreekt'}`)
