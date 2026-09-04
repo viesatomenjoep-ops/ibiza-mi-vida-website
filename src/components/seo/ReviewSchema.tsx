@@ -27,6 +27,11 @@ import { SITE_URL, SITE_NAME } from '@/lib/seo'
 export async function ReviewSchema() {
   const data = await getGoogleReviews()
   if (!data || data.reviews.length === 0) return null
+  // Alleen wat we bij Google zelf hebben opgehaald mag in de opmaak. Een door
+  // de eigenaar ingevoerd cijfer is misschien waar, maar niet aantoonbaar, en
+  // een AggregateRating die je niet kunt aantonen is een spambeleid-
+  // overtreding. Zie de toelichting bij handmatigeBeoordeling().
+  if (data.source !== 'api') return null
 
   const schema = {
     '@context': 'https://schema.org',
