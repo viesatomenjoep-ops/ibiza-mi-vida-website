@@ -1,7 +1,6 @@
 'use client'
 
 import { GoogleRatingLine, type GoogleRating } from '@/components/reviews/GoogleRatingLine'
-import { FLEET } from '@/data/fleet'
 import { optImg } from '@/lib/img'
 
 /**
@@ -12,42 +11,34 @@ import { optImg } from '@/lib/img'
  * ze waren neergezet vielen ze half buiten beeld of lieten ze de helft van de
  * footer leeg, en dat zag eruit als een afbeelding die niet geladen was.
  *
- * Nu een raster dat `inset-0` vult: 3 kolommen op mobiel, 6 op desktop, met
- * `auto-rows-fr` zodat de rijen samen altijd precies de hoogte van de footer
- * innemen — geen gaten, geen overloop, op elk formaat. Twaalf tegels: op
- * desktop 6×2, op mobiel 3×4, beide gevuld.
+ * Daarna werd het een mozaïek van bootfoto's en excursiefoto's. Mooi, maar het
+ * zei niets: een halfdoorzichtige zeezicht-foto is achtergrondruis. De logo's
+ * van Ushuaïa, Hï, [UNVRS], Eden en Ibiza Rocks herkent iemand in een fractie
+ * van een seconde, en dat is precies wat een achtergrond op 6% dekking moet doen —
+ * in één oogopslag zeggen waar deze site over gaat zonder de tekst erboven in
+ * de weg te zitten.
  *
- * De tegels wisselen boten (uit de eigen vloot) af met activiteiten en
- * boottochten uit de ClubTickets-feed, die de layout server-side meegeeft.
- * Decoratie, geen inhoud: aria-hidden, pointer-events none, grayscale, en
- * 7% dekking — de footer is wit met donkere tekst, en 7% beeld daaronder
- * verandert de gemeten contrastwaarden niet noemenswaardig. Kleine
- * afmetingen via optImg: twaalf plaatjes op 7% hoeven geen megabytes te zijn.
+ * ── Waarom die logo's omgekeerd worden ────────────────────────────────────
+ * ClubTickets levert alleen een `whitelogo`: wit uitgesneden, bedoeld voor
+ * donkere achtergronden. Een `logo`-veld hebben deze venues niet (geteld: 0
+ * van de 15 clubs; whitelogo wél, 15 van de 15). Wit op een witte footer is
+ * niets, dus `invert(1)` maakt er zwarte logo's van, en `grayscale(1)` haalt
+ * de kleur eruit die door het omkeren zou kunnen terugkomen.
  *
- * Vaste keuze uit de vloot (op prijs gesorteerd, gelijk verdeeld) in plaats
- * van willekeur: dezelfde build toont dezelfde footer en er is geen
- * hydration-verschil.
+ * `object-contain` met binnenruimte, niet `object-cover`: een logo dat je
+ * bijsnijdt is geen logo meer.
+ *
+ * Decoratie, geen inhoud: aria-hidden, pointer-events none, en 6% dekking —
+ * de footer is wit met donkere tekst, en 6% beeld daaronder verandert de
+ * gemeten contrastwaarden niet noemenswaardig.
  */
 const FOOT_TILES = 12
-const FOOT_BOATS = (() => {
-  const opPrijs = [...FLEET].sort((a, b) => b.price.high - a.price.high)
-  const stap = Math.max(1, Math.floor(opPrijs.length / 6))
-  return Array.from({ length: 6 }, (_, i) => opPrijs[i * stap]).filter(Boolean).map(b => b.image)
-})()
-
-/** Boten en activiteiten om en om, tot FOOT_TILES tegels. */
-function footTiles(activities: string[]): string[] {
-  const out: string[] = []
-  const a = [...FOOT_BOATS], b = [...activities]
-  while (out.length < FOOT_TILES && (a.length || b.length)) {
-    const x = a.shift(); if (x) out.push(x)
-    const y = b.shift(); if (y && out.length < FOOT_TILES) out.push(y)
-  }
-  // Te weinig bronbeeld? Dan herhalen tot het raster vol is — een gat in het
-  // mozaïek valt meer op dan een tegel die twee keer voorkomt.
-  let i = 0
-  while (out.length < FOOT_TILES && out.length) out.push(out[i++ % out.length])
-  return out
+/** Clublogo's tot het raster vol is. */
+function footTiles(logos: string[]): string[] {
+  if (!logos.length) return []
+  // Te weinig logo's? Dan herhalen tot het raster vol is — een gat in de muur
+  // valt meer op dan een logo dat twee keer voorkomt.
+  return Array.from({ length: FOOT_TILES }, (_, i) => logos[i % logos.length])
 }
 
 import { clearConsent } from '@/lib/consent'
@@ -75,12 +66,12 @@ const LOCALES = [
   { code: 'fr' },
 ]
 
-export function Footer({ rating = null, activityImages = [] }: {
+export function Footer({ rating = null, clubLogos = [] }: {
   rating?: GoogleRating | null
-  /** Covers van boot- en activiteitenvenues uit de ClubTickets-feed; zie layout.tsx. */
-  activityImages?: string[]
+  /** Witte clublogo's uit de ClubTickets-feed; zie layout.tsx. */
+  clubLogos?: string[]
 }) {
-  const tiles = footTiles(activityImages)
+  const tiles = footTiles(clubLogos)
   const pathname = usePathname()
   const currentLocale = LOCALES.find(l => pathname.startsWith(`/${l.code}/`) || pathname === `/${l.code}`) || LOCALES[0]
   const base = `/${currentLocale.code}`
@@ -162,7 +153,7 @@ export function Footer({ rating = null, activityImages = [] }: {
         {tiles.map((src, i) => (
           // eslint-disable-next-line @next/next/no-img-element
           <img key={i} src={optImg(src, 384)} alt="" loading="lazy" decoding="async"
-            className="h-full w-full object-cover opacity-[0.07] grayscale" />
+            className="h-full w-full object-contain p-6 opacity-[0.06] invert grayscale md:p-10" />
         ))}
       </div>
       <div className="wrap relative">

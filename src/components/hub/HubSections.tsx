@@ -114,12 +114,19 @@ export function Breadcrumbs({ items, locale }: { items: Crumb[]; locale: string 
 }
 
 /**
- * Page opening: the single H1 and the answer-first paragraph.
+ * Page opening: the single H1 and, waar die er is, de antwoord-eerst alinea.
  *
  * `lead` must answer the page's core question inside the first 40–60 words and
  * carry a concrete figure. That is the site's content rule, and it is also what
  * makes a paragraph quotable: answer engines lift a self-contained opening far
  * more readily than one that builds up to a point.
+ *
+ * Optioneel, want die regel botst met een tweede: op een telefoon staat een
+ * alinea van zestig woorden tussen de kop en álles wat je kunt aanklikken. Op
+ * de autohuurpagina's stonden dezelfde feiten twee schermen lager nog eens, per
+ * punt uitgesplitst, en dan is de lopende versie bovenaan alleen nog een
+ * drempel. Zonder `lead` rendert de hero de alinea niet in plaats van een lege
+ * marge te laten staan.
  */
 export function HubHero({
   h1,
@@ -130,7 +137,7 @@ export function HubHero({
   as: Heading = 'h1',
 }: {
   h1: string
-  lead: React.ReactNode
+  lead?: React.ReactNode
   locale: string
   updated?: string
   children?: React.ReactNode
@@ -145,7 +152,7 @@ export function HubHero({
     <section className="bg-white py-12 text-neutral-900 md:py-16">
       <div className="mx-auto max-w-4xl px-4">
         <Heading className="font-serif text-3xl font-black leading-tight tracking-tight md:text-5xl">{h1}</Heading>
-        <div className="mt-5 text-[17px] leading-relaxed text-neutral-700">{lead}</div>
+        {lead ? <div className="mt-5 text-[17px] leading-relaxed text-neutral-700">{lead}</div> : null}
         {children}
         <LastUpdated iso={updated} locale={locale} />
       </div>

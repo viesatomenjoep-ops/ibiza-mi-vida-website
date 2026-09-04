@@ -3,6 +3,7 @@
 import React, { useMemo, useState, useCallback, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { WeekDockBar } from '@/components/ui/WeekDockBar'
+import { withDate } from '@/lib/event-date-param'
 import { ScrollCue } from '@/components/ui/ScrollCue'
 import {
   format, addDays, startOfWeek, endOfWeek, startOfMonth, endOfMonth,
@@ -12,6 +13,7 @@ import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { MapPin, Calendar } from 'lucide-react'
 import type { PickerEvent } from '@/lib/picker-event'
 import { optImg } from '@/lib/img'
+import { eventBasePath } from '@/lib/event-path'
 import { scrollSectionIntoView } from '@/lib/scroll-to-section'
 import { ibizaToday } from '@/lib/date-label'
 
@@ -22,7 +24,7 @@ interface ExEvent {
   date: string
   prices: string
   lineUp: string
-  ct_events: { name?: string; slug?: string; cover?: string }
+  ct_events: { name?: string; slug?: string; cover?: string; blurb?: string }
   // Alleen naam en slug. whitelogo, picture en type_slug zijn eigenschappen van
   // de venue, niet van de avond, en werden 1566 keer herhaald voor 42 venues —
   // ruim een kwart van alles wat deze pagina naar de browser stuurde. Ze komen
@@ -30,6 +32,23 @@ interface ExEvent {
   ct_venues: { name?: string; slug?: string }
 }
 interface LightVenue { name: string; slug: string; whitelogo: string; picture: string; type_slug: string }
+
+/**
+ * Welke venues deze verkenner toont.
+ *
+ * Dit stond als `type_slug === 'clubbing'` hard in de code, op twee plekken.
+ * Zolang er één agenda was klopte dat. Sinds er ook een activiteitenagenda is
+ * die dezelfde verkenner gebruikt, betekende het dat die pagina zijn eigen
+ * inhoud wegfilterde: elk event daarop is per definitie géén clubavond, dus
+ * de lijst was altijd leeg en de dag zei "geen events voor deze selectie",
+ * terwijl er die vrijdag zesendertig boottochten en excursies waren.
+ *
+ * Een functie doorgeven kan niet -- dit is een client-component die zijn props
+ * van een servercomponent krijgt -- dus het is een stand, geen predicaat.
+ */
+export type ExplorerMode = 'clubs' | 'activities'
+const hoortErbij = (mode: ExplorerMode, typeSlug: string) =>
+  mode === 'clubs' ? typeSlug === 'clubbing' : typeSlug !== 'clubbing'
 interface Props {
   /** De dagen die de server al in de HTML heeft gezet. */
   events: ExEvent[]
@@ -39,6 +58,12 @@ interface Props {
   loadedThrough: string
   /** Vandaag (Ibiza-tijd) zoals de server hem berekende — zie ibizaToday(). */
   today: string
+  /**
+   * Elke dag van het seizoen waarop iets te doen is. Het dock bladert
+   * hierlangs, ook door weken die nog niet geladen zijn — anders houdt de
+   * agenda op bij de veertien dagen die de server meestuurt.
+   */
+  seasonDates: string[]
 }
 
 type Period = 'day' | 'week' | 'month' | 'year'
@@ -92,7 +117,7 @@ function seededRandom(seed: string): () => number {
   }
 }
 
-export default function EventsExplorer({ events: initialEvents, allVenues, locale, loadedThrough, today: todayProp }: Props) {
+export default function EventsExplorer({ events: initialEvents, allVenues, locale, loadedThrough, today: todayProp, seasonDates, heading, sub, mode = 'clubs' }: Props & { heading?: string; sub?: string; mode?: ExplorerMode }) {
   const loc = getLoc(locale)
   /** Venue op slug — de bron voor logo, foto en type, in plaats van elk veld
       per avond mee te sturen. */
@@ -133,7 +158,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
 
   // Normalised events for the iOS-style picker wheel
   const pickerEvents: PickerEvent[] = useMemo(() => events
-    .filter(e => venueOf(e)?.type_slug === 'clubbing' && (e.date || '') >= todayStr)
+    .filter(e => hoortErbij(mode, venueOf(e)?.type_slug || '') && (e.date || '') >= todayStr)
     .map(e => {
       const m = String(e.prices || '').match(/\d+([.,]\d+)?/)
       return {
@@ -148,15 +173,17 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
         date: e.date || '',
         price: m ? parseFloat(m[0].replace(',', '.')) : 0,
         lineUp: e.lineUp || '',
-        href: `/${locale}/club-tickets/${e.ct_venues?.slug}/${e.ct_events?.slug}`,
+        // eventBasePath: alleen clubbing woont onder /club-tickets. Een
+        // boottocht daarheen sturen is een gegarandeerde 404.
+        href: withDate(`/${locale}/${eventBasePath(venueOf(e)?.type_slug || '')}/${e.ct_venues?.slug}/${e.ct_events?.slug}`, e.date),
         affLink: (e as any).affLink || '',
       }
-    }), [events, locale, todayStr])
+    }), [events, locale, todayStr, mode])
 
-  // Only clubbing events, upcoming
+  // Alles wat bij deze stand hoort, vanaf vandaag.
   const clubEvents = useMemo(
-    () => events.filter(e => venueOf(e)?.type_slug === 'clubbing' && e.date >= todayStr),
-    [events, todayStr]
+    () => events.filter(e => hoortErbij(mode, venueOf(e)?.type_slug || '') && e.date >= todayStr),
+    [events, todayStr, mode]
   )
 
   // Date range for the current period
@@ -173,6 +200,27 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
   const rangeStartStr = format(rangeStart, 'yyyy-MM-dd')
   const rangeEndStr = format(rangeEnd, 'yyyy-MM-dd')
 
+  // Welke week het dock toont. Staat hier en niet verderop omdat het
+  // laad-effect hieronder hem nodig heeft.
+  const [dockWeekStart, setDockWeekStart] = useState<string>(() => {
+    const eerste = seasonDates.find(d => d >= todayStr) || todayStr
+    return format(startOfWeek(parseISO(eerste), { weekStartsOn: 1 }), 'yyyy-MM-dd')
+  })
+  const dockWeekEnd = useMemo(
+    () => format(addDays(parseISO(dockWeekStart), 6), 'yyyy-MM-dd'),
+    [dockWeekStart],
+  )
+
+  /**
+   * Tot welke dag we events nodig hebben.
+   *
+   * Twee dingen bepalen dat, en eerder telde alleen het eerste mee: de
+   * periodeknoppen (week/maand) én het weekdock. Bladerde je met het dock naar
+   * een week voorbij de veertien geladen dagen, dan werd er niets bijgeladen en
+   * bleef die week leeg — de agenda hield zichtbaar op halverwege september.
+   */
+  const nodigTot = rangeEndStr > dockWeekEnd ? rangeEndStr : dockWeekEnd
+
   /**
    * Haal het stuk agenda op dat de huidige weergave nodig heeft en dat nog niet
    * geladen is.
@@ -183,21 +231,21 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
    * twee weken toont is beter dan een lege.
    */
   useEffect(() => {
-    if (rangeEndStr <= loadedTo) return
+    if (!nodigTot || nodigTot <= loadedTo) return
     let cancelled = false
     const from = format(addDays(parseISO(loadedTo), 1), 'yyyy-MM-dd')
     setLoading(true)
-    fetch(`/api/calendar-window?locale=${encodeURIComponent(locale)}&from=${from}&to=${rangeEndStr}`)
+    fetch(`/api/calendar-window?locale=${encodeURIComponent(locale)}&from=${from}&to=${nodigTot}`)
       .then(r => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
       .then((d: { events?: ExEvent[] }) => {
         if (cancelled) return
         setExtra(prev => [...prev, ...(d.events ?? [])])
-        setLoadedTo(rangeEndStr)
+        setLoadedTo(nodigTot)
       })
       .catch(() => { /* wat al geladen is blijft staan */ })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
-  }, [rangeEndStr, loadedTo, locale])
+  }, [nodigTot, loadedTo, locale])
 
   const changePeriod = useCallback((p: Period) => {
     setPeriod(p)
@@ -212,10 +260,6 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
   const listRef = useRef<HTMLDivElement>(null)
   const imgByDate = useMemo(() => { const m = new Map<string, string>(); pickerEvents.forEach(e => { if (!m.has(e.date) && e.image) m.set(e.date, e.image) }); return m }, [pickerEvents])
   const imagePool = useMemo(() => Array.from(new Set(pickerEvents.map(e => e.image).filter(Boolean))).slice(0, 12) as string[], [pickerEvents])
-  const [dockWeekStart, setDockWeekStart] = useState<string>(() => {
-    const ds = pickerEvents.map(e => e.date).filter(d => d >= todayStr).sort()[0] || todayStr
-    return format(startOfWeek(parseISO(ds), { weekStartsOn: 1 }), 'yyyy-MM-dd')
-  })
   // Even wachten tot React de nieuwe dag gerenderd heeft, dan pas scrollen —
   // anders meten we de hoogte van de vorige lijst. scrollSectionIntoView rekent
   // de vaste kop mee én gaat naar de bovenkant wanneer er nauwelijks te
@@ -279,11 +323,14 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
       <section className="pt-[calc(var(--nav-h)+12px)] pb-0 relative z-10 flex flex-col items-center text-center px-4">
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
           <div className="flex flex-col gap-1 text-center mb-0">
+            {/* De kop is overschrijfbaar: dezelfde verkenner draait op de
+                clubagenda en op de activiteitenagenda, en "Ibiza clubagenda"
+                boven een lijst buggytours klopt niet. */}
             <h1 className="text-4xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
-              {T.title}
+              {heading || T.title}
             </h1>
             <p className="hidden md:block font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-2">
-              {T.sub}
+              {sub || T.sub}
             </p>
           </div>
         </div>
@@ -344,7 +391,9 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
                     const artists = lineupArtists(ev.lineUp).slice(0, 3)
                     const extra = Math.max(0, lineupArtists(ev.lineUp).length - 3)
                     const price = priceFrom(ev.prices)
-                    const href = `${base}/club-tickets/${slug || 'club'}/${ev.ct_events?.slug || 'event'}`
+                    // De avond waarop geklikt wordt gaat mee: deze lijst is per dag,
+                    // en zonder datum opent de detailpagina op de eerstvolgende.
+                    const href = withDate(`${base}/${eventBasePath(venueOf(ev)?.type_slug || '')}/${slug || 'club'}/${ev.ct_events?.slug || 'event'}`, ev.date)
                     return (
                       <Link
                         key={ev.id}
@@ -385,14 +434,23 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
                           <h3 className="text-lg font-bold text-black leading-snug mb-1 group-hover:text-ibiza-green transition-colors line-clamp-2">
                             {ev.ct_events?.name || ev.name}
                           </h3>
-                          {artists.length > 0 && (
+                          {artists.length > 0 ? (
                             <div className="mt-2 flex flex-wrap gap-1.5">
                               {artists.map((a, i) => (
                                 <span key={i} className="rounded-full bg-black/5 px-2.5 py-1 text-[11px] font-semibold text-black/70 ring-1 ring-black/10">{a}</span>
                               ))}
                               {extra > 0 && <span className="rounded-full px-2.5 py-1 text-[11px] font-semibold text-ibiza-green">+{extra} {T.lineupMore}</span>}
                             </div>
-                          )}
+                          ) : ev.ct_events?.blurb ? (
+                            /* Geen line-up in de feed -- dat is bij negen van de tien
+                               avonden zo, en dan staat er letterlijk een leeg
+                               alineablokje. Deze kaarten toonden dus alleen een titel
+                               en een prijs. De eerste zin uit de eventbeschrijving
+                               zegt wel wat voor avond het is, en die hebben ze
+                               allemaal. Niets verzonnen: dit is de tekst van
+                               ClubTickets zelf, in de taal van de pagina. */
+                            <p className="mt-2 line-clamp-2 text-[12px] leading-snug text-black/55">{ev.ct_events.blurb}</p>
+                          ) : null}
                           <div className="text-xs font-semibold text-black/50 flex items-center gap-1.5 mb-5 mt-auto pt-3">
                             <MapPin size={14} className="text-black/40" /> {ev.ct_venues?.name || 'Ibiza'}
                           </div>
@@ -414,9 +472,12 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
       </div>
 
       {/* Fixed bottom week dock — blurred event photos, white text; pick a day to open it */}
-      {pickerEvents.length > 0 && (
+      {seasonDates.length > 0 && (
         <WeekDockBar
-          eventDates={pickerEvents.map(e => e.date)}
+          /* Het hele seizoen, niet alleen wat geladen is — anders kun je niet
+             verder bladeren dan de veertien dagen uit de HTML. */
+          eventDates={seasonDates}
+          today={todayStr}
           weekStart={dockWeekStart}
           setWeekStart={setDockWeekStart}
           activeDay={activeDay}

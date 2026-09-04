@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { GlobalSearch } from '@/components/layout/GlobalSearch'
 import { ChevronDown } from 'lucide-react'
 import { LOCALES } from './LanguageSelector'
 import { SpotifyButton } from './SpotifyButton'
@@ -107,6 +108,19 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
   // Private Boat Charters: dark hero — force the whole navbar white and drop the top partner strip.
   const isPrivateBoat = pathname.startsWith(`${base}/private-boat-charters`) || pathname.startsWith('/private-boat-charters')
   const isHome = pathname === base || pathname === `${base}/` || pathname === '/'
+  // Pagina's met een gegarandeerd witte achtergrond en géén eigen hero.
+  //
+  // De helderheidsmeting verderop tekent de bovenrand van de hero op een canvas
+  // en leest de pixels terug. Op deze pagina's is er geen hero: de eerste grote
+  // afbeelding is een eventflyer van ClubTickets, en die komt van een ander
+  // domein. Zodra zo'n afbeelding op het canvas staat weigert de browser
+  // getImageData, de meting valt stil en de kop blijft op zijn beginstand
+  // "donkere achtergrond" staan. Gevolg: een wit logo en een wit hamburgermenu
+  // op een witte pagina — allebei onzichtbaar.
+  //
+  // Meten kan hier niet, maar we weten het antwoord al: deze pagina's zijn wit.
+  const WITTE_PAGINAS = ['calendar', 'activities-calendar', 'clubs', 'artists', 'this-week', 'deals-of-the-day']
+  const isWittePagina = WITTE_PAGINAS.some(seg => pathname.startsWith(`${base}/${seg}`) || pathname.startsWith(`/${seg}`))
   const t = dicts[currentLocale.code] || dicts['en']
   // De keyword-pillars (boot, auto) hebben per taal een eigen slug en stonden
   // in geen enkel menu — ze waren dus alleen via de sitemap te vinden.
@@ -417,7 +431,7 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
 
   return (
     <>
-      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${onLight ? 'site-header--onlight' : ''} ${isPrivateBoat && !fadeOn ? 'site-header--forcewhite' : ''}`}>
+      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${onLight ? 'site-header--onlight' : ''} ${isWittePagina ? 'site-header--forceblack' : ''} ${isPrivateBoat && !fadeOn ? 'site-header--forcewhite' : ''}`}>
         {/* Topbar strip: official ticket partner — at the top everywhere EXCEPT the
             ClubTickets categories, where it is shown as a fixed bottom bar instead. */}
         {!isClubCat && !isPrivateBoat && !(isHome && fadeOn) && (
@@ -449,39 +463,10 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
 
             {/* Right: language selector (desktop) + hamburger */}
             <div className="nav-right">
-            <div
-              ref={langRef}
-              className={`nav-langs${langOpen ? ' is-open' : ''}`}
-              aria-label={A11Y.language[currentLocale.code] || A11Y.language.en}
-            >
-              {/* De huidige taal is altijd zichtbaar en is tegelijk de knop die
-                  de rest uitklapt. De andere talen zijn echte links, zodat ze
-                  crawlbaar blijven en met een middenklik in een nieuw tabblad
-                  openen. */}
-              <button
-                type="button"
-                onClick={() => setLangOpen(v => !v)}
-                className="nav-lang active nav-lang-toggle"
-                aria-expanded={langOpen}
-                aria-label={`${A11Y.language[currentLocale.code] || A11Y.language.en}: ${currentLocale.label}`}
-              >
-                {currentLocale.label}
-                <ChevronDown size={11} aria-hidden className="nav-lang-chev" />
-              </button>
-              {LOCALES.filter(l => l.code !== currentLocale.code).map(l => (
-                <Link
-                  key={l.code}
-                  href={pathname.replace(/^\/[a-z]{2}(?=\/|$)/, `/${l.code}`) || `/${l.code}`}
-                  className="nav-lang nav-lang-item"
-                  hrefLang={l.code}
-                  onClick={() => { document.cookie = `imv_locale=${l.code}; max-age=31536000; path=/; samesite=lax` }}
-                  tabIndex={langOpen ? undefined : -1}
-                  aria-hidden={langOpen ? undefined : true}
-                >
-                  {l.label}
-                </Link>
-              ))}
-            </div>
+            {/* Hamburger en taalkiezer zitten in één relatieve wikkel: de
+                kiezer hangt eronder in plaats van ernaast. Zo staat hij altijd
+                op dezelfde plek, ongeacht hoe breed de knoppen zijn. */}
+            <div className="nav-burger-wrap">
             <button
               className="burger"
               aria-label={(menuOpen ? A11Y.closeMenu : A11Y.openMenu)[currentLocale.code] || (menuOpen ? A11Y.closeMenu : A11Y.openMenu).en}
@@ -498,6 +483,51 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
                 </div>
               )}
             </button>
+            {/* Zoekknop en taalkiezer staan samen gecentreerd tussen het logo
+                en het hamburgermenu. De wikkel draagt de positionering; de
+                kiezer zelf is weer relatief, zodat zijn uitklaplijst eronder
+                blijft hangen in plaats van onder het midden van de balk. */}
+            <div className="nav-center">
+            <GlobalSearch locale={currentLocale.code} />
+            <div
+              ref={langRef}
+              className={`nav-langs${langOpen ? ' is-open' : ''}`}
+              aria-label={A11Y.language[currentLocale.code] || A11Y.language.en}
+            >
+              {/* De huidige taal is altijd zichtbaar en is tegelijk de knop die
+                  de rest uitklapt — naar beneden nu, niet meer opzij. De andere
+                  talen zijn echte links, zodat ze crawlbaar blijven en met een
+                  middenklik in een nieuw tabblad openen. */}
+              <button
+                type="button"
+                onClick={() => setLangOpen(v => !v)}
+                className="nav-lang active nav-lang-toggle"
+                aria-expanded={langOpen}
+                aria-label={`${A11Y.language[currentLocale.code] || A11Y.language.en}: ${currentLocale.label}`}
+              >
+                {currentLocale.label}
+                <ChevronDown size={11} aria-hidden className="nav-lang-chev" />
+              </button>
+              <div className="nav-lang-list">
+                <div className="nav-lang-inner">
+                {LOCALES.filter(l => l.code !== currentLocale.code).map(l => (
+                  <Link
+                    key={l.code}
+                    href={pathname.replace(/^\/[a-z]{2}(?=\/|$)/, `/${l.code}`) || `/${l.code}`}
+                    className="nav-lang nav-lang-item"
+                    hrefLang={l.code}
+                    onClick={() => { document.cookie = `imv_locale=${l.code}; max-age=31536000; path=/; samesite=lax`; setLangOpen(false) }}
+                    tabIndex={langOpen ? undefined : -1}
+                    aria-hidden={langOpen ? undefined : true}
+                  >
+                    {l.label}
+                  </Link>
+                ))}
+                </div>
+              </div>
+            </div>
+            </div>
+            </div>
             </div>
           </div>
         </nav>

@@ -1,12 +1,9 @@
-import Link from 'next/link'
 import { AffiliateLink } from '@/components/hub/AffiliateLink'
 import { PartnerLogo } from '@/components/partner/PartnerLogo'
-import type { PARTNER_LOGOS } from '@/lib/partners'
+import { PARTNER_LOGOS } from '@/lib/partners'
 import { WIBER_URL, CLICKANDBOAT_URL } from '@/lib/partners'
-import { slugFor } from '@/lib/route-slugs'
 import { RENTAL_PRICES } from '@/lib/rental-prices'
 import { RENTALS_SECTION, BOAT_PROMO, CAR_PROMO } from '@/lib/rental-promo-copy'
-import { WiberBanner } from '@/components/partner/WiberBanner'
 import { FLEET } from '@/data/fleet'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { localeTag } from '@/lib/date-label'
@@ -32,60 +29,63 @@ import { localeTag } from '@/lib/date-label'
  * until confirmed — the block then renders without a number rather than with an
  * invented one.
  *
- * ── Colour ────────────────────────────────────────────────────────────────
- * Dark cards on a white section, so the pair reads as a distinct block in a
- * page that is otherwise light. `gold` fills, `gold-soft` writes on dark: the
- * config measures gold on obsidian at 3.68:1, which fails AA for text.
+ * ── Kleur ────────────────────────────────────────────────────────────────
+ * Witte kaarten met zwarte tekst. Ze waren obsidian met witte letters, en op
+ * een telefoon stonden er dan twee bijna-zwarte blokken midden in een verder
+ * witte pagina -- dat leest als een advertentie die per ongeluk is
+ * meegeladen, niet als een aanbod van de site zelf. Alles wat op een donkere
+ * ondergrond was uitgedacht (goud op zwart, witte doorverwijzingen, het
+ * verloop over de foto) is meegegaan naar zwart op wit.
+ *
+ * ── Onder elkaar, niet naast elkaar ──────────────────────────────────────
+ * Twee kaarten naast elkaar lezen als één keuze met twee opties. Dit zijn
+ * twee losse dingen: een boot voor op het water, en daaronder een auto voor
+ * op het land.
  *
  * ── Waarom dit een banner is en geen uitleg ───────────────────────────────
  * De kaart droeg de hele pitch: een inleiding van twee zinnen, drie
  * voorwaarden op een rij, en daaronder vier chips met wat je kunt huren. Op
  * een telefoon was één kaart daarmee bijna twee schermen hoog, en er stonden
- * er twee onder elkaar — je scrolde vier schermen door een aanbod waar je nog
+ * er twee onder elkaar -- je scrolde vier schermen door een aanbod waar je nog
  * niet op geklikt had.
  *
- * Dat is ook de verkeerde plek voor die tekst. `/boat-rental-ibiza` en
- * `/wiber-car-rental-ibiza` zijn de pagina's die dié zoekintentie dragen, met
- * de voorwaarden, de prijzen en de FAQ. De homepage hoeft alleen te laten zien
- * dát het er is en wie de partner is. Dus: beeld, naam, vanafprijs, knop, en
- * een link naar de pagina die de rest vertelt.
+ * Dat is ook de verkeerde plek voor die tekst. `/boats` en de autopagina zijn
+ * de pagina's die dié zoekintentie dragen, met de voorwaarden, de prijzen en
+ * de FAQ. De homepage hoeft alleen te laten zien dat het er is en wie de
+ * partner is. Dus: beeld, naam, vanafprijs, knop. Verder niets.
  *
- * Wat er dus bewust NIET meer staat: `lead`, `points` en de categorie-chips
- * (`BOAT_CATEGORIES` / `CAR_CATEGORIES` / `CATEGORIES_LABEL` in
- * rental-promo-copy.ts). Die teksten zijn niet verwijderd — ze staan er nog
- * voor het geval de partnerpagina's ze willen overnemen — maar ze worden hier
- * niet meer gerenderd.
+ * Wat er dus bewust NIET meer staat: `lead`, `points`, de categorie-chips, de
+ * "meer info"-doorverwijzing en de Awin-banner van Wiber. Die teksten en dat
+ * beeld zijn niet verwijderd uit de codebase -- ze staan er nog voor de
+ * partnerpagina's -- maar ze worden hier niet meer gerenderd.
  */
 
 interface CardData {
   kicker: string
   /** Foto boven de kaart. Alleen eigen beeld — nooit stock voor een partner. */
   photo?: { src: string; alt: string }
-  /** Officiële partnerbanner. Rendert achter toestemming, of helemaal niet. */
-  banner?: React.ReactNode
   /** Key in PARTNER_LOGOS — renders the logo once the asset exists. */
   logoKey: keyof typeof PARTNER_LOGOS
   logoName: string
+  /** Is er een echt logobestand? Zo nee, dan valt het terug op de naam. */
+  hasLogo: boolean
   heading: string
   price: number | null
   priceLabel: string
   href: string
   cta: string
   partner: string
-  readMore: string
-  readMoreHref: string
 }
 
 function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
   return (
-    <div className="flex flex-col overflow-hidden rounded-3xl bg-obsidian text-white">
-      {/* Beeldband. Alleen als er ook echt beeld is: hier stond ooit een
-          ontworpen verloop voor de kaart zonder foto zodat beide kaarten even
-          hoog begonnen, en tweehonderd pixel bijna-zwart viel meer op dan het
-          hoogteverschil dat het moest verbergen. 16/6 in plaats van 21/9 —
-          een band, geen halve pagina. */}
+    <div className="flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white text-neutral-900 shadow-[0_18px_40px_-32px_rgba(0,0,0,.5)]">
+      {/* Beeldband. Alleen als er ook echt beeld is: voor Wiber hebben we geen
+          eigen foto van hun vloot, en een stockauto naast een echte boot
+          verkoopt een auto die niet bestaat. Die kaart begint dus meteen bij
+          de tekst. */}
       {data.photo && (
-        <div className="relative aspect-[16/6] w-full overflow-hidden">
+        <div className="relative aspect-[16/7] w-full overflow-hidden bg-neutral-100">
           <img
             src={data.photo.src}
             alt={data.photo.alt}
@@ -93,61 +93,43 @@ function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
             loading="lazy"
             decoding="async"
           />
-          {/* Verloop, zodat witte tekst op elke foto leesbaar blijft in plaats
-              van te hopen dat de onderkant toevallig donker is. */}
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/25 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 px-5 pb-3">
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-white drop-shadow">{data.kicker}</p>
-            <div className="flex h-4 items-center opacity-90">
-              <PartnerLogo partner={data.logoKey} name={data.logoName} on="dark" />
-            </div>
-          </div>
         </div>
       )}
 
-      <div className="flex flex-1 flex-col gap-4 p-5">
-        {!data.photo && (
-          /* Kicker en merk op één regel: leest als een kop in plaats van als
-             twee losse bovenkopjes onder elkaar, en scheelt een regel. */
-          <div className="flex items-center justify-between gap-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/50">{data.kicker}</p>
-            <div className="flex h-4 items-center opacity-90">
-              <PartnerLogo partner={data.logoKey} name={data.logoName} on="dark" />
-            </div>
+      <div className="flex flex-1 flex-col gap-3 p-5">
+        <div className="flex items-center justify-between gap-4">
+          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-neutral-500">{data.kicker}</p>
+          <div className="flex h-6 items-center">
+            {/* Zonder eigen class valt de terugvalnaam in goud uit, en goud op
+                wit is niet te lezen. Zwart dus, zolang een partner nog geen
+                logobestand heeft aangeleverd. */}
+            <PartnerLogo
+              partner={data.logoKey}
+              name={data.logoName}
+              on="light"
+              className={data.hasLogo ? 'h-6 w-auto object-contain' : 'text-[11px] font-black uppercase tracking-[0.2em] text-neutral-900'}
+            />
           </div>
-        )}
+        </div>
 
         {/* Naam en vanafprijs op één regel — dat is wat de bezoeker hier moet
-            weten. De voorwaarden staan op de pagina achter "meer info". */}
+            weten. De voorwaarden staan op de pagina achter de knop. */}
         <div className="flex items-start justify-between gap-4">
-          <h3 className="font-serif text-lg font-black leading-tight tracking-tight text-white md:text-xl">
+          <h3 className="font-serif text-xl font-black leading-tight tracking-tight text-neutral-900 md:text-2xl">
             {data.heading}
           </h3>
           {data.price !== null && (
             <p className="shrink-0 text-right">
-              <span className="font-serif text-xl font-black leading-none text-white">€{data.price}</span>
-              <span className="mt-0.5 block text-[10px] font-normal leading-tight text-white/55">{data.priceLabel}</span>
+              <span className="font-serif text-2xl font-black leading-none text-neutral-900">&euro;{data.price}</span>
+              <span className="mt-0.5 block text-[10px] font-semibold leading-tight text-neutral-500">{data.priceLabel}</span>
             </p>
           )}
         </div>
 
-        {/* De officiële partnerbanner. Bij Wiber is dit het enige echte beeld
-            dat we van die partner mogen tonen, en het vervangt hier de foto. */}
-        {data.banner}
-
-        {/* mt-auto houdt de actieregels van beide kaarten op één lijn, ook als
-            de ene een foto heeft en de andere een banner die pas na
-            toestemming verschijnt. */}
-        <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-1">
+        <div className="mt-auto pt-1">
           <AffiliateLink href={data.href} partner={data.partner} locale={locale}>
             {data.cta}
           </AffiliateLink>
-          <Link
-            href={data.readMoreHref}
-            className="rounded-full text-[13px] font-semibold text-white/80 underline underline-offset-4 outline-none transition-colors hover:text-gold-soft focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
-          >
-            {data.readMore} →
-          </Link>
         </div>
       </div>
     </div>
@@ -174,33 +156,28 @@ export function RentalsSection({ locale }: { locale: string }) {
       : undefined,
     logoKey: 'clickandboat',
     logoName: 'Click&Boat',
+    hasLogo: Boolean(PARTNER_LOGOS.clickandboat.light || PARTNER_LOGOS.clickandboat.dark),
     heading: BOAT_PROMO.heading[l],
     price: boatFrom === null ? null : Number(nf.format(boatFrom).replace(/\D/g, '')),
     priceLabel: BOAT_PROMO.fromLabel[l],
     href: CLICKANDBOAT_URL,
     cta: BOAT_PROMO.cta[l],
     partner: 'Click&Boat',
-    readMore: BOAT_PROMO.readMore[l],
-    readMoreHref: `/${l}/boats`,
   }
 
   const car: CardData = {
     kicker: CAR_PROMO.kicker[l],
     // Geen foto: we hebben geen eigen beeld van Wiber's vloot, en een
-    // stockauto naast een echte boot verkoopt een auto die niet bestaat. De
-    // officiële Awin-banner onderaan is wél echt beeld van de partner, en die
-    // mogen we tonen — achter toestemming, omdat hij de vertoning meetelt.
-    banner: <WiberBanner className="w-full" />,
+    // stockauto naast een echte boot verkoopt een auto die niet bestaat.
     logoKey: 'wiber',
     logoName: 'Wiber Rent a Car',
+    hasLogo: Boolean(PARTNER_LOGOS.wiber.light || PARTNER_LOGOS.wiber.dark),
     heading: CAR_PROMO.heading[l],
     price: RENTAL_PRICES.carPerDay.amount,
     priceLabel: CAR_PROMO.fromLabel[l],
     href: WIBER_URL,
     cta: CAR_PROMO.cta[l],
     partner: 'Wiber Rent a Car',
-    readMore: CAR_PROMO.readMore[l],
-    readMoreHref: `/${l}/${slugFor('car-rental', l)}`,
   }
 
   return (
@@ -211,7 +188,10 @@ export function RentalsSection({ locale }: { locale: string }) {
           {RENTALS_SECTION.heading[l]}
         </h2>
 
-        <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        {/* Onder elkaar, niet naast elkaar. Naast elkaar leest als één keuze
+            met twee opties; dit zijn twee losse dingen -- een boot voor op het
+            water, en daaronder een auto voor op het land. */}
+        <div className="mt-6 grid max-w-3xl gap-5">
           <RentalCard data={boat} locale={l} />
           <RentalCard data={car} locale={l} />
         </div>

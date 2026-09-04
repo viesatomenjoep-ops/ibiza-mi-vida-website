@@ -11,6 +11,7 @@ import { HOME_TITLE, HOME_DESC } from '@/lib/seo-pages'
 import { FLEET } from '@/data/fleet'
 import { pickCover } from '@/lib/blank-covers';
 import { eventBasePath } from '@/lib/event-path';
+import { withDate } from '@/lib/event-date-param'
 import { addDays } from '@/lib/date-label';
 import { getGoogleReviews } from '@/lib/google-reviews';
 import { ibizaToday } from '@/lib/date-label';
@@ -35,20 +36,38 @@ export default async function Home({ params }: { params: { locale: string } }) {
   // simply carries no badge rather than a made-up one.
   const reviews = await getGoogleReviews()
 
-  // Fetch top featured clubs from local compiled JSON
   const allVenues = await getVenues(params.locale);
-  const featuredClubs = allVenues
-    .filter(v => ['hi-ibiza', 'ushuaia-ibiza', 'eden-ibiza', 'es-paradis'].includes(v.slug))
-    .map(v => ({
-      name: v.name,
-      slug: v.slug,
-      whitelogo: v.whitelogo,
-      cover: v.cover
-    }));
 
   // Fetch upcoming dates from local compiled JSON
   const allDates = await getAllDates(params.locale);
   const todayStr = ibizaToday();
+
+  /**
+   * Uitgelichte clubs, roulerend in plaats van vier vaste namen.
+   *
+   * Stond hardgecodeerd op Hi, Ushuaia, Eden en Es Paradis. Wie twee dagen op
+   * rij kijkt zag dus twee keer hetzelfde, terwijl er vijftien clubs in de
+   * agenda staan — en de club die vanavond zijn openingsavond heeft stond er
+   * misschien niet bij.
+   *
+   * De volgorde draait mee met de dag van het jaar. Dat is bewust geen
+   * willekeur: dezelfde dag geeft dezelfde volgorde, dus server en browser
+   * renderen hetzelfde en er ontstaat geen hydration-mismatch. Elke dag
+   * schuift het venster vier clubs op, zodat over vier dagen de hele lijst
+   * langskomt.
+   *
+   * Clubs zonder logo vallen af: een kaart met een lege plek is slechter dan
+   * een kaart minder.
+   */
+  const clubPool = allVenues.filter(v => v.type?.slug === 'clubbing' && v.whitelogo);
+  const dagVanJaar = Math.floor(
+    (Date.parse(todayStr) - Date.parse(todayStr.slice(0, 4) + '-01-01')) / 86400000,
+  );
+  const start = clubPool.length ? (dagVanJaar * 4) % clubPool.length : 0;
+  const featuredClubs = Array.from({ length: Math.min(4, clubPool.length) }, (_, i) => {
+    const v = clubPool[(start + i) % clubPool.length];
+    return { name: v.name, slug: v.slug, whitelogo: v.whitelogo, cover: v.cover };
+  });
 
   // ── LIVE EVENT TRACKER ──
   // Build a per-club map of events happening today (and last night) so the
@@ -93,7 +112,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
         date: d.date || '',
         price: m ? parseFloat(m[0].replace(',', '.')) : 0,
         lineUp: d.lineUp || '',
-        href: `/${params.locale}/club-tickets/${d.venueSlug}/${d.eventSlug}`,
+        href: withDate(`/${params.locale}/club-tickets/${d.venueSlug}/${d.eventSlug}`, d.date),
         affLink: d.affLink || '',
       };
     });
@@ -172,10 +191,34 @@ export default async function Home({ params }: { params: { locale: string } }) {
     }
   });
 
-  // Both featured strips cycle through this many days rather than showing one.
-  // A visitor arriving in the evening was being shown a programme that had
-  // largely already happened.
-  const DAYS = 3;
+  // Beide uitgelichte stroken lopen door dit aantal dagen heen in plaats van
+  // één dag te tonen. Wie 's avonds binnenkomt kreeg anders een programma dat
+  // grotendeels al geweest was.
+  //
+  // Zeven dagen: een hele week. Bij vier dagen kon je op woensdag niet zien wat
+  // er zondag speelt, terwijl juist dat de dag is waarop mensen hun weekend
+  // indelen. Zeven is ook de eenheid waarin de bezoeker zelf denkt -- "wie
+  // draait er deze week" -- en het is precies één rij in de dagkiezer.
+  const DAYS = 7;
+  // Alles wat er die dag is, tot een bovengrens die in de praktijk niet
+  // geraakt wordt. Gemeten over de eerstvolgende negen dagen: hoogstens
+  // zestien clubavonden en tweeenveertig activiteiten per dag.
+  //
+  // Dat kan omdat de stroken hieronder geen raster meer zijn maar een rij die
+  // je naar rechts schuift (zie HomeRail). Een raster van drie kaarten kon
+  // niet meer tonen zonder de pagina te laten uitdijen; een rij houdt dezelfde
+  // hoogte, ongeacht hoeveel erin staat. En er staat altijd maar een dag in de
+  // DOM, met lui geladen afbeeldingen, dus van tweeenveertig kaarten laden er
+  // drie een plaatje tot je schuift.
+  //
+  // De grens van zestig blijft staan als vangnet: als ClubTickets ooit een dag
+  // met tweehonderd regels teruggeeft hoort dat de homepage niet om te leggen.
+  //
+  // Dit voedt ook de ringcarrousel bovenaan. Die had bij drie per dag maar
+  // twaalf excursies om uit te putten, en na aftrek van dubbele aanbieders en
+  // items zonder afbeelding bleven er soms drie over -- te weinig voor een
+  // ring, laat staan voor vier categorieen.
+  const PER_DAY = 60;
   const dayList = Array.from({ length: DAYS }, (_, i) => addDays(todayStr, i));
   const onDay = (iso: string) => allDates.filter(d => (d.date || '').slice(0, 10) === iso);
 
@@ -233,7 +276,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
           { rows: ofType('boat'), weight: 1 },
           { rows: ofType('formentera-day-trip'), weight: 1 },
         ],
-        12,
+        PER_DAY,
       ).map(mapDate),
     };
   }).filter(d => d.items.length > 0);
@@ -243,7 +286,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
     // Same provider-spread as the experiences grid: a club with four rooms
     // billed as four events should not take a third of the night's line-up.
     items: spreadByVenue(onDay(iso).filter(d => clubbingSlugs.has(d.venueSlug || '')))
-      .slice(0, 12)
+      .slice(0, PER_DAY)
       .map(d => ({
         id: d.id,
         name: d.name,

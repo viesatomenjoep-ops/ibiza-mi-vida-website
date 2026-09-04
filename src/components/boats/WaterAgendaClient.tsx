@@ -311,10 +311,19 @@ export default function WaterAgendaClient({ title, subtitle, lead, kicker, event
       {pickerEvents.length > 0 && (
         <section ref={galleryRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 8px)', minHeight: dockDay ? 'calc(100svh - var(--nav-h))' : undefined }} className="relative z-10 mx-auto max-w-4xl px-4 pb-40 pt-2">
           {dockDay && <ScrollCue className="mb-2" />}
-          <div className="mb-4 flex items-center gap-3">
-            <h2 className="font-serif text-2xl md:text-3xl font-black text-black">{title} events</h2>
-            <span className="h-px flex-1 bg-black/10" />
-          </div>
+          {/* Hier stond "<titel> events" als kop. Dat is de H1 van dezelfde
+              pagina nog een keer, twee vingerbreedtes eronder, in een kleiner
+              lettertype — op een telefoon las je "Shuttle ferries in Ibiza"
+              twee keer achter elkaar voordat je één vertrektijd zag. De lijst
+              eronder heeft geen aankondiging nodig; een streep volstaat. */}
+          {/* De kop blijft bestaan, maar alleen voor schermlezers. Zichtbaar
+              was het de H1 van dezelfde pagina nog een keer, twee
+              vingerbreedtes eronder en kleiner — op een telefoon las je
+              "Shuttle ferries in Ibiza" twee keer voordat je één vertrektijd
+              zag. Weglaten kon niet: dan springt de koppenstructuur van h1
+              naar h3 en verliest een schermlezer het kopje boven deze lijst. */}
+          <h2 className="sr-only">{title}</h2>
+          <div className="mb-4"><span className="block h-px w-full bg-black/10" /></div>
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
             {galleryEvents.map(e => (
               <a key={e.id} href={e.href} className="group flex h-28 overflow-hidden rounded-2xl border border-black/10 shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl sm:h-32">
@@ -349,6 +358,7 @@ export default function WaterAgendaClient({ title, subtitle, lead, kicker, event
       {pickerEvents.length > 0 && (
         <WeekDockBar
           eventDates={pickerEvents.map(e => e.date)}
+          today={todayStr}
           weekStart={dockWeekStart}
           setWeekStart={setDockWeekStart}
           activeDay={dockDay}

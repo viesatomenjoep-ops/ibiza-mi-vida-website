@@ -73,7 +73,7 @@ export function FlyerSlider({ title, subtitle, images }: FlyerSliderProps) {
           <div
             ref={scrollRef}
             onScroll={checkScrollability}
-            className="flex w-full snap-x snap-mandatory overflow-x-auto pb-8 pl-4 pr-4 md:pl-8 md:pr-8 hide-scrollbar"
+            className="flex w-full snap-x snap-proximity overflow-x-auto pb-8 pl-4 pr-4 md:pl-8 md:pr-8 hide-scrollbar"
             style={{
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',

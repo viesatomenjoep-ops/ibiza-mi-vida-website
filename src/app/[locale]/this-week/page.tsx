@@ -7,6 +7,7 @@ import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { pickCover } from '@/lib/blank-covers'
 import { optImg } from '@/lib/img'
+import { withDate } from '@/lib/event-date-param'
 import { ibizaToday } from '@/lib/date-label'
 
 // Hourly: the whole value of this page is that it is current.
@@ -270,7 +271,7 @@ export default async function ThisWeekPage({ params }: { params: { locale: strin
                         {club.nights.map(n => (
                           <li key={n.id}>
                             <Link
-                              href={`/${l}/club-tickets/${n.venueSlug}/${n.eventSlug}`}
+                              href={withDate(`/${l}/club-tickets/${n.venueSlug}/${n.eventSlug}`, n.day)}
                               className="group -mx-2 flex gap-3 rounded-2xl px-2 py-2 outline-none transition-colors hover:bg-neutral-50 focus-visible:ring-2 focus-visible:ring-ibiza-green focus-visible:ring-offset-2 sm:gap-4"
                             >
                               {/* self-start: zonder dat rekt de affiche als flex-kind mee met de

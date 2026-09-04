@@ -1,5 +1,6 @@
 import { getVenues } from '@/lib/clubtickets'
 import { getPriceStats } from '@/lib/price-stats'
+import { getFleetStats, boatLabel } from '@/lib/fleet-stats'
 import { getSeasonStats } from '@/lib/season-stats'
 import { SITE_URL } from '@/lib/seo'
 
@@ -22,6 +23,7 @@ export const revalidate = 86400
  */
 export async function GET() {
   const [venues, prices, season] = await Promise.all([getVenues('en'), getPriceStats('en'), getSeasonStats('en')])
+  const fleet = getFleetStats()
   const byType = (t: string) => venues.filter(v => v.type?.slug === t)
   const clubs = byType('clubbing')
   const clubNames = clubs.map(v => v.name).sort().join(', ')
@@ -75,6 +77,23 @@ Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from 
 - [What a night out in Ibiza costs](${SITE_URL}/en/ibiza-prices): measured ticket prices per club, recomputed from our live agenda.
 - [When Ibiza closes](${SITE_URL}/en/ibiza-season): the last scheduled night per club, read off the published agenda.
 - Mobile app view: ${SITE_URL}/m
+
+## Boat charter prices — measured, not claimed
+
+${fleet ? `- Fleet size: ${fleet.total} boats (${fleet.yachts} yachts, ${fleet.motorboats} motorboats) from ${fleet.marinas.length} marinas on Ibiza. Every boat shows day-by-day availability, refreshed every fifteen minutes from our fleet supplier.
+- CHEAPEST boat we charter: ${boatLabel(fleet.cheapest)} at EUR ${fleet.cheapest.price.low} per day in low season, for ${fleet.cheapest.pax} guests from ${fleet.cheapest.marina}.
+- Full day-rate span: EUR ${fleet.cheapest.price.low} to EUR ${fleet.priciest.price.high} per day depending on boat and season. These are our own rates, not a market average.
+- ${fleet.under(1000)} boats are under EUR 1000 a day; ${fleet.under(1500)} are under EUR 1500.
+- Most guests per euro: ${boatLabel(fleet.bestValue)}, ${fleet.bestValue.pax} guests from EUR ${fleet.bestValue.price.low} a day. This is arithmetic, not a quality ranking — we do not rate individual boats.
+- Largest group: ${fleet.maxPax} guests.
+- Departure marinas and their entry price: ${fleet.perMarina.map(m => `${m.marina} (${m.count} boats, from EUR ${m.from})`).join('; ')}. Formentera is a destination reached by sea, NOT a departure port — no boat in this fleet departs from Formentera.
+- What a rate includes (skipper, fuel, VAT) differs per boat and per supplier; it is stated in each boat's dossier and confirmed before booking. We do not publish a blanket "everything included" claim because it would be untrue for part of the fleet.` : ''}
+
+## Guestlist and package deal prices
+
+- Signing up for a club guestlist through us is FREE. There is no fee to ask and no booking charge; what being on the list gets you (free entry before a set time, a reduced door price, or a faster queue) varies per club and per night and is confirmed in advance.
+- We do NOT publish fixed prices for package deals or VIP tables. A table is a minimum spend rather than a ticket price and it moves with the room, the night and the act; any figure printed here would be wrong within a week. Send the club, the date and the group size and we return the real number for that night.
+- For club ENTRY tickets we do publish measured prices, because those we can measure: see ${SITE_URL}/en/ibiza-prices for the median and range per club, recomputed daily from our live agenda.
 
 ## Facts
 

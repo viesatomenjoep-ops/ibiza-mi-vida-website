@@ -119,11 +119,22 @@ export default async function RootLayout({
   // Boten en activiteiten voor het footermozaïek. getVenues() cachet per
   // Node-proces en wordt op de meeste pagina's toch al aangeroepen, dus dit
   // kost de layout geen tweede parse van de feed. Alleen de URL's gaan mee.
-  const activityImages = venues
-    .filter(v => ['boat', 'activities', 'formentera-day-trip'].includes(v.type?.slug || ''))
-    .map(v => v.cover || v.picture)
+  // De footerachtergrond is een muur van clublogo's.
+  //
+  // Er stonden bootfoto's en excursiefoto's; die zijn mooi maar zeggen niets.
+  // De logo's van Ushuaia, Hi, [UNVRS], Eden en Ibiza Rocks zijn wel meteen
+  // herkenbaar, en dat is precies wat een achtergrond op 6% dekking moet doen:
+  // in een oogopslag zeggen waar deze site over gaat, zonder de tekst erboven
+  // in de weg te zitten.
+  //
+  // `whitelogo` en niet `logo`: de venues in deze feed hebben helemaal geen
+  // `logo`-veld (geteld: 0 van de 15 clubs), wel een witte variant (15 van de
+  // 15). Wit op een witte footer is niets, dus de footer keert ze om naar
+  // zwart -- zie Footer.tsx.
+  const clubLogos = venues
+    .filter(v => (v.type?.slug || '') === 'clubbing')
+    .map(v => v.whitelogo)
     .filter((u): u is string => !!u)
-    .slice(0, 8)
   // De footer toont er ook de bron-link bij, dus die krijgt url mee.
   const footerRating = reviews ? { rating: reviews.rating, total: reviews.total, url: reviews.url } : null
 
@@ -135,7 +146,7 @@ export default async function RootLayout({
           <main id="main-content">
             {children}
           </main>
-          <Footer rating={footerRating} activityImages={activityImages} />
+          <Footer rating={footerRating} clubLogos={clubLogos} />
           <CartDrawer />
           <ScrollProgress />
           <AttributionCapture />

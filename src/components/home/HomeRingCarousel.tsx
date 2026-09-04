@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { FLEET, dossierHref } from '@/data/fleet'
+import { FLEET } from '@/data/fleet'
 import type { PickerEvent } from '@/lib/picker-event'
 import { optImg } from '@/lib/img'
+import { fmtShortDate } from '@/lib/date-label'
 
 /**
  * 3D-ringcarrousel: zes kaarten op een onzichtbare cilinder die traag
@@ -37,7 +38,15 @@ import { optImg } from '@/lib/img'
  * want dat is een hydration-mismatch.
  */
 
-type Kind = 'boats' | 'trips' | 'events'
+/**
+ * De vier groepen uit het hoofdmenu, in dezelfde volgorde.
+ *
+ * Stond eerder op boats/trips/events — drie namen die nergens anders op de
+ * site voorkwamen. Wie het menu opent ziet Events & Tickets, Op het Water,
+ * Beleef het Eiland en Insider; dezelfde woorden op dezelfde plek in dezelfde
+ * volgorde schelen de bezoeker het werk om twee indelingen te leren.
+ */
+type Kind = 'events' | 'water' | 'ferry' | 'island'
 
 export interface RingItem {
   key: string
@@ -47,6 +56,8 @@ export interface RingItem {
   kicker: string
   title: string
   meta?: string
+  /** ISO yyyy-mm-dd — de dag waarop dit speelt, als die bekend is. */
+  date?: string
 }
 
 interface FeedItem {
@@ -62,24 +73,26 @@ const T = (nl: string, en: string, de: string, es: string, fr: string): L5 => ({
 const t = (m: L5, l: string) => m[l] || m.en
 const L = {
   kicker: T('Ibiza in beeld', 'Ibiza in pictures', 'Ibiza in Bildern', 'Ibiza en imágenes', 'Ibiza en images'),
-  heading: T('Boten, excursies en events', 'Boats, trips and events', 'Boote, Ausflüge und Events', 'Barcos, excursiones y eventos', 'Bateaux, excursions et événements'),
-  boats: T('Boten', 'Boats', 'Boote', 'Barcos', 'Bateaux'),
-  trips: T('Excursies', 'Trips', 'Ausflüge', 'Excursiones', 'Excursions'),
-  events: T('Events', 'Events', 'Events', 'Eventos', 'Événements'),
+  heading: T('Alles op één eiland', 'Everything on one island', 'Alles auf einer Insel', 'Todo en una isla', 'Tout sur une île'),
+  events: T('Events & Tickets', 'Events & Tickets', 'Events & Tickets', 'Eventos y entradas', 'Événements & billets'),
+  water: T('Op het Water', 'On the Water', 'Auf dem Wasser', 'En el agua', 'Sur l’eau'),
+  island: T('Beleef het Eiland', 'Experience the Island', 'Die Insel erleben', 'Vive la isla', 'Vivez l’île'),
+  ferry: T('Ferry’s & katamaran', 'Ferries & catamaran', 'Fähren & Katamaran', 'Ferris y catamarán', 'Ferries & catamaran'),
+  allBoats: T('Alle boten', 'All boats', 'Alle Boote', 'Todos los barcos', 'Tous les bateaux'),
   from: T('vanaf', 'from', 'ab', 'desde', 'dès'),
   perDay: T('/ dag', '/ day', '/ Tag', '/ día', '/ jour'),
-  pause: T('Pauzeer de carrousel', 'Pause the carousel', 'Karussell anhalten', 'Pausar el carrusel', 'Mettre en pause'),
-  play: T('Laat de carrousel draaien', 'Play the carousel', 'Karussell abspielen', 'Reproducir el carrusel', 'Lancer le carrousel'),
 }
 const nf = (n: number, l: string) =>
   n.toLocaleString(({ en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' } as L5)[l] || 'en-GB')
 
 /** Zes boten: de twee duurste, twee uit het midden, de twee goedkoopste, om en om. */
 /**
- * De ring bevat twee soorten bestemmingen: routes (events, excursies) en één
- * bestand (het bootdossier, een PDF onder /api/dossier). Een <Link> doet
- * client-side navigatie en dat kan een bestand niet — dus dat wordt een gewone
- * <a>. De rest houdt de snelle overgang die next/link geeft.
+ * Alle bestemmingen zijn nu routes binnen de site, geen bestanden meer.
+ * De bootkaarten wezen naar /api/dossier — een PDF, dus een doodlopende steeg
+ * vanuit een carrousel die bedoeld is om je de site ín te trekken. Ze gaan nu
+ * naar de vlootpagina, waar de filters, de live beschikbaarheid en het dossier
+ * allemaal staan. De <a>-tak blijft voor het geval er ooit weer een bestand in
+ * de ring komt.
  */
 function RingLink({ href, children }: { href: string; children: React.ReactNode }) {
   const props = { className: 'ring-link group', draggable: false as const }
@@ -94,7 +107,7 @@ function boatItems(locale: string, base: string): RingItem[] {
   const keuze = [opPrijs[0], opPrijs[opPrijs.length - 1], opPrijs[mid], opPrijs[1], opPrijs[opPrijs.length - 2], opPrijs[mid + 1]].filter(Boolean)
   return keuze.slice(0, 6).map(b => ({
     key: b.slug,
-    href: dossierHref(b.slug),
+    href: `${base}/private-boat-charters`,
     image: b.image,
     imageSet: b.imageSet,
     kicker: b.marina,
@@ -103,14 +116,47 @@ function boatItems(locale: string, base: string): RingItem[] {
   }))
 }
 
-/** Zes unieke excursies uit de dagenlijst van de homepage. */
-function tripItems(days: { items: FeedItem[] }[], base: string): RingItem[] {
+/**
+ * Excursies uit de dagenlijst, gesplitst op waar ze horen.
+ *
+ * De feed bevat boottochten, ferry's naar Formentera én activiteiten op het
+ * land door elkaar. In het menu staan die in twee verschillende groepen, dus
+ * hier ook: `waterPaths` bepaalt wat op het water hoort, de rest is eiland.
+ * Zo levert een klik op "Op het Water" geen buggytour op.
+ */
+const BOOT_PATHS = ['boat-trip', 'boat-party', 'private-boat-charters']
+const VEER_PATHS = ['ferry-formentera', 'shuttle-ferry']
+
+/**
+ * Waar hoort dit item thuis?
+ *
+ * Ferry's en katamarans stonden bij de boottochten. Dat is logisch vanuit de
+ * feed en onlogisch vanuit de bezoeker: wie naar Formentera wil is niet aan het
+ * kiezen tussen een dagtocht en een RIB, hij zoekt een overtocht. Ze krijgen
+ * daarom een eigen tab naast "Beleef het eiland".
+ *
+ * Katamaran gaat op naam en niet op pad, omdat ClubTickets die onder dezelfde
+ * boat-trip-vensters hangt als alle andere tochten. Vijf talen schrijven het
+ * woord vrijwel identiek (catamaran/katamaran/catamarán), dus één test op
+ * "cat"+"maran" met een losse letter ertussen dekt ze allemaal.
+ */
+function groepVan(path: string, naam: string): 'water' | 'ferry' | 'island' {
+  if (/cat[ai]?maran|katamaran/i.test(naam)) return 'ferry'
+  if (VEER_PATHS.includes(path)) return 'ferry'
+  if (BOOT_PATHS.includes(path)) return 'water'
+  return 'island'
+}
+
+function tripItems(days: { date?: string; items: FeedItem[] }[], base: string, groep: 'water' | 'ferry' | 'island', locale: string, max = 10): RingItem[] {
   const out: RingItem[] = []
   const seen = new Set<string>()
   for (const d of days) {
     for (const it of d.items || []) {
       const slug = it.ct_events?.slug || ''
       const venue = it.ct_venues?.slug || ''
+      const path = it.ct_venues?.basePath || 'boat-trip'
+      const naam = it.ct_events?.name || it.name || ''
+      if (groepVan(path, naam) !== groep) continue
       if (!slug || !venue || seen.has(slug)) continue
       const img = it.ct_events?.cover || it.ct_events?.logo || ''
       if (!img) continue
@@ -121,10 +167,11 @@ function tripItems(days: { items: FeedItem[] }[], base: string): RingItem[] {
         image: optImg(img, 640),
         imageSet: `${optImg(img, 384)} 384w, ${optImg(img, 640)} 640w`,
         kicker: it.ct_venues?.name || '',
-        title: it.ct_events?.name || it.name || '',
+        title: naam,
         meta: it.prices || undefined,
+        date: d.date,
       })
-      if (out.length === 6) return out
+      if (out.length === max) return out
     }
   }
   return out
@@ -145,36 +192,142 @@ function eventItems(events: PickerEvent[], locale: string): RingItem[] {
       kicker: e.clubName,
       title: e.eventName,
       meta: e.price > 0 ? `${t(L.from, locale)} €${nf(e.price, locale)}` : undefined,
+      date: e.date,
     })
-    if (out.length === 6) break
+    if (out.length === 10) break
   }
   return out
 }
 
-function Ring({ items, hidden, id }: { items: RingItem[]; hidden: boolean; id: string }) {
+/**
+ * De ring draait uit JavaScript in plaats van uit een CSS-animatie.
+ *
+ * ── Waarom die omzetting nodig was ────────────────────────────────────────
+ * Een CSS-keyframe kun je niet slepen: hij bepaalt zelf elke frame de
+ * transform en overschrijft alles wat jij ertussen zet. Om de ring met muis
+ * of vinger te kunnen verdraaien moet de hoek dus in ons beheer zijn.
+ *
+ * De hoek staat in een ref en wordt per frame rechtstreeks op het element
+ * geschreven, niet in state: state zou zestig keer per seconde een render
+ * uitlokken voor een waarde die alleen in een transform terechtkomt.
+ *
+ * ── Altijd draaien ───────────────────────────────────────────────────────
+ * Geen pauze bij hover en geen pauzeknop meer. Wat blijft is pauzeren buiten
+ * beeld en bij een tabblad op de achtergrond — dat is geen ontwerpkeuze maar
+ * zuinigheid: een ring die niemand ziet hoeft geen frames te tekenen. Tijdens
+ * het slepen staat de automatische rotatie stil, anders vecht hij met je hand.
+ *
+ * `prefers-reduced-motion` blijft gerespecteerd: dan wordt het een platte
+ * scroll-rail via CSS en laten we de hoek met rust.
+ */
+function Ring({ items, hidden, id, laad, locale }: { items: RingItem[]; hidden: boolean; id: string; laad: boolean; locale: string }) {
+  const ringRef = useRef<HTMLUListElement>(null)
+  const hoek = useRef(0)
+  const sleep = useRef<{ actief: boolean; startX: number; startHoek: number; bewogen: boolean }>({
+    actief: false, startX: 0, startHoek: 0, bewogen: false,
+  })
+
+  useEffect(() => {
+    const el = ringRef.current
+    if (!el || hidden) return
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
+
+    let raf = 0
+    let vorige = performance.now()
+    const stap = (nu: number) => {
+      const dt = Math.min(nu - vorige, 100) // na een tabwissel niet vooruitspringen
+      vorige = nu
+      // Traag. Hij heeft hier drie standen gehad: 26 s per ronde, toen 13 s
+      // omdat er te lang dezelfde kaart vooraan stond, en nu 52 s.
+      //
+      // Bij 13 s draaide hij door de kaarten heen: je las "Bingo Brunch" en
+      // voor je bij de prijs was stond hij al schuin weg te draaien. Een ring
+      // die je iets wil laten zien moet je de tijd geven om het te lezen, en
+      // de kaart die vooraan staat blijft nu ruim tien seconden leesbaar.
+      // Wie sneller wil is er zelf bij: slepen werkt en gaat zo hard als je
+      // hand.
+      if (!sleep.current.actief && !document.hidden) hoek.current += dt * 0.0069
+      el.style.transform = `translateZ(calc(var(--ring-r) * -1)) rotateY(${hoek.current}deg)`
+      raf = requestAnimationFrame(stap)
+    }
+    raf = requestAnimationFrame(stap)
+    return () => cancelAnimationFrame(raf)
+  }, [hidden])
+
+  // Slepen met muis én vinger via pointer events: één implementatie voor
+  // allebei. touch-action:pan-y in de CSS laat verticaal scrollen door, zodat
+  // de pagina niet vastloopt als je over de ring veegt.
+  const omlaag = (e: React.PointerEvent) => {
+    sleep.current = { actief: true, startX: e.clientX, startHoek: hoek.current, bewogen: false }
+    ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
+  }
+  const beweeg = (e: React.PointerEvent) => {
+    if (!sleep.current.actief) return
+    const dx = e.clientX - sleep.current.startX
+    if (Math.abs(dx) > 4) sleep.current.bewogen = true
+    hoek.current = sleep.current.startHoek + dx * 0.35
+  }
+  const omhoog = (e: React.PointerEvent) => {
+    sleep.current.actief = false
+    ;(e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId)
+  }
+  // Een sleep mag geen klik worden: zonder dit opent elke veeg de kaart
+  // waarop je toevallig begon.
+  const opKlik = (e: React.MouseEvent) => {
+    if (sleep.current.bewogen) { e.preventDefault(); e.stopPropagation() }
+  }
+
   return (
-    <div id={id} className="ring-stage" hidden={hidden}>
+    <div
+      id={id}
+      className="ring-stage"
+      hidden={hidden}
+      onPointerDown={omlaag}
+      onPointerMove={beweeg}
+      onPointerUp={omhoog}
+      onPointerCancel={omhoog}
+      onClickCapture={opKlik}
+    >
       {/* Zijkanten dimmen naar de achtergrondkleur, zoals een ring in een
           etalage: de voorste kaart is scherp, wat wegdraait vervaagt. */}
       <div aria-hidden className="ring-fade ring-fade-l" />
       <div aria-hidden className="ring-fade ring-fade-r" />
-      <ul className="ring" style={{ ['--n' as string]: items.length }}>
+      <ul ref={ringRef} className="ring" style={{ ['--n' as string]: items.length }}>
         {items.map((it, i) => (
           <li key={it.key} className="ring-card" style={{ ['--i' as string]: i }}>
             <RingLink href={it.href}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={it.image}
-                srcSet={it.imageSet}
-                sizes="(max-width: 767px) 156px, 280px"
-                alt=""
-                loading="lazy"
-                decoding="async"
-                draggable={false}
-                className="ring-img"
-              />
+              {/* loading="lazy" kón hier niet werken. De kaarten hangen op een
+                  3D-cilinder: op het moment dat de pagina laadt staan er vier
+                  van de zes met hun rug naar je toe, buiten wat de browser als
+                  "bijna in beeld" telt, en zodra ze naar voren draaien
+                  herbeoordeelt hij dat niet meer. Die plaatjes werden dus nooit
+                  geladen — op de telefoon zag je een lege kaart met een klein
+                  blauw blokje midden op het scherm. Gemeten: tien van de vijftien
+                  afbeeldingen bleven ongeladen.
+                  In plaats daarvan laden we alle zes tegelijk, maar pas als de
+                  sectie in de buurt van het scherm komt (zie `laad`). Zes
+                  afbeeldingen van 384 pixels breed is geen bezwaar; een carrousel
+                  zonder beeld wel. */}
+              {laad ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={it.image}
+                  srcSet={it.imageSet}
+                  sizes="(max-width: 767px) 156px, 280px"
+                  alt=""
+                  decoding="async"
+                  draggable={false}
+                  className="ring-img"
+                />
+              ) : (
+                <span aria-hidden className="ring-img block bg-neutral-200" />
+              )}
               <span aria-hidden className="ring-shade" />
               <span className="ring-text">
+                {/* De datum stond nergens: je zag "Big Buggy Tour, 195 €" en
+                    moest doorklikken om te weten of dat vanavond of over vier
+                    dagen was. */}
+                {it.date ? <span className="ring-date">{fmtShortDate(it.date, locale)}</span> : null}
                 <span className="ring-kicker">{it.kicker}</span>
                 <span className="ring-title">{it.title}</span>
                 {it.meta ? <span className="ring-meta">{it.meta}</span> : null}
@@ -201,30 +354,34 @@ export function HomeRingCarousel({
   events: PickerEvent[]
   experienceDays: { date: string; items: FeedItem[] }[]
 }) {
+  // Vier groepen, zelfde namen en volgorde als het hoofdmenu. "Op het Water"
+  // is de vloot plus de boottochten en ferry's; die horen bij elkaar en staan
+  // in het menu ook onder één kop.
   const alle: { kind: Kind; label: string; items: RingItem[] }[] = [
-    { kind: 'boats', label: t(L.boats, locale), items: boatItems(locale, base) },
-    { kind: 'trips', label: t(L.trips, locale), items: tripItems(experienceDays, base) },
     { kind: 'events', label: t(L.events, locale), items: eventItems(events, locale) },
+    { kind: 'water', label: t(L.water, locale), items: [...boatItems(locale, base), ...tripItems(experienceDays, base, 'water', locale)].slice(0, 10) },
+    { kind: 'ferry', label: t(L.ferry, locale), items: tripItems(experienceDays, base, 'ferry', locale) },
+    { kind: 'island', label: t(L.island, locale), items: tripItems(experienceDays, base, 'island', locale) },
   ]
   // Een ring met minder dan drie kaarten is geen ring; die tab valt weg.
   const rings = alle.filter(r => r.items.length >= 3)
 
-  const [active, setActive] = useState<Kind>(rings[0]?.kind ?? 'boats')
-  const [paused, setPaused] = useState(false)
-  const [userPaused, setUserPaused] = useState(false)
+  const [active, setActive] = useState<Kind>(rings[0]?.kind ?? 'events')
   const wrap = useRef<HTMLElement>(null)
-  const inView = useRef(true)
+  // Pas afbeeldingen inladen als de sectie in de buurt komt. Zie de toelichting
+  // bij de <img> in Ring: lazy loading kan hier niet, dus doen we het zelf.
+  const [laad, setLaad] = useState(false)
 
-  // Pauzeren buiten beeld en bij een tabblad op de achtergrond: een ring die
-  // niemand ziet hoeft niet te draaien.
   useEffect(() => {
     const el = wrap.current
-    if (!el || typeof IntersectionObserver === 'undefined') return
-    const apply = () => setPaused(document.hidden || !inView.current)
-    const io = new IntersectionObserver(([e]) => { inView.current = e.isIntersecting; apply() }, { threshold: 0.05 })
+    if (!el) return
+    if (!('IntersectionObserver' in window)) { setLaad(true); return }
+    const io = new IntersectionObserver(
+      (entries) => { if (entries.some(e => e.isIntersecting)) { setLaad(true); io.disconnect() } },
+      { rootMargin: '600px 0px' },
+    )
     io.observe(el)
-    document.addEventListener('visibilitychange', apply)
-    return () => { io.disconnect(); document.removeEventListener('visibilitychange', apply) }
+    return () => io.disconnect()
   }, [])
 
   if (!rings.length) return null
@@ -233,7 +390,6 @@ export function HomeRingCarousel({
     <section
       ref={wrap}
       className="ring-section bg-white py-12 text-neutral-900 md:py-16"
-      data-paused={paused || userPaused ? '' : undefined}
       aria-label={t(L.heading, locale)}
     >
       <div className="mx-auto max-w-6xl px-4">
@@ -242,7 +398,10 @@ export function HomeRingCarousel({
             <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{t(L.kicker, locale)}</p>
             <h2 className="mt-2 font-serif text-[26px] font-black leading-[1.1] tracking-tight md:text-4xl">{t(L.heading, locale)}</h2>
           </div>
-          <div className="flex items-center gap-2" role="tablist" aria-label={t(L.heading, locale)}>
+          {/* Horizontaal veegbaar: vier categorieën met menu-namen passen niet
+              naast een kop op een telefoon van 390px, en afkappen zou de
+              laatste onbereikbaar maken. */}
+          <div className="hide-scrollbar -mx-4 flex w-full items-center gap-2 overflow-x-auto px-4 md:mx-0 md:w-auto md:overflow-visible md:px-0" role="tablist" aria-label={t(L.heading, locale)}>
             {rings.map(r => (
               <button
                 key={r.kind}
@@ -251,28 +410,13 @@ export function HomeRingCarousel({
                 aria-selected={active === r.kind}
                 aria-controls={`ring-${r.kind}`}
                 onClick={() => setActive(r.kind)}
-                className={`rounded-full px-4 py-2 text-xs font-black uppercase tracking-widest outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ibiza-green focus-visible:ring-offset-2 ${
+                className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-xs font-black uppercase tracking-widest outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ibiza-green focus-visible:ring-offset-2 ${
                   active === r.kind ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                 }`}
               >
                 {r.label}
               </button>
             ))}
-            {/* Pauzeknop: bewegende inhoud die langer dan vijf seconden duurt
-                hoort te stoppen te zijn (WCAG 2.2.2), niet alleen via hover. */}
-            <button
-              type="button"
-              onClick={() => setUserPaused(p => !p)}
-              aria-pressed={userPaused}
-              aria-label={userPaused ? t(L.play, locale) : t(L.pause, locale)}
-              className="grid h-9 w-9 place-items-center rounded-full bg-neutral-100 text-neutral-700 outline-none transition-colors hover:bg-neutral-200 focus-visible:ring-2 focus-visible:ring-ibiza-green focus-visible:ring-offset-2"
-            >
-              {userPaused ? (
-                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden><path d="M3 2l7 4-7 4z" fill="currentColor" /></svg>
-              ) : (
-                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden><path d="M3 2h2v8H3zM7 2h2v8H7z" fill="currentColor" /></svg>
-              )}
-            </button>
           </div>
         </div>
       </div>
@@ -280,7 +424,7 @@ export function HomeRingCarousel({
       <div className="mt-8 md:mt-10">
         {rings.map(r => (
           <div key={r.kind} role="tabpanel" hidden={active !== r.kind}>
-            <Ring id={`ring-${r.kind}`} items={r.items} hidden={active !== r.kind} />
+            <Ring id={`ring-${r.kind}`} items={r.items} hidden={active !== r.kind} laad={laad} locale={locale} />
           </div>
         ))}
       </div>

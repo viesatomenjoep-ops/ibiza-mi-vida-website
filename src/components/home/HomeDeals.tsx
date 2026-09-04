@@ -107,7 +107,7 @@ function DealsRow({ items }: { items: Deal[] }) {
   return (
     <div
       ref={ref}
-      className="hide-scrollbar flex snap-x snap-mandatory items-center gap-4 overflow-x-auto px-[5%] pb-4 pt-2 md:cursor-grab md:active:cursor-grabbing"
+      className="hide-scrollbar flex snap-x snap-proximity items-center gap-4 overflow-x-auto px-[5%] pb-4 pt-2 md:cursor-grab md:active:cursor-grabbing"
       style={{ touchAction: 'pan-x pan-y', perspective: '1100px' }}
       onPointerDown={onDown}
       onPointerMove={onMove}

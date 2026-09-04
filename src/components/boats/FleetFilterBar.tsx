@@ -1,9 +1,27 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { CalendarDays, Users, Euro, MapPin, ArrowUpDown, X, Check } from 'lucide-react'
+import { CalendarDays, Users, Euro, MapPin, ArrowUpDown, Ship, X, Check } from 'lucide-react'
 
 export type SortKey = 'default' | 'price-asc' | 'price-desc'
+
+/**
+ * Soort boot.
+ *
+ * ── Waarom dit geen voetmaat is ───────────────────────────────────────────
+ * De vraag was om het type af te leiden uit de lengte in voet. Dat kan niet
+ * eerlijk: 72 van de 94 boten hebben helemaal geen lengte in de brongegevens.
+ *
+ * Uit de modelnaam halen lijkt te werken -- 93 van de 94 namen bevatten een
+ * getal -- maar die getallen betekenen niet allemaal hetzelfde. "Pershing 72"
+ * is 72 voet, "Quicksilver 675" is 6,75 meter (22 voet) en "Cap Camarat 9.0"
+ * is 9 meter. Een filter dat daarop bouwt zet een boot van 22 voet in het
+ * hokje "60 voet en langer". Dat is geen filter maar een gok met een label.
+ *
+ * `category` staat wel bij alle 94 boten in de brongegevens en zegt precies
+ * hetzelfde in gewone woorden: 33 jachten, 61 motorboten.
+ */
+export type BoatSoort = 'all' | 'yacht' | 'motorboat'
 
 type L5 = Record<string, string>
 const T = (nl: string, en: string, de: string, es: string, fr: string): L5 => ({ nl, en, de, es, fr })
@@ -22,6 +40,10 @@ const L = {
   perDay: T('per dag', 'per day', 'pro Tag', 'al día', 'par jour'),
   depart: T('Vertrek', 'Departure', 'Abfahrt', 'Salida', 'Départ'),
   allMarinas: T('Alle jachthavens', 'All marinas', 'Alle Marinas', 'Todos los puertos', 'Tous les ports'),
+  soort: T('Soort', 'Type', 'Typ', 'Tipo', 'Type'),
+  alleSoorten: T('Alle boten', 'All boats', 'Alle Boote', 'Todos los barcos', 'Tous les bateaux'),
+  jacht: T('Jacht', 'Yacht', 'Yacht', 'Yate', 'Yacht'),
+  motorboot: T('Motorboot', 'Motorboat', 'Motorboot', 'Lancha', 'Bateau à moteur'),
   sort: T('Sorteer', 'Sort', 'Sortieren', 'Ordenar', 'Trier'),
   sortDefault: T('Onze selectie', 'Our selection', 'Unsere Auswahl', 'Nuestra selección', 'Notre sélection'),
   sortAsc: T('Prijs: laag → hoog', 'Price: low → high', 'Preis: niedrig → hoch', 'Precio: bajo → alto', 'Prix : bas → haut'),
@@ -56,7 +78,7 @@ const fill = (s: string, k: string, v: string | number) => s.replace(`{${k}}`, S
 export function FleetFilterBar({
   locale, marinas, priceMin, priceMax, paxMax,
   date, setDate, dateRange, onlyAvailable, setOnlyAvailable, liveStamp,
-  minPax, setMinPax, maxPrice, setMaxPrice, marina, setMarina, sort, setSort,
+  minPax, setMinPax, maxPrice, setMaxPrice, marina, setMarina, soort, setSoort, sort, setSort,
   onClear, activeCount,
 }: {
   locale: string
@@ -69,6 +91,7 @@ export function FleetFilterBar({
   minPax: number; setMinPax: (n: number) => void
   maxPrice: number; setMaxPrice: (n: number) => void
   marina: string; setMarina: (m: string) => void
+  soort: BoatSoort; setSoort: (s: BoatSoort) => void
   sort: SortKey; setSort: (s: SortKey) => void
   onClear: () => void; activeCount: number
 }) {
@@ -128,6 +151,9 @@ export function FleetFilterBar({
             maxPrice < priceMax ? fill(t(L.upTo, locale), 'v', nf(maxPrice)) : t(L.anyPrice, locale), maxPrice < priceMax)}
           {pil('marina', <MapPin size={15} />, t(L.depart, locale),
             marina === 'all' ? t(L.allMarinas, locale) : marina, marina !== 'all')}
+          {pil('soort', <Ship size={15} />, t(L.soort, locale),
+            soort === 'yacht' ? t(L.jacht, locale) : soort === 'motorboat' ? t(L.motorboot, locale) : t(L.alleSoorten, locale),
+            soort !== 'all')}
           {pil('sort', <ArrowUpDown size={15} />, t(L.sort, locale),
             sort === 'price-asc' ? t(L.sortAsc, locale) : sort === 'price-desc' ? t(L.sortDesc, locale) : t(L.sortDefault, locale),
             sort !== 'default')}
@@ -226,6 +252,17 @@ export function FleetFilterBar({
                   <button key={m} type="button" onClick={() => { setMarina(m); sluit() }} className={keuze(marina === m)}>
                     {m === 'all' ? t(L.allMarinas, locale) : m}
                     {marina === m && <Check size={14} />}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {open === 'soort' && (
+              <div className="flex flex-col gap-1">
+                {([['all', L.alleSoorten], ['yacht', L.jacht], ['motorboat', L.motorboot]] as [BoatSoort, L5][]).map(([k, lab]) => (
+                  <button key={k} type="button" onClick={() => { setSoort(k); sluit() }} className={keuze(soort === k)}>
+                    {t(lab, locale)}
+                    {soort === k && <Check size={14} />}
                   </button>
                 ))}
               </div>

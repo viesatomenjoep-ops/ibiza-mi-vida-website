@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
-import { HubHero, PriceTable, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
+import { HubHero, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { WiberDirect } from '@/components/partner/WiberDirect'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { TrustBlock } from '@/components/hub/TrustBlock'
@@ -59,41 +59,21 @@ export default function AlquilerCochesIbizaPage() {
       }} />
       <Breadcrumbs items={CRUMBS} locale={LOCALE} />
 
+      {/* De HubHero had hier een inleiding van twee alinea's: hoe Wiber werkt,
+          waar het kantoor staat, de leeftijdsgrens en de toeslag. Op een
+          telefoon vulde dat het hele scherm onder de kop -- je zag geen auto,
+          geen prijs en geen knop voordat je er doorheen had gelezen.
+          Er gaat geen feit verloren: exact dezelfde punten staan verderop in
+          het blok met de voorwaarden, waar ze per stuk opzoekbaar zijn in
+          plaats van als lopende tekst. */}
       <HubHero
         h1="Alquiler de coches en Ibiza"
         locale={LOCALE}
         updated={contentUpdated(PAGE_KEY)}
-        lead={
-          <>
-            <p>
-              Reservamos el alquiler de coches en Ibiza con Wiber Rent a Car: tarifa todo incluido con el
-              seguro dentro, oficina a cinco minutos del aeropuerto en la Ctra. Aeropuerto km 5, Sant Josep,
-              shuttle gratuito desde la terminal y recogida sin contacto.
-              {porDia ? ` Las tarifas parten de €${porDia} al día.` : ''} Edad mínima 21 años, con un recargo
-              de 9 € al día para conductores de 21 a 24.
-            </p>
-            <p className="mt-4">
-              El motivo para tener coche aquí no es el trayecto del aeropuerto. Son Cala Salada, Cala
-              d&apos;Hort y la costa norte: las partes de la isla a las que no llega ningún autobús.
-            </p>
-          </>
-        }
       >
         <WiberDirect locale={LOCALE} />
       </HubHero>
 
-      <PriceTable
-        heading="Qué cuesta alquilar coche en Ibiza"
-        locale={LOCALE}
-        caption="Precios desde, por categoría"
-        intro="Precios desde, por día y todo incluido. En julio y agosto las tarifas suben con fuerza y las categorías económicas se agotan primero — la diferencia entre reservar en abril y en julio supera la diferencia entre categorías."
-        rows={[
-          { label: 'Económico', note: 'Dos adultos, equipaje de mano, aparcar en ciudad', amount: RENTAL_PRICES.carPerDay.amount, unit: RENTAL_PRICES.carPerDay.unit.es },
-          { label: 'Compacto', note: 'Cuatro adultos con maletas de verdad', amount: null, unit: RENTAL_PRICES.carPerDay.unit.es },
-          { label: 'Descapotable', note: 'Dos personas, maletero pequeño, carreteras de costa', amount: null, unit: RENTAL_PRICES.carPerDay.unit.es },
-          { label: 'SUV / 4x4', note: 'Caminos de tierra y calas remotas', amount: null, unit: RENTAL_PRICES.carPerDay.unit.es },
-        ]}
-      />
 
       <ItemGrid
         heading="Las condiciones, por delante"

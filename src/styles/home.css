@@ -128,7 +128,13 @@ section.alt{background:var(--cream)}
 .dpill small{font-size:11px;font-weight:600;opacity:.7;margin-top:3px;text-transform:uppercase}
 
 /* event cards */
-.evt-rail{display:flex;gap:18px;overflow-x:auto;padding:6px 2px 14px;scrollbar-width:none;scroll-snap-type:x mandatory}
+/* proximity en niet mandatory. Met mandatory MOET de browser bij elke
+   aanraking naar een snappunt, ook wanneer je eigenlijk verticaal wilt
+   scrollen: leg je duim op een tegel en de pagina blijft haken. Proximity
+   snapt nog steeds netjes als je horizontaal veegt, maar laat een verticale
+   veeg gewoon door. Dit stond op elf plekken op de site en is overal
+   omgezet. */
+.evt-rail{display:flex;gap:18px;overflow-x:auto;padding:6px 2px 14px;scrollbar-width:none;scroll-snap-type:x proximity;touch-action:pan-x pan-y}
 .evt-rail::-webkit-scrollbar{display:none}
 .ecard{display:block;flex:0 0 300px;background:#fff;border-radius:var(--r);overflow:hidden;
   border:1px solid rgba(44,74,66,.07);box-shadow:var(--shadow-sm);cursor:pointer;scroll-snap-align:start;
@@ -264,7 +270,7 @@ section.alt{background:var(--cream)}
 
 /* Herbruikbare slider */
 .slider{position:relative}
-.slider-track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
+.slider-track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;
   padding:6px 2px 16px;scroll-behavior:smooth}
 .slider-track::-webkit-scrollbar{display:none}
 .slider-track>*{scroll-snap-align:start;flex:0 0 auto}

@@ -23,14 +23,23 @@ const IDLE_MS = 3000
  * until hovered. Same trap that has bitten several components here: on a light
  * surface the icon colour has to be stated, not inherited.
  *
- * It fades out after a few seconds so it stops covering the photo, and returns
- * on hover or keyboard focus. Two details that matter:
+ * Hij vervaagt na drie seconden zodat hij de inhoud niet blijft afdekken, en
+ * komt terug bij hover, toetsenbordfocus of een opwaartse veeg.
  *
- *  - It fades but is never unmounted, and pointer events stay on. Hovering the
- *    spot brings it back, and it stays in the tab order throughout.
- *  - The auto-hide only runs where a hover state actually exists. On a phone
- *    there is no hover, so a button that hid itself would be gone for good —
- *    for a back control that is a trap, not a flourish.
+ * ── Waarom dat nu ook op een telefoon gebeurt ─────────────────────────────
+ * Dit stond eerst alleen aan waar hover bestaat, met de redenering dat een
+ * knop die zichzelf verbergt op een touchscreen voorgoed weg is. Dat klopte
+ * niet met de praktijk: juist op mobiel bleef hij dus altijd staan en dekte
+ * hij de kop en de eerste regels tekst af — zichtbaar op de agenda, de
+ * eventpagina en de dossierpagina.
+ *
+ * Twee dingen maken het op touch alsnog veilig. Een telefoonbrowser heeft
+ * zijn eigen terugknop onderin beeld, dus onze zwevende knop is daar een
+ * extra en niet de enige uitweg. En hij komt terug zodra je omhoog scrolt —
+ * de beweging die vrijwel altijd vooafgaat aan "ik wil hier weg".
+ *
+ * Hij wordt nooit uit de DOM gehaald en behoudt zijn plek in de tabvolgorde;
+ * alleen de dekking gaat naar nul.
  *
  * `variant`:
  *  - "hero" (default): absolute, bottom-right of a relative hero image
@@ -53,11 +62,25 @@ export function BackButton({
 
   useEffect(() => {
     canHover.current = window.matchMedia?.('(hover: hover)').matches ?? true
-    if (!canHover.current) return
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
-
     timer.current = setTimeout(() => setDimmed(true), IDLE_MS)
-    return () => { if (timer.current) clearTimeout(timer.current) }
+
+    // Omhoog scrollen brengt hem terug: dat is de beweging die voorafgaat aan
+    // "ik wil hier weg", en op touch het enige signaal dat we hebben.
+    let vorige = window.scrollY
+    const opScroll = () => {
+      const nu = window.scrollY
+      if (nu < vorige - 8) {
+        setDimmed(false)
+        if (timer.current) clearTimeout(timer.current)
+        timer.current = setTimeout(() => setDimmed(true), IDLE_MS)
+      }
+      vorige = nu
+    }
+    window.addEventListener('scroll', opScroll, { passive: true })
+    return () => {
+      if (timer.current) clearTimeout(timer.current)
+      window.removeEventListener('scroll', opScroll)
+    }
   }, [])
 
   const wake = () => {
@@ -65,7 +88,6 @@ export function BackButton({
     if (timer.current) clearTimeout(timer.current)
   }
   const rest = () => {
-    if (!canHover.current) return
     if (timer.current) clearTimeout(timer.current)
     timer.current = setTimeout(() => setDimmed(true), IDLE_MS)
   }
@@ -97,7 +119,7 @@ export function BackButton({
       aria-label={label}
       title={label}
       className={`grid h-11 w-11 place-items-center rounded-full border shadow-lg transition-[opacity,background-color,transform] duration-500 ${cls} ${
-        dimmed ? 'scale-90 opacity-0' : 'scale-100 opacity-100'
+        dimmed ? 'pointer-events-none scale-90 opacity-0' : 'scale-100 opacity-100'
       }`}
     >
       <ArrowLeft size={19} strokeWidth={2.5} />

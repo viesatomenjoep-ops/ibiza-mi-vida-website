@@ -1,5 +1,5 @@
 import { stripHtml, cleanHtml } from './html-utils';
-import { isBlankCover } from './blank-covers';
+import { fixImageCase, isBlankCover } from './blank-covers';
 
 // ClubTickets affiliate key. Read from the environment so the repo is not the
 // only place it lives; the literal stays as a fallback so `next build` and CI
@@ -226,9 +226,16 @@ async function loadData(locale: string = 'en'): Promise<ClubTicketsData> {
     // candidate on their own: Swedish House Mafia, the case that exposed this,
     // has a blank eventCover and perfectly good gold artwork sitting in
     // eventLogo right behind it.
+    // Twee bewerkingen in één doorloop: blanco covers eruit, en de
+    // hoofdletterextensie herstellen. Die laatste geeft bij ClubTickets een
+    // 403 (.JPG faalt, .jpg werkt) en liet de Formentera Cruise zonder enig
+    // beeld staan. Zie fixImageCase in blank-covers.ts.
     const scrub = (o: Record<string, any> | undefined, keys: string[]) => {
       if (!o) return;
-      for (const k of keys) if (isBlankCover(o[k])) o[k] = undefined;
+      for (const k of keys) {
+        if (isBlankCover(o[k])) { o[k] = undefined; continue; }
+        if (typeof o[k] === 'string') o[k] = fixImageCase(o[k]);
+      }
     };
     const IMG_KEYS = ['cover', 'logo', 'picture', 'image', 'whitelogo',
                       'eventCover', 'eventLogo', 'venueCover', 'venueLogo'];

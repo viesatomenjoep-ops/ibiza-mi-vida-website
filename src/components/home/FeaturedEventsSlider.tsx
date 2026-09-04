@@ -173,7 +173,7 @@ export function FeaturedEventsSlider({ events }: FeaturedEventsSliderProps) {
         
         <div 
           ref={scrollRef}
-          className="custom-scrollbar flex gap-4 md:gap-5 px-4 md:px-8 overflow-x-auto snap-x snap-mandatory py-4 pb-8 w-full"
+          className="custom-scrollbar flex gap-4 md:gap-5 px-4 md:px-8 overflow-x-auto snap-x snap-proximity py-4 pb-8 w-full"
           style={{ WebkitOverflowScrolling: 'touch' }}
         >
           {displayEvents.map((event, i) => (

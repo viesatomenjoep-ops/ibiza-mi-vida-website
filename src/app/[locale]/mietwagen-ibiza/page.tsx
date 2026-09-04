@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
-import { HubHero, PriceTable, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
+import { HubHero, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { WiberDirect } from '@/components/partner/WiberDirect'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { TrustBlock } from '@/components/hub/TrustBlock'
@@ -59,41 +59,21 @@ export default function MietwagenIbizaPage() {
       }} />
       <Breadcrumbs items={CRUMBS} locale={LOCALE} />
 
+      {/* De HubHero had hier een inleiding van twee alinea's: hoe Wiber werkt,
+          waar het kantoor staat, de leeftijdsgrens en de toeslag. Op een
+          telefoon vulde dat het hele scherm onder de kop -- je zag geen auto,
+          geen prijs en geen knop voordat je er doorheen had gelezen.
+          Er gaat geen feit verloren: exact dezelfde punten staan verderop in
+          het blok met de voorwaarden, waar ze per stuk opzoekbaar zijn in
+          plaats van als lopende tekst. */}
       <HubHero
         h1="Mietwagen auf Ibiza"
         locale={LOCALE}
         updated={contentUpdated(PAGE_KEY)}
-        lead={
-          <>
-            <p>
-              Wir buchen Mietwagen auf Ibiza über Wiber Rent a Car: All-inclusive-Tarif mit Versicherung im
-              Preis, ein Büro fünf Minuten vom Flughafen an der Ctra. Aeropuerto km 5 in Sant Josep, ein
-              Gratis-Shuttle ab Terminal und kontaktlose Übernahme.
-              {proTag ? ` Tarife beginnen bei €${proTag} pro Tag.` : ''} Mindestalter 21, mit 9 € Zuschlag
-              pro Tag für Fahrer zwischen 21 und 24.
-            </p>
-            <p className="mt-4">
-              Der Grund für ein Auto ist nicht die Fahrt vom Flughafen. Es sind Cala Salada, Cala d&apos;Hort
-              und die Nordküste — die Teile der Insel, zu denen kein Bus fährt.
-            </p>
-          </>
-        }
       >
         <WiberDirect locale={LOCALE} />
       </HubHero>
 
-      <PriceTable
-        heading="Was ein Mietwagen auf Ibiza kostet"
-        locale={LOCALE}
-        caption="Ab-Preise pro Kategorie"
-        intro="Ab-Preise pro Tag, all-inclusive. Im Juli und August steigen die Tarife deutlich und die günstigen Kategorien sind zuerst weg — der Unterschied zwischen Buchen im April und im Juli ist größer als der zwischen den Kategorien."
-        rows={[
-          { label: 'Economy', note: 'Zwei Erwachsene, Handgepäck, Stadtparken', amount: RENTAL_PRICES.carPerDay.amount, unit: RENTAL_PRICES.carPerDay.unit.de },
-          { label: 'Kompakt', note: 'Vier Erwachsene mit richtigem Gepäck', amount: null, unit: RENTAL_PRICES.carPerDay.unit.de },
-          { label: 'Cabrio', note: 'Zwei Personen, kleiner Kofferraum, Küstenstraßen', amount: null, unit: RENTAL_PRICES.carPerDay.unit.de },
-          { label: 'SUV / 4x4', note: 'Schotterpisten und abgelegene Buchten', amount: null, unit: RENTAL_PRICES.carPerDay.unit.de },
-        ]}
-      />
 
       <ItemGrid
         heading="Die Bedingungen, gleich vorweg"

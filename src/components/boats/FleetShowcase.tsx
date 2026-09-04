@@ -611,6 +611,10 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
         setMaxPrice={setMaxPrice}
         marina={marina}
         setMarina={setMarina}
+        /* `category` bestond al en filterde ook al, maar er zat geen knop aan:
+           het was een filter dat niemand kon bedienen. */
+        soort={category}
+        setSoort={setCategory}
         sort={sort}
         setSort={setSort}
         onClear={wisFilters}

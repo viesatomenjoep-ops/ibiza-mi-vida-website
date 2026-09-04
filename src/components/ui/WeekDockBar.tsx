@@ -31,8 +31,18 @@ export function WeekDockBar({
   variant = 'red',
   imagePool = [],
   photoDim = true,
+  today,
 }: {
   eventDates: string[]
+  /**
+   * Vandaag als yyyy-MM-dd, berekend door de server in Ibiza-tijd.
+   *
+   * Zonder dit rekende het dock het zelf uit met new Date(): de server in UTC,
+   * de browser lokaal, en rond middernacht dus een andere dag — een
+   * hydration-mismatch waarna React de pagina opnieuw rendert. Blijft optioneel
+   * zodat een aanroeper zonder serverdatum nog werkt, maar geef hem mee.
+   */
+  today?: string
   weekStart: string
   setWeekStart: (d: string) => void
   activeDay: string | null
@@ -44,7 +54,7 @@ export function WeekDockBar({
   photoDim?: boolean
 }) {
   const L = getLoc(locale)
-  const todayStr = useMemo(() => format(new Date(), 'yyyy-MM-dd'), [])
+  const todayStr = useMemo(() => today || format(new Date(), 'yyyy-MM-dd'), [today])
   const upcoming = useMemo(() => Array.from(new Set(eventDates.filter(d => d >= todayStr))).sort(), [eventDates, todayStr])
   const monday = (d: Date) => startOfWeek(d, { weekStartsOn: 1 })
   const firstMonday = useMemo(() => format(monday(parseISO(upcoming[0] || todayStr)), 'yyyy-MM-dd'), [upcoming, todayStr])
@@ -172,7 +182,7 @@ export function WeekDockBar({
           </button>
         </div>
         {/* Swipeable weeks — the 7 blocks slide with the thumb, snapping per week */}
-        <div ref={scrollRef} onScroll={onScroll} className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div ref={scrollRef} onScroll={onScroll} className="flex snap-x snap-proximity overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {weeks.map(ws => {
             const wd = Array.from({ length: 7 }, (_, i) => format(addDays(parseISO(ws), i), 'yyyy-MM-dd'))
             return <div key={ws} className="grid min-w-full shrink-0 snap-center grid-cols-7 gap-1">{wd.map((ds, i) => renderTile(ds, i))}</div>
