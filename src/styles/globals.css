@@ -1323,29 +1323,6 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 .mcat-label{font-size:.55rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#fff;text-align:center;line-height:1.15;max-width:92px}
 
 
-/* ═══ De vier zones van de homepage ═══════════════════════════════════════
-   Vier werelden met elk een pasteltint van het eigen palet, gescheiden door
-   ronde bogen die over de vorige zone heen schuiven -- de vloeiende overgang
-   in plaats van vier harde banen. De tinten zijn licht genoeg dat alle
-   bestaande zwarte tekst en witte kaarten er ongewijzigd op werken.
-
-   De secties binnen een zone droegen hun eigen witte achtergrond; die wordt
-   hier doorzichtig gemaakt zodat de tint doorloopt. Alleen op <section>-
-   elementen: de kaarten (divs en links met bg-white) blijven gewoon wit,
-   en de donkere clubsectie heeft een inline-stijl en blijft donker. */
-.zone{position:relative;border-radius:44px 44px 0 0;margin-top:-44px;padding-top:6px;overflow:hidden;scroll-margin-top:calc(var(--nav-h) - 44px)}
-.zone--events{background:#FBEFF2;}
-.zone--water{background:#E9F4EF;}
-.zone--island{background:#F7F1E4;}
-.zone--insider{background:#EFECF6;}
-.zone section[class*="bg-white"]{background-color:transparent !important}
-.zone section[class*="border-t"]{border-top-color:transparent !important}
-/* De grijze logostrook en de agenda-uitgang lopen mee met de tint. */
-.zone div[class*="bg-neutral-100"][class*="border-t"]{background-color:rgba(255,255,255,.45) !important;border-color:rgba(0,0,0,.06) !important}
-/* Eerste zone begint met wat extra lucht onder de boog. */
-.zone .zone + *{margin-top:0}
-@media (min-width:768px){.zone{border-radius:64px 64px 0 0;margin-top:-64px}}
-
 /* ===== Fullscreen menu — dark, colour category bars ===== */
 .fs-menu{background:#0a0a0a;}
 /* Category bars run flush from the top (below the navbar) to the language selector */

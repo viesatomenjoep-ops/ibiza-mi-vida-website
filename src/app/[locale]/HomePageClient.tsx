@@ -87,24 +87,10 @@ interface HomePageProps {
  */
 const ZONES: { id: string; kleurKlasse: string; stip: string; naam: Record<string, string> }[] = [
   { id: 'zone-events', kleurKlasse: 'zone--events', stip: '#E14D68', naam: { nl: 'Events & Tickets', en: 'Events & Tickets', de: 'Events & Tickets', es: 'Eventos y entradas', fr: 'Événements & billets' } },
-  { id: 'zone-water', kleurKlasse: 'zone--water', stip: '#0E7C66', naam: { nl: 'Op het Water', en: 'On the Water', de: 'Auf dem Wasser', es: 'En el agua', fr: 'Sur l’eau' } },
-  { id: 'zone-island', kleurKlasse: 'zone--island', stip: '#C8A24A', naam: { nl: 'Beleef het Eiland', en: 'Experience the Island', de: 'Die Insel erleben', es: 'Vive la isla', fr: 'Vivez l’île' } },
+  { id: 'zone-water', kleurKlasse: 'zone--water', stip: '#0E7C66', naam: { nl: 'Underwater Experience', en: 'Underwater Experience', de: 'Underwater Experience', es: 'Underwater Experience', fr: 'Underwater Experience' } },
+  { id: 'zone-island', kleurKlasse: 'zone--island', stip: '#C8A24A', naam: { nl: 'The Island', en: 'The Island', de: 'The Island', es: 'The Island', fr: 'The Island' } },
   { id: 'zone-insider', kleurKlasse: 'zone--insider', stip: '#8D7BC4', naam: { nl: 'Insider', en: 'Insider', de: 'Insider', es: 'Insider', fr: 'Insider' } },
 ]
-
-/** Kop boven elke zone: stip, nummer, naam. Compact, geen verhaal. */
-function ZoneKop({ index, locale }: { index: number; locale: string }) {
-  const z = ZONES[index]
-  return (
-    <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 pb-2 pt-10 md:px-8">
-      <span aria-hidden className="h-2.5 w-2.5 rounded-full" style={{ background: z.stip }} />
-      <span className="text-[11px] font-black uppercase tracking-[0.28em] text-neutral-500">
-        {String(index + 1).padStart(2, '0')} · {z.naam[locale] || z.naam.en}
-      </span>
-      <span className="h-px flex-1 bg-black/10" />
-    </div>
-  )
-}
 
 export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '', rating = null, rentalsSlot = null, reviewsSlot = null, faqSlot = null }: HomePageProps) {
   const base = `/${locale}`;
@@ -219,6 +205,15 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       <HomeCategoryCarousel deals={deals} base={base} locale={locale} />
 
+
+
+      {/* Anker voor de heroknop; de zone-opmaak komt terug zodra deze
+          sectie zelf onder handen gaat. */}
+      <div id="zone-events" />
+      <HomeTonight events={pickerEvents} todayStr={todayStr} locale={locale} base={base} />
+
+
+
       {/* Vlootcarrousel: tussen "Vanavond op Ibiza" en Featured Events, op
           aanwijzing van de plek in de schermafbeelding. Wie net de agenda van
           vanavond heeft gezien, is precies in de stemming voor de dag ervoor —
@@ -228,17 +223,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           twaalf boten. Zie HomeRingCarousel voor waarom de animatie de site
           niet zwaarder maakt. */}
       <HomeRingCarousel locale={locale} base={base} events={pickerEvents} experienceDays={experienceDays} />
-
-      {/* ── Zone 1: Events & Tickets ─────────────────────────────────────
-          Vanaf hier is de homepage vier werelden, elk met een eigen
-          pasteltint en een ronde boog die over de vorige heen schuift. De
-          volgorde is die van het menu; de kleurstippen zijn dezelfde als in
-          de hero en het menu. Alles wat club en avond is woont hier. */}
-      <div id="zone-events" className="zone zone--events">
-      <ZoneKop index={0} locale={locale} />
-      <HomeTonight events={pickerEvents} todayStr={todayStr} locale={locale} base={base} />
-
-
 
       {/* UPCOMING EVENTS — now above Populaire Clubs */}
       {clubDays.length > 0 && (
@@ -323,6 +307,80 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           were invisible unless you found them in the nav. Links go through the
           venue's own basePath, because only 'clubbing' lives under
           /club-tickets and sending a boat there is a guaranteed 404. */}
+      <div id="zone-water" />
+      {experienceDays.length > 0 && (
+        <FeaturedDayRotator
+          id="home-experiences"
+          days={experienceDays}
+          locale={locale}
+          todayStr={todayStr}
+          calendarHref={`${base}/activities-calendar`}
+          weekMax={60}
+          title={({ nl: 'Op het water & activiteiten', en: 'On the water & activities', es: 'En el agua y actividades', de: 'Auf dem Wasser & Aktivitäten', fr: 'Sur l’eau & activités' } as Record<string, string>)[locale] || 'On the water & activities'}
+        >
+          {(items) => (
+            <HomeRail label={({ nl: 'Op het water & activiteiten', en: 'On the water & activities' } as Record<string, string>)[locale] || 'On the water & activities'} locale={locale}>
+              {items.map((dateObj: any, di: number) => {
+                const venue = dateObj.ct_venues;
+                const event = dateObj.ct_events;
+                const image = event?.cover || event?.logo;
+                const href = `${base}/${venue?.basePath || 'boat-trip'}/${venue?.slug || ''}/${event?.slug || ''}`;
+                return (
+                  <Link key={dateObj.id} href={href}
+                    className="group flex w-[290px] shrink-0 snap-start items-center gap-4 rounded-[24px] border border-black/5 bg-white p-4 text-neutral-900 transition-shadow hover:shadow-lg sm:w-[330px]"
+                  >
+                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[18px] bg-ibiza-mint shadow-inner">
+                      {image ? (
+                        <Image src={image} alt={event?.name || dateObj.name} fill sizes="96px" loading={di < 3 ? 'eager' : 'lazy'} className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                      ) : null}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[11px] font-black uppercase tracking-widest text-gold">{fmtShortDate(dateObj.date, locale)}</div>
+                      <div className="mt-1 line-clamp-2 font-serif text-base font-black leading-tight sm:text-lg">{event?.name || dateObj.name}</div>
+                      <div className="mt-0.5 truncate text-sm text-neutral-600">{venue?.name}</div>
+                      {dateObj.prices ? (
+                        <div className="mt-1 text-sm font-bold">{translations.home_from} {dateObj.prices}</div>
+                      ) : null}
+                    </div>
+                  </Link>
+                );
+              })}
+            </HomeRail>
+          )}
+        </FeaturedDayRotator>
+      )}
+
+      {/* Zelfde uitgang als bij de clubstrook: wie meer wil dan drie kaarten
+          per dag moet ergens heen kunnen. /calendar is de clubagenda en toont
+          alles door elkaar; deze knop gaat naar de agenda met álles behalve
+          clubavonden — boottochten, jetski's, buggy's, grotten, Formentera. */}
+      {experienceDays.length > 0 && (
+        <div className="mx-auto -mt-2 mb-10 flex max-w-7xl px-4 md:px-8">
+          <Link
+            href={`${base}/activities-calendar`}
+            className="inline-flex items-center gap-2 rounded-full border border-black/12 bg-white px-5 py-2.5 text-[11px] font-black uppercase tracking-widest text-neutral-700 transition-colors hover:border-ibiza-green hover:text-ibiza-green"
+          >
+            {({ nl: 'Hele activiteitenagenda', en: 'Full activities calendar', de: 'Ganzer Aktivitätenkalender', es: 'Agenda completa de actividades', fr: 'Agenda complet des activités' } as Record<string, string>)[locale] || 'Full activities calendar'}
+            <span aria-hidden>↗</span>
+          </Link>
+        </div>
+      )}
+
+      {/* De film staat hier en niet onder de hero. Onder de hero kwam hij vóór
+          alles wat te koop is: je zag een kop, een knop en dan een video, en
+          moest daar eerst langs om bij een event te komen. Hier heeft de
+          bezoeker net de hele agenda gezien -- clubs, boten, activiteiten --
+          en is dit de adempauze erna in plaats van een drempel ervoor.
+          Laadt als poster met een afspeelknop; de speler van Vimeo komt pas in
+          de pagina als je erop tikt. Zie HomeVimeo. */}
+      <div id="zone-island" />
+      <HomeVimeo id="352653740" hash="36444999f9" locale={locale} />
+
+      {/* Boten en auto's. Stond onderaan de pagina, onder Instagram en de
+          nieuwsbrief; hier volgt het direct op de strip met alles wat geen
+          nachtclub is, waar het thuishoort en waar mensen nog kijken. */}
+      {rentalsSlot}
+
       {/* Club logo marquee — just the logos — right below "Volledige kalender", above Populaire clubs */}
       <Reveal className="flex items-center bg-neutral-100 py-3 border-t border-b border-black/10">
         <ClubLogoSlider
@@ -415,92 +473,10 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         </section>
       )}
 
-      </div>
-
-      {/* ── Zone 2: Op het Water ── alles wat vaart en spat. */}
-      <div id="zone-water" className="zone zone--water">
-      <ZoneKop index={1} locale={locale} />
-      {experienceDays.length > 0 && (
-        <FeaturedDayRotator
-          id="home-experiences"
-          days={experienceDays}
-          locale={locale}
-          todayStr={todayStr}
-          calendarHref={`${base}/activities-calendar`}
-          weekMax={60}
-          title={({ nl: 'Op het water & activiteiten', en: 'On the water & activities', es: 'En el agua y actividades', de: 'Auf dem Wasser & Aktivitäten', fr: 'Sur l’eau & activités' } as Record<string, string>)[locale] || 'On the water & activities'}
-        >
-          {(items) => (
-            <HomeRail label={({ nl: 'Op het water & activiteiten', en: 'On the water & activities' } as Record<string, string>)[locale] || 'On the water & activities'} locale={locale}>
-              {items.map((dateObj: any, di: number) => {
-                const venue = dateObj.ct_venues;
-                const event = dateObj.ct_events;
-                const image = event?.cover || event?.logo;
-                const href = `${base}/${venue?.basePath || 'boat-trip'}/${venue?.slug || ''}/${event?.slug || ''}`;
-                return (
-                  <Link key={dateObj.id} href={href}
-                    className="group flex w-[290px] shrink-0 snap-start items-center gap-4 rounded-[24px] border border-black/5 bg-white p-4 text-neutral-900 transition-shadow hover:shadow-lg sm:w-[330px]"
-                  >
-                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[18px] bg-ibiza-mint shadow-inner">
-                      {image ? (
-                        <Image src={image} alt={event?.name || dateObj.name} fill sizes="96px" loading={di < 3 ? 'eager' : 'lazy'} className="object-cover transition-transform duration-500 group-hover:scale-110" />
-                      ) : null}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="text-[11px] font-black uppercase tracking-widest text-gold">{fmtShortDate(dateObj.date, locale)}</div>
-                      <div className="mt-1 line-clamp-2 font-serif text-base font-black leading-tight sm:text-lg">{event?.name || dateObj.name}</div>
-                      <div className="mt-0.5 truncate text-sm text-neutral-600">{venue?.name}</div>
-                      {dateObj.prices ? (
-                        <div className="mt-1 text-sm font-bold">{translations.home_from} {dateObj.prices}</div>
-                      ) : null}
-                    </div>
-                  </Link>
-                );
-              })}
-            </HomeRail>
-          )}
-        </FeaturedDayRotator>
-      )}
-
-      {/* Zelfde uitgang als bij de clubstrook: wie meer wil dan drie kaarten
-          per dag moet ergens heen kunnen. /calendar is de clubagenda en toont
-          alles door elkaar; deze knop gaat naar de agenda met álles behalve
-          clubavonden — boottochten, jetski's, buggy's, grotten, Formentera. */}
-      {experienceDays.length > 0 && (
-        <div className="mx-auto -mt-2 mb-10 flex max-w-7xl px-4 md:px-8">
-          <Link
-            href={`${base}/activities-calendar`}
-            className="inline-flex items-center gap-2 rounded-full border border-black/12 bg-white px-5 py-2.5 text-[11px] font-black uppercase tracking-widest text-neutral-700 transition-colors hover:border-ibiza-green hover:text-ibiza-green"
-          >
-            {({ nl: 'Hele activiteitenagenda', en: 'Full activities calendar', de: 'Ganzer Aktivitätenkalender', es: 'Agenda completa de actividades', fr: 'Agenda complet des activités' } as Record<string, string>)[locale] || 'Full activities calendar'}
-            <span aria-hidden>↗</span>
-          </Link>
-        </div>
-      )}
-
-      {/* De film staat hier en niet onder de hero. Onder de hero kwam hij vóór
-          alles wat te koop is: je zag een kop, een knop en dan een video, en
-          moest daar eerst langs om bij een event te komen. Hier heeft de
-          bezoeker net de hele agenda gezien -- clubs, boten, activiteiten --
-          en is dit de adempauze erna in plaats van een drempel ervoor.
-          Laadt als poster met een afspeelknop; de speler van Vimeo komt pas in
-          de pagina als je erop tikt. Zie HomeVimeo. */}
-      {/* Boten en auto's: horen bij het water, dus in deze zone. */}
-      {rentalsSlot}
-      </div>
-
-      {/* ── Zone 3: Beleef het Eiland ── de film en waarom je hier boekt. */}
-      <div id="zone-island" className="zone zone--island">
-      <ZoneKop index={2} locale={locale} />
-      <HomeVimeo id="352653740" hash="36444999f9" locale={locale} />
 
       {/* WHY US — trust-building USP row */}
       <HomeUSP locale={locale} />
-      </div>
-
-      {/* ── Zone 4: Insider ── reviews, Instagram, nieuwsbrief, FAQ. */}
-      <div id="zone-insider" className="zone zone--insider">
-      <ZoneKop index={3} locale={locale} />
+      <div id="zone-insider" />
 
       {/* GOOGLE REVIEWS — echte beoordelingen, direct onder de beloftes. Het
           cijfer stond al in de hero en de footer; de reviews zelf alleen op
@@ -556,7 +532,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       {/* FAQ — condensed sitewide FAQ, deliberately the very last section */}
       {faqSlot}
-      </div>
     </div>
   );
 }
