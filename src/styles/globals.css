@@ -1332,12 +1332,23 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 .fs-ytile:first-child{border-left:none;}
 .fs-ytile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:fsYFade .6s ease both;}
 @keyframes fsYFade{from{opacity:0}to{opacity:1}}
-/* Each category block gets its own brand colour, with pure-white text */
-.fs-cat{border-bottom-color:rgba(255,255,255,.14);}
-.fs-cat[data-cat="events"]{background:#8C2F45;}
-.fs-cat[data-cat="water"]{background:#0E7C66;}
-.fs-cat[data-cat="island"]{background:#B9754A;}
-.fs-cat[data-cat="insider"]{background:#111111;}
+/* ── Categorieblokken: één familie, geen vlaggenkast ──────────────────────
+   Elke categorie had zijn eigen volle kleur -- bordeaux, groen, oranje,
+   zwart. Vier verzadigde vlakken op elkaar lezen als vier losse banners, en
+   drie van de vier kleuren (bordeaux, oranje) komen verder nergens op de
+   site voor. Het merk is: donker obsidian, roze accent (--spring), groen
+   voor geld en bevestiging.
+
+   Nu: allemaal dezelfde donkere ondergrond, per categorie alleen een smalle
+   kleurbies aan de linkerkant als wegwijzer, in tinten die de site al
+   gebruikt. De geopende categorie licht als geheel iets op. Rustiger, en
+   het menu hoort weer bij de rest van de site. */
+.fs-cat{border-bottom-color:rgba(255,255,255,.1);background:#111014;border-left:4px solid transparent;transition:background .2s ease;}
+.fs-cat[data-cat="events"]{border-left-color:var(--spring);}
+.fs-cat[data-cat="water"]{border-left-color:#0E7C66;}
+.fs-cat[data-cat="island"]{border-left-color:#C8A24A;}
+.fs-cat[data-cat="insider"]{border-left-color:rgba(255,255,255,.35);}
+.fs-cat--open{background:#1C1A20;}
 .fs-cat-label{color:#fff;}
 .fs-cat-btn:hover .fs-cat-label{color:#fff;filter:none;opacity:.85;}
 .fs-cat-arrow{color:rgba(255,255,255,.8);}
