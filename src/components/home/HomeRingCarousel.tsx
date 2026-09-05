@@ -257,19 +257,36 @@ function Ring({ items, hidden, id, laad, locale }: { items: RingItem[]; hidden: 
   // Slepen met muis én vinger via pointer events: één implementatie voor
   // allebei. touch-action:pan-y in de CSS laat verticaal scrollen door, zodat
   // de pagina niet vastloopt als je over de ring veegt.
+  // De aanwijzer wordt pas afgevangen als er ECHT gesleept wordt.
+  //
+  // ── De fout die dit had ───────────────────────────────────────────────────
+  // setPointerCapture stond op pointerdown, dus vanaf de eerste aanraking.
+  // Zolang die vangst actief is verplaatst de browser de klik naar het
+  // element dat vangt -- de ring -- in plaats van naar de kaart eronder. De
+  // <a> kreeg dus nooit een klik te zien, en geen enkele tegel opende iets.
+  // Op elk apparaat, met muis en met vinger.
+  //
+  // Afvangen is alleen nodig zodra je sleept: dan wil je dat de ring blijft
+  // meedraaien ook als je vinger buiten hem komt. Voor een tik is het
+  // schadelijk. Dus: pas vangen na de drempel, en die drempel bepaalt meteen
+  // of het een sleep of een tik was.
+  const DREMPEL = 6
   const omlaag = (e: React.PointerEvent) => {
     sleep.current = { actief: true, startX: e.clientX, startHoek: hoek.current, bewogen: false }
-    ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
   }
   const beweeg = (e: React.PointerEvent) => {
     if (!sleep.current.actief) return
     const dx = e.clientX - sleep.current.startX
-    if (Math.abs(dx) > 4) sleep.current.bewogen = true
-    hoek.current = sleep.current.startHoek + dx * 0.35
+    if (!sleep.current.bewogen && Math.abs(dx) > DREMPEL) {
+      sleep.current.bewogen = true
+      ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
+    }
+    if (sleep.current.bewogen) hoek.current = sleep.current.startHoek + dx * 0.35
   }
   const omhoog = (e: React.PointerEvent) => {
     sleep.current.actief = false
-    ;(e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId)
+    const el = e.currentTarget as HTMLElement
+    if (el.hasPointerCapture?.(e.pointerId)) el.releasePointerCapture?.(e.pointerId)
   }
   // Een sleep mag geen klik worden: zonder dit opent elke veeg de kaart
   // waarop je toevallig begon.
