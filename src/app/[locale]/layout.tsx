@@ -105,6 +105,7 @@ import { CartDrawer } from '@/components/ui/CartDrawer'
 import { AiReferralTagger } from '@/components/AiReferralTagger'
 import { ConsentBanner } from '@/components/consent/ConsentBanner'
 import { ConsentScripts } from '@/components/consent/ConsentScripts'
+import { Analytics } from '@vercel/analytics/next'
 import { getGoogleReviews } from '@/lib/google-reviews'
 import { getVenues } from '@/lib/clubtickets'
 
@@ -173,6 +174,21 @@ export default async function RootLayout({
               Ze worden nu pas geladen na toestemming — zie
               components/consent/ConsentScripts.tsx. */}
           <ConsentScripts />
+          {/* Vercel Analytics, bewust NIET achter de cookiebanner.
+              ── Waarom dat mag ──────────────────────────────────────────────
+              Google Analytics hierboven zit er wel achter, en terecht: dat zet
+              een identifier op het apparaat en deelt gegevens met een derde.
+              Vercel Analytics doet geen van beide -- geen cookie, geen
+              localStorage, geen vingerafdruk, geen profiel dat je tussen sites
+              volgt. Er is dus niets om toestemming voor te vragen; de
+              ePrivacy-regel gaat over opslaan en uitlezen op het apparaat.
+              ── Waarom dit ernaast staat en GA niet vervangt ────────────────
+              GA telt alleen bezoekers die op "Accepteren" klikken, en dat is in
+              de praktijk de helft tot tweederde. Dit telt iedereen, en is
+              daarmee het enige eerlijke antwoord op "hoeveel mensen waren er".
+              GA blijft voor het diepere werk: welke bron, welk pad, welke
+              boeking. */}
+          <Analytics />
           <ConsentBanner locale={locale} />
         </CartProvider>
       </body>
