@@ -12,25 +12,29 @@ const PLAY: Record<string, string> = {
 }
 
 /**
- * De Vimeo-film op de homepage.
+ * De Vimeo-film: een jacht voor de kust van Ibiza.
+ *
+ * ── Waar hij staat ────────────────────────────────────────────────────────
+ * Onderaan Private Boat Charters, onder de Click&Boat-advertentie. Hij stond
+ * eerst direct onder de hero op de homepage, maar daar deed hij weinig: een
+ * bezoeker die net binnenkomt weet nog niet wat hij zoekt en scrollt door. Bij
+ * iemand die de hele bootpagina heeft doorgelezen is een jacht in beeld precies
+ * het laatste zetje. Vandaar ook de verhuizing uit components/home.
  *
  * ── Waarom hier geen kale <iframe> staat ──────────────────────────────────
  * De embedcode van Vimeo laadt bij het openen van de pagina hun speler, hun
  * scripts en hun cookies -- ook bij iemand die de video nooit aanraakt. Dat is
  * een derde partij in het laadpad van elke bezoeker, voor iets wat de meesten
- * niet afspelen, en het is precies het soort gewicht waar de homepage eerder
- * al aan onderdoor ging.
+ * niet afspelen.
  *
  * Dus: eerst alleen de poster van Vimeo (één afbeelding, van hun CDN) met een
  * afspeelknop erop. Pas als je erop tikt komt de iframe in de DOM, met
  * `autoplay=1` zodat die tik meteen de start is en niet een tweede knop
  * oplevert. De poster wordt bovendien pas opgehaald als de sectie in de buurt
- * van het scherm komt.
- *
- * Deze film staat direct onder de hero: het eerste wat je ziet nadat je de
- * kop en de knop hebt gezien, en voordat de agenda begint.
+ * van het scherm komt -- onderaan een lange pagina scheelt dat bij de meeste
+ * bezoekers een verzoek naar Vimeo dat nooit nodig was.
  */
-export function HomeVimeo({
+export function VimeoFilm({
   id,
   hash,
   locale = 'nl',

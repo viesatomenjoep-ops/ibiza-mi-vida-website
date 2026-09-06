@@ -10,6 +10,7 @@ import { PageFaq } from '@/components/seo/PageFaq'
 import { BoatAdviceCta } from '@/components/boats/BoatAdviceCta'
 import { SailingRoutes } from '@/components/boats/SailingRoutes'
 import { BoatRentalPromo } from '@/components/hub/BoatRentalPromo'
+import { VimeoFilm } from '@/components/ui/VimeoFilm'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { getLiveFleet, ibizaToday } from '@/lib/yacht-broker'
 
@@ -91,6 +92,15 @@ export default async function PrivateBoatChartersPage({ params: { locale } }: { 
       <SailingRoutes locale={locale} />
       <BoatAdviceCta locale={locale} />
       <BoatRentalPromo locale={locale} />
+      {/* De sfeerfilm, direct onder de Click&Boat-advertentie. Stond eerst op
+          de homepage tussen de agenda en de verhuurblokken; daar keek een
+          bezoeker die net binnenkwam er langs. Hier heeft iemand de vloot, de
+          prijzen, de vaarroutes en het partneraanbod gehad -- een jacht in
+          beeld is dan het laatste zetje en niet een onderbreking.
+          Laadt als poster met een afspeelknop; de speler van Vimeo komt pas in
+          de pagina als je erop tikt, en de poster pas als de sectie in de buurt
+          van het scherm komt. Zie VimeoFilm. */}
+      <VimeoFilm id="352653740" hash="36444999f9" locale={locale} />
       <PageFaq pageKey="private-boat-charters" locale={locale} />
       <AuthorByline locale={locale} topic="private boat charters in Ibiza" />
     </>

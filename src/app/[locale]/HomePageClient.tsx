@@ -18,7 +18,6 @@ import { HomeNewsletter } from '@/components/home/HomeNewsletter';
 import { HomeRingCarousel } from '@/components/home/HomeRingCarousel';
 import { HomeTonight } from '@/components/home/HomeTonight';
 import { HeroRatingBadge, type HeroRating } from '@/components/home/HeroRatingBadge';
-import { HomeVimeo } from '@/components/home/HomeVimeo'
 import { HomeEventsTickets } from '@/components/home/HomeEventsTickets'
 import { HomeActivities } from '@/components/home/HomeActivities'
 import { HomeBoats } from '@/components/home/HomeBoats'
@@ -250,15 +249,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           scheiding met de landwereld gebeurt per event, niet per aanbieder --
           zie activity-split.ts. */}
       <HomeWaterActivities days={experienceDays} locale={locale} base={base} />
-
-      {/* De film staat hier en niet onder de hero. Onder de hero kwam hij vóór
-          alles wat te koop is: je zag een kop, een knop en dan een video, en
-          moest daar eerst langs om bij een event te komen. Hier heeft de
-          bezoeker net de hele agenda gezien -- clubs, boten, activiteiten --
-          en is dit de adempauze erna in plaats van een drempel ervoor.
-          Laadt als poster met een afspeelknop; de speler van Vimeo komt pas in
-          de pagina als je erop tikt. Zie HomeVimeo. */}
-      <HomeVimeo id="352653740" hash="36444999f9" locale={locale} />
 
       {/* Boten en auto's. Stond onderaan de pagina, onder Instagram en de
           nieuwsbrief; hier volgt het direct op de strip met alles wat geen
