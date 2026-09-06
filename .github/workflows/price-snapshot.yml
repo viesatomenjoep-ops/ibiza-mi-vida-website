@@ -65,6 +65,7 @@ jobs:
         run: node scripts/price-snapshot.mjs
 
       - name: Committen als er iets veranderd is
+        id: commit
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -74,7 +75,30 @@ jobs:
           # te ontstaan.
           if git diff --cached --quiet; then
             echo "Geen wijzigingen — niets te committen."
+            echo "gewijzigd=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git commit -m "Agenda gesynchroniseerd en prijzen vastgelegd ($(date -u +%F))"
           git push
+          echo "gewijzigd=true" >> "$GITHUB_OUTPUT"
+
+      # ── Bing laten weten dat er iets veranderd is ──────────────────────────
+      #
+      # Gemeten op 6 september 2026: Bing had nul pagina's van deze site, ook
+      # op de kale merknaam. Dat blokkeerde meteen de zichtbaarheid in ChatGPT,
+      # want het webzoeken daarvan leunt op die index. IndexNow is het protocol
+      # waarmee je Bing vertelt dat er URL's zijn.
+      #
+      # Alleen bij een echte wijziging. Elke dag dezelfde tweeduizend
+      # ongewijzigde URL's aanmelden is ruis: IndexNow is bedoeld voor "dit is
+      # veranderd", niet voor "dit bestaat nog steeds".
+      #
+      # De pauze is er omdat de commit hierboven een Vercel-deploy start. Zonder
+      # wachten haalt Bing de pagina op zoals hij vóór de sync was, en meldt de
+      # sync dus een versie aan die op dat moment nog niet live staat.
+      - name: Bing op de hoogte brengen
+        if: steps.commit.outputs.gewijzigd == 'true'
+        run: |
+          echo "Even wachten tot Vercel de nieuwe versie live heeft…"
+          sleep 240
+          node scripts/indexnow.mjs
