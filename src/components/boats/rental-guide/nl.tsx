@@ -143,25 +143,39 @@ export function BoatRentalGuide() {
         heading="Wat kost een boot huren op Ibiza?"
         locale={LOCALE}
         caption="Vanafprijzen per boottype"
-        intro="Vanafprijzen per boot per dag. Brandstof komt er vrijwel overal apart bij, op verbruik — vraag naar tankinhoud en verbruik als je het vooraf wilt begroten."
+        intro="Vanafprijzen per boot per dag, rechtstreeks uit de vloot van onze partner. Brandstof komt er vrijwel overal apart bij, op verbruik — vraag naar tankinhoud en verbruik als je het vooraf wilt begroten."
+        /* Vier rijen die allemaal een echt cijfer dragen, afgeleid uit de 94
+           boten in de vloot. De vorige tabel had drie rijen waarvan er twee
+           "op aanvraag" zeiden: halve dagen en schippertarieven bestaan niet
+           in de brongegevens van de broker (nagevraagd op hun endpoint: de
+           woorden "half", "skipper" en "licen" komen er nul keer in voor).
+           Een tabel met twee lege vakken helpt niemand bij het begroten; deze
+           vier vragen -- welk type, hoe groot de groep, welk seizoen -- zijn
+           wél te beantwoorden en kunnen niet verouderen. */
         rows={[
           {
-            label: 'Boot zonder vaarbewijs',
-            note: '4–6 personen, max 15 pk',
-            amount: RENTAL_PRICES.boatNoLicence.amount,
-            unit: RENTAL_PRICES.boatNoLicence.unit.nl,
+            label: 'Motorboot, 20–50 ft',
+            note: 'Je vaart zelf, vaarbewijs vereist',
+            amount: RENTAL_PRICES.motorboatDay.amount,
+            unit: RENTAL_PRICES.motorboatDay.unit.nl,
           },
           {
-            label: 'Motorboot, je vaart zelf',
-            note: 'Vaarbewijs vereist',
-            amount: RENTAL_PRICES.boatWithLicence.amount,
-            unit: RENTAL_PRICES.boatWithLicence.unit.nl,
+            label: 'Jacht, 50 ft en groter',
+            note: 'Schipper vrijwel altijd verplicht',
+            amount: RENTAL_PRICES.yachtDay.amount,
+            unit: RENTAL_PRICES.yachtDay.unit.nl,
           },
           {
-            label: 'Dagcharter met schipper',
-            note: 'Schipper zit in het tarief',
-            amount: RENTAL_PRICES.boatWithSkipper.amount,
-            unit: RENTAL_PRICES.boatWithSkipper.unit.nl,
+            label: 'Grote groep',
+            note: 'Tien personen of meer aan boord',
+            amount: RENTAL_PRICES.groupDay.amount,
+            unit: RENTAL_PRICES.groupDay.unit.nl,
+          },
+          {
+            label: 'Hoogseizoen',
+            note: 'Zelfde boten, juli en augustus',
+            amount: RENTAL_PRICES.highSeasonDay.amount,
+            unit: RENTAL_PRICES.highSeasonDay.unit.nl,
           },
         ]}
       />

@@ -58,15 +58,39 @@ const lowestDayRate = (predicate: (b: (typeof FLEET)[number]) => boolean): numbe
   return rates.length ? Math.min(...rates) : null
 }
 
-/** Goedkoopste jacht waar de schipper bij inbegrepen is. */
-const SKIPPERED_FROM = lowestDayRate((b) => b.captainIncluded === true)
+/**
+ * Wat de partnervloot wél en niet publiceert.
+ *
+ * Nagevraagd op het endpoint van The Yacht Broker, niet aangenomen: over alle
+ * 99 boten bestaan de velden partner, boat, model, port, pax, price {top,
+ * high, mid, low}, priceBands, img, pdf en days. Verder niets. De woorden
+ * "half", "skipper", "captain" en "licen" komen nul keer voor in het hele
+ * antwoord.
+ *
+ * Daarom staan halve dagen, vaarbewijsvrije boten en schippertarieven hier op
+ * null: die cijfers bestaan niet aan de bron, en een verzonnen tarief is op
+ * een boekingssite de duurste soort fout. Wat er wél is, is de dagprijs per
+ * boot -- en daar zijn deze vier waarden uit af te leiden.
+ */
+const MOTORBOOT_FROM = lowestDayRate((b) => b.category === 'motorboat')
+const JACHT_FROM = lowestDayRate((b) => b.category === 'yacht')
+const GROTE_GROEP_FROM = lowestDayRate((b) => b.pax >= 10)
+/** Goedkoopste dagtarief in juli/augustus, over de hele vloot. */
+const HOOGSEIZOEN_FROM = (() => {
+  const rates = FLEET.filter((b) => b?.price?.high).map((b) => b.price.high)
+  return rates.length ? Math.min(...rates) : null
+})()
 /** Goedkoopste boot die je zelf vaart. */
 const SELF_DRIVE_FROM = lowestDayRate((b) => b.captainIncluded !== true)
 
 export const RENTAL_PRICES = {
-  /** Private boat, full day, skipper included. */
+  /**
+   * Dagcharter met schipper. Blijft null: de broker voert geen
+   * schippertarief, en `captainIncluded` in onze eigen vloot is verouderd en
+   * bij geen enkele boot gezet. Zie de toelichting hierboven.
+   */
   boatWithSkipper: {
-    amount: SKIPPERED_FROM,
+    amount: null,
     unit: U('per dag, met schipper', 'per day, skipper included', 'pro Tag, mit Skipper',
             'por día, con patrón', 'par jour, skipper inclus'),
   },
@@ -92,6 +116,30 @@ export const RENTAL_PRICES = {
     amount: null,
     unit: U('per dag, all-inclusive', 'per day, all-inclusive', 'pro Tag, all-inclusive',
             'por día, todo incluido', 'par jour, tout compris'),
+  },
+  /** Goedkoopste motorboot (20–50 ft), dagtarief laagseizoen. */
+  motorboatDay: {
+    amount: MOTORBOOT_FROM,
+    unit: U('per dag, laagseizoen', 'per day, low season', 'pro Tag, Nebensaison',
+            'por día, temporada baja', 'par jour, basse saison'),
+  },
+  /** Goedkoopste jacht (50 ft+), dagtarief laagseizoen. */
+  yachtDay: {
+    amount: JACHT_FROM,
+    unit: U('per dag, laagseizoen', 'per day, low season', 'pro Tag, Nebensaison',
+            'por día, temporada baja', 'par jour, basse saison'),
+  },
+  /** Goedkoopste boot die tien personen of meer meeneemt. */
+  groupDay: {
+    amount: GROTE_GROEP_FROM,
+    unit: U('per dag, vanaf 10 personen', 'per day, 10 guests or more', 'pro Tag, ab 10 Personen',
+            'por día, desde 10 personas', 'par jour, à partir de 10 personnes'),
+  },
+  /** Goedkoopste dagtarief in het hoogseizoen. */
+  highSeasonDay: {
+    amount: HOOGSEIZOEN_FROM,
+    unit: U('per dag, juli & augustus', 'per day, July & August', 'pro Tag, Juli & August',
+            'por día, julio y agosto', 'par jour, juillet & août'),
   },
   /** Boat party ticket, per person. */
   boatParty: {
