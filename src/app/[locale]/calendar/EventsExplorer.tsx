@@ -20,10 +20,15 @@ import { ibizaToday } from '@/lib/date-label'
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface ExEvent {
   id: string
-  name: string
   date: string
-  prices: string
-  lineUp: string
+  // Optioneel: de server laat lege velden weg in plaats van ze als "" mee te
+  // sturen. Van de 678 events in een venster hebben er 587 geen line-up en 655
+  // geen eigen naam; die sleutels kostten wél ruimte in de HTML, twee keer.
+  // Alles hieronder leest ze al met `?.` of `|| ''`, dus ontbreken gedraagt
+  // zich precies als leeg.
+  name?: string
+  prices?: string
+  lineUp?: string
   ct_events: { name?: string; slug?: string; cover?: string; blurb?: string }
   // Alleen naam en slug. whitelogo, picture en type_slug zijn eigenschappen van
   // de venue, niet van de avond, en werden 1566 keer herhaald voor 42 venues —

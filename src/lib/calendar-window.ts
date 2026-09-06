@@ -18,10 +18,11 @@ import { pickCover } from '@/lib/blank-covers'
  */
 export interface CalendarEvent {
   id: string
-  name: string
   date: string
-  prices: string
-  lineUp: string
+  /** Optioneel: ontbreekt als het veld leeg was. Zie de mapping onderaan. */
+  name?: string
+  prices?: string
+  lineUp?: string
   /**
    * `blurb` is de eerste zin uit de eventbeschrijving.
    *
@@ -48,7 +49,11 @@ function eersteZin(html?: string): string | undefined {
   if (kaal.length < 20) return undefined
   const punt = kaal.search(/[.!?](\s|$)/)
   const zin = punt > 30 ? kaal.slice(0, punt + 1) : kaal
-  return zin.length > 150 ? zin.slice(0, 147).trimEnd() + '…' : zin
+  // 120 en niet 150. De kaart kapt af op twee regels van twaalf pixels, en
+  // daar passen ongeveer zeventig tekens in; alles daarboven werd wel
+  // meegestuurd maar nooit getoond. Over 678 events was dat 79 kB aan tekst
+  // waarvan de helft onzichtbaar bleef.
+  return zin.length > 120 ? zin.slice(0, 117).trimEnd() + '…' : zin
 }
 
 export async function calendarWindow(
@@ -64,20 +69,33 @@ export async function calendarWindow(
     .filter((d) => d.date >= fromStr && d.date <= toStr)
     .map((d) => {
       const venueObj = d.venueSlug ? venuesMap.get(d.venueSlug) : undefined
-      return {
+      // Lege velden weglaten in plaats van als "" mee te sturen. Van de 678
+      // events in een venster hebben er 587 geen line-up en 655 geen eigen
+      // naam; die sleutels stonden allemaal wél in de HTML. Een leeg veld kost
+      // niets om te tonen maar wel een sleutel om te versturen, twee keer:
+      // eenmaal in de opmaak en eenmaal in de data waarmee de browser het
+      // overneemt. De client leest ze al met `?.` en `|| ''`, dus ontbreken
+      // gedraagt zich exact als leeg.
+      const uit: CalendarEvent = {
         id: String(d.id),
-        name: d.name,
         date: d.date,
-        prices: d.prices,
-        lineUp: d.lineUp,
         ct_events: {
-          name: d.eventName,
           slug: d.eventSlug,
           cover: pickCover(d.eventCover, d.eventLogo, venueObj?.picture, d.venueCover),
-          blurb: eersteZin(eventBlurbs.get(d.eventSlug || '')),
         },
-        ct_venues: { name: d.venueName, slug: d.venueSlug },
+        ct_venues: { slug: d.venueSlug },
       }
+      if (d.name) uit.name = d.name
+      if (d.prices) uit.prices = d.prices
+      if (d.lineUp) uit.lineUp = d.lineUp
+      if (d.eventName) uit.ct_events.name = d.eventName
+      if (d.venueName) uit.ct_venues.name = d.venueName
+      const blurb = eersteZin(eventBlurbs.get(d.eventSlug || ''))
+      // Alleen bij een lege line-up: de kaart toont de blurb uitsluitend als er
+      // geen artiestenchips zijn, dus bij de andere 91 events was het tekst die
+      // nooit in beeld kwam.
+      if (blurb && !d.lineUp) uit.ct_events.blurb = blurb
+      return uit
     })
 }
 
@@ -104,5 +122,19 @@ export async function seasonDates(locale: string, fromStr: string): Promise<stri
   return Array.from(uniek).sort()
 }
 
-/** Dagen die de pagina zelf rendert. Dekt de 'dag'-strip (vandaag + 13) en de week. */
-export const INITIAL_DAYS = 14
+/**
+ * Dagen die de pagina zelf rendert.
+ *
+ * Was 14. Dat leverde 678 events in de eerste laadbeurt op, samen goed voor
+ * 404 kB aan gedupliceerde data in de HTML -- de agendapagina woog daarmee
+ * 928 kB, waar een normale pagina rond de 100 kB zit. Voor iemand op een
+ * telefoon met slecht bereik is dat het verschil tussen laden en wegklikken,
+ * en Google crawlt trage pagina's minder diep.
+ *
+ * Acht is genoeg voor alles wat je meteen ziet. De kalender opent op 'week' en
+ * die loopt van maandag tot zondag: vanaf vandaag geteld is dat in het
+ * slechtste geval zeven dagen, plus een dag marge. Schakel je naar 'maand' of
+ * blader je verder, dan haalt de client de rest op via /api/calendar-window --
+ * dat mechanisme bestond al en verandert hier niet.
+ */
+export const INITIAL_DAYS = 8
