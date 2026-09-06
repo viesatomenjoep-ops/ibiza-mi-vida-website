@@ -121,6 +121,22 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
   // Meten kan hier niet, maar we weten het antwoord al: deze pagina's zijn wit.
   const WITTE_PAGINAS = ['calendar', 'activities-calendar', 'clubs', 'artists', 'this-week', 'deals-of-the-day']
   const isWittePagina = WITTE_PAGINAS.some(seg => pathname.startsWith(`${base}/${seg}`) || pathname.startsWith(`/${seg}`))
+  /**
+   * Vaste witte balk, meteen en zonder te scrollen.
+   *
+   * Overal behalve op twee plekken. De homepage opent op een schermvullende
+   * video en Private Boat Charters op een donkere hero; daar hoort de balk
+   * doorzichtig overheen te liggen, anders snijdt een witte strook door het
+   * beeld heen. Op alle andere pagina's — events, boottochten, ferry's,
+   * activiteiten, autoverhuur, de tekstpagina's — was de balk bovenaan
+   * doorzichtig en klapte hij pas bij het scrollen om. Dat gaf per pagina een
+   * ander beginbeeld en op een lichte hero een onleesbaar logo.
+   *
+   * Dit is een omkering van hoe het hier eerst stond: niet meer een lijst
+   * pagina's die wit moeten zijn, maar een lijst die dat níét is. Die eerste
+   * vorm liep achter zodra er een pagina bijkwam.
+   */
+  const isVasteWitteBalk = !isHome && !isPrivateBoat
   const t = dicts[currentLocale.code] || dicts['en']
   // De keyword-pillars (boot, auto) hebben per taal een eigen slug en stonden
   // in geen enkel menu — ze waren dus alleen via de sitemap te vinden.
@@ -431,7 +447,7 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
 
   return (
     <>
-      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${onLight ? 'site-header--onlight' : ''} ${isWittePagina ? 'site-header--forceblack' : ''} ${isPrivateBoat && !fadeOn ? 'site-header--forcewhite' : ''}`}>
+      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${isVasteWitteBalk ? 'site-header--solid' : ''} ${onLight ? 'site-header--onlight' : ''} ${isWittePagina ? 'site-header--forceblack' : ''} ${isPrivateBoat && !fadeOn ? 'site-header--forcewhite' : ''}`}>
         {/* Topbar strip: official ticket partner — at the top everywhere EXCEPT the
             ClubTickets categories, where it is shown as a fixed bottom bar instead. */}
         {!isClubCat && !isPrivateBoat && !(isHome && fadeOn) && (

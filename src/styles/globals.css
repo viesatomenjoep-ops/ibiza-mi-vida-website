@@ -64,15 +64,27 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 /* Fixed site header = topbar strip + navbar. --nav-h is the single source of truth
    for how far page content must sit below it (used across every page). */
 .site-header{position:fixed;top:0;left:0;width:100%;z-index:60;background:transparent;transition:background .3s ease}
-/* On scroll the navbar becomes a clean, sharp SOLID WHITE bar (no blur) with black text. */
-.site-header--fade{background:#fff;border-bottom:1px solid rgba(0,0,0,.08)}
+/* On scroll the navbar becomes a clean, sharp SOLID WHITE bar (no blur) with black text.
+   --solid is exactly datzelfde, maar dan meteen en zonder te scrollen: elke
+   pagina behalve de homepage en Private Boat Charters draagt hem. Bewust
+   dezelfde selectorlijst en niet een tweede set regels, want twee kopieën van
+   een navbarstijl lopen bij de eerste wijziging uit elkaar. */
+.site-header--fade,
+.site-header--solid{background:#fff;border-bottom:1px solid rgba(0,0,0,.08)}
 .site-header--fade .nav-topbar-inner,
 .site-header--fade .nav-brand-name,
-.site-header--fade .nav-brand-sub{color:#0D0509}
-.site-header--fade .nav-logo-btn img{filter:brightness(0)}
-.site-header--fade .burger-lines span{background-color:#0D0509}
-.site-header--fade .nav-lang{border-color:rgba(0,0,0,.25);color:rgba(0,0,0,.65);background:rgba(255,255,255,.9)}
-.site-header--fade .nav-lang.active{background:#0D0509;border-color:#0D0509;color:#fff}
+.site-header--fade .nav-brand-sub,
+.site-header--solid .nav-topbar-inner,
+.site-header--solid .nav-brand-name,
+.site-header--solid .nav-brand-sub{color:#0D0509}
+.site-header--fade .nav-logo-btn img,
+.site-header--solid .nav-logo-btn img{filter:brightness(0)}
+.site-header--fade .burger-lines span,
+.site-header--solid .burger-lines span{background-color:#0D0509}
+.site-header--fade .nav-lang,
+.site-header--solid .nav-lang{border-color:rgba(0,0,0,.25);color:rgba(0,0,0,.65);background:rgba(255,255,255,.9)}
+.site-header--fade .nav-lang.active,
+.site-header--solid .nav-lang.active{background:#0D0509;border-color:#0D0509;color:#fff}
 /* Force-white navbar (Private Boat Charters): stays transparent + white, overrides fade/onlight */
 /* Witte pagina's (agenda, clubs, artiesten, deze week). Hier is niets te
    meten: de eerste grote afbeelding komt van ClubTickets en vervuilt het
