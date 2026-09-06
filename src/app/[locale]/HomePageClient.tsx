@@ -22,6 +22,7 @@ import { HomeVimeo } from '@/components/home/HomeVimeo'
 import { HomeEventsTickets } from '@/components/home/HomeEventsTickets'
 import { HomeActivities } from '@/components/home/HomeActivities'
 import { HomeBoats } from '@/components/home/HomeBoats'
+import { HomeWaterActivities } from '@/components/home/HomeWaterActivities'
 
 import { Reveal } from '@/components/ui/Reveal';
 // Category-grid labels for the boat pages. These live here rather than in the
@@ -88,7 +89,7 @@ const ZONES: { id: string; kleurKlasse: string; stip: string; naam: Record<strin
   { id: 'zone-events', kleurKlasse: 'zone--events', stip: '#E14D68', naam: { nl: 'Events & Tickets', en: 'Events & Tickets', de: 'Events & Tickets', es: 'Eventos y entradas', fr: 'Événements & billets' } },
   { id: 'zone-water', kleurKlasse: 'zone--water', stip: '#0E7C66', naam: { nl: 'Private Boat Rental', en: 'Private Boat Rental', de: 'Private Boat Rental', es: 'Private Boat Rental', fr: 'Private Boat Rental' } },
   { id: 'zone-island', kleurKlasse: 'zone--island', stip: '#C8A24A', naam: { nl: 'On the land activities', en: 'On the land activities', de: 'On the land activities', es: 'On the land activities', fr: 'On the land activities' } },
-  { id: 'zone-insider', kleurKlasse: 'zone--insider', stip: '#8D7BC4', naam: { nl: 'Insider', en: 'Insider', de: 'Insider', es: 'Insider', fr: 'Insider' } },
+  { id: 'zone-wateract', kleurKlasse: 'zone--insider', stip: '#8D7BC4', naam: { nl: 'On the water activities', en: 'On the water activities', de: 'On the water activities', es: 'On the water activities', fr: 'On the water activities' } },
 ]
 
 export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '', rating = null, rentalsSlot = null, reviewsSlot = null, faqSlot = null }: HomePageProps) {
@@ -237,6 +238,11 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           keer op de pagina en duwde de rest ver naar beneden. */}
       <HomeActivities days={experienceDays} locale={locale} base={base} />
 
+      {/* Wereld 04: alles wat vaart. De paarse heroknop landt hier. De
+          scheiding met de landwereld gebeurt per event, niet per aanbieder --
+          zie activity-split.ts. */}
+      <HomeWaterActivities days={experienceDays} locale={locale} base={base} />
+
       {/* De film staat hier en niet onder de hero. Onder de hero kwam hij vóór
           alles wat te koop is: je zag een kop, een knop en dan een video, en
           moest daar eerst langs om bij een event te komen. Hier heeft de
@@ -346,7 +352,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       {/* WHY US — trust-building USP row */}
       <HomeUSP locale={locale} />
-      <div id="zone-insider" />
 
       {/* GOOGLE REVIEWS — echte beoordelingen, direct onder de beloftes. Het
           cijfer stond al in de hero en de footer; de reviews zelf alleen op

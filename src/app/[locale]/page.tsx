@@ -189,7 +189,11 @@ export default async function Home({ params }: { params: { locale: string } }) {
       slug: d.venueSlug,
       // The section links through eventBasePath(), because only 'clubbing'
       // lives under /club-tickets — sending a boat there is a guaranteed 404.
-      basePath: eventBasePath(typeBySlug.get(d.venueSlug || ''))
+      basePath: eventBasePath(typeBySlug.get(d.venueSlug || '')),
+      // Het ruwe venuetype gaat mee zodat de homepage water van land kan
+      // scheiden. eventBasePath() vertaalt 'activities' naar één pad, en juist
+      // in die bak zitten zowel jetski's als buggy's -- zie activity-split.ts.
+      typeSlug: typeBySlug.get(d.venueSlug || '') || ''
     }
   });
 

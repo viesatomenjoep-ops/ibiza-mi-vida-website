@@ -1,6 +1,7 @@
 'use client'
 
 import { HomeWorld, type WereldKaart } from './HomeWorld'
+import { isOpHetLand } from '@/lib/activity-split'
 
 type L5 = Record<string, string>
 const T = (nl: string, en: string, de: string, es: string, fr: string): L5 => ({ nl, en, de, es, fr })
@@ -10,18 +11,18 @@ const L = {
   kicker: T('Alles op één eiland', 'Everything on one island', 'Alles auf einer Insel', 'Todo en una isla', 'Tout sur une île'),
   titel: T('On the land activities', 'On the land activities', 'On the land activities', 'On the land activities', 'On the land activities'),
   tekst: T(
-    'Boottochten, jetski’s, buggy’s, grotten en de ferry naar Formentera. Per dag te boeken, met de prijs zoals die nu in de agenda staat.',
-    'Boat trips, jet skis, buggies, caves and the ferry to Formentera. Bookable per day, at the price as it stands in the agenda now.',
-    'Bootstouren, Jetskis, Buggys, Höhlen und die Fähre nach Formentera. Pro Tag buchbar, zum aktuellen Preis aus dem Kalender.',
-    'Excursiones en barco, motos de agua, buggies, cuevas y el ferry a Formentera. Reservable por día, al precio actual de la agenda.',
-    'Sorties en bateau, jet-skis, buggys, grottes et le ferry pour Formentera. Réservable par jour, au prix actuel de l’agenda.',
+    'Buggy’s, quads, jeepsafari’s, grotten en hippiemarkten. Alles wat je op het eiland zelf doet, per dag te boeken.',
+    'Buggies, quads, jeep safaris, caves and hippy markets. Everything you do on the island itself, bookable by the day.',
+    'Buggys, Quads, Jeep-Safaris, Höhlen und Hippie-Märkte. Alles, was auf der Insel selbst stattfindet, tageweise buchbar.',
+    'Buggies, quads, safaris en jeep, cuevas y mercadillos hippies. Todo lo que se hace en la isla, por día.',
+    'Buggys, quads, safaris en jeep, grottes et marchés hippies. Tout ce qui se fait sur l’île même, à la journée.',
   ),
   knop: T('Bekijk de activiteitenagenda', 'See the activities calendar', 'Zum Aktivitätenkalender', 'Ver la agenda de actividades', "Voir l'agenda des activités"),
 }
 
 interface FeedItem {
   ct_events?: { name?: string; slug?: string; cover?: string; logo?: string }
-  ct_venues?: { name?: string; slug?: string; basePath?: string }
+  ct_venues?: { name?: string; slug?: string; basePath?: string; typeSlug?: string }
   name?: string
 }
 
@@ -45,6 +46,11 @@ export function HomeActivities({
   const venues = new Set<string>()
   for (const d of days) {
     for (const it of d.items || []) {
+      // Alleen wat op het land gebeurt: grotten, buggy's, quads, jeepsafari's,
+      // markten. Jetski's, boottochten en ferry's horen bij de waterwereld --
+      // zie activity-split.ts, dat splitst per event en niet per aanbieder,
+      // omdat twee aanbieders allebei verkopen.
+      if (!isOpHetLand(it.ct_venues?.typeSlug, it.ct_events?.name || it.name || '')) continue
       const beeld = it.ct_events?.cover || it.ct_events?.logo || ''
       const venue = it.ct_venues?.slug || ''
       const slug = it.ct_events?.slug || ''
