@@ -21,6 +21,7 @@ import { HomeTonight } from '@/components/home/HomeTonight';
 import { HeroRatingBadge, type HeroRating } from '@/components/home/HeroRatingBadge';
 import { HomeRail } from '@/components/home/HomeRail'
 import { HomeVimeo } from '@/components/home/HomeVimeo'
+import { HomeEventsTickets } from '@/components/home/HomeEventsTickets'
 import { FeaturedDayRotator } from '@/components/home/FeaturedDayRotator';
 import { fmtShortDate } from '@/lib/date-label';
 
@@ -207,9 +208,8 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
 
 
-      {/* Anker voor de heroknop; de zone-opmaak komt terug zodra deze
-          sectie zelf onder handen gaat. */}
-      <div id="zone-events" />
+      {/* Sectie 01 van de vier werelden; de rode heroknop landt hier. */}
+      <HomeEventsTickets events={pickerEvents} locale={locale} base={base} />
       <HomeTonight events={pickerEvents} todayStr={todayStr} locale={locale} base={base} />
 
 
