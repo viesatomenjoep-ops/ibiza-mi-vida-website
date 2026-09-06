@@ -4,9 +4,7 @@ import { PARTNER_LOGOS } from '@/lib/partners'
 import { WIBER_URL, CLICKANDBOAT_URL } from '@/lib/partners'
 import { RENTAL_PRICES } from '@/lib/rental-prices'
 import { RENTALS_SECTION, BOAT_PROMO, CAR_PROMO } from '@/lib/rental-promo-copy'
-import { FLEET } from '@/data/fleet'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
-import { localeTag } from '@/lib/date-label'
 
 /**
  * Boat and car hire, as one section rather than two afterthoughts.
@@ -24,10 +22,14 @@ import { localeTag } from '@/lib/date-label'
  * compare rather than scroll past the second one.
  *
  * ── Prices ────────────────────────────────────────────────────────────────
- * The boat figure is the real minimum day rate from FLEET, the same source the
- * fleet price block reads. The car figure comes from RENTAL_PRICES and is null
- * until confirmed — the block then renders without a number rather than with an
- * invented one.
+ * Geen van beide kaarten draagt een bedrag, en dat is een keuze.
+ *
+ * Op de bootkaart stond de laagste dagprijs uit onze eigen vloot, terwijl de
+ * knop naar Click&Boat gaat: twee aanbieders, twee prijslijsten. Wie hier €680
+ * las en daar iets anders aantrof, was door ons op het verkeerde been gezet.
+ * Van het aanbod van beide partners hebben we geen feed, dus er is niets
+ * waarheidsgetrouws om voor in de plaats te zetten. De eigen vlootprijs staat
+ * op de bootpagina, waar hij over de eigen boten gaat.
  *
  * ── Kleur ────────────────────────────────────────────────────────────────
  * Witte kaarten met zwarte tekst. Ze waren obsidian met witte letters, en op
@@ -139,11 +141,6 @@ function RentalCard({ data, locale }: { data: CardData; locale: Locale }) {
 export function RentalsSection({ locale }: { locale: string }) {
   const l = (LOCALES as readonly string[]).includes(locale) ? (locale as Locale) : DEFAULT_LOCALE
 
-  // Real lowest day rate from our own fleet, or nothing at all.
-  const priced = FLEET.filter((b) => b?.price?.low)
-  const boatFrom = priced.length ? Math.min(...priced.map((b) => b.price.low)) : null
-  const nf = new Intl.NumberFormat(localeTag(l), { maximumFractionDigits: 0 })
-
   const boat: CardData = {
     kicker: BOAT_PROMO.kicker[l],
     // Geen foto meer. De bootkaart had een beeldband en de Wiber-kaart niet,
@@ -155,7 +152,13 @@ export function RentalsSection({ locale }: { locale: string }) {
     logoName: 'Click&Boat',
     hasLogo: Boolean(PARTNER_LOGOS.clickandboat.light || PARTNER_LOGOS.clickandboat.dark),
     heading: BOAT_PROMO.heading[l],
-    price: boatFrom === null ? null : Number(nf.format(boatFrom).replace(/\D/g, '')),
+    // Geen bedrag. Hier stond de laagste dagprijs uit onze eigen vloot, op een
+    // kaart die naar Click&Boat wijst -- twee verschillende aanbieders met
+    // twee verschillende prijslijsten. Wie €680 las en bij Click&Boat iets
+    // anders aantrof, was door ons op het verkeerde been gezet. Van hun
+    // aanbod hebben we geen feed, dus er is niets om voor in de plaats te
+    // zetten; de eigen vlootprijs staat op de bootpagina waar hij hoort.
+    price: null,
     priceLabel: BOAT_PROMO.fromLabel[l],
     href: CLICKANDBOAT_URL,
     cta: BOAT_PROMO.cta[l],
