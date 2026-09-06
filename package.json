@@ -11,7 +11,7 @@
     "sync-clubtickets": "node scripts/sync-clubtickets.mjs",
     "price-snapshot": "node scripts/price-snapshot.mjs",
     "upload-media": "node scripts/upload-to-cloudinary.mjs",
-    "indexnow": "node scripts/indexnow-ping.mjs",
+    "indexnow": "node scripts/indexnow.mjs",
     "indexnow:all": "node scripts/indexnow-ping.mjs --sitemap",
     "check:ssr": "node scripts/ssr-check.mjs",
     "check:schema": "node scripts/schema-check.mjs",
