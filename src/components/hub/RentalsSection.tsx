@@ -144,16 +144,13 @@ export function RentalsSection({ locale }: { locale: string }) {
   const boatFrom = priced.length ? Math.min(...priced.map((b) => b.price.low)) : null
   const nf = new Intl.NumberFormat(localeTag(l), { maximumFractionDigits: 0 })
 
-  // Eigen vlootfoto, geen stock: de boot op de kaart is een boot die we echt
-  // varen. Vast gekozen (niet willekeurig) zodat build en client hetzelfde
-  // beeld renderen en er geen hydration-verschil ontstaat.
-  const heroBoat = FLEET.find((b) => b.image?.includes('cap-camarat')) ?? priced[0] ?? FLEET[0]
-
   const boat: CardData = {
     kicker: BOAT_PROMO.kicker[l],
-    photo: heroBoat?.image
-      ? { src: heroBoat.image, alt: `${heroBoat.model} — ${heroBoat.marina}, Ibiza` }
-      : undefined,
+    // Geen foto meer. De bootkaart had een beeldband en de Wiber-kaart niet,
+    // waardoor het paar scheef stond: de ene twee keer zo hoog als de andere.
+    // Beide zijn nu even compact -- kicker, logo, naam, vanafprijs, knop. De
+    // boten zelf staan een sectie hoger al in beeld, in wereld 02.
+    photo: undefined,
     logoKey: 'clickandboat',
     logoName: 'Click&Boat',
     hasLogo: Boolean(PARTNER_LOGOS.clickandboat.light || PARTNER_LOGOS.clickandboat.dark),

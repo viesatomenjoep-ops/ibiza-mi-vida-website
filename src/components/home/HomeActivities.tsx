@@ -8,7 +8,7 @@ const t = (m: L5, l: string) => m[l] || m.en
 
 const L = {
   kicker: T('Alles op één eiland', 'Everything on one island', 'Alles auf einer Insel', 'Todo en una isla', 'Tout sur une île'),
-  titel: T('Op het water & activiteiten', 'On the water & activities', 'Auf dem Wasser & Aktivitäten', 'En el agua y actividades', 'Sur l’eau & activités'),
+  titel: T('The Island', 'The Island', 'The Island', 'The Island', 'The Island'),
   tekst: T(
     'Boottochten, jetski’s, buggy’s, grotten en de ferry naar Formentera. Per dag te boeken, met de prijs zoals die nu in de agenda staat.',
     'Boat trips, jet skis, buggies, caves and the ferry to Formentera. Bookable per day, at the price as it stands in the agenda now.',
@@ -26,7 +26,7 @@ interface FeedItem {
 }
 
 /**
- * Wereld 02: alles wat geen clubavond is.
+ * Wereld 03: The Island — alles wat geen clubavond en geen eigen boot is.
  *
  * Dezelfde vorm als wereld 01, gevoed uit dezelfde dagenlijst die de
  * ringcarrousel gebruikt. Drie verschillende aanbieders in de waaier, zodat
@@ -64,15 +64,15 @@ export function HomeActivities({
 
   return (
     <HomeWorld
-      id="zone-water"
-      nummer="02"
+      id="zone-island"
+      nummer="03"
       kicker={t(L.kicker, locale)}
       titel={t(L.titel, locale)}
       tekst={t(L.tekst, locale)}
       knop={t(L.knop, locale)}
       href={`${base}/activities-calendar`}
       kaarten={kaarten}
-      className="bg-white"
+      className="bg-neutral-50"
     />
   )
 }

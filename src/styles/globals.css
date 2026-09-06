@@ -24,6 +24,11 @@
   --nav-h:134px;
 }
 @media (max-width:980px){ :root{ --nav-h:116px; } }
+/* Hero: op een telefoon minder wegduwen aan de onderkant, zodat kop, knop
+   en de vier categorieknoppen als blok iets lager staan en niet tegen de
+   navigatiebalk plakken. De live-strook eronder staat los en verschuift niet. */
+:root{--hero-bottom:14vh}
+@media (max-width:767px){ :root{ --hero-bottom:6vh } }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;overflow-x:clip;max-width:100%;overscroll-behavior-x:none}
 body{font-family:var(--body);background:var(--black);color:var(--white);line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased;

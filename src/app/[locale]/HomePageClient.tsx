@@ -21,6 +21,7 @@ import { HeroRatingBadge, type HeroRating } from '@/components/home/HeroRatingBa
 import { HomeVimeo } from '@/components/home/HomeVimeo'
 import { HomeEventsTickets } from '@/components/home/HomeEventsTickets'
 import { HomeActivities } from '@/components/home/HomeActivities'
+import { HomeBoats } from '@/components/home/HomeBoats'
 
 import { Reveal } from '@/components/ui/Reveal';
 // Category-grid labels for the boat pages. These live here rather than in the
@@ -129,7 +130,13 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
         <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] bg-gradient-to-b from-black/70 to-transparent" style={{ height: 'calc(var(--nav-h) + 40px)' }} />
 
         {/* Animated show-intro over the video — three lines type in on a loop */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center" style={{ paddingBottom: '14vh' }}>
+        {/* paddingBottom duwt de kop en de knoppen omhoog om ruimte te laten
+            voor de live-strook onderaan. Op een telefoon was dat te veel: de
+            tekst plakte tegen de navigatiebalk en er viel een gat onder de
+            knoppen. Daar dus minder wegduwen, plus wat extra ruimte bovenin
+            zodat het blok als geheel iets zakt. De strook zelf staat los
+            onderaan en beweegt niet mee. */}
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 pt-[10vh] text-center md:pt-0" style={{ paddingBottom: 'var(--hero-bottom, 14vh)' }}>
           <HeroShowIntro locale={locale} />
           <Link
             href={`${base}/calendar`}
@@ -165,10 +172,10 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                   setTimeout(() => doel.scrollIntoView({ behavior: 'smooth' }), 700)
                   setTimeout(() => doel.scrollIntoView({ behavior: 'auto' }), 1400)
                 }}
-                className="flex items-center justify-center gap-1.5 rounded-2xl border border-white/25 bg-black/35 px-2 py-3 text-[10px] font-black uppercase tracking-wide text-white backdrop-blur-sm transition-colors hover:bg-black/55 md:text-[11px] md:tracking-widest"
+                className="flex min-h-[52px] items-center justify-center gap-1.5 rounded-2xl border border-white/25 bg-black/35 px-2 py-2.5 text-[10px] font-black uppercase leading-tight tracking-wide text-white backdrop-blur-sm transition-colors hover:bg-black/55 md:text-[11px] md:tracking-widest"
               >
                 <span aria-hidden className="h-2 w-2 shrink-0 rounded-full" style={{ background: z.stip }} />
-                <span className="truncate">{z.naam[locale] || z.naam.en}</span>
+                <span className="leading-tight">{z.naam[locale] || z.naam.en}</span>
               </a>
             ))}
           </nav>
@@ -221,10 +228,13 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           niet zwaarder maakt. */}
       <HomeRingCarousel locale={locale} base={base} events={pickerEvents} experienceDays={experienceDays} />
 
-      {/* Wereld 02: alles wat geen clubavond is. Verving de dagrotator met
-          de dagbalk -- die stond met dezelfde kiezer twee keer op de pagina
-          en duwde de rest ver naar beneden. Dit blok laat zien wat er is en
-          stuurt door naar de volledige agenda. */}
+      {/* Wereld 02: de eigen vloot. De knop "Underwater Experience" in de
+          hero landt hier. */}
+      <HomeBoats locale={locale} base={base} />
+
+      {/* Wereld 03: alles wat geen clubavond en geen eigen boot is. Verving
+          de dagrotator met de dagbalk -- die stond met dezelfde kiezer twee
+          keer op de pagina en duwde de rest ver naar beneden. */}
       <HomeActivities days={experienceDays} locale={locale} base={base} />
 
       {/* De film staat hier en niet onder de hero. Onder de hero kwam hij vóór
@@ -234,7 +244,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           en is dit de adempauze erna in plaats van een drempel ervoor.
           Laadt als poster met een afspeelknop; de speler van Vimeo komt pas in
           de pagina als je erop tikt. Zie HomeVimeo. */}
-      <div id="zone-island" />
       <HomeVimeo id="352653740" hash="36444999f9" locale={locale} />
 
       {/* Boten en auto's. Stond onderaan de pagina, onder Instagram en de

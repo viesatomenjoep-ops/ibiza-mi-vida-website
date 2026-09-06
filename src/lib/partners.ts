@@ -136,10 +136,18 @@ export const PARTNER_LOGOS: Record<'wiber' | 'clickandboat', PartnerLogo> = {
     height: 1000,
   },
   clickandboat: {
-    // TODO: add from the Impact asset library — see the note above.
+    // Het merkteken van Click&Boat (zwart op roze, vierkant). Ontbreekt het
+    // bestand, dan valt <PartnerLogo> terug op de naam in onze eigen letter --
+    // zie de toelichting daar. Zet het als
+    // public/partners/clickandboat.png om het te activeren.
+    // Zet het aangeleverde merkteken (zwart op roze, vierkant) neer als
+    // public/partners/clickandboat.png en verander `light` in dat pad. Zolang
+    // het bestand er niet is blijft dit null: een verwijzing naar een bestand
+    // dat niet bestaat levert een gebroken plaatje op, en dat is slechter dan
+    // de naam in onze eigen letter die <PartnerLogo> nu toont.
     dark: null,
     light: null,
-    width: 160,
-    height: 40,
+    width: 1080,
+    height: 1080,
   },
 }
