@@ -45,6 +45,23 @@ export const metadata: Metadata = {
   description:
     'Book Ibiza club tickets, private boat charters, boat parties, VIP catamarans and Formentera trips with Ibiza mi vida — your premium Ibiza events agency.',
   applicationName: SITE_NAME,
+  /**
+   * Site-eigendom aantonen bij zoekmachines.
+   *
+   * Bing wil bewijs dat wij over www.ibizamivida.com gaan. De XML-methode
+   * vraagt om een bestand in de webroot, wat bij een Next-app op Vercel een
+   * commit en een deploy kost voor iets wat één regel tekst is. De metatag
+   * doet hetzelfde en staat hier, zodat het via een omgevingsvariabele kan --
+   * geen code-wijziging nodig als de sleutel ooit verandert.
+   *
+   * Zet BING_SITE_VERIFICATION in Vercel op de waarde uit "HTML Meta Tag" in
+   * Bing Webmaster Tools (het deel achter content=). Zonder die variabele
+   * rendert er niets: een lege verificatietag is erger dan geen tag, want
+   * Bing leest hem dan als een mislukte poging.
+   */
+  ...(process.env.BING_SITE_VERIFICATION
+    ? { verification: { other: { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } } }
+    : {}),
   keywords: [
     'Ibiza', 'Ibiza tickets', 'Ibiza club tickets', 'Ibiza events', 'Ibiza clubs',
     'boat party Ibiza', 'private boat charter Ibiza', 'Formentera ferry', 'Ushuaïa', 'Hï Ibiza',
