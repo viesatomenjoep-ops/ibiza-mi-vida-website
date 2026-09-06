@@ -8,7 +8,7 @@ const t = (m: L5, l: string) => m[l] || m.en
 
 const L = {
   kicker: T('Alles op één eiland', 'Everything on one island', 'Alles auf einer Insel', 'Todo en una isla', 'Tout sur une île'),
-  titel: T('The Island', 'The Island', 'The Island', 'The Island', 'The Island'),
+  titel: T('On the land activities', 'On the land activities', 'On the land activities', 'On the land activities', 'On the land activities'),
   tekst: T(
     'Boottochten, jetski’s, buggy’s, grotten en de ferry naar Formentera. Per dag te boeken, met de prijs zoals die nu in de agenda staat.',
     'Boat trips, jet skis, buggies, caves and the ferry to Formentera. Bookable per day, at the price as it stands in the agenda now.',
@@ -26,7 +26,7 @@ interface FeedItem {
 }
 
 /**
- * Wereld 03: The Island — alles wat geen clubavond en geen eigen boot is.
+ * Wereld 03: On the land activities — alles wat geen clubavond en geen eigen boot is.
  *
  * Dezelfde vorm als wereld 01, gevoed uit dezelfde dagenlijst die de
  * ringcarrousel gebruikt. Drie verschillende aanbieders in de waaier, zodat

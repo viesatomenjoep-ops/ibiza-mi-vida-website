@@ -86,8 +86,8 @@ interface HomePageProps {
  */
 const ZONES: { id: string; kleurKlasse: string; stip: string; naam: Record<string, string> }[] = [
   { id: 'zone-events', kleurKlasse: 'zone--events', stip: '#E14D68', naam: { nl: 'Events & Tickets', en: 'Events & Tickets', de: 'Events & Tickets', es: 'Eventos y entradas', fr: 'Événements & billets' } },
-  { id: 'zone-water', kleurKlasse: 'zone--water', stip: '#0E7C66', naam: { nl: 'Underwater Experience', en: 'Underwater Experience', de: 'Underwater Experience', es: 'Underwater Experience', fr: 'Underwater Experience' } },
-  { id: 'zone-island', kleurKlasse: 'zone--island', stip: '#C8A24A', naam: { nl: 'The Island', en: 'The Island', de: 'The Island', es: 'The Island', fr: 'The Island' } },
+  { id: 'zone-water', kleurKlasse: 'zone--water', stip: '#0E7C66', naam: { nl: 'On the Water', en: 'On the Water', de: 'On the Water', es: 'On the Water', fr: 'On the Water' } },
+  { id: 'zone-island', kleurKlasse: 'zone--island', stip: '#C8A24A', naam: { nl: 'On the land activities', en: 'On the land activities', de: 'On the land activities', es: 'On the land activities', fr: 'On the land activities' } },
   { id: 'zone-insider', kleurKlasse: 'zone--insider', stip: '#8D7BC4', naam: { nl: 'Insider', en: 'Insider', de: 'Insider', es: 'Insider', fr: 'Insider' } },
 ]
 
@@ -228,7 +228,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           niet zwaarder maakt. */}
       <HomeRingCarousel locale={locale} base={base} events={pickerEvents} experienceDays={experienceDays} />
 
-      {/* Wereld 02: de eigen vloot. De knop "Underwater Experience" in de
+      {/* Wereld 02: de eigen vloot. De knop "On the Water" in de
           hero landt hier. */}
       <HomeBoats locale={locale} base={base} />
 

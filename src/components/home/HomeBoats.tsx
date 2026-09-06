@@ -9,7 +9,7 @@ const t = (m: L5, l: string) => m[l] || m.en
 
 const L = {
   kicker: T('Alles op één eiland', 'Everything on one island', 'Alles auf einer Insel', 'Todo en una isla', 'Tout sur une île'),
-  titel: T('Underwater Experience', 'Underwater Experience', 'Underwater Experience', 'Underwater Experience', 'Underwater Experience'),
+  titel: T('On the Water', 'On the Water', 'On the Water', 'On the Water', 'On the Water'),
   tekst: T(
     'Huur je eigen jacht of catamaran. Vaar langs Es Vedrà, anker in verborgen baaien en beleef Ibiza vanaf het water.',
     'Charter your own yacht or catamaran. Sail past Es Vedrà, anchor in hidden coves and see Ibiza from the water.',
@@ -21,7 +21,7 @@ const L = {
 }
 
 /**
- * Wereld 02: Underwater Experience — de eigen vloot.
+ * Wereld 02: On the Water — de eigen vloot.
  *
  * De waaier toont drie boten uit FLEET, gekozen op prijs zodat er een dure,
  * een middenklasser en een instapper naast elkaar staan. Vaste keuze, geen
