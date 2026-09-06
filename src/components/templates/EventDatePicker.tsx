@@ -247,8 +247,14 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
         </div>
       )}
 
-      {/* Spacer so the fixed bottom dock never covers the last tile */}
-      <div className="h-36" />
+      {/* Hier stond een lege <div className="h-36" /> "zodat de vaste dock de
+          laatste tegel niet bedekt". Dat werkte niet en kostte wel ruimte: de
+          dock kleeft aan de onderkant van het SCHERM, niet aan het einde van
+          deze lijst. Een event met weinig datums -- en dat zijn de meeste, want
+          de kiezer toont standaard één week -- kreeg zo 144 pixels leegte
+          midden op de pagina, tussen de datumkaart en het line-upblok.
+          De ruimte die de dock echt nodig heeft staat onderaan de pagina zelf,
+          op de wikkel in EventDetailPage. */}
 
       {/* Fixed bottom week dock — present at every step of the category */}
       <WeekDockBar

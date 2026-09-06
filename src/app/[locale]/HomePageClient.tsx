@@ -14,6 +14,7 @@ import { HeroShowIntro } from '@/components/home/HeroShowIntro';
 import { HomeCategoryCarousel } from '@/components/home/HomeCategoryCarousel';
 import { HomeUSP } from '@/components/home/HomeUSP';
 import { HomeInstagram } from '@/components/home/HomeInstagram';
+import { HomeTikTok } from '@/components/home/HomeTikTok';
 import { HomeNewsletter } from '@/components/home/HomeNewsletter';
 import { HomeRingCarousel } from '@/components/home/HomeRingCarousel';
 import { HomeTonight } from '@/components/home/HomeTonight';
@@ -358,6 +359,10 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       {reviewsSlot}
 
       {/* INSTAGRAM — the island's vibe on your feed */}
+      {/* TikTok boven Instagram: het is het kanaal waar de meeste nieuwe
+          bezoekers vandaan komen, en bewegend beeld houdt beter vast dan een
+          raster met foto's. De feed laadt pas na toestemming -- zie HomeTikTok. */}
+      <HomeTikTok locale={locale} />
       <HomeInstagram locale={locale} />
 
       {/* NEWSLETTER — lead capture */}
