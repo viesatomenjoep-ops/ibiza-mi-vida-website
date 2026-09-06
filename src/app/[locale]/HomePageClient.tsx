@@ -155,8 +155,14 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
           {/* Vier ingangen, als de tegels van een app. Eén tik en je glijdt
               naar die wereld; de kleurstip is dezelfde als de bies in het
-              menu en de zone eronder, zodat kleur overal hetzelfde betekent. */}
-          <nav aria-label="Categorieën" className="pointer-events-auto mt-6 grid w-full max-w-md grid-cols-2 gap-2 md:max-w-2xl md:grid-cols-4">
+              menu en de zone eronder, zodat kleur overal hetzelfde betekent.
+              Alleen vanaf tablet. Op een telefoon vielen ze in twee rijen van
+              twee onder de titel, de knop en de sterrenbalk -- vier blokken
+              erbij maakten van de hero een opsomming en duwden de video weg.
+              De vier werelden zijn daar nog steeds bereikbaar: via het
+              hamburgermenu en via de secties zelf, die je gewoon tegenkomt bij
+              het scrollen. */}
+          <nav aria-label="Categorieën" className="pointer-events-auto mt-6 hidden w-full max-w-2xl grid-cols-4 gap-2 md:grid">
             {ZONES.map(z => (
               <a
                 key={z.id}
