@@ -2,8 +2,19 @@
 // and the Planner — deliberately dependency-free (no date-fns) since the app
 // shell only ever needs day-grid math, not locale-aware formatting.
 
+import { ibizaTonight } from '@/lib/date-label'
+
 export const toISO = (d: Date) => d.toISOString().slice(0, 10)
-export const todayISO = () => toISO(new Date())
+
+/**
+ * De dag waarop de app-schil opent.
+ *
+ * Dit was `toISO(new Date())`, oftewel UTC-vandaag. Twee fouten in één regel:
+ * Ibiza loopt op UTC voor, én een clubavond loopt door tot een uur of zes 's
+ * ochtends. Wie om 01:00 de agenda opende kreeg de dág erna te zien en kon voor
+ * het feest dat op dat moment bezig was niets meer boeken. Zie ibizaTonight().
+ */
+export const todayISO = () => ibizaTonight()
 
 export function addDaysISO(iso: string, n: number): string {
   const d = new Date(iso + 'T12:00:00Z')

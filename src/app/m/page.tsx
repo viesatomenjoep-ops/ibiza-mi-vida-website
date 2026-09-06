@@ -5,7 +5,7 @@ import { getLabels, APP_LOCALES } from '@/components/mobile/i18n'
 import { FLEET } from '@/data/fleet'
 import { cloudinaryVideo, cloudinaryVideoPoster, MEDIA } from '@/lib/cloudinary'
 import { eventBasePath } from '@/lib/event-path'
-import { ibizaToday } from '@/lib/date-label'
+import { ibizaTonight } from '@/lib/date-label'
 
 export const revalidate = 3600
 
@@ -30,14 +30,14 @@ export default async function MobileAppPage({
   ])
 
   const typeBySlug = new Map(venuesRaw.map(v => [v.slug, v.type?.slug || '']))
-  const todayStr = ibizaToday()
+  const tonightStr = ibizaTonight()
 
   // Payload discipline: this whole array ships twice (SSR HTML + hydration),
   // so every byte counts double. 60 days / 450 rows covers every screen;
   // venue logos are NOT per-event — the client derives them from `venues`.
   const horizon = new Date(Date.now() + 60 * 86400000).toISOString().slice(0, 10)
   const events: AppEvent[] = datesRaw
-    .filter(d => /^\d{4}-\d{2}-\d{2}/.test(d.date || '') && d.date.slice(0, 10) >= todayStr && d.date.slice(0, 10) <= horizon)
+    .filter(d => /^\d{4}-\d{2}-\d{2}/.test(d.date || '') && d.date.slice(0, 10) >= tonightStr && d.date.slice(0, 10) <= horizon)
     .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
     .slice(0, 450)
     .map(d => ({

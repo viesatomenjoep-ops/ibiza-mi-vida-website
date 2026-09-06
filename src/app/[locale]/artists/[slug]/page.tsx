@@ -7,6 +7,7 @@ import { format } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { getArtist, getArtistDates, getVenues } from '@/lib/clubtickets'
 import { eventBasePath } from '@/lib/event-path'
+import { ibizaTonight } from '@/lib/date-label'
 import { BackButton } from '@/components/ui/BackButton'
 import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
 import { BreadcrumbJsonLd, homeLabel, sectionLabel } from '@/components/seo/BreadcrumbJsonLd'
@@ -161,13 +162,14 @@ export default async function ArtistPage({ params }: Props) {
 
   const { artist, dates } = result;
 
-  // Filter for future dates
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
+  // Alleen optredens die nog komen. Hier stond `new Date()` met setHours: dat
+  // keek naar de klok van de server (UTC) in plaats van naar die van Ibiza, en
+  // liet de set van vanavond om middernacht al vallen terwijl de dj op dat
+  // moment draait. Twee YYYY-MM-DD's vergelijken als tekst kan niet schuiven.
+  const vanavond = ibizaTonight();
   const futureDates = dates
-    .filter(d => d && d.date && parseLocalDate(d.date) >= today)
-    .sort((a, b) => parseLocalDate(a.date).getTime() - parseLocalDate(b.date).getTime());
+    .filter(d => d && d.date && String(d.date).slice(0, 10) >= vanavond)
+    .sort((a, b) => String(a.date).localeCompare(String(b.date)));
 
   const localeObj = DF_LOC[locale] || enUS;
   const rawHeaderImg = futureDates[0]?.eventCover || futureDates[0]?.venueCover || artist.image;

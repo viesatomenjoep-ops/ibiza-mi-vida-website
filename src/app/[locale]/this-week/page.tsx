@@ -8,7 +8,7 @@ import { AuthorByline } from '@/components/seo/AuthorByline'
 import { pickCover } from '@/lib/blank-covers'
 import { optImg } from '@/lib/img'
 import { withDate } from '@/lib/event-date-param'
-import { ibizaToday } from '@/lib/date-label'
+import { ibizaTonight } from '@/lib/date-label'
 
 // Hourly: the whole value of this page is that it is current.
 export const revalidate = 3600
@@ -45,9 +45,9 @@ const NOTHING: L = {
   fr: 'Aucune soirée programmée ce jour.',
 }
 
-function dayHeading(iso: string, todayStr: string, l: string): string {
-  if (iso === todayStr) return t(TONIGHT, l)
-  if (iso === addDays(todayStr, 1)) return t(TOMORROW, l)
+function dayHeading(iso: string, tonightStr: string, l: string): string {
+  if (iso === tonightStr) return t(TONIGHT, l)
+  if (iso === addDays(tonightStr, 1)) return t(TOMORROW, l)
   const [y, m, d] = iso.split('-').map(Number)
   const s = new Date(Date.UTC(y, m - 1, d)).toLocaleDateString(localeTag(l), {
     weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC',
@@ -135,13 +135,13 @@ export default async function ThisWeekPage({ params }: { params: { locale: strin
   const clubbing = new Set(
     venues.filter(v => (v as any).type?.slug === 'clubbing').map(v => v.slug),
   )
-  const todayStr = ibizaToday()
-  const until = addDays(todayStr, 6)
+  const tonightStr = ibizaTonight()
+  const until = addDays(tonightStr, 6)
 
   const nights: Night[] = dates
     .filter(d => {
       const day = String(d.date || '').slice(0, 10)
-      return clubbing.has(d.venueSlug || '') && day >= todayStr && day <= until
+      return clubbing.has(d.venueSlug || '') && day >= tonightStr && day <= until
     })
     .map(d => ({
       id: `${d.id}-${d.eventSlug}`,
@@ -164,7 +164,7 @@ export default async function ThisWeekPage({ params }: { params: { locale: strin
     venues.map(v => [v.slug, String((v as any).whitelogo || '')]),
   )
 
-  const days = Array.from({ length: 7 }, (_, i) => addDays(todayStr, i))
+  const days = Array.from({ length: 7 }, (_, i) => addDays(tonightStr, i))
   const byDay = new Map<string, Night[]>()
   for (const n of nights) {
     const g = byDay.get(n.day)
@@ -224,7 +224,7 @@ export default async function ThisWeekPage({ params }: { params: { locale: strin
       <section className="mx-auto max-w-3xl px-4 pb-12">
         {days.map(day => {
           const clubs = clubsFor(day)
-          const isTonight = day === todayStr
+          const isTonight = day === tonightStr
           return (
             /* content-visibility: zeven avonden met tachtig affiches staan
                allemaal in de HTML (dat is de hele bedoeling van deze pagina),
@@ -233,7 +233,7 @@ export default async function ThisWeekPage({ params }: { params: { locale: strin
               <h2 className="flex items-center gap-2.5 border-b border-black/10 pb-2 font-serif text-xl font-black tracking-tight sm:text-2xl">
                 {isTonight && <span className="live-dot" aria-hidden />}
                 <span className={isTonight ? 'text-ibiza-green' : undefined}>
-                  {dayHeading(day, todayStr, l)}
+                  {dayHeading(day, tonightStr, l)}
                 </span>
               </h2>
 

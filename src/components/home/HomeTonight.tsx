@@ -16,7 +16,7 @@ import { ArrowCircle } from '@/components/ui/ArrowCircle'
  * every day (which is also a freshness signal for crawlers), and it gives an
  * answer engine something concrete to quote.
  *
- * `todayStr` is passed in from the server rather than computed here: deriving
+ * `tonightStr` is passed in from the server rather than computed here: deriving
  * it from `new Date()` on the client would disagree with the server render in
  * any timezone where the date has already rolled over, which is a hydration
  * mismatch. If nothing is on tonight we fall back to the next night that has
@@ -24,27 +24,32 @@ import { ArrowCircle } from '@/components/ui/ArrowCircle'
  */
 export function HomeTonight({
   events,
-  todayStr,
+  tonightStr,
   locale = 'nl',
   base,
 }: {
   events: PickerEvent[]
-  /** Server-rendered ISO yyyy-mm-dd for "today". */
-  todayStr: string
+  /**
+   * De datum van de nacht die nú loopt, door de server berekend met
+   * `ibizaTonight()` — bewust niet de kalenderdag. Om 01:00 is "vanavond" nog
+   * altijd de avond die om 23:00 begon, en die hoort dan ook als "Tonight"
+   * gelabeld te blijven in plaats van als "Next up".
+   */
+  tonightStr: string
   locale?: string
   base: string
 }) {
   const { day, list, isTonight } = useMemo(() => {
     if (!events.length) return { day: '', list: [] as PickerEvent[], isTonight: false }
-    // events arrive sorted ascending and already filtered to >= today, so the
-    // first date present is either today or the next night with a line-up.
+    // events arrive sorted ascending and already filtered to >= tonight, so the
+    // first date present is either tonight or the next night with a line-up.
     const day = events[0].date
     return {
       day,
       list: events.filter((e) => e.date === day).slice(0, 8),
-      isTonight: day === todayStr,
+      isTonight: day === tonightStr,
     }
-  }, [events, todayStr])
+  }, [events, tonightStr])
 
   if (!list.length) return null
 

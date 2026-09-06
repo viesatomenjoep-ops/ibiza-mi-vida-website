@@ -8,6 +8,7 @@ import { GoogleRatingLine } from '@/components/reviews/GoogleRatingLine'
 import type { Locale } from '@/lib/seo'
 import { CTVenue, CTEventDate } from '@/lib/clubtickets'
 import { EventDatePicker, PickerLabels } from './EventDatePicker'
+import { ibizaTonight } from '@/lib/date-label'
 import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
 import { BackButton } from '@/components/ui/BackButton'
 import { ScrollCue } from '@/components/ui/ScrollCue'
@@ -496,6 +497,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
                   lineUp: d.lineUp,
                   affLink: d.affLink,
                 }))}
+                tonightStr={ibizaTonight()}
                 eventName={eventName}
                 eventCover={eventCover}
                 locale={locale}

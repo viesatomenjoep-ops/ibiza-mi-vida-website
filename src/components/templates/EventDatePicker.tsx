@@ -3,8 +3,9 @@
 import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react'
 import {
   format, addDays, startOfWeek, endOfWeek, startOfMonth, endOfMonth,
-  startOfDay, eachDayOfInterval, parseISO, isToday, isTomorrow,
+  eachDayOfInterval, parseISO,
 } from 'date-fns'
+import { addDays as addISODays } from '@/lib/date-label'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { CalendarDays } from 'lucide-react'
 import { EventTicketSelector } from './EventTicketSelector'
@@ -50,6 +51,21 @@ interface Props {
   labels: PickerLabels
   /** Datum waarop de bezoeker klikte (yyyy-MM-dd). Zie activeDay hieronder. */
   initialDay?: string
+  /**
+   * De nacht die nú loopt op Ibiza (yyyy-MM-dd), door de server berekend met
+   * `ibizaTonight()`.
+   *
+   * Hier stond `startOfDay(new Date())` — de klok van de telefoon van de
+   * bezoeker. Daar gingen twee dingen mis, allebei ten koste van verkoop. Die
+   * klok hoeft niet die van Ibiza te zijn, en erger: om 00:01 viel de avond die
+   * op dat moment aan de gang was uit de kiezer, zodat er voor vanavond niets
+   * meer te kiezen viel. Precies de melding uit de ticketverkoop: "om 01:00 zie
+   * ik alleen nog tickets voor morgen, niet meer voor vanavond".
+   *
+   * Van de server en niet hier berekend, zodat de eerste render in de browser
+   * exact dezelfde dagen toont als de HTML die eromheen kwam.
+   */
+  tonightStr: string
 }
 
 const getLoc = (l: string) => ({ nl, de, es, fr, en: enUS } as Record<string, Locale>)[l] || enUS
@@ -62,10 +78,10 @@ function formatLineUp(lineUp?: string): string {
   return text
 }
 
-export function EventDatePicker({ dates, eventName, eventCover, locale, labels: L, initialDay }: Props) {
+export function EventDatePicker({ dates, eventName, eventCover, locale, labels: L, initialDay, tonightStr }: Props) {
   const loc = getLoc(locale)
-  const today = useMemo(() => startOfDay(new Date()), [])
-  const todayStr = format(today, 'yyyy-MM-dd')
+  const todayStr = tonightStr
+  const morgenStr = addISODays(tonightStr, 1)
 
   // Only upcoming dates, sorted — guard against missing/invalid date strings
   const upcoming = useMemo(
@@ -172,7 +188,16 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
           {visible.map((dateObj, idx) => {
             const line = formatLineUp(dateObj.lineUp)
             const d = parseISO(dateObj.date)
-            const dayTag = isToday(d) ? L.today : isTomorrow(d) ? L.tomorrow : format(d, 'EEE', { locale: loc })
+            // Niet date-fns' isToday/isTomorrow: die kijken naar de klok van de
+            // browser en zouden om 01:00 de avond die nu loopt "vr" noemen en
+            // de dag erna "vandaag" — precies andersom dan wat de bezoeker ziet
+            // gebeuren. Vergelijken met de nacht van de server houdt het label
+            // gelijk aan de lijst eronder.
+            const dayTag = dateObj.date === todayStr
+              ? L.today
+              : dateObj.date === morgenStr
+                ? L.tomorrow
+                : format(d, 'EEE', { locale: loc })
             return (
               <div key={`${dateObj.id}-${idx}`} style={{ animation: 'dpSlide .35s ease-out backwards', animationDelay: `${idx * 60}ms` }} className="group flex flex-col justify-between gap-4 overflow-hidden rounded-2xl border border-black/10 bg-white p-4 transition-all hover:border-ibiza-green/40 hover:shadow-md sm:flex-row sm:items-center sm:p-5">
                 <span className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-xl bg-neutral-900 sm:aspect-square sm:h-24 sm:w-24">

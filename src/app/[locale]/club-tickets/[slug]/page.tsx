@@ -5,7 +5,7 @@ import { VenueDetailPage } from '@/components/templates/VenueDetailPage'
 import { venueMetaDescription, VENUE_TITLE_SUFFIX } from '@/lib/venue-meta'
 import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
-import { ibizaToday } from '@/lib/date-label'
+import { ibizaTonight } from '@/lib/date-label'
 
 export const revalidate = 3600
 
@@ -27,8 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // scraped blurb, cut mid-word. Lead with what the searcher asked for instead:
   // how many nights are on and when the next one is.
   const allDates = await getAllDates(params.locale)
-  const todayStr = ibizaToday()
-  const upcoming = allDates.filter(d => d.venueSlug === venue.slug && (d.date || '') >= todayStr)
+  const tonightStr = ibizaTonight()
+  const upcoming = allDates.filter(d => d.venueSlug === venue.slug && (d.date || '') >= tonightStr)
   const composed = venueMetaDescription(venue.name, upcoming, l)
 
   return detailMetadata(params.locale, `club-tickets/${params.slug}`, venue.name, {
@@ -47,8 +47,8 @@ export default async function ClubDetailPage({ params }: Props) {
   if (!venue) notFound()
 
   const allDates = await getAllDates(params.locale)
-  const todayStr = ibizaToday()
-  const venueDates = allDates.filter(d => d.venueSlug === venue.slug && d.date >= todayStr)
+  const tonightStr = ibizaTonight()
+  const venueDates = allDates.filter(d => d.venueSlug === venue.slug && d.date >= tonightStr)
 
   return (
     <VenueDetailPage

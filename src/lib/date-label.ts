@@ -59,3 +59,51 @@ export function addDays(iso: string, n: number): string {
   const t = new Date(Date.UTC(y, m - 1, d + n))
   return t.toISOString().slice(0, 10)
 }
+
+/**
+ * Het uur waarop de nacht overgaat in de volgende dag, in Ibiza-tijd.
+ *
+ * Niet op gevoel gekozen maar geteld in de feed: van de 71 events met een
+ * opgegeven eindtijd loopt er niets door na 06:00 de volgende ochtend. De
+ * laatste twee sluiten om 06:00, negen om 05:00. Sluit een club ooit later,
+ * dan is dit het enige getal dat mee hoeft.
+ */
+export const NACHT_EINDE_UUR = 6
+
+/**
+ * De datum van de nacht die nú bezig is op Ibiza, als YYYY-MM-DD.
+ *
+ * ── Waarom dit naast ibizaToday bestaat ───────────────────────────────────
+ * Een clubavond staat in de feed op de datum waarop hij BEGINT:
+ *
+ *     elrow Ibiza @ [UNVRS]   date: 2026-09-12   startAt: 23:30
+ *
+ * Wie om 01:00 in de rij staat en op zijn telefoon nog een ticket wil kopen,
+ * zit volgens de kalender al in de volgende dag. Filterden we op
+ * `ibizaToday()`, dan viel die vrijdagregel om middernacht uit de lijst —
+ * midden in het feest, precies op het uur dat mensen kopen. Geen cosmetisch
+ * probleem maar gemiste verkoop, en zo ook door de ticketverkoop gemeld: "om
+ * 01:00 zie ik alleen nog tickets voor morgen, niet meer voor vanavond".
+ *
+ *     23:30 vrijdag  -> die vrijdag
+ *     01:00 zaterdag -> nog steeds die vrijdag
+ *     06:00 zaterdag -> de zaterdag
+ *
+ * ── Waar je dit NIET voor gebruikt ────────────────────────────────────────
+ * Alleen voor wat 's nachts doorloopt: clubavonden en boatparty's. Een
+ * jetskiverhuur of een jeepsafari van 10:00 hoort bij de gewone kalenderdag;
+ * die zou je hiermee tussen middernacht en zes uur een dag te ver terug tonen,
+ * waarna iemand doorklikt naar een datum die al voorbij is. Daarvoor blijft
+ * `ibizaToday()` staan.
+ */
+export function ibizaTonight(nu: Date = new Date()): string {
+  const delen = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Madrid',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', hourCycle: 'h23',
+  }).formatToParts(nu)
+  const pak = (t: string) => delen.find(d => d.type === t)?.value ?? ''
+  const iso = `${pak('year')}-${pak('month')}-${pak('day')}`
+  // Vóór het sluitingsuur telt de vórige kalenderdag nog als vanavond.
+  return Number(pak('hour')) < NACHT_EINDE_UUR ? addDays(iso, -1) : iso
+}

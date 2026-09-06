@@ -12,7 +12,7 @@ import { ItemListJsonLd } from '@/components/seo/ItemListJsonLd';
 import { eventBasePath } from '@/lib/event-path';
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { crumbLabel } from '@/lib/breadcrumb-labels'
-import { ibizaToday } from '@/lib/date-label'
+import { ibizaTonight } from '@/lib/date-label'
 
 // Elk uur, net als de andere agendapagina's; stond hier niet.
 export const revalidate = 3600
@@ -38,12 +38,12 @@ export default async function CalendarPage({
   // Dat is verantwoord omdat de kalender niet de canonieke kopie van een event
   // is: elk event heeft een eigen indexeerbare detailpagina, en die staan
   // allemaal in de sitemap.
-  const todayStr = ibizaToday();
+  const tonightStr = ibizaTonight();
   const windowEndStr = new Date(Date.now() + (INITIAL_DAYS - 1) * 86400000).toISOString().split('T')[0];
-  const mappedEvents = await calendarWindow(params.locale, todayStr, windowEndStr);
+  const mappedEvents = await calendarWindow(params.locale, tonightStr, windowEndStr);
   // Alleen de datums, niet de events: het weekdock moet het hele seizoen
   // kunnen doorbladeren, ook de weken die nog niet geladen zijn.
-  const dockDates = await seasonDates(params.locale, todayStr);
+  const dockDates = await seasonDates(params.locale, tonightStr);
 
   /** Type per venue-slug, voor de ItemList hieronder. Stond eerst in elk event. */
   const venueTypeBySlug = new Map(venues.map(v => [v.slug, v.type?.slug || '']));
@@ -86,7 +86,7 @@ export default async function CalendarPage({
         locale={params.locale}
         loadedThrough={windowEndStr}
         seasonDates={dockDates}
-        today={todayStr}
+        today={tonightStr}
       />
     </>
   );

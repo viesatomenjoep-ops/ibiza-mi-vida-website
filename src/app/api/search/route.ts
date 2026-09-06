@@ -6,7 +6,7 @@ import { locations } from '@/lib/locations';
 import { FALLBACK_EXPERIENCES } from '@/lib/fallback-experiences';
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo';
 import { eventBasePath } from '@/lib/event-path';
-import { localeTag } from '@/lib/date-label';
+import { localeTag, ibizaTonight } from '@/lib/date-label';
 import { FLEET } from '@/data/fleet';
 import { slugFor } from '@/lib/route-slugs';
 
@@ -208,11 +208,15 @@ async function suggesties(locale: Locale) {
   try {
     const [venues, allDates] = await Promise.all([getVenues(locale), getAllDates(locale)]);
     const typeBySlug = new Map(venues.map(v => [v.slug, v.type?.slug || '']));
-    const vandaag = new Date().toISOString().slice(0, 10);
+    // Niet `new Date().toISOString()`: dat is UTC en Ibiza loopt voor. Boven-
+    // dien hoort een clubavond die nu bezig is nog in de suggesties te staan —
+    // wie om 01:00 "unvrs" typt zoekt het feest van vanavond, niet dat van
+    // morgen. Zie ibizaTonight().
+    const vanavond = ibizaTonight();
     const gezien = new Set<string>();
     const uit: any[] = [];
     for (const e of allDates) {
-      if ((e.date || '') < vandaag) continue;
+      if ((e.date || '') < vanavond) continue;
       const sleutel = e.eventSlug || '';
       if (!sleutel || gezien.has(sleutel)) continue;
       gezien.add(sleutel);

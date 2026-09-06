@@ -72,7 +72,7 @@ interface HomePageProps {
   allVenues?: any[]; // includes typeSlug: 'clubbing' | 'boat' | ...
   liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
   /** Server-rendered ISO yyyy-mm-dd, so date labels are hydration-safe. */
-  todayStr?: string;
+  tonightStr?: string;
   /** Live Google rating, or null when the profile has none to show. */
   rating?: HeroRating | null;
 }
@@ -92,7 +92,7 @@ const ZONES: { id: string; kleurKlasse: string; stip: string; naam: Record<strin
   { id: 'zone-wateract', kleurKlasse: 'zone--insider', stip: '#8D7BC4', naam: { nl: 'On the water activities', en: 'On the water activities', de: 'On the water activities', es: 'On the water activities', fr: 'On the water activities' } },
 ]
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, todayStr = '', rating = null, rentalsSlot = null, reviewsSlot = null, faqSlot = null }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, tonightStr = '', rating = null, rentalsSlot = null, reviewsSlot = null, faqSlot = null }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -213,7 +213,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
 
 
-      <HomeTonight events={pickerEvents} todayStr={todayStr} locale={locale} base={base} />
+      <HomeTonight events={pickerEvents} tonightStr={tonightStr} locale={locale} base={base} />
 
 
 

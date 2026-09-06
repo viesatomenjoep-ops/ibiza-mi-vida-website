@@ -16,7 +16,7 @@ import { addDays } from '@/lib/date-label';
 import { getGoogleReviews } from '@/lib/google-reviews';
 import { GoogleReviews } from '@/components/reviews/GoogleReviews';
 import { ReviewSchema } from '@/components/seo/ReviewSchema';
-import { ibizaToday } from '@/lib/date-label';
+import { ibizaToday, ibizaTonight } from '@/lib/date-label';
 
 export const revalidate = 3600
 
@@ -43,6 +43,12 @@ export default async function Home({ params }: { params: { locale: string } }) {
   // Fetch upcoming dates from local compiled JSON
   const allDates = await getAllDates(params.locale);
   const todayStr = ibizaToday();
+  // Clubavonden staan in de feed op de datum waarop ze BEGINNEN en lopen door
+  // tot zes uur 's ochtends. Tussen middernacht en 06:00 is "vanavond" dus de
+  // vórige kalenderdag; op todayStr filteren liet het feest dat op dat moment
+  // aan de gang was uit de lijst vallen, precies op het uur dat mensen kopen.
+  // Dagactiviteiten houden todayStr — zie de toelichting bij ibizaTonight().
+  const tonightStr = ibizaTonight();
 
   /**
    * Uitgelichte clubs, roulerend in plaats van vier vaste namen.
@@ -98,7 +104,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
     allVenues.filter(v => ((v as any).type?.slug || '') === 'clubbing').map(v => v.slug)
   );
   const pickerEvents = allDates
-    .filter(d => /^\d{4}-\d{2}-\d{2}/.test(d.date || '') && (d.date || '') >= todayStr && clubbingSlugs.has(d.venueSlug || ''))
+    .filter(d => /^\d{4}-\d{2}-\d{2}/.test(d.date || '') && (d.date || '') >= tonightStr && clubbingSlugs.has(d.venueSlug || ''))
     .map(d => {
       const m = String(d.prices || '').match(/\d+([.,]\d+)?/);
       return {
@@ -141,12 +147,17 @@ export default async function Home({ params }: { params: { locale: string } }) {
       ext: internal ? undefined : (d.affLink || ''),
     }
   }
-  const upcomingSorted = allDates.filter(d => (d.date || '') >= todayStr).sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+  // Ruim filteren op de nacht; per soort wordt hieronder bijgesteld, want een
+  // boottocht van vanochtend hoort na middernacht wél weg en een clubavond niet.
+  const upcomingSorted = allDates.filter(d => (d.date || '') >= tonightStr).sort((a, b) => (a.date || '').localeCompare(b.date || ''))
   const bucket = (pred: (t: string) => boolean, kind: 'clubs' | 'water' | 'land') => {
     const out: any[] = []; const seen = new Set<string>()
     for (const d of upcomingSorted) {
       const t = typeBySlug.get(d.venueSlug || '') || ''
       if (!pred(t)) continue
+      // Alleen clubavonden mogen over middernacht heen blijven staan. Een
+      // jetski of jeepsafari van gisteren is om 01:00 echt voorbij.
+      if (kind !== 'clubs' && (d.date || '') < todayStr) continue
       const key = d.venueSlug + '|' + d.eventSlug
       if (seen.has(key)) continue
       seen.add(key); out.push(dealFrom(d, kind))
@@ -225,6 +236,11 @@ export default async function Home({ params }: { params: { locale: string } }) {
   // items zonder afbeelding bleven er soms drie over -- te weinig voor een
   // ring, laat staan voor vier categorieen.
   const PER_DAY = 60;
+  // Twee reeksen, want de twee soorten beginnen niet op dezelfde dag. Tussen
+  // middernacht en 06:00 begint de clubreeks nog bij de avond die op dat moment
+  // loopt, terwijl de excursiereeks al bij de nieuwe kalenderdag begint — een
+  // boottocht van gisterochtend hoeft daar niet meer tussen te staan.
+  const nachtList = Array.from({ length: DAYS }, (_, i) => addDays(tonightStr, i));
   const dayList = Array.from({ length: DAYS }, (_, i) => addDays(todayStr, i));
   const onDay = (iso: string) => allDates.filter(d => (d.date || '').slice(0, 10) === iso);
 
@@ -287,7 +303,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
     };
   }).filter(d => d.items.length > 0);
 
-  const clubDays = dayList.map(iso => ({
+  const clubDays = nachtList.map(iso => ({
     date: iso,
     // Same provider-spread as the experiences grid: a club with four rooms
     // billed as four events should not take a third of the night's line-up.
@@ -327,7 +343,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
       pickerEvents={[...pickerEvents].sort((a, b) => a.date.localeCompare(b.date)).slice(0, 250)}
       deals={deals}
       liveByClub={liveByClub}
-      todayStr={todayStr}
+      tonightStr={tonightStr}
       rating={reviews ? { rating: reviews.rating, total: reviews.total, url: reviews.url } : null}
       allVenues={allVenues.map(v => ({
         slug: v.slug,

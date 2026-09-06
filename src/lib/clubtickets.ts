@@ -1,4 +1,5 @@
 import { stripHtml, cleanHtml } from './html-utils';
+import { ibizaTonight } from './date-label';
 import { fixImageCase, isBlankCover } from './blank-covers';
 
 export const API_KEY = '80aac9f0b1a44b63060b083f3813271a';
@@ -291,9 +292,17 @@ export async function getAllDates(locale: string = 'en', limit?: number): Promis
   const data = await loadData(locale);
   let dates = data.dates || [];
   
-  // Ensure we only return dates in the future
-  const now = new Date().getTime() - (24 * 60 * 60 * 1000);
-  dates = dates.filter(d => new Date(d.date).getTime() > now);
+  // Alles vanaf de nacht die nu loopt. De ondergrens is bewust de nacht en niet
+  // de kalenderdag: een clubavond staat op zijn begindatum en duurt tot een uur
+  // of zes 's ochtends, dus tussen middernacht en 06:00 hoort de vorige datum er
+  // nog bij. Anders valt hier al weg wat de pagina's erboven nog willen tonen.
+  //
+  // Hiervoor stond er `now - 24 uur` met een Date-vergelijking. Dat hield het
+  // goede eind toevallig net over, maar hing aan de tijdzone van de server: op
+  // een machine die niet in UTC draait schoof de grens mee. Dit is een kale
+  // tekstvergelijking van twee YYYY-MM-DD's en kan niet verschuiven.
+  const ondergrens = ibizaTonight();
+  dates = dates.filter(d => String(d.date || '').slice(0, 10) >= ondergrens);
   
   if (limit && limit > 0) {
     dates = dates.slice(0, limit);

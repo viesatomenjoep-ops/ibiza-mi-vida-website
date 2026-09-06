@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getAllDates } from '@/lib/clubtickets'
-import { ibizaToday } from '@/lib/date-label'
+import { ibizaTonight } from '@/lib/date-label'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,10 +24,10 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'venues parameter is required' }, { status: 400 })
   }
 
-  const todayStr = ibizaToday()
+  const tonightStr = ibizaTonight()
   const monthStart = `${month}-01`
   const monthEnd = `${month}-31`
-  const from = monthStart > todayStr ? monthStart : todayStr
+  const from = monthStart > tonightStr ? monthStart : tonightStr
 
   const allDates = await getAllDates(locale)
   const events = allDates
