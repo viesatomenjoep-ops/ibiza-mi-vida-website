@@ -137,7 +137,12 @@ export function HomeCircleCollage({
       onPointerEnter={() => { stil.current = true }}
       onPointerLeave={() => { stil.current = false }}
     >
-      <div className="relative mx-auto w-full max-w-4xl px-4">
+      <div className="mx-auto w-full max-w-4xl px-4">
+        {/* De cirkel hangt over het raster en niet over de hele sectie. Stond
+            de overlay op de buitenste wikkel, dan telde de tekst eronder mee
+            voor het midden en zakte de cirkel merkbaar onder het kruispunt
+            van de vier tegels. */}
+        <div className="relative">
         <div className="grid grid-cols-2 gap-3 md:gap-5">
           {zichtbaar.map((k, i) => (
             <Link
@@ -180,6 +185,7 @@ export function HomeCircleCollage({
               <ArrowRight size={11} aria-hidden className="hidden md:block" />
             </Link>
           </div>
+        </div>
         </div>
 
         <div className="mt-5 text-center md:mt-7">

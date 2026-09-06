@@ -213,8 +213,6 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
 
 
-      {/* Sectie 01 van de vier werelden; de rode heroknop landt hier. */}
-      <HomeEventsTickets events={pickerEvents} locale={locale} base={base} />
       <HomeTonight events={pickerEvents} todayStr={todayStr} locale={locale} base={base} />
 
 
@@ -228,6 +226,10 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           twaalf boten. Zie HomeRingCarousel voor waarom de animatie de site
           niet zwaarder maakt. */}
       <HomeRingCarousel locale={locale} base={base} events={pickerEvents} experienceDays={experienceDays} />
+
+      {/* Wereld 01, direct onder "Alles op één eiland": de ring laat zien wát
+          er is, deze sectie brengt je naar de agenda. */}
+      <HomeEventsTickets events={pickerEvents} locale={locale} base={base} />
 
       {/* Wereld 02: de eigen vloot. De knop "Private Boat Rental" in de
           hero landt hier. */}
