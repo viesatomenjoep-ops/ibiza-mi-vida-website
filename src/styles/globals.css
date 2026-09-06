@@ -1328,6 +1328,12 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 .mcat-label{font-size:.55rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#fff;text-align:center;line-height:1.15;max-width:92px}
 
 
+/* Collagetegels van de bootsectie: elke keer dat het venster een boot
+   opschuift krijgt de img een nieuwe key en speelt deze fade opnieuw. */
+.boot-tegel-img{animation:bootTegelFade .7s ease both}
+@keyframes bootTegelFade{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:scale(1)}}
+@media (prefers-reduced-motion: reduce){.boot-tegel-img{animation:none}}
+
 /* ===== Fullscreen menu — dark, colour category bars ===== */
 .fs-menu{background:#0a0a0a;}
 /* Category bars run flush from the top (below the navbar) to the language selector */

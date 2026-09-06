@@ -171,7 +171,11 @@ export function FleetFilterBar({
         {/* De zoekbalk: wanneer, met hoeveel, voor hoeveel — plus de knop.
             Panelen openen eronder, buiten de balk; zie de kop van dit bestand
             voor waarom dat buiten een scroller moet. */}
-        <div className="flex items-center overflow-hidden rounded-full border border-black/12 bg-white shadow-[0_10px_30px_-18px_rgba(0,0,0,.35)]">
+        {/* md:max-w-2xl: op desktop rekte de balk uit over de volle 1152px en
+            kwam er een halve meter lucht tussen label en waarde te staan.
+            Airbnb houdt zijn balk ook smaller dan de pagina; segmenten horen
+            compact te lezen. */}
+        <div className="flex items-center overflow-hidden rounded-full border border-black/12 bg-white shadow-[0_10px_30px_-18px_rgba(0,0,0,.35)] md:max-w-2xl">
           {dateRange && segment('date', <CalendarDays size={16} />, t(L.date, locale),
             date ? new Date(date + 'T00:00:00').toLocaleDateString(locale === 'en' ? 'en-GB' : locale, { day: 'numeric', month: 'short' }) : t(L.anyDate, locale),
             onlyAvailable)}
