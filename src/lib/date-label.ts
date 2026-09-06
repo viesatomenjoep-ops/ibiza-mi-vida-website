@@ -23,7 +23,7 @@ export function fmtShortDate(iso: string, locale: string): string {
   // Uit losse delen samengesteld, niet via toLocaleDateString in één keer.
   // De ICU van Node schrijft voor en-GB "Fri 4 Sept", die van Chrome
   // "Fri, 4 Sept" — zelfde delen, andere leestekens. Deze functie wordt in
-  // client-componenten gerenderd (FeaturedDayRotator op de homepage), dus dat
+  // client-componenten gerenderd (HomeRingCarousel op de homepage), dus dat
   // verschil was een hydration-mismatch waarna React de complete homepage
   // weggooide en opnieuw rendert. De delen zelf (weekdag, dag, maand) zijn
   // wél gelijk in beide; alleen de scheidingstekens zetten we zelf.
