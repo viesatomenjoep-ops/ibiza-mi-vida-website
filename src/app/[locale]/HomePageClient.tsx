@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Calendar, MapPin, Music } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { ClubLogoSlider } from '@/components/ui/ClubLogoSlider';
 import type { PickerEvent } from '@/lib/picker-event';
 import { type DealsData } from '@/components/home/HomeDeals';
@@ -16,14 +16,11 @@ import { HomeUSP } from '@/components/home/HomeUSP';
 import { HomeInstagram } from '@/components/home/HomeInstagram';
 import { HomeNewsletter } from '@/components/home/HomeNewsletter';
 import { HomeRingCarousel } from '@/components/home/HomeRingCarousel';
-import { ArrowCircle } from '@/components/ui/ArrowCircle';
 import { HomeTonight } from '@/components/home/HomeTonight';
 import { HeroRatingBadge, type HeroRating } from '@/components/home/HeroRatingBadge';
-import { HomeRail } from '@/components/home/HomeRail'
 import { HomeVimeo } from '@/components/home/HomeVimeo'
 import { HomeEventsTickets } from '@/components/home/HomeEventsTickets'
-import { FeaturedDayRotator } from '@/components/home/FeaturedDayRotator';
-import { fmtShortDate } from '@/lib/date-label';
+import { HomeActivities } from '@/components/home/HomeActivities'
 
 import { Reveal } from '@/components/ui/Reveal';
 // Category-grid labels for the boat pages. These live here rather than in the
@@ -224,147 +221,11 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           niet zwaarder maakt. */}
       <HomeRingCarousel locale={locale} base={base} events={pickerEvents} experienceDays={experienceDays} />
 
-      {/* UPCOMING EVENTS — now above Populaire Clubs */}
-      {clubDays.length > 0 && (
-        <FeaturedDayRotator
-          id="home-white-start"
-          days={clubDays}
-          locale={locale}
-          todayStr={todayStr}
-          calendarHref={`${base}/calendar`}
-          weekMax={60}
-          title={({ nl: 'Uitgelichte events', en: 'Featured events', es: 'Eventos destacados', de: 'Ausgewählte Events', fr: 'Événements en vedette' } as Record<string, string>)[locale] || 'Featured events'}
-        >
-          {(items) => (
-          <>
-            <HomeRail label={translations.home_featured_events || 'Events'} locale={locale}>
-              {items.map((dateObj: any, di: number) => {
-                const venue = dateObj.ct_venues;
-                const event = dateObj.ct_events;
-                const image = event?.cover || event?.logo;
-                
-                return (
-                  <Link key={dateObj.id} href={`${base}/club-tickets/${venue?.slug || 'club'}/${event?.slug || 'event'}`}
-                    className="w-[290px] shrink-0 snap-start bg-white rounded-[24px] p-4 flex gap-4 items-center hover:shadow-lg transition-shadow group border border-black/5 sm:w-[330px]"
-                  >
-                    <div className="w-24 h-24 rounded-[18px] bg-ibiza-mint relative overflow-hidden shrink-0 shadow-inner">
-                      {image ? (
-                        <Image src={image} alt="" fill sizes="96px" loading={di < 3 ? 'eager' : 'lazy'} className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-ibiza-green opacity-50">
-                          <Music size={32} />
-                        </div>
-                      )}
-                    </div>
-                    
-                    <div className="flex flex-col flex-1 min-w-0 py-1 text-neutral-900">
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <span className="bg-ibiza-green text-white text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
-                          {fmtShortDate(dateObj.date, locale)}
-                        </span>
-                      </div>
-                      
-                      {/* De naam van de avond staat op ct_events, niet op de datum:
-                          `dateObj.name` is bij deze feed vrijwel altijd leeg, dus
-                          deze kop rendeerde als lege <h3>. De kaart heette daardoor
-                          "DI 1 SEPT [UNVRS] vanaf 85 € - 500 €" — datum, zaak, prijs,
-                          geen event. Elk ander oppervlak leest het al goed
-                          (EventsExplorer, CalendarClient, calendar/page). */}
-                      <h3 className="text-xl md:text-2xl font-bold text-neutral-900 leading-tight truncate mb-1">
-                        {event?.name || dateObj.name}
-                      </h3>
-                      
-                      <div className="flex items-center gap-1.5 text-sm font-semibold text-neutral-600 mb-2">
-                        <MapPin size={14} /> {venue?.name}
-                      </div>
-
-                      {dateObj.prices ? (
-                        <div className="text-sm font-bold text-neutral-950">
-                          {translations.home_from} {dateObj.prices}
-                        </div>
-                      ) : null}
-                    </div>
-                    
-                  </Link>
-                );
-              })}
-            </HomeRail>
-
-            <div className="mt-8 text-center md:hidden">
-              <Link href={`${base}/calendar`} className="inline-flex items-center justify-center gap-2 w-full text-xs font-black tracking-widest uppercase text-black border-2 border-black/10 bg-white hover:border-black rounded-full px-6 py-4 transition-colors">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                {translations.home_full_calendar}
-              </Link>
-            </div>
-          </>
-          )}
-        </FeaturedDayRotator>
-      )}
-
-      {/* Second featured strip: everything that is not a nightclub. The homepage
-          only ever showed the club side of the business, so boats, ferries,
-          catamarans and activities — well over half the bookable inventory —
-          were invisible unless you found them in the nav. Links go through the
-          venue's own basePath, because only 'clubbing' lives under
-          /club-tickets and sending a boat there is a guaranteed 404. */}
-      <div id="zone-water" />
-      {experienceDays.length > 0 && (
-        <FeaturedDayRotator
-          id="home-experiences"
-          days={experienceDays}
-          locale={locale}
-          todayStr={todayStr}
-          calendarHref={`${base}/activities-calendar`}
-          weekMax={60}
-          title={({ nl: 'Op het water & activiteiten', en: 'On the water & activities', es: 'En el agua y actividades', de: 'Auf dem Wasser & Aktivitäten', fr: 'Sur l’eau & activités' } as Record<string, string>)[locale] || 'On the water & activities'}
-        >
-          {(items) => (
-            <HomeRail label={({ nl: 'Op het water & activiteiten', en: 'On the water & activities' } as Record<string, string>)[locale] || 'On the water & activities'} locale={locale}>
-              {items.map((dateObj: any, di: number) => {
-                const venue = dateObj.ct_venues;
-                const event = dateObj.ct_events;
-                const image = event?.cover || event?.logo;
-                const href = `${base}/${venue?.basePath || 'boat-trip'}/${venue?.slug || ''}/${event?.slug || ''}`;
-                return (
-                  <Link key={dateObj.id} href={href}
-                    className="group flex w-[290px] shrink-0 snap-start items-center gap-4 rounded-[24px] border border-black/5 bg-white p-4 text-neutral-900 transition-shadow hover:shadow-lg sm:w-[330px]"
-                  >
-                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[18px] bg-ibiza-mint shadow-inner">
-                      {image ? (
-                        <Image src={image} alt={event?.name || dateObj.name} fill sizes="96px" loading={di < 3 ? 'eager' : 'lazy'} className="object-cover transition-transform duration-500 group-hover:scale-110" />
-                      ) : null}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="text-[11px] font-black uppercase tracking-widest text-gold">{fmtShortDate(dateObj.date, locale)}</div>
-                      <div className="mt-1 line-clamp-2 font-serif text-base font-black leading-tight sm:text-lg">{event?.name || dateObj.name}</div>
-                      <div className="mt-0.5 truncate text-sm text-neutral-600">{venue?.name}</div>
-                      {dateObj.prices ? (
-                        <div className="mt-1 text-sm font-bold">{translations.home_from} {dateObj.prices}</div>
-                      ) : null}
-                    </div>
-                  </Link>
-                );
-              })}
-            </HomeRail>
-          )}
-        </FeaturedDayRotator>
-      )}
-
-      {/* Zelfde uitgang als bij de clubstrook: wie meer wil dan drie kaarten
-          per dag moet ergens heen kunnen. /calendar is de clubagenda en toont
-          alles door elkaar; deze knop gaat naar de agenda met álles behalve
-          clubavonden — boottochten, jetski's, buggy's, grotten, Formentera. */}
-      {experienceDays.length > 0 && (
-        <div className="mx-auto -mt-2 mb-10 flex max-w-7xl px-4 md:px-8">
-          <Link
-            href={`${base}/activities-calendar`}
-            className="inline-flex items-center gap-2 rounded-full border border-black/12 bg-white px-5 py-2.5 text-[11px] font-black uppercase tracking-widest text-neutral-700 transition-colors hover:border-ibiza-green hover:text-ibiza-green"
-          >
-            {({ nl: 'Hele activiteitenagenda', en: 'Full activities calendar', de: 'Ganzer Aktivitätenkalender', es: 'Agenda completa de actividades', fr: 'Agenda complet des activités' } as Record<string, string>)[locale] || 'Full activities calendar'}
-            <span aria-hidden>↗</span>
-          </Link>
-        </div>
-      )}
+      {/* Wereld 02: alles wat geen clubavond is. Verving de dagrotator met
+          de dagbalk -- die stond met dezelfde kiezer twee keer op de pagina
+          en duwde de rest ver naar beneden. Dit blok laat zien wat er is en
+          stuurt door naar de volledige agenda. */}
+      <HomeActivities days={experienceDays} locale={locale} base={base} />
 
       {/* De film staat hier en niet onder de hero. Onder de hero kwam hij vóór
           alles wat te koop is: je zag een kop, een knop en dan een video, en
