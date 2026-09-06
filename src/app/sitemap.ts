@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next'
 import { SITE_URL, LOCALES, DEFAULT_LOCALE } from '@/lib/seo'
-import { getVenues, getAllEvents, getArtists, getDataLastUpdated } from '@/lib/clubtickets'
+import { getVenues, getAllEvents, getArtists, getDataLastUpdated, getArtistsWithUpcomingDates } from '@/lib/clubtickets'
 import { eventBasePath } from '@/lib/event-path'
 import { publishableMonths } from '@/lib/month-pages'
 import { locations } from '@/lib/locations'
@@ -181,8 +181,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const m of await publishableMonths(DEFAULT_LOCALE)) {
       routes.push(...entriesFor(`/ibiza-in/${m}`, 0.7, 'daily', dataDate))
     }
+    // Alleen artiesten die nog optreden. Een uitgespeelde artiest houdt een
+    // pagina over met een naam en een foto, en dat is precies wat Google op
+    // "ontdekt, momenteel niet geïndexeerd" zet.
+    //
+    // Midden in het seizoen sluit dit niemand uit -- alle 149 hebben nog datums.
+    // Het gaat om na de closings: dan valt een artiest er vanzelf uit, zonder
+    // dat iemand deze lijst hoeft bij te houden.
+    //
+    // De pagina's blijven bestaan en bereikbaar via links -- ze zetten zichzelf
+    // alleen op noindex, met exact deze lijst als bron. Zie
+    // getArtistsWithUpcomingDates(): één regel voor allebei, anders beloof je
+    // hier een pagina die zichzelf verderop afwijst.
+    const artiestenMetDatums = await getArtistsWithUpcomingDates(DEFAULT_LOCALE)
     for (const a of artists) {
-      if (a.slug) routes.push(...entriesFor(`/artists/${a.slug}`, 0.5, 'weekly', dataDate))
+      if (a.slug && artiestenMetDatums.has(a.slug)) {
+        routes.push(...entriesFor(`/artists/${a.slug}`, 0.5, 'weekly', dataDate))
+      }
     }
   } catch {
     // If data loading fails, still return the static routes above.

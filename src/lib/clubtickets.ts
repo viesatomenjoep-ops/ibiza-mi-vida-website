@@ -324,27 +324,73 @@ export async function getArtist(slug: string, locale: string = 'en'): Promise<CT
   return data.artists?.find(a => a.slug === slug);
 }
 
-export async function getArtistDates(artistName: string, locale: string = 'en', artistSlug?: string): Promise<CTEventDate[]> {
-  const dates = await getAllDates(locale);
-  const searchName = artistName.toLowerCase();
-  
-  const mainName = searchName
+/**
+ * De naam waarop een artiest in de line-ups te herkennen is.
+ *
+ * ClubTickets zet er van alles achter: "Carl Cox presents...", "David Guetta at
+ * Ushuaïa". Voor het zoeken in line-upteksten willen we alleen het stuk ervoor.
+ */
+function hoofdnaam(artistName: string): string {
+  return (artistName || '')
+    .toLowerCase()
     .replace(/\s+presents.*$/i, '')
     .replace(/\s+at\s+ushuaïa.*$/i, '')
     .replace(/\s+at\s+hï\s+ibiza.*$/i, '')
     .replace(/\s+at\s+club.*$/i, '')
     .trim();
+}
 
-  return dates.filter(d => {
-    if (d.lineUp && d.lineUp.toLowerCase().includes(mainName)) {
-      return true;
-    }
-    if (artistSlug && d.eventSlug === artistSlug) {
-      return true;
-    }
-    if (d.eventName && d.eventName.toLowerCase().includes(mainName)) {
-      return true;
-    }
-    return false;
-  });
+/** Hoort deze datum bij deze artiest? Eén regel, gedeeld door alles hieronder. */
+function isVanArtiest(d: CTEventDate, naam: string, artistSlug?: string): boolean {
+  if (d.lineUp && d.lineUp.toLowerCase().includes(naam)) return true;
+  if (artistSlug && d.eventSlug === artistSlug) return true;
+  if (d.eventName && d.eventName.toLowerCase().includes(naam)) return true;
+  return false;
+}
+
+export async function getArtistDates(artistName: string, locale: string = 'en', artistSlug?: string): Promise<CTEventDate[]> {
+  const dates = await getAllDates(locale);
+  const naam = hoofdnaam(artistName);
+  return dates.filter(d => isVanArtiest(d, naam, artistSlug));
+}
+
+/**
+ * De slugs van artiesten die nog minstens één optreden hebben staan.
+ *
+ * ── Waarom dit bestaat ────────────────────────────────────────────────────
+ * Een artiest zonder komende datum houdt een pagina over met een naam, een foto
+ * en een Spotify-link, en verder niets. Dat is precies het soort dunne pagina
+ * dat Google op "ontdekt, momenteel niet geïndexeerd" zet -- en het kost het
+ * crawlbudget dat naar de eventpagina's had gemoeten.
+ *
+ * ── Wat dit vandaag doet: niets ───────────────────────────────────────────
+ * Midden in het seizoen hebben alle 149 artiesten in de feed nog datums staan,
+ * dus deze functie sluit op dit moment niemand uit. Dat is geen reden hem weg
+ * te laten: zodra een residentie afloopt, verdwijnt die artiest vanzelf uit de
+ * sitemap en zet zijn pagina zichzelf op noindex, zonder dat iemand eraan hoeft
+ * te denken. Na de closings van oktober gaat dat om tientallen pagina's.
+ *
+ * (Eerlijkheidshalve: dit is gebouwd op een meting die eerst 123 lege artiesten
+ * meldde. Die telling was fout -- er werd een slug doorgegeven waar een naam
+ * hoort, dus werd er in de line-ups gezocht naar "carl-cox" in plaats van naar
+ * "Carl Cox". Met het juiste argument hebben alle 149 datums.)
+ *
+ * Deze functie is de enige bron voor die scheiding: de sitemap gebruikt hem om
+ * lege artiesten weg te laten, en de artiestenpagina zelf gebruikt dezelfde
+ * regel om zich op noindex te zetten. Zouden die twee elk hun eigen versie
+ * hebben, dan beloof je Google een pagina in de sitemap die zichzelf vervolgens
+ * afwijst -- een tegenstrijdig signaal dat erger is dan allebei de kwalen.
+ *
+ * Eén keer alle datums laden en dan filteren; niet 149 keer getArtistDates,
+ * want dat leest de hele lijst per artiest opnieuw.
+ */
+export async function getArtistsWithUpcomingDates(locale: string = 'en'): Promise<Set<string>> {
+  const [artists, dates] = await Promise.all([getArtists(locale), getAllDates(locale)]);
+  const uit = new Set<string>();
+  for (const a of artists) {
+    if (!a.slug) continue;
+    const naam = hoofdnaam(a.name);
+    if (dates.some(d => isVanArtiest(d, naam, a.slug))) uit.add(a.slug);
+  }
+  return uit;
 }

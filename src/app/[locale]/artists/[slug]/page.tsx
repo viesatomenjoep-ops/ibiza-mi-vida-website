@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { Calendar, MapPin, Music } from 'lucide-react'
 import { format } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
-import { getArtist, getArtistDates, getVenues } from '@/lib/clubtickets'
+import { getArtist, getArtistDates, getVenues, getArtistsWithUpcomingDates } from '@/lib/clubtickets'
 import { eventBasePath } from '@/lib/event-path'
 import { ibizaTonight } from '@/lib/date-label'
 import { BackButton } from '@/components/ui/BackButton'
@@ -95,6 +95,10 @@ async function fetchArtist(slug: string, locale: string) {
       venueBasePath: eventBasePath(typeBySlug.get(ctArtist.venueSlug || '')),
       href: ''
     },
+    // lineUp, prices en lowestAvailablePrice werden hier weggegooid terwijl ze
+    // in de feed staan. Juist die drie maken het verschil tussen een pagina met
+    // een naam erop en een pagina die een vraag beantwoordt — zie de feitenregel
+    // en de line-up per datum hieronder.
     dates: dates.map((d: any) => ({
       id: d.id,
       name: d.name,
@@ -105,7 +109,10 @@ async function fetchArtist(slug: string, locale: string) {
       venueSlug: d.venueSlug,
       basePath: eventBasePath(typeBySlug.get(d.venueSlug || '')),
       eventCover: d.eventCover || d.eventLogo || '',
-      venueCover: d.venueCover || ''
+      venueCover: d.venueCover || '',
+      lineUp: (d.lineUp || '').trim(),
+      prices: (d.prices || '').trim(),
+      vanafPrijs: typeof d.lowestAvailablePrice === 'number' ? d.lowestAvailablePrice : null,
     }))
   };
 }
@@ -140,6 +147,74 @@ const WARM_UP: T = L(
   'Mettez-vous dans l’ambiance avec les derniers titres et hymnes de soirée de %NAME%.',
 )
 const EVENTS_LABEL: T = L('Events', 'Events', 'Events', 'Eventos', 'Événements')
+
+/**
+ * ── De feitenregel en de vragen hieronder ─────────────────────────────────
+ *
+ * Deze pagina's hadden 47 tot 77 woorden in <main>: een naam, een foto en een
+ * lijstje datums. Google noemde dat terecht dun en liet 1.702 van dit soort
+ * pagina's ongeindexeerd liggen. Antwoordmachines als ChatGPT en Perplexity
+ * citeren bovendien alleen wat een concrete vraag beantwoordt.
+ *
+ * Alles wat hier bijkomt komt uit de feed die we toch al ophalen: hoe vaak
+ * iemand draait, waar, tussen welke twee datums, vanaf welke prijs en met wie
+ * op de line-up. Geen letter biografie, geen "een van de grootste dj's ter
+ * wereld" -- dat zou verzonnen zijn en is precies waar deze site eerder al een
+ * keer de mist mee in ging. Staat een gegeven niet in de feed, dan blijft de
+ * zin weg.
+ */
+const SAMENVATTING = (n: number, venues: string, van: string, tot: string, prijs: string): T => L(
+  `${n === 1 ? 'staat één keer' : `staat ${n} keer`} op de agenda in Ibiza, in ${venues}, van ${van} tot en met ${tot}${prijs}.`,
+  `${n === 1 ? 'plays once' : `plays ${n} times`} in Ibiza, at ${venues}, from ${van} through ${tot}${prijs}.`,
+  `${n === 1 ? 'steht einmal' : `steht ${n} Mal`} auf Ibiza im Programm, im ${venues}, vom ${van} bis ${tot}${prijs}.`,
+  `${n === 1 ? 'actúa una vez' : `actúa ${n} veces`} en Ibiza, en ${venues}, del ${van} al ${tot}${prijs}.`,
+  `${n === 1 ? 'joue une fois' : `joue ${n} fois`} à Ibiza, au ${venues}, du ${van} au ${tot}${prijs}.`,
+)
+const VANAF = (p: string): T => L(
+  `, met tickets vanaf ${p}`,
+  `, with tickets from ${p}`,
+  `, mit Tickets ab ${p}`,
+  `, con entradas desde ${p}`,
+  `, avec des billets à partir de ${p}`,
+)
+const LINEUP_LABEL: T = L('Line-up', 'Line-up', 'Line-up', 'Cartel', 'Line-up')
+const VRAGEN_KOP: T = L('Veelgestelde vragen', 'Frequently asked questions', 'Häufige Fragen', 'Preguntas frecuentes', 'Questions fréquentes')
+const V_WANNEER = (naam: string): T => L(
+  `Wanneer draait ${naam} op Ibiza?`, `When does ${naam} play in Ibiza?`,
+  `Wann legt ${naam} auf Ibiza auf?`, `¿Cuándo actúa ${naam} en Ibiza?`,
+  `Quand ${naam} joue-t-il à Ibiza ?`,
+)
+const V_WAAR = (naam: string): T => L(
+  `In welke club speelt ${naam}?`, `Which club does ${naam} play at?`,
+  `In welchem Club spielt ${naam}?`, `¿En qué club actúa ${naam}?`,
+  `Dans quel club joue ${naam} ?`,
+)
+const V_PRIJS = (naam: string): T => L(
+  `Wat kosten tickets voor ${naam}?`, `How much are tickets for ${naam}?`,
+  `Was kosten Tickets für ${naam}?`, `¿Cuánto cuestan las entradas para ${naam}?`,
+  `Combien coûtent les billets pour ${naam} ?`,
+)
+const A_WAAR = (naam: string, venues: string): T => L(
+  `${naam} draait in ${venues}. Op elke datumkaart hierboven staat de club erbij; klik erop voor de line-up van die avond en de tickets.`,
+  `${naam} plays at ${venues}. Every date card above names the club; click through for that night's line-up and tickets.`,
+  `${naam} legt im ${venues} auf. Auf jeder Datumskarte oben steht der Club; ein Klick zeigt das Line-up und die Tickets.`,
+  `${naam} actúa en ${venues}. Cada tarjeta de fecha indica el club; haz clic para ver el cartel y las entradas.`,
+  `${naam} joue au ${venues}. Chaque carte de date indique le club ; cliquez pour le line-up et les billets.`,
+)
+const A_PRIJS_ONBEKEND: T = L(
+  'De prijzen verschillen per avond en staan op de eventpagina van die datum.',
+  'Prices vary per night and are shown on the event page for that date.',
+  'Die Preise unterscheiden sich pro Abend und stehen auf der Eventseite des Termins.',
+  'Los precios varían por noche y se indican en la página del evento de esa fecha.',
+  'Les prix varient selon la soirée et figurent sur la page de l’événement.',
+)
+const A_PRIJS = (p: string): T => L(
+  `Tickets beginnen bij ${p}. De prijs loopt op naarmate een avond voller raakt, dus vroeg boeken is bijna altijd goedkoper.`,
+  `Tickets start at ${p}. Prices rise as a night fills up, so booking early is almost always cheaper.`,
+  `Tickets beginnen bei ${p}. Die Preise steigen, je voller ein Abend wird — früh buchen ist fast immer günstiger.`,
+  `Las entradas empiezan en ${p}. El precio sube según se llena la noche, así que reservar pronto suele salir más barato.`,
+  `Les billets démarrent à ${p}. Le prix monte à mesure que la soirée se remplit : réserver tôt revient presque toujours moins cher.`,
+)
 const AVAILABLE: T = L('Beschikbaar', 'Available', 'Verfügbar', 'Disponibles', 'Disponibles')
 const VIEW_TICKETS: T = L('Bekijk Tickets', 'View Tickets', 'Tickets ansehen', 'Ver Entradas', 'Voir les Billets')
 
@@ -148,11 +223,37 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const result = await fetchArtist(params.slug, locale)
   if (!result) return staticMetadata(locale, 'artists')
 
-  return detailMetadata(locale, `artists/${params.slug}`, result.artist.name, {
+  const meta = detailMetadata(locale, `artists/${params.slug}`, result.artist.name, {
     description: INTRO_TEXT[locale].replace('%NAME%', result.artist.name),
     image: result.artist.image || result.dates[0]?.eventCover,
     suffix: '— Ibiza 2026',
   })
+
+  /**
+   * Uitgespeelde artiesten vragen niet om indexering.
+   *
+   * Zonder komende datums blijft hier een naam, een foto en een Spotify-link
+   * over. Google noemt dat terecht dun en laat zulke pagina's liggen op
+   * "ontdekt, momenteel niet geïndexeerd". Met noindex vraag je er niet meer om
+   * en gaat het crawlbudget naar de eventpagina's van 2.276 woorden.
+   *
+   * Midden in het seizoen raakt dit niemand: alle 149 artiesten hebben nog
+   * datums staan. Het gaat om de maanden na de closings.
+   *
+   * `follow: true` blijft staan: de links naar clubs en events op deze pagina
+   * mogen hun waarde gewoon doorgeven. En de pagina zelf blijft bestaan, want
+   * iemand die op de artiestennaam zoekt en hier via een interne link belandt,
+   * hoort geen 404 te krijgen.
+   *
+   * Dezelfde bron als de sitemap -- zie getArtistsWithUpcomingDates(). Anders
+   * zou de sitemap een pagina aanbieden die zichzelf vervolgens afwijst, en dat
+   * tegenstrijdige signaal is erger dan allebei de kwalen apart.
+   */
+  const metDatums = await getArtistsWithUpcomingDates(locale)
+  if (!metDatums.has(params.slug)) {
+    return { ...meta, robots: { index: false, follow: true } }
+  }
+  return meta
 }
 
 export default async function ArtistPage({ params }: Props) {
@@ -172,6 +273,28 @@ export default async function ArtistPage({ params }: Props) {
     .sort((a, b) => String(a.date).localeCompare(String(b.date)));
 
   const localeObj = DF_LOC[locale] || enUS;
+
+  // ── Feiten, geteld uit de datums die we toch al hebben ──────────────────
+  // Alles hieronder is afgeleid; er staat niets in dat niet in de feed zit.
+  const clubs = Array.from(new Set(futureDates.map(d => d.venueName).filter(Boolean))) as string[]
+  const clubsTekst = clubs.length === 0 ? ''
+    : clubs.length === 1 ? clubs[0]
+    : `${clubs.slice(0, -1).join(', ')} & ${clubs[clubs.length - 1]}`
+  const prijzen = futureDates.map(d => d.vanafPrijs).filter((p): p is number => typeof p === 'number' && p > 0)
+  const laagstePrijs = prijzen.length ? Math.min(...prijzen) : null
+  const prijsTekst = laagstePrijs ? `€${laagstePrijs}` : ''
+  const datumKort = (iso: string) => format(parseLocalDate(iso), 'd MMMM', { locale: localeObj })
+  const heeftFeiten = futureDates.length > 0 && clubsTekst !== ''
+  const feitenRegel = heeftFeiten
+    ? `${artist.name} ${SAMENVATTING(
+        futureDates.length,
+        clubsTekst,
+        datumKort(futureDates[0].date),
+        datumKort(futureDates[futureDates.length - 1].date),
+        prijsTekst ? VANAF(prijsTekst)[locale] : '',
+      )[locale]}`
+    : ''
+
   const rawHeaderImg = futureDates[0]?.eventCover || futureDates[0]?.venueCover || artist.image;
   const headerImage = rawHeaderImg && rawHeaderImg.trim() ? rawHeaderImg : '/hi-ibiza-2026/FB_IMG_1779623220486.jpg';
   const spotifyDetails = getSpotifyEmbedDetails(artist.slug);
@@ -222,6 +345,18 @@ export default async function ArtistPage({ params }: Props) {
         </div>
       </section>
 
+      {/* Eén regel harde feiten, geteld uit de agenda: hoe vaak, waar, tussen
+          welke datums en vanaf welke prijs. Dit is het soort zin dat een
+          antwoordmachine kan citeren, en het is per definitie actueel omdat
+          hij meeschuift met de feed. */}
+      {feitenRegel && (
+        <div className="max-w-7xl mx-auto px-4 mt-10 sm:px-6 lg:px-8">
+          <p className="max-w-3xl text-base md:text-lg leading-relaxed text-white/85">
+            {feitenRegel}
+          </p>
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto px-4 mt-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
 
@@ -253,7 +388,24 @@ export default async function ArtistPage({ params }: Props) {
                     <h3 className="text-lg md:text-xl font-bold truncate text-black mb-1">{date.eventName || date.name}</h3>
                     <div className="text-sm font-bold text-neutral-800 flex items-center gap-1">
                       <MapPin size={14} className="text-neutral-500" /> {date.venueName}
+                      {date.vanafPrijs ? (
+                        <span className="ml-2 rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-black text-neutral-700">
+                          €{date.vanafPrijs}
+                        </span>
+                      ) : null}
                     </div>
+                    {/* De line-up van die avond stond wel in de feed maar werd
+                        hier weggegooid. Het is de enige inhoud op deze pagina
+                        die per datum verschilt, en precies wat iemand zoekt die
+                        wil weten met wie zijn favoriet draait. Op één regel
+                        afgekapt zodat twintig kaarten onder elkaar leesbaar
+                        blijven; de volledige lijst staat op de eventpagina. */}
+                    {date.lineUp ? (
+                      <p className="mt-1 truncate text-xs text-neutral-500">
+                        <span className="font-bold text-neutral-600">{LINEUP_LABEL[locale]}: </span>
+                        {date.lineUp}
+                      </p>
+                    ) : null}
                   </div>
                   <div className="shrink-0 hidden md:block">
                     <div className="bg-ibiza-green text-velvet-obsidian font-bold text-sm px-5 py-2.5 rounded-full hover:brightness-95 transition-all inline-block">
@@ -304,6 +456,36 @@ export default async function ArtistPage({ params }: Props) {
           </div>
 
         </div>
+
+        {/* Drie vragen met antwoorden die uit de agenda hierboven komen. Geen
+            algemeenheden over dresscode of leeftijd -- die staan al op de
+            eventpagina's en zouden hier op 149 pagina's hetzelfde zijn, wat
+            juist het soort duplicaat is waar dit hele opruimwerk om begonnen
+            is. Deze drie verschillen per artiest en veranderen mee met de
+            feed. */}
+        {heeftFeiten && (
+          <section className="mt-14 border-t border-white/15 pt-10">
+            <h2 className="font-serif text-2xl md:text-3xl font-black text-white mb-6">
+              {VRAGEN_KOP[locale]}
+            </h2>
+            <div className="flex flex-col gap-5 max-w-3xl">
+              <div>
+                <h3 className="font-bold text-white mb-1">{V_WANNEER(artist.name)[locale]}</h3>
+                <p className="text-white/75 leading-relaxed">{feitenRegel}</p>
+              </div>
+              <div>
+                <h3 className="font-bold text-white mb-1">{V_WAAR(artist.name)[locale]}</h3>
+                <p className="text-white/75 leading-relaxed">{A_WAAR(artist.name, clubsTekst)[locale]}</p>
+              </div>
+              <div>
+                <h3 className="font-bold text-white mb-1">{V_PRIJS(artist.name)[locale]}</h3>
+                <p className="text-white/75 leading-relaxed">
+                  {prijsTekst ? A_PRIJS(prijsTekst)[locale] : A_PRIJS_ONBEKEND[locale]}
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
       </div>
       {/* Floating Bottom Bar for mobile/desktop checkout */}
       {futureDates.length > 0 && (
