@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { CalendarDays, Users, Euro, MapPin, ArrowUpDown, Ship, X, Check } from 'lucide-react'
+import { CalendarDays, Users, Euro, MapPin, ArrowUpDown, Ship, X, Check, Search } from 'lucide-react'
 
 export type SortKey = 'default' | 'price-asc' | 'price-desc'
 
@@ -35,6 +35,9 @@ const L = {
   anyGuests: T('Elk aantal', 'Any number', 'Beliebig', 'Cualquiera', 'Peu importe'),
   guestsUp: T('{n}+ gasten', '{n}+ guests', '{n}+ Gäste', '{n}+ invitados', '{n}+ invités'),
   price: T('Prijs', 'Price', 'Preis', 'Precio', 'Prix'),
+  vanaf: T('Van', 'From', 'Von', 'De', 'De'),
+  tot: T('Tot', 'To', 'Bis', 'A', 'À'),
+  toonBoten: T('Toon {n} boten', 'Show {n} boats', '{n} Boote zeigen', 'Ver {n} barcos', 'Voir {n} bateaux'),
   anyPrice: T('Elk budget', 'Any budget', 'Jedes Budget', 'Cualquier precio', 'Tout budget'),
   upTo: T('Tot €{v}', 'Up to €{v}', 'Bis €{v}', 'Hasta €{v}', "Jusqu'à €{v}"),
   perDay: T('per dag', 'per day', 'pro Tag', 'al día', 'par jour'),
@@ -78,7 +81,7 @@ const fill = (s: string, k: string, v: string | number) => s.replace(`{${k}}`, S
 export function FleetFilterBar({
   locale, marinas, priceMin, priceMax, paxMax,
   date, setDate, dateRange, onlyAvailable, setOnlyAvailable, liveStamp,
-  minPax, setMinPax, maxPrice, setMaxPrice, marina, setMarina, soort, setSoort, sort, setSort,
+  minPax, setMinPax, minPrice, setMinPrice, maxPrice, setMaxPrice, resultCount, marina, setMarina, soort, setSoort, sort, setSort,
   onClear, activeCount,
 }: {
   locale: string
@@ -89,7 +92,10 @@ export function FleetFilterBar({
   onlyAvailable: boolean; setOnlyAvailable: (v: boolean) => void
   liveStamp: string | null
   minPax: number; setMinPax: (n: number) => void
+  minPrice: number; setMinPrice: (n: number) => void
   maxPrice: number; setMaxPrice: (n: number) => void
+  /** Hoeveel boten er met de huidige filters overblijven — op de zoekknop. */
+  resultCount: number
   marina: string; setMarina: (m: string) => void
   soort: BoatSoort; setSoort: (s: BoatSoort) => void
   sort: SortKey; setSort: (s: SortKey) => void
@@ -131,6 +137,29 @@ export function FleetFilterBar({
     </button>
   )
 
+  /**
+   * Segment in de zoekbalk: label boven waarde, hairline ertussen — de vorm
+   * die Airbnb heeft ingeburgerd, in onze eigen kleuren en letter. De drie
+   * hoofdvragen (wanneer, met hoeveel, voor hoeveel) staan zo in één balk;
+   * de bijvragen (vanwaar, welk type, volgorde) blijven kleine pillen eronder.
+   */
+  const segment = (id: string, icon: React.ReactNode, label: string, value: string, actief: boolean, laatste = false) => (
+    <button
+      type="button"
+      onClick={() => setOpen(open === id ? null : id)}
+      aria-expanded={open === id}
+      className={`flex min-w-0 flex-1 items-center gap-2 px-4 py-2.5 text-left transition-colors ${laatste ? '' : 'border-r border-black/10'} ${
+        open === id ? 'bg-neutral-100' : 'hover:bg-neutral-50'
+      }`}
+    >
+      <span className={actief ? 'shrink-0 text-ibiza-green' : 'shrink-0 text-black/35'}>{icon}</span>
+      <span className="min-w-0">
+        <span className="block text-[9px] font-black uppercase tracking-[0.14em] text-black/40">{label}</span>
+        <span className={`block truncate text-[13px] font-bold leading-tight ${actief ? 'text-neutral-900' : 'text-neutral-500'}`}>{value}</span>
+      </span>
+    </button>
+  )
+
   const keuze = (aan: boolean) =>
     `flex items-center justify-between rounded-xl px-3 py-2.5 text-left text-[13px] font-bold transition-colors ${
       aan ? 'bg-neutral-900 text-white' : 'text-neutral-700 hover:bg-neutral-100'
@@ -139,16 +168,30 @@ export function FleetFilterBar({
   return (
     <div ref={wrap} className="sticky top-[var(--nav-h)] z-40 bg-white/95 py-3 backdrop-blur-md md:static md:bg-transparent md:backdrop-blur-none">
       <div className="mx-auto max-w-6xl px-4">
-        {/* Alleen de pillen scrollen. Het paneel staat hieronder, buiten deze
-            container — zie de kop van dit bestand voor waarom dat moet. */}
-        <div className="hide-scrollbar flex items-stretch gap-2 overflow-x-auto pb-1">
-          {dateRange && pil('date', <CalendarDays size={15} />, t(L.date, locale),
+        {/* De zoekbalk: wanneer, met hoeveel, voor hoeveel — plus de knop.
+            Panelen openen eronder, buiten de balk; zie de kop van dit bestand
+            voor waarom dat buiten een scroller moet. */}
+        <div className="flex items-center overflow-hidden rounded-full border border-black/12 bg-white shadow-[0_10px_30px_-18px_rgba(0,0,0,.35)]">
+          {dateRange && segment('date', <CalendarDays size={16} />, t(L.date, locale),
             date ? new Date(date + 'T00:00:00').toLocaleDateString(locale === 'en' ? 'en-GB' : locale, { day: 'numeric', month: 'short' }) : t(L.anyDate, locale),
             onlyAvailable)}
-          {pil('pax', <Users size={15} />, t(L.guests, locale),
+          {segment('pax', <Users size={16} />, t(L.guests, locale),
             minPax > 0 ? fill(t(L.guestsUp, locale), 'n', minPax) : t(L.anyGuests, locale), minPax > 0)}
-          {pil('price', <Euro size={15} />, t(L.price, locale),
-            maxPrice < priceMax ? fill(t(L.upTo, locale), 'v', nf(maxPrice)) : t(L.anyPrice, locale), maxPrice < priceMax)}
+          {segment('price', <Euro size={16} />, t(L.price, locale),
+            minPrice > priceMin || maxPrice < priceMax ? `€${nf(minPrice)}–€${nf(maxPrice)}` : t(L.anyPrice, locale),
+            minPrice > priceMin || maxPrice < priceMax, true)}
+          <button
+            type="button"
+            onClick={sluit}
+            aria-label={fill(t(L.toonBoten, locale), 'n', resultCount)}
+            className="m-1.5 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-ibiza-green text-white transition-colors hover:brightness-110"
+          >
+            <Search size={16} aria-hidden />
+          </button>
+        </div>
+
+        {/* Bijvragen: vanwaar, welk type, volgorde. */}
+        <div className="hide-scrollbar mt-2 flex items-stretch gap-2 overflow-x-auto pb-1">
           {pil('marina', <MapPin size={15} />, t(L.depart, locale),
             marina === 'all' ? t(L.allMarinas, locale) : marina, marina !== 'all')}
           {pil('soort', <Ship size={15} />, t(L.soort, locale),
@@ -212,36 +255,62 @@ export function FleetFilterBar({
 
             {open === 'price' && (
               <>
-                <div className="mb-2 flex items-baseline justify-between">
-                  <span className="font-serif text-lg font-black">
-                    {maxPrice < priceMax ? `€${nf(maxPrice)}` : `€${nf(priceMax)}+`}
-                  </span>
-                  <span className="text-[11px] text-black/45">{t(L.perDay, locale)}</span>
+                {/* Van–tot, zoals je een budget ook in je hoofd hebt: "iets
+                    tussen de 2000 en 4000". Eén plafond dwong iedereen om
+                    vanaf de goedkoopste te kijken. De invoervelden zijn
+                    gewone nummervelden -- op mobiel opent het cijferblok --
+                    en de knoppen eronder zijn de bereiken die de vloot echt
+                    heeft. */}
+                <div className="flex items-end gap-3">
+                  <label className="flex-1">
+                    <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.14em] text-black/40">{t(L.vanaf, locale)}</span>
+                    <div className="flex items-center gap-1 rounded-xl border border-black/10 px-3 py-2.5">
+                      <span className="text-sm font-bold text-black/40">€</span>
+                      <input
+                        type="number" inputMode="numeric" min={priceMin} max={maxPrice} step={100}
+                        value={minPrice}
+                        onChange={(e) => { const v = parseInt(e.target.value || '0', 10); setMinPrice(Math.max(priceMin, Math.min(v, maxPrice))) }}
+                        className="w-full bg-transparent text-sm font-bold outline-none"
+                        aria-label={t(L.vanaf, locale)}
+                      />
+                    </div>
+                  </label>
+                  <span aria-hidden className="pb-3 text-black/30">—</span>
+                  <label className="flex-1">
+                    <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.14em] text-black/40">{t(L.tot, locale)}</span>
+                    <div className="flex items-center gap-1 rounded-xl border border-black/10 px-3 py-2.5">
+                      <span className="text-sm font-bold text-black/40">€</span>
+                      <input
+                        type="number" inputMode="numeric" min={minPrice} max={priceMax} step={100}
+                        value={maxPrice}
+                        onChange={(e) => { const v = parseInt(e.target.value || '0', 10); setMaxPrice(Math.min(priceMax, Math.max(v, minPrice))) }}
+                        className="w-full bg-transparent text-sm font-bold outline-none"
+                        aria-label={t(L.tot, locale)}
+                      />
+                    </div>
+                  </label>
                 </div>
-                <input
-                  type="range" min={priceMin} max={priceMax} step={50} value={maxPrice}
-                  onChange={(e) => setMaxPrice(parseInt(e.target.value, 10))}
-                  className="fleet-range w-full"
-                  style={{ background: `linear-gradient(to right,#0E7C66 0%,#0E7C66 ${((maxPrice - priceMin) / (priceMax - priceMin)) * 100}%,#e5e5e5 ${((maxPrice - priceMin) / (priceMax - priceMin)) * 100}%,#e5e5e5 100%)` }}
-                  aria-label={t(L.price, locale)}
-                />
                 <div className="mt-3 flex flex-wrap gap-2">
-                  {[1000, 2000, 3500, 5000].filter(v => v > priceMin && v < priceMax).map(v => (
-                    <button key={v} type="button" onClick={() => { setMaxPrice(v); sluit() }}
-                      className={`rounded-full border px-3.5 py-2 text-[13px] font-bold transition-colors ${
-                        maxPrice === v ? 'border-neutral-900 bg-neutral-900 text-white' : 'border-black/12 text-neutral-700 hover:border-neutral-400'
-                      }`}>≤ €{nf(v)}</button>
-                  ))}
-                  <button type="button" onClick={() => { setMaxPrice(priceMax); sluit() }}
+                  {([[priceMin, 1000], [1000, 2000], [2000, 4000], [4000, priceMax]] as [number, number][]).map(([lo, hi]) => {
+                    const aan = minPrice === lo && maxPrice === hi
+                    return (
+                      <button key={`${lo}-${hi}`} type="button"
+                        onClick={() => { setMinPrice(lo); setMaxPrice(hi); sluit() }}
+                        className={`rounded-full border px-3.5 py-2 text-[13px] font-bold transition-colors ${
+                          aan ? 'border-neutral-900 bg-neutral-900 text-white' : 'border-black/12 text-neutral-700 hover:border-neutral-400'
+                        }`}>
+                        {hi >= priceMax ? `€${nf(lo)}+` : `€${nf(lo)} – €${nf(hi)}`}
+                      </button>
+                    )
+                  })}
+                  <button type="button" onClick={() => { setMinPrice(priceMin); setMaxPrice(priceMax); sluit() }}
                     className={`rounded-full border px-3.5 py-2 text-[13px] font-bold transition-colors ${
-                      maxPrice >= priceMax ? 'border-neutral-900 bg-neutral-900 text-white' : 'border-black/12 text-neutral-700 hover:border-neutral-400'
+                      minPrice <= priceMin && maxPrice >= priceMax ? 'border-neutral-900 bg-neutral-900 text-white' : 'border-black/12 text-neutral-700 hover:border-neutral-400'
                     }`}>{t(L.anyPrice, locale)}</button>
                 </div>
-                {/* De schuif is het enige paneel dat niet vanzelf sluit: tijdens
-                    het slepen zou dat het slepen onmogelijk maken. */}
                 <button type="button" onClick={sluit}
                   className="mt-3 w-full rounded-full bg-neutral-900 py-2.5 text-[12px] font-black uppercase tracking-widest text-white">
-                  {t(L.close, locale)}
+                  {fill(t(L.toonBoten, locale), 'n', resultCount)}
                 </button>
               </>
             )}

@@ -439,6 +439,9 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
 
   // Price filter state
   const [maxPrice, setMaxPrice] = useState<number>(PRICE_MAX);
+  // Ondergrens van het budget. Wie "tussen de 2000 en 4000" zoekt wil de
+  // sloepen van 680 niet zien; met alleen een plafond kon dat niet.
+  const [minPrice, setMinPrice] = useState<number>(PRICE_MIN);
   const [minPax, setMinPax] = useState(0);
   const [sort, setSort] = useState<SortKey>('default');
 
@@ -505,7 +508,7 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
       const matchCategory = category === 'all' || b.category === category;
       const matchMarina = marina === 'all' || b.marina === marina;
       const matchSearch = !q || `${b.model} ${b.name ?? ''} ${b.marina}`.toLowerCase().includes(q);
-      const matchPrice = b.price.low <= maxPrice;
+      const matchPrice = b.price.low <= maxPrice && b.price.low >= minPrice;
       const matchPax = minPax === 0 || b.pax >= minPax;
       // "Alleen beschikbaar" toont uitsluitend boten waarvan de feed het
       // zégt. Een boot die niet in de feed staat kreeg eerst een lege
@@ -524,17 +527,17 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
         sort === 'price-asc' ? a.price.low - b.price.low
         : sort === 'price-desc' ? b.price.low - a.price.low
         : 0);
-  }, [search, marina, category, maxPrice, minPax, sort, onlyAvailable, dateInRange, live, date]);
+  }, [search, marina, category, minPrice, maxPrice, minPax, sort, onlyAvailable, dateInRange, live, date]);
 
   // Actieve filters tellen voor de wis-knop. `date` telt niet mee: die staat
   // altijd op vandaag en is geen filter tot je "alleen beschikbaar" aanzet.
   const actieveFilters =
-    (minPax > 0 ? 1 : 0) + (maxPrice < PRICE_MAX ? 1 : 0) + (marina !== 'all' ? 1 : 0) +
+    (minPax > 0 ? 1 : 0) + (maxPrice < PRICE_MAX || minPrice > PRICE_MIN ? 1 : 0) + (marina !== 'all' ? 1 : 0) +
     (sort !== 'default' ? 1 : 0) + (onlyAvailable ? 1 : 0) + (category !== 'all' ? 1 : 0) +
     (search.trim() ? 1 : 0);
 
   const wisFilters = useCallback(() => {
-    setMinPax(0); setMaxPrice(PRICE_MAX); setMarina('all'); setSort('default');
+    setMinPax(0); setMinPrice(PRICE_MIN); setMaxPrice(PRICE_MAX); setMarina('all'); setSort('default');
     setOnlyAvailable(false); setCategory('all'); setSearch('');
   }, []);
 
@@ -609,6 +612,9 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
         setMinPax={setMinPax}
         maxPrice={maxPrice}
         setMaxPrice={setMaxPrice}
+        minPrice={minPrice}
+        setMinPrice={setMinPrice}
+        resultCount={filtered.length}
         marina={marina}
         setMarina={setMarina}
         /* `category` bestond al en filterde ook al, maar er zat geen knop aan:
