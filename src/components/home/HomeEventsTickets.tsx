@@ -1,7 +1,7 @@
 'use client'
 
 import type { PickerEvent } from '@/lib/picker-event'
-import { HomeWorld, type WereldKaart } from './HomeWorld'
+import { HomeCircleCollage, type CollageKaart } from './HomeCircleCollage'
 
 type L5 = Record<string, string>
 const T = (nl: string, en: string, de: string, es: string, fr: string): L5 => ({ nl, en, de, es, fr })
@@ -17,15 +17,15 @@ const L = {
     'Cada noche de club de la temporada, con precios y line-ups en vivo. Elige tu noche y reserva vía ClubTickets.',
     'Chaque soirée club de la saison, avec prix et line-ups en direct. Choisissez votre soirée et réservez via ClubTickets.',
   ),
-  knop: T('Bekijk de clubagenda', 'See the club calendar', 'Zum Clubkalender', 'Ver la agenda de clubs', "Voir l'agenda des clubs"),
+  knop: T('Bekijk de agenda', 'See the calendar', 'Zum Kalender', 'Ver la agenda', "Voir l'agenda"),
 }
 
 /**
  * Wereld 01: Events & Tickets. Hier landt de rode knop uit de hero.
  *
- * De waaier toont de flyers van de drie eerstvolgende clubavonden uit de
- * feed, dus de sectie kan niet verouderen: schuift de agenda, dan schuift de
- * waaier mee.
+ * De tegels tonen de flyers van de eerstvolgende clubavonden uit de feed, met
+ * de vanafprijs erop. De sectie kan dus niet verouderen: schuift de agenda,
+ * dan schuiven de tegels mee.
  */
 export function HomeEventsTickets({
   events,
@@ -36,25 +36,32 @@ export function HomeEventsTickets({
   locale?: string
   base: string
 }) {
-  const kaarten: WereldKaart[] = []
+  const kaarten: CollageKaart[] = []
   const gezien = new Set<string>()
   for (const e of events) {
     if (!e.image || gezien.has(e.eventSlug)) continue
     gezien.add(e.eventSlug)
-    kaarten.push({ href: e.href, image: e.image, alt: e.eventName })
-    if (kaarten.length === 3) break
+    kaarten.push({
+      href: e.href,
+      image: e.image,
+      alt: e.eventName,
+      badge: e.price > 0 ? `€${e.price}` : undefined,
+    })
+    if (kaarten.length === 10) break
   }
 
   return (
-    <HomeWorld
+    <HomeCircleCollage
       id="zone-events"
-      nummer="01"
-      kicker={t(L.kicker, locale)}
+      kaarten={kaarten}
       titel={t(L.titel, locale)}
+      kicker={t(L.kicker, locale)}
       tekst={t(L.tekst, locale)}
       knop={t(L.knop, locale)}
       href={`${base}/calendar`}
-      kaarten={kaarten}
+      kleur="#E14D68"
+      schaduw="rgba(225,77,104,.7)"
+      className="bg-white"
     />
   )
 }
