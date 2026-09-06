@@ -1,6 +1,6 @@
 'use client'
 
-import { HomeWorld, type WereldKaart } from './HomeWorld'
+import { HomeCircleCollage, type CollageKaart } from './HomeCircleCollage'
 import { isOpHetLand } from '@/lib/activity-split'
 
 type L5 = Record<string, string>
@@ -17,10 +17,11 @@ const L = {
     'Buggies, quads, safaris en jeep, cuevas y mercadillos hippies. Todo lo que se hace en la isla, por día.',
     'Buggys, quads, safaris en jeep, grottes et marchés hippies. Tout ce qui se fait sur l’île même, à la journée.',
   ),
-  knop: T('Bekijk de activiteitenagenda', 'See the activities calendar', 'Zum Aktivitätenkalender', 'Ver la agenda de actividades', "Voir l'agenda des activités"),
+  knop: T('Bekijk het land', 'See the island', 'Aufs Land', 'Ver la isla', "Voir l'île"),
 }
 
 interface FeedItem {
+  prices?: string
   ct_events?: { name?: string; slug?: string; cover?: string; logo?: string }
   ct_venues?: { name?: string; slug?: string; basePath?: string; typeSlug?: string }
   name?: string
@@ -42,8 +43,12 @@ export function HomeActivities({
   locale?: string
   base: string
 }) {
-  const kaarten: WereldKaart[] = []
-  const venues = new Set<string>()
+  const kaarten: CollageKaart[] = []
+  // Op event ontdubbelen en niet op aanbieder: er zijn maar zes
+  // landaanbieders, en met een tegel per aanbieder had de carrousel niets te
+  // draaien. Emove verkoopt buggy, quad en motocross -- dat zijn drie
+  // verschillende dingen om te laten zien.
+  const gezien = new Set<string>()
   for (const d of days) {
     for (const it of d.items || []) {
       // Alleen wat op het land gebeurt: grotten, buggy's, quads, jeepsafari's,
@@ -54,30 +59,32 @@ export function HomeActivities({
       const beeld = it.ct_events?.cover || it.ct_events?.logo || ''
       const venue = it.ct_venues?.slug || ''
       const slug = it.ct_events?.slug || ''
-      if (!beeld || !venue || !slug || venues.has(venue)) continue
-      venues.add(venue)
+      if (!beeld || !venue || !slug || gezien.has(slug)) continue
+      gezien.add(slug)
       kaarten.push({
         // eventBasePath zit al in de feed: een boottocht onder /club-tickets
         // zetten is een gegarandeerde 404.
         href: `${base}/${it.ct_venues?.basePath || 'boat-trip'}/${venue}/${slug}`,
         image: beeld,
         alt: it.ct_events?.name || it.name || '',
+        badge: (it.prices || '').split('-')[0].trim() || undefined,
       })
-      if (kaarten.length === 3) break
+      if (kaarten.length === 10) break
     }
-    if (kaarten.length === 3) break
+    if (kaarten.length === 10) break
   }
 
   return (
-    <HomeWorld
+    <HomeCircleCollage
       id="zone-island"
-      nummer="03"
-      kicker={t(L.kicker, locale)}
+      kaarten={kaarten}
       titel={t(L.titel, locale)}
+      kicker={t(L.kicker, locale)}
       tekst={t(L.tekst, locale)}
       knop={t(L.knop, locale)}
       href={`${base}/activities-calendar`}
-      kaarten={kaarten}
+      kleur="#C8A24A"
+      schaduw="rgba(200,162,74,.7)"
       className="bg-neutral-50"
     />
   )
