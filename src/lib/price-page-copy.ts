@@ -1,5 +1,5 @@
 import type { PriceStats, VenuePrice } from '@/lib/price-stats'
-import { localeTag } from '@/lib/date-label'
+import { longDate } from '@/lib/date-label'
 
 /**
  * Copy for the Ibiza price page, in five languages.
@@ -17,14 +17,6 @@ type L = Record<string, string>
 const pick = (m: L, l: string) => m[l] || m.en
 
 const euro = (n: number) => `€${n}`
-
-function longDate(iso: string, locale: string): string {
-  const [y, m, d] = String(iso || '').split('-').map(Number)
-  if (!y || !m || !d) return iso
-  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString(localeTag(locale), {
-    day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
-  })
-}
 
 export const KICKER: L = {
   nl: 'Wat kost het echt', en: 'What it actually costs', de: 'Was es wirklich kostet',
