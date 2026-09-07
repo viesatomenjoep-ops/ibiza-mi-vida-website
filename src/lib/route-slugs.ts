@@ -281,8 +281,11 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   'club-tickets-hub': ['en', 'nl', 'de', 'es', 'fr'],
   // Alleen nog een 301-doel naar /guestlist — niet publiceren.
   'guestlist-hub': [],
-  'wiber-partner': ['en'],
-  'clickandboat-partner': ['en'],
+  // Vijf talen sinds 07-09: PartnerDossierPage + wiber-dossier-copy.ts.
+  'wiber-partner': ['en', 'nl', 'de', 'es', 'fr'],
+  // Vijf talen sinds 07-09: PartnerDossierPage + clickandboat-dossier-copy.ts.
+  // Eén routebestand: de slug is een eigennaam en dus in alle talen gelijk.
+  'clickandboat-partner': ['en', 'nl', 'de', 'es', 'fr'],
   // Nieuw en voorlopig alleen Engels. Een taal komt hier pas bij nadat de
   // vertaalde pagina echt rendert — een hreflang naar een 404 laat Google het
   // hele cluster weggooien, en dat is erger dan geen alternate.
