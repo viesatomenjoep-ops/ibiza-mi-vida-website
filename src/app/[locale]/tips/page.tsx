@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
     es: 'Calas, clubs, comida, atardeceres y cómo moverte por Ibiza, con los consejos que damos a los amigos: ve temprano a Cala Comte y ven en junio.',
     fr: 'Criques, clubs, restaurants, couchers de soleil et transports à Ibiza, avec les conseils qu\u2019on donne aux amis : Cala Comte tôt, et venez en juin.',
   }
-  return pageMetadata({ locale: l, path: 'tips', title: TITLE[l], description: DESC[l] })
+  return pageMetadata({ locale: l, path: 'tips', title: META_TITLE[l], description: DESC[l] })
 }
 
 type T = Record<Locale, string>
@@ -46,6 +46,20 @@ const L = (nl: string, en: string, de: string, es: string, fr: string): T => ({ 
 
 const KICKER: T = L('Insider-gids', 'Insider guide', 'Insider-Guide', 'Guía local', 'Guide d’initiés')
 const TITLE: T = L('Ibiza Tips', 'Ibiza Tips', 'Ibiza Tipps', 'Consejos de Ibiza', 'Conseils Ibiza')
+
+/**
+ * Zoekresultaattitel. 'Ibiza Tips' is een prima H1 maar een lege titel: hij
+ * zegt niet voor wie de pagina is, terwijl dat precies de zoekopdracht is die
+ * mensen typen — 'Ibiza first timers', 'eerste keer Ibiza'. De pagina is dat
+ * ook: het is wat het team aan vrienden vertelt die voor het eerst komen.
+ */
+const META_TITLE: T = L(
+  'Ibiza tips 2026 — gids voor de eerste keer',
+  'Ibiza Tips 2026 — A First-Timer’s Guide',
+  'Ibiza Tipps 2026 — Guide für Erstbesucher',
+  'Consejos Ibiza 2026 — guía para primerizos',
+  'Conseils Ibiza 2026 — guide première fois',
+)
 const INTRO: T = L(
   'Ibiza is zóveel meer dan clubs alleen. Ons team woont op het eiland en deelt hier alles wat we zelf aan vrienden vertellen: de mooiste baaien, de beste avonden, waar je eet, hoe je reist en wanneer je moet komen.',
   'Ibiza is so much more than clubs alone. Our team lives on the island and shares everything we tell our own friends: the finest coves, the best nights, where to eat, how to get around and when to come.',

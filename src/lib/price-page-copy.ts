@@ -39,12 +39,23 @@ export const TITLE: L = {
   fr: 'Combien coûte une soirée à Ibiza ?',
 }
 
+/**
+ * Zoekresultaattitel. De H1 hierboven blijft de vraag — die werkt op de pagina.
+ *
+ * Deze stond op 64 tekens en de layout plakt er ' | Ibiza mi vida' achter, dus
+ * 80: Google liet er ongeveer de helft van zien en de tweede helft, waar
+ * 'ticketprijzen per club' in staat, viel er altijd af. Bekende fout in
+ * scripts/seo-check/baseline.json.
+ *
+ * De nieuwe versie zet de commerciële term vooraan, want een titel wordt van
+ * links naar rechts gewogen en aan de achterkant afgekapt.
+ */
 export const META_TITLE: L = {
-  nl: 'Wat kost een avond uit op Ibiza? Echte ticketprijzen per club',
-  en: 'What does a night out in Ibiza cost? Real ticket prices per club',
-  de: 'Was kostet ein Abend auf Ibiza? Echte Ticketpreise pro Club',
-  es: '¿Cuánto cuesta una noche en Ibiza? Precios reales por club',
-  fr: 'Combien coûte une soirée à Ibiza ? Prix réels par club',
+  nl: 'Ibiza clubprijzen 2026 — wat kost een avond',
+  en: 'Ibiza Club Prices 2026 — What a Night Costs',
+  de: 'Ibiza Clubpreise 2026 — was kostet ein Abend',
+  es: 'Precios discotecas Ibiza 2026 — qué cuesta',
+  fr: 'Prix des clubs à Ibiza 2026 — le vrai coût',
 }
 
 export function metaDescription(s: PriceStats, l: string): string {

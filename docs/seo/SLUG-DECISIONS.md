@@ -138,16 +138,33 @@ zijn nu kort. Daar valt te winnen, op de URL die er al staat.
 
 Per bestaande pagina, in volgorde van opbrengst:
 
-1. `/ibiza-season` — titel draagt "best time to visit", secties voor opening- en
-   closing parties uit de feed
-2. `/locations` — titel draagt "Ibiza areas"
-3. `/ibiza-prices` — titel draagt "club prices"
-4. `/tips` — titel draagt "first-timers"
-5. `/package-deals` — sectie per club over tafels
-6. `/beach-clubs` — de twintig beschrijvingen uitbouwen
-7. `/ferry-formentera` — prijssectie
-8. `/club-tickets/[slug]` — redactionele blok per club via `club-history.ts`
-9. `/boat-trip` + `/locations/es-vedra` — de boot-invalshoek op de baaien
+1. ✅ `/ibiza-season` — titel draagt "best time to visit"
+2. ✅ `/locations` — titel draagt "Ibiza & Formentera areas"
+3. ✅ `/ibiza-prices` — titel draagt "Ibiza club prices 2026"
+4. ✅ `/tips` — titel draagt "first-timer's guide"
+5. `/ibiza-season` — secties voor opening- en closing parties uit de feed
+6. `/package-deals` — sectie per club over tafels
+7. `/beach-clubs` — de twintig beschrijvingen uitbouwen
+8. `/ferry-formentera` — prijssectie
+9. `/club-tickets/[slug]` — redactionele blok per club via `club-history.ts`
+10. `/boat-trip` + `/locations/es-vedra` — de boot-invalshoek op de baaien
+
+### Wat de eerste vier opleverden
+
+Alle vier stonden als "Title is N characters (max N)" in
+`scripts/seo-check/baseline.json` — hun titel werd in het zoekresultaat
+afgekapt, en de helft die wegviel was juist de helft met het trefwoord erin.
+`/ibiza-prices` was met 80 tekens de ergste: alles vanaf "ticketprijzen per
+club" is nooit vertoond.
+
+De hertiteling loste dus twee dingen tegelijk op, en de baseline kromp van 78
+naar 65 regels (45 gematchte onpage-fouten, was 58). Die dertien regels zijn
+met de hand uit `baseline.json` gehaald: `--update-baseline` voegt alleen toe
+en snoeit niet, dus wie erop vertrouwt houdt opgeloste fouten in de lijst staan.
+
+De H1's zijn met opzet níét meeveranderd. Die zijn vragen ("Wat kost een avond
+uit op Ibiza?") en dat werkt op de pagina zelf; de titel is voor het
+zoekresultaat, en dat zijn twee verschillende lezers.
 
 **Belangrijk bij elke hertiteling:** de commerciële term verhuist naar de
 bestaande pagina, en er komt géén tweede pagina bij. Dat is precies andersom

@@ -33,6 +33,23 @@ const TITLE: T = L(
   '¿En qué parte de Ibiza y Formentera quieres estar?',
   'Où sur Ibiza et Formentera voulez-vous être ?',
 )
+/**
+ * Zoekresultaattitel, los van de H1.
+ *
+ * De H1 hierboven is een vraag van 48 tekens; met de merksuffix van 16 erachter
+ * werd dat 64 en kapte Google hem af — bekende fout in de seo-baseline. En
+ * niemand zoekt op die vraag: mensen typen "Ibiza areas" of "where to stay in
+ * Ibiza". Formentera blijft erin staan, want de pagina behandelt het eiland
+ * echt en niet als voetnoot.
+ */
+const META_TITLE: T = L(
+  'Gebieden op Ibiza & Formentera — waar zit je',
+  'Ibiza & Formentera Areas — Where to Stay',
+  'Ibiza & Formentera — wo am besten wohnen',
+  'Zonas de Ibiza y Formentera — dónde alojarse',
+  'Régions d’Ibiza & Formentera — où loger',
+)
+
 const INTRO: T = L(
   'Ibiza is klein, maar de sfeer verschilt sterk per plek. De zonsondergangkant is een andere vakantie dan de oude stad, en het noorden is weer iets heel anders. Formentera, het buureiland dat je alleen over zee bereikt, is nog eens een categorie apart. Een overzicht van de plekken, zodat je weet waar je je basis legt — inclusief wat er per plek tegenvalt.',
   'Ibiza is small, but the mood changes sharply from place to place. The sunset side is a different holiday from the old town, and the north is something else again. Formentera, the neighbouring island you can only reach by sea, is a category of its own. A guide to the places, so you know where to base yourself — including what is disappointing about each one.',
@@ -49,7 +66,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   for (const x of LOCALES) languages[x] = `${SITE_URL}/${x}/locations`
   languages['x-default'] = `${SITE_URL}/${DEFAULT_LOCALE}/locations`
   return {
-    title: TITLE[l],
+    title: META_TITLE[l],
     description: INTRO[l].slice(0, 155),
     alternates: { canonical: `${SITE_URL}/${l}/locations`, languages },
   }
