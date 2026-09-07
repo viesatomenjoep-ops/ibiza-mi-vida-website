@@ -6,9 +6,10 @@ import { AffiliateLink } from '@/components/hub/AffiliateLink'
 import { Proof } from '@/components/hub/Proof'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { localizedAlternates } from '@/lib/route-slugs'
-import { getPriceStats } from '@/lib/price-stats'
-import { getSeasonStats } from '@/lib/season-stats'
+import { getPriceStats, type PriceStats } from '@/lib/price-stats'
+import { getSeasonStats, type SeasonStats } from '@/lib/season-stats'
 import { getVenues } from '@/lib/clubtickets'
+import { MAP_CLUBS } from '@/data/ibiza-map-clubs'
 import { ctBrowseLink } from '@/lib/ct-link'
 import { contentUpdated } from '@/lib/content-dates'
 import { SITE_NAME, type Locale } from '@/lib/seo'
@@ -122,6 +123,105 @@ const SEQUENCE = [
   },
 ]
 
+/**
+ * "Hï or UNVRS?" — answered from the agenda instead of from opinion.
+ *
+ * Someone comparing two rooms is one step from booking, and this is the
+ * comparison people actually type. Every other page that answers it does so
+ * with adjectives. We hold the dated programme and the advertised prices for
+ * both, so the answer can be a measurement plus the two facts that are on the
+ * record — and neither of those is "which is better".
+ *
+ * What is asserted here and why it is safe to assert:
+ *  • Prices, nights and season dates come from the live agenda.
+ *  • Hï has topped DJ Mag's club poll from 2022 to 2025, and UNVRS opened on
+ *    30 May 2025. Both are confirmed facts, not readings of the data.
+ *
+ * What is deliberately absent: a verdict. We have no basis for ranking two
+ * rooms on quality, and a preference dressed as a fact is exactly what makes
+ * the rest of the page less trustworthy. The closing line names the axis the
+ * visitor can decide on themselves.
+ *
+ * Renders nothing whenever either venue drops out of the priced set — at the
+ * end of the season, or when a club falls under the ten-night minimum. A
+ * comparison missing one side is not a comparison.
+ */
+function ClubCompare({ prices, season }: { prices: PriceStats; season: SeasonStats | null }) {
+  const hi = prices.venues.find((v) => v.slug === 'hi-ibiza')
+  const unvrs = prices.venues.find((v) => v.slug === 'unvrs-ibiza')
+  if (!hi || !unvrs) return null
+
+  const seizoen = (slug: string) => season?.venues.find((v) => v.slug === slug)
+  const hiS = seizoen('hi-ibiza')
+  const unS = seizoen('unvrs-ibiza')
+  const duurder = unvrs.median - hi.median
+
+  // De ligging komt uit onze eigen kaartdata en niet uit het hoofd. Een eerdere
+  // versie van deze alinea beweerde dat beide clubs aan Playa d'en Bossa liggen
+  // — UNVRS staat in San Rafael, landinwaarts, en dat is juist het verschil dat
+  // de rit om zes uur 's ochtends bepaalt.
+  const gebied = (slug: string) => MAP_CLUBS.find((c) => c.slug === slug)?.area
+  const hiGebied = gebied('hi-ibiza')
+  const unGebied = gebied('unvrs-ibiza')
+
+  const rijen: { label: string; hi: string; un: string }[] = [
+    { label: 'Typical entry', hi: `€${hi.median}`, un: `€${unvrs.median}` },
+    { label: 'Cheapest night seen', hi: `€${hi.min}`, un: `€${unvrs.min}` },
+    { label: 'Nights in our agenda', hi: String(hi.n), un: String(unvrs.n) },
+  ]
+  if (hiGebied && unGebied) {
+    rijen.splice(0, 0, { label: 'Where it is', hi: hiGebied, un: unGebied })
+  }
+  if (hiS && unS) {
+    rijen.push({ label: 'Last night we hold', hi: hiS.lastScheduled, un: unS.lastScheduled })
+  }
+
+  return (
+    <section className="border-t border-black/5 bg-white py-14 text-neutral-900">
+      <div className="mx-auto max-w-3xl px-4">
+        <h2 className="font-serif text-2xl font-black tracking-tight md:text-3xl">
+          Hï Ibiza or UNVRS — which one?
+        </h2>
+        <p className="mt-4 text-[16px] leading-relaxed text-neutral-700">
+          {duurder > 0
+            ? `UNVRS is the more expensive room: a typical night is €${unvrs.median} against €${hi.median} at Hï, a gap of €${duurder}, measured across ${unvrs.n} and ${hi.n} dated nights in our agenda. `
+            : `A typical night is €${unvrs.median} at UNVRS against €${hi.median} at Hï, measured across ${unvrs.n} and ${hi.n} dated nights in our agenda. `}
+          Hï topped DJ Mag&rsquo;s club poll every year from 2022 to 2025; UNVRS opened on 30 May 2025 and is the newer, larger production.
+          {hiGebied && unGebied && hiGebied !== unGebied
+            ? ` They are not neighbours: Hï is in ${hiGebied} and UNVRS in ${unGebied}, inland. That decides the ride home more than the ticket price does — a taxi at six in the morning from the middle of the island is a different proposition from a walk along the strip.`
+            : ''}
+        </p>
+        <div className="mt-6 overflow-x-auto">
+          <table className="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-black/15 text-[11px] font-black uppercase tracking-widest text-neutral-600">
+                <th scope="col" className="py-2 pr-3 font-black" />
+                <th scope="col" className="py-2 px-3 text-right font-black">{hi.name}</th>
+                <th scope="col" className="py-2 pl-3 text-right font-black">{unvrs.name}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rijen.map((r) => (
+                <tr key={r.label} className="border-b border-black/5">
+                  <th scope="row" className="py-2.5 pr-3 font-semibold">{r.label}</th>
+                  <td className="py-2.5 px-3 text-right tabular-nums">{r.hi}</td>
+                  <td className="py-2.5 pl-3 text-right tabular-nums">{r.un}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-4 text-sm leading-relaxed text-neutral-600">
+          We are not going to tell you which room is better — we have no basis for that, and neither does
+          anyone else writing it down. What differs and can be checked is the price, the number of nights
+          and who is playing on yours. Pick the line-up first; on most weeks that decides it before the
+          price does.
+        </p>
+      </div>
+    </section>
+  )
+}
+
 export default async function IbizaNightlifePage() {
   const [prices, season, venues] = await Promise.all([
     getPriceStats(LOCALE),
@@ -187,6 +287,8 @@ export default async function IbizaNightlifePage() {
           ]}
         />
       )}
+
+      {prices && <ClubCompare prices={prices} season={season} />}
 
       <ProseSection
         heading="Where to base yourself"
