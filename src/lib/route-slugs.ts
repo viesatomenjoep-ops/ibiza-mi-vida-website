@@ -49,6 +49,9 @@ export type RouteKey =
   | 'amnesia-venue'
   | 'dc10-venue'
   | 'airport-transfer'
+  | 'nightlife-guide'
+  | 'dress-code'
+  | 'getting-around'
 
 type SlugSet = Record<Locale, string>
 
@@ -175,6 +178,37 @@ export const ROUTE_SLUGS: Record<RouteKey, SlugSet> = {
     fr: 'transfert-aeroport-ibiza',
     es: 'traslado-aeropuerto-ibiza',
   },
+  // ── Gidsen ─────────────────────────────────────────────────────────────
+  //
+  // Drie informatieve intenties die geen bestaande route droeg. De toets per
+  // slug staat in docs/seo/SLUG-DECISIONS.md; van de ruim veertig slugs uit het
+  // nachtplan overleefden alleen deze drie hem.
+  //
+  // 'nightlife-guide' is de gids bóven /clubs (een index), /calendar (een
+  // agenda) en /ibiza-club-tickets (prijzen): hoe een avond wérkt. Alle drie
+  // krijgen er een link uit; geen van drieën verliest een zoekterm aan deze
+  // pagina.
+  'nightlife-guide': {
+    en: 'ibiza-nightlife',
+    nl: 'ibiza-uitgaan',
+    de: 'ibiza-nachtleben',
+    fr: 'vie-nocturne-ibiza',
+    es: 'vida-nocturna-ibiza',
+  },
+  'dress-code': {
+    en: 'ibiza-club-dress-code',
+    nl: 'ibiza-club-dresscode',
+    de: 'ibiza-club-dresscode',
+    fr: 'dress-code-clubs-ibiza',
+    es: 'codigo-vestimenta-discotecas-ibiza',
+  },
+  'getting-around': {
+    en: 'getting-around-ibiza',
+    nl: 'vervoer-op-ibiza',
+    de: 'fortbewegung-auf-ibiza',
+    fr: 'se-deplacer-a-ibiza',
+    es: 'como-moverse-por-ibiza',
+  },
 }
 
 /**
@@ -230,6 +264,9 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   'amnesia-venue': ['en'],
   'dc10-venue': ['en'],
   'airport-transfer': ['en'],
+  'nightlife-guide': ['en'],
+  'dress-code': ['en'],
+  'getting-around': ['en'],
 }
 
 /** The locales a route is published in. */

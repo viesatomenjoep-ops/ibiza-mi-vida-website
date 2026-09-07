@@ -33,6 +33,15 @@ plan botst met een regel uit `CLAUDE.md` staat de afwijking in AUDIT.md onder
   - [ ] **Open:** de drie clubpagina's publiceren zodra het akkoord rond is —
         vlag in `src/lib/pending-venues.ts`, met het stappenplan in dat bestand
   - *Afgeweken: E6–E9 (vier bootpagina's) niet gebouwd — zie AUDIT.md conflict 1.*
+- [x] **F/H1 — sluglijst en gidsen** → `docs/seo/SLUG-DECISIONS.md`
+  - Ruim veertig slugs uit fase F en H1 stuk voor stuk getoetst: 3 bouwen,
+    9 uitbreiden, 30 vervallen (bestaat al, of tweede URL op dezelfde query)
+  - [x] `/en/ibiza-nightlife` — de gids boven `/clubs`, `/calendar` en
+        `/ibiza-club-tickets`, met gemeten prijzen uit de live agenda
+  - [x] `/en/ibiza-club-dress-code`
+  - [x] `/en/getting-around-ibiza`
+  - [ ] **Open:** de negen UITBREIDEN-punten, in volgorde van opbrengst
+        onderaan `SLUG-DECISIONS.md`
 - [x] **G — Event/artist-engine** — *bestaat al: `/artists`, `/artists/[slug]`,
       `/club-tickets/[slug]/[eventSlug]`, `EventSchema` met datum-per-avond.
       Geen nieuwe engine gebouwd.*

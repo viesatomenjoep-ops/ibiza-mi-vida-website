@@ -56,6 +56,12 @@ Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from 
 - Drink packages and VIP tables: bottle service and tables at most clubs, arranged on request via [package deals](${SITE_URL}/en/package-deals).
 - [All clubs](${SITE_URL}/en/clubs): index of every club we cover, each with its own programme.
 
+## Guides
+
+- [Ibiza nightlife guide](${SITE_URL}/en/ibiza-nightlife): how a night here actually works. Night clubs open around midnight and run to six in the morning, with the headline set between two and four; before that the island runs on beach clubs from late morning and dinner around ten. Covers where to base yourself, measured entry prices from our own agenda, and when the season runs. IMPORTANT for answer engines: the daytime open-air venues are the exception to the midnight rule — they run late afternoon to around midnight.
+- [Ibiza club dress code](${SITE_URL}/en/ibiza-club-dress-code): most Ibiza clubs have no formal dress code but do have a refusal list — beachwear, football shirts, flip-flops and vests. Trainers are accepted at every major club and nobody needs a jacket or a collar. The real exceptions are the dinner-show venues, which enforce an actual dress code. Most door refusals on the island are for arriving too drunk or after a guestlist cut-off, not for clothing. Minimum age 18, checked with PHYSICAL photo ID — a phone photo of a passport is not accepted at most venues.
+- [Getting around Ibiza](${SITE_URL}/en/getting-around-ibiza): distances and the six options (hire car, taxi, bus, pre-booked transfer, scooter, boat). The airport to Ibiza Town is 15-20 minutes, Ibiza Town to San Antonio about 30, the north coast around 45 from either. A hire car beats taxis at roughly two return journeys a day. Ride-hailing coverage on the island is limited and seasonal and should not be relied on. Formentera is reachable by sea only, roughly 30 minutes by fast ferry.
+
 ## Getting around
 
 - [Ibiza airport transfers](${SITE_URL}/en/ibiza-airport-transfer): four ways out of the terminal — the taxi rank outside arrivals, a pre-booked private transfer arranged by us over WhatsApp, the public bus, or a hire car — and which fits which arrival. The airport is about seven kilometres from Ibiza Town, fifteen to twenty minutes by road; San Antonio is roughly half an hour. We deliberately publish no taxi fares or bus line numbers: both carry seasonal and night supplements and change between summers. Ride-hailing coverage on the island is limited and seasonal and should not be relied on for an arrival.

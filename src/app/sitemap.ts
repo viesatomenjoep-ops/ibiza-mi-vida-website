@@ -134,6 +134,9 @@ const LOCALIZED_ROUTES: { key: RouteKey; priority: number; changeFrequency: Meta
   { key: 'wiber-partner', priority: 0.6, changeFrequency: 'monthly' },
   { key: 'clickandboat-partner', priority: 0.6, changeFrequency: 'monthly' },
   { key: 'airport-transfer', priority: 0.6, changeFrequency: 'monthly' },
+  { key: 'nightlife-guide', priority: 0.8, changeFrequency: 'weekly' },
+  { key: 'dress-code', priority: 0.6, changeFrequency: 'monthly' },
+  { key: 'getting-around', priority: 0.6, changeFrequency: 'monthly' },
   // BEWUST AFWEZIG: 'pacha-venue', 'amnesia-venue' en 'dc10-venue'. Die drie
   // pagina's zijn geschreven maar 404'en nog (src/lib/pending-venues.ts) tot het
   // akkoord met de clubs rond is. Een URL in de sitemap die 404't is een

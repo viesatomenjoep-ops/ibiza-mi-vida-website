@@ -26,6 +26,28 @@ const TITLE: L = {
   es: '¿Cuándo cierra Ibiza? Qué clubs siguen abiertos',
   fr: 'Quand Ibiza ferme-t-elle ? Quels clubs sont encore ouverts',
 }
+
+/**
+ * De titel in het zoekresultaat, los van de H1 hierboven.
+ *
+ * Twee dingen tegelijk. De H1 is een vraag en dat werkt op de pagina, maar hij
+ * is 49 tekens en de layout plakt er ' | Ibiza mi vida' achter (16) — dus 65,
+ * en Google kapte hem af. Dat stond als bekende fout in
+ * scripts/seo-check/baseline.json.
+ *
+ * En hij droeg de commerciële term niet. Deze pagina heeft als enige op de site
+ * de laatste geplande avond per club uit de echte agenda, en dat is precies het
+ * antwoord op "best time to visit Ibiza" — een zoekterm die tien keer zo vaak
+ * getypt wordt als "when does Ibiza close". Beide staan er nu in, op één URL,
+ * want het is één vraag: wanneer moet ik komen.
+ */
+const META_TITLE: L = {
+  nl: 'Beste reistijd Ibiza & wanneer clubs sluiten',
+  en: 'Best Time to Visit Ibiza & When Clubs Close',
+  de: 'Beste Reisezeit Ibiza & wann Clubs schließen',
+  es: 'Mejor época para Ibiza y cuándo cierran',
+  fr: 'Quand venir à Ibiza & fermeture des clubs',
+}
 const H_TABLE: L = {
   nl: 'Laatste geplande avond per club', en: 'Last scheduled night per club',
   de: 'Letzte geplante Nacht pro Club', es: 'Última noche programada por club',
@@ -175,7 +197,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   return pageMetadata({
     locale: l,
     path: 'ibiza-season',
-    title: t(TITLE, l),
+    title: t(META_TITLE, l),
     description: t(desc, l),
   })
 }
