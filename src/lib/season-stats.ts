@@ -51,8 +51,35 @@ export interface MonthCount {
   nights: number
 }
 
+/**
+ * Een aangekondigde closing party: één avond, met naam en datum uit de agenda.
+ *
+ * Dit is iets anders dan `VenueSeason.lastScheduled`, en het verschil is
+ * precies waar dit bestand bovenaan voor waarschuwt. `lastScheduled` is de
+ * laatste avond die WIJ hebben — dat kan ook betekenen dat een club zijn
+ * slotdatums nog niet heeft vrijgegeven. Een closing party is een avond die de
+ * club zélf zo heeft genoemd. Het eerste is een afleiding, het tweede een
+ * aankondiging, en alleen het tweede mag je zonder voorbehoud opschrijven.
+ */
+export interface ClosingParty {
+  venueSlug: string
+  venueName: string
+  /** De eventnaam zoals de club hem publiceert. */
+  name: string
+  date: string
+  /** Slug van het event, voor de link naar de detailpagina. */
+  eventSlug?: string
+}
+
 export interface SeasonStats {
   venues: VenueSeason[]
+  /**
+   * Aangekondigde closing parties die nog moeten komen, oplopend op datum.
+   *
+   * Leeg buiten het seizoen, en dat hoort zo: dan rendert de sectie niets in
+   * plaats van een lijst met data uit het verleden.
+   */
+  closings: ClosingParty[]
   months: MonthCount[]
   /** Earliest and latest club night anywhere in the agenda. */
   from: string
@@ -60,6 +87,53 @@ export interface SeasonStats {
   /** Clubs with at least one night still to come. */
   openNow: number
   todayStr: string
+}
+
+/**
+ * De naam van de avond, zoals de club hem publiceert, ontdaan van ruis.
+ *
+ * De feed heeft twee velden en welk van de twee iets zegt, verschilt per club.
+ * `eventName` is meestal het feestmerk ("Candy Land", "Eden Presents") en
+ * `name` de avond zelf ("Candy Land Closing Party", "Secret Sessions. Closing
+ * Party") — maar bij O Beach staat de naam juist in `eventName` en bevat `name`
+ * niets dan "Closing Party". Vast kiezen voor één veld gooide daar drie avonden
+ * weg. Dus: allebei schoonmaken en de informatiefste houden.
+ *
+ * Twee dingen gaan eruit. "Closing Party" zelf, want dat staat al boven de
+ * tabel en 25 keer herhalen leest als een stotter. En de clubnaam wanneer die
+ * de hele naam is: "Hï Ibiza" in een rij waarvan de clubkolom al "Hï Ibiza"
+ * zegt, voegt niets toe.
+ *
+ * Blijft er niets over, dan geeft deze functie een lege string terug en valt de
+ * rij terug op een neutraal label. Nooit een half afgeknipte naam tonen.
+ */
+function partyLabel(naam: string, venue: string): string {
+  const schoon = naam
+    .replace(/closing\s*party/gi, ' ')
+    // Leestekens die door het weghalen alleen zijn komen te staan.
+    .replace(/\s*[.:;,\-–—]\s*$/g, '')
+    .replace(/^\s*[.:;,\-–—]\s*/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+  if (!schoon) return ''
+  // Een label dat niets meer is dan de clubnaam voegt niets toe aan een rij
+  // waarvan de clubkolom dat al zegt. Dat geldt ook voor een afkorting ervan:
+  // "O Beach" naast "O Beach Ibiza".
+  //
+  // Maar niet andersom. "Ibiza Rocks Pool Party" begint óók met de clubnaam en
+  // is wél een eigen avond — die regel viel er eerst uit. Alleen wat kórter of
+  // gelijk is aan de clubnaam is een herhaling; wat langer is, voegt toe.
+  const a = schoon.toLowerCase()
+  const b = venue.toLowerCase()
+  if (a === b || b.startsWith(a)) return ''
+  return schoon
+}
+
+/** De informatiefste van de twee feedvelden, allebei schoongemaakt. */
+function besteLabel(a: string, b: string, venue: string): string {
+  const x = partyLabel(a, venue)
+  const y = partyLabel(b, venue)
+  return x.length >= y.length ? x : y
 }
 
 export async function getSeasonStats(locale: string): Promise<SeasonStats | null> {
@@ -111,8 +185,42 @@ export async function getSeasonStats(locale: string): Promise<SeasonStats | null
 
   const allDays = nights.map(n => n.day).sort()
 
+  /**
+   * Closing parties, herkend aan de naam die de club er zelf aan geeft.
+   *
+   * "Closing party" is een merknaam van het seizoen en staat in alle vijf de
+   * taalversies van de feed onvertaald in de eventnaam — de clubs kondigen hem
+   * zo aan. Daarom is een naammatch hier stabiel, en het is ook de enige
+   * ingang: de feed heeft geen veld dat een avond als slotavond markeert.
+   *
+   * Alleen toekomstige avonden. Een closing party van vorige week is geen
+   * antwoord op "wanneer is de closing", en op een pagina die het seizoen
+   * beschrijft is een verstreken datum tonen erger dan niets tonen.
+   */
+  const closings: ClosingParty[] = dates
+    .filter(d => {
+      const slug = d.venueSlug || ''
+      if (!slug || typeOf.get(slug) !== 'clubbing') return false
+      const day = String(d.date || '').slice(0, 10)
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(day) || day < todayStr) return false
+      return /closing\s*party/i.test(`${d.eventName ?? ''} ${(d as any).name ?? ''}`)
+    })
+    .map(d => {
+      const venueName = nameOf.get(d.venueSlug || '') || d.venueSlug || ''
+      return {
+        venueSlug: d.venueSlug || '',
+        venueName,
+        name: besteLabel(String((d as any).name || ''), String(d.eventName || ''), venueName),
+        date: String(d.date).slice(0, 10),
+        eventSlug: d.eventSlug || undefined,
+      }
+    })
+    .filter(c => c.venueName)
+    .sort((a, b) => a.date.localeCompare(b.date) || a.venueName.localeCompare(b.venueName))
+
   return {
     venues: venueRows,
+    closings,
     months: Array.from(monthMap.entries())
       .map(([month, r]) => ({ month, clubs: r.clubs.size, nights: r.nights }))
       .sort((a, b) => a.month.localeCompare(b.month)),

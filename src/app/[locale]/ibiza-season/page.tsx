@@ -53,6 +53,37 @@ const H_TABLE: L = {
   de: 'Letzte geplante Nacht pro Club', es: 'Última noche programada por club',
   fr: 'Dernière soirée programmée par club',
 }
+/**
+ * Aangekondigde closing parties. Aparte kop, want dit is een ánder feit dan de
+ * tabel erboven: daar staat de laatste avond die wij hebben (een afleiding),
+ * hier een avond die de club zelf zo genoemd heeft (een aankondiging). Het
+ * verschil staat ook in de introzin, want dat is precies wat een bezoeker hier
+ * uit elkaar moet kunnen houden.
+ */
+const H_CLOSINGS: L = {
+  nl: 'Aangekondigde closing parties',
+  en: 'Announced closing parties',
+  de: 'Angekündigte Closing Partys',
+  es: 'Closing parties anunciadas',
+  fr: 'Closing parties annoncées',
+}
+
+const INTRO_CLOSINGS: L = {
+  nl: 'Dit zijn geen afleidingen uit de agenda maar avonden die de club zelf een closing party noemt. Ze staan er zolang ze nog moeten komen; een verstreken closing verdwijnt vanzelf.',
+  en: 'These are not inferred from the agenda: they are nights the club itself calls a closing party. They stay listed while they are still to come, and drop off once the date has passed.',
+  de: 'Das sind keine Ableitungen aus dem Kalender, sondern Nächte, die der Club selbst Closing Party nennt. Sie stehen hier, solange sie noch bevorstehen, und verschwinden nach dem Termin.',
+  es: 'No son deducciones de la agenda: son noches que el propio club llama closing party. Aparecen mientras están por venir y desaparecen una vez pasada la fecha.',
+  fr: 'Ce ne sont pas des déductions tirées de l’agenda : ce sont des soirées que le club lui-même appelle closing party. Elles restent tant qu’elles sont à venir et disparaissent une fois la date passée.',
+}
+
+// TH_CLUB staat verderop al; niet nog een keer.
+const TH_DATE: L = { nl: 'Datum', en: 'Date', de: 'Datum', es: 'Fecha', fr: 'Date' }
+const TH_PARTY: L = { nl: 'Avond', en: 'Night', de: 'Nacht', es: 'Noche', fr: 'Soirée' }
+/** Voor de clubs die hun slotavond simpelweg naar zichzelf noemen. */
+const PLAIN_CLOSING: L = {
+  nl: 'Closing party', en: 'Closing party', de: 'Closing Party', es: 'Closing party', fr: 'Closing party',
+}
+
 const H_MONTHS: L = {
   nl: 'Hoeveel er per maand open is', en: 'How much is open each month',
   de: 'Was pro Monat geöffnet ist', es: 'Cuánto hay abierto cada mes',
@@ -283,6 +314,44 @@ export default async function IbizaSeasonPage({ params }: { params: { locale: st
           </table>
         </div>
       </section>
+
+      {/* Niets renderen buiten het seizoen: dan is de lijst leeg en is een lege
+          kop met een lege tabel slechter dan geen sectie. */}
+      {s.closings.length > 0 && (
+        <section className="mx-auto max-w-3xl px-4 pb-12">
+          <h2 className="font-serif text-2xl font-black tracking-tight">{t(H_CLOSINGS, l)}</h2>
+          <p className="mt-4 leading-relaxed text-neutral-700">{t(INTRO_CLOSINGS, l)}</p>
+          <div className="mt-5 overflow-x-auto">
+            <table className="w-full border-collapse text-left text-sm">
+              <thead>
+                <tr className="border-b border-black/15 text-[11px] font-black uppercase tracking-widest text-neutral-600">
+                  <th scope="col" className="py-2 pr-3 font-black">{t(TH_DATE, l)}</th>
+                  <th scope="col" className="py-2 px-3 font-black">{t(TH_CLUB, l)}</th>
+                  <th scope="col" className="py-2 pl-3 font-black">{t(TH_PARTY, l)}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {s.closings.map((c) => (
+                  <tr key={`${c.venueSlug}-${c.date}-${c.name}`} className="border-b border-black/5">
+                    <th scope="row" className="whitespace-nowrap py-2.5 pr-3 font-semibold">
+                      {fmtDay(c.date, l)}
+                    </th>
+                    <td className="py-2.5 px-3">
+                      <Link
+                        href={`/${l}/club-tickets/${c.venueSlug}`}
+                        className="underline underline-offset-2 hover:text-neutral-500"
+                      >
+                        {c.venueName}
+                      </Link>
+                    </td>
+                    <td className="py-2.5 pl-3 text-neutral-600">{c.name || t(PLAIN_CLOSING, l)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
 
       <section className="mx-auto max-w-3xl px-4 pb-12">
         <h2 className="font-serif text-2xl font-black tracking-tight">{t(H_MONTHS, l)}</h2>

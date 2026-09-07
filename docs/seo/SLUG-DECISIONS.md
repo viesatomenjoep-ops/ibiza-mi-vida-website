@@ -142,7 +142,9 @@ Per bestaande pagina, in volgorde van opbrengst:
 2. ✅ `/locations` — titel draagt "Ibiza & Formentera areas"
 3. ✅ `/ibiza-prices` — titel draagt "Ibiza club prices 2026"
 4. ✅ `/tips` — titel draagt "first-timer's guide"
-5. `/ibiza-season` — secties voor opening- en closing parties uit de feed
+5. ✅ `/ibiza-season` — sectie met aangekondigde closing parties uit de feed
+   *(openings: de feed houdt alleen toekomstige datums, dus die verschijnen
+   vanzelf zodra ze in het voorjaar worden aangekondigd)*
 6. `/package-deals` — sectie per club over tafels
 7. `/beach-clubs` — de twintig beschrijvingen uitbouwen
 8. ✅ `/ferry-formentera` — prijssectie, gemeten uit de agenda
