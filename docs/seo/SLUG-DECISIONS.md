@@ -149,7 +149,9 @@ Per bestaande pagina, in volgorde van opbrengst:
 7. `/beach-clubs` — de twintig beschrijvingen uitbouwen
 8. ✅ `/ferry-formentera` — prijssectie, gemeten uit de agenda
 9. `/club-tickets/[slug]` — redactionele blok per club via `club-history.ts`
-10. `/boat-trip` + `/locations/es-vedra` — de boot-invalshoek op de baaien
+10. ✅ `/locations/<baai>` — de boot-invalshoek, gekoppeld uit `sailing-routes.ts`
+    (zeven baaien: Ses Salines, Cala Comte, Es Vedrà, Benirràs, Portinatx,
+    Cala Llonga, Ses Illetes)
 
 ### Wat de eerste vier opleverden
 
