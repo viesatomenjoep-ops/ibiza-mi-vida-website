@@ -6,7 +6,7 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 export const revalidate = 3600
 
 /**
- * Partnerdossier Wiber — Engelse slug.
+ * Partnerdossier Wiber — Duitse slug.
  *
  * De taal komt uit `params.locale`; de tekst staat in
  * src/lib/wiber-dossier-copy.ts en de structuur in
