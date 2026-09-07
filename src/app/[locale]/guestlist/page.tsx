@@ -12,13 +12,18 @@ import { SERVICE_COPY } from '@/lib/service-schema-copy'
 import { GuestlistSignup } from '@/components/guestlist/GuestlistSignup'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { ibizaTonight } from '@/lib/date-label'
+import { getPriceStats } from '@/lib/price-stats'
 
 export const revalidate = 3600
 
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
   const l = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE
   const T2 = (nl: string, en: string, de: string, es: string, fr: string): Record<Locale, string> => ({ nl, en, de, es, fr })
-  const MTITLE = T2('Ibiza guestlist via WhatsApp', 'Ibiza Club Guestlist', 'Ibiza Gästeliste per WhatsApp', 'Lista de invitados en Ibiza', 'Guestlist des clubs à Ibiza')
+  // "Gratis" hoort in de titel: het is de modifier waarop deze pagina gezocht
+  // wordt en tegelijk het enige wat we hier zonder voorbehoud kunnen beloven —
+  // aanmelden kost niets. Vrije entree staat er bewust niet, want dat hangt van
+  // de avond af; dat onderscheid maakt de H2 "Is de gastenlijst gratis?".
+  const MTITLE = T2('Ibiza guestlist — gratis aanmelden', 'Ibiza Club Guestlist — Free Sign-Up', 'Ibiza Gästeliste — gratis anmelden', 'Lista de invitados Ibiza — gratis', 'Guestlist clubs Ibiza — inscription gratuite')
   const MDESC = T2(
     'Op de gastenlijst van een Ibiza-club: wat het echt betekent, wat het per club en per avond verschilt, en hoe Simon je naam gratis via WhatsApp op de lijst zet.',
     'On the guestlist at an Ibiza club: what it actually means, how it differs per club and night, and how Simon puts your name on the list free over WhatsApp.',
@@ -89,6 +94,86 @@ const ANSWER: T = L(
   'Die Gästeliste eines Clubs auf Ibiza ist eine Namensliste an der Tür. Darauf zu stehen kann dreierlei bedeuten: freier Eintritt bis zu einer bestimmten Uhrzeit, ein reduzierter Türpreis oder eine schnellere Schlange. Was davon gilt, hängt vom Club, vom Abend und vom Line-up ab und steht nicht fest — es wird pro Anfrage bestätigt. Die Anmeldung über Ibiza Mi Vida ist kostenlos und läuft per WhatsApp: du schickst Club, Datum und Personenzahl, und Simon bestätigt, was für diesen Abend gilt, meist innerhalb einer Stunde. Eine Gästeliste ist nie eine Garantie auf Einlass; ist sie voll oder bietet der Club an dem Abend keine an, bleiben ein Package Deal oder ein normales Ticket.',
   'La guestlist de un club en Ibiza es una lista de nombres en la puerta. Estar en ella puede significar tres cosas: entrada libre hasta cierta hora, un precio de puerta reducido o una cola más rápida. Cuál de las tres aplica depende del club, la noche y el cartel, y no es fijo: se confirma en cada solicitud. Apuntarse con Ibiza Mi Vida es gratis y va por WhatsApp: envías el club, la fecha y cuántos sois, y Simon confirma lo que aplica esa noche concreta, normalmente en menos de una hora. Una guestlist nunca garantiza la entrada; si está llena o el club no la ofrece esa noche, quedan un package deal o una entrada normal.',
   "La guestlist d'un club à Ibiza est une liste de noms tenue à l'entrée. Y figurer peut signifier trois choses : entrée libre avant une certaine heure, un prix d'entrée réduit, ou une file plus rapide. Laquelle des trois s'applique dépend du club, de la soirée et du line-up, et ce n'est pas figé : c'est confirmé à chaque demande. S'inscrire via Ibiza Mi Vida est gratuit et se fait par WhatsApp : vous envoyez le club, la date et le nombre de personnes, et Simon confirme ce qui s'applique pour cette soirée précise, généralement dans l'heure. Une guestlist ne garantit jamais l'entrée ; si elle est pleine ou que le club n'en propose pas ce soir-là, il reste un package deal ou un billet classique.",
+)
+
+/**
+ * "Is de gastenlijst gratis?" als eigen kop, hoog op de pagina.
+ *
+ * Die vraag is de meest gestelde van dit onderwerp en het antwoord dat overal
+ * circuleert — "guestlist betekent gratis entree" — is niet waar. Hij stond
+ * hier wél goed beantwoord, maar op twee plekken waar een antwoordmachine hem
+ * niet als antwoord op déze vraag herkent: verstopt in de derde zin van de
+ * inleiding, en onderin in een dichtgeklapte FAQ.
+ *
+ * Nu is de vraag letterlijk een H2, met het antwoord eronder in de eerste zin
+ * en de drie mogelijke uitkomsten daarnaast als losse items. De FAQ-versie
+ * blijft staan: die voedt de JSON-LD en is korter, deze is de uitgeschreven
+ * variant met de deurprijs erbij die je anders betaalt.
+ */
+const FREE_TITLE: T = L(
+  'Is de gastenlijst van Ibiza gratis?',
+  'Is the Ibiza guest list free?',
+  'Ist die Gästeliste auf Ibiza kostenlos?',
+  '¿La guestlist de Ibiza es gratis?',
+  'La guestlist à Ibiza est-elle gratuite ?',
+)
+const FREE_LEAD: T = L(
+  'Aanmelden is gratis, altijd. Vrije entree is dat niet: wat de lijst je die avond oplevert is één van drie dingen, en dat hangt af van de club, de avond en de line-up. Wij bevestigen vooraf welke van de drie voor jouw avond geldt, zodat je het weet vóór je de deur uitgaat.',
+  'Signing up is free, always. Free entry is not: what the list gets you on the night is one of three things, and that depends on the club, the night and the line-up. We confirm which of the three applies to your night in advance, so you know before you leave the house.',
+  'Die Anmeldung ist kostenlos, immer. Freier Eintritt nicht: Was dir die Liste an dem Abend bringt, ist eines von drei Dingen, und das hängt vom Club, vom Abend und vom Line-up ab. Wir bestätigen vorher, was für deinen Abend gilt, damit du es weißt, bevor du losgehst.',
+  'Apuntarse es gratis, siempre. La entrada libre no: lo que la lista te da esa noche es una de tres cosas, y depende del club, la noche y el cartel. Confirmamos de antemano cuál de las tres aplica a tu noche, para que lo sepas antes de salir de casa.',
+  "S'inscrire est gratuit, toujours. L'entrée libre ne l'est pas : ce que la liste vous apporte ce soir-là est l'une de trois choses, et cela dépend du club, de la soirée et du line-up. Nous confirmons à l'avance laquelle des trois s'applique, pour que vous le sachiez avant de partir.",
+)
+const FREE_OUTCOMES: { label: T; text: T }[] = [
+  {
+    label: L('Vrije entree tot een tijdstip', 'Free entry before a cut-off', 'Freier Eintritt bis zu einer Uhrzeit', 'Entrada libre hasta cierta hora', "Entrée libre avant une heure limite"),
+    text: L(
+      'De club laat je zonder entree binnen als je vóór een bepaald uur binnen bent. Dat uur verschilt per club en per avond; je krijgt het exacte tijdstip in de bevestiging via WhatsApp.',
+      'The club lets you in without paying if you are inside before a set hour. That hour differs per club and per night; you get the exact time in the WhatsApp confirmation.',
+      'Der Club lässt dich ohne Eintritt herein, wenn du vor einer bestimmten Uhrzeit drin bist. Diese Uhrzeit ist je Club und Abend verschieden; du bekommst sie genau in der WhatsApp-Bestätigung.',
+      'El club te deja entrar sin pagar si estás dentro antes de cierta hora. Esa hora cambia según el club y la noche; te damos la hora exacta en la confirmación por WhatsApp.',
+      "Le club vous laisse entrer sans payer si vous êtes à l'intérieur avant une heure donnée. Cette heure varie selon le club et la soirée ; vous la recevez précisément dans la confirmation WhatsApp.",
+    ),
+  },
+  {
+    label: L('Een lagere deurprijs', 'A reduced door price', 'Ein reduzierter Türpreis', 'Un precio de puerta reducido', "Un tarif d'entrée réduit"),
+    text: L(
+      'Je betaalt wel, maar minder dan de geadverteerde ticketprijs. Het verschil hoor je vooraf, niet bij de deur.',
+      'You do pay, but less than the advertised ticket price. You hear the difference beforehand, not at the door.',
+      'Du zahlst zwar, aber weniger als den beworbenen Ticketpreis. Den Unterschied erfährst du vorher, nicht an der Tür.',
+      'Sí pagas, pero menos que el precio anunciado de la entrada. La diferencia la sabes antes, no en la puerta.',
+      "Vous payez, mais moins que le prix affiché du billet. Vous connaissez l'écart à l'avance, pas à l'entrée.",
+    ),
+  },
+  {
+    label: L('Alleen een snellere rij', 'A faster queue only', 'Nur eine schnellere Schlange', 'Solo una cola más rápida', 'Seulement une file plus rapide'),
+    text: L(
+      'Op grote headliner-avonden werkt een club vaak zonder gratis lijst, of helemaal zonder lijst. Dan scheelt het wachttijd en geen geld — en dat zeggen we er eerlijk bij.',
+      'On big headliner nights a club often runs no free list, or no list at all. Then it saves you waiting rather than money — and we say so plainly.',
+      'An großen Headliner-Abenden führt ein Club oft keine kostenlose Liste oder gar keine. Dann spart es Wartezeit statt Geld — und das sagen wir ehrlich dazu.',
+      'En las noches de gran cabeza de cartel el club a menudo no lleva lista gratuita, o ninguna lista. Entonces ahorra espera y no dinero — y te lo decimos claramente.',
+      "Lors des grosses soirées à tête d'affiche, un club ne tient souvent pas de liste gratuite, voire aucune liste. Cela fait alors gagner du temps d'attente, pas de l'argent — et nous le disons franchement.",
+    ),
+  },
+]
+
+/** Wat je zonder plek op de lijst aan de deur betaalt, uit dezelfde telling als /ibiza-prices. */
+function freePrice(median: number, min: number, l: Locale): string {
+  const m: Record<Locale, string> = {
+    nl: `Zonder plek op de lijst betaal je de gewone deurprijs. Die is in onze agenda doorgaans €${median}, met €${min} als goedkoopste clubticket van het eiland.`,
+    en: `Without a place on the list you pay the normal door price. In our agenda that is typically €${median}, with €${min} as the cheapest club ticket on the island.`,
+    de: `Ohne Platz auf der Liste zahlst du den normalen Türpreis. In unserem Kalender sind das typischerweise €${median}, mit €${min} als günstigstem Clubticket der Insel.`,
+    es: `Sin sitio en la lista pagas el precio normal de puerta. En nuestra agenda suele ser de €${median}, con €${min} como entrada de club más barata de la isla.`,
+    fr: `Sans place sur la liste, vous payez le tarif normal à l'entrée. Dans notre agenda, c'est généralement €${median}, avec €${min} comme billet de club le moins cher de l'île.`,
+  }
+  return m[l]
+}
+const FREE_PRICE_LINK: T = L(
+  'Alle clubprijzen, per club geteld',
+  'All club prices, counted per venue',
+  'Alle Clubpreise, pro Club gezählt',
+  'Todos los precios de club, por local',
+  'Tous les prix des clubs, par établissement',
 )
 
 const PKG_Q: T = L(
@@ -330,6 +415,11 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
   const venues = await getVenues(locale)
   const clubs = venues.filter(v => v.type?.slug === 'clubbing')
 
+  // Dezelfde telling die /ibiza-prices publiceert. Valt hij weg (lege feed,
+  // seizoen voorbij), dan verdwijnt alleen de prijszin — nooit een zin met een
+  // gat waar het bedrag hoorde te staan.
+  const prijzen = await getPriceStats(locale)
+
   const tonightStr = ibizaTonight()
   const clubSlugs = new Set(clubs.map(c => c.slug))
   const allDates = await getAllDates(locale)
@@ -378,6 +468,41 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
           <span className="font-serif text-sm font-black uppercase tracking-widest text-neutral-900">{CTA_Q[locale]}</span>
           {waButton}
         </div>
+      </section>
+
+      {/* ── Is de gastenlijst gratis? ──
+          De vraag waar dit onderwerp op gezocht wordt, als eigen kop en met
+          het antwoord in de eerste zin. Hij werd al goed beantwoord in de
+          inleiding en in de FAQ, maar op geen van beide plekken staat de vraag
+          zelf als kop — en een antwoordmachine koppelt een antwoord aan de kop
+          erboven, niet aan de derde zin van een alinea over iets anders. */}
+      <section className="mx-auto max-w-3xl px-4 pb-14">
+        <Reveal>
+          <h2 className="font-serif text-2xl font-black tracking-tight md:text-3xl">{FREE_TITLE[locale]}</h2>
+          <p className="mt-4 text-base leading-relaxed text-neutral-700">{FREE_LEAD[locale]}</p>
+          <ol className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {FREE_OUTCOMES.map((o, i) => (
+              <li key={i} className="rounded-2xl border border-black/8 bg-neutral-50 p-5">
+                <span className="mb-3 grid h-8 w-8 place-items-center rounded-xl bg-gold/12 font-serif text-xs font-black text-gold ring-1 ring-gold/25">
+                  {i + 1}
+                </span>
+                <h3 className="font-serif text-base font-black leading-snug text-neutral-900">{o.label[locale]}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-neutral-600">{o.text[locale]}</p>
+              </li>
+            ))}
+          </ol>
+          {prijzen && (
+            <p className="mt-5 text-[15px] leading-relaxed text-neutral-700">
+              {freePrice(prijzen.clubMedian, prijzen.clubMin, locale)}{' '}
+              <Link
+                href={`${base}/ibiza-prices`}
+                className="font-semibold text-neutral-900 underline decoration-black/25 underline-offset-2 hover:decoration-gold"
+              >
+                {FREE_PRICE_LINK[locale]} →
+              </Link>
+            </p>
+          )}
+        </Reveal>
       </section>
 
       {/* ── Package / group deal picker ── */}

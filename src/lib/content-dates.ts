@@ -21,8 +21,9 @@ export const CONTENT_UPDATED: Record<string, string> = {
   boats: '2026-08-29',
   'ferry-formentera': '2026-08-29',
   'boat-party': '2026-08-29',
-  // Package-deal picker + H1 rewrite.
-  guestlist: '2026-08-31',
+  // Package-deal picker + H1 rewrite; 07-09 de sectie "Is de gastenlijst
+  // gratis?" met de drie uitkomsten en de deurprijs erbij.
+  guestlist: '2026-09-07',
   'package-deals': '2026-08-31',
   // Both rebuilt from scratch, replacing placeholder boilerplate.
   'about-us': '2026-08-30',

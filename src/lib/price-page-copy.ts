@@ -1,4 +1,4 @@
-import type { PriceStats } from '@/lib/price-stats'
+import type { PriceStats, VenuePrice } from '@/lib/price-stats'
 import { localeTag } from '@/lib/date-label'
 
 /**
@@ -50,38 +50,143 @@ export const TITLE: L = {
  * De nieuwe versie zet de commerciële term vooraan, want een titel wordt van
  * links naar rechts gewogen en aan de achterkant afgekapt.
  */
+/**
+ * De modifier staat in de titel, niet alleen in de body.
+ *
+ * "Goedkoopste clubtickets Ibiza" is een eigen zoekopdracht met eigen
+ * resultaten, en die stond hier nergens: de titel beloofde "wat kost een
+ * avond" — het bedrag, niet de ondergrens. De H1 blijft de vraag, want die
+ * werkt op de pagina; de titel draagt de term waarop gezocht wordt.
+ */
 export const META_TITLE: L = {
-  nl: 'Ibiza clubprijzen 2026 — wat kost een avond',
-  en: 'Ibiza Club Prices 2026 — What a Night Costs',
-  de: 'Ibiza Clubpreise 2026 — was kostet ein Abend',
-  es: 'Precios discotecas Ibiza 2026 — qué cuesta',
-  fr: 'Prix des clubs à Ibiza 2026 — le vrai coût',
+  nl: 'Ibiza clubprijzen 2026 — goedkoopste ticket',
+  en: 'Ibiza Club Prices 2026 — Cheapest Tickets',
+  de: 'Ibiza Clubpreise 2026 — günstigste Tickets',
+  es: 'Precios de clubs Ibiza 2026 — más baratos',
+  fr: 'Prix des clubs Ibiza 2026 — les moins chers',
 }
 
+/**
+ * De snippet, met het laagste bedrag vooraan.
+ *
+ * De Engelse versie stond op 139 tekens en viel daarmee net onder de ondergrens
+ * van 140 die check:onpage hanteert — een bekende fout in
+ * scripts/seo-check/baseline.json. Alle vijf zitten nu tussen 149 en 155, met
+ * genoeg speling dat een cijfer dat een teken langer wordt (€9 → €15 → €105) er
+ * niet doorheen schiet.
+ */
 export function metaDescription(s: PriceStats, l: string): string {
+  const onder = s.clubBuckets.under40
   const m: L = {
-    nl: `Entree voor een club op Ibiza kost ${euro(s.clubMin)} tot ${euro(s.clubMax)}; het goedkoopste ticket is doorgaans ${euro(s.clubMedian)}. Gemeten aan ${s.clubN} clubavonden, met de mediaan per club.`,
-    en: `Club entry in Ibiza costs ${euro(s.clubMin)} to ${euro(s.clubMax)}; the typical cheapest ticket is ${euro(s.clubMedian)}. Measured across ${s.clubN} club nights, with the median for each venue.`,
-    de: `Clubeintritt auf Ibiza kostet ${euro(s.clubMin)} bis ${euro(s.clubMax)}; das günstigste Ticket liegt typischerweise bei ${euro(s.clubMedian)}. Gemessen an ${s.clubN} Clubnächten, mit Median je Club.`,
-    es: `La entrada a un club en Ibiza cuesta entre ${euro(s.clubMin)} y ${euro(s.clubMax)}; la entrada más barata suele ser de ${euro(s.clubMedian)}. Medido sobre ${s.clubN} noches, con la mediana por local.`,
-    fr: `L'entrée en club à Ibiza coûte de ${euro(s.clubMin)} à ${euro(s.clubMax)} ; le billet le moins cher est généralement de ${euro(s.clubMedian)}. Mesuré sur ${s.clubN} soirées, avec la médiane par établissement.`,
+    nl: `Het goedkoopste clubticket op Ibiza kost ${euro(s.clubMin)}, doorgaans ${euro(s.clubMedian)}; ${onder}% van de avonden blijft onder €40. Gemeten aan ${s.clubN} gedateerde clubavonden, mediaan per club.`,
+    en: `The cheapest club ticket in Ibiza is ${euro(s.clubMin)} and the typical one is ${euro(s.clubMedian)}; ${onder}% of nights cost under €40. Measured across ${s.clubN} dated club nights, median per venue.`,
+    de: `Das günstigste Clubticket auf Ibiza kostet ${euro(s.clubMin)}, typisch ${euro(s.clubMedian)}; ${onder}% der Nächte bleiben unter €40. Gemessen an ${s.clubN} datierten Clubnächten, Median je Club.`,
+    es: `La entrada de club más barata de Ibiza cuesta ${euro(s.clubMin)}, lo habitual ${euro(s.clubMedian)}; un ${onder}% de las noches baja de €40. Medido sobre ${s.clubN} noches con fecha, mediana por local.`,
+    fr: `Le billet de club le moins cher à Ibiza coûte ${euro(s.clubMin)}, en général ${euro(s.clubMedian)} ; ${onder}% des soirées restent sous €40. Mesuré sur ${s.clubN} soirées datées, médiane par club.`,
   }
   return pick(m, l)
 }
 
-/** The answer, first thing on the page. Written to be quoted as-is. */
+/**
+ * The answer, first thing on the page. Written to be quoted as-is.
+ *
+ * De eerste zin draagt het laagste getal, niet het meetvenster.
+ *
+ * Hij begon met "Voor het deel van het seizoen dat wij meten — 7 september tot
+ * 30 november 2026 —", waarna het eerste cijfer pas op woord 22 stond. Dat is
+ * precies andersom dan de eigen schrijfregel (antwoord in de eerste 40-60
+ * woorden, met een concreet getal) en het kost de vraag waar de meeste mensen
+ * mee binnenkomen: "wat is het goedkoopste". Een antwoordmachine die de eerste
+ * zin overneemt, citeerde een voorbehoud in plaats van een prijs.
+ *
+ * Het venster staat er nog steeds, maar achteraan bij de herkomst, waar het
+ * hoort: het is de scope van de meting, niet het antwoord.
+ */
 export function answer(s: PriceStats, l: string): string {
   const venues = s.venues.length
   const from = longDate(s.from, l)
   const to = longDate(s.to, l)
+  const onder = s.clubBuckets.under40
   const m: L = {
-    nl: `Voor het deel van het seizoen dat wij meten — ${from} tot ${to} — kost entree voor een club op Ibiza ${euro(s.clubMin)} tot ${euro(s.clubMax)}, en is het goedkoopste ticket doorgaans ${euro(s.clubMedian)}. De helft van alle clubavonden zit tussen ${euro(s.clubQ1)} en ${euro(s.clubQ3)}. Dit zijn uitsluitend ticketprijzen: drankjes, tafels en vervoer zitten er niet bij. De cijfers komen uit ${s.clubN} gedateerde clubevents bij ${venues} venues in ons eigen boekingssysteem.`,
-    en: `For the part of the season we measure — ${from} to ${to} — club entry in Ibiza costs ${euro(s.clubMin)} to ${euro(s.clubMax)}, and the typical cheapest ticket is ${euro(s.clubMedian)}. Half of all club nights fall between ${euro(s.clubQ1)} and ${euro(s.clubQ3)}. These are ticket prices only: drinks, tables and transport are not included. The figures come from ${s.clubN} dated club events across ${venues} venues in our own booking system.`,
-    de: `Für den Teil der Saison, den wir messen — ${from} bis ${to} — kostet Clubeintritt auf Ibiza ${euro(s.clubMin)} bis ${euro(s.clubMax)}, das günstigste Ticket liegt typischerweise bei ${euro(s.clubMedian)}. Die Hälfte aller Clubnächte liegt zwischen ${euro(s.clubQ1)} und ${euro(s.clubQ3)}. Das sind reine Ticketpreise: Getränke, Tische und Transport sind nicht enthalten. Die Zahlen stammen aus ${s.clubN} datierten Clubevents in ${venues} Locations in unserem eigenen Buchungssystem.`,
-    es: `Para la parte de la temporada que medimos — del ${from} al ${to} — la entrada a un club en Ibiza cuesta entre ${euro(s.clubMin)} y ${euro(s.clubMax)}, y la más barata suele costar ${euro(s.clubMedian)}. La mitad de las noches se sitúan entre ${euro(s.clubQ1)} y ${euro(s.clubQ3)}. Son solo precios de entrada: bebidas, mesas y transporte no están incluidos. Las cifras proceden de ${s.clubN} eventos con fecha en ${venues} locales de nuestro propio sistema de reservas.`,
-    fr: `Pour la partie de la saison que nous mesurons — du ${from} au ${to} — l'entrée en club à Ibiza coûte de ${euro(s.clubMin)} à ${euro(s.clubMax)}, et le billet le moins cher est généralement de ${euro(s.clubMedian)}. La moitié des soirées se situent entre ${euro(s.clubQ1)} et ${euro(s.clubQ3)}. Ce sont uniquement des prix de billet : boissons, tables et transport ne sont pas inclus. Les chiffres proviennent de ${s.clubN} événements datés dans ${venues} établissements de notre propre système de réservation.`,
+    nl: `Het goedkoopste clubticket op Ibiza kost ${euro(s.clubMin)}, en ${onder}% van alle clubavonden kost minder dan €40. Het goedkoopste ticket is doorgaans ${euro(s.clubMedian)}; de helft van alle avonden zit tussen ${euro(s.clubQ1)} en ${euro(s.clubQ3)}, en de duurste entree in de agenda is ${euro(s.clubMax)}. Dit zijn uitsluitend ticketprijzen: drankjes, tafels en vervoer zitten er niet bij. De cijfers komen uit ${s.clubN} gedateerde clubevents bij ${venues} venues in ons eigen boekingssysteem, over de periode ${from} tot ${to}.`,
+    en: `The cheapest club ticket in Ibiza is ${euro(s.clubMin)}, and ${onder}% of all club nights cost under €40. The typical cheapest ticket is ${euro(s.clubMedian)}; half of all nights fall between ${euro(s.clubQ1)} and ${euro(s.clubQ3)}, and the dearest entry ticket in the agenda is ${euro(s.clubMax)}. These are ticket prices only: drinks, tables and transport are not included. The figures come from ${s.clubN} dated club events across ${venues} venues in our own booking system, covering ${from} to ${to}.`,
+    de: `Das günstigste Clubticket auf Ibiza kostet ${euro(s.clubMin)}, und ${onder}% aller Clubnächte kosten unter €40. Das günstigste Ticket liegt typischerweise bei ${euro(s.clubMedian)}; die Hälfte aller Nächte liegt zwischen ${euro(s.clubQ1)} und ${euro(s.clubQ3)}, und der teuerste Eintritt im Kalender kostet ${euro(s.clubMax)}. Das sind reine Ticketpreise: Getränke, Tische und Transport sind nicht enthalten. Die Zahlen stammen aus ${s.clubN} datierten Clubevents in ${venues} Locations in unserem eigenen Buchungssystem, im Zeitraum ${from} bis ${to}.`,
+    es: `La entrada de club más barata de Ibiza cuesta ${euro(s.clubMin)}, y un ${onder}% de todas las noches cuesta menos de €40. La entrada más barata suele costar ${euro(s.clubMedian)}; la mitad de las noches se sitúan entre ${euro(s.clubQ1)} y ${euro(s.clubQ3)}, y la entrada más cara de la agenda es de ${euro(s.clubMax)}. Son solo precios de entrada: bebidas, mesas y transporte no están incluidos. Las cifras proceden de ${s.clubN} eventos con fecha en ${venues} locales de nuestro propio sistema de reservas, del ${from} al ${to}.`,
+    fr: `Le billet de club le moins cher à Ibiza coûte ${euro(s.clubMin)}, et ${onder}% des soirées coûtent moins de €40. Le billet le moins cher est généralement de ${euro(s.clubMedian)} ; la moitié des soirées se situent entre ${euro(s.clubQ1)} et ${euro(s.clubQ3)}, et l'entrée la plus chère de l'agenda est à ${euro(s.clubMax)}. Ce sont uniquement des prix de billet : boissons, tables et transport ne sont pas inclus. Les chiffres proviennent de ${s.clubN} événements datés dans ${venues} établissements de notre propre système de réservation, du ${from} au ${to}.`,
   }
   return pick(m, l)
+}
+
+/**
+ * De club met het laagste losse ticket, en de drie goedkoopste op middenprijs.
+ *
+ * Twee verschillende vragen die allebei "goedkoopste" heten. Het laagste losse
+ * ticket is één avond bij één club — dat is het getal dat in de lead staat en
+ * dus uitgelegd moet worden, anders leest het als een vaste prijs. De mediaan
+ * zegt welke club structureel het goedkoopst is; dat is wat je wilt weten als
+ * je nog moet kiezen waar je heen gaat.
+ *
+ * Allebei afgeleid uit dezelfde `venues`-array die de tabel eronder vult, dus
+ * de zin kan niet uit de pas gaan lopen met de rij die de bezoeker ziet staan.
+ */
+export function cheapestTicketVenue(s: PriceStats): VenuePrice | null {
+  if (!s.venues.length) return null
+  return [...s.venues].sort((a, b) => a.min - b.min || a.name.localeCompare(b.name))[0]
+}
+
+export function cheapestByMedian(s: PriceStats, n = 3): VenuePrice[] {
+  return [...s.venues]
+    .sort((a, b) => a.median - b.median || a.name.localeCompare(b.name))
+    .slice(0, n)
+}
+
+const AND: L = { nl: 'en', en: 'and', de: 'und', es: 'y', fr: 'et' }
+
+function opsomming(items: string[], l: string): string {
+  if (items.length <= 1) return items[0] || ''
+  return `${items.slice(0, -1).join(', ')} ${pick(AND, l)} ${items[items.length - 1]}`
+}
+
+export const H_CHEAPEST: L = {
+  nl: 'Wat is het goedkoopste clubticket op Ibiza?',
+  en: 'What is the cheapest club ticket in Ibiza?',
+  de: 'Was ist das günstigste Clubticket auf Ibiza?',
+  es: '¿Cuál es la entrada de club más barata en Ibiza?',
+  fr: 'Quel est le billet de club le moins cher à Ibiza ?',
+}
+
+/**
+ * De goedkoopste kant van de agenda, uitgeschreven.
+ *
+ * "Goedkoopste clubtickets Ibiza" is een eigen zoekopdracht en die werd hier
+ * nergens als kop beantwoord — het cijfer stond alleen in een tabelcel en in
+ * een FAQ-antwoord halverwege de pagina. Deze alinea zet het laagste bedrag,
+ * de club erachter en het aandeel avonden onder €40 in één blok, zodat het
+ * antwoord op die vraag zelfstandig te citeren is.
+ */
+export function cheapestCopy(s: PriceStats, l: string): string | null {
+  const low = cheapestTicketVenue(s)
+  const drie = cheapestByMedian(s, 3)
+  if (!low || drie.length < 2) return null
+  const lijst = opsomming(drie.map(v => `${v.name} (${euro(v.median)})`), l)
+  const onder = s.clubBuckets.under40
+  const m: L = {
+    nl: `${euro(low.min)}, bij ${low.name} — de laagste geadverteerde entreeprijs over de ${s.clubN} gedateerde clubavonden die wij tellen. Dat is één avond bij één club en geen vaste prijs. Kijk je naar de middenprijs, dan zijn dit de drie goedkoopste clubs: ${lijst}. ${onder}% van alle clubavonden op het eiland kost minder dan €40, dus goedkoop uitgaan is hier het normale geval en geen buitenkans.`,
+    en: `${euro(low.min)}, at ${low.name} — the lowest advertised entry price across the ${s.clubN} dated club nights we count. That is one night at one club, not a standing price. By middle price instead, the three cheapest clubs are ${lijst}. ${onder}% of all club nights on the island cost under €40, so a cheap night out here is the normal case rather than a lucky find.`,
+    de: `${euro(low.min)}, im ${low.name} — der niedrigste beworbene Eintrittspreis über die ${s.clubN} datierten Clubnächte, die wir zählen. Das ist ein Abend in einem Club und kein Festpreis. Nach mittlerem Preis sind dies die drei günstigsten Clubs: ${lijst}. ${onder}% aller Clubnächte auf der Insel kosten unter €40, günstig ausgehen ist hier also der Normalfall und kein Glücksgriff.`,
+    es: `${euro(low.min)}, en ${low.name} — el precio de entrada anunciado más bajo de las ${s.clubN} noches con fecha que contamos. Es una noche en un club, no un precio fijo. Por precio medio, los tres clubs más baratos son ${lijst}. Un ${onder}% de todas las noches de la isla cuesta menos de €40, así que salir barato aquí es lo normal y no un golpe de suerte.`,
+    fr: `${euro(low.min)}, au ${low.name} — le prix d'entrée annoncé le plus bas sur les ${s.clubN} soirées datées que nous comptons. C'est une soirée dans un club, pas un tarif fixe. Au prix médian, les trois clubs les moins chers sont ${lijst}. ${onder}% des soirées de l'île coûtent moins de €40 : sortir pour pas cher est donc ici le cas normal, pas un coup de chance.`,
+  }
+  return pick(m, l)
+}
+
+/** Doorverwijzing naar de gastenlijst: de andere manier om de deurprijs omlaag te krijgen. */
+export const CHEAPEST_GUESTLIST: L = {
+  nl: 'Nog goedkoper binnen? Zo werkt de gastenlijst',
+  en: 'Cheaper still? How the guest list works',
+  de: 'Noch günstiger rein? So funktioniert die Gästeliste',
+  es: '¿Aún más barato? Cómo funciona la guestlist',
+  fr: 'Moins cher encore ? Comment marche la guestlist',
 }
 
 export const H_VENUES: L = {
@@ -262,6 +367,27 @@ export function faqs(s: PriceStats, l: string): { q: string; a: string }[] {
       },
     )
   }
+
+  // "Kun je gratis naar binnen" is een eigen zoekopdracht en het antwoord dat
+  // overal circuleert ("guestlist = gratis entree") is onwaar. Deze staat hier
+  // omdat de vraag bij een prijzenpagina hoort, en zegt hetzelfde als
+  // /guestlist: drie mogelijke uitkomsten, per avond bevestigd.
+  add(
+    {
+      nl: 'Kun je gratis een club in op Ibiza?',
+      en: 'Can you get into an Ibiza club for free?',
+      de: 'Kommt man auf Ibiza gratis in einen Club?',
+      es: '¿Se puede entrar gratis en un club de Ibiza?',
+      fr: "Peut-on entrer gratuitement dans un club à Ibiza ?",
+    },
+    {
+      nl: `Niet als regel: elke clubavond in onze agenda heeft een deurprijs, vanaf ${euro(s.clubMin)}. Wat wel bestaat is de gastenlijst. Op sommige avonden laat een club je tot een bepaald tijdstip zonder entree binnen, op andere avonden geldt een lagere deurprijs, en op de drukste avonden scheelt het alleen wachttijd. Welke van de drie geldt, beslist de club per avond — dat wordt vooraf bevestigd en niet hier beloofd.`,
+      en: `Not as a rule: every club night in our agenda carries a door price, from ${euro(s.clubMin)} upwards. What does exist is the guest list. On some nights a club lets you in without paying before a cut-off time, on others the door price is reduced, and on the busiest nights it only saves you queueing. Which of the three applies is the club's call per night — it is confirmed in advance rather than promised here.`,
+      de: `Nicht grundsätzlich: jede Clubnacht in unserem Kalender hat einen Türpreis, ab ${euro(s.clubMin)}. Was es gibt, ist die Gästeliste. An manchen Abenden lässt ein Club dich bis zu einer bestimmten Uhrzeit ohne Eintritt herein, an anderen gilt ein reduzierter Türpreis, und an den vollsten Abenden spart es nur Wartezeit. Was davon gilt, entscheidet der Club pro Abend — das wird vorher bestätigt und hier nicht versprochen.`,
+      es: `Por norma no: cada noche de club en nuestra agenda tiene un precio de puerta, desde ${euro(s.clubMin)}. Lo que sí existe es la guestlist. Algunas noches el club te deja entrar sin pagar hasta cierta hora, otras aplica un precio reducido, y en las noches más fuertes solo te ahorra cola. Cuál de las tres aplica lo decide el club cada noche — se confirma antes y no se promete aquí.`,
+      fr: `Pas en règle générale : chaque soirée de notre agenda a un prix d'entrée, à partir de ${euro(s.clubMin)}. Ce qui existe, c'est la guestlist. Certains soirs le club vous laisse entrer sans payer avant une heure limite, d'autres soirs le tarif est réduit, et lors des grosses soirées cela ne fait qu'éviter la file. Ce qui s'applique est décidé par le club chaque soir — c'est confirmé à l'avance, pas promis ici.`,
+    },
+  )
 
   if (boat && ferry) {
     add(
