@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
 import { HubHero, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
+import { MAP_CLUBS } from '@/data/ibiza-map-clubs'
+import { venuePagePublished } from '@/lib/pending-venues'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { WhatsAppCta } from '@/components/hub/WhatsAppCta'
 import { AuthorByline } from '@/components/seo/AuthorByline'
@@ -117,6 +119,70 @@ const OPTIONS = [
   },
 ]
 
+/**
+ * "Ibiza zonder auto" — beantwoord met de ligging van de clubs zelf.
+ *
+ * Het is een eigen zoekopdracht, en overal wordt hij beantwoord met een mening
+ * ("je hebt echt een auto nodig") of met het tegenovergestelde, afhankelijk van
+ * wat de schrijver verhuurt. Wij hebben de gegevens: onze eigen kaartdata weet
+ * per club in welk gebied hij staat. Daaruit volgt het echte antwoord — het
+ * hangt niet af van hoe avontuurlijk je bent maar van wáár je slaapt, en dat is
+ * te tellen.
+ *
+ * De tellingen komen uit MAP_CLUBS en niet uit deze tekst. Verhuist een club of
+ * komt er een bij, dan schuiven de getallen mee.
+ *
+ * Bewust geen buslijnnummers of vertrektijden: die wisselen per seizoen, de FAQ
+ * hieronder zegt dat ook, en een verouderd lijnnummer is precies het soort
+ * detail waarop iemand om zes uur 's ochtends strandt.
+ */
+/**
+ * De clubs die we mogen noemen.
+ *
+ * `pending-venues.ts` is de enige plek die zegt welke clubs nog achter een
+ * afspraak zitten. Die drie hier weglaten is geen cosmetiek: hun eigen pagina's
+ * 404'en met opzet, en ze in nieuwe tekst opvoeren wekt precies de indruk die
+ * we tot het akkoord niet willen wekken. Zodra de vlag omgaat, verschijnen ze
+ * hier vanzelf en schuiven de tellingen mee.
+ */
+const KAART = MAP_CLUBS.filter((c) => !c.slug || venuePagePublished(c.slug))
+
+const clubsIn = (...gebieden: string[]) =>
+  KAART.filter((c) => gebieden.some((g) => c.area.toLowerCase().startsWith(g.toLowerCase())))
+
+const SAN_ANTONIO = clubsIn('San Antonio')
+const BOSSA = clubsIn("Playa d'en Bossa")
+const STAD = clubsIn('Ibiza-Stad', 'Marina Botafoch')
+const RIT_NODIG = KAART.filter(
+  (c) => ![...SAN_ANTONIO, ...BOSSA, ...STAD].includes(c),
+)
+const noem = (lijst: typeof KAART) => lijst.map((c) => c.name).join(', ')
+
+const CARLESS = [
+  {
+    name: `San Antonio — ${SAN_ANTONIO.length} clubs in the same town`,
+    body:
+      `${noem(SAN_ANTONIO)} are all in San Antonio or on the bay, so from a hotel in the centre the night is a walk. This is also the side with the sunset spots and the most daytime bus connections. The trade is the distance to the big rooms on the other side of the island — a journey you make twice in a night.`,
+  },
+  {
+    name: `Playa d'en Bossa — ${BOSSA.length} clubs on one strip`,
+    body:
+      `${noem(BOSSA)} sit on the same strip, with the beach clubs that fill the afternoon on the same stretch of sand. Sleep on that strip and the night ends in a walk rather than a negotiation, and the airport is fifteen minutes away. You are then staying in the nightlife rather than near it.`,
+  },
+  {
+    name: `Ibiza Town — ${STAD.length} clubs, plus everything that is not one`,
+    body:
+      `${noem(STAD)} are on this side of the harbour, though how far you walk depends on exactly where you sleep — Marina Botafoch is across the water from the old town. This is also where most bus routes meet, and where a rainy day is still a day.`,
+  },
+  {
+    name: 'What you do need a ride for',
+    body:
+      RIT_NODIG.length
+        ? `${noem(RIT_NODIG)} are in none of the places you stay — inland, or on a road between villages. For those nights, arrange the way back before you go out: a booked transfer, a discobus running your night, or a driver who is not drinking. The same applies by day to the west-coast bays and the north.`
+        : 'The west-coast bays and the north of the island remain the argument for a car: buses run there in summer, but not at the hour you want to come back.',
+  },
+]
+
 export default function GettingAroundIbizaPage() {
   return (
     <>
@@ -148,6 +214,16 @@ export default function GettingAroundIbizaPage() {
       <ItemGrid
         heading="Six ways around, and when each one wins"
         items={OPTIONS}
+      />
+
+      {/* "Ibiza zonder auto" als eigen kop, met de tellingen uit de kaartdata.
+          Staat vóór "The ride home decides everything", want dat stuk is het
+          vervolg op dit antwoord en niet andersom. */}
+      <ItemGrid
+        heading="Ibiza without a car — can you?"
+        intro={`Yes, and on most trips it is the cheaper answer — but it is decided by where you sleep, not by how adventurous you are. Of the ${KAART.length} clubs on our island map, ${SAN_ANTONIO.length} sit in San Antonio, ${BOSSA.length} on the Playa d'en Bossa strip and ${STAD.length} on the Ibiza Town side of the harbour. Base yourself in one of those three and a real part of the week ends on foot. What a car buys is the rest of the island: the west-coast bays, the north, and the rooms that sit on a road rather than in a town.`}
+        items={CARLESS}
+        columns={2}
       />
 
       <ProseSection
