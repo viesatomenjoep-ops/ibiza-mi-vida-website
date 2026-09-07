@@ -130,6 +130,18 @@ try {
 console.log('\nGoogle-reviews')
 try {
   const res = await haal(`${BASE}/en`)
+  // Eerst de HTTP-status, dán de inhoud.
+  //
+  // Deze controle keek meteen in de body en concludeerde uit "geen cijfer
+  // gevonden" dat de sleutels niet in Vercel staan. Op een 403 — de
+  // netwerkpolicy van de sandbox blokkeert het eigen domein — las hij dus een
+  // foutpagina en meldde doodleuk "niet gekoppeld: zet GOOGLE_PLACES_API_KEY
+  // en GOOGLE_PLACE_ID in Vercel", terwijl die er gewoon stonden. Een
+  // netwerkstoring als configuratiediagnose presenteren is erger dan niets
+  // melden: het stuurt iemand een instelling laten veranderen die klopte.
+  if (!res.ok) {
+    fout(`/en gaf HTTP ${res.status} — de reviewstand is hiermee niet vast te stellen (dit zegt niets over de sleutels in Vercel)`)
+  } else {
   const html = (await res.text()).replace(/<!-- -->/g, '')
   const badge = /Google rating [\d.,]+ out of 5, based on \d+ reviews/i.test(html) || /aria-label="[^"]*out of 5[^"]*"/i.test(html)
   // Alle drie booleans. De eerste versie telde de reviewsectie als getal en
@@ -151,7 +163,8 @@ try {
     else if (!badge) fout('reviews zonder cijfer kan niet: de rating ontbreekt terwijl er wel reviews renderen')
     else if (!teksten) console.log('  \x1b[33m⚠\x1b[0m cijfer staat, maar geen geschreven reviews (nog): sectie en schema blijven dan allebei bewust weg')
   } else {
-    console.log('  \x1b[33m⚠\x1b[0m niet gekoppeld: geen cijfer, geen reviewsectie, geen schema op /en. Zet GOOGLE_PLACES_API_KEY en GOOGLE_PLACE_ID in Vercel (zie .env.example).')
+    console.log('  \x1b[33m⚠\x1b[0m niet gekoppeld: geen cijfer, geen reviewsectie, geen schema op /en. Zet GOOGLE_PLACES_API_KEY en GOOGLE_PLACE_ID in Vercel (zie .env.example), en controleer /api/diagnose-reviews.')
+  }
   }
 } catch (e) { fout(`onbereikbaar: ${e?.message || e}`) }
 

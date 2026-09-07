@@ -113,6 +113,47 @@ const CLUBS = [
   },
 ]
 
+/**
+ * "Ibiza club zonder lange rij" — met de eerlijke grens erbij.
+ *
+ * Het zoekplan ging ervan uit dat deze vraag hier al in de FAQ stond en alleen
+ * naar een H2 getild hoefde te worden. Dat klopte niet: het antwoord stond op
+ * /guestlist (als één van de drie uitkomsten van een lijstplek) en verder
+ * nergens. Hij is dus geschreven in plaats van verplaatst.
+ *
+ * Waarom dit stuk voorzichtig is met beloften: "sla de rij over" is precies het
+ * soort claim dat elke ticketsite maakt en niemand kan waarmaken. Wij kunnen
+ * drie dingen aanwijzen die de wachttijd echt korter maken, en één ding dat
+ * niet werkt — en dat laatste hoort er even hard bij, want iemand die met een
+ * gekocht ticket in een rij van veertig minuten staat voelt zich bedrogen door
+ * de pagina die hem dat ticket verkocht.
+ *
+ * Geen enkele bewering hier over een betaalde fast-track: die verschilt per
+ * zaal en per avond en we hebben er geen bevestigde lijst van.
+ */
+const QUEUE = [
+  {
+    name: 'Buy before you go, not at the door',
+    body:
+      'The longest line at most venues is the box office, not the entrance. A ticket bought in advance puts you in the ticket-holder line, which moves at the speed of a QR scan. This is the one that makes the biggest difference and it costs nothing extra — door prices are not reliably cheaper anyway.',
+  },
+  {
+    name: 'Ask whether there is a list for your night',
+    body:
+      'A guest list place sometimes means a separate, faster entrance rather than a cheaper ticket — which of the two you get depends on the club and the night. We confirm which one applies before you go, so it is worth asking even when the entry price is not the issue.',
+  },
+  {
+    name: 'Arrive before the headline slot',
+    body:
+      'Night clubs open around midnight and the main act is usually on between two and four. The door is busiest in the hour before that name plays. Being inside beforehand is the difference between walking in and standing still, and it costs you nothing but an earlier taxi.',
+  },
+  {
+    name: 'What does not work',
+    body:
+      'A ticket is not a fast pass. On a sold-out headline night everyone waits, and nobody selling you a ticket — us included — can promise you a specific wait at a door they do not staff. Anyone who does promise that is guessing on your behalf.',
+  },
+]
+
 export default function IbizaClubTicketsPage() {
   return (
     <>
@@ -166,6 +207,13 @@ export default function IbizaClubTicketsPage() {
           </AffiliateLink>
         </div>
       </div>
+
+      <ItemGrid
+        heading="Can you skip the queue at an Ibiza club?"
+        intro="Partly, and the thing that works best is the cheapest: a ticket bought before you arrive puts you in the ticket-holder line instead of the box-office line, and that is where the wait usually is. Two other things help. One thing that everyone claims does not."
+        items={QUEUE}
+        columns={2}
+      />
 
       <Proof locale={LOCALE} />
       <FaqAccordion faqs={FAQS} locale={LOCALE} />

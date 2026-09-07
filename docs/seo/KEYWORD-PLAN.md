@@ -88,11 +88,26 @@ Dat levert één seizoen klikken op en daarna een reputatie.
 |---|---|
 | boot huren zonder vaarbewijs | Vijf talen ✅ (#40) |
 | jetski zonder vaarbewijs | Vijf talen ✅ (#39) |
-| Ibiza zonder auto | `/getting-around-ibiza` — **sectie toevoegen** |
-| clubs zonder lange rij | `/ibiza-club-tickets` — al beantwoord in de FAQ, **naar een H2 tillen** |
+| Ibiza zonder auto | `/getting-around-ibiza` ✅ (07-09) — H2 "Ibiza without a car — can you?", met de tellingen per gebied uit `ibiza-map-clubs.ts` |
+| clubs zonder lange rij | `/ibiza-club-tickets` ✅ (07-09) — H2 "Can you skip the queue at an Ibiza club?" |
 
-Deze familie is bijna af, en dat is geen toeval: het zijn de vragen waar een
+Deze familie is af, en dat is geen toeval: het zijn de vragen waar een
 wettelijke of praktische grens achter zit, en die hebben we al moeten uitleggen.
+
+Twee aantekeningen bij het bouwen ervan:
+
+- **De aanname over de rij klopte niet.** Dit plan zei dat `/ibiza-club-tickets`
+  het antwoord al in de FAQ had staan en dat het alleen naar een H2 getild
+  hoefde te worden. Er stond niets over rijen op die pagina; het antwoord zat op
+  `/guestlist`, als één van de drie uitkomsten van een lijstplek. Hij is dus
+  geschreven in plaats van verplaatst — mét de eerlijke grens erbij ("een ticket
+  is geen fast pass; op een uitverkochte avond wacht iedereen"), want "sla de rij
+  over" is precies de claim die elke ticketsite maakt en niemand waarmaakt.
+- **De carloze sectie noemt de drie clubs niet die nog achter het akkoord
+  zitten.** `KAART` filtert `MAP_CLUBS` door `venuePagePublished()`, dus Pacha,
+  Amnesia en DC-10 staan er niet in en de tellingen kloppen met wat we wél
+  mogen zeggen (9 in plaats van 12). Gaat de vlag om, dan verschijnen ze vanzelf
+  en schuiven de getallen mee.
 
 ### 4. "Hoe" / how
 
