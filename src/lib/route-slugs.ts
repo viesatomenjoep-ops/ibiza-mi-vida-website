@@ -241,8 +241,14 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   // Leeg = niet in sitemap, geen hreflang, geen taalwissel ernaartoe.
   'boat-rental': [],
   'car-rental': ['en', 'nl', 'de', 'fr', 'es'],
-  'boat-no-licence': ['en'],
-  'boat-with-skipper': ['en'],
+  // Alle vijf. NL vertrekt vanuit het misverstand dat de Nederlandse regel (lengte
+  // en snelheid) hier zou gelden, DE vanuit de Duitse 15-PS-grens die dezelfde
+  // zaal maar andere bijvoorwaarden heeft, ES vanuit wat je met 15 CV echt kunt,
+  // FR vanuit het vaargebied — de enige voorwaarde zonder Frans equivalent.
+  'boat-no-licence': ['en', 'nl', 'de', 'es', 'fr'],
+  // Alle vijf. NL en DE vragen of hun vaarbewijs erkend wordt, ES wat een schipper
+  // toevoegt als hij niet verplicht is, FR wat hij werkelijk op de offerte kost.
+  'boat-with-skipper': ['en', 'nl', 'de', 'es', 'fr'],
   // Alle vijf. Elke taal heeft een eigen invalshoek op dezelfde wettelijke kern:
   // NL en DE vragen "telt mijn vaarbewijs hier", ES "welke titulación en wat
   // als ik het papier niet bij me heb", FR gaat over de verwachting — dertig
