@@ -255,7 +255,11 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   // minuten is geen tochtje. Het juridische deel is overal woordelijk hetzelfde,
   // want daar valt niet mee te spelen.
   'jet-ski-rental': ['en', 'nl', 'de', 'es', 'fr'],
-  'car-rental-airport': ['en'],
+  // Alle vijf. NL gaat over de creditcard (wij pinnen thuis met een debetkaart en
+  // een deel van de reizigers heeft er simpelweg geen), DE over waarom een
+  // station buiten de terminal in augustus sneller is dan de balie erin, ES over
+  // de devolución bij een vroege terugvlucht, FR over het vluchtnummer.
+  'car-rental-airport': ['en', 'nl', 'de', 'es', 'fr'],
   'convertible-rental': ['en'],
   // Alle vijf: /nl|de|es|fr/boat-party renderen echt, staan in de sitemap en
   // dragen een volledige hreflang-cluster — ze lopen via STATIC_ROUTES, niet via
