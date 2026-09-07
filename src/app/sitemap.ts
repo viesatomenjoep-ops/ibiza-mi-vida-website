@@ -133,6 +133,12 @@ const LOCALIZED_ROUTES: { key: RouteKey; priority: number; changeFrequency: Meta
   { key: 'convertible-rental', priority: 0.7, changeFrequency: 'weekly' },
   { key: 'wiber-partner', priority: 0.6, changeFrequency: 'monthly' },
   { key: 'clickandboat-partner', priority: 0.6, changeFrequency: 'monthly' },
+  // Gidspagina's voor de drie clubs die niet in de feed zitten. Geen
+  // ticketverkoop, wel de zoekintentie — en tot vandaag hadden we er niets voor.
+  { key: 'pacha-venue', priority: 0.7, changeFrequency: 'monthly' },
+  { key: 'amnesia-venue', priority: 0.7, changeFrequency: 'monthly' },
+  { key: 'dc10-venue', priority: 0.7, changeFrequency: 'monthly' },
+  { key: 'airport-transfer', priority: 0.6, changeFrequency: 'monthly' },
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
