@@ -7,9 +7,9 @@ import { Anchor, Ticket, Music, Navigation, Sun, CheckCircle, GlassWater, Car, S
 const allCategories = [
   { label: 'Deals of the Day', href: '/deals-of-the-day', icon: Star, desc: 'Best daily offers & events' },
   { label: 'Private Boat Charters', href: '/private-boat-charters', icon: Anchor, desc: 'Yachts & exclusive rentals' },
-  { label: 'Club Tickets', href: '/club-tickets', icon: Ticket, desc: 'Pacha, Amnesia, Hi Ibiza & more' },
-  { label: 'VIP Catamaran', href: '/vip-catamaran', icon: Navigation, desc: 'Luxury sailing experiences' },
-  { label: 'Formentera Trips', href: '/formentera-boat-trips', icon: Sun, desc: 'Day trips to paradise' },
+  { label: 'Club Tickets', href: '/club-tickets', icon: Ticket, desc: 'Hï, UNVRS, Ushuaïa & more' },
+  { label: 'VIP Catamaran', href: '/private-boat-charters', icon: Navigation, desc: 'Luxury sailing experiences' },
+  { label: 'Formentera Trips', href: '/ferry-formentera', icon: Sun, desc: 'Day trips to paradise' },
   { label: 'Package Deals', href: '/package-deals', icon: CheckCircle, desc: 'Ticket, table and transfer in one price' },
   { label: 'Guestlist', href: '/guestlist', icon: CheckCircle, desc: 'Free sign-up via WhatsApp' },
   { label: 'Car Rental Ibiza', href: '/car-rental-ibiza', icon: Car, desc: 'All-in rate, five minutes from the airport' },

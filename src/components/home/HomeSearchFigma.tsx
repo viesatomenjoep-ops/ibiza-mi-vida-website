@@ -19,22 +19,24 @@ const CATEGORIES = [
   { id: 'vip-catamaran', label: 'VIP Catamaran', icon: Navigation },
 ]
 
+// Slugs zijn de venue-slugs uit de ClubTickets-feed, niet de schrijfwijze van de
+// naam. Zie de toelichting in ColorfulCategoryList.tsx: acht van deze links
+// waren met de hand ingevuld en gaven een 404. Pacha en Amnesia stonden hier
+// ook en zijn weg — die staan niet in de feed.
 const CLUBS = [
-  { name: 'Amnesia', href: '/club-tickets/amnesia' },
-  { name: 'Pacha', href: '/club-tickets/pacha' },
   { name: 'Hï Ibiza', href: '/club-tickets/hi-ibiza' },
-  { name: 'Ushuaïa', href: '/club-tickets/ushuaia' },
-  { name: 'O Beach', href: '/club-tickets/o-beach' },
-  { name: 'Eden', href: '/club-tickets/eden' },
-  { name: 'Swag Ibiza', href: '/club-tickets/swag-ibiza' },
+  { name: 'Ushuaïa', href: '/club-tickets/ushuaia-ibiza' },
+  { name: 'UNVRS', href: '/club-tickets/unvrs-ibiza' },
+  { name: 'O Beach', href: '/club-tickets/o-beach-ibiza' },
+  { name: 'Eden', href: '/club-tickets/eden-ibiza' },
+  { name: 'Swag', href: '/club-tickets/swag' },
   { name: '528 Ibiza', href: '/club-tickets/528-ibiza' },
-  { name: 'UNVRS', href: '/club-tickets/universe' },
   { name: 'Lío', href: '/club-tickets/lio' },
   { name: 'Ibiza Rocks', href: '/club-tickets/ibiza-rocks' },
   { name: 'Es Paradis', href: '/club-tickets/es-paradis' },
   { name: 'Playa Soleil', href: '/club-tickets/playa-soleil' },
-  { name: 'Bam Bu Ku', href: '/club-tickets/bam-bu-ku' },
-  { name: 'Chinois', href: '/club-tickets/chinois' },
+  { name: 'Bam Bu Ku', href: '/club-tickets/bambuku-ibiza' },
+  { name: 'Chinois', href: '/club-tickets/club-chinois-ibiza' },
 ]
 
 export function HomeSearchFigma({ events }: HomeSearchFigmaProps) {

@@ -8,25 +8,32 @@ const allCategories = [
   { label: 'Deals of the Day', href: '/deals-of-the-day', icon: Star, desc: 'Best daily offers', color: 'bg-velvet-obsidian', group: 'Deals' },
   { label: 'Private Boat Charters', href: '/private-boat-charters', icon: Anchor, desc: 'Yachts & rentals', color: 'bg-champagne-bronze', group: 'Boats' },
   
-  // Specific Clubs
-  { label: 'Pacha', href: '/club-tickets/pacha', icon: Ticket, desc: 'Ibiza Town', color: 'bg-velvet-obsidian', group: 'Clubs' },
-  { label: 'Amnesia', href: '/club-tickets/amnesia', icon: Ticket, desc: 'San Rafael', color: 'bg-champagne-bronze', group: 'Clubs' },
+  // Specific clubs. De slugs hieronder MOETEN de venue-slugs uit de
+  // ClubTickets-feed zijn — niet de naam zoals wij hem schrijven. Acht van deze
+  // vijftien links gaven een 404 omdat iemand ze met de hand had ingevuld:
+  // 'ushuaia' in plaats van 'ushuaia-ibiza', 'universe' in plaats van
+  // 'unvrs-ibiza', 'chinois' in plaats van 'club-chinois-ibiza', enzovoort.
+  // Controleer een nieuwe regel tegen src/data/clubtickets_en.json, of laat
+  // `npm run check:homelinks` het doen.
+  //
+  // Pacha en Amnesia stonden hier ook en zijn weg: die staan niet in de feed,
+  // dus er is geen pagina en wij verkopen er geen tickets voor.
   { label: 'Hï Ibiza', href: '/club-tickets/hi-ibiza', icon: Ticket, desc: 'Playa d\'en Bossa', color: 'bg-rustic-terracotta', group: 'Clubs' },
-  { label: 'Ushuaïa', href: '/club-tickets/ushuaia', icon: Ticket, desc: 'Playa d\'en Bossa', color: 'bg-velvet-obsidian', group: 'Clubs' },
-  { label: 'O Beach', href: '/club-tickets/o-beach', icon: Ticket, desc: 'San Antonio', color: 'bg-champagne-bronze', group: 'Clubs' },
-  { label: 'Eden', href: '/club-tickets/eden', icon: Ticket, desc: 'San Antonio', color: 'bg-rustic-terracotta', group: 'Clubs' },
-  { label: 'Swag Ibiza', href: '/club-tickets/swag-ibiza', icon: Ticket, desc: 'Playa d\'en Bossa', color: 'bg-velvet-obsidian', group: 'Clubs' },
-  { label: '528 Ibiza', href: '/club-tickets/528-ibiza', icon: Ticket, desc: 'San Antonio Hills', color: 'bg-champagne-bronze', group: 'Clubs' },
-  { label: 'UNVRS', href: '/club-tickets/universe', icon: Ticket, desc: 'San Rafael', color: 'bg-rustic-terracotta', group: 'Clubs' },
+  { label: 'Ushuaïa', href: '/club-tickets/ushuaia-ibiza', icon: Ticket, desc: 'Playa d\'en Bossa', color: 'bg-velvet-obsidian', group: 'Clubs' },
+  { label: 'UNVRS', href: '/club-tickets/unvrs-ibiza', icon: Ticket, desc: 'San Rafael', color: 'bg-champagne-bronze', group: 'Clubs' },
+  { label: 'O Beach', href: '/club-tickets/o-beach-ibiza', icon: Ticket, desc: 'San Antonio', color: 'bg-rustic-terracotta', group: 'Clubs' },
+  { label: 'Eden', href: '/club-tickets/eden-ibiza', icon: Ticket, desc: 'San Antonio', color: 'bg-velvet-obsidian', group: 'Clubs' },
+  { label: 'Swag', href: '/club-tickets/swag', icon: Ticket, desc: 'Playa d\'en Bossa', color: 'bg-champagne-bronze', group: 'Clubs' },
+  { label: '528 Ibiza', href: '/club-tickets/528-ibiza', icon: Ticket, desc: 'San Antonio Hills', color: 'bg-rustic-terracotta', group: 'Clubs' },
   { label: 'Lío', href: '/club-tickets/lio', icon: Ticket, desc: 'Ibiza Marina', color: 'bg-velvet-obsidian', group: 'Clubs' },
   { label: 'Ibiza Rocks', href: '/club-tickets/ibiza-rocks', icon: Ticket, desc: 'San Antonio', color: 'bg-champagne-bronze', group: 'Clubs' },
   { label: 'Es Paradis', href: '/club-tickets/es-paradis', icon: Ticket, desc: 'San Antonio', color: 'bg-rustic-terracotta', group: 'Clubs' },
   { label: 'Playa Soleil', href: '/club-tickets/playa-soleil', icon: Ticket, desc: 'Playa d\'en Bossa', color: 'bg-velvet-obsidian', group: 'Clubs' },
-  { label: 'Bam Bu Ku', href: '/club-tickets/bam-bu-ku', icon: Ticket, desc: 'San Antonio', color: 'bg-champagne-bronze', group: 'Clubs' },
-  { label: 'Chinois', href: '/club-tickets/chinois', icon: Ticket, desc: 'Ibiza Marina', color: 'bg-rustic-terracotta', group: 'Clubs' },
+  { label: 'Bam Bu Ku', href: '/club-tickets/bambuku-ibiza', icon: Ticket, desc: 'San Antonio', color: 'bg-champagne-bronze', group: 'Clubs' },
+  { label: 'Chinois', href: '/club-tickets/club-chinois-ibiza', icon: Ticket, desc: 'Ibiza Marina', color: 'bg-rustic-terracotta', group: 'Clubs' },
   
-  { label: 'VIP Catamaran', href: '/vip-catamaran', icon: Navigation, desc: 'Luxury sailing', color: 'bg-champagne-bronze', group: 'VIP' },
-  { label: 'Formentera Trips', href: '/formentera-boat-trips', icon: Sun, desc: 'Day trips', color: 'bg-rustic-terracotta', group: 'Boats' },
+  { label: 'VIP Catamaran', href: '/private-boat-charters', icon: Navigation, desc: 'Luxury sailing', color: 'bg-champagne-bronze', group: 'VIP' },
+  { label: 'Formentera Trips', href: '/ferry-formentera', icon: Sun, desc: 'Day trips', color: 'bg-rustic-terracotta', group: 'Boats' },
   { label: 'Package Deals', href: '/package-deals', icon: CheckCircle, desc: 'Ticket + table + transfer', color: 'bg-champagne-bronze', group: 'Clubs' },
   { label: 'Guestlist', href: '/guestlist', icon: CheckCircle, desc: 'Free sign-up via WhatsApp', color: 'bg-velvet-obsidian', group: 'Clubs' },
   { label: 'Car Rental Ibiza', href: '/car-rental-ibiza', icon: Car, desc: 'All-in, from the airport', color: 'bg-rustic-terracotta', group: 'Deals' },

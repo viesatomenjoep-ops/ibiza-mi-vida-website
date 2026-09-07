@@ -113,14 +113,14 @@ const CLUBS = [
       'Celle en plein air, et la seule grande salle qui tourne de jour. De la fin d’après-midi jusque vers minuit, au bord de la piscine, le public en maillot tôt et en tenue de sortie plus tard.',
   },
   {
-    name: 'Pacha',
+    name: 'Eden',
     body:
-      'La plus ancienne, à Ibiza ville, et plus petite que les arènes ci-dessus. Elle vaut le détour pour la salle elle-même autant que pour l’affiche : c’est ce qui ressemble le plus aux débuts du clubbing ici.',
+      'San Antonio, et la salle autour de laquelle la côte ouest construit sa soirée. Grande piste, programmation large, et une sortie nettement moins chère que la même à Playa d’en Bossa.',
   },
   {
-    name: 'Amnesia',
+    name: 'O Beach',
     body:
-      'Sur la route de San Antonio, avec la Terrace et le Club Room en parallèle. Historiquement le versant le plus dur de l’île, et la salle aux meilleures soirées d’ouverture et de clôture.',
+      'La version de jour, également à San Antonio : au bord de la piscine dès midi, avec un show, et terminée quand les clubs de nuit ouvrent. L’autre moitié d’une journée complète, pas sa concurrente.',
   },
 ]
 
@@ -164,7 +164,7 @@ export default function BilletsClubsIbizaPage() {
         intro="Fourchettes de marché observées, entrée seule, pas notre tarif. Les boissons s’ajoutent et c’est là que part réellement le budget."
         rows={[
           { label: 'En semaine, salle plus petite', note: 'Résidents, hors haute saison', amount: 20, unit: 'à partir de, par personne' },
-          { label: 'Week-end, soirée établie', note: 'Amnesia, Pacha, Ushuaïa', amount: 40, unit: 'à partir de, par personne' },
+          { label: 'Week-end, soirée établie', note: 'Eden, Es Paradis, Ushuaïa', amount: 40, unit: 'à partir de, par personne' },
           { label: 'Tête d’affiche', note: 'UNVRS, Hï, grandes dates d’Ushuaïa', amount: 50, unit: 'à partir de, jusqu’à plus de 125 €' },
         ]}
       />
@@ -195,7 +195,7 @@ export default function BilletsClubsIbizaPage() {
           { label: 'Ce que coûte une soirée', href: 'ibiza-prices', body: 'Prix mesurés par club, depuis notre propre agenda.' },
           { label: 'Quand Ibiza ferme', href: 'ibiza-season', body: 'La dernière soirée programmée par club, lue dans l’agenda.' },
           { label: 'Boat party à Ibiza', href: 'boat-party', body: 'La version de jour, avant que la nuit commence.' },
-          { label: 'Location de voiture à Ibiza', href: 'location-voiture-ibiza', body: 'Aller à Amnesia et rentrer sans la surcharge des taxis.' },
+          { label: 'Location de voiture à Ibiza', href: 'location-voiture-ibiza', body: 'Aller à San Antonio et rentrer sans la surcharge des taxis à six heures.' },
         ]}
       />
 
