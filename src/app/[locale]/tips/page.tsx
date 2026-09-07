@@ -31,12 +31,15 @@ export async function generateMetadata({ params }: { params: { locale: string } 
     es: 'Consejos de Ibiza de nuestro equipo local',
     fr: 'Conseils Ibiza de notre équipe sur place',
   }
+  // "Gratis" hoort in de snippet: de sectie staat er nu en het is de reden
+  // waarom iemand met een klein budget hier klikt in plaats van op de zoveelste
+  // top-10. Alle vijf blijven tussen 153 en 157 tekens.
   const DESC: Record<Locale, string> = {
-    nl: 'Baaien, clubs, eten, zonsondergangen en vervoer op Ibiza, met de tips die we vrienden geven: ga vroeg naar Cala Comte en kom in juni of september.',
-    en: 'Coves, clubs, food, sunsets and getting around Ibiza, with the advice we give friends: go early to Cala Comte, and come in June or September.',
-    de: 'Buchten, Clubs, Essen, Sonnenuntergänge und Mobilität auf Ibiza — mit den Tipps für Freunde: früh zur Cala Comte, und komm im Juni oder September.',
-    es: 'Calas, clubs, comida, atardeceres y cómo moverte por Ibiza, con los consejos que damos a los amigos: ve temprano a Cala Comte y ven en junio.',
-    fr: 'Criques, clubs, restaurants, couchers de soleil et transports à Ibiza, avec les conseils qu\u2019on donne aux amis : Cala Comte tôt, et venez en juin.',
+    nl: 'Baaien, clubs, eten, zonsondergangen en vervoer op Ibiza, plus zes dingen die niets kosten — met de tips die we vrienden geven: ga vroeg naar Cala Comte.',
+    en: 'Coves, clubs, food, sunsets and getting around Ibiza, plus six things that cost nothing — the advice we give friends: go early to Cala Comte, come in June.',
+    de: 'Buchten, Clubs, Essen, Sonnenuntergänge und Mobilität auf Ibiza, plus sechs Dinge, die nichts kosten — Tipps für Freunde: früh zur Cala Comte, komm im Juni.',
+    es: 'Calas, clubs, comida, atardeceres y cómo moverte por Ibiza, más seis cosas que no cuestan nada, con los consejos que damos a los amigos: Cala Comte temprano.',
+    fr: 'Criques, clubs, restaurants, couchers de soleil et transports à Ibiza, plus six choses gratuites, avec les conseils qu\u2019on donne aux amis : Cala Comte tôt.',
   }
   return pageMetadata({ locale: l, path: 'tips', title: META_TITLE[l], description: DESC[l] })
 }
@@ -91,6 +94,97 @@ const SECTIONS: TipSection[] = [
       L('Cala Salada & Saladeta — twee baaien naast elkaar; klim het pad over de rotsen naar de rustigere Saladeta.', 'Cala Salada & Saladeta — two coves side by side; take the path over the rocks to the quieter Saladeta.', 'Cala Salada & Saladeta — zwei Buchten nebeneinander; nimm den Felsenpfad zur ruhigeren Saladeta.', 'Cala Salada y Saladeta — dos calas juntas; toma el sendero sobre las rocas hasta la más tranquila Saladeta.', 'Cala Salada & Saladeta — deux criques côte à côte ; prenez le sentier sur les rochers vers la plus calme Saladeta.'),
       L('Benirràs — kom op zondag voor de beroemde trommelsessies bij zonsondergang.', 'Benirràs — come on Sunday for the famous sunset drum circles.', 'Benirràs — komm am Sonntag zu den berühmten Trommelsessions bei Sonnenuntergang.', 'Benirràs — ven el domingo a los famosos tambores al atardecer.', 'Benirràs — venez le dimanche pour les célèbres tambours au coucher du soleil.'),
     ],
+  },
+  /**
+   * Gratis dingen doen op Ibiza.
+   *
+   * "Gratis dingen doen op Ibiza" / "free things to do in Ibiza" is een eigen
+   * zoekopdracht met een eigen publiek: de bezoeker die nog niets geboekt heeft
+   * en wil weten of het eiland ook zonder clubbudget de moeite is. Dat publiek
+   * kwam hier nergens binnen, terwijl de helft van deze pagina er al over gaat.
+   *
+   * Twee schrijfregels doen hier het werk. De kop stelt de vraag zoals hij
+   * gesteld wordt, en de intro geeft het aantal in de eerste zin — een
+   * antwoordmachine die alleen de intro overneemt, citeert dan nog steeds iets
+   * dat klopt.
+   *
+   * Wat hier NIET in staat is net zo belangrijk. Iets "gratis" noemen is een
+   * belofte, en die moet ook over twee jaar nog kloppen. Dus alleen dingen die
+   * structureel geen toegangsgeld kennen: een strand, een uitzichtpunt, een
+   * openbare stadswandeling. Geen hippiemarkten (sommige avondedities vragen
+   * wél entree), geen musea, geen enkele plek waar een tarief kan opduiken. Bij
+   * twijfel weglaten: één onwaar "gratis" kost precies het vertrouwen dat deze
+   * sectie moet opleveren.
+   */
+  {
+    title: L(
+      'Gratis dingen doen op Ibiza',
+      'Free things to do in Ibiza',
+      'Kostenlose Dinge auf Ibiza',
+      'Cosas gratis que hacer en Ibiza',
+      'Choses gratuites à faire à Ibiza',
+    ),
+    intro: L(
+      'Zes dingen die niets kosten — en het zijn niet de restjes. Overdag is Ibiza grotendeels gratis: de stranden, de oude stad, de zonsondergangen en de zoutvlaktes vragen geen cent. Het geld gaat op aan de avond, niet aan de dag.',
+      'Six things that cost nothing — and they are not the leftovers. By day Ibiza is largely free: the beaches, the old town, the sunsets and the salt flats ask for nothing. The money goes on the night, not the day.',
+      'Sechs Dinge, die nichts kosten — und es sind nicht die Reste. Tagsüber ist Ibiza größtenteils gratis: die Strände, die Altstadt, die Sonnenuntergänge und die Salinen kosten keinen Cent. Das Geld geht für den Abend drauf, nicht für den Tag.',
+      'Seis cosas que no cuestan nada — y no son las sobras. De día Ibiza es en gran parte gratis: las playas, el casco antiguo, los atardeceres y las salinas no piden un céntimo. El dinero se va en la noche, no en el día.',
+      'Six choses qui ne coûtent rien — et ce ne sont pas les restes. De jour, Ibiza est en grande partie gratuite : les plages, la vieille ville, les couchers de soleil et les salines ne demandent pas un centime. L’argent part dans la soirée, pas dans la journée.',
+    ),
+    tips: [
+      L(
+        'Elk strand op Ibiza is openbaar en vrij toegankelijk. Betalen doe je alleen voor een ligbed of parasol — je eigen handdoek op het zand kost niets, ook op Cala Comte en Ses Salines.',
+        'Every beach in Ibiza is public and free to enter. You only pay for a sunbed or parasol — your own towel on the sand costs nothing, including at Cala Comte and Ses Salines.',
+        'Jeder Strand auf Ibiza ist öffentlich und frei zugänglich. Bezahlt wird nur für Liege oder Sonnenschirm — dein eigenes Handtuch im Sand kostet nichts, auch an der Cala Comte und Ses Salines.',
+        'Todas las playas de Ibiza son públicas y de acceso libre. Solo pagas por hamaca o sombrilla — tu propia toalla en la arena no cuesta nada, tampoco en Cala Comte ni Ses Salines.',
+        'Toutes les plages d’Ibiza sont publiques et d’accès libre. Vous ne payez que le transat ou le parasol — votre serviette sur le sable ne coûte rien, y compris à Cala Comte et Ses Salines.',
+      ),
+      L(
+        'Dalt Vila, de ommuurde oude stad, is UNESCO-werelderfgoed en je loopt er zo binnen. Klim naar het kathedraalplein voor het uitzicht over de haven — de wandeling is de bezienswaardigheid.',
+        'Dalt Vila, the walled old town, is UNESCO World Heritage and you simply walk in. Climb to the cathedral square for the view over the harbour — the walk itself is the sight.',
+        'Dalt Vila, die ummauerte Altstadt, ist UNESCO-Welterbe und einfach begehbar. Steig hoch zum Kathedralenplatz für den Blick über den Hafen — der Weg ist die Sehenswürdigkeit.',
+        'Dalt Vila, el casco antiguo amurallado, es Patrimonio de la Humanidad y se entra sin más. Sube hasta la plaza de la catedral por las vistas del puerto — el paseo es la atracción.',
+        'Dalt Vila, la vieille ville fortifiée, est classée à l’UNESCO et s’arpente librement. Montez jusqu’à la place de la cathédrale pour la vue sur le port — la marche est le spectacle.',
+      ),
+      L(
+        'Het uitkijkpunt boven Cala d’Hort, met Es Vedrà voor je: geen kaartje, geen hek, alleen de weg erheen. Het meest gefotografeerde uitzicht van het eiland is ook het goedkoopste.',
+        'The viewpoint above Cala d’Hort, with Es Vedrà in front of you: no ticket, no gate, just the road there. The island’s most photographed view is also its cheapest.',
+        'Der Aussichtspunkt über der Cala d’Hort, mit Es Vedrà vor dir: kein Ticket, kein Tor, nur die Straße dorthin. Der meistfotografierte Blick der Insel ist auch der günstigste.',
+        'El mirador sobre Cala d’Hort, con Es Vedrà enfrente: sin entrada, sin barrera, solo la carretera hasta allí. La vista más fotografiada de la isla es también la más barata.',
+        'Le belvédère au-dessus de Cala d’Hort, face à Es Vedrà : pas de billet, pas de barrière, juste la route pour y monter. La vue la plus photographiée de l’île est aussi la moins chère.',
+      ),
+      L(
+        'De zoutvlaktes van Ses Salines zijn natuurpark: wandelen, flamingo’s kijken en de oude zoutpannes zien kost niets. Het rustigste stuk eiland dat op tien minuten van de luchthaven ligt.',
+        'The Ses Salines salt flats are a nature park: walking, watching flamingos and seeing the old salt pans costs nothing. The quietest part of the island, ten minutes from the airport.',
+        'Die Salinen von Ses Salines sind Naturpark: spazieren, Flamingos beobachten und die alten Salzbecken ansehen kostet nichts. Der ruhigste Teil der Insel, zehn Minuten vom Flughafen.',
+        'Las salinas de Ses Salines son parque natural: pasear, ver flamencos y contemplar las viejas balsas de sal no cuesta nada. La zona más tranquila de la isla, a diez minutos del aeropuerto.',
+        'Les salines de Ses Salines sont un parc naturel : s’y promener, observer les flamants et voir les anciens bassins ne coûte rien. La partie la plus calme de l’île, à dix minutes de l’aéroport.',
+      ),
+      L(
+        'De zonsondergang bij Café del Mar hoef je niet te kopen. De rotsen en het strand ervoor zijn openbaar en je ziet dezelfde zon met dezelfde muziek — een drankje is een keuze, geen toegangsprijs.',
+        'You do not have to buy the sunset at Café del Mar. The rocks and the beach in front are public and you get the same sun with the same music — a drink is a choice, not an entry fee.',
+        'Den Sonnenuntergang am Café del Mar musst du nicht kaufen. Die Felsen und der Strand davor sind öffentlich, du siehst dieselbe Sonne bei derselben Musik — ein Drink ist eine Wahl, kein Eintritt.',
+        'No hace falta pagar el atardecer en Café del Mar. Las rocas y la playa de delante son públicas y ves el mismo sol con la misma música — una copa es una elección, no una entrada.',
+        'Le coucher de soleil au Café del Mar ne s’achète pas. Les rochers et la plage devant sont publics et vous avez le même soleil avec la même musique — une consommation est un choix, pas un droit d’entrée.',
+      ),
+      L(
+        'Op zondagmiddag verzamelen de trommelaars zich op het strand van Benirràs tot de zon zakt. Iedereen mag komen, er wordt niets gevraagd — kom vroeg voor een parkeerplek.',
+        'On Sunday afternoon the drummers gather on Benirràs beach until the sun drops. Anyone can come and nothing is asked — arrive early for a parking spot.',
+        'Am Sonntagnachmittag versammeln sich die Trommler am Strand von Benirràs, bis die Sonne sinkt. Jeder darf kommen, es wird nichts verlangt — komm früh wegen des Parkplatzes.',
+        'El domingo por la tarde los tamborileros se reúnen en la playa de Benirràs hasta que baja el sol. Puede ir cualquiera y no se pide nada — llega temprano para aparcar.',
+        'Le dimanche après-midi, les percussionnistes se rassemblent sur la plage de Benirràs jusqu’au coucher du soleil. Tout le monde peut venir, rien n’est demandé — arrivez tôt pour vous garer.',
+      ),
+    ],
+    cta: {
+      label: L(
+        'En wat de rest kost',
+        'And what the rest costs',
+        'Und was der Rest kostet',
+        'Y lo que cuesta el resto',
+        'Et ce que coûte le reste',
+      ),
+      href: '/ibiza-prices',
+    },
   },
   {
     title: L('Clubs & nachtleven', 'Clubs & nightlife', 'Clubs & Nachtleben', 'Clubs y vida nocturna', 'Clubs & vie nocturne'),
@@ -188,7 +282,12 @@ const SECTIONS: TipSection[] = [
       L('Neem contant geld mee voor de hippiemarkten en strandbarretjes — niet overal kun je pinnen.', 'Bring cash for the hippy markets and little beach bars — not everywhere takes cards.', 'Nimm Bargeld mit für die Hippiemärkte und kleinen Strandbars — nicht überall kann man mit Karte zahlen.', 'Lleva efectivo para los mercadillos y chiringuitos — no en todos aceptan tarjeta.', 'Prenez du liquide pour les marchés hippies et les petits bars de plage — la carte n’est pas acceptée partout.'),
       L('Twijfel je over iets? App ons gewoon — wij wonen hier en antwoorden meestal binnen het uur.', 'Unsure about anything? Just message us — we live here and usually reply within the hour.', 'Bei Fragen: Schreib uns einfach — wir leben hier und antworten meist innerhalb einer Stunde.', '¿Dudas con algo? Escríbenos — vivimos aquí y solemos responder en menos de una hora.', 'Un doute ? Écrivez-nous — nous vivons ici et répondons en général dans l’heure.'),
     ],
-    cta: { label: L('Package deals bekijken', 'See package deals', 'Package Deals ansehen', 'Ver package deals', 'Voir les package deals'), href: '/guestlist' },
+    // Het label zegt package deals en de link ging naar /guestlist. Die twee
+    // zijn sinds de splitsing aparte pagina's met een eigen zoekintentie —
+    // dezelfde fout die eerder in ColorfulCategoryList, HomeSearchWidget en
+    // MobileCategoryExplorer zat en in CLAUDE.md staat: splits je een pagina,
+    // splits dan élke plek die ernaar linkt.
+    cta: { label: L('Package deals bekijken', 'See package deals', 'Package Deals ansehen', 'Ver package deals', 'Voir les package deals'), href: '/package-deals' },
   },
 ]
 

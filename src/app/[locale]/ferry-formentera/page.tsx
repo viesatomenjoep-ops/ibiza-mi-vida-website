@@ -4,6 +4,7 @@ import { SERVICE_COPY } from '@/lib/service-schema-copy'
 import { PageFaq } from '@/components/seo/PageFaq'
 import { QuickFacts } from '@/components/water/QuickFacts'
 import { MeasuredCrossingPrices } from '@/components/water/MeasuredCrossingPrices'
+import { FerryOrBoat } from '@/components/water/FerryOrBoat'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { staticMetadata } from '@/lib/seo-pages'
@@ -86,6 +87,11 @@ export default async function Page({ params }: { params: { locale: string } }) {
     {/* Gemeten uit de eigen agenda, niet overgetypt. Rendert niets zodra er te
         weinig gedateerde overtochten met prijs zijn — zie het component. */}
     <MeasuredCrossingPrices locale={params.locale} />
+    {/* De vergelijking die bij Formentera het vaakst gemaakt wordt, met beide
+        bedragen erbij — de overtocht uit de agenda, de dagprijs uit onze eigen
+        vloot. Staat direct onder de gemeten prijs, want dat is de plek waar de
+        vraag "en een boot dan?" opkomt. */}
+    <FerryOrBoat locale={params.locale} />
     <PageFaq pageKey="ferry-formentera" locale={params.locale} />
     <AuthorByline locale={params.locale} topic="the ferry to Formentera" />
     </>

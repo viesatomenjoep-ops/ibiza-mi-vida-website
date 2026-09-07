@@ -173,9 +173,51 @@ pagina's — geen nieuwe URL's, dus geen cannibalisatierisico.
    Een maand met minder dan tien geprijsde avonden krijgt een streepje in
    plaats van een wankele mediaan. De zin wordt vanzelf sterker zodra de
    agenda verder vooruit loopt — daar is geen tweede commit voor nodig.
-5. **`/tips`: gratis dingen doen.** Informatief, geen commerciële concurrentie,
-   en het trekt de zomerbezoeker die nog niets geboekt heeft.
-6. **Vergelijkblokken** op `/ferry-formentera`, `/ibiza-nightlife` en `/boats`.
+5. ~~**`/tips`: gratis dingen doen.**~~ **Gedaan (07-09).** Eigen sectie
+   "Gratis dingen doen op Ibiza" als tweede blok op de pagina, met het aantal
+   in de eerste zin ("Zes dingen die niets kosten — en het zijn niet de
+   restjes") en een link door naar `/ibiza-prices` voor wat de rest wél kost.
+   "Gratis" staat nu ook in de meta description, in alle vijf de talen.
+
+   **Wat er bewust níét in staat, is de helft van het werk.** Iets gratis
+   noemen is een belofte die over twee jaar nog moet kloppen, dus alleen
+   dingen zonder structureel toegangsgeld: openbare stranden, Dalt Vila, het
+   uitzichtpunt bij Es Vedrà, natuurpark Ses Salines, de zonsondergang vóór
+   Café del Mar en de trommels op Benirràs. Géén hippiemarkten — sommige
+   avondedities vragen wél entree — en geen musea. Eén onwaar "gratis" kost
+   precies het vertrouwen dat deze sectie moet opleveren.
+
+   Meegenomen: de CTA "Package deals bekijken" onderaan `/tips` linkte naar
+   `/guestlist`. Dat is dezelfde fout als eerder in `ColorfulCategoryList`,
+   `HomeSearchWidget` en `MobileCategoryExplorer` — die staat in `CLAUDE.md`
+   en zat hier nog.
+6. ~~**Vergelijkblokken** op `/ferry-formentera`, `/ibiza-nightlife` en
+   `/boats`.~~ **Gedaan (07-09), met één afwijking.**
+
+   - **`/ferry-formentera`** — `<FerryOrBoat>`, vijf talen, direct onder de
+     gemeten overtochtprijs. En het antwoord is *de ferry*, expliciet: een
+     overtocht kost doorgaans €24 per persoon, de goedkoopste boot in onze
+     vloot €680 per dag voor 7 gasten — vol bezet ~€97 per persoon, brandstof
+     niet meegerekend, ruim vier keer een ferryticket. De verleiding was om
+     "met een groep pakt een boot goedkoper uit" te schrijven, want dat
+     verkoopt en het staat op half internet. Het klopt niet, en wie het
+     gelooft komt bedrogen uit. Prijs per persoon en de verhouding worden
+     berekend, niet getypt.
+   - **`/ibiza-nightlife`** — `ClubCompare`: typische entree, goedkoopste
+     avond, aantal avonden en laatste datum per club, plus de twee
+     bevestigde feiten (Hï #1 bij DJ Mag 2022–2025, UNVRS geopend 30 mei
+     2025). Bewust géén oordeel over welke beter is: daar hebben we geen
+     grondslag voor. **Fout die hier bijna live ging:** de eerste versie
+     schreef dat beide clubs aan Playa d'en Bossa liggen. UNVRS staat in San
+     Rafael, landinwaarts — onze eigen `ibiza-map-clubs.ts` zegt het. Nu
+     wordt de ligging uit die data gelezen en is het verschil juist het
+     nuttigste punt van de vergelijking: het bepaalt de rit om zes uur 's
+     ochtends.
+   - **`/boats`** — *niet gebouwd, met opzet.* "Boot met of zonder schipper"
+     wordt daar al beantwoord door `ChoiceCards` ("Three ways to get on the
+     water": met vaarbewijs, zonder vaarbewijs, met schipper), met een eigen
+     kaart en link per variant. Er een tweede vergelijkblok naast zetten is
+     dezelfde inhoud twee keer op één URL.
 7. **Eén nieuwe pagina: `/ibiza-on-a-budget`.** Pas hierna, en alleen als de
    secties hierboven laten zien dat de vraag er is. Die pagina bundelt wat er
    dan al staat en linkt door — een hub, geen concurrent van de onderdelen.
