@@ -22,11 +22,11 @@ const CONTENT: Record<CatKey, { href: string; slugKey?: RouteKey; title: Record<
     href: 'club-tickets',
     title: { nl: 'Club Tickets Ibiza', en: 'Club Tickets Ibiza', es: 'Club Tickets Ibiza', de: 'Club Tickets Ibiza', fr: 'Club Tickets Ibiza' },
     text: {
-      nl: 'De heetste clubnachten van het eiland — Hï, UNVRS, Pacha, Amnesia, DC-10 en meer. Reserveer je tickets voor de grootste dj’s van de zomer.',
-      en: 'The island’s hottest club nights — Hï, UNVRS, Pacha, Amnesia, DC-10 and more. Book tickets for the biggest DJs of the summer.',
-      es: 'Las mejores noches de club de la isla — Hï, UNVRS, Pacha, Amnesia, DC-10 y más. Reserva entradas para los mayores DJs del verano.',
-      de: 'Die heißesten Clubnächte der Insel — Hï, UNVRS, Pacha, Amnesia, DC-10 und mehr. Sichere dir Tickets für die größten DJs des Sommers.',
-      fr: 'Les meilleures nuits de club de l’île — Hï, UNVRS, Pacha, Amnesia, DC-10 et plus. Réserve tes billets pour les plus grands DJs de l’été.',
+      nl: 'De heetste clubnachten van het eiland — Hï, UNVRS, Ushuaïa, Eden, O Beach en meer. Reserveer je tickets voor de grootste dj’s van de zomer.',
+      en: 'The island’s hottest club nights — Hï, UNVRS, Ushuaïa, Eden, O Beach and more. Book tickets for the biggest DJs of the summer.',
+      es: 'Las mejores noches de club de la isla — Hï, UNVRS, Ushuaïa, Eden, O Beach y más. Reserva entradas para los mayores DJs del verano.',
+      de: 'Die heißesten Clubnächte der Insel — Hï, UNVRS, Ushuaïa, Eden, O Beach und mehr. Sichere dir Tickets für die größten DJs des Sommers.',
+      fr: 'Les meilleures nuits de club de l’île — Hï, UNVRS, Ushuaïa, Eden, O Beach et plus. Réserve tes billets pour les plus grands DJs de l’été.',
     },
   },
   boats: {

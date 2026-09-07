@@ -58,11 +58,16 @@ export const FAQ_GROUPS: FaqGroup[] = [
       {
         q: L('Zijn de tickets 100% officieel?', 'Are the tickets 100% official?', 'Sind die Tickets 100% offiziell?', '¿Son las entradas 100% oficiales?', 'Les billets sont-ils 100 % officiels ?'),
         a: L(
-          'Ja. We werken als officiële partner van ClubTickets samen met alle grote clubs op Ibiza — Hï, Ushuaïa, Pacha, Amnesia en meer. Je loopt aan de deur dus nooit risico.',
-          'Yes. As an official ClubTickets partner we work with every major club in Ibiza — Hï, Ushuaïa, Pacha, Amnesia and more. You never run any risk at the door.',
-          'Ja. Als offizieller ClubTickets-Partner arbeiten wir mit allen großen Clubs auf Ibiza — Hï, Ushuaïa, Pacha, Amnesia und mehr. Am Eingang gehst du kein Risiko ein.',
-          'Sí. Como socio oficial de ClubTickets trabajamos con todos los grandes clubs de Ibiza — Hï, Ushuaïa, Pacha, Amnesia y más. Nunca corres riesgo en la puerta.',
-          'Oui. En tant que partenaire officiel de ClubTickets, nous travaillons avec tous les grands clubs d’Ibiza — Hï, Ushuaïa, Pacha, Amnesia et plus. Aucun risque à l’entrée.',
+          // Geen Pacha en Amnesia meer, en geen "alle grote clubs". Die twee staan
+          // niet in de ClubTickets-catalogus, dus dit antwoord beloofde in vijf
+          // talen tickets die we niet kunnen leveren — op precies de vraag waar
+          // iemand komt controleren of we betrouwbaar zijn. De clubs die er wél
+          // staan, staan er nu bij naam; de rest is "en meer", en dat klopt.
+          'Ja. We werken als officiële partner van ClubTickets samen met de clubs in hun catalogus — Hï, UNVRS, Ushuaïa, Eden, O Beach en meer. Je loopt aan de deur dus nooit risico. Staat een club er niet bij, dan zeggen we dat vooraf in plaats van bij het afrekenen.',
+          'Yes. As an official ClubTickets partner we sell for the clubs in their catalogue — Hï, UNVRS, Ushuaïa, Eden, O Beach and more. You never run any risk at the door. If a club is not in it, we tell you upfront rather than at checkout.',
+          'Ja. Als offizieller ClubTickets-Partner verkaufen wir für die Clubs in deren Katalog — Hï, UNVRS, Ushuaïa, Eden, O Beach und mehr. Am Eingang gehst du kein Risiko ein. Ist ein Club nicht dabei, sagen wir das vorher und nicht an der Kasse.',
+          'Sí. Como socio oficial de ClubTickets vendemos para los clubs de su catálogo — Hï, UNVRS, Ushuaïa, Eden, O Beach y más. Nunca corres riesgo en la puerta. Si un club no está, te lo decimos antes y no al pagar.',
+          'Oui. En tant que partenaire officiel de ClubTickets, nous vendons pour les clubs de leur catalogue — Hï, UNVRS, Ushuaïa, Eden, O Beach et plus. Aucun risque à l’entrée. Si un club n’y figure pas, nous le disons en amont, pas au moment de payer.',
         ),
       },
       {

@@ -102,14 +102,14 @@ const CLUBS = [
       'The open-air one, and the only major venue that runs in daylight. Late afternoon to around midnight, poolside, with the crowd in swimwear early and going-out clothes later.',
   },
   {
-    name: 'Pacha',
+    name: 'Eden',
     body:
-      'The original, in Ibiza Town since 1973, and smaller than the arenas above. Worth it for the room itself as much as the line-up — the closest thing on the island to how clubbing here started.',
+      'San Antonio, and the room that anchors the west-side night. Big floor, broad bookings, and a night out that costs noticeably less than the same night at Playa d\'en Bossa.',
   },
   {
-    name: 'Amnesia',
+    name: 'O Beach',
     body:
-      'Out on the San Antonio road, with the Terrace and the Club Room running in parallel. Historically the harder, more electronic end of the island, and the venue with the strongest opening and closing parties.',
+      'The daytime one, also in San Antonio: poolside from lunchtime, show-driven, and finished by the time the night clubs open. The other half of a full day rather than a rival to it.',
   },
 ]
 
@@ -152,7 +152,7 @@ export default function IbizaClubTicketsPage() {
         intro="Observed market ranges for entry only, not our rate card. Drinks are extra and are where most of the budget actually goes."
         rows={[
           { label: 'Midweek, smaller night', note: 'Resident DJs, off-peak dates', amount: 20, unit: 'from, per person' },
-          { label: 'Weekend, established night', note: 'Amnesia, Pacha, Ushuaïa', amount: 40, unit: 'from, per person' },
+          { label: 'Weekend, established night', note: 'Eden, Es Paradis, Ushuaïa', amount: 40, unit: 'from, per person' },
           { label: 'Headline show', note: 'UNVRS, Hï, Ushuaïa main bookings', amount: 50, unit: 'from, rising to €125+' },
         ]}
       />
@@ -176,7 +176,7 @@ export default function IbizaClubTicketsPage() {
         links={[
           { label: 'Ibiza guestlist and VIP tables', href: 'guestlist', body: 'What guestlist really means here, and what a table actually costs.' },
           { label: 'Boat parties in Ibiza', href: 'boat-party', body: 'The daytime version, before the club night starts.' },
-          { label: 'Car rental in Ibiza', href: 'car-rental-ibiza', body: 'Getting to Amnesia and back without a taxi surge.' },
+          { label: 'Car rental in Ibiza', href: 'car-rental-ibiza', body: 'Getting out to San Antonio and back without a taxi surge at six.' },
         ]}
       />
 

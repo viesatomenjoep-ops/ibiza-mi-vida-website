@@ -112,14 +112,14 @@ const CLUBS = [
       'De openluchtclub, en de enige grote zaal die overdag draait. Laat in de middag tot rond middernacht, bij het zwembad, met een publiek dat vroeg in zwemkleding staat en later in uitgaanskleding.',
   },
   {
-    name: 'Pacha',
+    name: 'Eden',
     body:
-      'De oudste, in Ibiza-stad, en kleiner dan de arena’s hierboven. De moeite waard om de zaal zelf, niet alleen om de line-up — dit komt het dichtst bij hoe uitgaan hier ooit begon.',
+      'San Antonio, en de zaal waar de westkant zijn avond omheen bouwt. Grote vloer, brede boekingen, en een avond die merkbaar minder kost dan dezelfde avond op Playa d’en Bossa.',
   },
   {
-    name: 'Amnesia',
+    name: 'O Beach',
     body:
-      'Aan de weg naar San Antonio, met de Terrace en de Club Room naast elkaar. Historisch de hardere kant van het eiland, en de club met de sterkste openings- en closingfeesten.',
+      'De dagvariant, ook in San Antonio: vanaf lunchtijd bij het zwembad, met een show, en afgelopen tegen de tijd dat de nachtclubs opengaan. De andere helft van een volle dag, geen concurrent ervan.',
   },
 ]
 
@@ -162,7 +162,7 @@ export default function IbizaClubticketsPage() {
         intro="Waargenomen marktprijzen voor alleen de entree, niet ons tarief. Drankjes komen daar bovenop en daar gaat het budget echt heen."
         rows={[
           { label: 'Doordeweeks, kleinere avond', note: 'Residents, buiten het hoogseizoen', amount: 20, unit: 'vanaf, per persoon' },
-          { label: 'Weekend, gevestigde avond', note: 'Amnesia, Pacha, Ushuaïa', amount: 40, unit: 'vanaf, per persoon' },
+          { label: 'Weekend, gevestigde avond', note: 'Eden, Es Paradis, Ushuaïa', amount: 40, unit: 'vanaf, per persoon' },
           { label: 'Headliner', note: 'UNVRS, Hï, grote boekingen bij Ushuaïa', amount: 50, unit: 'vanaf, oplopend tot €125+' },
         ]}
       />
@@ -192,7 +192,7 @@ export default function IbizaClubticketsPage() {
           { label: 'Ibiza clubagenda', href: 'calendar', body: 'Elke gedateerde avond op het eiland, per dag.' },
           { label: 'Wat een avond uit kost', href: 'ibiza-prices', body: 'Gemeten prijzen per club, uit onze eigen agenda.' },
           { label: 'Boat party op Ibiza', href: 'boat-party', body: 'De versie overdag, voordat de clubavond begint.' },
-          { label: 'Auto huren op Ibiza', href: 'auto-huren-ibiza', body: 'Naar Amnesia en terug zonder taxi-piekprijs.' },
+          { label: 'Auto huren op Ibiza', href: 'auto-huren-ibiza', body: 'Naar San Antonio en terug zonder taxi-piekprijs om zes uur.' },
           { label: 'Wanneer sluit Ibiza', href: 'ibiza-season', body: 'De laatste geplande avond per club, uit de agenda.' },
         ]}
       />
