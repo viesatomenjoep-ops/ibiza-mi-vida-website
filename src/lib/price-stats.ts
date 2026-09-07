@@ -1,4 +1,8 @@
 import { getVenues, getAllDates } from '@/lib/clubtickets'
+// Parser en mediaan staan in een eigen bestand omdat season-stats.ts er ook
+// uit rekent. Twee kopieën van dezelfde parser is hoe twee pagina's uit
+// dezelfde feed op verschillende bedragen uitkomen.
+import { priceNumbers, median, quantile } from '@/lib/price-parse'
 
 /**
  * Price statistics computed from the live ClubTickets feed.
@@ -120,25 +124,6 @@ export interface PriceStats {
  *  is just one or two nights wearing a statistic's clothing. */
 const MIN_DATES = 10
 
-function priceNumbers(raw: unknown): number[] {
-  const m = String(raw ?? '').match(/\d+(?:[.,]\d+)?/g)
-  if (!m) return []
-  return m.map(s => parseFloat(s.replace(',', '.'))).filter(n => n > 0)
-}
-
-function median(xs: number[]): number {
-  if (xs.length === 0) return 0
-  const s = [...xs].sort((a, b) => a - b)
-  const mid = Math.floor(s.length / 2)
-  return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2
-}
-
-/** Nearest-rank quantile. Fine at these sample sizes and easy to explain. */
-function quantile(xs: number[], q: number): number {
-  if (xs.length === 0) return 0
-  const s = [...xs].sort((a, b) => a - b)
-  return s[Math.min(s.length - 1, Math.max(0, Math.ceil(q * s.length) - 1))]
-}
 
 export async function getPriceStats(locale: string): Promise<PriceStats | null> {
   const [venues, dates] = await Promise.all([getVenues(locale), getAllDates(locale)])

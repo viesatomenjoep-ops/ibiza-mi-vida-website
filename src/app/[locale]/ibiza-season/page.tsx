@@ -85,9 +85,31 @@ const PLAIN_CLOSING: L = {
 }
 
 const H_MONTHS: L = {
-  nl: 'Hoeveel er per maand open is', en: 'How much is open each month',
-  de: 'Was pro Monat geöffnet ist', es: 'Cuánto hay abierto cada mes',
-  fr: 'Ce qui est ouvert chaque mois',
+  nl: 'Hoeveel er per maand open is, en wat het kost',
+  en: 'How much is open each month, and what it costs',
+  de: 'Was pro Monat geöffnet ist — und was es kostet',
+  es: 'Cuánto hay abierto cada mes y lo que cuesta',
+  fr: 'Ce qui est ouvert chaque mois, et à quel prix',
+}
+const TH_FROM: L = { nl: 'Vanaf', en: 'From', de: 'Ab', es: 'Desde', fr: 'Dès' }
+const TH_TYPICAL: L = {
+  nl: 'Meestal', en: 'Typical', de: 'Üblich', es: 'Habitual', fr: 'Habituel',
+}
+/** Leeg vak in de prijskolom: te weinig geprijsde avonden die maand. */
+const GEEN_PRIJS = '—'
+const MONTHS_NOTE: L = {
+  nl: 'Een streepje betekent dat die maand te weinig geprijsde avonden in de agenda heeft om er een middenprijs op te baseren — niet dat het gratis is. De bedragen zijn entree per avond, dezelfde telling als op onze prijzenpagina.',
+  en: 'A dash means that month holds too few priced nights in the agenda to base a middle price on — not that it is free. The figures are entry per night, from the same count as our prices page.',
+  de: 'Ein Strich heißt, dass dieser Monat zu wenige Abende mit Preis im Kalender hat, um einen mittleren Preis darauf zu stützen — nicht, dass es gratis ist. Die Beträge sind Eintritt pro Abend, aus derselben Zählung wie unsere Preisseite.',
+  es: 'Un guion significa que ese mes tiene pocas noches con precio en la agenda para calcular un precio medio — no que sea gratis. Las cifras son entrada por noche, del mismo recuento que nuestra página de precios.',
+  fr: "Un tiret signifie que ce mois compte trop peu de soirées avec prix dans l'agenda pour en tirer un prix médian — pas que c'est gratuit. Les montants sont l'entrée par soirée, issus du même décompte que notre page des prix.",
+}
+const MONTHS_LINK: L = {
+  nl: 'Alle clubprijzen, per club geteld',
+  en: 'All club prices, counted per venue',
+  de: 'Alle Clubpreise, pro Club gezählt',
+  es: 'Todos los precios de club, por local',
+  fr: 'Tous les prix des clubs, par établissement',
 }
 const H_CAVEAT: L = {
   nl: 'Wat dit wel en niet zegt', en: 'What this does and does not tell you',
@@ -142,6 +164,67 @@ function answer(s: SeasonStats, l: string): string {
   return t(m, l)
 }
 
+/**
+ * "In welke maand is Ibiza het goedkoopst?" — voor zover de agenda dat kán zeggen.
+ *
+ * Dit is de plek waar overclaimen het makkelijkst is. De agenda loopt maar een
+ * paar maanden vooruit, dus in september kent hij september en oktober en
+ * verder niets. Uit twee maanden "de goedkoopste maand van het seizoen"
+ * afleiden is een bewering over mei tot en met augustus op basis van nul
+ * waarnemingen daarover — precies het soort geloofwaardig ogende schatting die
+ * daarna als feit wordt teruggeciteerd.
+ *
+ * Dus: bij drie of meer gemeten maanden noemen we de goedkoopste en de duurste
+ * van het seizoen. Bij twee zeggen we welke van de twéé goedkoper is, en dat
+ * het over die twee gaat. Bij één alleen wat die maand doet. Bij nul rendert
+ * er niets. De zin groeit vanzelf mee zodra de agenda verder vooruit loopt.
+ */
+function monthPrices(s: SeasonStats, l: string): string | null {
+  const gemeten = s.months.filter(m => m.median !== null && m.low !== null)
+  if (gemeten.length === 0) return null
+
+  const opPrijs = [...gemeten].sort((a, b) => (a.median as number) - (b.median as number))
+  const goedkoopst = opPrijs[0]
+  const duurst = opPrijs[opPrijs.length - 1]
+  const g = fmtMonth(goedkoopst.month, l)
+  const d = fmtMonth(duurst.month, l)
+  const gm = `€${goedkoopst.median}`
+  const gl = `€${goedkoopst.low}`
+  const dm = `€${duurst.median}`
+  const n = gemeten.length
+
+  if (n === 1) {
+    const m: L = {
+      nl: `Voor ${g} — de enige maand waarover onze agenda genoeg geprijsde avonden heeft — is de typische entree ${gm}, met ${gl} als goedkoopste ticket. Zodra de agenda verder vooruit loopt, komen er maanden bij en rekent deze tabel ze mee.`,
+      en: `For ${g} — the only month our agenda holds enough priced nights for — typical entry is ${gm}, with ${gl} as the cheapest ticket. As the agenda extends further ahead, more months appear and this table counts them in.`,
+      de: `Für ${g} — den einzigen Monat, für den unser Kalender genug Abende mit Preis hat — liegt der typische Eintritt bei ${gm}, mit ${gl} als günstigstem Ticket. Sobald der Kalender weiter reicht, kommen Monate dazu und diese Tabelle rechnet sie mit.`,
+      es: `Para ${g} — el único mes del que nuestra agenda tiene bastantes noches con precio — la entrada habitual es ${gm}, con ${gl} como entrada más barata. Cuando la agenda se extienda, se sumarán más meses y esta tabla los incluirá.`,
+      fr: `Pour ${g} — le seul mois pour lequel notre agenda compte assez de soirées avec prix — l'entrée habituelle est de ${gm}, avec ${gl} comme billet le moins cher. Dès que l'agenda s'étendra, d'autres mois s'ajouteront et ce tableau les comptera.`,
+    }
+    return t(m, l)
+  }
+
+  if (n === 2) {
+    const m: L = {
+      nl: `Van de twee maanden die onze agenda nu geprijsd heeft is ${g} de goedkoopste: typisch ${gm} tegen ${dm} in ${d}, met ${gl} als laagste ticket. Dat is een vergelijking van twee maanden en geen uitspraak over het hele seizoen — de agenda loopt niet verder vooruit dan dit. Zodra dat wel zo is, rekent deze tabel de rest mee.`,
+      en: `Of the two months our agenda currently has priced, ${g} is the cheaper: typically ${gm} against ${dm} in ${d}, with ${gl} as the lowest ticket. That is a comparison of two months and not a statement about the whole season — the agenda does not reach further ahead than this. Once it does, this table counts the rest in.`,
+      de: `Von den zwei Monaten, für die unser Kalender derzeit Preise hat, ist ${g} der günstigere: typisch ${gm} gegenüber ${dm} im ${d}, mit ${gl} als niedrigstem Ticket. Das ist ein Vergleich zweier Monate und keine Aussage über die ganze Saison — weiter reicht der Kalender nicht. Sobald er das tut, rechnet diese Tabelle den Rest mit.`,
+      es: `De los dos meses con precio en nuestra agenda, ${g} es el más barato: normalmente ${gm} frente a ${dm} en ${d}, con ${gl} como entrada más baja. Es una comparación de dos meses y no una afirmación sobre toda la temporada — la agenda no llega más lejos. Cuando lo haga, esta tabla incluirá el resto.`,
+      fr: `Des deux mois pour lesquels notre agenda a des prix, ${g} est le moins cher : environ ${gm} contre ${dm} en ${d}, avec ${gl} comme billet le plus bas. C'est une comparaison de deux mois, pas une affirmation sur toute la saison — l'agenda ne va pas plus loin. Dès qu'il ira plus loin, ce tableau comptera le reste.`,
+    }
+    return t(m, l)
+  }
+
+  const m: L = {
+    nl: `Over de ${n} maanden die onze agenda geprijsd heeft, is ${g} de goedkoopste maand om uit te gaan: typisch ${gm} entree, met ${gl} als laagste ticket. Het duurst is ${d}, met ${dm}. Dat zijn onze eigen clubavonden geteld, geen schatting van het seizoen.`,
+    en: `Across the ${n} months our agenda has priced, ${g} is the cheapest month to go out: typically ${gm} entry, with ${gl} as the lowest ticket. The dearest is ${d} at ${dm}. That is our own club nights counted, not an estimate of the season.`,
+    de: `Über die ${n} Monate, für die unser Kalender Preise hat, ist ${g} der günstigste Monat zum Ausgehen: typisch ${gm} Eintritt, mit ${gl} als niedrigstem Ticket. Am teuersten ist ${d} mit ${dm}. Das sind unsere eigenen Clubnächte gezählt, keine Schätzung der Saison.`,
+    es: `De los ${n} meses con precio en nuestra agenda, ${g} es el mes más barato para salir: normalmente ${gm} de entrada, con ${gl} como entrada más baja. El más caro es ${d}, con ${dm}. Son nuestras propias noches contadas, no una estimación de la temporada.`,
+    fr: `Sur les ${n} mois pour lesquels notre agenda a des prix, ${g} est le mois le moins cher pour sortir : environ ${gm} l'entrée, avec ${gl} comme billet le plus bas. Le plus cher est ${d}, à ${dm}. Ce sont nos propres soirées comptées, pas une estimation de la saison.`,
+  }
+  return t(m, l)
+}
+
 function caveat(l: string): string {
   const m: L = {
     nl: 'De laatste avond in deze tabel is de laatste avond die wíj hebben. Dat is niet hetzelfde als "daarna dicht". Clubs kondigen hun closing party ruim van tevoren aan, dus in de praktijk vallen die twee meestal samen — maar een club die zijn laatste data nog niet heeft vrijgegeven ziet er in deze data precies hetzelfde uit. Twijfel je over een specifieke datum, app ons dan even; we checken het bij de club zelf voordat je iets boekt.',
@@ -181,6 +264,25 @@ function faqs(s: SeasonStats, l: string): { q: string; a: string }[] {
         es: `En octubre quedan ${oct.nights} noches programadas en ${oct.clubs} clubs. La tabla de arriba muestra, por club, hasta qué fecha hay programación.`,
         fr: `En octobre il reste ${oct.nights} soirées programmées dans ${oct.clubs} clubs. Le tableau ci-dessus indique, par club, jusqu'à quelle date la programmation va.`,
       },
+    )
+  }
+
+  // "In welke maand is Ibiza het goedkoopst" is een eigen zoekopdracht. Het
+  // antwoord is dezelfde zin die boven de maandtabel staat — één bron, zodat
+  // de FAQ en de tabel niet uit elkaar kunnen lopen — en die zin zegt zelf
+  // hoeveel maanden hij overziet. Ontbreken de prijzen, dan valt de vraag weg
+  // in plaats van een leeg antwoord te geven.
+  const prijszin = monthPrices(s, l)
+  if (prijszin) {
+    add(
+      {
+        nl: 'In welke maand is uitgaan op Ibiza het goedkoopst?',
+        en: 'Which month is cheapest to go out in Ibiza?',
+        de: 'In welchem Monat ist Ausgehen auf Ibiza am günstigsten?',
+        es: '¿En qué mes sale más barato salir en Ibiza?',
+        fr: 'Quel mois est le moins cher pour sortir à Ibiza ?',
+      },
+      { nl: prijszin, en: prijszin, de: prijszin, es: prijszin, fr: prijszin },
     )
   }
 
@@ -248,6 +350,7 @@ export default async function IbizaSeasonPage({ params }: { params: { locale: st
   }
 
   const questions = faqs(s, l)
+  const maandPrijzen = monthPrices(s, l)
 
   return (
     <main className="bg-white text-neutral-900">
@@ -353,15 +456,28 @@ export default async function IbizaSeasonPage({ params }: { params: { locale: st
         </section>
       )}
 
+      {/* ── Per maand: hoeveel er open is én wat het kost ────────────────
+          "Wanneer is Ibiza het goedkoopst" is een optelsom die alleen te maken
+          is als je de prijzen én de datums hebt, en die hebben we allebei. De
+          twee prijskolommen komen uit dezelfde parser als /ibiza-prices, dus
+          dezelfde avond levert hier geen ander bedrag op. Wat de agenda niet
+          draagt, staat er niet: een maand met te weinig geprijsde avonden
+          krijgt een streepje, en de zin erboven zegt zelf hoeveel maanden hij
+          overziet. */}
       <section className="mx-auto max-w-3xl px-4 pb-12">
         <h2 className="font-serif text-2xl font-black tracking-tight">{t(H_MONTHS, l)}</h2>
+        {maandPrijzen && (
+          <p className="mt-4 leading-relaxed text-neutral-700">{maandPrijzen}</p>
+        )}
         <div className="mt-5 overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm">
             <thead>
               <tr className="border-b border-black/15 text-[11px] font-black uppercase tracking-widest text-neutral-600">
                 <th scope="col" className="py-2 pr-3 font-black">{t(TH_MONTH, l)}</th>
                 <th scope="col" className="py-2 px-3 font-black">{t(TH_CLUBS, l)}</th>
-                <th scope="col" className="py-2 pl-3 text-right font-black">{t(TH_NIGHTS, l)}</th>
+                <th scope="col" className="py-2 px-3 text-right font-black">{t(TH_NIGHTS, l)}</th>
+                <th scope="col" className="py-2 px-3 text-right font-black">{t(TH_FROM, l)}</th>
+                <th scope="col" className="py-2 pl-3 text-right font-black">{t(TH_TYPICAL, l)}</th>
               </tr>
             </thead>
             <tbody>
@@ -369,12 +485,27 @@ export default async function IbizaSeasonPage({ params }: { params: { locale: st
                 <tr key={m.month} className="border-b border-black/5">
                   <th scope="row" className="py-2.5 pr-3 font-semibold">{fmtMonth(m.month, l)}</th>
                   <td className="py-2.5 px-3 tabular-nums">{m.clubs}</td>
-                  <td className="py-2.5 pl-3 text-right tabular-nums text-neutral-600">{m.nights}</td>
+                  <td className="py-2.5 px-3 text-right tabular-nums text-neutral-600">{m.nights}</td>
+                  <td className="py-2.5 px-3 text-right tabular-nums text-neutral-600">
+                    {m.low === null ? GEEN_PRIJS : `€${m.low}`}
+                  </td>
+                  <td className="py-2.5 pl-3 text-right font-black tabular-nums text-ibiza-green">
+                    {m.median === null ? GEEN_PRIJS : `€${m.median}`}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        <p className="mt-4 text-sm leading-relaxed text-neutral-600">{t(MONTHS_NOTE, l)}</p>
+        <p className="mt-4">
+          <Link
+            href={`/${l}/ibiza-prices`}
+            className="font-semibold text-neutral-900 underline decoration-black/25 underline-offset-2 hover:decoration-ibiza-green"
+          >
+            {t(MONTHS_LINK, l)} →
+          </Link>
+        </p>
       </section>
 
       <section className="mx-auto max-w-3xl px-4 pb-12">

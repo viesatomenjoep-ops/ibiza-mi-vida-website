@@ -146,11 +146,33 @@ pagina's — geen nieuwe URL's, dus geen cannibalisatierisico.
    uit dezelfde telling als `/ibiza-prices` — met een link daarheen. Titel werd
    `Ibiza Club Guestlist — Free Sign-Up`. De FAQ-variant blijft staan: die voedt
    de JSON-LD en is korter.
-3. **`/boats`: de zes boten onder €1000.** Afgeleid uit `fleet.ts`, geen
-   handwerk. Dekt "goedkoopste boot huren Ibiza" en "boot huren Ibiza prijs".
-4. **`/ibiza-season`: prijs per maand.** De agenda kent de prijzen én de datums,
-   dus "wanneer is Ibiza het goedkoopst" is een optelsom die niemand anders kan
-   maken.
+3. ~~**`/boats`: de zes boten onder €1000.**~~ **Gedaan (07-09).** Eigen H2
+   "Welke boot kun je op Ibiza huren voor minder dan €1000 per dag?" met de
+   zes boten in een tabel: model, gasten, haven, laagseizoensband en de
+   juli/augustus-band ernaast, elk gelinkt aan zijn dossier. De lead noemt de
+   goedkoopste met naam en bedrag (Monterey 224 FS Ironman, €680 laag / €780
+   hoog, 7 gasten, Marina Botafoc). Eén component `CheapBoats` voor vijf talen —
+   het aantal, de lijst, het gastenbereik en de havens komen uit `FLEET`, dus
+   er staat geen overgetypt getal in. Onder de drie boten rendert het blok
+   niets. Bewust géén eigen FAQ-schema: `/boats` zendt er al één uit via de
+   verhuurgids, en twee `FAQPage` op één URL is een conflict.
+4. ~~**`/ibiza-season`: prijs per maand.**~~ **Gedaan (07-09).** De maandtabel
+   had al Maand / Clubs / Clubavonden en heeft er nu Vanaf en Meestal bij, uit
+   dezelfde parser als `/ibiza-prices` (die staat daarvoor nu in
+   `src/lib/price-parse.ts`, zodat dezelfde avond op beide pagina's hetzelfde
+   bedrag oplevert). Plus een antwoordzin erboven en dezelfde zin als FAQ "In
+   welke maand is uitgaan op Ibiza het goedkoopst?".
+
+   **De valkuil hier is overclaimen, en die is ingebouwd tegengehouden.** De
+   agenda loopt maar twee maanden vooruit (september en oktober), dus "de
+   goedkoopste maand van het seizoen" zou een bewering over mei tot augustus
+   zijn op basis van nul waarnemingen daarover. `monthPrices()` schaalt daarom
+   met de data mee: bij ≥3 gemeten maanden noemt hij de goedkoopste en duurste
+   máánd van het seizoen, bij 2 zegt hij welke van de twéé goedkoper is én dat
+   het over twee gaat, bij 1 alleen wat die maand doet, bij 0 rendert er niets.
+   Een maand met minder dan tien geprijsde avonden krijgt een streepje in
+   plaats van een wankele mediaan. De zin wordt vanzelf sterker zodra de
+   agenda verder vooruit loopt — daar is geen tweede commit voor nodig.
 5. **`/tips`: gratis dingen doen.** Informatief, geen commerciële concurrentie,
    en het trekt de zomerbezoeker die nog niets geboekt heeft.
 6. **Vergelijkblokken** op `/ferry-formentera`, `/ibiza-nightlife` en `/boats`.

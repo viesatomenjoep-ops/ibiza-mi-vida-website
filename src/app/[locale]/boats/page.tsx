@@ -8,8 +8,10 @@ import { BoatRentalGuide as GuideNl } from '@/components/boats/rental-guide/nl'
 import { BoatRentalGuide as GuideDe } from '@/components/boats/rental-guide/de'
 import { BoatRentalGuide as GuideFr } from '@/components/boats/rental-guide/fr'
 import { BoatRentalGuide as GuideEs } from '@/components/boats/rental-guide/es'
+import { CheapBoats } from '@/components/boats/CheapBoats'
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { crumbLabel } from '@/lib/breadcrumb-labels'
+import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 
 export const revalidate = 3600
 
@@ -29,6 +31,7 @@ export default async function BoatsPage({ params: { locale } }: { params: { loca
   // Hero: een echte boottocht uit de feed als die er is, anders onze eigen
   // vlootfoto — nooit een leeg vlak.
   const heroImage = covers['boat-trip'] || covers['boat-party'] || covers['private-boat-charters'] || '/fleet/cover.jpeg'
+  const loc: Locale = (LOCALES as readonly string[]).includes(locale) ? (locale as Locale) : DEFAULT_LOCALE
   const Guide = ({ en: GuideEn, nl: GuideNl, de: GuideDe, fr: GuideFr, es: GuideEs } as Record<string, () => JSX.Element>)[locale] ?? GuideEn
 
   return (
@@ -38,6 +41,12 @@ export default async function BoatsPage({ params: { locale } }: { params: { loca
         items={[{ name: homeLabel(locale), path: '' }, { name: crumbLabel('boats', locale) }]}
       />
       <BoatsHub locale={locale} covers={covers} heroImage={heroImage} />
+      {/* De goedkoopste kant van de eigen vloot, berekend uit fleet.ts. Staat
+          vóór de gids: "wat kost de goedkoopste boot" is de vraag waarmee
+          mensen binnenkomen, en die hoorde niet pas twee schermen lager als
+          losse zin in een FAQ te staan. Eén component voor vijf talen, want de
+          cijfers erin zijn taalonafhankelijk. */}
+      <CheapBoats locale={loc} />
       {/* De bootverhuurgids — de vroegere pillar /boat-rental-ibiza en zijn
           vier vertalingen, hier samengevoegd. Eigen H2, prijstabel, FAQ (met
           schema uit dezelfde array) en byline. BoatRentalPromo stond hier
