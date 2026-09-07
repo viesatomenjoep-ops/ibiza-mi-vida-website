@@ -5,7 +5,7 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 export const revalidate = 3600
 
 /**
- * Uitgaansgids — Engelse slug.
+ * Uitgaansgids — Duitse slug.
  *
  * De taal komt uit `params.locale`; de tekst staat in
  * src/lib/nightlife-copy.ts en de structuur in

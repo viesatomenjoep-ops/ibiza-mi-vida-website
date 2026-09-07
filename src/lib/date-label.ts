@@ -46,6 +46,28 @@ export function fmtShortDate(iso: string, locale: string): string {
  * (lokale tijd) komen op een andere dag uit, en dat is een hydration-mismatch.
  * Server én client rekenen daarom allebei hiermee.
  */
+/**
+ * Een datum voluit, in de taal van de pagina: "7 september 2026".
+ *
+ * Stond als private helper in price-page-copy.ts en staat nu hier, omdat de
+ * uitgaans- en seizoensteksten er ook uit rekenen. De aanleiding was een
+ * zichtbare fout: de seizoenszin op /ibiza-nightlife zette `season.from`
+ * rechtstreeks in de lopende tekst, dus daar stond "loopt nu van 2026-09-07 tot
+ * 2026-10-30". In het Engels is dat al lelijk; in vier andere talen is een kale
+ * ISO-datum in een zin ronduit fout.
+ *
+ * `timeZone: 'UTC'` en het handmatig opdelen van de string zijn opzet: een
+ * ISO-datum is een kalenderdag zonder tijd, en hem door een lokale tijdzone
+ * halen schuift hem op een server in UTC een dag terug.
+ */
+export function longDate(iso: string, locale: string): string {
+  const [y, m, d] = String(iso || '').split('-').map(Number)
+  if (!y || !m || !d) return iso
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString(localeTag(locale), {
+    day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
+  })
+}
+
 export function ibizaToday(): string {
   return new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Europe/Madrid', year: 'numeric', month: '2-digit', day: '2-digit',
