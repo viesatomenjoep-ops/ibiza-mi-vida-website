@@ -76,7 +76,11 @@ export default function BeachClubsPage({ params: { locale } }: { params: { local
       />
       <ItemListJsonLd entries={entries} locale={l} name={LIST_NAME[l]} maxItems={40} />
 
-      <section className="bg-white pt-28 pb-4 text-neutral-900 md:pt-32">
+      {/* pt uit --nav-h, niet uit een vast getal. Hier stond pt-28 / md:pt-32
+          (112 en 128px) terwijl de vaste kop 116px op mobiel en 134px op
+          desktop is — de H1 zat er dus op élk formaat deels achter. Precies de
+          fout die CLAUDE.md beschrijft. */}
+      <section className="bg-white pt-[calc(var(--nav-h)+24px)] pb-4 text-neutral-900">
         <div className="mx-auto max-w-5xl px-4">
           <p className="font-serif text-[12px] font-bold uppercase tracking-[0.24em] text-gold">
             Ibiza
