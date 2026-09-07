@@ -16,8 +16,9 @@ export const dynamic = 'force-dynamic'
  *
  * ── Wat er NIET uit komt ──────────────────────────────────────────────────
  * Geen sleutel, geen deel van een sleutel, geen lengte waaruit je iets kunt
- * afleiden. Alleen: staat hij er, staat het ID er, wat antwoordde Google, en
- * hoeveel beoordelingen kwamen er terug. Het Place ID zelf is openbaar --
+ * afleiden. Alleen: staat hij er, staat het ID er, wat antwoordde Google,
+ * hoeveel beoordelingen kwamen er terug en hoeveel daarvan zijn bruikbare
+ * teksten. Geen reviewtekst zelf — die staan al openbaar op de site. Het Place ID zelf is openbaar --
  * het staat in elke Google Maps-URL -- dus dat mag wel terug, en het is juist
  * het veld waar de fout meestal in zit.
  *
@@ -53,7 +54,7 @@ export async function GET() {
       {
         headers: {
           'X-Goog-Api-Key': key,
-          'X-Goog-FieldMask': 'id,displayName,rating,userRatingCount,googleMapsUri',
+          'X-Goog-FieldMask': 'id,displayName,rating,userRatingCount,googleMapsUri,reviews',
         },
         cache: 'no-store',
       },
@@ -76,10 +77,44 @@ export async function GET() {
     uit.cijfer = data?.rating ?? null
     uit.aantalBeoordelingen = data?.userRatingCount ?? null
     uit.mapsUrl = data?.googleMapsUri ?? null
-    uit.conclusie =
-      typeof data?.rating === 'number' && (data?.userRatingCount ?? 0) > 0
-        ? 'Alles werkt. Verschijnt het op de site nog niet, dan staat er nog een pagina uit de cache; die is binnen zes uur ververst.'
-        : 'De koppeling werkt, maar dit profiel heeft (nog) geen beoordelingen volgens Google.'
+
+    /**
+     * Het aantal BRUIKBARE reviewteksten — en dat is iets anders dan
+     * `aantalBeoordelingen` hierboven.
+     *
+     * Waarom dit erbij moest: deze route zei "alles werkt" zodra er een cijfer
+     * was, terwijl `GoogleReviews` én `ReviewSchema` allebei pas renderen bij
+     * `reviews.length > 0`. Een profiel met acht sterren maar zonder geschreven
+     * reviews toont dus terecht wél een cijfer in de header en géén sectie en
+     * géén Review-schema — en de diagnose kon dat verschil niet zien, want hij
+     * vroeg de reviews niet eens op. Precies de situatie die je hier komt
+     * uitzoeken.
+     *
+     * De telling past dezelfde volledigheidseis toe als google-reviews.ts:
+     * zonder auteur, tekst, sterren én publicatietijd wordt een review daar
+     * weggegooid in plaats van half getoond. Anders zou dit getal iets beloven
+     * wat de site niet rendert.
+     *
+     * Places API (New) geeft maximaal vijf reviews per plaats terug. Staat hier
+     * 5 terwijl het profiel er meer heeft, dan is dat die API-limiet en niet
+     * een probleem met de koppeling.
+     */
+    const bruikbaar = (Array.isArray(data?.reviews) ? data.reviews : []).filter(
+      (r: any) =>
+        r?.authorAttribution?.displayName?.trim() &&
+        (r?.text?.text ?? r?.originalText?.text ?? '').trim() &&
+        typeof r?.rating === 'number' &&
+        r?.publishTime,
+    ).length
+    uit.reviewteksten = bruikbaar
+    uit.reviewsDoorGoogleGeleverd = Array.isArray(data?.reviews) ? data.reviews.length : 0
+
+    const heeftCijfer = typeof data?.rating === 'number' && (data?.userRatingCount ?? 0) > 0
+    uit.conclusie = !heeftCijfer
+      ? 'De koppeling werkt, maar dit profiel heeft (nog) geen beoordelingen volgens Google.'
+      : bruikbaar > 0
+        ? `Alles werkt: cijfer én ${bruikbaar} reviewtekst${bruikbaar === 1 ? '' : 'en'}. Het cijfer staat in header, hero en footer, de teksten met Review-schema op de homepage en /about-us. Zie je het nog niet, dan staat er een pagina uit de cache; die is binnen zes uur ververst.`
+        : 'Het cijfer werkt, maar Google levert geen bruikbare reviewTEKSTEN — beoordelingen zonder geschreven review, of te onvolledig om te tonen. Gevolg: het cijfer verschijnt wel in header, hero en footer, maar de reviewsectie en het Review-schema blijven leeg. Dat is correct gedrag, geen bug. Wil je ze wel: vraag klanten een review mét tekst te schrijven.'
     return NextResponse.json(uit)
   } catch (e) {
     uit.conclusie = `Aanroep mislukt: ${e instanceof Error ? e.message : String(e)}`

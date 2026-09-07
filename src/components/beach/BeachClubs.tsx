@@ -8,6 +8,8 @@ import {
   BEACH_INTRO,
   BEACH_LABELS,
 } from '@/lib/beach-clubs'
+import { stopForBeach } from '@/lib/route-beach-clubs'
+import Link from 'next/link'
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 
@@ -102,6 +104,22 @@ export function BeachClubs({ locale }: { locale: string }) {
                         <br />
                         {club.note[l]}
                       </p>
+                      {/* De omgekeerde koppeling van clubsAtStop(): daar wordt
+                          op de charterpagina gevraagd wat er aan een baai ligt,
+                          hier of dit strand op een vaarroute ligt. Vijf van de
+                          twintig zaken, en voor sommige is de boot het echte
+                          antwoord — de parkeerplaats aan de westkust is in
+                          augustus om elf uur vol. Rendert niets voor de rest. */}
+                      {stopForBeach(club.beach) && (
+                        <p className="mt-2 text-[13px] leading-relaxed text-neutral-600">
+                          <Link
+                            href={`/${l}/private-boat-charters`}
+                            className="font-semibold text-neutral-900 underline underline-offset-2 hover:text-neutral-500"
+                          >
+                            {BEACH_LABELS.byBoat[l]}
+                          </Link>
+                        </p>
+                      )}
                     </div>
                   </li>
                 ))}

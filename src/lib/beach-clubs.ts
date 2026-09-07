@@ -92,6 +92,16 @@ export const BEACH_LABELS = {
   beach: L('Strand', 'Beach', 'Strand', 'Playa', 'Plage'),
   suits: L('Past bij', 'Who it suits', 'Passt zu', 'Para quién es', 'Pour qui'),
   note: L('Eerlijk erbij', 'Honest note', 'Ehrlich dazu', 'Con honestidad', 'En toute franchise'),
+  // Alleen zichtbaar bij de stranden die ook een stop op een vaarroute zijn.
+  // Voor een deel daarvan is de boot niet de leuke maar de praktische route:
+  // een parkeerplaats aan de westkust is in augustus om elf uur vol.
+  byBoat: L(
+    'Hier kom je ook per boot',
+    'You can also arrive by boat',
+    'Auch mit dem Boot erreichbar',
+    'También se llega en barco',
+    'Accessible aussi en bateau',
+  ),
 }
 
 export const BEACH_CTA = {
