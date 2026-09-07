@@ -1,4 +1,5 @@
 import { getVenues, getAllDates } from '@/lib/clubtickets'
+import { priceNumbers, median } from '@/lib/price-parse'
 import { ibizaToday } from '@/lib/date-label'
 
 /**
@@ -49,6 +50,21 @@ export interface MonthCount {
   clubs: number
   /** Total club nights that month. */
   nights: number
+  /**
+   * Goedkoopste en typische entreeprijs van die maand, of `null`.
+   *
+   * `null` zodra de maand minder dan MIN_PRIJZEN geprijsde avonden heeft. Een
+   * mediaan over vier avonden is geen mediaan maar een toevallig getal, en op
+   * een pagina die "wanneer is Ibiza het goedkoopst" beantwoordt is dat het
+   * gevaarlijkste soort cijfer: het ziet er even hard uit als de rest.
+   *
+   * De tabel toont dan een streepje. Niet nul, niet "vanaf €0" — een leeg vak
+   * is de eerlijke weergave van "hier meten we nog te weinig".
+   */
+  low: number | null
+  median: number | null
+  /** Aantal geprijsde clubavonden waarop low/median rusten. */
+  priced: number
 }
 
 /**
@@ -136,6 +152,16 @@ function besteLabel(a: string, b: string, venue: string): string {
   return x.length >= y.length ? x : y
 }
 
+/**
+ * Geprijsde avonden die een maand minstens moet hebben voor een eigen bedrag.
+ *
+ * Tien, hetzelfde getal als MIN_DATES in price-stats.ts, en om dezelfde reden:
+ * daaronder is een mediaan één of twee avonden in de vermomming van een
+ * statistiek. Aan het begin en het eind van het seizoen loopt de agenda daar
+ * vanzelf doorheen — dan valt het bedrag weg en blijven de aantallen staan.
+ */
+const MIN_PRIJZEN = 10
+
 export async function getSeasonStats(locale: string): Promise<SeasonStats | null> {
   const [venues, dates] = await Promise.all([getVenues(locale), getAllDates(locale)])
   if (!venues.length || !dates.length) return null
@@ -146,7 +172,15 @@ export async function getSeasonStats(locale: string): Promise<SeasonStats | null
   const todayStr = ibizaToday()
 
   const nights = dates
-    .map(d => ({ slug: d.venueSlug || '', day: String(d.date || '').slice(0, 10) }))
+    .map(d => ({
+      slug: d.venueSlug || '',
+      day: String(d.date || '').slice(0, 10),
+      // Het eerste getal in het prijsveld is de entreeprijs; de bovenkant van
+      // het bereik is meestal een VIP- of tafelproduct. Dezelfde keuze als
+      // price-stats.ts maakt, uit dezelfde parser, zodat /ibiza-season en
+      // /ibiza-prices niet elk een eigen bedrag voor dezelfde avond krijgen.
+      prijs: priceNumbers((d as any).prices)[0] ?? null,
+    }))
     .filter(x => x.slug && /^\d{4}-\d{2}-\d{2}$/.test(x.day) && typeOf.get(x.slug) === 'clubbing')
 
   if (nights.length === 0) return null
@@ -174,12 +208,13 @@ export async function getSeasonStats(locale: string): Promise<SeasonStats | null
     })
     .sort((a, b) => b.lastScheduled.localeCompare(a.lastScheduled) || a.name.localeCompare(b.name))
 
-  const monthMap = new Map<string, { clubs: Set<string>; nights: number }>()
+  const monthMap = new Map<string, { clubs: Set<string>; nights: number; prijzen: number[] }>()
   for (const n of nights) {
     const m = n.day.slice(0, 7)
-    const rec = monthMap.get(m) || { clubs: new Set<string>(), nights: 0 }
+    const rec = monthMap.get(m) || { clubs: new Set<string>(), nights: 0, prijzen: [] as number[] }
     rec.clubs.add(n.slug)
     rec.nights += 1
+    if (n.prijs !== null) rec.prijzen.push(n.prijs)
     monthMap.set(m, rec)
   }
 
@@ -222,7 +257,14 @@ export async function getSeasonStats(locale: string): Promise<SeasonStats | null
     venues: venueRows,
     closings,
     months: Array.from(monthMap.entries())
-      .map(([month, r]) => ({ month, clubs: r.clubs.size, nights: r.nights }))
+      .map(([month, r]) => ({
+        month,
+        clubs: r.clubs.size,
+        nights: r.nights,
+        priced: r.prijzen.length,
+        low: r.prijzen.length >= MIN_PRIJZEN ? Math.round(Math.min(...r.prijzen)) : null,
+        median: r.prijzen.length >= MIN_PRIJZEN ? Math.round(median(r.prijzen)) : null,
+      }))
       .sort((a, b) => a.month.localeCompare(b.month)),
     from: allDays[0],
     to: allDays[allDays.length - 1],

@@ -156,9 +156,23 @@ pagina's — geen nieuwe URL's, dus geen cannibalisatierisico.
    er staat geen overgetypt getal in. Onder de drie boten rendert het blok
    niets. Bewust géén eigen FAQ-schema: `/boats` zendt er al één uit via de
    verhuurgids, en twee `FAQPage` op één URL is een conflict.
-4. **`/ibiza-season`: prijs per maand.** De agenda kent de prijzen én de datums,
-   dus "wanneer is Ibiza het goedkoopst" is een optelsom die niemand anders kan
-   maken.
+4. ~~**`/ibiza-season`: prijs per maand.**~~ **Gedaan (07-09).** De maandtabel
+   had al Maand / Clubs / Clubavonden en heeft er nu Vanaf en Meestal bij, uit
+   dezelfde parser als `/ibiza-prices` (die staat daarvoor nu in
+   `src/lib/price-parse.ts`, zodat dezelfde avond op beide pagina's hetzelfde
+   bedrag oplevert). Plus een antwoordzin erboven en dezelfde zin als FAQ "In
+   welke maand is uitgaan op Ibiza het goedkoopst?".
+
+   **De valkuil hier is overclaimen, en die is ingebouwd tegengehouden.** De
+   agenda loopt maar twee maanden vooruit (september en oktober), dus "de
+   goedkoopste maand van het seizoen" zou een bewering over mei tot augustus
+   zijn op basis van nul waarnemingen daarover. `monthPrices()` schaalt daarom
+   met de data mee: bij ≥3 gemeten maanden noemt hij de goedkoopste en duurste
+   máánd van het seizoen, bij 2 zegt hij welke van de twéé goedkoper is én dat
+   het over twee gaat, bij 1 alleen wat die maand doet, bij 0 rendert er niets.
+   Een maand met minder dan tien geprijsde avonden krijgt een streepje in
+   plaats van een wankele mediaan. De zin wordt vanzelf sterker zodra de
+   agenda verder vooruit loopt — daar is geen tweede commit voor nodig.
 5. **`/tips`: gratis dingen doen.** Informatief, geen commerciële concurrentie,
    en het trekt de zomerbezoeker die nog niets geboekt heeft.
 6. **Vergelijkblokken** op `/ferry-formentera`, `/ibiza-nightlife` en `/boats`.
