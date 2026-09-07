@@ -146,8 +146,16 @@ pagina's — geen nieuwe URL's, dus geen cannibalisatierisico.
    uit dezelfde telling als `/ibiza-prices` — met een link daarheen. Titel werd
    `Ibiza Club Guestlist — Free Sign-Up`. De FAQ-variant blijft staan: die voedt
    de JSON-LD en is korter.
-3. **`/boats`: de zes boten onder €1000.** Afgeleid uit `fleet.ts`, geen
-   handwerk. Dekt "goedkoopste boot huren Ibiza" en "boot huren Ibiza prijs".
+3. ~~**`/boats`: de zes boten onder €1000.**~~ **Gedaan (07-09).** Eigen H2
+   "Welke boot kun je op Ibiza huren voor minder dan €1000 per dag?" met de
+   zes boten in een tabel: model, gasten, haven, laagseizoensband en de
+   juli/augustus-band ernaast, elk gelinkt aan zijn dossier. De lead noemt de
+   goedkoopste met naam en bedrag (Monterey 224 FS Ironman, €680 laag / €780
+   hoog, 7 gasten, Marina Botafoc). Eén component `CheapBoats` voor vijf talen —
+   het aantal, de lijst, het gastenbereik en de havens komen uit `FLEET`, dus
+   er staat geen overgetypt getal in. Onder de drie boten rendert het blok
+   niets. Bewust géén eigen FAQ-schema: `/boats` zendt er al één uit via de
+   verhuurgids, en twee `FAQPage` op één URL is een conflict.
 4. **`/ibiza-season`: prijs per maand.** De agenda kent de prijzen én de datums,
    dus "wanneer is Ibiza het goedkoopst" is een optelsom die niemand anders kan
    maken.
