@@ -38,6 +38,10 @@ export const CONTENT_UPDATED: Record<string, string> = {
   'amnesia-ibiza': '2026-09-07',
   'dc10-ibiza': '2026-09-07',
   'ibiza-airport-transfer': '2026-09-07',
+  // Gidsen, nieuw geschreven.
+  'ibiza-nightlife': '2026-09-07',
+  'ibiza-club-dress-code': '2026-09-07',
+  'getting-around-ibiza': '2026-09-07',
   'ibiza-guestlist': '2026-08-31',
   'boat-hire-ibiza-no-licence': '2026-08-31',
   'boat-rental-with-skipper-ibiza': '2026-08-31',
