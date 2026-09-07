@@ -289,7 +289,8 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   'pacha-venue': ['en'],
   'amnesia-venue': ['en'],
   'dc10-venue': ['en'],
-  'airport-transfer': ['en'],
+  // Vijf talen sinds 07-09: AirportTransferGuide + airport-transfer-copy.ts.
+  'airport-transfer': ['en', 'nl', 'de', 'es', 'fr'],
   // Vijf talen sinds 07-09: NightlifeGuide + nightlife-copy.ts.
   'nightlife-guide': ['en', 'nl', 'de', 'es', 'fr'],
   // Vijf talen sinds 07-09: één component (DressCodeGuide) met de tekst in
