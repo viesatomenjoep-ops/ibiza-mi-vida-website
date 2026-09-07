@@ -260,7 +260,11 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   // station buiten de terminal in augustus sneller is dan de balie erin, ES over
   // de devolución bij een vroege terugvlucht, FR over het vluchtnummer.
   'car-rental-airport': ['en', 'nl', 'de', 'es', 'fr'],
-  'convertible-rental': ['en'],
+  // Alle vijf, en daarmee is het autocluster compleet. NL rekent (is de
+  // meerprijs het waard), DE gaat over op tijd boeken (de categorie is als
+  // eerste weg), ES over het tijdstip van de dag (capota bajada om drie uur 's
+  // middags is een vergissing), FR over de kofferbak waar het dak in ligt.
+  'convertible-rental': ['en', 'nl', 'de', 'es', 'fr'],
   // Alle vijf: /nl|de|es|fr/boat-party renderen echt, staan in de sitemap en
   // dragen een volledige hreflang-cluster — ze lopen via STATIC_ROUTES, niet via
   // LOCALIZED_ROUTES, dus deze regel werd nergens gelezen. Zodra iemand
