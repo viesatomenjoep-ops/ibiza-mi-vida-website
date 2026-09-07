@@ -5,7 +5,7 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 export const revalidate = 3600
 
 /**
- * Dresscode-gids — Engelse slug.
+ * Dresscode-gids — Franse slug.
  *
  * De taal komt uit `params.locale` en staat hier bewust niet vast. Nederlands
  * en Duits delen dezelfde slug (`ibiza-club-dresscode`), dus één vaste taal in

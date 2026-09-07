@@ -291,7 +291,9 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   'dc10-venue': ['en'],
   'airport-transfer': ['en'],
   'nightlife-guide': ['en'],
-  'dress-code': ['en'],
+  // Vijf talen sinds 07-09: één component (DressCodeGuide) met de tekst in
+  // dress-code-copy.ts, en een routebestand per slug. NL en DE delen er één.
+  'dress-code': ['en', 'nl', 'de', 'es', 'fr'],
   'getting-around': ['en'],
 }
 

@@ -342,7 +342,13 @@ export function InternalLinks({ heading, links, locale }: { heading: string; lin
           {links.map((lk) => (
             <li key={lk.href} className="rounded-2xl border border-black/10 bg-neutral-50 p-5">
               <Link
-                href={`/${l}/${lk.href.replace(/^\//, '')}`}
+                /* Een href die met '/' begint is al compleet, inclusief taalprefix.
+                   Nodig voor een link naar een route die in déze taal (nog) niet
+                   rendert: die hoort rechtstreeks naar de taal te wijzen waar hij
+                   wél bestaat, in plaats van via de 301 van de middleware. Een
+                   interne link naar een redirect is linkwaarde die onderweg
+                   verdampt. Zonder slash blijft het gedrag zoals het was. */
+                href={lk.href.startsWith('/') ? lk.href : `/${l}/${lk.href}`}
                 className="font-serif text-[15px] font-bold text-neutral-900 underline underline-offset-2"
               >
                 {lk.label}
