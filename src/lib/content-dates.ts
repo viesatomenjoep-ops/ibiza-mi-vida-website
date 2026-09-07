@@ -32,6 +32,12 @@ export const CONTENT_UPDATED: Record<string, string> = {
   'jet-ski-rental-ibiza': '2026-08-31',
   'car-rental-ibiza': '2026-08-31',
   'ibiza-club-tickets': '2026-08-31',
+  // Gidspagina's voor de drie clubs die niet in de ClubTickets-feed zitten,
+  // plus luchthavenvervoer. Alle vier nieuw geschreven.
+  'pacha-ibiza': '2026-09-07',
+  'amnesia-ibiza': '2026-09-07',
+  'dc10-ibiza': '2026-09-07',
+  'ibiza-airport-transfer': '2026-09-07',
   'ibiza-guestlist': '2026-08-31',
   'boat-hire-ibiza-no-licence': '2026-08-31',
   'boat-rental-with-skipper-ibiza': '2026-08-31',

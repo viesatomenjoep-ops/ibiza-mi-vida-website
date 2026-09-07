@@ -62,11 +62,21 @@ export const metadata: Metadata = {
   ...(process.env.BING_SITE_VERIFICATION
     ? { verification: { other: { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } } }
     : {}),
-  keywords: [
-    'Ibiza', 'Ibiza tickets', 'Ibiza club tickets', 'Ibiza events', 'Ibiza clubs',
-    'boat party Ibiza', 'private boat charter Ibiza', 'Formentera ferry', 'Ushuaïa', 'Hï Ibiza',
-    'Pacha', 'Amnesia', 'VIP tables Ibiza', 'Ibiza guestlist',
-  ],
+  /**
+   * GEEN `keywords`. Die stond hier, site-breed, met veertien termen erin.
+   *
+   * Google negeert de meta-keywords-tag sinds 2009 en Bing gebruikt hem al even
+   * lang als spamsignaal in plaats van als rangschikkingssignaal. Dat is de
+   * onschuldige helft. De schadelijke helft was dat hij op ÉLKE pagina dezelfde
+   * veertien termen zette — inclusief 'Pacha' en 'Amnesia' op pagina's die daar
+   * niet over gaan — en daarmee tegen elke parser zegt dat 76 verschillende
+   * pagina's over precies hetzelfde onderwerp gaan. Voor een antwoordmachine die
+   * per pagina een onderwerp probeert vast te stellen is dat ruis die tegen ons
+   * werkt.
+   *
+   * Het onderwerp van een pagina staat in de H1, de eerste alinea en het
+   * JSON-LD. Niet in een tag die alleen wij invullen.
+   */
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
   publisher: SITE_NAME,

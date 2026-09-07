@@ -133,6 +133,12 @@ const LOCALIZED_ROUTES: { key: RouteKey; priority: number; changeFrequency: Meta
   { key: 'convertible-rental', priority: 0.7, changeFrequency: 'weekly' },
   { key: 'wiber-partner', priority: 0.6, changeFrequency: 'monthly' },
   { key: 'clickandboat-partner', priority: 0.6, changeFrequency: 'monthly' },
+  { key: 'airport-transfer', priority: 0.6, changeFrequency: 'monthly' },
+  // BEWUST AFWEZIG: 'pacha-venue', 'amnesia-venue' en 'dc10-venue'. Die drie
+  // pagina's zijn geschreven maar 404'en nog (src/lib/pending-venues.ts) tot het
+  // akkoord met de clubs rond is. Een URL in de sitemap die 404't is een
+  // ingediende URL die faalt, en Search Console rekent dat de hele sitemap aan.
+  // Zet ze hier terug in dezelfde commit waarin de vlag op true gaat.
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

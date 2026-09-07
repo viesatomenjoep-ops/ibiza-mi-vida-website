@@ -210,6 +210,24 @@ const CANONICAL_HOST = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.ibizami
  */
 const bareHost = (host: string) => host.replace(/^www\./, '')
 
+/**
+ * Domeinen die naar de canonieke host horen te wijzen.
+ *
+ * `ibizamivida.es` is een tweede domein van dezelfde zaak. Zonder regel kreeg
+ * het de noindex-header hieronder — dat houdt het uit de index, maar het laat
+ * een bezoeker die op het .es-domein klikt op een dood spoor staan en het geeft
+ * de linkwaarde van dat domein aan niemand door. Een 308 met behoud van het pad
+ * doet allebei wel.
+ *
+ * De hostvergelijking gaat op de kale vorm, zodat `www.ibizamivida.es` er
+ * vanzelf onder valt.
+ *
+ * Dit is een vangnet, geen vervanging: het nette adres is een redirect-domein
+ * in het Vercel-dashboard, want dan komt het verzoek hier niet eens langs. Zie
+ * docs/seo/REDIRECTS.md en de human-taken in NIGHT-REPORT.md.
+ */
+const REDIRECT_DOMAINS = ['ibizamivida.es']
+
 /** Local development hosts, which are nobody's SEO problem. */
 const isLocalHost = (host: string) =>
   host.startsWith('localhost') || host.startsWith('127.0.0.1') || host.startsWith('0.0.0.0') || host.startsWith('[::1]')
@@ -240,6 +258,15 @@ export function middleware(request: NextRequest) {
   if (host && !isLocalHost(host) && host !== CANONICAL_HOST && bareHost(host) === bareHost(CANONICAL_HOST)) {
     const url = request.nextUrl.clone()
     url.host = CANONICAL_HOST
+    return NextResponse.redirect(url, 308)
+  }
+
+  // Alternatieve domeinen: 308 naar de canonieke host, pad ongewijzigd.
+  if (host && !isLocalHost(host) && REDIRECT_DOMAINS.includes(bareHost(host))) {
+    const url = request.nextUrl.clone()
+    url.host = CANONICAL_HOST
+    url.port = ''
+    url.protocol = 'https'
     return NextResponse.redirect(url, 308)
   }
 

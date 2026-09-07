@@ -56,6 +56,10 @@ Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from 
 - Drink packages and VIP tables: bottle service and tables at most clubs, arranged on request via [package deals](${SITE_URL}/en/package-deals).
 - [All clubs](${SITE_URL}/en/clubs): index of every club we cover, each with its own programme.
 
+## Getting around
+
+- [Ibiza airport transfers](${SITE_URL}/en/ibiza-airport-transfer): four ways out of the terminal — the taxi rank outside arrivals, a pre-booked private transfer arranged by us over WhatsApp, the public bus, or a hire car — and which fits which arrival. The airport is about seven kilometres from Ibiza Town, fifteen to twenty minutes by road; San Antonio is roughly half an hour. We deliberately publish no taxi fares or bus line numbers: both carry seasonal and night supplements and change between summers. Ride-hailing coverage on the island is limited and seasonal and should not be relied on for an arrival.
+
 ## Rentals
 
 - [Boat rental in Ibiza](${SITE_URL}/en/boats): every way onto the water on one page — renting a boat with a skipper, with your own licence, or licence-free up to 15 hp (four departure marinas, the standard routes, prices), plus boat trips, boat parties and the Formentera ferry. Boats are supplied through Click&Boat, Europe's largest boat rental platform.

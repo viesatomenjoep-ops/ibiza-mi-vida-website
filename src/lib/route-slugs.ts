@@ -45,6 +45,10 @@ export type RouteKey =
   | 'guestlist-hub'
   | 'wiber-partner'
   | 'clickandboat-partner'
+  | 'pacha-venue'
+  | 'amnesia-venue'
+  | 'dc10-venue'
+  | 'airport-transfer'
 
 type SlugSet = Record<Locale, string>
 
@@ -144,6 +148,33 @@ export const ROUTE_SLUGS: Record<RouteKey, SlugSet> = {
     fr: 'guestlist-ibiza',
     es: 'lista-invitados-ibiza',
   },
+  // ── Clubs die NIET in de ClubTickets-feed zitten ────────────────────────
+  //
+  // Pacha, Amnesia en DC-10 ontbreken volledig in de feed (docs/seo/AUDIT.md,
+  // A6) terwijl ze tot de meest gezochte clubnamen van het eiland horen. Ze
+  // krijgen daarom een gidspagina zonder boekknop en zonder ticketclaim: wat we
+  // wél kunnen is uitleggen hoe de avond werkt en de guestlist via Simon.
+  //
+  // De slug is in alle vijf de talen gelijk: het zijn eigennamen, en een
+  // vertaalde clubnaam zoekt niemand. Zelfde reden als bij 'boat-party'.
+  'pacha-venue': {
+    en: 'pacha-ibiza', nl: 'pacha-ibiza', de: 'pacha-ibiza', fr: 'pacha-ibiza', es: 'pacha-ibiza',
+  },
+  'amnesia-venue': {
+    en: 'amnesia-ibiza', nl: 'amnesia-ibiza', de: 'amnesia-ibiza', fr: 'amnesia-ibiza', es: 'amnesia-ibiza',
+  },
+  'dc10-venue': {
+    en: 'dc10-ibiza', nl: 'dc10-ibiza', de: 'dc10-ibiza', fr: 'dc10-ibiza', es: 'dc10-ibiza',
+  },
+  // Vervoer vanaf de luchthaven. Hier is de slug wél per taal, want dit is een
+  // beschrijvende zoekterm en geen eigennaam.
+  'airport-transfer': {
+    en: 'ibiza-airport-transfer',
+    nl: 'ibiza-luchthaven-transfer',
+    de: 'ibiza-flughafentransfer',
+    fr: 'transfert-aeroport-ibiza',
+    es: 'traslado-aeropuerto-ibiza',
+  },
 }
 
 /**
@@ -192,6 +223,13 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   'guestlist-hub': [],
   'wiber-partner': ['en'],
   'clickandboat-partner': ['en'],
+  // Nieuw en voorlopig alleen Engels. Een taal komt hier pas bij nadat de
+  // vertaalde pagina echt rendert — een hreflang naar een 404 laat Google het
+  // hele cluster weggooien, en dat is erger dan geen alternate.
+  'pacha-venue': ['en'],
+  'amnesia-venue': ['en'],
+  'dc10-venue': ['en'],
+  'airport-transfer': ['en'],
 }
 
 /** The locales a route is published in. */
