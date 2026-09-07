@@ -5,7 +5,7 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 export const revalidate = 3600
 
 /**
- * Vervoersgids — Engelse slug.
+ * Vervoersgids — Nederlandse slug.
  *
  * De taal komt uit `params.locale`; de tekst staat in
  * src/lib/getting-around-copy.ts en de structuur in
