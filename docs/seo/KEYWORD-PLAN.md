@@ -173,8 +173,24 @@ pagina's — geen nieuwe URL's, dus geen cannibalisatierisico.
    Een maand met minder dan tien geprijsde avonden krijgt een streepje in
    plaats van een wankele mediaan. De zin wordt vanzelf sterker zodra de
    agenda verder vooruit loopt — daar is geen tweede commit voor nodig.
-5. **`/tips`: gratis dingen doen.** Informatief, geen commerciële concurrentie,
-   en het trekt de zomerbezoeker die nog niets geboekt heeft.
+5. ~~**`/tips`: gratis dingen doen.**~~ **Gedaan (07-09).** Eigen sectie
+   "Gratis dingen doen op Ibiza" als tweede blok op de pagina, met het aantal
+   in de eerste zin ("Zes dingen die niets kosten — en het zijn niet de
+   restjes") en een link door naar `/ibiza-prices` voor wat de rest wél kost.
+   "Gratis" staat nu ook in de meta description, in alle vijf de talen.
+
+   **Wat er bewust níét in staat, is de helft van het werk.** Iets gratis
+   noemen is een belofte die over twee jaar nog moet kloppen, dus alleen
+   dingen zonder structureel toegangsgeld: openbare stranden, Dalt Vila, het
+   uitzichtpunt bij Es Vedrà, natuurpark Ses Salines, de zonsondergang vóór
+   Café del Mar en de trommels op Benirràs. Géén hippiemarkten — sommige
+   avondedities vragen wél entree — en geen musea. Eén onwaar "gratis" kost
+   precies het vertrouwen dat deze sectie moet opleveren.
+
+   Meegenomen: de CTA "Package deals bekijken" onderaan `/tips` linkte naar
+   `/guestlist`. Dat is dezelfde fout als eerder in `ColorfulCategoryList`,
+   `HomeSearchWidget` en `MobileCategoryExplorer` — die staat in `CLAUDE.md`
+   en zat hier nog.
 6. **Vergelijkblokken** op `/ferry-formentera`, `/ibiza-nightlife` en `/boats`.
 7. **Eén nieuwe pagina: `/ibiza-on-a-budget`.** Pas hierna, en alleen als de
    secties hierboven laten zien dat de vraag er is. Die pagina bundelt wat er
