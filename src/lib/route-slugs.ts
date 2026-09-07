@@ -243,7 +243,12 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   'car-rental': ['en', 'nl', 'de', 'fr', 'es'],
   'boat-no-licence': ['en'],
   'boat-with-skipper': ['en'],
-  'jet-ski-rental': ['en'],
+  // Alle vijf. Elke taal heeft een eigen invalshoek op dezelfde wettelijke kern:
+  // NL en DE vragen "telt mijn vaarbewijs hier", ES "welke titulación en wat
+  // als ik het papier niet bij me heb", FR gaat over de verwachting — dertig
+  // minuten is geen tochtje. Het juridische deel is overal woordelijk hetzelfde,
+  // want daar valt niet mee te spelen.
+  'jet-ski-rental': ['en', 'nl', 'de', 'es', 'fr'],
   'car-rental-airport': ['en'],
   'convertible-rental': ['en'],
   // Alle vijf: /nl|de|es|fr/boat-party renderen echt, staan in de sitemap en

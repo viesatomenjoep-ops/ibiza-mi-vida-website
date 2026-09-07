@@ -30,6 +30,10 @@ export const CONTENT_UPDATED: Record<string, string> = {
   // Keyword pillar pages, written from scratch.
   'boat-rental-ibiza': '2026-09-04',
   'jet-ski-rental-ibiza': '2026-08-31',
+  'jetski-huren-ibiza': '2026-09-07',
+  'jetski-mieten-ibiza': '2026-09-07',
+  'alquiler-motos-agua-ibiza': '2026-09-07',
+  'location-jet-ski-ibiza': '2026-09-07',
   'car-rental-ibiza': '2026-08-31',
   'ibiza-club-tickets': '2026-08-31',
   // De vier vertaalde clubticket-pillars, elk met een eigen invalshoek.
