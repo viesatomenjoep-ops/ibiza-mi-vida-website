@@ -3,6 +3,7 @@ import { ServiceSchema } from '@/components/seo/ServiceSchema'
 import { SERVICE_COPY } from '@/lib/service-schema-copy'
 import { PageFaq } from '@/components/seo/PageFaq'
 import { QuickFacts } from '@/components/water/QuickFacts'
+import { MeasuredCrossingPrices } from '@/components/water/MeasuredCrossingPrices'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { staticMetadata } from '@/lib/seo-pages'
@@ -82,6 +83,9 @@ export default async function Page({ params }: { params: { locale: string } }) {
       venues={venues}
     />
     <QuickFacts pageKey="ferry-formentera" locale={params.locale} />
+    {/* Gemeten uit de eigen agenda, niet overgetypt. Rendert niets zodra er te
+        weinig gedateerde overtochten met prijs zijn — zie het component. */}
+    <MeasuredCrossingPrices locale={params.locale} />
     <PageFaq pageKey="ferry-formentera" locale={params.locale} />
     <AuthorByline locale={params.locale} topic="the ferry to Formentera" />
     </>

@@ -177,9 +177,20 @@ zolang die pagina's 404'en, maar ze moeten wél af vóór publicatie.
 ### Merkbreed
 - **UNVRS "DJ Mag #1 2026"** — niet gebruikt, nergens. Alleen opnemen als het
   officieel bevestigd is. (Hï Ibiza #1 2022–2025 is wél bevestigd en staat er.)
-- **Ferry Ibiza–Formentera "vanaf ~€29"** — niet gepubliceerd. Het getal is niet
-  tegen de feed te controleren en `CLAUDE.md` verbiedt een onbevestigde prijs.
-  Bevestig het en het kan op `/ferry-formentera`.
+- ~~**Ferry Ibiza–Formentera "vanaf ~€29"**~~ — **opgelost, en anders dan
+  verwacht.** Het getal hoefde niet bevestigd te worden: de agenda bevat 199
+  gedateerde overtochten mét prijs, en die meten €22 als goedkoopste en €24 als
+  mediaan. Dat staat nu op `/ferry-formentera` en op `/ibiza-prices`.
+
+  Onderweg kwam er een live fout boven water. `/ibiza-prices` publiceerde
+  "Ferry naar Formentera — mediaan €22 · vanaf €5", in vijf talen. Die €5 was de
+  Aquabus "Beach City Boat" van Ibiza-stad naar Playa d'en Bossa: een
+  strandpendel binnen Ibiza, geen overtocht. Het venue-type
+  `formentera-day-trip` is de categorie van de rederijen, niet van hun routes,
+  en drie van de vijf operators varen ook lijnen die niets met Formentera te
+  maken hebben (Cala Salada vanaf €7, Es Canar vanaf €9). Van de 434 gedateerde
+  afvaarten in die categorie zijn er 199 een echte overtocht. `price-stats.ts`
+  filtert er nu op.
 
 ---
 
