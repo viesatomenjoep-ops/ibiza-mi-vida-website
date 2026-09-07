@@ -252,7 +252,14 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   // boat-party wél aan LOCALIZED_ROUTES toevoegt, zou 'en' alleen vier live
   // geindexeerde URL's stil uit de sitemap gooien.
   'boat-party': ['en', 'nl', 'de', 'fr', 'es'],
-  'club-tickets-hub': ['en'],
+  // Alle vijf. Elke taal heeft een eigen bestand met een eigen invalshoek — de
+  // Nederlandse gaat over betrouwbaarheid (is dit doorverkoop?), de Duitse over
+  // wanneer je moet kopen, de Spaanse over waarom het duurder is dan een zaal
+  // op het vasteland, de Franse over de tijden. Geen van de vijf is een
+  // vertaling van een andere, en dat is precies waarom ze alle vijf mogen
+  // renderen: een machinevertaling had hier een hreflang-cluster van vijf
+  // dezelfde pagina's opgeleverd.
+  'club-tickets-hub': ['en', 'nl', 'de', 'es', 'fr'],
   // Alleen nog een 301-doel naar /guestlist — niet publiceren.
   'guestlist-hub': [],
   'wiber-partner': ['en'],
