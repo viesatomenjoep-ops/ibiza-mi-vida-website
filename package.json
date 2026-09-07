@@ -21,7 +21,8 @@
     "ai-report": "node scripts/ai-visibility/report.mjs",
     "check:ai": "node scripts/ai-visibility.mjs",
     "check:live": "node scripts/live-check.mjs",
-    "check:fleet": "node scripts/fleet-live-check.mjs"
+    "check:fleet": "node scripts/fleet-live-check.mjs",
+    "find-place-id": "node scripts/find-place-id.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
