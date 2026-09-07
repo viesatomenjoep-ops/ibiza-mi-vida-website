@@ -12,7 +12,7 @@ import {
   H_VENUES, H_CATEGORIES, H_NOT_INCLUDED, H_METHOD,
   TH_VENUE, TH_TYPICAL, TH_RANGE, TH_DATES,
   CATEGORY_LABEL, FROM_LABEL, notIncluded, method, faqs, H_SPREAD, spread,
-  H_ALSO, alsoSee,
+  H_ALSO, alsoSee, H_CHEAPEST, cheapestCopy, CHEAPEST_GUESTLIST,
 } from '@/lib/price-page-copy'
 
 export const revalidate = 3600
@@ -78,6 +78,7 @@ export default async function IbizaPricesPage({ params }: { params: { locale: st
   if (!stats) notFound()
 
   const questions = faqs(stats, l)
+  const goedkoopste = cheapestCopy(stats, l)
 
   return (
     <main className="bg-white text-neutral-900">
@@ -112,6 +113,31 @@ export default async function IbizaPricesPage({ params }: { params: { locale: st
           {answer(stats, l)}
         </p>
       </section>
+
+      {/* ── De goedkoopste kant, als eigen kop ────────────────────────
+          "Goedkoopste clubtickets Ibiza" is een aparte zoekopdracht met een
+          eigen resultatenpagina, en die werd hier nergens als vraag
+          beantwoord: het laagste bedrag stond alleen in een tabelcel en
+          halverwege in een FAQ. Deze sectie staat bewust direct onder het
+          antwoord, want dat is waar een extractie stopt met lezen.
+
+          Rendert niets zodra er te weinig venues met genoeg avonden zijn —
+          een kop "wat is het goedkoopste" boven een lege alinea is erger dan
+          geen kop. */}
+      {goedkoopste && (
+        <section className="mx-auto max-w-3xl px-4 pb-12">
+          <h2 className="font-serif text-2xl font-black tracking-tight">{H_CHEAPEST[l] || H_CHEAPEST.en}</h2>
+          <p className="mt-4 leading-relaxed text-neutral-700">{goedkoopste}</p>
+          <p className="mt-4">
+            <Link
+              href={`/${l}/guestlist`}
+              className="font-semibold text-neutral-900 underline decoration-black/25 underline-offset-2 hover:decoration-ibiza-green"
+            >
+              {CHEAPEST_GUESTLIST[l] || CHEAPEST_GUESTLIST.en} →
+            </Link>
+          </p>
+        </section>
+      )}
 
       {/* ── Per club ──────────────────────────────────────────────────── */}
       <section className="mx-auto max-w-3xl px-4 pb-12">

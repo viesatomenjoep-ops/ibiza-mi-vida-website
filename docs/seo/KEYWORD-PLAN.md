@@ -126,11 +126,26 @@ vergelijkt staat vlak voor de boeking.
 Op opbrengst gedeeld door moeite. De eerste vier zijn secties op bestaande
 pagina's — geen nieuwe URL's, dus geen cannibalisatierisico.
 
-1. **`/ibiza-prices`: "goedkoopste" in titel en lead.** Grootste familie, kleinste
-   ingreep, en de data staat er al. Titel draagt al "Ibiza Club Prices 2026"
-   sinds de hertiteling; de lead moet het €15-cijfer noemen.
-2. **`/guestlist`: "Is de gastenlijst gratis?" als eigen H2.** Het antwoord staat
-   er, maar begraven in lopende tekst. Een kop maakt het vindbaar én citeerbaar.
+1. ~~**`/ibiza-prices`: "goedkoopste" in titel en lead.**~~ **Gedaan (07-09).**
+   De lead opent nu met "Het goedkoopste clubticket op Ibiza kost €15, en 58%
+   van alle clubavonden kost minder dan €40" in vijf talen; het meetvenster is
+   naar achteren verhuisd. Titel werd `Ibiza Club Prices 2026 — Cheapest
+   Tickets`, meta description opent met hetzelfde cijfer (en is daarmee ook uit
+   de baseline: hij stond op 139 tekens, één onder de ondergrens). Nieuw: een
+   eigen H2 "Wat is het goedkoopste clubticket op Ibiza?" direct onder het
+   antwoord, met de club achter het laagste bedrag (O Beach Ibiza, €15), de
+   drie goedkoopste clubs op mediaan (Playa Soleil €20, Es Paradis €25, O Beach
+   €25) en een link naar `/guestlist`. Alles afgeleid uit `price-stats.ts` —
+   `cheapestTicketVenue()` en `cheapestByMedian()` — dus geen overgetypt getal.
+   Plus een FAQ "Kun je gratis een club in op Ibiza?".
+2. ~~**`/guestlist`: "Is de gastenlijst gratis?" als eigen H2.**~~ **Gedaan
+   (07-09).** De vraag staat nu letterlijk als H2 direct onder de hero, met het
+   antwoord in de eerste zin ("Aanmelden is gratis, altijd. Vrije entree is dat
+   niet") en de drie uitkomsten als genummerde items ernaast. Eronder wat je
+   zónder plek op de lijst betaalt — €32 doorgaans, €15 het goedkoopste ticket,
+   uit dezelfde telling als `/ibiza-prices` — met een link daarheen. Titel werd
+   `Ibiza Club Guestlist — Free Sign-Up`. De FAQ-variant blijft staan: die voedt
+   de JSON-LD en is korter.
 3. **`/boats`: de zes boten onder €1000.** Afgeleid uit `fleet.ts`, geen
    handwerk. Dekt "goedkoopste boot huren Ibiza" en "boot huren Ibiza prijs".
 4. **`/ibiza-season`: prijs per maand.** De agenda kent de prijzen én de datums,
