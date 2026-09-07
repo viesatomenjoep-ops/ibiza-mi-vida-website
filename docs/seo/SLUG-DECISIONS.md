@@ -145,7 +145,7 @@ Per bestaande pagina, in volgorde van opbrengst:
 5. `/ibiza-season` — secties voor opening- en closing parties uit de feed
 6. `/package-deals` — sectie per club over tafels
 7. `/beach-clubs` — de twintig beschrijvingen uitbouwen
-8. `/ferry-formentera` — prijssectie
+8. ✅ `/ferry-formentera` — prijssectie, gemeten uit de agenda
 9. `/club-tickets/[slug]` — redactionele blok per club via `club-history.ts`
 10. `/boat-trip` + `/locations/es-vedra` — de boot-invalshoek op de baaien
 

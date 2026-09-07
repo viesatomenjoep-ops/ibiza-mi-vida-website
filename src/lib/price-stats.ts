@@ -193,8 +193,55 @@ export async function getPriceStats(locale: string): Promise<PriceStats | null> 
     }))
     .sort((a, b) => b.median - a.median || a.name.localeCompare(b.name))
 
+  /**
+   * Is deze gedateerde afvaart écht een overtocht naar Formentera?
+   *
+   * ── Waarom dit filter bestaat ──────────────────────────────────────────
+   * Het venue-type `formentera-day-trip` is de categorie van de rederijen, niet
+   * van hun routes. Vijf operators zitten erin en drie daarvan varen óók lijnen
+   * die niets met Formentera te maken hebben:
+   *
+   *   • Aquabus  — "Beach City Boat (Ibiza city - Playa d'en Bossa)", vanaf €5
+   *   • Ulises   — "San Antonio - Cala Salada ferry boat", vanaf €7
+   *   • Sta Eul. — "Shuttle Ferry Ibiza - Santa Eularia - Es Canar", vanaf €9
+   *
+   * Zonder filter telden die mee, en /ibiza-prices publiceerde daardoor
+   * "Ferry naar Formentera — mediaan €22 · vanaf €5" in vijf talen. Die €5 is
+   * een strandpendel binnen Ibiza. Dat is exact de fout die bovenaan dit
+   * bestand beschreven staat bij de €1000: een misleidend getal in de kleren
+   * van een gemeten getal, en op de één pagina van de site die haar hele
+   * bestaansrecht ontleent aan het feit dat haar cijfers geteld zijn.
+   *
+   * ── Waarom op de naam ──────────────────────────────────────────────────
+   * De data biedt geen route- of bestemmingsveld; de bestemming staat alleen in
+   * de eventnaam. "Formentera" is een eigennaam en identiek in alle vijf de
+   * talen, dus die match is stabiel over de locales heen.
+   *
+   * Uitgesloten worden ook de excursies die Formentera wél noemen maar geen
+   * overtocht zijn ("Calas de Formentera boat trip" à €150, brunches,
+   * zonsondergangtochten met DJ). Het label boven deze cijfers zegt "ferry",
+   * en een dagtocht van €150 is geen veerprijs.
+   *
+   * Het filter faalt naar de veilige kant: een nieuw soort afvaart die deze
+   * test niet haalt, telt niet mee. Liever een cijfer over te weinig
+   * afvaarten — daar bestaat de MIN_DATES-ondergrens voor — dan een cijfer
+   * over de verkeerde.
+   */
+  const EXCURSIE = /(boat trip|excursion|excursi|brunch|experience|sunset|calas)/i
+  const isFormenteraOvertocht = (d: { eventName?: string | null; name?: string | null }): boolean => {
+    const naam = `${d.eventName ?? ''} ${d.name ?? ''}`
+    if (!/formentera/i.test(naam)) return false
+    return !EXCURSIE.test(naam)
+  }
+
   const catOf = (key: CategoryPrice['key']): CategoryPrice | null => {
-    const lows = priced.filter(x => typeOf.get(x.d.venueSlug || '') === key).map(x => x.p[0])
+    const inCat = priced.filter(x => typeOf.get(x.d.venueSlug || '') === key)
+    // Alleen deze categorie draagt een bestemming in de naam; de andere drie
+    // zijn wél gewoon wat hun type zegt.
+    const relevant = key === 'formentera-day-trip'
+      ? inCat.filter(x => isFormenteraOvertocht(x.d as any))
+      : inCat
+    const lows = relevant.map(x => x.p[0])
     if (lows.length < MIN_DATES) return null
     return { key, min: Math.round(Math.min(...lows)), median: Math.round(median(lows)), n: lows.length }
   }
