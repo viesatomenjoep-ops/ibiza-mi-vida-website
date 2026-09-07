@@ -223,8 +223,8 @@ function eventItems(events: PickerEvent[], locale: string): RingItem[] {
 function Ring({ items, hidden, id, laad, locale }: { items: RingItem[]; hidden: boolean; id: string; laad: boolean; locale: string }) {
   const ringRef = useRef<HTMLUListElement>(null)
   const hoek = useRef(0)
-  const sleep = useRef<{ actief: boolean; startX: number; startHoek: number; bewogen: boolean }>({
-    actief: false, startX: 0, startHoek: 0, bewogen: false,
+  const sleep = useRef<{ actief: boolean; startX: number; startY: number; startHoek: number; bewogen: boolean; drempel: number }>({
+    actief: false, startX: 0, startY: 0, startHoek: 0, bewogen: false, drempel: 6,
   })
 
   useEffect(() => {
@@ -270,14 +270,42 @@ function Ring({ items, hidden, id, laad, locale }: { items: RingItem[]; hidden: 
   // meedraaien ook als je vinger buiten hem komt. Voor een tik is het
   // schadelijk. Dus: pas vangen na de drempel, en die drempel bepaalt meteen
   // of het een sleep of een tik was.
-  const DREMPEL = 6
+  // ── Waarom de drempel per invoerapparaat verschilt ────────────────────────
+  //
+  // Zes pixels klopt voor een muis: die staat stil tenzij je hem verplaatst.
+  // Een vinger niet. Een gewone tik op een telefoon verschuift bijna altijd
+  // acht tot twaalf pixels tussen neerzetten en loslaten — je duim rolt af.
+  // Met één drempel voor allebei werd elke tik dus als sleep geteld, ging
+  // `bewogen` op true, en blokkeerde opKlik() hieronder de klik. Gevolg: op
+  // mobiel deed geen enkele tegel iets. Op desktop werkte alles, en daarom is
+  // dit maandenlang niet opgevallen.
+  //
+  // Veertien pixels voor aanraking ligt in de buurt van wat Android zelf als
+  // "touch slop" hanteert. Ruim genoeg voor een tik, krap genoeg dat een
+  // bedoelde veeg meteen pakt.
+  const DREMPEL_MUIS = 6
+  const DREMPEL_VINGER = 14
+
   const omlaag = (e: React.PointerEvent) => {
-    sleep.current = { actief: true, startX: e.clientX, startHoek: hoek.current, bewogen: false }
+    sleep.current = {
+      actief: true,
+      startX: e.clientX,
+      startY: e.clientY,
+      startHoek: hoek.current,
+      bewogen: false,
+      drempel: e.pointerType === 'touch' ? DREMPEL_VINGER : DREMPEL_MUIS,
+    }
   }
   const beweeg = (e: React.PointerEvent) => {
     if (!sleep.current.actief) return
     const dx = e.clientX - sleep.current.startX
-    if (!sleep.current.bewogen && Math.abs(dx) > DREMPEL) {
+    const dy = e.clientY - sleep.current.startY
+    // Alleen een overwegend HORIZONTALE beweging is een sleep. Wie met zijn
+    // vinger op een kaart begint en de pagina omlaag scrolt, beweegt ook in x
+    // — die mag de ring niet meesleuren en al helemaal geen klik blokkeren.
+    // touch-action:pan-y laat dat verticale scrollen aan de browser; dit zorgt
+    // dat wij er niet alsnog tussen gaan zitten.
+    if (!sleep.current.bewogen && Math.abs(dx) > sleep.current.drempel && Math.abs(dx) > Math.abs(dy)) {
       sleep.current.bewogen = true
       ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
     }
