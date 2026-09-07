@@ -111,6 +111,14 @@ event, niet als `type_slug`. Bevestigd met een directe scan van
 guestlist + WhatsApp-concierge, zonder ticketclaim. Precies wat de master-prompt
 voor DC-10 al voorschreef; het geldt ook voor Pacha en Amnesia.
 
+➡️ **Update 2026-09-07, na terugkoppeling van Tom:** Pacha, Amnesia en DC-10
+komen later dit jaar wél, maar het akkoord daarvoor is nog niet rond. De drie
+pagina's zijn geschreven en staan in de repo, maar 404'en tot dat akkoord er is
+(`src/lib/pending-venues.ts`). Reden om te wachten in plaats van te publiceren:
+de huidige tekst zégt dat we voor deze drie geen tickets verkopen. Dat is
+vandaag waar en verandert precies bij het akkoord — en een claim die eenmaal
+geïndexeerd en geciteerd is, haal je niet terug door de pagina te wijzigen.
+
 De overige 12 clubbing-venues hebben al een pagina op `/club-tickets/<slug>`
 mét live line-up, prijzen en `EventSchema`.
 

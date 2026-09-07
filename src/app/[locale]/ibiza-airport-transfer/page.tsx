@@ -165,9 +165,9 @@ export default function IbizaAirportTransferPage() {
           { label: 'Car rental in Ibiza', href: 'car-rental-ibiza', body: 'All-inclusive hire through Wiber, five minutes from the terminal.' },
           { label: 'Car rental at Ibiza airport', href: 'car-rental-ibiza-airport', body: 'The pick-up flow at IBZ, shuttle and late-landing advice.' },
           { label: 'Ibiza tips', href: 'tips', body: 'Practical island advice from the local team.' },
-          { label: 'DC-10 Ibiza', href: 'dc10-ibiza', body: 'The one club that is closer to the airport than your hotel.' },
-          { label: 'Amnesia Ibiza', href: 'amnesia-ibiza', body: 'Out on the San Antonio road, where a car earns its keep.' },
           { label: 'Ibiza club calendar', href: 'calendar', body: 'Plan the week before you plan the transfer.' },
+          { label: 'All clubs', href: 'clubs', body: 'Which venue is where, so you know how far you are travelling.' },
+          { label: 'Ibiza club tickets 2026', href: 'ibiza-club-tickets', body: 'What a night out costs, before you budget the taxi.' },
         ]}
       />
 

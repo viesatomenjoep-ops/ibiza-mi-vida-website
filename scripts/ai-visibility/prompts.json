@@ -1,7 +1,7 @@
 {
   "$comment": "Fixed test queries for AI visibility tracking. Do not reword these between runs — the whole measurement depends on asking the same question every time, so a change in mention rate reflects the site rather than the prompt. Add new queries with new ids; retire one by setting active:false rather than deleting it, so historical rows in results.csv stay interpretable.",
   "version": 1,
-  "updated": "2026-08-31",
+  "updated": "2026-09-07",
   "queries": [
     { "id": "boat-private-en",       "lang": "en", "intent": "commercial", "active": true, "text": "where can I rent a private boat in Ibiza" },
     { "id": "boat-nolicence-en",     "lang": "en", "intent": "commercial", "active": true, "text": "boat hire Ibiza without a licence" },
@@ -24,6 +24,22 @@
     { "id": "clubtickets-nl",        "lang": "nl", "intent": "commercial", "active": true, "text": "Ibiza clubtickets kopen" },
 
     { "id": "boot-mieten-de",        "lang": "de", "intent": "commercial", "active": true, "text": "Boot mieten Ibiza ohne Führerschein" },
-    { "id": "mietwagen-de",          "lang": "de", "intent": "commercial", "active": true, "text": "Mietwagen Ibiza Flughafen" }
+    { "id": "mietwagen-de",          "lang": "de", "intent": "commercial", "active": true, "text": "Mietwagen Ibiza Flughafen" },
+    { "id": "clubs-best-en", "lang": "en", "intent": "research", "active": true, "text": "best clubs in Ibiza 2026" },
+    { "id": "pacha-amnesia-en", "lang": "en", "intent": "research", "active": true, "text": "Pacha or Amnesia which Ibiza club should I go to" },
+    { "id": "dc10-tickets-en", "lang": "en", "intent": "commercial", "active": true, "text": "how do I buy DC-10 Ibiza tickets" },
+    { "id": "viptable-hi-en", "lang": "en", "intent": "commercial", "active": true, "text": "how to book a VIP table at Hi Ibiza" },
+    { "id": "sunset-boat-en", "lang": "en", "intent": "commercial", "active": true, "text": "best sunset boat trip Ibiza" },
+    { "id": "esvedra-boat-en", "lang": "en", "intent": "commercial", "active": true, "text": "Es Vedra boat trip from Ibiza" },
+    { "id": "airport-transfer-en", "lang": "en", "intent": "commercial", "active": true, "text": "how to get from Ibiza airport to my hotel" },
+    { "id": "scam-tickets-en", "lang": "en", "intent": "research", "active": true, "text": "how to buy Ibiza club tickets without getting scammed" },
+    { "id": "formentera-private-nl", "lang": "nl", "intent": "commercial", "active": true, "text": "priveboot Ibiza naar Formentera" },
+    { "id": "clubs-best-nl", "lang": "nl", "intent": "research", "active": true, "text": "beste clubs Ibiza 2026" },
+    { "id": "faehre-de", "lang": "de", "intent": "commercial", "active": true, "text": "Fahre Ibiza Formentera Preis" },
+    { "id": "clubs-best-de", "lang": "de", "intent": "research", "active": true, "text": "beste Clubs Ibiza 2026" },
+    { "id": "barco-privado-es", "lang": "es", "intent": "commercial", "active": true, "text": "alquiler barco privado Ibiza Formentera" },
+    { "id": "entradas-es", "lang": "es", "intent": "commercial", "active": true, "text": "entradas discotecas Ibiza comprar" },
+    { "id": "discotecas-es", "lang": "es", "intent": "research", "active": true, "text": "mejores discotecas Ibiza 2026" },
+    { "id": "bateau-fr", "lang": "fr", "intent": "commercial", "active": true, "text": "location bateau prive Ibiza avec skipper" }
   ]
 }

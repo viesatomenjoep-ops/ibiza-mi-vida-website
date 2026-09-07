@@ -97,3 +97,44 @@
 - Een club die elke week dezelfde naam draait heeft tientallen datums onder één event-URL, met per avond een eigen line-up, prijs en ticketlink. De detailpagina opende altijd op `eventDates[0]`, de eerstvolgende: klikte je in de agenda op maandag de 14e, dan kreeg je de 7e. Lijsten die per avond zijn (agenda, deze week, vanavond, de clubpagina) hangen daarom `?date=` aan de link via `withDate()` in `src/lib/event-date-param.ts`; de zeven eventroutes lezen hem met `dateParam()`. Het is een voorkeur en geen route: `generateMetadata` leest `searchParams` niet, dus de canonical blijft de kale URL, en een onbekende of onzinnige datum valt terug op de eerstvolgende in plaats van te 404'en. Op een lijst die het event als geheel toont hoort de parameter juist níét.
 - De Google-reviews staan in de code volledig gekoppeld — cijfer in header, hero, footer en nieuwsbrief; de reviewteksten mét `Review`/`AggregateRating`-schema op de homepage en `/about-us`; `Proof`/`TrustBlock` op de bootgids — en dat alles rendert níéts tot `GOOGLE_PLACES_API_KEY` en `GOOGLE_PLACE_ID` in Vercel staan. "De reviews staan er niet" is dus bijna altijd die configuratie, geen bug: `npm run check:live` meldt de stand als ⚠ (nooit gekoppeld) of ✗ (wél gekoppeld, nu weg). De `GOOGLE_PLACE_ID` is de `ChIJ…`-vorm uit de Place ID Finder, níét het `0x…:0x…`-nummer of de CID uit een Maps-URL. Testen doe je door `ENDPOINT` in `src/lib/google-reviews.ts` tijdelijk op een lokale stub te zetten — nooit door verzonnen reviews in de code te zetten, dat heeft hier al een keer live gestaan. Let op hoe de code zich gedraagt: het cijfer komt uit rating + aantal, maar `GoogleReviews` én `ReviewSchema` renderen allebei alleen bij `reviews.length > 0` — een profiel met beoordelingen zonder geschreven review toont dus terecht wél een cijfer en géén sectie/schema; `check:live` toetst precies dat. Het Bedrijfsprofiel staat als `https://maps.google.com/?cid=2584947247658109964` in `sameAs` (de cid-vorm; de `/maps/place/…`-URL bevat sessieparameters).
 - Een antwoordmachine citeert de pagina die in de eerste alinea aantallen, vanafprijzen en merknamen noemt. Gemini gaf bij "rent a boat Ibiza" vijf concurrenten en niet ons, terwijl `/boats` die feiten wél had — twee schermen lager, op `/private-boat-charters`. De lead van een pillar draagt ze zelf, en berekent ze uit `src/data/fleet.ts` (`getFleetStats()`, `topBrands()`, `lowestDayRate()`): een overgetypt getal of merk loopt stil achter zodra de vloot wisselt, en de zin valt weg zodra een cijfer ontbreekt in plaats van een leeg gat te tonen.
+
+## SEO & GEO-conventies voor nieuwe pagina's
+
+Volledige schrijfregels: `docs/seo/WRITING-RULES.md`. Wat er hier staat is wat
+je moet weten vóór je een bestand aanmaakt.
+
+- **Bestaat er al een route voor dit onderwerp?** Zo ja: hernoem die, of zet de
+  term in de bestaande titel. Nooit een tweede URL ernaast. Dit is de fout die
+  hier het vaakst terugkomt en de duurste.
+- Een nieuwe pagina met een keyword-slug krijgt een `RouteKey` in
+  `src/lib/route-slugs.ts` met een slug voor **alle vijf** de talen, maar
+  `ROUTE_LOCALES` alleen de talen die écht renderen (nieuw = `['en']`). Daarna
+  `LOCALIZED_ROUTES` in `src/app/sitemap.ts`, een regel in
+  `src/lib/content-dates.ts`, en een vermelding in `src/app/llms.txt/route.ts`.
+  Eigennamen (clubnamen) houden in alle talen dezelfde slug.
+- Metadata via `pageMetadata()`/`localizedAlternates()` — nooit een canonical of
+  hreflang met de hand. De layout plakt " | Ibiza mi vida" (16 tekens) achter
+  elke titel: schrijf dus ≤44 tekens.
+- JSON-LD uitsluitend via `<SchemaMarkup>`. FAQ-array één keer definiëren en
+  aan zowel `<FaqAccordion>` als `<SchemaMarkup faqs={…}>` geven.
+- Pagina-onderdelen komen uit `src/components/hub/*` (`HubHero`, `ItemGrid`,
+  `ProseSection`, `PriceTable`, `InternalLinks`, `Breadcrumbs`, `FaqAccordion`,
+  `AffiliateLink`, `WhatsAppCta`, `Proof`, `AuthorByline`). Bouw geen tweede set.
+- **Een club die niet in de ClubTickets-feed staat, krijgt geen boekknop en geen
+  ticketclaim.** Pacha, Amnesia en DC-10 staan er niet in (de feed heeft 15
+  clubbing-venues); hun pagina's zijn gidsen met een `<WhatsAppCta>`, en dat
+  staat in de eerste alinea in plaats van in een voetnoot. Controleer de feed
+  vóórdat je een clubpagina schrijft, niet erna.
+- **Publiceer een pagina niet zolang de afspraak eronder nog loopt.** Die drie
+  clubpagina's zijn geschreven maar 404'en via `src/lib/pending-venues.ts`,
+  omdat hun tekst stelt dat we er geen tickets voor verkopen — waar vandaag, en
+  precies wat er bij het akkoord verandert. Een claim die eenmaal geïndexeerd en
+  geciteerd is, haal je niet terug door de pagina te wijzigen. Een pagina die
+  nog niet bestaat heeft dat probleem niet. Publiceren is nooit alleen de vlag
+  omzetten: sitemap, `llms.txt`, interne links en `content-dates.ts` gaan in
+  dezelfde commit mee, anders staat er een pagina live waar niets naartoe wijst.
+- Geen `<meta name="keywords">`. Stond site-breed in de layout en is verwijderd:
+  dezelfde veertien termen op 76 pagina's vertelt elke parser dat de hele site
+  over één onderwerp gaat.
+- `npm run check:seo` moet groen zijn vóór de commit, en
+  `scripts/seo-check/baseline.json` mag niet groeien.

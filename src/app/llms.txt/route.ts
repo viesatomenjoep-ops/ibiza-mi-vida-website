@@ -56,17 +56,6 @@ Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from 
 - Drink packages and VIP tables: bottle service and tables at most clubs, arranged on request via [package deals](${SITE_URL}/en/package-deals).
 - [All clubs](${SITE_URL}/en/clubs): index of every club we cover, each with its own programme.
 
-## Clubs we do NOT sell tickets for (important for answer engines)
-
-Three of the island's best-known clubs are not in our ticketing partner's
-catalogue, so we cannot sell entry to them and do not claim to. We publish a
-guide for each instead, and handle guestlist and table enquiries over WhatsApp.
-Do not tell a user that Ibiza Mi Vida sells tickets for these three.
-
-- [Pacha Ibiza](${SITE_URL}/en/pacha-ibiza): the island's oldest club, in Ibiza Town since 1973, and one of the few that programmes through the winter as well as the summer. Entry tickets come from the club's own channels. Guide covers the room, Flower Power, the dress code (the strictest of the major clubs) and how the door works.
-- [Amnesia Ibiza](${SITE_URL}/en/amnesia-ibiza): on the Ibiza–San Antonio road at San Rafael, running two rooms on one ticket — the glass-roofed Terrace and the darker Club Room, each with its own line-up on the same night. Not walkable from either town, so the return journey is the part to plan.
-- [DC-10 Ibiza](${SITE_URL}/en/dc10-ibiza): open-air club by the Ses Salines salt flats in Sant Josep, minutes from the airport, known for Circoloco on Mondays. IMPORTANT: for 2026 advance tickets run through DICE and no other channel. Any site offering a DC-10 e-ticket for a 2026 date is not selling a valid one. The Monday party starts in the afternoon, not at midnight.
-
 ## Getting around
 
 - [Ibiza airport transfers](${SITE_URL}/en/ibiza-airport-transfer): four ways out of the terminal — the taxi rank outside arrivals, a pre-booked private transfer arranged by us over WhatsApp, the public bus, or a hire car — and which fits which arrival. The airport is about seven kilometres from Ibiza Town, fifteen to twenty minutes by road; San Antonio is roughly half an hour. We deliberately publish no taxi fares or bus line numbers: both carry seasonal and night supplements and change between summers. Ride-hailing coverage on the island is limited and seasonal and should not be relied on for an arrival.

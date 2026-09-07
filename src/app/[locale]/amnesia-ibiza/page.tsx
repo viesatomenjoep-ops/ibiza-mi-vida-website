@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
 import { HubHero, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
@@ -7,6 +8,7 @@ import { Proof } from '@/components/hub/Proof'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { localizedAlternates } from '@/lib/route-slugs'
 import { contentUpdated } from '@/lib/content-dates'
+import { venuePagePublished } from '@/lib/pending-venues'
 import { SITE_NAME, type Locale } from '@/lib/seo'
 
 export const revalidate = 3600
@@ -121,6 +123,11 @@ const PRACTICAL = [
 ]
 
 export default function AmnesiaIbizaPage() {
+  // Nog niet gepubliceerd — zie src/lib/pending-venues.ts. De pagina 404't
+  // tot het akkoord met de club rond is; hij staat in geen sitemap en er
+  // linkt niets naartoe, dus dit is de enige weg naar binnen.
+  if (!venuePagePublished(PAGE_KEY)) notFound()
+
   return (
     <>
       <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} />

@@ -24,17 +24,20 @@ plan botst met een regel uit `CLAUDE.md` staat de afwijking in AUDIT.md onder
       Afgeweken: geen catch-all `[slug]`-route, geen `content/seo/`-laag.*
 - [x] **D — Schrijfregels** → `docs/seo/WRITING-RULES.md`
 - [x] **E/F — Ontbrekende money-pages** (alleen de 4 die echt ontbreken)
-  - [x] `/en/pacha-ibiza`
-  - [x] `/en/amnesia-ibiza`
-  - [x] `/en/dc10-ibiza`
-  - [x] `/en/ibiza-airport-transfer`
-  - [x] Opgenomen in `route-slugs.ts`, `sitemap.ts`, `breadcrumb-labels.ts`,
+  - [x] `/en/pacha-ibiza` — geschreven, **404't nog** (akkoord club loopt)
+  - [x] `/en/amnesia-ibiza` — geschreven, **404't nog** (akkoord club loopt)
+  - [x] `/en/dc10-ibiza` — geschreven, **404't nog** (akkoord club loopt)
+  - [x] `/en/ibiza-airport-transfer` — live
+  - [x] Luchthavenvervoer opgenomen in `route-slugs.ts`, `sitemap.ts`,
         `content-dates.ts`, `llms.txt` en de interne links
+  - [ ] **Open:** de drie clubpagina's publiceren zodra het akkoord rond is —
+        vlag in `src/lib/pending-venues.ts`, met het stappenplan in dat bestand
   - *Afgeweken: E6–E9 (vier bootpagina's) niet gebouwd — zie AUDIT.md conflict 1.*
 - [x] **G — Event/artist-engine** — *bestaat al: `/artists`, `/artists/[slug]`,
       `/club-tickets/[slug]/[eventSlug]`, `EventSchema` met datum-per-avond.
       Geen nieuwe engine gebouwd.*
 - [x] **H — GEO-laag & rapport**
-  - [x] H4 `llms.txt` uitgebreid met de nieuwe pagina's
-  - [x] H6 `docs/seo/GEO-KPI.md` + `docs/seo/geo-baseline.csv`
+  - [x] H4 `llms.txt` uitgebreid met luchthavenvervoer
+  - [x] H6 `docs/seo/GEO-KPI.md`; promptset in `scripts/ai-visibility/prompts.json`
+        van 20 naar 36 vragen *(afgeweken: geen tweede CSV — het meetsysteem bestond al)*
   - [x] H9 `docs/seo/NIGHT-REPORT.md`
