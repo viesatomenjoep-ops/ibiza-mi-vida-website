@@ -232,8 +232,13 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
       />
       <div className="bg-white min-h-screen text-black pb-20 pt-0">
         
-        {/* Hero Section */}
-      <section className="relative h-[340px] md:h-[400px] rounded-b-[36px] overflow-hidden bg-gradient-to-br from-[#1a2e29] to-[#2C4A42] flex items-end">
+        {/* Hero Section
+            mt-[var(--nav-h)]: deze template voedt zeven paginasoorten (clubs,
+            jachthavens, ferry- en watersportlocaties) en had geen marge voor
+            de sinds vanavond vaste, ondoorzichtige navigatiebalk. Zie de
+            uitleg bij de hero in EventDetailPage.tsx voor het volledige
+            verhaal -- zelfde oorzaak, zelfde fix. */}
+      <section className="relative mt-[var(--nav-h)] h-[340px] md:h-[400px] rounded-b-[36px] overflow-hidden bg-gradient-to-br from-[#1a2e29] to-[#2C4A42] flex items-end">
         <Image
           src={imageUrl}
           alt={club.name}

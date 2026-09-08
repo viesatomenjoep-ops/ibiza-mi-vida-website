@@ -310,8 +310,16 @@ export default async function ArtistPage({ params }: Props) {
         ]}
       />
       <BackButton locale={locale} fallbackHref={`/${locale}/artists`} variant="top" />
-      {/* Hero Section */}
-      <section className="relative h-[440px] md:h-[560px] overflow-hidden flex items-center justify-center text-center px-4 rounded-b-[36px] bg-black">
+      {/* Hero Section
+          mt-[var(--nav-h)]: deze pagina heeft sinds vanavond een vaste,
+          ondoorzichtige navigatiebalk (site-header--solid) in plaats van een
+          transparante die pas bij scrollen dichtklapte. Zonder deze marge
+          begint de hero op y=0 en schuift de vaste balk er gewoon overheen --
+          het bovenste stuk van de foto en de eerste regel van de titel
+          verdwenen dan achter een ondoorzichtig wit vlak. Nu begint de hero
+          precies onder de balk, ongeacht schermgrootte (--nav-h verschilt
+          zelf al tussen mobiel en desktop). */}
+      <section className="relative mt-[var(--nav-h)] h-[440px] md:h-[560px] overflow-hidden flex items-center justify-center text-center px-4 rounded-b-[36px] bg-black">
         <Image
           src={headerImage}
           alt={artist.name}

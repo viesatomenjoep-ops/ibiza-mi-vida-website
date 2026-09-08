@@ -392,8 +392,16 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
           { name: eventName },
         ]}
       />
-      {/* Hero */}
-      <section className="relative flex h-[46vh] w-full flex-col justify-end overflow-hidden rounded-b-[28px] md:h-[58vh]" aria-label={`${eventName} hero`}>
+      {/* Hero
+          mt-[var(--nav-h)]: deze template voedt zeven soorten pagina's
+          (clubavonden, boottochten, ferry's, shuttle, tours, activiteiten,
+          watersport) en had geen marge voor de sinds vanavond vaste,
+          ondoorzichtige navigatiebalk. Zonder deze regel schuift die balk
+          gewoon over de hero heen en verdwijnt het bovenste stuk van elke
+          eventafbeelding erachter -- precies wat er gemeld werd op de
+          Swedish House Mafia-pagina, en dus op alle zeven pagina-soorten
+          tegelijk. Nu begint de hero overal precies onder de balk. */}
+      <section className="relative mt-[var(--nav-h)] flex h-[46vh] w-full flex-col justify-end overflow-hidden rounded-b-[28px] md:h-[58vh]" aria-label={`${eventName} hero`}>
         <BackButton locale={locale} fallbackHref={`/${locale}/${basePath}/${club.slug}`} variant="top" />
         {eventCover && (
           <>

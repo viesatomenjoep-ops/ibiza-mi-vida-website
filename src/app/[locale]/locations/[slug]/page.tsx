@@ -155,8 +155,12 @@ export default function LocationPage({ params }: { params: { slug: string; local
     <div className="min-h-screen bg-white pb-20 text-neutral-900">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }} />
 
-      {/* Hero */}
-      <section className="relative h-[50vh] min-h-[400px] w-full bg-slate-900">
+      {/* Hero
+          mt-[var(--nav-h)]: dezelfde fix als op de event- en venuepagina's --
+          zie de uitleg in EventDetailPage.tsx. Zonder deze marge schuift de
+          sinds vanavond vaste, ondoorzichtige navigatiebalk over het
+          bovenste stuk van de locatiefoto en de titel heen. */}
+      <section className="relative mt-[var(--nav-h)] h-[50vh] min-h-[400px] w-full bg-slate-900">
         <LocationImage
           src={location.imageUrl}
           name={location.name}
