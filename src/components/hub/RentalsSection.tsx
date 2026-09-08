@@ -39,10 +39,13 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
  * ondergrond was uitgedacht (goud op zwart, witte doorverwijzingen, het
  * verloop over de foto) is meegegaan naar zwart op wit.
  *
- * ── Onder elkaar, niet naast elkaar ──────────────────────────────────────
- * Twee kaarten naast elkaar lezen als één keuze met twee opties. Dit zijn
- * twee losse dingen: een boot voor op het water, en daaronder een auto voor
- * op het land.
+ * ── Naast elkaar op desktop, onder elkaar op mobiel ──────────────────────
+ * Stond eerst altijd onder elkaar, met als argument dat twee kaarten naast
+ * elkaar lezen als één keuze met twee opties terwijl dit twee losse dingen
+ * zijn. Op een breed scherm woog dat niet op tegen de prijs: twee volle
+ * schermhoogtes voor twee kaarten van vier regels, met de halve breedte
+ * leeg. De kickers ("op het water" / "op het eiland") maken het onderscheid
+ * al duidelijk genoeg.
  *
  * ── Waarom dit een banner is en geen uitleg ───────────────────────────────
  * De kaart droeg de hele pitch: een inleiding van twee zinnen, drie
@@ -182,26 +185,28 @@ export function RentalsSection({ locale }: { locale: string }) {
 
   return (
     <section className="bg-white py-10 text-neutral-900 md:py-14">
-      {/* mx-auto op de max-w-3xl-kolom zelf, niet alleen op de buitenste
-          max-w-6xl. Zonder die tweede mx-auto bleef de kolom binnen de brede
-          sectie links hangen -- op een breed scherm precies zo'n grote lege
-          plek rechts als op de meldkaart. De kop staat gecentreerd tekst; de
-          kaarten blijven links uitgelijnd binnen die gecentreerde kolom, want
-          een kaart met gecentreerde tekst leest raar. */}
+      {/* Kop in een smalle, gecentreerde kolom; de kaarten daaronder in de
+          volle sectiebreedte. Die twee moeten los van elkaar: een kop leest
+          het prettigst op een beperkte regellengte, maar de kaarten hadden
+          juist ruimte nodig om naast elkaar te passen. */}
       <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{RENTALS_SECTION.eyebrow[l]}</p>
           <h2 className="mx-auto mt-2 font-serif text-[26px] font-black leading-[1.1] tracking-tight md:text-4xl">
             {RENTALS_SECTION.heading[l]}
           </h2>
+        </div>
 
-          {/* Onder elkaar, niet naast elkaar. Naast elkaar leest als één
-              keuze met twee opties; dit zijn twee losse dingen -- een boot
-              voor op het water, en daaronder een auto voor op het land. */}
-          <div className="mt-6 grid gap-5 text-left">
-            <RentalCard data={boat} locale={l} />
-            <RentalCard data={car} locale={l} />
-          </div>
+        {/* Naast elkaar vanaf tablet, onder elkaar op een telefoon. Stond
+            eerder bewust altijd onder elkaar met als argument "twee losse
+            dingen, geen keuze met twee opties" -- maar op een breed scherm
+            kostte dat twee volle schermhoogtes voor twee kaarten die allebei
+            maar vier regels dragen, en bleef de halve breedte leeg. Naast
+            elkaar leest hier prima omdat de kickers ("op het water" / "op het
+            eiland") het onderscheid al maken. */}
+        <div className="mt-6 grid gap-5 text-left md:grid-cols-2 md:gap-6">
+          <RentalCard data={boat} locale={l} />
+          <RentalCard data={car} locale={l} />
         </div>
       </div>
     </section>
