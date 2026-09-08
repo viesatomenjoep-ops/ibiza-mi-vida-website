@@ -1,7 +1,10 @@
 'use client'
 
-import { HomeCircleCollage, type CollageKaart } from './HomeCircleCollage'
+import { HomeZoneRail, type ZoneDay } from './HomeZoneRail'
 import { isOpHetLand } from '@/lib/activity-split'
+import { addDays } from '@/lib/date-label'
+import { priceNumbers } from '@/lib/price-parse'
+import { withDate } from '@/lib/event-date-param'
 
 type L5 = Record<string, string>
 const T = (nl: string, en: string, de: string, es: string, fr: string): L5 => ({ nl, en, de, es, fr })
@@ -18,6 +21,7 @@ const L = {
     'Buggys, quads, safaris en jeep, grottes et marchés hippies. Tout ce qui se fait sur l’île même, à la journée.',
   ),
   knop: T('Bekijk het land', 'See the island', 'Aufs Land', 'Ver la isla', "Voir l'île"),
+  tag: T('Op het eiland', 'On the island', 'Auf der Insel', 'En la isla', "Sur l'île"),
 }
 
 interface FeedItem {
@@ -30,62 +34,64 @@ interface FeedItem {
 /**
  * Wereld 03: On the land activities — alles wat geen clubavond en geen eigen boot is.
  *
- * Dezelfde vorm als wereld 01, gevoed uit dezelfde dagenlijst die de
- * ringcarrousel gebruikt. Drie verschillende aanbieders in de waaier, zodat
- * er niet drie keer dezelfde boot staat.
+ * Dezelfde `experienceDays`-reeks als de ringcarrousel, hier per dag gefilterd
+ * op wat op het land gebeurt — zie activity-split.ts voor waarom dat per event
+ * en niet per aanbieder moet.
  */
 export function HomeActivities({
-  days,
+  days: experienceDays = [],
+  todayStr,
   locale = 'nl',
   base,
 }: {
-  days: { date?: string; items: FeedItem[] }[]
+  days?: { date?: string; items: FeedItem[] }[]
+  todayStr: string
   locale?: string
   base: string
 }) {
-  const kaarten: CollageKaart[] = []
-  // Op event ontdubbelen en niet op aanbieder: er zijn maar zes
-  // landaanbieders, en met een tegel per aanbieder had de carrousel niets te
-  // draaien. Emove verkoopt buggy, quad en motocross -- dat zijn drie
-  // verschillende dingen om te laten zien.
-  const gezien = new Set<string>()
-  for (const d of days) {
-    for (const it of d.items || []) {
-      // Alleen wat op het land gebeurt: grotten, buggy's, quads, jeepsafari's,
-      // markten. Jetski's, boottochten en ferry's horen bij de waterwereld --
-      // zie activity-split.ts, dat splitst per event en niet per aanbieder,
-      // omdat twee aanbieders allebei verkopen.
+  const byDate = new Map(experienceDays.map(d => [d.date || '', d.items || []]))
+
+  const days: ZoneDay[] = Array.from({ length: 7 }, (_, i) => {
+    const iso = addDays(todayStr, i)
+    const raw = byDate.get(iso) || []
+    const gezien = new Set<string>()
+    const items = []
+    for (const it of raw) {
       if (!isOpHetLand(it.ct_venues?.typeSlug, it.ct_events?.name || it.name || '')) continue
-      const beeld = it.ct_events?.cover || it.ct_events?.logo || ''
       const venue = it.ct_venues?.slug || ''
       const slug = it.ct_events?.slug || ''
-      if (!beeld || !venue || !slug || gezien.has(slug)) continue
+      const image = it.ct_events?.cover || it.ct_events?.logo || ''
+      if (!venue || !slug || !image || gezien.has(slug)) continue
       gezien.add(slug)
-      kaarten.push({
-        // eventBasePath zit al in de feed: een boottocht onder /club-tickets
-        // zetten is een gegarandeerde 404.
-        href: `${base}/${it.ct_venues?.basePath || 'boat-trip'}/${venue}/${slug}`,
-        image: beeld,
-        alt: it.ct_events?.name || it.name || '',
-        badge: (it.prices || '').split('-')[0].trim() || undefined,
+      const priceNum = priceNumbers(it.prices)[0]
+      items.push({
+        href: withDate(`${base}/${it.ct_venues?.basePath || 'activities'}/${venue}/${slug}`, iso),
+        image,
+        title: it.ct_events?.name || it.name || '',
+        venue: it.ct_venues?.name || '',
+        tag: t(L.tag, locale),
+        price: priceNum ? `€${priceNum}` : undefined,
       })
-      if (kaarten.length === 10) break
+      if (items.length === 14) break
     }
-    if (kaarten.length === 10) break
-  }
+    return { iso, items }
+  })
 
   return (
-    <HomeCircleCollage
+    <HomeZoneRail
       id="zone-island"
-      kaarten={kaarten}
-      titel={t(L.titel, locale)}
+      locale={locale}
+      bg="#EADFC0"
+      accent="#C8A24A"
+      kickerColor="#A07F2A"
+      glow={{ x: '90%', y: '30%', color: 'rgba(200,162,74,.18)' }}
+      roundedTop
       kicker={t(L.kicker, locale)}
-      tekst={t(L.tekst, locale)}
-      knop={t(L.knop, locale)}
-      href={`${base}/activities-calendar`}
-      kleur="#C8A24A"
-      schaduw="rgba(200,162,74,.7)"
-      className="bg-neutral-50"
+      title={t(L.titel, locale)}
+      text={t(L.tekst, locale)}
+      ctaLabel={t(L.knop, locale)}
+      ctaHref={`${base}/activities-calendar`}
+      days={days}
     />
   )
 }

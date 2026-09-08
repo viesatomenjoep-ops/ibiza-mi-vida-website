@@ -344,6 +344,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
       deals={deals}
       liveByClub={liveByClub}
       tonightStr={tonightStr}
+      todayStr={todayStr}
       rating={reviews ? { rating: reviews.rating, total: reviews.total, url: reviews.url } : null}
       allVenues={allVenues.map(v => ({
         slug: v.slug,

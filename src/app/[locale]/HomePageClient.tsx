@@ -23,6 +23,8 @@ import { HomeEventsTickets } from '@/components/home/HomeEventsTickets'
 import { HomeActivities } from '@/components/home/HomeActivities'
 import { HomeBoats } from '@/components/home/HomeBoats'
 import { HomeWaterActivities } from '@/components/home/HomeWaterActivities'
+import { HomeZoneNav } from '@/components/home/HomeZoneNav'
+import { HOME_ZONES } from '@/lib/home-zones'
 
 import { Reveal } from '@/components/ui/Reveal';
 // Category-grid labels for the boat pages. These live here rather than in the
@@ -73,26 +75,13 @@ interface HomePageProps {
   liveByClub?: Record<string, { today: { name: string; slug?: string }[]; lastNight: { name: string; slug?: string }[]; isDayClub: boolean }>;
   /** Server-rendered ISO yyyy-mm-dd, so date labels are hydration-safe. */
   tonightStr?: string;
+  /** Server-rendered ISO yyyy-mm-dd van vandaag (Ibiza-tijd) — voor de dagkiezers van de vloot, het land en het water. */
+  todayStr?: string;
   /** Live Google rating, or null when the profile has none to show. */
   rating?: HeroRating | null;
 }
 
-/**
- * De vier werelden van de site, als teksten.
- *
- * Dezelfde vier namen als het hoofdmenu en de ringcarrousel: wie het menu
- * kent, kent de homepage. De kleuren zijn pasteltinten van het eigen palet
- * (roze --spring, het groen, het goud, obsidian) -- geen nieuwe kleuren, wel
- * een lichte huid ervan, zodat vier zones naast elkaar familie blijven.
- */
-const ZONES: { id: string; kleurKlasse: string; stip: string; naam: Record<string, string> }[] = [
-  { id: 'zone-events', kleurKlasse: 'zone--events', stip: '#E14D68', naam: { nl: 'Events & Tickets', en: 'Events & Tickets', de: 'Events & Tickets', es: 'Eventos y entradas', fr: 'Événements & billets' } },
-  { id: 'zone-water', kleurKlasse: 'zone--water', stip: '#0E7C66', naam: { nl: 'Private Boat Rental', en: 'Private Boat Rental', de: 'Private Boat Rental', es: 'Private Boat Rental', fr: 'Private Boat Rental' } },
-  { id: 'zone-island', kleurKlasse: 'zone--island', stip: '#C8A24A', naam: { nl: 'On the land activities', en: 'On the land activities', de: 'On the land activities', es: 'On the land activities', fr: 'On the land activities' } },
-  { id: 'zone-wateract', kleurKlasse: 'zone--insider', stip: '#8D7BC4', naam: { nl: 'On the water activities', en: 'On the water activities', de: 'On the water activities', es: 'On the water activities', fr: 'On the water activities' } },
-]
-
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, tonightStr = '', rating = null, rentalsSlot = null, reviewsSlot = null, faqSlot = null }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, tonightStr = '', todayStr = '', rating = null, rentalsSlot = null, reviewsSlot = null, faqSlot = null }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -163,7 +152,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
               hamburgermenu en via de secties zelf, die je gewoon tegenkomt bij
               het scrollen. */}
           <nav aria-label="Categorieën" className="pointer-events-auto mt-6 hidden w-full max-w-2xl grid-cols-4 gap-2 md:grid">
-            {ZONES.map(z => (
+            {HOME_ZONES.map(z => (
               <a
                 key={z.id}
                 href={`#${z.id}`}
@@ -179,9 +168,8 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                   setTimeout(() => doel.scrollIntoView({ behavior: 'smooth' }), 700)
                   setTimeout(() => doel.scrollIntoView({ behavior: 'auto' }), 1400)
                 }}
-                className="flex min-h-[52px] items-center justify-center gap-1.5 rounded-2xl border border-white/25 bg-black/35 px-2 py-2.5 text-[10px] font-black uppercase leading-tight tracking-wide text-white backdrop-blur-sm transition-colors hover:bg-black/55 md:text-[11px] md:tracking-widest"
+                className="flex min-h-[52px] items-center justify-center rounded-2xl border border-white/25 bg-black/35 px-2 py-2.5 text-[10px] font-black uppercase leading-tight tracking-wide text-white backdrop-blur-sm transition-colors hover:bg-black/55 md:text-[11px] md:tracking-widest"
               >
-                <span aria-hidden className="h-2 w-2 shrink-0 rounded-full" style={{ background: z.stip }} />
                 <span className="leading-tight">{z.naam[locale] || z.naam.en}</span>
               </a>
             ))}
@@ -233,23 +221,29 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           niet zwaarder maakt. */}
       <HomeRingCarousel locale={locale} base={base} events={pickerEvents} experienceDays={experienceDays} />
 
-      {/* Wereld 01, direct onder "Alles op één eiland": de ring laat zien wát
-          er is, deze sectie brengt je naar de agenda. */}
-      <HomeEventsTickets events={pickerEvents} locale={locale} base={base} />
+      {/* De vier werelden, met hun eigen sticky categorienav erboven. De
+          wikkel is de grens waarbinnen die balk blijft plakken: scrolt de
+          laatste zone voorbij, dan schuift de balk gewoon mee met de rest
+          van de pagina weg in plaats van boven de footer te blijven hangen. */}
+      <div className="relative">
+        <HomeZoneNav locale={locale} />
 
-      {/* Wereld 02: de eigen vloot. De knop "Private Boat Rental" in de
-          hero landt hier. */}
-      <HomeBoats locale={locale} base={base} />
+        {/* Wereld 01, direct onder "Alles op één eiland": de dagkiezer en de
+            kaartrail laten zien wát er speelt, per avond. */}
+        <HomeEventsTickets clubDays={clubDays} tonightStr={tonightStr} allVenues={allVenues} locale={locale} base={base} />
 
-      {/* Wereld 03: alles wat geen clubavond en geen eigen boot is. Verving
-          de dagrotator met de dagbalk -- die stond met dezelfde kiezer twee
-          keer op de pagina en duwde de rest ver naar beneden. */}
-      <HomeActivities days={experienceDays} locale={locale} base={base} />
+        {/* Wereld 02: de eigen vloot. De knop "Private Boat Rental" in de
+            hero landt hier. */}
+        <HomeBoats todayStr={todayStr || tonightStr} locale={locale} base={base} />
 
-      {/* Wereld 04: alles wat vaart. De paarse heroknop landt hier. De
-          scheiding met de landwereld gebeurt per event, niet per aanbieder --
-          zie activity-split.ts. */}
-      <HomeWaterActivities days={experienceDays} locale={locale} base={base} />
+        {/* Wereld 03: alles wat geen clubavond en geen eigen boot is. */}
+        <HomeActivities days={experienceDays} todayStr={todayStr || tonightStr} locale={locale} base={base} />
+
+        {/* Wereld 04: alles wat vaart. De paarse heroknop landt hier. De
+            scheiding met de landwereld gebeurt per event, niet per aanbieder --
+            zie activity-split.ts. */}
+        <HomeWaterActivities days={experienceDays} todayStr={todayStr || tonightStr} locale={locale} base={base} />
+      </div>
 
       {/* Boten en auto's. Stond onderaan de pagina, onder Instagram en de
           nieuwsbrief; hier volgt het direct op de strip met alles wat geen

@@ -1,7 +1,10 @@
 'use client'
 
-import { HomeCircleCollage, type CollageKaart } from './HomeCircleCollage'
+import { HomeZoneRail, type ZoneDay } from './HomeZoneRail'
 import { isOpHetWater } from '@/lib/activity-split'
+import { addDays } from '@/lib/date-label'
+import { priceNumbers } from '@/lib/price-parse'
+import { withDate } from '@/lib/event-date-param'
 
 type L5 = Record<string, string>
 const T = (nl: string, en: string, de: string, es: string, fr: string): L5 => ({ nl, en, de, es, fr })
@@ -18,6 +21,7 @@ const L = {
     'Jet-skis, catamarans, sorties en bateau et le ferry pour Formentera — tout ce qui navigue, à la journée.',
   ),
   knop: T('Bekijk het water', 'See the water', 'Aufs Wasser', 'Ver el agua', "Voir l'eau"),
+  tag: T('Op het water', 'On the water', 'Auf dem Wasser', 'En el agua', "Sur l'eau"),
 }
 
 interface FeedItem {
@@ -28,55 +32,65 @@ interface FeedItem {
 }
 
 /**
- * Wereld 04: alles wat vaart — jetski's, catamarans, boottochten, ferry's.
- *
- * De scheiding met de landwereld gebeurt per event en niet per aanbieder; zie
- * activity-split.ts voor waarom dat moet. Eén aanbieder per tegel, zodat er
- * niet vier keer dezelfde jetskiverhuurder naast elkaar staat.
+ * Wereld 04: alles wat vaart. De scheiding met de landwereld gebeurt per event
+ * en niet per aanbieder; zie activity-split.ts.
  */
 export function HomeWaterActivities({
-  days,
+  days: experienceDays = [],
+  todayStr,
   locale = 'nl',
   base,
 }: {
-  days: { date?: string; items: FeedItem[] }[]
+  days?: { date?: string; items: FeedItem[] }[]
+  todayStr: string
   locale?: string
   base: string
 }) {
-  const kaarten: CollageKaart[] = []
-  const venues = new Set<string>()
-  for (const d of days) {
-    for (const it of d.items || []) {
+  const byDate = new Map(experienceDays.map(d => [d.date || '', d.items || []]))
+
+  const days: ZoneDay[] = Array.from({ length: 7 }, (_, i) => {
+    const iso = addDays(todayStr, i)
+    const raw = byDate.get(iso) || []
+    const venues = new Set<string>()
+    const items = []
+    for (const it of raw) {
       const naam = it.ct_events?.name || it.name || ''
       if (!isOpHetWater(it.ct_venues?.typeSlug, naam)) continue
-      const beeld = it.ct_events?.cover || it.ct_events?.logo || ''
       const venue = it.ct_venues?.slug || ''
       const slug = it.ct_events?.slug || ''
-      if (!beeld || !venue || !slug || venues.has(venue)) continue
+      const image = it.ct_events?.cover || it.ct_events?.logo || ''
+      if (!venue || !slug || !image || venues.has(venue)) continue
       venues.add(venue)
-      kaarten.push({
-        href: `${base}/${it.ct_venues?.basePath || 'boat-trip'}/${venue}/${slug}`,
-        image: beeld,
-        alt: naam,
-        badge: (it.prices || '').split('-')[0].trim() || undefined,
+      const priceNum = priceNumbers(it.prices)[0]
+      items.push({
+        href: withDate(`${base}/${it.ct_venues?.basePath || 'boat-trip'}/${venue}/${slug}`, iso),
+        image,
+        title: naam,
+        venue: it.ct_venues?.name || '',
+        tag: t(L.tag, locale),
+        price: priceNum ? `€${priceNum}` : undefined,
       })
-      if (kaarten.length === 10) break
+      if (items.length === 14) break
     }
-    if (kaarten.length === 10) break
-  }
+    return { iso, items }
+  })
 
   return (
-    <HomeCircleCollage
+    <HomeZoneRail
       id="zone-wateract"
-      kaarten={kaarten}
-      titel={t(L.titel, locale)}
+      locale={locale}
+      bg="#2A2547"
+      accent="#8D7BC4"
+      kickerColor="#B9ACE6"
+      glow={{ x: '15%', y: '20%', color: 'rgba(141,123,196,.28)' }}
+      dark
+      roundedTop
       kicker={t(L.kicker, locale)}
-      tekst={t(L.tekst, locale)}
-      knop={t(L.knop, locale)}
-      href={`${base}/activities-calendar`}
-      kleur="#8D7BC4"
-      schaduw="rgba(141,123,196,.75)"
-      className="bg-neutral-50"
+      title={t(L.titel, locale)}
+      text={t(L.tekst, locale)}
+      ctaLabel={t(L.knop, locale)}
+      ctaHref={`${base}/activities-calendar`}
+      days={days}
     />
   )
 }

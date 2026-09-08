@@ -83,6 +83,38 @@ export function addDays(iso: string, n: number): string {
 }
 
 /**
+ * Dag en weekdag apart, voor een dagkiezer-knop ("08" + "Tue").
+ *
+ * Zelfde `formatToParts`-aanpak als `fmtShortDate` en om dezelfde reden: de
+ * twee stukken los opvragen in plaats van ze via `toLocaleDateString`
+ * ineens te laten samenstellen voorkomt dat een leesteken-verschil tussen
+ * Node en de browser een hydration-mismatch wordt.
+ */
+export function dayPickerParts(iso: string, locale: string): { day: string; weekday: string } {
+  const [y, m, d] = String(iso || '').split('-').map(Number)
+  if (!y || !m || !d) return { day: '', weekday: '' }
+  const parts = new Intl.DateTimeFormat(localeTag(locale), {
+    weekday: 'short', day: '2-digit', timeZone: 'UTC',
+  }).formatToParts(new Date(Date.UTC(y, m - 1, d)))
+  const get = (t: string) => parts.find(p => p.type === t)?.value ?? ''
+  return { day: get('day'), weekday: get('weekday') }
+}
+
+/** Maandnaam plus jaar, voluit: "September 2026". */
+export function monthYearLabel(iso: string, locale: string): string {
+  const [y, m, d] = String(iso || '').split('-').map(Number)
+  if (!y || !m || !d) return ''
+  return new Intl.DateTimeFormat(localeTag(locale), { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(Date.UTC(y, m - 1, d)))
+}
+
+/** Alleen de maandnaam, voluit: "September". */
+export function monthOnlyLabel(iso: string, locale: string): string {
+  const [y, m, d] = String(iso || '').split('-').map(Number)
+  if (!y || !m || !d) return ''
+  return new Intl.DateTimeFormat(localeTag(locale), { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(y, m - 1, d)))
+}
+
+/**
  * Het uur waarop de nacht overgaat in de volgende dag, in Ibiza-tijd.
  *
  * Niet op gevoel gekozen maar geteld in de feed: van de 71 events met een

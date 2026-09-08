@@ -1589,3 +1589,8 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
   .ring{width:auto;height:auto;left:auto;top:auto}
   .ring-fade{display:none}
 }
+
+/* Kaarten in HomeZoneRail: zachte intocht in plaats van in-je-gezicht
+   verschijnen. De globale reduced-motion-regel hierboven (`*{animation:none}`)
+   zet hem al uit; hier hoeft dus alleen de keyframe zelf te staan. */
+@keyframes imvHomeZoneFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}

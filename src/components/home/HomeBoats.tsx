@@ -1,7 +1,8 @@
 'use client'
 
 import { FLEET } from '@/data/fleet'
-import { HomeCircleCollage, type CollageKaart } from './HomeCircleCollage'
+import { HomeZoneRail, type ZoneCardData, type ZoneDay } from './HomeZoneRail'
+import { addDays } from '@/lib/date-label'
 
 type L5 = Record<string, string>
 const T = (nl: string, en: string, de: string, es: string, fr: string): L5 => ({ nl, en, de, es, fr })
@@ -18,39 +19,48 @@ const L = {
     '94 bateaux avec disponibilité en direct — du day-boat au superyacht.',
   ),
   knop: T('Bekijk de vloot', 'See the fleet', 'Flotte ansehen', 'Ver la flota', 'Voir la flotte'),
+  charter: T('Privéboot', 'Private charter', 'Privatcharter', 'Chárter privado', 'Charter privé'),
 }
 
 /**
- * Wereld 02: de eigen vloot, als collage met cirkel.
+ * Wereld 02: de eigen vloot.
  *
- * Boten gesorteerd van goedkoop naar duur, zodat de carrousel je van de sloep
- * van 680 naar het superjacht draagt. Elke tegel draagt de dagprijs.
+ * Boten zijn dagelijks beschikbaar — geen datumfilter zoals bij de clubavonden
+ * — dus alle zeven dagen tonen dezelfde selectie, goedkoop naar duur. Alleen
+ * de datumpil op de kaarten schuift mee met de gekozen dag.
  */
-export function HomeBoats({ locale = 'nl', base }: { locale?: string; base: string }) {
-  const kaarten: CollageKaart[] = [...FLEET]
+export function HomeBoats({ todayStr, locale = 'nl', base }: { todayStr: string; locale?: string; base: string }) {
+  const items: ZoneCardData[] = [...FLEET]
     .filter(b => b.image && b.price?.low)
     .sort((a, b) => a.price.low - b.price.low)
     .filter((b, i, a) => a.findIndex(x => x.image === b.image) === i)
     .slice(0, 12)
     .map(b => ({
-      href: `${base}/private-boat-charters`,
+      href: `${base}/private-boat-charters#boat-${b.slug}`,
       image: b.image,
-      alt: b.name ? `${b.model} ${b.name}` : b.model,
-      badge: `€${b.price.low.toLocaleString('nl-NL')}`,
+      title: b.name ? `${b.model} · ${b.name}` : b.model,
+      venue: b.marina,
+      tag: t(L.charter, locale),
+      price: `€${b.price.low.toLocaleString('nl-NL')}`,
     }))
 
+  const days: ZoneDay[] = Array.from({ length: 7 }, (_, i) => ({ iso: addDays(todayStr, i), items }))
+
   return (
-    <HomeCircleCollage
+    <HomeZoneRail
       id="zone-water"
-      kaarten={kaarten}
-      titel={t(L.titel, locale)}
+      locale={locale}
+      bg="#D5EAE2"
+      accent="#0E7C66"
+      kickerColor="#0E7C66"
+      glow={{ x: '10%', y: '20%', color: 'rgba(14,124,102,.12)' }}
+      roundedTop
       kicker={t(L.kicker, locale)}
-      tekst={t(L.tekst, locale)}
-      knop={t(L.knop, locale)}
-      href={`${base}/private-boat-charters`}
-      kleur="#0E7C66"
-      schaduw="rgba(14,124,102,.75)"
-      className="bg-white"
+      title={t(L.titel, locale)}
+      text={t(L.tekst, locale)}
+      ctaLabel={t(L.knop, locale)}
+      ctaHref={`${base}/private-boat-charters`}
+      days={days}
     />
   )
 }
