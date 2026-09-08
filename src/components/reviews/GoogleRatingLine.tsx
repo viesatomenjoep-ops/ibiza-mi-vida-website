@@ -11,12 +11,6 @@ export interface GoogleRating {
   url: string
 }
 
-const ON_GOOGLE: Record<string, string> = {
-  nl: 'op Google', en: 'on Google', de: 'auf Google', es: 'en Google', fr: 'sur Google',
-}
-const REVIEWS: Record<string, string> = {
-  nl: 'reviews', en: 'reviews', de: 'Bewertungen', es: 'reseñas', fr: 'avis',
-}
 const A11Y: Record<string, (r: string, n: number) => string> = {
   nl: (r, n) => `Google-beoordeling ${r} van 5, op basis van ${n} reviews. Opent Google Maps in een nieuw tabblad.`,
   en: (r, n) => `Google rating ${r} out of 5, based on ${n} reviews. Opens Google Maps in a new tab.`,
@@ -76,17 +70,15 @@ export function GoogleRatingLine({
       className={`inline-flex items-center gap-2 text-neutral-700 transition-colors hover:text-neutral-900 ${className}`}
       aria-label={(A11Y[locale] || A11Y.en)(shown, total)}
     >
+      {/* Alleen de sterren, geen cijfer en geen aantal -- op verzoek. Het
+          precieze getal en de "op basis van N reviews" staan nog wel in de
+          aria-label hieronder: dat blijft de volledige, natrekbare bewering
+          voor wie met een schermlezer leest, alleen ziende bezoekers zien nu
+          alleen de sterren zelf. */}
       <span className="flex items-center gap-0.5" aria-hidden>
         {Array.from({ length: 5 }, (_, i) => (
           <Star key={i} size={13} className={i < filled ? 'fill-gold text-gold' : 'text-neutral-300'} />
         ))}
-      </span>
-      <span aria-hidden className="text-sm font-bold tabular-nums text-neutral-900">{shown}</span>
-      {/* neutral-600 en niet neutral-500. Op wit meet 500 4,74:1 — dat haalt
-          AA (4,5) net, maar dit is 12px-tekst en dan is een marge van 0,24 geen
-          marge. 600 zit op ongeveer 7,4:1. */}
-      <span aria-hidden className="text-xs text-neutral-600">
-        {ON_GOOGLE[locale] || ON_GOOGLE.en} · {total} {REVIEWS[locale] || REVIEWS.en}
       </span>
     </a>
   )

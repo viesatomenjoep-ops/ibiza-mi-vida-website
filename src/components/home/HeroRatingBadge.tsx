@@ -10,11 +10,17 @@ export interface HeroRating {
   url: string
 }
 
-const LABEL: Record<string, string> = {
-  nl: 'op Google', en: 'on Google', de: 'auf Google', es: 'en Google', fr: 'sur Google',
-}
-const REVIEWS: Record<string, string> = {
-  nl: 'reviews', en: 'reviews', de: 'Bewertungen', es: 'reseñas', fr: 'avis',
+/**
+ * Volledige bewering voor wie met een schermlezer leest: cijfer en aantal
+ * blijven daar staan, ook nu ze visueel weg zijn -- alleen ziende bezoekers
+ * zien voortaan enkel de sterren.
+ */
+const A11Y: Record<string, (r: string, n: number) => string> = {
+  nl: (r, n) => `Google-beoordeling ${r} van 5, op basis van ${n} reviews. Opent Google Maps in een nieuw tabblad.`,
+  en: (r, n) => `Google rating ${r} out of 5, based on ${n} reviews. Opens Google Maps in a new tab.`,
+  de: (r, n) => `Google-Bewertung ${r} von 5, basierend auf ${n} Rezensionen. Öffnet Google Maps in einem neuen Tab.`,
+  es: (r, n) => `Valoración de Google ${r} sobre 5, basada en ${n} reseñas. Abre Google Maps en una pestaña nueva.`,
+  fr: (r, n) => `Note Google ${r} sur 5, basée sur ${n} avis. Ouvre Google Maps dans un nouvel onglet.`,
 }
 
 /**
@@ -55,7 +61,11 @@ export function HeroRatingBadge({ rating, total, url, locale }: HeroRating & { l
       target="_blank"
       rel="noopener noreferrer"
       className="pointer-events-auto mt-6 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-black/35 px-4 py-2 text-white backdrop-blur-sm transition-colors hover:border-white/45 hover:bg-black/50"
+      aria-label={(A11Y[locale] || A11Y.en)(nf.format(rating), total)}
     >
+      {/* Alleen de sterren, geen cijfer en geen aantal -- op verzoek. De
+          precieze bewering staat nog in aria-label hieronder voor wie met een
+          schermlezer leest. */}
       <span className="flex items-center gap-0.5" aria-hidden>
         {Array.from({ length: 5 }, (_, i) => (
           <Star
@@ -64,10 +74,6 @@ export function HeroRatingBadge({ rating, total, url, locale }: HeroRating & { l
             className={i < filled ? 'fill-gold-soft text-gold-soft' : 'text-white/35'}
           />
         ))}
-      </span>
-      <span className="text-sm font-bold tabular-nums">{nf.format(rating)}</span>
-      <span className="text-xs font-medium text-white/70">
-        {LABEL[locale] || LABEL.en} · {total} {REVIEWS[locale] || REVIEWS.en}
       </span>
     </a>
   )

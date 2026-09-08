@@ -113,12 +113,11 @@ export async function GoogleReviews({ locale }: { locale: string }) {
             <h2 className="font-serif text-2xl font-black tracking-tight text-neutral-900 md:text-3xl">
               {HEADING[l]}
             </h2>
+            {/* Alleen de sterren, geen cijfer en geen aantal -- op verzoek.
+                Beide staan nog in de aria-label, voor wie met een
+                schermlezer leest. */}
             <div className="mt-3 flex flex-wrap items-center gap-2.5">
-              <span className="font-serif text-2xl font-black leading-none text-neutral-900">{ratingLabel}</span>
-              <Stars rating={data.rating} label={`${ratingLabel} ${OUT_OF[l]}`} />
-              <span className="text-sm text-neutral-600">
-                {data.total} {ON_GOOGLE[l]}
-              </span>
+              <Stars rating={data.rating} label={`${ratingLabel} ${OUT_OF[l]} — ${data.total} ${ON_GOOGLE[l]}`} />
             </div>
           </div>
           <a
