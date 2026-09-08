@@ -401,50 +401,64 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
           eventafbeelding erachter -- precies wat er gemeld werd op de
           Swedish House Mafia-pagina, en dus op alle zeven pagina-soorten
           tegelijk. Nu begint de hero overal precies onder de balk. */}
-      <section className="relative mt-[var(--nav-h)] flex h-[46vh] w-full flex-col justify-end overflow-hidden rounded-b-[28px] md:h-[58vh]" aria-label={`${eventName} hero`}>
+      <section className="mt-[var(--nav-h)]" aria-label={`${eventName} hero`}>
         <BackButton locale={locale} fallbackHref={`/${locale}/${basePath}/${club.slug}`} variant="top" />
-        {eventCover && (
-          <>
-            {/* Het artwork van ClubTickets is vrijwel altijd vierkant — in een
-                steekproef van tien beelden was het tien keer 1:1. Met
-                object-cover in een hero van ruim 2,8:1 verdween daar zo'n
-                tweederde van, inclusief de artiestennaam die meestal bovenin
-                de plaat staat. Precies het deel waar iemand op klikt.
+        {/* ── Beeldvlak ────────────────────────────────────────────────────
+            aspect-square op mobiel, niet h-[46vh]. Het artwork van
+            ClubTickets is vrijwel altijd vierkant -- in een steekproef van
+            tien beelden was het tien keer 1:1. Met een vaste viewporthoogte
+            bleef er boven en onder de plaat een donkere strook over (de
+            vervaagde achtergrond), en precies die strook zat tussen de
+            navigatiebalk en het beeld. Een vierkante houder laat een
+            vierkante plaat exact passen: geen strook meer.
 
-                Dus: de plaat heel laten met object-contain, en de lege ruimte
-                links en rechts vullen met een uitvergrote, vervaagde versie van
-                het beeld zelf. Voor een breed beeld verandert er niets — dat
-                vult de hero nog steeds en de achtergrond blijft onzichtbaar.
+            Op desktop zou vierkant en volle breedte een beeld van meer dan
+            duizend pixels hoog opleveren, dus daar een liggende verhouding
+            waarin de plaat gecentreerd staat en de vervaagde versie de
+            zijkanten vult. Daar valt geen strook tussen balk en beeld, want
+            de plaat raakt daar de boven- en onderrand. */}
+        <div className="relative w-full overflow-hidden rounded-b-[28px] bg-neutral-100 aspect-square md:aspect-[16/7]">
+          {eventCover && (
+            <>
+              {/* De plaat heel laten met object-contain, en de lege ruimte
+                  ernaast vullen met een uitvergrote, vervaagde versie van het
+                  beeld zelf. Dezelfde src, sizes en quality als de voorgrond,
+                  zodat de browser één keer downloadt en het beeld twee keer
+                  tekent in plaats van twee bestanden op te halen. */}
+              <Image
+                src={heroBackdrop}
+                alt=""
+                aria-hidden
+                fill
+                sizes="100vw"
+                quality={60}
+                className={`object-cover ${heroBackdrop === eventCover ? 'scale-125 blur-2xl' : 'blur-sm'}`}
+              />
+              <Image
+                src={eventCover}
+                alt={eventName}
+                fill
+                priority
+                sizes="100vw"
+                quality={85}
+                className="object-contain object-center"
+              />
+            </>
+          )}
+        </div>
 
-                Dezelfde src, sizes en quality als de voorgrond, zodat de
-                browser één keer downloadt en het beeld twee keer tekent in
-                plaats van twee bestanden op te halen. */}
-            <Image
-              src={heroBackdrop}
-              alt=""
-              aria-hidden
-              fill
-              sizes="100vw"
-              quality={60}
-              className={`object-cover brightness-50 ${heroBackdrop === eventCover ? 'scale-125 blur-2xl' : 'blur-sm'}`}
-            />
-            <Image
-              src={eventCover}
-              alt={eventName}
-              fill
-              priority
-              sizes="100vw"
-              quality={85}
-              className="object-contain object-center"
-            />
-          </>
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-velvet-obsidian via-velvet-obsidian/50 to-transparent" />
-
-        <div className="relative z-10 w-full px-6 pb-8 md:px-10 md:pb-10">
-          <h1 className="font-serif text-4xl font-bold text-white drop-shadow-lg md:text-5xl lg:text-6xl">{eventName}</h1>
-          <div className="mt-4 flex flex-wrap gap-4 font-bold text-white/90">
-            <Link href={`/${locale}/${basePath}/${club.slug}`} className="flex items-center gap-1.5 transition-colors hover:text-white">
+        {/* ── Titel en locatie, ONDER het beeld ────────────────────────────
+            Stonden als witte tekst over de onderste helft van de plaat, met
+            een donker verloop eronder om ze leesbaar te houden. Dat verloop
+            vrat het beeld op -- bij een lichte plaat (de Black Coffee-flyer
+            is bijna wit) bleef de tekst alsnog slecht leesbaar, en bij een
+            drukke plaat verdween de artiestennaam achter de eigen titel.
+            Zwarte tekst op de witte pagina eronder is altijd leesbaar,
+            ongeacht wat er op de plaat staat, en de plaat blijft heel. */}
+        <div className="mx-auto max-w-7xl px-4 pt-6 md:px-8 md:pt-8">
+          <h1 className="font-serif text-3xl font-black leading-tight tracking-tight text-black md:text-5xl">{eventName}</h1>
+          <div className="mt-3 flex flex-wrap gap-4 font-bold">
+            <Link href={`/${locale}/${basePath}/${club.slug}`} className="flex items-center gap-1.5 text-neutral-700 transition-colors hover:text-black">
               <MapPin size={16} className="text-ibiza-green" />
               {club.name}
             </Link>

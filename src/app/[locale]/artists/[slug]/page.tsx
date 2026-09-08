@@ -327,33 +327,44 @@ export default async function ArtistPage({ params }: Props) {
           verdwenen dan achter een ondoorzichtig wit vlak. Nu begint de hero
           precies onder de balk, ongeacht schermgrootte (--nav-h verschilt
           zelf al tussen mobiel en desktop). */}
-      <section className="relative mt-[var(--nav-h)] h-[440px] md:h-[560px] overflow-hidden flex items-center justify-center text-center px-4 rounded-b-[36px] bg-black">
-        <Image
-          src={headerImage}
-          alt={artist.name}
-          fill
-          priority
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/15 z-10" />
+      {/* ── Beeld en tekst gescheiden ────────────────────────────────────
+          Stond als wit-op-foto met een donker verloop eroverheen. Op een
+          drukke of lichte plaat -- en dat is het merendeel van de
+          eventflyers uit de feed -- bleef dat slecht leesbaar, hoe zwaar het
+          verloop ook werd gemaakt. Bovendien vrat dat verloop het beeld op
+          waar de bezoeker juist voor komt.
 
-        <div className="relative z-20 max-w-3xl mx-auto text-white pt-32">
+          Nu: de plaat heel, zonder overlay, en alle tekst eronder op de
+          egale sectieachtergrond. Altijd leesbaar, ongeacht wat er op de
+          plaat staat. */}
+      <section className="mt-[var(--nav-h)]">
+        <div className="relative h-[300px] overflow-hidden rounded-b-[36px] bg-black md:h-[420px]">
+          <Image
+            src={headerImage}
+            alt={artist.name}
+            fill
+            priority
+            className="object-cover object-center"
+          />
+        </div>
+
+        <div className="mx-auto max-w-3xl px-4 pt-7 text-center md:pt-9">
           {artist.venueName && artist.venueSlug ? (
             <Link
               href={`/${locale}/${artist.venueBasePath}/${artist.venueSlug}`}
-              className="inline-block bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-ibiza-green hover:bg-white/20 transition-all mb-3 hover:scale-[1.02]"
+              className="inline-block bg-white/15 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-white transition-all mb-3 hover:bg-white/25 hover:scale-[1.02]"
             >
               {RESIDENT_AT[locale]} {artist.venueName}
             </Link>
           ) : (
-            <span className="inline-block bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-ibiza-green mb-3">
+            <span className="inline-block bg-white/15 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-white mb-3">
               {ARTIST_LABEL[locale]}
             </span>
           )}
-          <h1 className="text-4xl md:text-7xl font-serif font-black tracking-tight mb-4 drop-shadow-md uppercase text-white">
+          <h1 className="text-4xl md:text-6xl font-serif font-black tracking-tight mb-4 uppercase text-white">
             {artist.name}
           </h1>
-          <p className="text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-white/85 max-w-2xl mx-auto leading-relaxed">
             {INTRO_TEXT[locale].split('%NAME%')[0]}
             <span className="font-bold text-white">{artist.name}</span>
             {INTRO_TEXT[locale].split('%NAME%')[1]}
