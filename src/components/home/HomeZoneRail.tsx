@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, type RefObject } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 import { optImg } from '@/lib/img'
 import { addDays, dayPickerParts, fmtShortDate, monthOnlyLabel, monthYearLabel } from '@/lib/date-label'
 
@@ -309,16 +309,26 @@ export function HomeZoneRail({
                 hield het op: wie over twee weken op Ibiza is kon hier niet zien
                 wat er dan speelt. Terug kan niet verder dan de eerste week --
                 de feed bevat geen datums uit het verleden. */}
-            <div className="flex items-center gap-2">
+            {/* Was h-7 met een getypte '‹'/'›' als tekst: 28px en een
+                lettertekenpijl die per browser en besturingssysteem anders
+                weegt -- op de ene machine een dun streepje, op de andere
+                vet en scheef uitgelijnd. Dezelfde Lucide-chevron als de
+                scrollpijlen van de kaartrail hiernaast lost beide problemen
+                tegelijk op: een SVG-icoon oogt overal identiek, en op
+                dezelfde maat (44px) vallen de twee knoppenparen niet meer
+                uit elkaar. */}
+            <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={() => gaNaarWeek(-1)}
                 disabled={week === 0}
                 aria-label={t(L.previous, locale)}
-                className="grid h-7 w-7 flex-none place-items-center rounded-full border text-[13px] transition-opacity disabled:opacity-30"
+                className="grid h-11 w-11 flex-none place-items-center rounded-full border-[1.5px] transition-opacity duration-200 disabled:opacity-30"
                 style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
+                onMouseEnter={e => { if (!e.currentTarget.disabled) { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' } }}
+                onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
               >
-                <span aria-hidden>‹</span>
+                <ChevronLeft size={18} strokeWidth={2.5} aria-hidden />
               </button>
               <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.2em]" style={{ color: captionMuted }}>
                 {monthLabel}
@@ -329,10 +339,14 @@ export function HomeZoneRail({
                 disabled={laadt || !loadWeek}
                 aria-label={t(L.next, locale)}
                 aria-busy={laadt || undefined}
-                className="grid h-7 w-7 flex-none place-items-center rounded-full border text-[13px] transition-opacity disabled:opacity-30"
+                className="grid h-11 w-11 flex-none place-items-center rounded-full border-[1.5px] transition-opacity duration-200 disabled:opacity-30"
                 style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
+                onMouseEnter={e => { if (!e.currentTarget.disabled) { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' } }}
+                onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
               >
-                <span aria-hidden>{laadt ? '·' : '›'}</span>
+                {laadt
+                  ? <Loader2 size={18} strokeWidth={2.5} className="animate-spin" aria-hidden />
+                  : <ChevronRight size={18} strokeWidth={2.5} aria-hidden />}
               </button>
             </div>
             <div className="grid grid-cols-7 gap-[clamp(4px,1.5vw,10px)]">
