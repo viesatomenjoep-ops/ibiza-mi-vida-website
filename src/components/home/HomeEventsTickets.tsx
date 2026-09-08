@@ -98,10 +98,16 @@ export function HomeEventsTickets({
     <HomeZoneRail
       id="zone-events"
       locale={locale}
-      bg="#F6E3E8"
+      // Was een verzadigd roze (#F6E3E8). Op verzoek naar hetzelfde
+      // lichtgrijs als de rest van de site -- de vier felle vlakken van de
+      // werelden lazen als een pretpark naast elkaar, en dat moest zakelijker
+      // en luxer ogen. De accentkleur (roze, #E14D68) blijft wél staan: die
+      // draagt de knop, de actieve dag en de kleurbies in het menu, en is de
+      // enige plek waar je nog kunt zien welke wereld dit is.
+      bg="#FFFFFF"
       accent="#E14D68"
       kickerColor="#E14D68"
-      glow={{ x: '85%', y: '10%', color: 'rgba(225,77,104,.12)' }}
+      glow={{ x: '85%', y: '10%', color: 'rgba(225,77,104,.06)' }}
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}
       text={t(L.tekst, locale)}

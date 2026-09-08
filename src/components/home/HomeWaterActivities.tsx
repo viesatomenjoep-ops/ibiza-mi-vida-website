@@ -95,11 +95,19 @@ export function HomeWaterActivities({
     <HomeZoneRail
       id="zone-wateract"
       locale={locale}
-      bg="#2A2547"
+      // Was de enige donkere wereld van de vier (#2A2547, wit-op-donker) --
+      // dat las als een uitzondering te midden van drie lichte vlakken en niet
+      // als een bewust vierde stijl. Nu hetzelfde lichtgrijs, met `dark`
+      // weggehaald zodat HomeZoneRail zijn tekst- en pijlkleuren omdraait naar
+      // donker-op-licht net als de andere drie. kickerColor werd gekozen als
+      // lichtlila (#B9ACE6) juist om op dat donkere vlak te lezen; op een
+      // lichte ondergrond is dat te bleek, dus een dieper paars in plaats
+      // daarvan. De accentkleur (#8D7BC4) blijft dragend voor knop en
+      // actieve dag, ongewijzigd.
+      bg="#F4F3EF"
       accent="#8D7BC4"
-      kickerColor="#B9ACE6"
-      glow={{ x: '15%', y: '20%', color: 'rgba(141,123,196,.28)' }}
-      dark
+      kickerColor="#6B5A9E"
+      glow={{ x: '15%', y: '20%', color: 'rgba(141,123,196,.1)' }}
       roundedTop
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}

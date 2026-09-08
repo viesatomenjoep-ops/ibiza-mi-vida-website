@@ -62,10 +62,13 @@ export function HomeBoats({ todayStr, locale = 'nl', base }: { todayStr: string;
     <HomeZoneRail
       id="zone-water"
       locale={locale}
-      bg="#D5EAE2"
+      // Was verzadigd mintgroen (#D5EAE2), nu hetzelfde lichtgrijs als de
+      // andere drie werelden -- zie de toelichting in HomeEventsTickets. De
+      // accentkleur (groen, #0E7C66) blijft dragend voor knop en actieve dag.
+      bg="#F4F3EF"
       accent="#0E7C66"
       kickerColor="#0E7C66"
-      glow={{ x: '10%', y: '20%', color: 'rgba(14,124,102,.12)' }}
+      glow={{ x: '10%', y: '20%', color: 'rgba(14,124,102,.06)' }}
       roundedTop
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}

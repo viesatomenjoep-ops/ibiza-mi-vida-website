@@ -267,8 +267,16 @@ export function HomeZoneRail({
       />
 
       <div className="relative mx-auto max-w-[1180px] px-6">
-        <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-5">
-          <div className="max-w-[620px]">
+        {/* Gecentreerd in plaats van "titel links, knop rechts". Die opzet
+            werkte prima op een gewone laptop, maar op een breed bureaublad
+            (1920px en breder) liet de 1180px-container zoveel lucht over dat
+            de titel links bleef hangen en de knop ver rechts kwam te staan —
+            het geheel oogde uit balans in plaats van gecentreerd, op elk
+            scherm. Nu is het één kolom, in het midden, met een vaste
+            leesbreedte: dezelfde vorm op een telefoon en op een ultrabreed
+            beeldscherm. */}
+        <div className="mx-auto flex max-w-[640px] flex-col items-center gap-5 text-center">
+          <div>
             <span className="block font-sans text-[11px] font-extrabold uppercase tracking-[0.26em]" style={{ color: kickerColor }}>
               {kicker}
             </span>
@@ -290,8 +298,13 @@ export function HomeZoneRail({
           </a>
         </div>
 
-        <div className="mt-9 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex min-w-0 flex-1 flex-col gap-2.5" style={{ flexBasis: 300, maxWidth: 600 }}>
+        {/* justify-center i.p.v. justify-between: de dagkiezer (max 600px) en
+            de kleine scrollpijlen ernaast lieten op een breed scherm dezelfde
+            lucht vallen als de kop hierboven -- links de knoppen, dan een gat
+            tot aan de rand. Nu staat het cluster als geheel in het midden,
+            ongeacht hoe breed het scherm is. */}
+        <div className="mt-9 flex flex-wrap items-center justify-center gap-6">
+          <div className="flex min-w-0 flex-col items-center gap-2.5 text-center" style={{ flexBasis: 300, maxWidth: 600 }}>
             {/* Maandlabel met weekpijlen. De kiezer toonde zeven dagen en daar
                 hield het op: wie over twee weken op Ibiza is kon hier niet zien
                 wat er dan speelt. Terug kan niet verder dan de eerste week --
