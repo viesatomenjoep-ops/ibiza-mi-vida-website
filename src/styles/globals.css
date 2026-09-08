@@ -37,9 +37,26 @@
         een dieper vlak dat wél 5,04 haalt met wit, en voor kleine
         gekleurde teksten staat er per accent een donkere inktvariant. */
   --pantone-orange-fill:#C2451F;    /* wit erop: 5,04 */
-  --pantone-orange-ink:#B03D19;     /* op Cloud: 5,13 */
+  /* #9C3211 en niet #B03D19: die laatste kwam op de oranje sectietint uit op
+     precies 4,50 -- exact de AA-grens, en dat is geen marge voor een kicker
+     van 11px. Deze haalt 5,52 op de tint en 6,29 op Cloud Dancer. */
+  --pantone-orange-ink:#9C3211;
   --pantone-sun-ink:#5F6A0E;        /* op Cloud: 5,10 */
   --pantone-violet-ink:#4A3AA8;     /* op Cloud: 7,36 */
+
+  /* ── Sectietinten ─────────────────────────────────────────────────────
+        Elke wereld op de homepage krijgt een eigen achtergrond in de tint
+        van zijn accent, zodat je aan de kleur ziet in welke sectie je zit.
+        Wit-en-Cloud-om-en-om was daar te subtiel voor: het verschil tussen
+        #FFFFFF en #F0EEE9 zie je op een telefoon in de zon niet.
+
+        Bewust bleke tinten en geen volle accentvlakken. Alle vier houden
+        donkere tekst ver boven de norm (gemeten 13,5 tot 15,9 op #141414),
+        dus de kleur kan nooit ten koste van de leesbaarheid gaan. */
+  --zone-bg-orange:#F7DACE;         /* donkere tekst: 13,93 */
+  --zone-bg-violet:#DFDAF3;         /* donkere tekst: 13,56 */
+  --zone-bg-sun:#E9F0BB;            /* donkere tekst: 15,48 */
+  --zone-bg-neutral:#E6E4DE;        /* de vierde wereld; accent is Darkest Hour */
 
   /* Tekstkleur die bovenop elk accentvlak leesbaar is. */
   --ink-on-sun:var(--pantone-darkest);

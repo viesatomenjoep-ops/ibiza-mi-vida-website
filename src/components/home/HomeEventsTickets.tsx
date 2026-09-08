@@ -105,7 +105,7 @@ export function HomeEventsTickets({
       // 3,40:1 en de knop draagt een label. --pantone-orange-fill is dezelfde
       // kleur een slag dieper en komt op 5,04:1. De bladkleur blijft wel de
       // gloed voeden, waar geen tekst overheen komt.
-      bg="#FFFFFF"
+      bg="var(--zone-bg-orange)"
       accent="var(--pantone-orange-fill)"
       accentInk="#fff"
       kickerColor="var(--pantone-orange-ink)"

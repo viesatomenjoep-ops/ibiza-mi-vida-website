@@ -105,7 +105,7 @@ export function HomeActivities({
       // Darkest Hour erop is het 10,22:1. Vandaar donkere tekst op de knop en
       // op de actieve dag. De kicker gebruikt een diep olijf, want de
       // bladkleur als tekst op een lichte ondergrond haalt maar 1,18:1.
-      bg="#FFFFFF"
+      bg="var(--zone-bg-sun)"
       accent="var(--pantone-sun-glare)"
       accentInk="var(--ink-on-sun)"
       kickerColor="var(--pantone-sun-ink)"

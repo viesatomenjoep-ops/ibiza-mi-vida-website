@@ -102,9 +102,11 @@ export function HomeWaterActivities({
       // een eigen gezicht te geven, en haalt met wit 13,97:1 -- veruit het
       // hoogste contrast van alle vier.
       //
-      // Achtergrond Cloud Dancer, zodat wit en Cloud Dancer om en om lopen
-      // over de vier secties.
-      bg="var(--pantone-cloud)"
+      // Achtergrond: een warme neutrale tint. De andere drie werelden dragen
+      // de kleur van hun accent; deze heeft Darkest Hour en dat kan niet als
+      // achtergrond, dus een neutrale tint die duidelijk verschilt van de
+      // oranje, violette en geelgroene buren.
+      bg="var(--zone-bg-neutral)"
       accent="var(--pantone-darkest)"
       accentInk="#fff"
       kickerColor="var(--pantone-darkest)"

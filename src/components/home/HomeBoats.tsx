@@ -67,11 +67,11 @@ export function HomeBoats({ todayStr, locale = 'nl', base }: { todayStr: string;
       // zeeblauw te vallen. Haalt met witte tekst 5,34:1, dus de bladkleur
       // kan hier ongewijzigd blijven.
       //
-      // Achtergrond Cloud Dancer (11-4201 TPG), dat de lichtgrijze tint van
-      // hiervoor vervangt. De vier werelden wisselen af tussen wit en Cloud
-      // Dancer, zodat je de grens tussen twee secties ziet zonder dat er een
-      // lijn of een fel vlak voor nodig is.
-      bg="var(--pantone-cloud)"
+      // Achtergrond: een bleke violettint van datzelfde accent. Elke wereld
+      // draagt nu de kleur van zijn eigen accent, zodat je aan de achtergrond
+      // ziet in welke sectie je zit -- wit-en-Cloud-om-en-om was daarvoor te
+      // subtiel.
+      bg="var(--zone-bg-violet)"
       accent="var(--pantone-violet)"
       accentInk="#fff"
       kickerColor="var(--pantone-violet-ink)"

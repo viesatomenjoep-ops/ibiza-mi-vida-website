@@ -245,9 +245,9 @@ export function HomeZoneRail({
   }
 
   const day = days[selected] || days[0]
+  // Eén lijst, één kaartvorm. `featured`/`rest` stonden hier toen de eerste
+  // kaart een ander formaat had dan de rest; dat onderscheid is weg.
   const items = day?.items || []
-  const featured = items[0]
-  const rest = items.slice(1)
 
   const scrollByCard = (dir: 1 | -1) => {
     const el = railRef.current
@@ -445,7 +445,7 @@ export function HomeZoneRail({
         className="relative mt-7 flex cursor-grab gap-4 overflow-x-auto pb-6 pt-2 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [overscroll-behavior-x:contain] [&::-webkit-scrollbar]:hidden"
         style={{ paddingLeft: 'max(24px,calc((100vw - 1132px)/2))', paddingRight: 'max(24px,calc((100vw - 1132px)/2))', scrollPaddingLeft: 'max(24px,calc((100vw - 1132px)/2))' }}
       >
-        {!featured ? (
+        {items.length === 0 ? (
           <div
             className="flex min-h-[160px] w-full max-w-[560px] flex-none items-center justify-center rounded-[22px] px-6 text-center text-sm"
             style={{
@@ -456,22 +456,33 @@ export function HomeZoneRail({
             {t(L.empty, locale)}
           </div>
         ) : (
-          <>
+          /* Eén kaartvorm voor alles, op verzoek: het volle beeld met de tekst
+             eroverheen. Er waren er twee -- de eerste kaart groot met beeld en
+             overlay, de rest klein met een duimnagel van 118px links en de
+             tekst ernaast. Die twee vormen naast elkaar in dezelfde rij lazen
+             als twee verschillende soorten aanbod terwijl het gewoon dezelfde
+             lijst is. Nu dragen alle kaarten hetzelfde formaat; alleen de
+             eerste houdt het label "uitgelicht". */
+          items.map((c, i) => (
             <a
-              href={featured.href}
+              key={c.href + i}
+              href={c.href}
               draggable={false}
-              className="group relative flex min-h-[232px] w-[clamp(300px,88vw,560px)] flex-none flex-col justify-end overflow-hidden rounded-[22px] bg-[#141414] p-5 text-white shadow-[0_24px_50px_-24px_rgba(0,0,0,.6)] transition-transform duration-[350ms] [transition-timing-function:cubic-bezier(.2,.8,.2,1)] hover:-translate-y-1"
+              className="group relative flex min-h-[232px] w-[clamp(300px,88vw,560px)] flex-none flex-col justify-end overflow-hidden rounded-[22px] bg-[#141414] p-5 text-white shadow-[0_24px_50px_-24px_rgba(0,0,0,.6)] transition-transform duration-[350ms] [transition-timing-function:cubic-bezier(.2,.8,.2,1)] [animation:imvHomeZoneFade_.5s_ease_both] hover:-translate-y-1"
               style={{ scrollSnapAlign: 'start' }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={optImg(featured.image, 720)}
+                src={optImg(c.image, 720)}
                 alt=""
                 draggable={false}
-                loading="lazy"
+                loading={i === 0 ? 'eager' : 'lazy'}
                 decoding="async"
-                className="pointer-events-none absolute inset-0 h-full w-full select-none object-cover"
+                className="pointer-events-none absolute inset-0 h-full w-full select-none object-cover transition-transform duration-[600ms] group-hover:scale-[1.04]"
               />
+              {/* Het verloop draagt de leesbaarheid van de tekst eronder. Bijna
+                  doorzichtig aan de bovenkant zodat het beeld heel blijft, en
+                  stevig onderin waar de titel en de prijs staan. */}
               <div className="pointer-events-none absolute inset-0" style={{ background: 'linear-gradient(180deg,rgba(0,0,0,.05) 25%,rgba(0,0,0,.8) 100%)' }} />
               <span
                 className="absolute left-3.5 top-3.5 rounded-full px-3 py-2 font-sans text-xs font-bold leading-none"
@@ -479,73 +490,27 @@ export function HomeZoneRail({
               >
                 {fmtShortDate(day.iso, locale)}
               </span>
-              <span className="absolute right-4 top-[18px] font-sans text-[10px] font-extrabold uppercase tracking-[0.24em] text-white/85">
-                {t(L.featured, locale)}
-              </span>
+              {i === 0 && (
+                <span className="absolute right-4 top-[18px] font-sans text-[10px] font-extrabold uppercase tracking-[0.24em] text-white/85">
+                  {t(L.featured, locale)}
+                </span>
+              )}
               <div className="relative flex flex-col gap-1.5">
                 <strong className="font-display text-[clamp(22px,3vw,30px)] font-extrabold leading-[1.08] tracking-[-0.02em]" style={{ textWrap: 'balance' as any }}>
-                  {featured.title}
+                  {c.title}
                 </strong>
-                {(featured.venue || featured.time) && (
+                {(c.venue || c.time) && (
                   <span className="text-sm text-white/80">
-                    {featured.venue}{featured.venue && featured.time ? ' · ' : ''}{featured.time}
+                    {c.venue}{c.venue && c.time ? ' \u00b7 ' : ''}{c.time}
                   </span>
                 )}
                 <span className="mt-2 flex items-end justify-between gap-2">
-                  <TagDot color={accent} label={featured.tag} />
-                  <PriceTag price={featured.price} locale={locale} size="lg" />
+                  <TagDot color={accent} label={c.tag} />
+                  <PriceTag price={c.price} locale={locale} size="lg" />
                 </span>
               </div>
             </a>
-
-            {rest.map((c, i) => (
-              <a
-                key={c.href + i}
-                href={c.href}
-                draggable={false}
-                className="group grid w-[clamp(280px,82vw,392px)] flex-none grid-cols-[118px_minmax(0,1fr)] gap-3.5 rounded-[22px] bg-white p-2.5 text-[#141414] shadow-[0_14px_34px_-22px_rgba(0,0,0,.45)] transition-[transform,box-shadow] duration-[350ms] [transition-timing-function:cubic-bezier(.2,.8,.2,1)] [animation:imvHomeZoneFade_.5s_ease_both] hover:-translate-y-1 hover:shadow-[0_22px_44px_-22px_rgba(0,0,0,.5)]"
-                style={{ scrollSnapAlign: 'start' }}
-              >
-                <div className="relative h-40 overflow-hidden rounded-[14px] bg-[#141414]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={optImg(c.image, 480)}
-                    alt=""
-                    draggable={false}
-                    loading="lazy"
-                    decoding="async"
-                    className="block h-full w-full select-none object-cover"
-                  />
-                  <span className="absolute left-2.5 top-2.5 whitespace-nowrap rounded-full bg-[#141414] px-2.5 py-[7px] font-sans text-xs font-semibold leading-none text-white">
-                    {fmtShortDate(day.iso, locale)}
-                  </span>
-                </div>
-                <div className="flex min-w-0 flex-col py-1.5 pr-1.5">
-                  <strong className="font-display text-[17px] font-bold leading-[1.2] tracking-[-0.01em]" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' } as any}>
-                    {c.title}
-                  </strong>
-                  {c.venue && (
-                    <span className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-sm text-black/60">{c.venue}</span>
-                  )}
-                  {c.time && (
-                    <span className="mt-1.5 flex items-center gap-1.5 text-[13px] font-medium text-[#141414]">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" aria-hidden>
-                        <circle cx="12" cy="12" r="9" /><polyline points="12 7 12 12 15 14" />
-                      </svg>
-                      {c.time}
-                    </span>
-                  )}
-                  {/* items-end: het prijsblok is twee regels ("Vanaf:" boven het
-                      bedrag), het label ernaast één. Uitlijnen op de onderkant
-                      zet het bedrag en het label op dezelfde optische lijn. */}
-                  <span className="mt-auto flex items-end justify-between gap-2 pt-2.5">
-                    <TagDot color={accent} label={c.tag} />
-                    <PriceTag price={c.price} locale={locale} size="sm" />
-                  </span>
-                </div>
-              </a>
-            ))}
-          </>
+          ))
         )}
       </div>
     </section>
