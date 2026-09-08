@@ -49,6 +49,7 @@ export type RouteKey =
   | 'amnesia-venue'
   | 'dc10-venue'
   | 'airport-transfer'
+  | 'vip-transfer'
   | 'nightlife-guide'
   | 'dress-code'
   | 'getting-around'
@@ -178,6 +179,17 @@ export const ROUTE_SLUGS: Record<RouteKey, SlugSet> = {
     fr: 'transfert-aeroport-ibiza',
     es: 'traslado-aeropuerto-ibiza',
   },
+  // VIP-transfer met chauffeur: de commerciële kant van het vervoer, tegenover
+  // de gids op 'airport-transfer' die uitlegt hóe je van het vliegveld komt.
+  // Beide bestaan naast elkaar omdat ze een andere vraag beantwoorden; de gids
+  // is daarom hertiteld naar die smallere intentie.
+  'vip-transfer': {
+    en: 'vip-transfer-ibiza',
+    nl: 'vip-transfer-ibiza',
+    de: 'vip-transfer-ibiza',
+    fr: 'vip-transfer-ibiza',
+    es: 'vip-transfer-ibiza',
+  },
   // ── Gidsen ─────────────────────────────────────────────────────────────
   //
   // Drie informatieve intenties die geen bestaande route droeg. De toets per
@@ -294,6 +306,11 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   'dc10-venue': ['en'],
   // Vijf talen sinds 07-09: AirportTransferGuide + airport-transfer-copy.ts.
   'airport-transfer': ['en', 'nl', 'de', 'es', 'fr'],
+  // Alleen Engels. De vier andere talen komen er pas bij als er echt een
+  // vertaalde pagina rendert — een hreflang naar een 404 laat Google het hele
+  // cluster weggooien, en dat is erger dan geen alternate. Daarom is de slug
+  // voorlopig in alle talen gelijk: er valt nog niets te verwijzen.
+  'vip-transfer': ['en'],
   // Vijf talen sinds 07-09: NightlifeGuide + nightlife-copy.ts.
   'nightlife-guide': ['en', 'nl', 'de', 'es', 'fr'],
   // Vijf talen sinds 07-09: één component (DressCodeGuide) met de tekst in

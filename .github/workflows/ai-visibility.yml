@@ -1,0 +1,85 @@
+# Wekelijkse AI-zichtbaarheidsmeting.
+#
+# Controleert of de antwoordmachines de site kunnen lezen: mogen ze erin
+# volgens robots.txt, komen ze er in de praktijk ook echt in, en staat er een
+# citeerbaar antwoord in de kale HTML. Zie de kop van scripts/ai-visibility.mjs
+# voor waarom dit wél te meten is en "noemt ChatGPT ons" niet.
+#
+# Waarom een aparte workflow en niet bij check:seo:
+#
+#  1. Die draait tegen een lokale build en controleert wat de code produceert.
+#     Deze draait tegen de live site, want botbescherming en CDN-regels zitten
+#     bij de hosting en bestaan op localhost niet. Op een PR heeft dit dus geen
+#     betekenis — het zou de code van de PR niet eens raken.
+#  2. Dit doet ruim negentig externe fetches. Dat hoort niet bij elke push.
+#
+# Wekelijks en niet dagelijks: dit meet een configuratie, geen data. Zo'n
+# storing ontstaat door een wijziging bij de hosting of in robots.txt, niet
+# vanzelf. Een week is vroeg genoeg om het te merken en zeldzaam genoeg om
+# geen ruis te worden die niemand meer leest.
+
+name: AI-zichtbaarheid
+
+on:
+  schedule:
+    # Maandag 07:40 UTC — begin van de week, zodat een storing niet het hele
+    # weekend blijft staan. Niet op het hele uur; GitHub plant cronjobs op
+    # drukke minuten later in.
+    - cron: '40 7 * * 1'
+  workflow_dispatch: {}
+
+# Nodig om de geschiedenisregel terug te committen.
+permissions:
+  contents: write
+
+concurrency:
+  group: ai-visibility
+  cancel-in-progress: false
+
+jobs:
+  meten:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # 22 om dezelfde reden als bij de prijsmomentopname: de lockfile is
+          # met npm 11 gemaakt en een deel van de boom eist Node 22 of hoger.
+          node-version: 22
+          cache: npm
+
+      # Het script zelf heeft geen afhankelijkheden — het draait op Node's
+      # ingebouwde fetch. install is er alleen omdat npm run de scripts uit
+      # package.json nodig heeft.
+      - run: npm install --no-audit --no-fund
+
+      - name: Meten
+        id: meten
+        # continue-on-error, want de meting moet ook worden vastgelegd wanneer
+        # hij faalt. Juist dán is de regel in de geschiedenis interessant: zo
+        # zie je later terug wanneer een crawler eruit viel en wanneer hij
+        # terugkwam. De stap hieronder laat de run alsnog rood worden.
+        continue-on-error: true
+        run: npm run check:ai
+
+      - name: Meting vastleggen
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/ai-visibility
+          if git diff --cached --quiet; then
+            echo "Geen nieuwe meting — niets te committen."
+            exit 0
+          fi
+          git commit -m "AI-zichtbaarheid gemeten ($(date -u +%F))"
+          # rebase omdat de dagelijkse prijsjob ondertussen gecommit kan hebben.
+          git pull --rebase --autostash
+          git push
+
+      - name: Falen als de meting faalde
+        if: steps.meten.outcome == 'failure'
+        run: |
+          echo "De AI-zichtbaarheidsmeting is gefaald — zie de stap 'Meten' hierboven."
+          exit 1

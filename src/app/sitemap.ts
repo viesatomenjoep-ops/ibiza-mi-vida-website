@@ -134,6 +134,10 @@ const LOCALIZED_ROUTES: { key: RouteKey; priority: number; changeFrequency: Meta
   { key: 'wiber-partner', priority: 0.6, changeFrequency: 'monthly' },
   { key: 'clickandboat-partner', priority: 0.6, changeFrequency: 'monthly' },
   { key: 'airport-transfer', priority: 0.6, changeFrequency: 'monthly' },
+  // Voorlopig alleen /en — localesFor() bepaalt dat, dus deze regel levert één
+  // URL op en geen vijf. Weekly omdat de prijzen op deze pagina live van het
+  // partnerplatform komen en dus tussen crawls kunnen wijzigen.
+  { key: 'vip-transfer', priority: 0.8, changeFrequency: 'weekly' },
   { key: 'nightlife-guide', priority: 0.8, changeFrequency: 'weekly' },
   { key: 'dress-code', priority: 0.6, changeFrequency: 'monthly' },
   { key: 'getting-around', priority: 0.6, changeFrequency: 'monthly' },

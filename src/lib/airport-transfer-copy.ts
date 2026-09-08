@@ -29,12 +29,23 @@ const L = (nl: string, en: string, de: string, es: string, fr: string): T => ({ 
 
 export interface NamedCopy { name: T; body: T }
 
+/**
+ * Sinds /vip-transfer-ibiza bestaat, draagt deze pagina bewust niet meer de
+ * commerciële term "airport transfer" in de titel. Twee eigen URL's op dezelfde
+ * zoekopdracht splitsen elkaars links en Google kiest er één, meestal niet
+ * degene die je wilde. Deze gids houdt de vraag "hoe kom ik van het vliegveld
+ * naar mijn hotel en wat kost dat ongeveer"; de VIP-pagina houdt "ik wil een
+ * privéauto met chauffeur boeken" en draagt de prijzen.
+ *
+ * Onder de 44 tekens blijven: staticMetadata() plakt er " | Ibiza mi vida" (16)
+ * achter en fitTitle() kapt op 60 af.
+ */
 export const META_TITLE: T = L(
-  'Ibiza luchthaven — transfers en taxi’s',
-  'Ibiza Airport Transfers & Taxis',
-  'Ibiza Flughafen — Transfers und Taxis',
-  'Aeropuerto de Ibiza: traslados y taxis',
-  "Aéroport d'Ibiza — transferts et taxis",
+  'Van Ibiza-luchthaven naar je hotel',
+  'Ibiza Airport to Your Hotel: All Options',
+  'Vom Flughafen Ibiza zum Hotel',
+  'Del aeropuerto de Ibiza al hotel',
+  "De l'aéroport d'Ibiza à votre hôtel",
 )
 
 /** 140-160 tekens. */
@@ -265,6 +276,11 @@ export const FAQS: { q: T; a: T }[] = [
 export const H_LINKS: T = L('Gerelateerde pagina’s', 'Related pages', 'Verwandte Seiten', 'Páginas relacionadas', 'Pages liées')
 
 export const LINKS: { key: string; localized: boolean; label: T; body: T }[] = [
+  {
+    key: 'vip-transfer', localized: true,
+    label: L('VIP-transfer met chauffeur', 'VIP transfer with a private driver', 'VIP-Transfer mit Chauffeur', 'Traslado VIP con chófer', 'Transfert VIP avec chauffeur'),
+    body: L('Vaste prijs per auto, chauffeur volgt je vlucht.', 'Fixed price per car, the driver tracks your flight.', 'Fester Preis pro Wagen, der Fahrer verfolgt deinen Flug.', 'Precio fijo por coche, el chófer sigue tu vuelo.', "Prix fixe par voiture, le chauffeur suit votre vol."),
+  },
   {
     key: 'car-rental', localized: true,
     label: L('Auto huren op Ibiza', 'Car rental in Ibiza', 'Mietwagen auf Ibiza', 'Alquiler de coches en Ibiza', 'Location de voiture à Ibiza'),
