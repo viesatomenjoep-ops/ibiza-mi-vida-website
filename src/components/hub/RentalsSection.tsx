@@ -182,18 +182,26 @@ export function RentalsSection({ locale }: { locale: string }) {
 
   return (
     <section className="bg-white py-10 text-neutral-900 md:py-14">
+      {/* mx-auto op de max-w-3xl-kolom zelf, niet alleen op de buitenste
+          max-w-6xl. Zonder die tweede mx-auto bleef de kolom binnen de brede
+          sectie links hangen -- op een breed scherm precies zo'n grote lege
+          plek rechts als op de meldkaart. De kop staat gecentreerd tekst; de
+          kaarten blijven links uitgelijnd binnen die gecentreerde kolom, want
+          een kaart met gecentreerde tekst leest raar. */}
       <div className="mx-auto max-w-6xl px-4">
-        <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{RENTALS_SECTION.eyebrow[l]}</p>
-        <h2 className="mt-2 max-w-3xl font-serif text-[26px] font-black leading-[1.1] tracking-tight md:text-4xl">
-          {RENTALS_SECTION.heading[l]}
-        </h2>
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{RENTALS_SECTION.eyebrow[l]}</p>
+          <h2 className="mx-auto mt-2 font-serif text-[26px] font-black leading-[1.1] tracking-tight md:text-4xl">
+            {RENTALS_SECTION.heading[l]}
+          </h2>
 
-        {/* Onder elkaar, niet naast elkaar. Naast elkaar leest als één keuze
-            met twee opties; dit zijn twee losse dingen -- een boot voor op het
-            water, en daaronder een auto voor op het land. */}
-        <div className="mt-6 grid max-w-3xl gap-5">
-          <RentalCard data={boat} locale={l} />
-          <RentalCard data={car} locale={l} />
+          {/* Onder elkaar, niet naast elkaar. Naast elkaar leest als één
+              keuze met twee opties; dit zijn twee losse dingen -- een boot
+              voor op het water, en daaronder een auto voor op het land. */}
+          <div className="mt-6 grid gap-5 text-left">
+            <RentalCard data={boat} locale={l} />
+            <RentalCard data={car} locale={l} />
+          </div>
         </div>
       </div>
     </section>
