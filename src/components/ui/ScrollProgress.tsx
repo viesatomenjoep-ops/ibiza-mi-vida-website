@@ -56,7 +56,19 @@ export function ScrollProgress() {
   if (!isHome) return null
 
   return (
-    <div ref={wrapRef} className="pointer-events-none fixed left-0 z-[56] w-full" style={{ bottom: 'env(safe-area-inset-bottom)', height: '3.6px' }}>
+    /* Een baan onder de vulling, en dat is de hele fix. Zonder baan zag je
+       alleen het gevulde stuk: een oranje streepje dat halverwege het scherm
+       ophield en daardoor las als een lijn die dwars door de secties liep, niet
+       als een voortgangsbalk. Met een flauwe baan erachter is altijd de hele
+       breedte zichtbaar en zie je de vulling van links naar rechts lopen.
+
+       Iets dikker ook (3,6 -> 5px): op 3,6px is het verschil tussen baan en
+       vulling op een telefoon nauwelijks te zien. */
+    <div
+      ref={wrapRef}
+      className="pointer-events-none fixed left-0 z-[56] w-full"
+      style={{ bottom: 'env(safe-area-inset-bottom)', height: '5px', backgroundColor: 'rgba(20,20,20,.10)' }}
+    >
       <div
         ref={barRef}
         className="h-full rounded-r-full"

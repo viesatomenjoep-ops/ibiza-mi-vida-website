@@ -64,7 +64,6 @@ interface HomeZoneRailProps {
   roundedTop?: boolean
   kicker: string
   title: string
-  text: string
   ctaLabel: string
   ctaHref: string
   days: ZoneDay[]
@@ -196,7 +195,6 @@ export function HomeZoneRail({
   roundedTop = false,
   kicker,
   title,
-  text,
   ctaLabel,
   ctaHref,
   days: eersteWeek,
@@ -270,7 +268,6 @@ export function HomeZoneRail({
       : `${monthOnlyLabel(day0, locale)} – ${monthYearLabel(day6, locale)}`)
     : ''
 
-  const textMuted = dark ? 'rgba(255,255,255,.75)' : 'rgba(20,20,20,.7)'
   const captionMuted = dark ? 'rgba(255,255,255,.55)' : 'rgba(20,20,20,.5)'
   const arrowBorder = dark ? 'rgba(255,255,255,.25)' : 'rgba(20,20,20,.15)'
   const arrowBg = dark ? 'rgba(255,255,255,.08)' : '#fff'
@@ -298,144 +295,20 @@ export function HomeZoneRail({
         }}
       />
 
+      {/* Kop: alleen de categorienaam, zodat het beeld eronder meteen in
+          zicht komt. De omschrijvende zin ("Elke clubnacht van het seizoen,
+          met live prijzen en line-ups...") stond hier en is eruit: die duwde
+          bij alle vier de werelden het beeld een halve schermhoogte naar
+          beneden, terwijl de kaarten eronder in een oogopslag laten zien
+          waar de sectie over gaat. */}
       <div className="relative mx-auto max-w-[1180px] px-6">
-        {/* Gecentreerd in plaats van "titel links, knop rechts". Die opzet
-            werkte prima op een gewone laptop, maar op een breed bureaublad
-            (1920px en breder) liet de 1180px-container zoveel lucht over dat
-            de titel links bleef hangen en de knop ver rechts kwam te staan —
-            het geheel oogde uit balans in plaats van gecentreerd, op elk
-            scherm. Nu is het één kolom, in het midden, met een vaste
-            leesbreedte: dezelfde vorm op een telefoon en op een ultrabreed
-            beeldscherm. */}
-        <div className="mx-auto flex max-w-[640px] flex-col items-center gap-5 text-center">
-          <div>
-            <span className="block font-sans text-[11px] font-extrabold uppercase tracking-[0.26em]" style={{ color: kickerColor }}>
-              {kicker}
-            </span>
-            <h2 className="mt-3.5 font-display text-[clamp(34px,5vw,52px)] font-black leading-[1.02] tracking-[-0.02em]">
-              {title}
-            </h2>
-            <p className="mt-3.5 text-base leading-relaxed" style={{ color: textMuted, textWrap: 'pretty' as any }}>
-              {text}
-            </p>
-          </div>
-          <a
-            href={ctaHref}
-            className="inline-flex items-center gap-2.5 whitespace-nowrap rounded-full px-[22px] py-3.5 font-sans text-xs font-extrabold uppercase tracking-[0.18em] transition-colors duration-200"
-            style={{ background: accent, color: accentInk, boxShadow: `0 18px 40px -18px ${accent}cc` }}
-            onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
-            onMouseLeave={e => { e.currentTarget.style.background = accent; e.currentTarget.style.color = accentInk }}
-          >
-            {ctaLabel} <span aria-hidden>→</span>
-          </a>
-        </div>
-
-        {/* justify-center i.p.v. justify-between: de dagkiezer (max 600px) en
-            de kleine scrollpijlen ernaast lieten op een breed scherm dezelfde
-            lucht vallen als de kop hierboven -- links de knoppen, dan een gat
-            tot aan de rand. Nu staat het cluster als geheel in het midden,
-            ongeacht hoe breed het scherm is. */}
-        <div className="mt-9 flex flex-wrap items-center justify-center gap-6">
-          <div className="flex min-w-0 flex-col items-center gap-2.5 text-center" style={{ flexBasis: 300, maxWidth: 820 }}>
-            {/* Maandlabel met weekpijlen. De kiezer toonde zeven dagen en daar
-                hield het op: wie over twee weken op Ibiza is kon hier niet zien
-                wat er dan speelt. Terug kan niet verder dan de eerste week --
-                de feed bevat geen datums uit het verleden. */}
-            {/* Was h-7 met een getypte '‹'/'›' als tekst: 28px en een
-                lettertekenpijl die per browser en besturingssysteem anders
-                weegt -- op de ene machine een dun streepje, op de andere
-                vet en scheef uitgelijnd. Dezelfde Lucide-chevron als de
-                scrollpijlen van de kaartrail hiernaast lost beide problemen
-                tegelijk op: een SVG-icoon oogt overal identiek, en op
-                dezelfde maat (44px) vallen de twee knoppenparen niet meer
-                uit elkaar. */}
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => gaNaarWeek(-1)}
-                disabled={week === 0}
-                aria-label={t(L.previous, locale)}
-                className="grid h-14 w-14 flex-none place-items-center rounded-full border-[1.5px] transition-opacity duration-200 disabled:opacity-30 md:h-20 md:w-20"
-                style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
-                onMouseEnter={e => { if (!e.currentTarget.disabled) { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' } }}
-                onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
-              >
-                <ChevronLeft className="h-6 w-6 md:h-8 md:w-8" strokeWidth={2.5} aria-hidden />
-              </button>
-              <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.2em] md:text-sm" style={{ color: captionMuted }}>
-                {monthLabel}
-              </span>
-              <button
-                type="button"
-                onClick={() => gaNaarWeek(1)}
-                disabled={laadt || !loadWeek}
-                aria-label={t(L.next, locale)}
-                aria-busy={laadt || undefined}
-                className="grid h-14 w-14 flex-none place-items-center rounded-full border-[1.5px] transition-opacity duration-200 disabled:opacity-30 md:h-20 md:w-20"
-                style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
-                onMouseEnter={e => { if (!e.currentTarget.disabled) { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' } }}
-                onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
-              >
-                {laadt
-                  ? <Loader2 className="h-6 w-6 animate-spin md:h-8 md:w-8" strokeWidth={2.5} aria-hidden />
-                  : <ChevronRight className="h-6 w-6 md:h-8 md:w-8" strokeWidth={2.5} aria-hidden />}
-              </button>
-            </div>
-            {/* Was clamp(...vw...): een vloeiende schaal die aan de
-                viewportbreedte hangt, dus op een telefoon prima maar op een
-                breed bureaublad al bij een paar honderd pixels afgetopt --
-                de tegels bleven mobiel-grootte terwijl er ruimte genoeg was.
-                Nu een vaste sprong op het md-breekpunt: groter blok, groter
-                cijfer, meer ruimte ertussen, alleen vanaf tablet. */}
-            <div className="grid grid-cols-7 gap-[clamp(4px,1.5vw,10px)] md:gap-3">
-              {days.map((d, i) => {
-                const on = i === selected
-                const { day: num, weekday } = dayPickerParts(d.iso, locale)
-                return (
-                  <button
-                    key={d.iso}
-                    type="button"
-                    onClick={() => pickDay(i)}
-                    aria-pressed={on}
-                    className="flex h-20 w-full flex-col items-center justify-center gap-[3px] rounded-2xl border transition-colors duration-200 md:h-24"
-                    style={{
-                      borderColor: on ? accent : (dark ? 'rgba(255,255,255,.18)' : 'rgba(20,20,20,.1)'),
-                      background: on ? accent : (dark ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.7)'),
-                      color: on ? accentInk : (dark ? '#fff' : '#141414'),
-                      boxShadow: on ? `0 10px 24px -14px ${accent}` : 'none',
-                    }}
-                  >
-                    <span className="font-display text-[clamp(17px,4.6vw,20px)] font-bold leading-[1.1] tracking-[0.01em] md:text-3xl">{num}</span>
-                    <span className="font-sans text-[clamp(9px,2.8vw,12px)] font-medium uppercase leading-[1.1] tracking-[0.06em] opacity-75 md:text-base">{weekday}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-          <div className="flex gap-2 md:gap-3">
-            <button
-              type="button"
-              aria-label={t(L.previous, locale)}
-              onClick={() => scrollByCard(-1)}
-              className="grid h-14 w-14 place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-20 md:w-20"
-              style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
-              onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
-              onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
-            >
-              <ChevronLeft className="h-6 w-6 md:h-8 md:w-8" strokeWidth={2.5} aria-hidden />
-            </button>
-            <button
-              type="button"
-              aria-label={t(L.next, locale)}
-              onClick={() => scrollByCard(1)}
-              className="grid h-14 w-14 place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-20 md:w-20"
-              style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
-              onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
-              onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
-            >
-              <ChevronRight className="h-6 w-6 md:h-8 md:w-8" strokeWidth={2.5} aria-hidden />
-            </button>
-          </div>
+        <div className="mx-auto max-w-[720px] text-center">
+          <span className="block font-sans text-[11px] font-extrabold uppercase tracking-[0.26em]" style={{ color: kickerColor }}>
+            {kicker}
+          </span>
+          <h2 className="mt-3 font-display text-[clamp(34px,5vw,52px)] font-black leading-[1.02] tracking-[-0.02em]">
+            {title}
+          </h2>
         </div>
       </div>
 
@@ -512,6 +385,118 @@ export function HomeZoneRail({
             </a>
           ))
         )}
+      </div>
+
+      {/* De rest van de informatie -- dagkiezer, bladerpijlen en de knop naar
+          de volledige agenda -- staat ONDER de kaarten. Boven de kaarten
+          stond eerst een kop, een zin, een knop, een maandbalk en zeven
+          dagknoppen: op een telefoon ruim een schermhoogte voordat je ook
+          maar een beeld zag. */}
+      <div className="relative mx-auto mt-10 max-w-[1180px] px-6">
+        <div className="mx-auto flex w-full max-w-[860px] flex-col items-center gap-5">
+          {/* Bladerpijlen van de kaartrail. Stonden naast de dagkiezer; nu
+              direct onder de kaarten die ze bedienen, want daar hoort een
+              knop die de rij naar links of rechts schuift. */}
+          <div className="flex gap-3">
+            <button
+              type="button"
+              aria-label={t(L.previous, locale)}
+              onClick={() => scrollByCard(-1)}
+              className="grid h-12 w-12 place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-14 md:w-14"
+              style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
+              onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
+              onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
+            >
+              <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" strokeWidth={2.5} aria-hidden />
+            </button>
+            <button
+              type="button"
+              aria-label={t(L.next, locale)}
+              onClick={() => scrollByCard(1)}
+              className="grid h-12 w-12 place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-14 md:w-14"
+              style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
+              onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
+              onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
+            >
+              <ChevronRight className="h-5 w-5 md:h-6 md:w-6" strokeWidth={2.5} aria-hidden />
+            </button>
+          </div>
+
+          <div className="flex w-full items-center justify-center gap-4">
+            <button
+              type="button"
+              onClick={() => gaNaarWeek(-1)}
+              disabled={week === 0}
+              aria-label={t(L.previous, locale)}
+              className="grid h-14 w-14 flex-none place-items-center rounded-full border-[1.5px] transition-opacity duration-200 disabled:opacity-30 md:h-16 md:w-16"
+              style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
+              onMouseEnter={e => { if (!e.currentTarget.disabled) { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' } }}
+              onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
+            >
+              <ChevronLeft className="h-6 w-6 md:h-7 md:w-7" strokeWidth={2.5} aria-hidden />
+            </button>
+            {/* Maand en jaar vullend groot: dit is de kop van de kiezer en
+                stond op 11px, kleiner dan de dagen eronder. */}
+            <span className="font-display text-[clamp(20px,5.5vw,34px)] font-black uppercase tracking-[0.04em]" style={{ color: dark ? '#fff' : '#141414' }}>
+              {monthLabel}
+            </span>
+            <button
+              type="button"
+              onClick={() => gaNaarWeek(1)}
+              disabled={laadt || !loadWeek}
+              aria-label={t(L.next, locale)}
+              aria-busy={laadt || undefined}
+              className="grid h-14 w-14 flex-none place-items-center rounded-full border-[1.5px] transition-opacity duration-200 disabled:opacity-30 md:h-16 md:w-16"
+              style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
+              onMouseEnter={e => { if (!e.currentTarget.disabled) { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' } }}
+              onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
+            >
+              {laadt
+                ? <Loader2 className="h-6 w-6 animate-spin md:h-7 md:w-7" strokeWidth={2.5} aria-hidden />
+                : <ChevronRight className="h-6 w-6 md:h-7 md:w-7" strokeWidth={2.5} aria-hidden />}
+            </button>
+          </div>
+
+          {/* Vierkante dagtegels over de volle breedte, ongeveer twee keer zo
+              groot als de ovalen die hier stonden. aspect-square houdt ze
+              vierkant op elk scherm; de rij vult de kolom, dus op een
+              telefoon zijn ze zo breed als een zevende van het scherm en op
+              desktop zo breed als een zevende van 860px. */}
+          <div className="grid w-full grid-cols-7 gap-1.5 sm:gap-2.5 md:gap-3">
+            {days.map((d, i) => {
+              const on = i === selected
+              const { day: num, weekday } = dayPickerParts(d.iso, locale)
+              return (
+                <button
+                  key={d.iso}
+                  type="button"
+                  onClick={() => pickDay(i)}
+                  aria-pressed={on}
+                  className="flex aspect-square w-full flex-col items-center justify-center gap-0.5 rounded-2xl border transition-colors duration-200"
+                  style={{
+                    borderColor: on ? accent : (dark ? 'rgba(255,255,255,.18)' : 'rgba(20,20,20,.1)'),
+                    background: on ? accent : (dark ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.7)'),
+                    color: on ? accentInk : (dark ? '#fff' : '#141414'),
+                    boxShadow: on ? `0 10px 24px -14px ${accent}` : 'none',
+                  }}
+                >
+                  <span className="font-display text-[clamp(18px,5.4vw,32px)] font-black leading-none tracking-[0.01em]">{num}</span>
+                  <span className="font-sans text-[clamp(9px,2.4vw,13px)] font-semibold uppercase leading-none tracking-[0.06em] opacity-75">{weekday}</span>
+                </button>
+              )
+            })}
+          </div>
+
+          <a
+            href={ctaHref}
+            className="mt-2 inline-flex items-center gap-2.5 whitespace-nowrap rounded-full px-[22px] py-3.5 font-sans text-xs font-extrabold uppercase tracking-[0.18em] transition-colors duration-200"
+            style={{ background: accent, color: accentInk, boxShadow: `0 18px 40px -18px ${accent}cc` }}
+            onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
+            onMouseLeave={e => { e.currentTarget.style.background = accent; e.currentTarget.style.color = accentInk }}
+          >
+            {ctaLabel} <span aria-hidden>→</span>
+          </a>
+        </div>
       </div>
     </section>
   )

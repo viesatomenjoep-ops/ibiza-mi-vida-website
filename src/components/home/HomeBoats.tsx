@@ -11,13 +11,6 @@ const t = (m: L5, l: string) => m[l] || m.en
 const L = {
   kicker: T('Alles op één eiland', 'Everything on one island', 'Alles auf einer Insel', 'Todo en una isla', 'Tout sur une île'),
   titel: T('Private Boat Rental', 'Private Boat Rental', 'Private Boat Rental', 'Private Boat Rental', 'Private Boat Rental'),
-  tekst: T(
-    '94 boten met live beschikbaarheid — van dagboot tot superjacht.',
-    '94 boats with live availability — from day boat to superyacht.',
-    '94 Boote mit Live-Verfügbarkeit — vom Tagesboot bis zur Superyacht.',
-    '94 barcos con disponibilidad en vivo — de lancha a superyate.',
-    '94 bateaux avec disponibilité en direct — du day-boat au superyacht.',
-  ),
   knop: T('Bekijk de vloot', 'See the fleet', 'Flotte ansehen', 'Ver la flota', 'Voir la flotte'),
   charter: T('Privéboot', 'Private charter', 'Privatcharter', 'Chárter privado', 'Charter privé'),
 }
@@ -79,7 +72,6 @@ export function HomeBoats({ todayStr, locale = 'nl', base }: { todayStr: string;
       roundedTop
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}
-      text={t(L.tekst, locale)}
       ctaLabel={t(L.knop, locale)}
       ctaHref={`${base}/private-boat-charters`}
       days={days}

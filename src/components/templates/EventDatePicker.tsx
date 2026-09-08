@@ -148,7 +148,7 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
           Zelfde leesbreedte en centrering als de kaartenlijst eronder, zodat
           de datumknop en de kaart op één lijn beginnen in plaats van dat de
           knop links blijft hangen terwijl de kaart in het midden staat. */}
-      <div className="mx-auto flex w-full max-w-3xl flex-wrap items-center gap-3">
+      <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-center gap-3">
         <button
           type="button"
           onClick={() => setPickerOpen(true)}
@@ -193,7 +193,7 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
         // een telefoon viel dat niet op omdat het scherm zelf de begrenzing
         // was; op desktop leest het als een kaart die niet af is. Een vaste
         // leesbreedte, gecentreerd, geeft op elk scherm dezelfde verhouding.
-        <div key={activeDay || weekStart} className="mx-auto flex w-full max-w-3xl flex-col gap-3">
+        <div key={activeDay || weekStart} className="mx-auto flex w-full max-w-5xl flex-col gap-3">
           <style>{`@keyframes dpSlide{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}`}</style>
           {visible.map((dateObj, idx) => {
             const line = formatLineUp(dateObj.lineUp)

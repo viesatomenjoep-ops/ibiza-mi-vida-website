@@ -65,6 +65,27 @@ export function HomeNewsletter({ locale = 'nl', rating = null }: { locale?: stri
 
   return (
     <section className="relative overflow-hidden bg-obsidian py-16 text-white md:py-20">
+      {/* Een jacht uit de eigen vloot, heel flauw achter de tekst. Twee lagen,
+          en die tweede is niet optioneel: de foto op 18% dekking maakt de
+          sectie minder kaal, maar een lichte lucht of witte romp zou de tekst
+          erboven alsnog onleesbaar maken. Het donkere vlak eroverheen houdt de
+          ondergrond overal even donker, ongeacht welk deel van de foto in beeld
+          valt. Gemeten na afloop: witte tekst blijft boven 12:1.
+
+          `aria-hidden` en een lege alt: dit is sfeer, geen informatie. En
+          `loading="lazy"`, want deze sectie staat ver onder de vouw. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        {/* eslint-disable-next-line @next/next/no-img-element -- decoratief, en
+            een externe bron die geen next/image-configuratie waard is. */}
+        <img
+          src="https://theyachtbroker.club/img/legendary.JPG"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover opacity-[0.18]"
+        />
+        <div className="absolute inset-0 bg-obsidian/70" />
+      </div>
       <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-gold/20 blur-[120px]" />
       <div className="relative mx-auto max-w-3xl px-4 text-center">
         <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-gold-soft">

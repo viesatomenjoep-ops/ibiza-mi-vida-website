@@ -13,13 +13,6 @@ const t = (m: L5, l: string) => m[l] || m.en
 const L = {
   kicker: T('Alles op één eiland', 'Everything on one island', 'Alles auf einer Insel', 'Todo en una isla', 'Tout sur une île'),
   titel: T('On the land activities', 'On the land activities', 'On the land activities', 'On the land activities', 'On the land activities'),
-  tekst: T(
-    'Buggy’s, quads, jeepsafari’s, grotten en hippiemarkten. Alles wat je op het eiland zelf doet, per dag te boeken.',
-    'Buggies, quads, jeep safaris, caves and hippy markets. Everything you do on the island itself, bookable by the day.',
-    'Buggys, Quads, Jeep-Safaris, Höhlen und Hippie-Märkte. Alles, was auf der Insel selbst stattfindet, tageweise buchbar.',
-    'Buggies, quads, safaris en jeep, cuevas y mercadillos hippies. Todo lo que se hace en la isla, por día.',
-    'Buggys, quads, safaris en jeep, grottes et marchés hippies. Tout ce qui se fait sur l’île même, à la journée.',
-  ),
   knop: T('Bekijk het land', 'See the island', 'Aufs Land', 'Ver la isla', "Voir l'île"),
   tag: T('Op het eiland', 'On the island', 'Auf der Insel', 'En la isla', "Sur l'île"),
 }
@@ -113,7 +106,6 @@ export function HomeActivities({
       roundedTop
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}
-      text={t(L.tekst, locale)}
       ctaLabel={t(L.knop, locale)}
       // Niet /activities-calendar (de kale datumagenda) maar /activities: de
       // echte hub met alle activiteiten op een rij. Wie net drie kaarten met

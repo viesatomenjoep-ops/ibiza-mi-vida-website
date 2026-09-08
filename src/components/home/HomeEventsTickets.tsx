@@ -12,13 +12,6 @@ const t = (m: L5, l: string) => m[l] || m.en
 const L = {
   kicker: T('Alles op één eiland', 'Everything on one island', 'Alles auf einer Insel', 'Todo en una isla', 'Tout sur une île'),
   titel: T('Events & Tickets', 'Events & Tickets', 'Events & Tickets', 'Eventos y entradas', 'Événements & billets'),
-  tekst: T(
-    'Elke clubnacht van het seizoen, met live prijzen en line-ups. Kies je avond en reken direct af via ClubTickets.',
-    'Every club night of the season, with live prices and line-ups. Pick your night and check out via ClubTickets.',
-    'Jede Clubnacht der Saison, mit Live-Preisen und Line-ups. Wähl deinen Abend und buche direkt über ClubTickets.',
-    'Cada noche de club de la temporada, con precios y line-ups en vivo. Elige tu noche y reserva vía ClubTickets.',
-    'Chaque soirée club de la saison, avec prix et line-ups en direct. Choisissez votre soirée et réservez via ClubTickets.',
-  ),
   knop: T('Bekijk de agenda', 'See the calendar', 'Zum Kalender', 'Ver la agenda', "Voir l'agenda"),
   day: T('Dag', 'Day', 'Tag', 'Día', 'Jour'),
   night: T('Nacht', 'Night', 'Nacht', 'Noche', 'Nuit'),
@@ -112,7 +105,6 @@ export function HomeEventsTickets({
       glow={{ x: '85%', y: '10%', color: 'rgba(232,96,60,.10)' }}
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}
-      text={t(L.tekst, locale)}
       ctaLabel={t(L.knop, locale)}
       ctaHref={`${base}/calendar`}
       days={days}

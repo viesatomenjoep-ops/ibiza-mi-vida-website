@@ -13,13 +13,6 @@ const t = (m: L5, l: string) => m[l] || m.en
 const L = {
   kicker: T('Alles op één eiland', 'Everything on one island', 'Alles auf einer Insel', 'Todo en una isla', 'Tout sur une île'),
   titel: T('On the water activities', 'On the water activities', 'On the water activities', 'On the water activities', 'On the water activities'),
-  tekst: T(
-    'Jetski’s, catamarans, boottochten en de ferry naar Formentera — alles wat vaart, per dag te boeken.',
-    'Jet skis, catamarans, boat trips and the ferry to Formentera — everything that floats, bookable by the day.',
-    'Jetskis, Katamarane, Bootstouren und die Fähre nach Formentera — alles, was fährt, tageweise buchbar.',
-    'Motos de agua, catamaranes, excursiones en barco y el ferry a Formentera — todo lo que navega, por día.',
-    'Jet-skis, catamarans, sorties en bateau et le ferry pour Formentera — tout ce qui navigue, à la journée.',
-  ),
   knop: T('Bekijk het water', 'See the water', 'Aufs Wasser', 'Ver el agua', "Voir l'eau"),
   tag: T('Op het water', 'On the water', 'Auf dem Wasser', 'En el agua', "Sur l'eau"),
 }
@@ -114,7 +107,6 @@ export function HomeWaterActivities({
       roundedTop
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}
-      text={t(L.tekst, locale)}
       ctaLabel={t(L.knop, locale)}
       ctaHref={`${base}/activities-calendar`}
       days={days}

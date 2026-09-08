@@ -294,9 +294,10 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
     d0?.venueCover, club.cover, club.picture,
   ].filter(Boolean) as string[]
   const eventCover = kandidaten[0] || ''
-  // Eerste kandidaat die niet gelijk is aan de voorgrond; anders de voorgrond
-  // zelf, die dan vervaagd wordt getekend zoals voorheen.
-  const heroBackdrop = kandidaten.find(u => u !== eventCover) || eventCover
+  // `heroBackdrop` stond hier: een tweede afbeelding die vervaagd achter de
+  // plaat werd getekend om de overgebleven ruimte te vullen. Sinds de plaat
+  // zijn eigen hoogte bepaalt is er geen overgebleven ruimte meer, dus ook
+  // geen vulling nodig -- en dat scheelt een tweede beeldverzoek per pagina.
   const description = eventDetail?.description || club.description || ''
 
   const R = ROUTE_I18N[locale] || ROUTE_I18N.en
@@ -404,46 +405,38 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
       <section className="mt-[var(--nav-h)]" aria-label={`${eventName} hero`}>
         <BackButton locale={locale} fallbackHref={`/${locale}/${basePath}/${club.slug}`} variant="top" />
         {/* ── Beeldvlak ────────────────────────────────────────────────────
-            aspect-square op mobiel, niet h-[46vh]. Het artwork van
-            ClubTickets is vrijwel altijd vierkant -- in een steekproef van
-            tien beelden was het tien keer 1:1. Met een vaste viewporthoogte
-            bleef er boven en onder de plaat een donkere strook over (de
-            vervaagde achtergrond), en precies die strook zat tussen de
-            navigatiebalk en het beeld. Een vierkante houder laat een
-            vierkante plaat exact passen: geen strook meer.
+            De plaat bepaalt zelf de hoogte (w-full h-auto), er staat geen
+            vaste verhouding omheen.
 
-            Op desktop zou vierkant en volle breedte een beeld van meer dan
-            duizend pixels hoog opleveren, dus daar een liggende verhouding
-            waarin de plaat gecentreerd staat en de vervaagde versie de
-            zijkanten vult. Daar valt geen strook tussen balk en beeld, want
-            de plaat raakt daar de boven- en onderrand. */}
-        <div className="relative w-full overflow-hidden rounded-b-[28px] bg-neutral-100 aspect-square md:aspect-[16/7]">
+            Waarom: eerst stond hier h-[46vh], toen aspect-square. Allebei
+            fout om dezelfde reden -- de covers in de feed hebben NIET een
+            vaste verhouding. Gemeten over een steekproef uit de feed: het
+            merendeel is 1200x800 (3:2), maar er zitten ook vierkante tussen
+            (300x300). Welke vaste verhouding je ook kiest, bij de andere
+            groep blijft er ruimte over die met een vervaagde achtergrond
+            gevuld wordt -- en dat is precies de "zwarte balk" die gemeld
+            werd.
+
+            Met een natuurlijke hoogte past elke plaat exact, ongeacht zijn
+            verhouding. Geen achtergrondvulling meer nodig, dus die is ook
+            weg.
+
+            Op desktop is de breedte begrensd: een 3:2-plaat over de volle
+            1920px zou 1280 pixels hoog worden. Zo blijft de hoogte in de
+            hand en staat de plaat gecentreerd. */}
+        <div className="mx-auto w-full max-w-[560px] overflow-hidden rounded-b-[28px] bg-neutral-100 md:max-w-[880px] md:rounded-[28px]">
           {eventCover && (
-            <>
-              {/* De plaat heel laten met object-contain, en de lege ruimte
-                  ernaast vullen met een uitvergrote, vervaagde versie van het
-                  beeld zelf. Dezelfde src, sizes en quality als de voorgrond,
-                  zodat de browser één keer downloadt en het beeld twee keer
-                  tekent in plaats van twee bestanden op te halen. */}
-              <Image
-                src={heroBackdrop}
-                alt=""
-                aria-hidden
-                fill
-                sizes="100vw"
-                quality={60}
-                className={`object-cover ${heroBackdrop === eventCover ? 'scale-125 blur-2xl' : 'blur-sm'}`}
-              />
-              <Image
-                src={eventCover}
-                alt={eventName}
-                fill
-                priority
-                sizes="100vw"
-                quality={85}
-                className="object-contain object-center"
-              />
-            </>
+            /* eslint-disable-next-line @next/next/no-img-element -- next/image
+               vraagt om vaste afmetingen of `fill`; hier is de hele bedoeling
+               juist dat het beeld zijn eigen hoogte bepaalt. */
+            <img
+              src={eventCover}
+              alt={eventName}
+              // De hero staat boven de vouw, dus geen lazy loading.
+              loading="eager"
+              decoding="async"
+              className="block h-auto w-full"
+            />
           )}
         </div>
 
