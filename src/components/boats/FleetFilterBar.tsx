@@ -170,12 +170,54 @@ export function FleetFilterBar({
       <div className="mx-auto max-w-6xl px-4">
         {/* De zoekbalk: wanneer, met hoeveel, voor hoeveel — plus de knop.
             Panelen openen eronder, buiten de balk; zie de kop van dit bestand
-            voor waarom dat buiten een scroller moet. */}
-        {/* md:max-w-2xl: op desktop rekte de balk uit over de volle 1152px en
-            kwam er een halve meter lucht tussen label en waarde te staan.
-            Airbnb houdt zijn balk ook smaller dan de pagina; segmenten horen
-            compact te lezen. */}
-        <div className="flex items-center overflow-hidden rounded-full border border-black/12 bg-white shadow-[0_10px_30px_-18px_rgba(0,0,0,.35)] md:max-w-2xl">
+            voor waarom dat buiten een scroller moet.
+
+            Twee opmaken voor twee schermen, niet één die zich aanpast. Op
+            mobiel blijven de drie hoofdvragen een smalle capsule met de
+            bijvragen als losse pillen eronder — die moeten horizontaal
+            kunnen scrollen op een smal scherm. Op desktop is er ruimte
+            genoeg voor alle zes in één balk over de volle breedte, zoals
+            Airbnb, Booking en Skyscanner het doen: één oogopslag, één klik
+            naar elk veld, geen tweede rij die als bijzaak oogt. */}
+        <div className="hidden w-full items-stretch divide-x divide-black/10 overflow-hidden rounded-full border border-black/12 bg-white shadow-[0_14px_40px_-20px_rgba(0,0,0,.35)] transition-shadow hover:shadow-[0_18px_48px_-18px_rgba(0,0,0,.4)] md:flex">
+          {dateRange && segment('date', <CalendarDays size={17} />, t(L.date, locale),
+            date ? new Date(date + 'T00:00:00').toLocaleDateString(locale === 'en' ? 'en-GB' : locale, { day: 'numeric', month: 'short' }) : t(L.anyDate, locale),
+            onlyAvailable)}
+          {segment('pax', <Users size={17} />, t(L.guests, locale),
+            minPax > 0 ? fill(t(L.guestsUp, locale), 'n', minPax) : t(L.anyGuests, locale), minPax > 0)}
+          {segment('price', <Euro size={17} />, t(L.price, locale),
+            minPrice > priceMin || maxPrice < priceMax ? `€${nf(minPrice)}–€${nf(maxPrice)}` : t(L.anyPrice, locale),
+            minPrice > priceMin || maxPrice < priceMax)}
+          {segment('marina', <MapPin size={17} />, t(L.depart, locale),
+            marina === 'all' ? t(L.allMarinas, locale) : marina, marina !== 'all')}
+          {segment('soort', <Ship size={17} />, t(L.soort, locale),
+            soort === 'yacht' ? t(L.jacht, locale) : soort === 'motorboat' ? t(L.motorboot, locale) : t(L.alleSoorten, locale),
+            soort !== 'all')}
+          {segment('sort', <ArrowUpDown size={17} />, t(L.sort, locale),
+            sort === 'price-asc' ? t(L.sortAsc, locale) : sort === 'price-desc' ? t(L.sortDesc, locale) : t(L.sortDefault, locale),
+            sort !== 'default', true)}
+          <button
+            type="button"
+            onClick={sluit}
+            aria-label={fill(t(L.toonBoten, locale), 'n', resultCount)}
+            className="m-2 flex shrink-0 items-center gap-2 rounded-full bg-ibiza-green px-5 text-[13px] font-black uppercase tracking-wide text-white transition-colors hover:brightness-110"
+          >
+            <Search size={16} aria-hidden />
+            {fill(t(L.toonBoten, locale), 'n', resultCount)}
+          </button>
+        </div>
+        {activeCount > 0 && (
+          <div className="mt-2.5 hidden justify-end md:flex">
+            <button type="button" onClick={() => { onClear(); sluit() }}
+              className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-bold text-neutral-500 transition-colors hover:text-black">
+              <X size={13} /> {t(L.clear, locale)}
+            </button>
+          </div>
+        )}
+
+        {/* Mobiel: de capsule met de drie hoofdvragen, bijvragen als pillen
+            eronder — ongewijzigd. */}
+        <div className="flex items-center overflow-hidden rounded-full border border-black/12 bg-white shadow-[0_10px_30px_-18px_rgba(0,0,0,.35)] md:hidden">
           {dateRange && segment('date', <CalendarDays size={16} />, t(L.date, locale),
             date ? new Date(date + 'T00:00:00').toLocaleDateString(locale === 'en' ? 'en-GB' : locale, { day: 'numeric', month: 'short' }) : t(L.anyDate, locale),
             onlyAvailable)}
@@ -194,8 +236,9 @@ export function FleetFilterBar({
           </button>
         </div>
 
-        {/* Bijvragen: vanwaar, welk type, volgorde. */}
-        <div className="hide-scrollbar mt-2 flex items-stretch gap-2 overflow-x-auto pb-1">
+        {/* Bijvragen op mobiel: vanwaar, welk type, volgorde. Op desktop staan
+            deze al in de balk hierboven. */}
+        <div className="hide-scrollbar mt-2 flex items-stretch gap-2 overflow-x-auto pb-1 md:hidden">
           {pil('marina', <MapPin size={15} />, t(L.depart, locale),
             marina === 'all' ? t(L.allMarinas, locale) : marina, marina !== 'all')}
           {pil('soort', <Ship size={15} />, t(L.soort, locale),
