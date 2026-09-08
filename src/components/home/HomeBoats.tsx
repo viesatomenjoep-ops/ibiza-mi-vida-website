@@ -44,7 +44,19 @@ export function HomeBoats({ todayStr, locale = 'nl', base }: { todayStr: string;
       price: `€${b.price.low.toLocaleString('nl-NL')}`,
     }))
 
-  const days: ZoneDay[] = Array.from({ length: 7 }, (_, i) => ({ iso: addDays(todayStr, i), items }))
+  const weekVanaf = (vanaf: string): ZoneDay[] =>
+    Array.from({ length: 7 }, (_, i) => ({ iso: addDays(vanaf, i), items }))
+
+  const days = weekVanaf(todayStr)
+
+  /**
+   * De vloot kent geen agenda: dezelfde boten zijn elke dag te huur, en de
+   * beschikbaarheid per datum komt pas bij de makelaar op de bootpagina zelf.
+   * Doorbladeren naar een volgende week hoeft hier dus niets op te halen --
+   * alleen de zeven knoppen opschuiven, zodat de kiezer zich hetzelfde
+   * gedraagt als bij de drie werelden die wél een programma hebben.
+   */
+  const loadWeek = async (vanaf: string): Promise<ZoneDay[]> => weekVanaf(vanaf)
 
   return (
     <HomeZoneRail
@@ -61,6 +73,7 @@ export function HomeBoats({ todayStr, locale = 'nl', base }: { todayStr: string;
       ctaLabel={t(L.knop, locale)}
       ctaHref={`${base}/private-boat-charters`}
       days={days}
+      loadWeek={loadWeek}
     />
   )
 }

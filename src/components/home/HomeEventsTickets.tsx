@@ -53,31 +53,46 @@ export function HomeEventsTickets({
   base: string
 }) {
   const dayClubBySlug = new Map(allVenues.map(v => [v.slug, !!v.isDayClub]))
-  const byDate = new Map(clubDays.map(d => [d.date, d.items]))
 
-  const days: ZoneDay[] = Array.from({ length: 7 }, (_, i) => {
-    const iso = addDays(tonightStr, i)
-    const raw = byDate.get(iso) || []
-    const items = raw
-      .map(it => {
-        const venue = it.ct_venues?.slug || ''
-        const slug = it.ct_events?.slug || ''
-        const image = it.ct_events?.cover || it.ct_events?.logo || ''
-        if (!venue || !slug || !image) return null
-        const priceNum = priceNumbers(it.prices)[0]
-        return {
-          href: withDate(`${base}/club-tickets/${venue}/${slug}`, iso),
-          image,
-          title: it.ct_events?.name || it.name || '',
-          venue: it.ct_venues?.name || '',
-          tag: dayClubBySlug.get(venue) ? t(L.day, locale) : t(L.night, locale),
-          price: priceNum ? `€${priceNum}` : undefined,
-        }
-      })
-      .filter((c): c is NonNullable<typeof c> => !!c)
-      .slice(0, 14)
-    return { iso, items }
-  })
+  /**
+   * Van feedregels naar kaarten. Eén functie voor de week die de server
+   * meestuurde én voor elke week die de kiezer erbij haalt -- anders zou een
+   * bijgeladen week er ongemerkt anders uit kunnen zien dan de week ervoor.
+   */
+  const naarDagen = (rijen: { date: string; items: ClubDayItem[] }[], vanaf: string): ZoneDay[] => {
+    const byDate = new Map(rijen.map(d => [d.date, d.items]))
+    return Array.from({ length: 7 }, (_, i) => {
+      const iso = addDays(vanaf, i)
+      const items = (byDate.get(iso) || [])
+        .map(it => {
+          const venue = it.ct_venues?.slug || ''
+          const slug = it.ct_events?.slug || ''
+          const image = it.ct_events?.cover || it.ct_events?.logo || ''
+          if (!venue || !slug || !image) return null
+          const priceNum = priceNumbers(it.prices)[0]
+          return {
+            href: withDate(`${base}/club-tickets/${venue}/${slug}`, iso),
+            image,
+            title: it.ct_events?.name || it.name || '',
+            venue: it.ct_venues?.name || '',
+            tag: dayClubBySlug.get(venue) ? t(L.day, locale) : t(L.night, locale),
+            price: priceNum ? `€${priceNum}` : undefined,
+          }
+        })
+        .filter((c): c is NonNullable<typeof c> => !!c)
+        .slice(0, 14)
+      return { iso, items }
+    })
+  }
+
+  const days = naarDagen(clubDays, tonightStr)
+
+  const loadWeek = async (vanaf: string): Promise<ZoneDay[]> => {
+    const r = await fetch(`/api/home-days?locale=${encodeURIComponent(locale)}&night=${vanaf}&day=${vanaf}`)
+    if (!r.ok) return []
+    const json = await r.json()
+    return naarDagen(json.clubDays || [], vanaf)
+  }
 
   return (
     <HomeZoneRail
@@ -93,6 +108,7 @@ export function HomeEventsTickets({
       ctaLabel={t(L.knop, locale)}
       ctaHref={`${base}/calendar`}
       days={days}
+      loadWeek={loadWeek}
     />
   )
 }

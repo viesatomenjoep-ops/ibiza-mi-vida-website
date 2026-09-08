@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type RefObject } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { optImg } from '@/lib/img'
-import { dayPickerParts, fmtShortDate, monthOnlyLabel, monthYearLabel } from '@/lib/date-label'
+import { addDays, dayPickerParts, fmtShortDate, monthOnlyLabel, monthYearLabel } from '@/lib/date-label'
 
 type L5 = Record<string, string>
 const T = (nl: string, en: string, de: string, es: string, fr: string): L5 => ({ nl, en, de, es, fr })
@@ -59,6 +59,16 @@ interface HomeZoneRailProps {
   ctaLabel: string
   ctaHref: string
   days: ZoneDay[]
+  /**
+   * Haalt de zeven dagen op die op `fromISO` beginnen.
+   *
+   * Zonder deze functie blijft de kiezer bij de week die de server meestuurde;
+   * mét kun je vooruit bladeren. De zone levert hem aan in plaats van dat de
+   * rail zelf ophaalt, omdat elke wereld zijn eigen vorm heeft: de vloot kent
+   * geen agenda, en land en water komen uit dezelfde feed maar worden per event
+   * gescheiden. De zone weet dat; de rail hoeft het niet te weten.
+   */
+  loadWeek?: (fromISO: string) => Promise<ZoneDay[]>
 }
 
 /** Sleept met de muis/pen; touch behoudt de eigen momentum + snap van het OS. */
@@ -157,11 +167,50 @@ export function HomeZoneRail({
   text,
   ctaLabel,
   ctaHref,
-  days,
+  days: eersteWeek,
+  loadWeek,
 }: HomeZoneRailProps) {
+  /**
+   * Alle weken die we tot nu toe hebben, achter elkaar. De server levert de
+   * eerste zeven dagen; elke volgende week wordt er bij het doorbladeren
+   * achteraan geplakt en blijft daarna staan, zodat heen en weer bladeren geen
+   * tweede verzoek kost.
+   */
+  const [alleDagen, setAlleDagen] = useState<ZoneDay[]>(eersteWeek)
+  const [week, setWeek] = useState(0)
+  const [laadt, setLaadt] = useState(false)
   const [selected, setSelected] = useState(0)
   const railRef = useRef<HTMLDivElement>(null)
   useDragScroll(railRef)
+
+  const days = alleDagen.slice(week * 7, week * 7 + 7)
+
+  const gaNaarWeek = async (richting: 1 | -1) => {
+    const doel = week + richting
+    if (doel < 0) return
+    const nodig = (doel + 1) * 7
+    if (nodig > alleDagen.length) {
+      if (!loadWeek || laadt) return
+      const start = alleDagen[alleDagen.length - 1]?.iso
+      if (!start) return
+      setLaadt(true)
+      try {
+        const erbij = await loadWeek(addDays(start, 1))
+        if (!erbij.length) return
+        setAlleDagen(d => [...d, ...erbij])
+      } catch {
+        // Netwerk weg of de route geeft een fout: dan blijft de kiezer gewoon
+        // op de week staan waar hij was. Een half geladen week tonen is erger
+        // dan niet bladeren.
+        return
+      } finally {
+        setLaadt(false)
+      }
+    }
+    setWeek(doel)
+    setSelected(0)
+    railRef.current?.scrollTo({ left: 0, behavior: 'smooth' })
+  }
 
   const day = days[selected] || days[0]
   const items = day?.items || []
@@ -243,9 +292,36 @@ export function HomeZoneRail({
 
         <div className="mt-9 flex flex-wrap items-center justify-between gap-4">
           <div className="flex min-w-0 flex-1 flex-col gap-2.5" style={{ flexBasis: 300, maxWidth: 600 }}>
-            <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.2em]" style={{ color: captionMuted }}>
-              {monthLabel}
-            </span>
+            {/* Maandlabel met weekpijlen. De kiezer toonde zeven dagen en daar
+                hield het op: wie over twee weken op Ibiza is kon hier niet zien
+                wat er dan speelt. Terug kan niet verder dan de eerste week --
+                de feed bevat geen datums uit het verleden. */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => gaNaarWeek(-1)}
+                disabled={week === 0}
+                aria-label={t(L.previous, locale)}
+                className="grid h-7 w-7 flex-none place-items-center rounded-full border text-[13px] transition-opacity disabled:opacity-30"
+                style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
+              >
+                <span aria-hidden>‹</span>
+              </button>
+              <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.2em]" style={{ color: captionMuted }}>
+                {monthLabel}
+              </span>
+              <button
+                type="button"
+                onClick={() => gaNaarWeek(1)}
+                disabled={laadt || !loadWeek}
+                aria-label={t(L.next, locale)}
+                aria-busy={laadt || undefined}
+                className="grid h-7 w-7 flex-none place-items-center rounded-full border text-[13px] transition-opacity disabled:opacity-30"
+                style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
+              >
+                <span aria-hidden>{laadt ? '·' : '›'}</span>
+              </button>
+            </div>
             <div className="grid grid-cols-7 gap-[clamp(4px,1.5vw,10px)]">
               {days.map((d, i) => {
                 const on = i === selected

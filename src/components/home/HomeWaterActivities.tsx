@@ -46,34 +46,50 @@ export function HomeWaterActivities({
   locale?: string
   base: string
 }) {
-  const byDate = new Map(experienceDays.map(d => [d.date || '', d.items || []]))
+  /**
+   * Van feedregels naar kaarten. Een functie voor de week die de server
+   * meestuurde en voor elke week die de kiezer erbij haalt, zodat een
+   * bijgeladen week er niet anders uit kan zien dan de week ervoor.
+   */
+  const naarDagen = (rijen: { date?: string; items: FeedItem[] }[], vanaf: string): ZoneDay[] => {
+    const byDate = new Map(rijen.map(d => [d.date || '', d.items || []]))
 
-  const days: ZoneDay[] = Array.from({ length: 7 }, (_, i) => {
-    const iso = addDays(todayStr, i)
-    const raw = byDate.get(iso) || []
-    const venues = new Set<string>()
-    const items = []
-    for (const it of raw) {
-      const naam = it.ct_events?.name || it.name || ''
-      if (!isOpHetWater(it.ct_venues?.typeSlug, naam)) continue
-      const venue = it.ct_venues?.slug || ''
-      const slug = it.ct_events?.slug || ''
-      const image = it.ct_events?.cover || it.ct_events?.logo || ''
-      if (!venue || !slug || !image || venues.has(venue)) continue
-      venues.add(venue)
-      const priceNum = priceNumbers(it.prices)[0]
-      items.push({
-        href: withDate(`${base}/${it.ct_venues?.basePath || 'boat-trip'}/${venue}/${slug}`, iso),
-        image,
-        title: naam,
-        venue: it.ct_venues?.name || '',
-        tag: t(L.tag, locale),
-        price: priceNum ? `€${priceNum}` : undefined,
-      })
-      if (items.length === 14) break
-    }
-    return { iso, items }
-  })
+    return Array.from({ length: 7 }, (_, i) => {
+      const iso = addDays(vanaf, i)
+      const raw = byDate.get(iso) || []
+      const venues = new Set<string>()
+      const items = []
+      for (const it of raw) {
+        const naam = it.ct_events?.name || it.name || ''
+        if (!isOpHetWater(it.ct_venues?.typeSlug, naam)) continue
+        const venue = it.ct_venues?.slug || ''
+        const slug = it.ct_events?.slug || ''
+        const image = it.ct_events?.cover || it.ct_events?.logo || ''
+        if (!venue || !slug || !image || venues.has(venue)) continue
+        venues.add(venue)
+        const priceNum = priceNumbers(it.prices)[0]
+        items.push({
+          href: withDate(`${base}/${it.ct_venues?.basePath || 'boat-trip'}/${venue}/${slug}`, iso),
+          image,
+          title: naam,
+          venue: it.ct_venues?.name || '',
+          tag: t(L.tag, locale),
+          price: priceNum ? `€${priceNum}` : undefined,
+        })
+        if (items.length === 14) break
+      }
+      return { iso, items }
+    })
+  }
+
+  const days = naarDagen(experienceDays, todayStr)
+
+  const loadWeek = async (vanaf: string): Promise<ZoneDay[]> => {
+    const r = await fetch(`/api/home-days?locale=${encodeURIComponent(locale)}&night=${vanaf}&day=${vanaf}`)
+    if (!r.ok) return []
+    const json = await r.json()
+    return naarDagen(json.experienceDays || [], vanaf)
+  }
 
   return (
     <HomeZoneRail
@@ -91,6 +107,7 @@ export function HomeWaterActivities({
       ctaLabel={t(L.knop, locale)}
       ctaHref={`${base}/activities-calendar`}
       days={days}
+      loadWeek={loadWeek}
     />
   )
 }

@@ -13,6 +13,7 @@ import { pickCover } from '@/lib/blank-covers';
 import { eventBasePath } from '@/lib/event-path';
 import { withDate } from '@/lib/event-date-param'
 import { addDays } from '@/lib/date-label';
+import { buildHomeDays } from '@/lib/home-days';
 import { getGoogleReviews } from '@/lib/google-reviews';
 import { GoogleReviews } from '@/components/reviews/GoogleReviews';
 import { ReviewSchema } from '@/components/seo/ReviewSchema';
@@ -181,32 +182,9 @@ export default async function Home({ params }: { params: { locale: string } }) {
     })),
   }
 
-  // Everything that is NOT a nightclub — boats, ferries, catamarans, jet skis,
-  // buggies, excursions. These sit in the same feed but were never surfaced on
-  // the homepage, so a visitor saw only the club side of the business.
-  const mapDate = (d: typeof allDates[number]) => ({
-    id: d.id,
-    name: d.name,
-    date: d.date,
-    prices: d.prices,
-    ct_events: {
-      name: d.eventName,
-      slug: d.eventSlug,
-      logo: d.eventLogo,
-      cover: pickCover(d.eventCover, d.eventLogo, d.venueCover)
-    },
-    ct_venues: {
-      name: d.venueName,
-      slug: d.venueSlug,
-      // The section links through eventBasePath(), because only 'clubbing'
-      // lives under /club-tickets — sending a boat there is a guaranteed 404.
-      basePath: eventBasePath(typeBySlug.get(d.venueSlug || '')),
-      // Het ruwe venuetype gaat mee zodat de homepage water van land kan
-      // scheiden. eventBasePath() vertaalt 'activities' naar één pad, en juist
-      // in die bak zitten zowel jetski's als buggy's -- zie activity-split.ts.
-      typeSlug: typeBySlug.get(d.venueSlug || '') || ''
-    }
-  });
+  // De mapping van een feedregel naar een kaart stond hier; die woont nu in
+  // lib/home-days.ts, samen met de dagenopbouw, zodat de route die een volgende
+  // week bijlaadt dezelfde vorm teruggeeft.
 
   // Beide uitgelichte stroken lopen door dit aantal dagen heen in plaats van
   // één dag te tonen. Wie 's avonds binnenkomt kreeg anders een programma dat
@@ -235,97 +213,15 @@ export default async function Home({ params }: { params: { locale: string } }) {
   // twaalf excursies om uit te putten, en na aftrek van dubbele aanbieders en
   // items zonder afbeelding bleven er soms drie over -- te weinig voor een
   // ring, laat staan voor vier categorieen.
-  const PER_DAY = 60;
-  // Twee reeksen, want de twee soorten beginnen niet op dezelfde dag. Tussen
-  // middernacht en 06:00 begint de clubreeks nog bij de avond die op dat moment
-  // loopt, terwijl de excursiereeks al bij de nieuwe kalenderdag begint — een
-  // boottocht van gisterochtend hoeft daar niet meer tussen te staan.
-  const nachtList = Array.from({ length: DAYS }, (_, i) => addDays(tonightStr, i));
-  const dayList = Array.from({ length: DAYS }, (_, i) => addDays(todayStr, i));
-  const onDay = (iso: string) => allDates.filter(d => (d.date || '').slice(0, 10) === iso);
-
-  // One event per provider before any provider gets a second slot. Without
-  // this, a single operator running eight jet-ski departures a day eats most
-  // of the grid and the buggy and quad tours never appear at all.
-  const spreadByVenue = <T extends { venueSlug?: string }>(rows: T[]): T[] => {
-    const groups = new Map<string, T[]>();
-    for (const r of rows) {
-      const k = r.venueSlug || '';
-      const g = groups.get(k);
-      if (g) g.push(r); else groups.set(k, [r]);
-    }
-    const lists = Array.from(groups.values());
-    const out: T[] = [];
-    for (let i = 0; ; i++) {
-      const before = out.length;
-      for (const l of lists) if (i < l.length) out.push(l[i]);
-      if (out.length === before) return out;
-    }
-  };
-
-  // Weighted round-robin across venue types instead of the feed's own order.
-  // Straight slicing gave twelve boats and ferries every time: the feed lists
-  // water first and there is enough of it to fill the grid before a single
-  // land activity is reached. The section is called "on the water AND
-  // activities", so it has to actually contain both.
+  // De dagenlijsten voor de vier werelden komen uit buildHomeDays(), zodat de
+  // route /api/home-days -- die de kiezer gebruikt om een volgende week bij te
+  // laden -- exact dezelfde opbouw hanteert. Stond dit hier nog met de hand,
+  // dan zou een bijgeladen week er ongemerkt anders uit kunnen gaan zien dan
+  // de week ervoor.
   //
-  // 'activities' is weighted double because ClubTickets files land and water
-  // sport under that one type — jet skis and SUP sit next to buggies, quads
-  // and jeep safaris — so an equal share would still come out mostly wet.
-  const weave = <T,>(buckets: { rows: T[]; weight: number }[], max: number): T[] => {
-    const out: T[] = [];
-    const at = buckets.map(() => 0);
-    for (;;) {
-      const before = out.length;
-      buckets.forEach((b, bi) => {
-        for (let w = 0; w < b.weight && out.length < max; w++) {
-          if (at[bi] < b.rows.length) out.push(b.rows[at[bi]++]);
-        }
-      });
-      if (out.length >= max || out.length === before) return out;
-    }
-  };
-
-  const experienceDays = dayList.map(iso => {
-    const rows = onDay(iso);
-    const ofType = (t: string) =>
-      spreadByVenue(rows.filter(d => (typeBySlug.get(d.venueSlug || '') || '') === t));
-    return {
-      date: iso,
-      items: weave(
-        [
-          { rows: ofType('activities'), weight: 2 },
-          { rows: ofType('boat'), weight: 1 },
-          { rows: ofType('formentera-day-trip'), weight: 1 },
-        ],
-        PER_DAY,
-      ).map(mapDate),
-    };
-  }).filter(d => d.items.length > 0);
-
-  const clubDays = nachtList.map(iso => ({
-    date: iso,
-    // Same provider-spread as the experiences grid: a club with four rooms
-    // billed as four events should not take a third of the night's line-up.
-    items: spreadByVenue(onDay(iso).filter(d => clubbingSlugs.has(d.venueSlug || '')))
-      .slice(0, PER_DAY)
-      .map(d => ({
-        id: d.id,
-        name: d.name,
-        date: d.date,
-        prices: d.prices,
-        ct_events: {
-          name: d.eventName,
-          slug: d.eventSlug,
-          logo: d.eventLogo,
-          cover: pickCover(d.eventCover, d.eventLogo, d.venueCover)
-        },
-        ct_venues: {
-          name: d.venueName,
-          slug: d.venueSlug
-        }
-      })),
-  })).filter(d => d.items.length > 0);
+  // nachtStr en todayStr apart: clubavonden lopen door tot een uur of zes 's
+  // ochtends, dagactiviteiten niet. Zie ibizaTonight().
+  const { clubDays, experienceDays } = await buildHomeDays(params.locale, tonightStr, todayStr, DAYS);
 
   // reviewsSlot: zichtbare reviews én hun Review/AggregateRating-markup op
   // dezelfde pagina, uit dezelfde gecachte fetch. Schema zonder zichtbare
