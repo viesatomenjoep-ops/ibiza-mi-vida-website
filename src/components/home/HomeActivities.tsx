@@ -97,16 +97,23 @@ export function HomeActivities({
     <HomeZoneRail
       id="zone-island"
       locale={locale}
-      bg="#EADFC0"
+      // Was verzadigd zandgeel (#EADFC0), nu hetzelfde lichtgrijs als de
+      // andere drie werelden -- zie de toelichting in HomeEventsTickets. De
+      // accentkleur (goud, #C8A24A) blijft dragend voor knop en actieve dag.
+      bg="#FFFFFF"
       accent="#C8A24A"
       kickerColor="#A07F2A"
-      glow={{ x: '90%', y: '30%', color: 'rgba(200,162,74,.18)' }}
+      glow={{ x: '90%', y: '30%', color: 'rgba(200,162,74,.08)' }}
       roundedTop
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}
       text={t(L.tekst, locale)}
       ctaLabel={t(L.knop, locale)}
-      ctaHref={`${base}/activities-calendar`}
+      // Niet /activities-calendar (de kale datumagenda) maar /activities: de
+      // echte hub met alle activiteiten op een rij. Wie net drie kaarten met
+      // een grot, een buggy en een quad heeft gezien wil eerst weten wát er
+      // allemaal is, niet meteen een lege datumkalender.
+      ctaHref={`${base}/activities`}
       days={days}
       loadWeek={loadWeek}
     />

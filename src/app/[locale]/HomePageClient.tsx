@@ -16,7 +16,6 @@ import { HomeUSP } from '@/components/home/HomeUSP';
 import { HomeInstagram } from '@/components/home/HomeInstagram';
 import { HomeTikTok } from '@/components/home/HomeTikTok';
 import { HomeNewsletter } from '@/components/home/HomeNewsletter';
-import { HomeRingCarousel } from '@/components/home/HomeRingCarousel';
 import { HomeTonight } from '@/components/home/HomeTonight';
 import { HeroRatingBadge, type HeroRating } from '@/components/home/HeroRatingBadge';
 import { HomeEventsTickets } from '@/components/home/HomeEventsTickets'
@@ -210,15 +209,12 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
 
 
-      {/* Vlootcarrousel: tussen "Vanavond op Ibiza" en Featured Events, op
-          aanwijzing van de plek in de schermafbeelding. Wie net de agenda van
-          vanavond heeft gezien, is precies in de stemming voor de dag ervoor —
-          en dit is de sectie met de hoogste orderwaarde van de site. Dure en
-          goedkope boten om en om; zie de selectie-functie voor waarom. */}
-      {/* 3D-ring met boten, excursies en events — verving de platte rij van
-          twaalf boten. Zie HomeRingCarousel voor waarom de animatie de site
-          niet zwaarder maakt. */}
-      <HomeRingCarousel locale={locale} base={base} events={pickerEvents} experienceDays={experienceDays} />
+      {/* Hier stond de 3D-ring: "Ibiza in beeld" met de pillen Events &
+          Tickets / Op het water / Ferry's & Katamaran / Beleef het eiland en
+          een gekantelde stapel kaarten. Op verzoek gesloopt. De vier werelden
+          eronder ontsluiten dezelfde boten, excursies en events al met een
+          gewone dagkiezer en kaartrail; dit was een tweede, zwaardere ingang
+          naar precies dezelfde inhoud. */}
 
       {/* De vier werelden. Hier stond een sticky categorienav boven (HomeZoneNav):
           een donkere balk die onder de navigatiebalk bleef plakken zolang je
