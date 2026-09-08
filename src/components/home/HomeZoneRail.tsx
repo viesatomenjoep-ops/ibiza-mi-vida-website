@@ -304,7 +304,7 @@ export function HomeZoneRail({
             tot aan de rand. Nu staat het cluster als geheel in het midden,
             ongeacht hoe breed het scherm is. */}
         <div className="mt-9 flex flex-wrap items-center justify-center gap-6">
-          <div className="flex min-w-0 flex-col items-center gap-2.5 text-center" style={{ flexBasis: 300, maxWidth: 760 }}>
+          <div className="flex min-w-0 flex-col items-center gap-2.5 text-center" style={{ flexBasis: 300, maxWidth: 820 }}>
             {/* Maandlabel met weekpijlen. De kiezer toonde zeven dagen en daar
                 hield het op: wie over twee weken op Ibiza is kon hier niet zien
                 wat er dan speelt. Terug kan niet verder dan de eerste week --
@@ -323,12 +323,12 @@ export function HomeZoneRail({
                 onClick={() => gaNaarWeek(-1)}
                 disabled={week === 0}
                 aria-label={t(L.previous, locale)}
-                className="grid h-11 w-11 flex-none place-items-center rounded-full border-[1.5px] transition-opacity duration-200 disabled:opacity-30 md:h-14 md:w-14"
+                className="grid h-14 w-14 flex-none place-items-center rounded-full border-[1.5px] transition-opacity duration-200 disabled:opacity-30 md:h-20 md:w-20"
                 style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
                 onMouseEnter={e => { if (!e.currentTarget.disabled) { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' } }}
                 onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
               >
-                <ChevronLeft className="h-[18px] w-[18px] md:h-6 md:w-6" strokeWidth={2.5} aria-hidden />
+                <ChevronLeft className="h-6 w-6 md:h-8 md:w-8" strokeWidth={2.5} aria-hidden />
               </button>
               <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.2em] md:text-sm" style={{ color: captionMuted }}>
                 {monthLabel}
@@ -339,14 +339,14 @@ export function HomeZoneRail({
                 disabled={laadt || !loadWeek}
                 aria-label={t(L.next, locale)}
                 aria-busy={laadt || undefined}
-                className="grid h-11 w-11 flex-none place-items-center rounded-full border-[1.5px] transition-opacity duration-200 disabled:opacity-30 md:h-14 md:w-14"
+                className="grid h-14 w-14 flex-none place-items-center rounded-full border-[1.5px] transition-opacity duration-200 disabled:opacity-30 md:h-20 md:w-20"
                 style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
                 onMouseEnter={e => { if (!e.currentTarget.disabled) { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' } }}
                 onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
               >
                 {laadt
-                  ? <Loader2 className="h-[18px] w-[18px] animate-spin md:h-6 md:w-6" strokeWidth={2.5} aria-hidden />
-                  : <ChevronRight className="h-[18px] w-[18px] md:h-6 md:w-6" strokeWidth={2.5} aria-hidden />}
+                  ? <Loader2 className="h-6 w-6 animate-spin md:h-8 md:w-8" strokeWidth={2.5} aria-hidden />
+                  : <ChevronRight className="h-6 w-6 md:h-8 md:w-8" strokeWidth={2.5} aria-hidden />}
               </button>
             </div>
             {/* Was clamp(...vw...): een vloeiende schaal die aan de
@@ -365,7 +365,7 @@ export function HomeZoneRail({
                     type="button"
                     onClick={() => pickDay(i)}
                     aria-pressed={on}
-                    className="flex h-16 w-full flex-col items-center justify-center gap-[3px] rounded-2xl border transition-colors duration-200 md:h-20"
+                    className="flex h-20 w-full flex-col items-center justify-center gap-[3px] rounded-2xl border transition-colors duration-200 md:h-24"
                     style={{
                       borderColor: on ? accent : (dark ? 'rgba(255,255,255,.18)' : 'rgba(20,20,20,.1)'),
                       background: on ? accent : (dark ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.7)'),
@@ -373,8 +373,8 @@ export function HomeZoneRail({
                       boxShadow: on ? `0 10px 24px -14px ${accent}` : 'none',
                     }}
                   >
-                    <span className="font-display text-[clamp(15px,4.2vw,17px)] font-bold leading-[1.1] tracking-[0.01em] md:text-2xl">{num}</span>
-                    <span className="font-sans text-[clamp(9px,2.6vw,11px)] font-medium uppercase leading-[1.1] tracking-[0.06em] opacity-75 md:text-sm">{weekday}</span>
+                    <span className="font-display text-[clamp(17px,4.6vw,20px)] font-bold leading-[1.1] tracking-[0.01em] md:text-3xl">{num}</span>
+                    <span className="font-sans text-[clamp(9px,2.8vw,12px)] font-medium uppercase leading-[1.1] tracking-[0.06em] opacity-75 md:text-base">{weekday}</span>
                   </button>
                 )
               })}
@@ -385,23 +385,23 @@ export function HomeZoneRail({
               type="button"
               aria-label={t(L.previous, locale)}
               onClick={() => scrollByCard(-1)}
-              className="grid h-11 w-11 place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-14 md:w-14"
+              className="grid h-14 w-14 place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-20 md:w-20"
               style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
               onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
               onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
             >
-              <ChevronLeft className="h-[18px] w-[18px] md:h-6 md:w-6" strokeWidth={2.5} aria-hidden />
+              <ChevronLeft className="h-6 w-6 md:h-8 md:w-8" strokeWidth={2.5} aria-hidden />
             </button>
             <button
               type="button"
               aria-label={t(L.next, locale)}
               onClick={() => scrollByCard(1)}
-              className="grid h-11 w-11 place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-14 md:w-14"
+              className="grid h-14 w-14 place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-20 md:w-20"
               style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
               onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
               onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
             >
-              <ChevronRight className="h-[18px] w-[18px] md:h-6 md:w-6" strokeWidth={2.5} aria-hidden />
+              <ChevronRight className="h-6 w-6 md:h-8 md:w-8" strokeWidth={2.5} aria-hidden />
             </button>
           </div>
         </div>
