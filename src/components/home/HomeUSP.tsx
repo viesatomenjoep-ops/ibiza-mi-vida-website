@@ -80,6 +80,12 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
           </h2>
         </div>
 
+        {/* Zwarte tegels, tekst wit en groen -- op verzoek. Was een lichte
+            kaart met goud-accent; nu staan de vier tegels in het obsidian van
+            het merk (--black), titel in wit, omschrijving en icoon in het
+            groen dat de site al gebruikt voor bevestiging en geld
+            (ibiza-green). Steekt duidelijker af tegen de lichtgrijze secties
+            eromheen dan een witte kaart op een witte pagina deed. */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {USPS.map((u, i) => {
             const Icon = u.icon
@@ -87,15 +93,15 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
               <Reveal
                 key={i}
                 delay={i * 90}
-                className="group rounded-[22px] border border-black/8 bg-white p-6 transition-all hover:border-gold/50 hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)]"
+                className="group rounded-[22px] border border-white/10 bg-[#0D0509] p-6 transition-all hover:border-ibiza-green/50 hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.55)]"
               >
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gold/12 text-gold ring-1 ring-gold/25 transition-colors group-hover:bg-gold group-hover:text-white">
+                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-ibiza-green/15 text-ibiza-green ring-1 ring-ibiza-green/30 transition-colors group-hover:bg-ibiza-green group-hover:text-white">
                   <Icon size={22} strokeWidth={2} />
                 </div>
-                <h3 className="font-serif text-lg font-black leading-tight text-neutral-900">
+                <h3 className="font-serif text-lg font-black leading-tight text-white">
                   {t(u.title, locale)}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+                <p className="mt-2 text-sm leading-relaxed text-ibiza-green/80">
                   {t(u.text, locale)}
                 </p>
               </Reveal>
