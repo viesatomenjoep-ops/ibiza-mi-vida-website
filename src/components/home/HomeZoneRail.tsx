@@ -140,22 +140,44 @@ function useDragScroll(ref: RefObject<HTMLDivElement>) {
   }, [ref])
 }
 
+/**
+ * min-w-0 + truncate op het label: dit staat naast de prijs op één regel, en
+ * een lang label ("Privéboot", "Op het water") duwde die prijs anders de kaart
+ * uit. Het bolletje zelf mag nooit meekrimpen, vandaar shrink-0 -- een
+ * samengeknepen stip leest als een streepje.
+ */
 function TagDot({ color, label }: { color: string; label: string }) {
   return (
-    <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold">
-      <span aria-hidden className="inline-block h-2 w-2 rounded-full" style={{ background: color }} />
-      {label}
+    <span className="inline-flex min-w-0 items-center gap-1.5 text-[13px] font-semibold">
+      <span aria-hidden className="inline-block h-2 w-2 shrink-0 rounded-full" style={{ background: color }} />
+      <span className="truncate">{label}</span>
     </span>
   )
 }
 
+/**
+ * "Vanaf:" boven het bedrag in plaats van ernaast.
+ *
+ * Naast elkaar was het te breed voor de tekstkolom van een kaart (op de
+ * smalste kaart ~132px): met "Privéboot" links en "Vanaf: €1.200" rechts
+ * paste het bij 19 van de 27 kaarten niet, waardoor de prijs naar een tweede
+ * regel zakte -- bij de andere 8 niet. Dat gaf een rij kaarten die er om en
+ * om anders uitzag.
+ *
+ * Gestapeld is het blok net zo breed als het bedrag zelf, dus past het overal,
+ * en zien alle kaarten er hetzelfde uit. shrink-0 omdat de prijs het enige op
+ * de kaart is dat niet mag inkorten -- een afgekapte "€1.2…" is erger dan geen
+ * prijs. Het label ernaast kort wel in.
+ */
 function PriceTag({ price, locale, size }: { price?: string; locale: string; size: 'lg' | 'sm' }) {
   return (
-    <span className="whitespace-nowrap">
-      <span className={size === 'lg' ? 'mr-1 text-[11px] text-white/70' : 'mr-1 text-[11px] text-black/60'}>
-        {price ? t(L.from, locale) : ''}
-      </span>
-      <span className={`font-display ${size === 'lg' ? 'text-[26px] font-extrabold leading-none' : 'text-xl font-extrabold leading-none'}`}>
+    <span className="flex shrink-0 flex-col items-end whitespace-nowrap leading-none">
+      {price && (
+        <span className={`mb-0.5 text-[10px] ${size === 'lg' ? 'text-white/70' : 'text-black/55'}`}>
+          {t(L.from, locale)}
+        </span>
+      )}
+      <span className={`font-display font-extrabold leading-none ${size === 'lg' ? 'text-[26px]' : 'text-[19px]'}`}>
         {price || t(L.onRequest, locale)}
       </span>
     </span>
@@ -469,7 +491,7 @@ export function HomeZoneRail({
                     {featured.venue}{featured.venue && featured.time ? ' · ' : ''}{featured.time}
                   </span>
                 )}
-                <span className="mt-2 flex items-baseline justify-between gap-2">
+                <span className="mt-2 flex items-end justify-between gap-2">
                   <TagDot color={accent} label={featured.tag} />
                   <PriceTag price={featured.price} locale={locale} size="lg" />
                 </span>
@@ -513,7 +535,10 @@ export function HomeZoneRail({
                       {c.time}
                     </span>
                   )}
-                  <span className="mt-auto flex items-baseline justify-between gap-2 pt-2.5">
+                  {/* items-end: het prijsblok is twee regels ("Vanaf:" boven het
+                      bedrag), het label ernaast één. Uitlijnen op de onderkant
+                      zet het bedrag en het label op dezelfde optische lijn. */}
+                  <span className="mt-auto flex items-end justify-between gap-2 pt-2.5">
                     <TagDot color={accent} label={c.tag} />
                     <PriceTag price={c.price} locale={locale} size="sm" />
                   </span>
