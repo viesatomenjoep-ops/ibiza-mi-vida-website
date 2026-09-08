@@ -62,13 +62,20 @@ export function HomeBoats({ todayStr, locale = 'nl', base }: { todayStr: string;
     <HomeZoneRail
       id="zone-water"
       locale={locale}
-      // Was verzadigd mintgroen (#D5EAE2), nu hetzelfde lichtgrijs als de
-      // andere drie werelden -- zie de toelichting in HomeEventsTickets. De
-      // accentkleur (groen, #0E7C66) blijft dragend voor knop en actieve dag.
-      bg="#F4F3EF"
-      accent="#0E7C66"
-      kickerColor="#0E7C66"
-      glow={{ x: '10%', y: '20%', color: 'rgba(14,124,102,.06)' }}
+      // Pantone Blue Violet (2725 C) als accent -- de koelste kleur van het
+      // blad, en de enige die bij water past zonder in het cliché van
+      // zeeblauw te vallen. Haalt met witte tekst 5,34:1, dus de bladkleur
+      // kan hier ongewijzigd blijven.
+      //
+      // Achtergrond Cloud Dancer (11-4201 TPG), dat de lichtgrijze tint van
+      // hiervoor vervangt. De vier werelden wisselen af tussen wit en Cloud
+      // Dancer, zodat je de grens tussen twee secties ziet zonder dat er een
+      // lijn of een fel vlak voor nodig is.
+      bg="var(--pantone-cloud)"
+      accent="var(--pantone-violet)"
+      accentInk="#fff"
+      kickerColor="var(--pantone-violet-ink)"
+      glow={{ x: '10%', y: '20%', color: 'rgba(107,90,201,.10)' }}
       roundedTop
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}

@@ -47,6 +47,15 @@ interface HomeZoneRailProps {
   locale?: string
   bg: string
   accent: string
+  /**
+   * Tekstkleur bovenop `accent` -- knoplabel, actieve dag in de kiezer.
+   *
+   * Standaard wit, want dat klopte voor alle accenten die de site tot nu toe
+   * had. Met het Pantone-palet niet meer: Sun Glare (#D9E64B) heeft een
+   * relatieve luminantie van ongeveer 0,77, dus wit erop komt uit rond 1,3:1
+   * -- praktisch onleesbaar. Die zone geeft hier Darkest Hour mee.
+   */
+  accentInk?: string
   kickerColor: string
   /** Radiale gloed over de sectie: positie + kleur op .12–.28 dekking. */
   glow: { x: string; y: string; color: string }
@@ -158,6 +167,7 @@ export function HomeZoneRail({
   locale = 'nl',
   bg,
   accent,
+  accentInk = '#fff',
   kickerColor,
   glow,
   dark = false,
@@ -289,10 +299,10 @@ export function HomeZoneRail({
           </div>
           <a
             href={ctaHref}
-            className="inline-flex items-center gap-2.5 whitespace-nowrap rounded-full px-[22px] py-3.5 font-sans text-xs font-extrabold uppercase tracking-[0.18em] text-white transition-colors duration-200"
-            style={{ background: accent, boxShadow: `0 18px 40px -18px ${accent}cc` }}
+            className="inline-flex items-center gap-2.5 whitespace-nowrap rounded-full px-[22px] py-3.5 font-sans text-xs font-extrabold uppercase tracking-[0.18em] transition-colors duration-200"
+            style={{ background: accent, color: accentInk, boxShadow: `0 18px 40px -18px ${accent}cc` }}
             onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
-            onMouseLeave={e => { e.currentTarget.style.background = accent; e.currentTarget.style.color = '#fff' }}
+            onMouseLeave={e => { e.currentTarget.style.background = accent; e.currentTarget.style.color = accentInk }}
           >
             {ctaLabel} <span aria-hidden>→</span>
           </a>
@@ -369,7 +379,7 @@ export function HomeZoneRail({
                     style={{
                       borderColor: on ? accent : (dark ? 'rgba(255,255,255,.18)' : 'rgba(20,20,20,.1)'),
                       background: on ? accent : (dark ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.7)'),
-                      color: on ? '#fff' : (dark ? '#fff' : '#141414'),
+                      color: on ? accentInk : (dark ? '#fff' : '#141414'),
                       boxShadow: on ? `0 10px 24px -14px ${accent}` : 'none',
                     }}
                   >
@@ -442,8 +452,8 @@ export function HomeZoneRail({
               />
               <div className="pointer-events-none absolute inset-0" style={{ background: 'linear-gradient(180deg,rgba(0,0,0,.05) 25%,rgba(0,0,0,.8) 100%)' }} />
               <span
-                className="absolute left-3.5 top-3.5 rounded-full px-3 py-2 font-sans text-xs font-bold leading-none text-white"
-                style={{ background: accent }}
+                className="absolute left-3.5 top-3.5 rounded-full px-3 py-2 font-sans text-xs font-bold leading-none"
+                style={{ background: accent, color: accentInk }}
               >
                 {fmtShortDate(day.iso, locale)}
               </span>

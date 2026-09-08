@@ -2,7 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Pantone-palet ────────────────────────────────────────────────────────
+   Vijf kleuren, uit het aangeleverde Pantone-blad. Dit is de enige plek waar
+   de waarden staan; alles daaronder verwijst ernaar, zodat een bijstelling
+   op één regel gebeurt in plaats van in dertig bestanden.
+
+   De drie accenten zijn fel en verdragen elkaar slecht op één scherm. De
+   verdeling is daarom: één accent per sectie, nooit twee naast elkaar, met
+   Cloud Dancer en Darkest Hour als de rustige basis die alles bij elkaar
+   houdt. Zo blijft het palet herkenbaar zonder dat de pagina een kleurenkaart
+   wordt.
+
+   Let op de leesbaarheid: Sun Glare is zó licht (relatieve luminantie ~0,77)
+   dat witte tekst erop rond 1,3:1 uitkomt -- onleesbaar. Op Sun Glare hoort
+   altijd Darkest Hour. Vandaar --ink-on-sun; gebruik dat en niet #fff. */
 :root{
+  /* De vijf kleuren zoals ze op het blad staan. */
+  --pantone-sun-glare:#D9E64B;      /* 13-0663 TSX Sun Glare */
+  --pantone-orange:#E8603C;         /* 17-1363 TSX Exuberant Orange */
+  --pantone-violet:#6B5AC9;         /* 2725 C Blue Violet */
+  --pantone-cloud:#F0EEE9;          /* 11-4201 TPG Cloud Dancer */
+  --pantone-darkest:#2C2C2C;        /* 20-0199 TPM Darkest Hour */
+
+  /* ── Werkvarianten, want de bladkleuren zijn niet allemaal bruikbaar als
+        vlak of als tekst. Doorgemeten contrast (WCAG), niet geschat:
+
+          vlak + witte tekst      Sun 1,37   Oranje 3,40   Violet 5,34
+          vlak + Darkest-tekst    Sun 10,22  Oranje 4,10   Violet 2,61
+          als tekst op Cloud      Sun 1,18   Oranje 2,94   Violet 4,61
+
+        Sun Glare met wit is dus onleesbaar en oranje haalt met geen van
+        beide de 4,5 die AA voor deze tekstgroottes vraagt. Vandaar: Sun
+        houdt de bladkleur maar draagt altijd donkere tekst, oranje krijgt
+        een dieper vlak dat wél 5,04 haalt met wit, en voor kleine
+        gekleurde teksten staat er per accent een donkere inktvariant. */
+  --pantone-orange-fill:#C2451F;    /* wit erop: 5,04 */
+  --pantone-orange-ink:#B03D19;     /* op Cloud: 5,13 */
+  --pantone-sun-ink:#5F6A0E;        /* op Cloud: 5,10 */
+  --pantone-violet-ink:#4A3AA8;     /* op Cloud: 7,36 */
+
+  /* Tekstkleur die bovenop elk accentvlak leesbaar is. */
+  --ink-on-sun:var(--pantone-darkest);
+  --ink-on-orange:#fff;
+  --ink-on-violet:#fff;
+
   --black:#0D0509;
   --panel:#180A11;
   --panel2:#241019;
@@ -314,7 +357,7 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
    op lichtgrijs. */
 .fs-menu{
   position:fixed;inset:0;z-index:90;
-  background:#F4F3EF;
+  background:var(--pantone-cloud);
   display:flex;flex-direction:column;
   padding:0;
   overflow:hidden;
@@ -1362,7 +1405,7 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
    dezelfde dekking op lichtgrijs. De kleurbies per categorie (roze, groen,
    goud) blijft staan -- dat zijn merkkleuren, geen onderdeel van het
    licht/donker-vraagstuk. */
-.fs-menu{background:#F4F3EF;}
+.fs-menu{background:var(--pantone-cloud);}
 /* Category bars run flush from the top (below the navbar) to the language selector */
 .fs-nav{padding:0;display:flex;flex-direction:column;}
 /* Yacht photo tiles — five across the full width, flush to the line above */
@@ -1382,11 +1425,15 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
    kleurbies aan de linkerkant als wegwijzer, in tinten die de site al
    gebruikt. De geopende categorie licht als geheel iets op (wit i.p.v.
    lichtgrijs). Rustiger, en het menu hoort weer bij de rest van de site. */
-.fs-cat{border-bottom-color:rgba(13,5,9,.08);background:#EDEBE5;border-left:4px solid transparent;transition:background .2s ease;}
-.fs-cat[data-cat="events"]{border-left-color:var(--spring);}
-.fs-cat[data-cat="water"]{border-left-color:#0E7C66;}
-.fs-cat[data-cat="island"]{border-left-color:#C8A24A;}
-.fs-cat[data-cat="insider"]{border-left-color:rgba(13,5,9,.25);}
+.fs-cat{border-bottom-color:rgba(13,5,9,.08);background:#E8E5DE;border-left:4px solid transparent;transition:background .2s ease;}
+/* De kleurbies per categorie volgt exact het accent van de bijbehorende
+   wereldsectie op de homepage: wie in het menu op de oranje bies tikt, komt
+   uit in de oranje sectie. Dat is de hele functie van deze bies -- hem hier
+   een eigen kleurenset geven zou die koppeling breken. */
+.fs-cat[data-cat="events"]{border-left-color:var(--pantone-orange);}
+.fs-cat[data-cat="water"]{border-left-color:var(--pantone-violet);}
+.fs-cat[data-cat="island"]{border-left-color:var(--pantone-sun-glare);}
+.fs-cat[data-cat="insider"]{border-left-color:var(--pantone-darkest);}
 .fs-cat--open{background:#FFFFFF;}
 .fs-cat-label{color:var(--black);}
 .fs-cat-btn:hover .fs-cat-label{color:var(--spring);filter:none;opacity:1;}
@@ -1396,7 +1443,7 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 .fs-item:hover{color:var(--black);border-left-color:var(--spring);padding-left:56px;}
 .fs-item:hover .fs-item-arrow{color:var(--spring);}
 .fs-item-arrow{color:rgba(13,5,9,.3);}
-.fs-footer{border-top-color:rgba(13,5,9,.08);background:#F4F3EF;}
+.fs-footer{border-top-color:rgba(13,5,9,.08);background:var(--pantone-cloud);}
 .fs-lang{border-color:rgba(13,5,9,.15);color:rgba(13,5,9,.55);}
 .fs-lang:hover,.fs-lang.active{border-color:var(--spring);color:var(--spring);background:rgba(225,77,104,.1);}
 

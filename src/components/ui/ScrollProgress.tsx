@@ -60,7 +60,7 @@ export function ScrollProgress() {
       <div
         ref={barRef}
         className="h-full rounded-r-full"
-        style={{ width: '0%', backgroundColor: '#E14D68', transition: 'width 120ms ease-out' }}
+        style={{ width: '0%', backgroundColor: 'var(--pantone-orange)', transition: 'width 120ms ease-out' }}
       />
     </div>
   )

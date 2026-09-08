@@ -98,16 +98,18 @@ export function HomeEventsTickets({
     <HomeZoneRail
       id="zone-events"
       locale={locale}
-      // Was een verzadigd roze (#F6E3E8). Op verzoek naar hetzelfde
-      // lichtgrijs als de rest van de site -- de vier felle vlakken van de
-      // werelden lazen als een pretpark naast elkaar, en dat moest zakelijker
-      // en luxer ogen. De accentkleur (roze, #E14D68) blijft wél staan: die
-      // draagt de knop, de actieve dag en de kleurbies in het menu, en is de
-      // enige plek waar je nog kunt zien welke wereld dit is.
+      // Pantone Exuberant Orange (17-1363 TSX) als accent van deze wereld --
+      // de meest energieke kleur van het blad, en dat past bij clubnachten.
+      //
+      // Niet de bladkleur zelf (#E8603C): die haalt met witte tekst maar
+      // 3,40:1 en de knop draagt een label. --pantone-orange-fill is dezelfde
+      // kleur een slag dieper en komt op 5,04:1. De bladkleur blijft wel de
+      // gloed voeden, waar geen tekst overheen komt.
       bg="#FFFFFF"
-      accent="#E14D68"
-      kickerColor="#E14D68"
-      glow={{ x: '85%', y: '10%', color: 'rgba(225,77,104,.06)' }}
+      accent="var(--pantone-orange-fill)"
+      accentInk="#fff"
+      kickerColor="var(--pantone-orange-ink)"
+      glow={{ x: '85%', y: '10%', color: 'rgba(232,96,60,.10)' }}
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}
       text={t(L.tekst, locale)}

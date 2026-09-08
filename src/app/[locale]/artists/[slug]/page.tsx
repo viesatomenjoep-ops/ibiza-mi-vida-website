@@ -299,8 +299,16 @@ export default async function ArtistPage({ params }: Props) {
   const headerImage = rawHeaderImg && rawHeaderImg.trim() ? rawHeaderImg : '/hi-ibiza-2026/FB_IMG_1779623220486.jpg';
   const spotifyDetails = getSpotifyEmbedDetails(artist.slug);
 
+  // Achtergrond in Pantone Exuberant Orange, in de diepere vlakvariant. Was
+  // het oude roze (#E14D68). Bewust dezelfde kleur als de Events &
+  // Tickets-sectie op de homepage: een artiest ís een clubavond, en het oog
+  // hoort die twee bij elkaar te leggen.
+  //
+  // De bladkleur zelf (#E8603C) kan hier niet -- deze pagina draait volledig
+  // op witte tekst en die haalt daarop maar 3,40:1. De vlakvariant komt op
+  // 5,04:1 en blijft onmiskenbaar dezelfde oranje.
   return (
-    <div className="theme-monaco-vip bg-[#E14D68] text-white min-h-screen pb-24">
+    <div className="theme-monaco-vip bg-[var(--pantone-orange-fill)] text-white min-h-screen pb-24">
       <BreadcrumbJsonLd
         locale={locale}
         items={[

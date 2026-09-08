@@ -97,13 +97,19 @@ export function HomeActivities({
     <HomeZoneRail
       id="zone-island"
       locale={locale}
-      // Was verzadigd zandgeel (#EADFC0), nu hetzelfde lichtgrijs als de
-      // andere drie werelden -- zie de toelichting in HomeEventsTickets. De
-      // accentkleur (goud, #C8A24A) blijft dragend voor knop en actieve dag.
+      // Pantone Sun Glare (13-0663 TSX) als accent -- zon en land, de
+      // logische keuze van het blad voor de buitenactiviteiten.
+      //
+      // Dit is de enige wereld waar `accentInk` niet wit is. Sun Glare is zo
+      // licht dat witte tekst erop op 1,37:1 uitkomt, oftewel onleesbaar; met
+      // Darkest Hour erop is het 10,22:1. Vandaar donkere tekst op de knop en
+      // op de actieve dag. De kicker gebruikt een diep olijf, want de
+      // bladkleur als tekst op een lichte ondergrond haalt maar 1,18:1.
       bg="#FFFFFF"
-      accent="#C8A24A"
-      kickerColor="#A07F2A"
-      glow={{ x: '90%', y: '30%', color: 'rgba(200,162,74,.08)' }}
+      accent="var(--pantone-sun-glare)"
+      accentInk="var(--ink-on-sun)"
+      kickerColor="var(--pantone-sun-ink)"
+      glow={{ x: '90%', y: '30%', color: 'rgba(217,230,75,.16)' }}
       roundedTop
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}

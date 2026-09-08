@@ -11,6 +11,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // ── Pantone-palet ────────────────────────────────────────────────
+        // De waarden zelf staan in globals.css onder :root; hier alleen de
+        // verwijzing, zodat er één bron van waarheid is. Gebruik deze als
+        // `bg-pantone-orange`, `text-pantone-darkest`, enzovoort.
+        //
+        // Sun Glare is te licht voor witte tekst (~1,3:1). Zet daar altijd
+        // `text-pantone-darkest` op, of gebruik de var --ink-on-sun.
+        pantone: {
+          sun: 'var(--pantone-sun-glare)',
+          orange: 'var(--pantone-orange)',
+          violet: 'var(--pantone-violet)',
+          cloud: 'var(--pantone-cloud)',
+          darkest: 'var(--pantone-darkest)',
+        },
+
         midnight: '#102033', // Keeping for legacy, use velvet-obsidian
         sandstone: '#E9DFD2',
         teal: {

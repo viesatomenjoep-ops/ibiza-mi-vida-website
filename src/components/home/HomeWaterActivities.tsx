@@ -95,19 +95,20 @@ export function HomeWaterActivities({
     <HomeZoneRail
       id="zone-wateract"
       locale={locale}
-      // Was de enige donkere wereld van de vier (#2A2547, wit-op-donker) --
-      // dat las als een uitzondering te midden van drie lichte vlakken en niet
-      // als een bewust vierde stijl. Nu hetzelfde lichtgrijs, met `dark`
-      // weggehaald zodat HomeZoneRail zijn tekst- en pijlkleuren omdraait naar
-      // donker-op-licht net als de andere drie. kickerColor werd gekozen als
-      // lichtlila (#B9ACE6) juist om op dat donkere vlak te lezen; op een
-      // lichte ondergrond is dat te bleek, dus een dieper paars in plaats
-      // daarvan. De accentkleur (#8D7BC4) blijft dragend voor knop en
-      // actieve dag, ongewijzigd.
-      bg="#F4F3EF"
-      accent="#8D7BC4"
-      kickerColor="#6B5A9E"
-      glow={{ x: '15%', y: '20%', color: 'rgba(141,123,196,.1)' }}
+      // Pantone Darkest Hour (20-0199 TPM) als accent. Het blad heeft drie
+      // accenten voor vier werelden; die drie zijn alle drie fel en verdragen
+      // elkaar slecht, dus een vierde felle kleur bijverzinnen zou het palet
+      // juist verzwakken. Darkest Hour is de rustigste manier om deze wereld
+      // een eigen gezicht te geven, en haalt met wit 13,97:1 -- veruit het
+      // hoogste contrast van alle vier.
+      //
+      // Achtergrond Cloud Dancer, zodat wit en Cloud Dancer om en om lopen
+      // over de vier secties.
+      bg="var(--pantone-cloud)"
+      accent="var(--pantone-darkest)"
+      accentInk="#fff"
+      kickerColor="var(--pantone-darkest)"
+      glow={{ x: '15%', y: '20%', color: 'rgba(44,44,44,.06)' }}
       roundedTop
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}

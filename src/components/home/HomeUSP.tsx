@@ -80,13 +80,13 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
           </h2>
         </div>
 
-        {/* Zwarte tegels met wit en groen -- op verzoek, in twee stappen. Was
-            een lichte kaart met goud-accent; eerst naar obsidian (--black)
-            met de omschrijving in het groen dat de site al gebruikt voor
-            bevestiging en geld (ibiza-green). Dat oogde te vlak naast de
-            witte titel erboven. Nu draagt alleen het icoon nog het groen, de
-            omschrijving is wit op 70% dekking, met een zachte groene gloed
-            rechtsboven die pas bij hover opkomt. */}
+        {/* Donkere tegels, wit en Sun Glare -- in drie stappen hier beland.
+            Eerst een lichte kaart met goud-accent, toen obsidian met alles in
+            het groen (te vlak), en nu Darkest Hour uit het Pantone-palet met
+            een witte titel, de omschrijving wit op 70% en alleen het icoon in
+            Sun Glare. Die combinatie haalt 10,22:1 -- het hoogste contrast
+            van het hele palet, en dus de enige plek waar de felste bladkleur
+            onverdund kan staan zonder leesbaarheid te kosten. */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {USPS.map((u, i) => {
             const Icon = u.icon
@@ -94,16 +94,19 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
               <Reveal
                 key={i}
                 delay={i * 90}
-                className="group relative overflow-hidden rounded-[22px] border border-white/10 bg-[#0D0509] p-6 transition-all hover:-translate-y-0.5 hover:border-ibiza-green/50 hover:shadow-[0_22px_48px_-24px_rgba(14,124,102,0.45)]"
+                className="group relative overflow-hidden rounded-[22px] border border-white/10 bg-pantone-darkest p-6 transition-all hover:-translate-y-0.5 hover:border-pantone-sun/50 hover:shadow-[0_22px_48px_-24px_rgba(217,230,75,0.35)]"
               >
                 {/* Zachte gloed rechtsboven, alleen zichtbaar op hover -- geeft
                     de tegel diepte zonder de rest van de rij drukker te
                     maken. */}
                 <div
                   aria-hidden
-                  className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-ibiza-green/0 blur-2xl transition-colors duration-500 group-hover:bg-ibiza-green/20"
+                  className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-pantone-sun/0 blur-2xl transition-colors duration-500 group-hover:bg-pantone-sun/20"
                 />
-                <div className="relative mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-ibiza-green/15 text-ibiza-green ring-1 ring-ibiza-green/30 transition-colors group-hover:bg-ibiza-green group-hover:text-white">
+                {/* Sun Glare op Darkest Hour: 10,22:1, het hoogste contrast van
+                    het hele palet. Op de donkere tegel is dit de enige plek
+                    waar de bladkleur onverdund kan staan. */}
+                <div className="relative mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-pantone-sun/15 text-pantone-sun ring-1 ring-pantone-sun/30 transition-colors group-hover:bg-pantone-sun group-hover:text-pantone-darkest">
                   <Icon size={22} strokeWidth={2} />
                 </div>
                 <h3 className="relative font-serif text-lg font-black leading-tight text-white">
