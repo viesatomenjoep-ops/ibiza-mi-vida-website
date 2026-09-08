@@ -1,5 +1,6 @@
 import { Star } from 'lucide-react'
 import type { Locale } from '@/lib/seo'
+import { GoogleGMark } from '@/components/ui/GoogleGMark'
 
 export interface HeroRating {
   /** Average as Google reports it, e.g. 4.9. */
@@ -74,6 +75,15 @@ export function HeroRatingBadge({ rating, total, url, locale }: HeroRating & { l
             className={i < filled ? 'fill-gold-soft text-gold-soft' : 'text-white/35'}
           />
         ))}
+      </span>
+      {/* Het Google-logo erachter, op verzoek -- met een dun lijntje ertussen
+          zodat het duidelijk een los kenmerk is en niet aan de sterren
+          vastplakt. Witte cirkel eronder: het logo heeft zelf geen
+          achtergrond en de vier kleuren vielen weg tegen de doorschijnend
+          zwarte pil. */}
+      <span aria-hidden className="h-4 w-px bg-white/25" />
+      <span aria-hidden className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-white">
+        <GoogleGMark size={13} />
       </span>
     </a>
   )
