@@ -23,7 +23,6 @@ import { HomeEventsTickets } from '@/components/home/HomeEventsTickets'
 import { HomeActivities } from '@/components/home/HomeActivities'
 import { HomeBoats } from '@/components/home/HomeBoats'
 import { HomeWaterActivities } from '@/components/home/HomeWaterActivities'
-import { HomeZoneNav } from '@/components/home/HomeZoneNav'
 import { HOME_ZONES } from '@/lib/home-zones'
 
 import { Reveal } from '@/components/ui/Reveal';
@@ -221,13 +220,14 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           niet zwaarder maakt. */}
       <HomeRingCarousel locale={locale} base={base} events={pickerEvents} experienceDays={experienceDays} />
 
-      {/* De vier werelden, met hun eigen sticky categorienav erboven. De
-          wikkel is de grens waarbinnen die balk blijft plakken: scrolt de
-          laatste zone voorbij, dan schuift de balk gewoon mee met de rest
-          van de pagina weg in plaats van boven de footer te blijven hangen. */}
+      {/* De vier werelden. Hier stond een sticky categorienav boven (HomeZoneNav):
+          een donkere balk die onder de navigatiebalk bleef plakken zolang je
+          binnen de zones zat. Die is eruit op verzoek -- hij sneed als smalle
+          zwarte strook door de pagina, midden tussen twee gekleurde secties in,
+          en nam bovenop de al vaste navbar een tweede strook beeld af.
+          De vier werelden hebben elk hun eigen kop en kleur en volgen elkaar
+          op bij het scrollen; een index erboven voegde daar weinig aan toe. */}
       <div className="relative">
-        <HomeZoneNav locale={locale} />
-
         {/* Wereld 01, direct onder "Alles op één eiland": de dagkiezer en de
             kaartrail laten zien wát er speelt, per avond. */}
         <HomeEventsTickets clubDays={clubDays} tonightStr={tonightStr} allVenues={allVenues} locale={locale} base={base} />
