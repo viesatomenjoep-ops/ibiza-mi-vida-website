@@ -80,12 +80,13 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
           </h2>
         </div>
 
-        {/* Zwarte tegels, tekst wit en groen -- op verzoek. Was een lichte
-            kaart met goud-accent; nu staan de vier tegels in het obsidian van
-            het merk (--black), titel in wit, omschrijving en icoon in het
-            groen dat de site al gebruikt voor bevestiging en geld
-            (ibiza-green). Steekt duidelijker af tegen de lichtgrijze secties
-            eromheen dan een witte kaart op een witte pagina deed. */}
+        {/* Zwarte tegels met wit en groen -- op verzoek, in twee stappen. Was
+            een lichte kaart met goud-accent; eerst naar obsidian (--black)
+            met de omschrijving in het groen dat de site al gebruikt voor
+            bevestiging en geld (ibiza-green). Dat oogde te vlak naast de
+            witte titel erboven. Nu draagt alleen het icoon nog het groen, de
+            omschrijving is wit op 70% dekking, met een zachte groene gloed
+            rechtsboven die pas bij hover opkomt. */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {USPS.map((u, i) => {
             const Icon = u.icon
@@ -93,15 +94,24 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
               <Reveal
                 key={i}
                 delay={i * 90}
-                className="group rounded-[22px] border border-white/10 bg-[#0D0509] p-6 transition-all hover:border-ibiza-green/50 hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.55)]"
+                className="group relative overflow-hidden rounded-[22px] border border-white/10 bg-[#0D0509] p-6 transition-all hover:-translate-y-0.5 hover:border-ibiza-green/50 hover:shadow-[0_22px_48px_-24px_rgba(14,124,102,0.45)]"
               >
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-ibiza-green/15 text-ibiza-green ring-1 ring-ibiza-green/30 transition-colors group-hover:bg-ibiza-green group-hover:text-white">
+                {/* Zachte gloed rechtsboven, alleen zichtbaar op hover -- geeft
+                    de tegel diepte zonder de rest van de rij drukker te
+                    maken. */}
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-ibiza-green/0 blur-2xl transition-colors duration-500 group-hover:bg-ibiza-green/20"
+                />
+                <div className="relative mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-ibiza-green/15 text-ibiza-green ring-1 ring-ibiza-green/30 transition-colors group-hover:bg-ibiza-green group-hover:text-white">
                   <Icon size={22} strokeWidth={2} />
                 </div>
-                <h3 className="font-serif text-lg font-black leading-tight text-white">
+                <h3 className="relative font-serif text-lg font-black leading-tight text-white">
                   {t(u.title, locale)}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ibiza-green/80">
+                {/* Was text-ibiza-green/80 -- op verzoek nu wit. Iets gedempt
+                    (/70) zodat de titel er wel boven blijft uitspringen. */}
+                <p className="relative mt-2 text-sm leading-relaxed text-white/70">
                   {t(u.text, locale)}
                 </p>
               </Reveal>
