@@ -173,7 +173,7 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
 
                   {/* Action Link */}
                   <div className="mt-2 self-start">
-                    <span className="inline-flex items-center gap-2 rounded-full bg-ibiza-green text-velvet-obsidian font-bold text-sm px-5 py-2.5 hover:brightness-95 transition-all duration-300 group-hover:gap-3">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-ibiza-green text-white font-bold text-sm px-5 py-2.5 hover:brightness-95 transition-all duration-300 group-hover:gap-3">
                       Bekijk Feesten
                       <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-0.5" />
                     </span>

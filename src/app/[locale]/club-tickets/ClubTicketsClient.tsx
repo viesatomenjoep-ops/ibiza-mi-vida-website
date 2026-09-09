@@ -324,7 +324,7 @@ export default function ClubTicketsClient({
               {/* Next Button */}
               <button 
                 onClick={() => scrollSlider(1)}
-                className="absolute -right-4 z-40 bg-white hover:bg-ibiza-green hover:text-velvet-obsidian text-white border border-black/10 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
+                className="absolute -right-4 z-40 bg-white hover:bg-ibiza-green hover:text-white text-black border border-black/10 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all opacity-0 group-hover/slider:opacity-100 hidden md:flex"
                 aria-label="Next"
               >
                 &rarr;
@@ -350,7 +350,7 @@ export default function ClubTicketsClient({
               </div>
               <Link 
                 href={`/${locale}/club-tickets/${filter}`}
-                className="bg-ibiza-green text-velvet-obsidian font-bold text-xs px-5 py-3 rounded-full hover:brightness-95 transition-all shadow-md shrink-0 uppercase tracking-wider"
+                className="bg-ibiza-green text-white font-bold text-xs px-5 py-3 rounded-full hover:brightness-95 transition-all shadow-md shrink-0 uppercase tracking-wider"
               >
                 Bekijk Club Info & Events →
               </Link>
@@ -365,7 +365,7 @@ export default function ClubTicketsClient({
                     onClick={() => setTimeFilter('all')}
                     className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
                       timeFilter === 'all' 
-                        ? 'bg-ibiza-green text-velvet-obsidian shadow-sm' 
+                        ? 'bg-ibiza-green text-white shadow-sm' 
                         : 'text-black hover:text-ibiza-green'
                     }`}
                   >
@@ -375,7 +375,7 @@ export default function ClubTicketsClient({
                     onClick={() => setTimeFilter('day')}
                     className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
                       timeFilter === 'day' 
-                        ? 'bg-ibiza-green text-velvet-obsidian shadow-sm' 
+                        ? 'bg-ibiza-green text-white shadow-sm' 
                         : 'text-black hover:text-ibiza-green'
                     }`}
                   >
@@ -385,7 +385,7 @@ export default function ClubTicketsClient({
                     onClick={() => setTimeFilter('night')}
                     className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
                       timeFilter === 'night' 
-                        ? 'bg-ibiza-green text-velvet-obsidian shadow-sm' 
+                        ? 'bg-ibiza-green text-white shadow-sm' 
                         : 'text-black hover:text-ibiza-green'
                     }`}
                   >
@@ -457,7 +457,7 @@ export default function ClubTicketsClient({
                         <small className="text-[10px] uppercase tracking-wider text-black/40">Vanaf</small>
                         <b className="text-black font-bold text-lg">€{price.toFixed(0)}</b>
                       </div>
-                      <span className="bg-ibiza-green text-velvet-obsidian font-bold text-xs px-4 py-2 rounded-full hover:brightness-95 transition-all">Bekijk</span>
+                      <span className="bg-ibiza-green text-white font-bold text-xs px-4 py-2 rounded-full hover:brightness-95 transition-all">Bekijk</span>
                     </div>
                   </div>
                 </Link>

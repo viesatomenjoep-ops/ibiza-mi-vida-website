@@ -414,7 +414,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
 
                           {/* Price badge */}
                           {price && (
-                            <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md text-ibiza-green border border-ibiza-green/30 font-black text-sm px-4 py-1.5 rounded-lg shadow-lg">
+                            <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md text-white border border-white/30 font-black text-sm px-4 py-1.5 rounded-lg shadow-lg">
                               {price}
                             </div>
                           )}
@@ -461,7 +461,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
                           </div>
                           <div className="pt-4 border-t border-black/10 w-full mt-auto flex justify-between items-center">
                             <span className="text-xs font-bold text-black/60 uppercase tracking-widest">{T.tickets}</span>
-                            <span className="bg-ibiza-green text-velvet-obsidian text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider group-hover:brightness-95 transition-all">
+                            <span className="bg-ibiza-green text-white text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider group-hover:brightness-95 transition-all">
                               {T.view}
                             </span>
                           </div>

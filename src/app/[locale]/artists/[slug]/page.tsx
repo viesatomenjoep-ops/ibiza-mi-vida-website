@@ -445,7 +445,7 @@ export default async function ArtistPage({ params }: Props) {
                     ) : null}
                   </div>
                   <div className="shrink-0 hidden md:block">
-                    <div className="bg-ibiza-green text-velvet-obsidian font-bold text-sm px-5 py-2.5 rounded-full hover:brightness-95 transition-all inline-block">
+                    <div className="bg-ibiza-green text-white font-bold text-sm px-5 py-2.5 rounded-full hover:brightness-95 transition-all inline-block">
                       {TICKETS[locale]}
                     </div>
                   </div>
