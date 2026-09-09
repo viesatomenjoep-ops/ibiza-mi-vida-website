@@ -334,29 +334,29 @@ export function HomeZoneRail({
       <div
         ref={railRef}
         data-rail={id}
-        /* Twee rijen in plaats van één, op verzoek. Een raster met
-           grid-flow-col en grid-rows-2 vult van boven naar beneden en dan pas
-           naar rechts, dus je ziet per schermbreedte twee keer zoveel: vier
-           kaarten op een telefoon, acht op desktop. Het blijft horizontaal
-           scrollen met dezelfde snap.
+        /* Eén rij, zodat je een hele sectie in één oogopslag ziet.
 
-           De kolombreedte staat hier en niet meer op de kaarten zelf. Bij een
-           raster bepaalt de kolom de breedte; zou je hem op het item laten
-           staan, dan telt hij niet mee voor de kolomindeling en lopen de twee
-           rijen uit de pas.
+           Het is even twee rijen geweest, maar daarmee werd de sectie 863px op
+           een telefoon en paste hij niet meer op één scherm -- precies wat de
+           tweede rij moest opleveren, ging er zo weer af. Met één rij zie je
+           twee kaarten op een telefoon en vier op desktop.
 
-           `justify-content: safe center` en niet gewoon center. De landsectie
-           heeft maar vier items: op desktop zijn dat met twee rijen slechts
-           twee kolommen, en die stonden links met 728px leegte ernaast. Met
-           centreren staat dat blok netjes in het midden. Het woord `safe` is
-           het hele punt -- bij een sectie die wél overloopt valt centreren
-           terug op `start`, want anders zou het begin van de rij links buiten
-           de scrollbare ruimte vallen en niet meer te bereiken zijn. */
-        className="relative grid cursor-grab [justify-content:safe_center] auto-cols-[calc((100%-var(--rail-gap))/2)] grid-flow-col grid-rows-2 gap-3 overflow-x-auto pb-5 pt-2 [--rail-gap:12px] [scroll-snap-type:x_mandatory] [scrollbar-width:none] [overscroll-behavior-x:contain] sm:gap-4 sm:[--rail-gap:16px] md:auto-cols-[calc((100%-2*var(--rail-gap))/3)] lg:auto-cols-[calc((100%-3*var(--rail-gap))/4)] [&::-webkit-scrollbar]:hidden"
+           Het blijft een raster en geen flexrij, en dat is niet willekeurig:
+           bij een raster bepaalt de kolom de breedte, en juist daardoor vullen
+           de vier kolommen de rail precies. Zet je de breedte op het item, dan
+           telt hij niet mee voor de kolomindeling.
+
+           `justify-content: safe center` en niet gewoon center. Een sectie met
+           weinig items zou anders links blijven staan met een gat ernaast. Het
+           woord `safe` is het hele punt -- bij een sectie die wél overloopt
+           valt centreren terug op `start`, want anders zou het begin van de rij
+           links buiten de scrollbare ruimte vallen en niet meer te bereiken
+           zijn. */
+        className="relative grid cursor-grab [justify-content:safe_center] auto-cols-[calc((100%-var(--rail-gap))/2)] grid-flow-col grid-rows-1 gap-3 overflow-x-auto pb-5 pt-2 [--rail-gap:12px] [scroll-snap-type:x_mandatory] [scrollbar-width:none] [overscroll-behavior-x:contain] sm:gap-4 sm:[--rail-gap:16px] md:auto-cols-[calc((100%-2*var(--rail-gap))/3)] lg:auto-cols-[calc((100%-3*var(--rail-gap))/4)] [&::-webkit-scrollbar]:hidden"
       >
         {items.length === 0 ? (
           <div
-            className="row-span-2 flex min-h-[128px] w-full max-w-[560px] items-center justify-center rounded-[22px] px-6 text-center text-sm"
+            className="flex min-h-[128px] w-full max-w-[560px] items-center justify-center rounded-[22px] px-6 text-center text-sm"
             style={{
               background: dark ? 'rgba(255,255,255,.06)' : 'rgba(20,20,20,.05)',
               color: dark ? 'rgba(255,255,255,.7)' : 'rgba(20,20,20,.55)',
