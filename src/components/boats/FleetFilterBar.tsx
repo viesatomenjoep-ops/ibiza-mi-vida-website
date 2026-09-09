@@ -121,7 +121,7 @@ export function FleetFilterBar({
       type="button"
       onClick={() => setOpen(open === id ? null : id)}
       aria-expanded={open === id}
-      className={`flex shrink-0 items-center gap-2 rounded-full border px-4 py-2.5 text-left transition-all ${
+      className={`flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-2 text-left transition-all ${
         actief
           ? 'border-neutral-900 bg-neutral-900 text-white shadow-sm'
           : open === id
@@ -143,19 +143,23 @@ export function FleetFilterBar({
    * hoofdvragen (wanneer, met hoeveel, voor hoeveel) staan zo in één balk;
    * de bijvragen (vanwaar, welk type, volgorde) blijven kleine pillen eronder.
    */
-  const segment = (id: string, icon: React.ReactNode, label: string, value: string, actief: boolean, laatste = false) => (
+  const segment = (id: string, icon: React.ReactNode, label: string, value: string, actief: boolean, laatste = false, compact = false) => (
     <button
       type="button"
       onClick={() => setOpen(open === id ? null : id)}
       aria-expanded={open === id}
-      className={`flex min-w-0 flex-1 items-center gap-2 px-4 py-2.5 text-left transition-colors ${laatste ? '' : 'border-r border-black/10'} ${
+      className={`flex min-w-0 flex-1 items-center gap-2 text-left transition-colors ${compact ? 'px-2.5 py-2' : 'px-3 py-2.5'} ${laatste ? '' : 'border-r border-black/10'} ${
         open === id ? 'bg-neutral-100' : 'hover:bg-neutral-50'
       }`}
     >
-      <span className={actief ? 'shrink-0 text-ibiza-green' : 'shrink-0 text-black/35'}>{icon}</span>
+      {/* Op mobiel geen icoon. Icoon plus gap kost ~24px per segment, en met
+          drie segmenten in 358px betekende dat dat elke waarde afgekapt werd
+          ("Elk a…", "Elk b…"). Zonder icoon houdt elk segment ~82px tekst
+          over en past "Elk aantal" en "Elk budget" voluit. */}
+      {!compact && <span className={actief ? 'shrink-0 text-ibiza-green' : 'shrink-0 text-black/35'}>{icon}</span>}
       <span className="min-w-0">
-        <span className="block text-[9px] font-black uppercase tracking-[0.14em] text-black/40">{label}</span>
-        <span className={`block truncate text-[13px] font-bold leading-tight ${actief ? 'text-neutral-900' : 'text-neutral-500'}`}>{value}</span>
+        <span className={`block font-black uppercase tracking-[0.14em] text-black/40 ${compact ? 'text-[8px]' : 'text-[9px]'}`}>{label}</span>
+        <span className={`block truncate font-bold leading-tight ${compact ? 'text-[12px]' : 'text-[13px]'} ${actief ? 'text-neutral-900' : 'text-neutral-500'}`}>{value}</span>
       </span>
     </button>
   )
@@ -166,7 +170,13 @@ export function FleetFilterBar({
     }`
 
   return (
-    <div ref={wrap} className="sticky top-[var(--nav-h)] z-40 bg-white/95 py-3 backdrop-blur-md md:static md:bg-transparent md:backdrop-blur-none">
+    /* Niet meer plakkend op mobiel. De balk stond op sticky top-[var(--nav-h)]
+       en bleef daardoor het hele scherm door boven de bootkaarten hangen: op
+       een telefoon kostte dat de capsule plus de pillenrij aan hoogte, elke
+       keer dat je scrolde, terwijl je hem alleen nodig hebt op het moment dat
+       je filtert. Nu staat hij één keer boven de lijst en scrollt hij gewoon
+       mee weg -- omhoog en omlaag. Desktop stond al op md:static. */
+    <div ref={wrap} className="relative z-40 py-3">
       <div className="mx-auto max-w-6xl px-4">
         {/* De zoekbalk: wanneer, met hoeveel, voor hoeveel — plus de knop.
             Panelen openen eronder, buiten de balk; zie de kop van dit bestand
@@ -220,25 +230,30 @@ export function FleetFilterBar({
         <div className="flex items-center overflow-hidden rounded-full border border-black/12 bg-white shadow-[0_10px_30px_-18px_rgba(0,0,0,.35)] md:hidden">
           {dateRange && segment('date', <CalendarDays size={16} />, t(L.date, locale),
             date ? new Date(date + 'T00:00:00').toLocaleDateString(locale === 'en' ? 'en-GB' : locale, { day: 'numeric', month: 'short' }) : t(L.anyDate, locale),
-            onlyAvailable)}
+            onlyAvailable, false, true)}
           {segment('pax', <Users size={16} />, t(L.guests, locale),
-            minPax > 0 ? fill(t(L.guestsUp, locale), 'n', minPax) : t(L.anyGuests, locale), minPax > 0)}
+            minPax > 0 ? fill(t(L.guestsUp, locale), 'n', minPax) : t(L.anyGuests, locale), minPax > 0, false, true)}
           {segment('price', <Euro size={16} />, t(L.price, locale),
             minPrice > priceMin || maxPrice < priceMax ? `€${nf(minPrice)}–€${nf(maxPrice)}` : t(L.anyPrice, locale),
-            minPrice > priceMin || maxPrice < priceMax, true)}
+            minPrice > priceMin || maxPrice < priceMax, true, true)}
           <button
             type="button"
             onClick={sluit}
             aria-label={fill(t(L.toonBoten, locale), 'n', resultCount)}
-            className="m-1.5 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-ibiza-green text-white transition-colors hover:brightness-110"
+            className="m-1.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-ibiza-green text-white transition-colors hover:brightness-110"
           >
-            <Search size={16} aria-hidden />
+            <Search size={15} aria-hidden />
           </button>
         </div>
 
         {/* Bijvragen op mobiel: vanwaar, welk type, volgorde. Op desktop staan
             deze al in de balk hierboven. */}
-        <div className="hide-scrollbar mt-2 flex items-stretch gap-2 overflow-x-auto pb-1 md:hidden">
+        {/* Wikkelen in plaats van horizontaal scrollen. De rij stond op
+            overflow-x-auto en daardoor liep de laatste pil altijd half het
+            scherm uit ("SORTE / Onze"), wat leest als een afgebroken lay-out
+            in plaats van als iets dat je opzij kunt schuiven. Drie pillen
+            passen op twee regels; dan zie je ze alle drie in één keer. */}
+        <div className="mt-2 flex flex-wrap items-stretch gap-2 md:hidden">
           {pil('marina', <MapPin size={15} />, t(L.depart, locale),
             marina === 'all' ? t(L.allMarinas, locale) : marina, marina !== 'all')}
           {pil('soort', <Ship size={15} />, t(L.soort, locale),

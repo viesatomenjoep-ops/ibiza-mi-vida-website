@@ -176,7 +176,7 @@ function PriceTag({ price, locale, size }: { price?: string; locale: string; siz
           {t(L.from, locale)}
         </span>
       )}
-      <span className={`font-display font-extrabold leading-none ${size === 'lg' ? 'text-[26px]' : 'text-[19px]'}`}>
+      <span className={`font-display font-extrabold leading-none ${size === 'lg' ? 'text-[20px] sm:text-[26px]' : 'text-[19px]'}`}>
         {price || t(L.onRequest, locale)}
       </span>
     </span>
@@ -315,8 +315,12 @@ export function HomeZoneRail({
       <div
         ref={railRef}
         data-rail={id}
-        className="relative mt-7 flex cursor-grab gap-4 overflow-x-auto pb-6 pt-2 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [overscroll-behavior-x:contain] [&::-webkit-scrollbar]:hidden"
-        style={{ paddingLeft: 'max(24px,calc((100vw - 1132px)/2))', paddingRight: 'max(24px,calc((100vw - 1132px)/2))', scrollPaddingLeft: 'max(24px,calc((100vw - 1132px)/2))' }}
+        className="relative mt-7 flex cursor-grab gap-3 overflow-x-auto pb-6 pt-2 [--rail-gap:12px] [--rail-pad:16px] [scroll-snap-type:x_mandatory] [scrollbar-width:none] [overscroll-behavior-x:contain] sm:gap-4 sm:[--rail-gap:16px] sm:[--rail-pad:24px] [&::-webkit-scrollbar]:hidden"
+        style={{
+          paddingLeft: 'max(var(--rail-pad),calc((100vw - 1132px)/2))',
+          paddingRight: 'max(var(--rail-pad),calc((100vw - 1132px)/2))',
+          scrollPaddingLeft: 'max(var(--rail-pad),calc((100vw - 1132px)/2))',
+        }}
       >
         {items.length === 0 ? (
           <div
@@ -341,7 +345,7 @@ export function HomeZoneRail({
               key={c.href + i}
               href={c.href}
               draggable={false}
-              className="group relative flex min-h-[232px] w-[clamp(300px,88vw,560px)] flex-none flex-col justify-end overflow-hidden rounded-[22px] bg-[#141414] p-5 text-white shadow-[0_24px_50px_-24px_rgba(0,0,0,.6)] transition-transform duration-[350ms] [transition-timing-function:cubic-bezier(.2,.8,.2,1)] [animation:imvHomeZoneFade_.5s_ease_both] hover:-translate-y-1"
+              className="group relative flex min-h-[250px] w-[calc((100%-var(--rail-gap))/2)] flex-none flex-col justify-end overflow-hidden rounded-[22px] bg-[#141414] p-3.5 text-white shadow-[0_24px_50px_-24px_rgba(0,0,0,.6)] transition-transform duration-[350ms] [transition-timing-function:cubic-bezier(.2,.8,.2,1)] [animation:imvHomeZoneFade_.5s_ease_both] hover:-translate-y-1 sm:min-h-[232px] sm:w-[clamp(300px,88vw,560px)] sm:p-5"
               style={{ scrollSnapAlign: 'start' }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -358,26 +362,38 @@ export function HomeZoneRail({
                   stevig onderin waar de titel en de prijs staan. */}
               <div className="pointer-events-none absolute inset-0" style={{ background: 'linear-gradient(180deg,rgba(0,0,0,.05) 25%,rgba(0,0,0,.8) 100%)' }} />
               <span
-                className="absolute left-3.5 top-3.5 rounded-full px-3 py-2 font-sans text-xs font-bold leading-none"
+                className="absolute left-2.5 top-2.5 rounded-full px-2 py-1.5 font-sans text-[10px] font-bold leading-none sm:left-3.5 sm:top-3.5 sm:px-3 sm:py-2 sm:text-xs"
                 style={{ background: accent, color: accentInk }}
               >
                 {fmtShortDate(day.iso, locale)}
               </span>
+              {/* Het label "uitgelicht" is op mobiel verborgen: naast de
+                  datumpil op een halve kaartbreedte overlapten de twee
+                  elkaar. Vanaf sm is er weer ruimte. */}
               {i === 0 && (
-                <span className="absolute right-4 top-[18px] font-sans text-[10px] font-extrabold uppercase tracking-[0.24em] text-white/85">
+                <span className="absolute right-4 top-[18px] hidden font-sans text-[10px] font-extrabold uppercase tracking-[0.24em] text-white/85 sm:block">
                   {t(L.featured, locale)}
                 </span>
               )}
               <div className="relative flex flex-col gap-1.5">
-                <strong className="font-display text-[clamp(22px,3vw,30px)] font-extrabold leading-[1.08] tracking-[-0.02em]" style={{ textWrap: 'balance' as any }}>
+                {/* Op mobiel op twee regels afgekapt. Een titel als "Jamie
+                    Jones presents Paradise: Starship Eden" liep op een halve
+                    kaartbreedte over vier regels en duwde samen met het
+                    verloop het hele beeld uit zicht -- precies het beeld
+                    waarvoor deze kaartvorm bestaat. Vanaf sm is de kaart
+                    breed genoeg en mag de titel voluit. */}
+                <strong className="line-clamp-2 font-display text-[clamp(15px,4.2vw,30px)] font-extrabold leading-[1.08] tracking-[-0.02em] sm:line-clamp-none" style={{ textWrap: 'balance' as any }}>
                   {c.title}
                 </strong>
                 {(c.venue || c.time) && (
-                  <span className="text-sm text-white/80">
+                  <span className="line-clamp-1 text-[11px] text-white/80 sm:line-clamp-none sm:text-sm">
                     {c.venue}{c.venue && c.time ? ' \u00b7 ' : ''}{c.time}
                   </span>
                 )}
-                <span className="mt-2 flex items-end justify-between gap-2">
+                {/* Onder elkaar op mobiel: op een halve kaartbreedte (~173px)
+                    passen de categoriestip en het bedrag niet naast elkaar, en
+                    dan zou de een de ander wegdrukken. */}
+                <span className="mt-2 flex flex-col items-start gap-1.5 sm:flex-row sm:items-end sm:justify-between sm:gap-2">
                   <TagDot color={accent} label={c.tag} />
                   <PriceTag price={c.price} locale={locale} size="lg" />
                 </span>

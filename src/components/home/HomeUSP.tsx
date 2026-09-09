@@ -80,13 +80,16 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
           </h2>
         </div>
 
-        {/* Donkere tegels, wit en Sun Glare -- in drie stappen hier beland.
-            Eerst een lichte kaart met goud-accent, toen obsidian met alles in
-            het groen (te vlak), en nu Darkest Hour uit het Pantone-palet met
-            een witte titel, de omschrijving wit op 70% en alleen het icoon in
-            Sun Glare. Die combinatie haalt 10,22:1 -- het hoogste contrast
-            van het hele palet, en dus de enige plek waar de felste bladkleur
-            onverdund kan staan zonder leesbaarheid te kosten. */}
+        {/* Pikzwarte tegels, alle tekst zuiver wit -- in vier stappen hier
+            beland. Eerst een lichte kaart met goud-accent, toen obsidian met
+            alles in het groen (te vlak), daarna Darkest Hour (#2C2C2C), en nu
+            echt #000. Darkest Hour las op een telefoon als donkergrijs in
+            plaats van zwart, zeker naast de witte sectie eromheen.
+
+            De omschrijving stond op wit/70 om de titel eruit te laten
+            springen; die staat nu ook voluit wit (21:1). Het verschil tussen
+            titel en tekst doen de schreefletter en font-black nu alleen, wat
+            genoeg is -- en scheelt de leesbaarheid die 70% dekking kostte. */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {USPS.map((u, i) => {
             const Icon = u.icon
@@ -94,7 +97,7 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
               <Reveal
                 key={i}
                 delay={i * 90}
-                className="group relative overflow-hidden rounded-[22px] border border-white/10 bg-pantone-darkest p-6 transition-all hover:-translate-y-0.5 hover:border-pantone-sun/50 hover:shadow-[0_22px_48px_-24px_rgba(217,230,75,0.35)]"
+                className="group relative overflow-hidden rounded-[22px] border border-white/10 bg-black p-6 transition-all hover:-translate-y-0.5 hover:border-pantone-sun/50 hover:shadow-[0_22px_48px_-24px_rgba(217,230,75,0.35)]"
               >
                 {/* Zachte gloed rechtsboven, alleen zichtbaar op hover -- geeft
                     de tegel diepte zonder de rest van de rij drukker te
@@ -103,18 +106,16 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
                   aria-hidden
                   className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-pantone-sun/0 blur-2xl transition-colors duration-500 group-hover:bg-pantone-sun/20"
                 />
-                {/* Sun Glare op Darkest Hour: 10,22:1, het hoogste contrast van
-                    het hele palet. Op de donkere tegel is dit de enige plek
-                    waar de bladkleur onverdund kan staan. */}
-                <div className="relative mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-pantone-sun/15 text-pantone-sun ring-1 ring-pantone-sun/30 transition-colors group-hover:bg-pantone-sun group-hover:text-pantone-darkest">
+                {/* Sun Glare op zwart: 15,86:1, het hoogste contrast van het
+                    hele palet. Op de zwarte tegel is dit de enige plek waar de
+                    bladkleur onverdund kan staan. */}
+                <div className="relative mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-pantone-sun/15 text-pantone-sun ring-1 ring-pantone-sun/30 transition-colors group-hover:bg-pantone-sun group-hover:text-black">
                   <Icon size={22} strokeWidth={2} />
                 </div>
                 <h3 className="relative font-serif text-lg font-black leading-tight text-white">
                   {t(u.title, locale)}
                 </h3>
-                {/* Was text-ibiza-green/80 -- op verzoek nu wit. Iets gedempt
-                    (/70) zodat de titel er wel boven blijft uitspringen. */}
-                <p className="relative mt-2 text-sm leading-relaxed text-white/70">
+                <p className="relative mt-2 text-sm leading-relaxed text-white">
                   {t(u.text, locale)}
                 </p>
               </Reveal>
