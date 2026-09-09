@@ -284,7 +284,30 @@ export function HomeZoneRail({
          Minder opvulling aan de kop op een telefoon: 72px vlakke kleur boven de
          kicker is op een scherm van 932px een tiende van je beeld waarin niets
          staat. Vanaf sm blijft het 72px, daar is de ruimte er wel. */
-      className="scroll-mt-[var(--nav-h-min)] pb-16 pt-10 sm:pb-[84px] sm:pt-[68px]"
+      /* De sectie vult minstens de hoogte onder de vaste balk, en de inhoud
+         staat daar verticaal gecentreerd in.
+
+         Zonder die ondergrens was een sectie 633px op een telefoon terwijl er
+         727px beschikbaar is. Die 94px werden gevuld door de buren: je zag de
+         volgende sectie al in een andere kleur meekijken onderaan, en soms de
+         vorige erboven. Twee kleuren tegelijk in beeld, terwijl één sectie in
+         één oogopslag juist het idee was.
+
+         100svh en niet 100vh: op mobiel groeit en krimpt de adresbalk, en met
+         vh springt de sectiehoogte dan mee tijdens het scrollen. svh rekent
+         met de kleinste stand en blijft dus stil.
+
+         min-h en geen vaste hoogte: past de inhoud een keer niet -- een lange
+         maandnaam die afbreekt, of grotere systeemletters -- dan groeit de
+         sectie gewoon mee in plaats van te overlopen.
+
+         De +48px is de overlap. Elke sectie hierna wordt met marginTop:-48px
+         over deze heen getrokken, zodat zijn afgeronde bovenkant eroverheen
+         schuift. Zonder die 48px erbij kwam die rand precies 48px boven de
+         onderkant van het scherm uit -- gemeten -- en zag je de volgende kleur
+         alsnog meekijken. Met de correctie valt de overgang net onder de
+         vouw. */
+      className="flex min-h-[calc(100svh-var(--nav-h-min)+48px)] scroll-mt-[var(--nav-h-min)] flex-col justify-center pb-16 pt-10 sm:pb-[84px] sm:pt-[68px]"
       style={{
         position: 'relative',
         background: bg,
