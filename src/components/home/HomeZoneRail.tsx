@@ -306,10 +306,28 @@ export function HomeZoneRail({
          schuift. Zonder die 48px erbij kwam die rand precies 48px boven de
          onderkant van het scherm uit -- gemeten -- en zag je de volgende kleur
          alsnog meekijken. Met de correctie valt de overgang net onder de
-         vouw. */
-      className="flex min-h-[calc(100svh-var(--nav-h-min)+48px)] scroll-mt-[var(--nav-h-min)] flex-col justify-center pb-16 pt-10 sm:pb-[84px] sm:pt-[68px]"
+         vouw.
+
+         `sticky top-[var(--nav-h-min)]` maakt er een stapel van: een sectie
+         blijft onder de balk hangen terwijl de volgende er met zijn afgeronde
+         bovenkant overheen schuift, en pas als die zelf boven is neemt hij het
+         plakken over. Dat is het effect waar om gevraagd is.
+
+         Twee voorwaarden waar het op valt of staat: de vier secties moeten
+         directe buren zijn binnen één ouder (dat zijn ze, zie de wrapper in
+         HomePageClient), en geen enkele voorouder mag overflow hidden of auto
+         hebben -- sticky werkt dan niet meer. De volgorde in de DOM regelt de
+         stapeling vanzelf: een latere sectie tekent over een eerdere, dus er
+         is geen z-index nodig.
+
+         Meer opvulling onderaan (pb-16 -> pb-24, sm 84 -> 104px): de inhoud
+         stond te dicht op de rand waar het volgende vel binnenschuift. */
+      className="sticky top-[var(--nav-h-min)] flex min-h-[calc(100svh-var(--nav-h-min)+48px)] scroll-mt-[var(--nav-h-min)] flex-col justify-center pb-24 pt-10 sm:pb-[104px] sm:pt-[68px]"
       style={{
-        position: 'relative',
+        // Geen `position` hier. Die stond op 'relative' en een inline stijl wint
+        // van een klasse, dus de `sticky` uit className deed niets -- gemeten:
+        // computed position bleef 'relative'. Positionering hoort nu volledig
+        // in de klassen thuis.
         background: bg,
         color: dark ? '#fff' : '#141414',
         ...(roundedTop
