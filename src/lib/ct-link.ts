@@ -6,6 +6,13 @@
 // a language segment. Fabricating /en/... produces a hard 404 on their side —
 // that exact bug shipped once and broke every ticket link in the /m app
 // (which defaults to English). Never add a prefix for 'en'.
+// BEWUST GEEN import van LOCALES uit lib/seo, ook al staan er nu dezelfde vijf
+// codes in. Dit beschrijft niet welke talen ONZE site heeft, maar welke
+// ClubTickets op HUN domein serveert -- een externe afspraak die buiten ons om
+// kan veranderen. Zouden we hier de sitetalen gebruiken, dan zou een zesde
+// taal op onze site meteen links naar een niet-bestaande ClubTickets-pagina
+// opleveren. Zie de opmerking hierboven: dat soort fout heeft hier al een keer
+// elke ticketlink gebroken.
 const CT_LOCALES = new Set(['en', 'nl', 'de', 'es', 'fr'])
 
 /**

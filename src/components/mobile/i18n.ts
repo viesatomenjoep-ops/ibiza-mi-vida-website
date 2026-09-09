@@ -1,8 +1,12 @@
+import { LOCALES, type Locale } from '@/lib/seo'
 // Chrome labels for the app shell in the site's five locales.
 // Same L() convention as src/lib/seo-pages.ts.
 
-export type AppLocale = 'nl' | 'en' | 'de' | 'es' | 'fr'
-export const APP_LOCALES: AppLocale[] = ['nl', 'en', 'de', 'es', 'fr']
+// AppLocale was een eigen kopie van dezelfde vijf codes. Het is letterlijk
+// hetzelfde type als Locale uit lib/seo; de naam blijft staan omdat hij in dit
+// bestand tien keer voorkomt, maar hij verwijst nu naar de enige bron.
+export type AppLocale = Locale
+export const APP_LOCALES: AppLocale[] = [...LOCALES]
 
 const L = (nl: string, en: string, de: string, es: string, fr: string) =>
   ({ nl, en, de, es, fr }) as Record<AppLocale, string>

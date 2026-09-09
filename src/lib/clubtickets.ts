@@ -1,11 +1,15 @@
 import { stripHtml, cleanHtml } from './html-utils';
 import { ibizaTonight } from './date-label';
 import { fixImageCase, isBlankCover } from './blank-covers';
+import { LOCALES } from './seo';
 
 export const API_KEY = '80aac9f0b1a44b63060b083f3813271a';
 export const BASE_URL = `https://affiliates.clubtickets.com/api/affiliate/${API_KEY}/get`;
 
-const SUPPORTED_LOCALES = ['en', 'nl', 'de', 'es', 'fr'] as const;
+// Afgeleid van de sitetalen, niet los daarvan: de bestanden waar dit tegen
+// controleert (clubtickets_{nl,en,de,es,fr}.json) genereren we zelf, één per
+// taal die de site kent. Een eigen lijst hier zou stilzwijgend uiteenlopen.
+const SUPPORTED_LOCALES = LOCALES;
 
 // PERF: load only the requested locale, on demand. Static top-level imports of
 // all five ~8.5MB JSON files (≈42MB) bloated the server bundle and cold starts.

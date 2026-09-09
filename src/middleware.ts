@@ -1,9 +1,22 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { ROUTE_SLUGS, ROUTE_LOCALES, MERGED_INTO, findRouteBySlug } from '@/lib/route-slugs'
+import { LOCALES, DEFAULT_LOCALE, type Locale } from '@/lib/seo'
 
-const locales = ['en', 'nl', 'de', 'es', 'fr'] as const
-type Loc = (typeof locales)[number]
+// Hier stond een eigen kopie van de vijf taalcodes. Dat was de gevaarlijkste
+// van de zeven kopieën in deze codebase: `Locale` uit lib/seo is met 164
+// verbindingen het meest gebruikte type van het project en dwingt 138
+// bestanden om elke taal af te handelen -- maar deze middleware bepaalt welke
+// talen überhaupt bereikbaar zijn, en die kende die bron niet. Een zesde taal
+// toevoegen aan LOCALES gaf dus een compileerfout in 138 bestanden en tóch
+// geen werkende route.
+//
+// De volgorde verschilde ook ('en' eerst hier, 'nl' eerst daar). Dat maakte
+// niets uit -- de enige iteratie is een .find() op exacte padprefixen -- maar
+// twee lijsten die verschillend gesorteerd zijn nodigen uit tot de aanname dat
+// het verschil betekenis heeft.
+type Loc = Locale
+const locales = LOCALES
 
 /**
  * English, not Dutch.
@@ -16,7 +29,7 @@ type Loc = (typeof locales)[number]
  *
  * English is now the fallback for anyone we cannot place.
  */
-const DEFAULT: Loc = 'en'
+const DEFAULT: Loc = DEFAULT_LOCALE
 
 /** Remembers a language the visitor chose themselves. */
 const COOKIE = 'imv_locale'

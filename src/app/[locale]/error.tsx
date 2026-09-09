@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import * as Sentry from '@sentry/nextjs'
+import { LOCALES } from '@/lib/seo'
 
 type Locale = 'nl' | 'en' | 'de' | 'es' | 'fr'
 type T = Record<Locale, string>
@@ -27,7 +28,7 @@ const HOME: T = L('Naar de homepage', 'Back to homepage', 'Zur Startseite', 'Ir 
 export default function LocaleError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   const pathname = usePathname()
   const seg = pathname.split('/')[1]
-  const locale = (['nl', 'en', 'de', 'es', 'fr'] as const).includes(seg as Locale) ? (seg as Locale) : 'nl'
+  const locale = (LOCALES as readonly string[]).includes(seg) ? (seg as Locale) : 'nl'
   const base = `/${locale}`
 
   useEffect(() => {

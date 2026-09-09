@@ -38,3 +38,6 @@ public/*.mp4
 public/videos/*.mp4
 
 /video-originals/
+
+# graphify: lokale kennisgraaf, hoort niet in de repo (en zeker niet in een deploy)
+graphify-out/

@@ -1,5 +1,6 @@
 import { SITE_URL, SITE_NAME } from '@/lib/seo'
 import { contentUpdated } from '@/lib/content-dates'
+import { LOCALES } from '@/lib/seo'
 
 /**
  * Service structured data for the commercial category pages (boat charters,
@@ -61,7 +62,7 @@ export function ServiceSchema({
     availableChannel: {
       '@type': 'ServiceChannel',
       serviceUrl: url,
-      availableLanguage: ['nl', 'en', 'de', 'es', 'fr'],
+      availableLanguage: [...LOCALES],
     },
     ...(priceFrom
       ? {

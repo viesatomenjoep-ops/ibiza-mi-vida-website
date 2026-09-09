@@ -40,7 +40,14 @@ export const FOUNDER = {
   /** Schema.org jobTitle is a stable English label, independent of UI language. */
   jobTitle: 'Founder',
   languages: ['Nederlands', 'English', 'Deutsch', 'Español', 'Français'],
-  /** BCP-47 tags for `knowsLanguage`. */
+  /**
+   * BCP-47 tags for `knowsLanguage`.
+   *
+   * Bewust geen LOCALES uit lib/seo, ook al staan er nu dezelfde vijf codes.
+   * Dit gaat over welke talen Simon zelf spreekt, niet over welke talen de
+   * site heeft. Kwam er een zesde sitetaal bij, dan zou hij die niet vanzelf
+   * spreken -- en dan zou dit schema een onwaarheid publiceren.
+   */
   languageTags: ['nl', 'en', 'de', 'es', 'fr'],
   bio: L(
     'Simon woont op Ibiza en regelt elke boeking persoonlijk via WhatsApp — boten, ferrytickets, clubtickets en package deals. Hij kent de marina’s, de promotors en wat er die avond echt speelt, en zegt het ook wanneer iets niet kan.',

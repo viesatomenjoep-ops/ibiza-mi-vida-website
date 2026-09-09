@@ -1,4 +1,5 @@
 import type { Locale } from './seo'
+import { LOCALES } from '@/lib/seo'
 
 // Localized header copy for the 5 category agenda pages (WaterAgendaClient).
 type T = Record<Locale, string>
@@ -93,7 +94,7 @@ export const AGENDA_COPY: Record<string, AgendaCopy> = {
 }
 
 export function agendaCopy(page: string, localeRaw: string): { title: string; subtitle: string; kicker: string } {
-  const locale = (['nl', 'en', 'de', 'es', 'fr'] as const).includes(localeRaw as Locale) ? (localeRaw as Locale) : 'nl'
+  const locale = (LOCALES as readonly string[]).includes(localeRaw) ? (localeRaw as Locale) : 'nl'
   const c = AGENDA_COPY[page]
   return { title: c.title[locale], subtitle: c.subtitle[locale], kicker: c.kicker[locale] }
 }
