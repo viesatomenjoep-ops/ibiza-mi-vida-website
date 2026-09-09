@@ -92,11 +92,19 @@
   --display: var(--font-outfit), 'Outfit', sans-serif;
   --body: var(--font-inter), 'Inter', sans-serif;
   --max:1220px;
-  /* Total fixed-header height (topbar + navbar) — single source of truth for
-     how far every page's top content must sit below the header. */
+  /* Hoogte van de vaste header. Twee maten, want de header heeft er twee:
+     --nav-h is de hoogte bovenaan de pagina (met de partnerstrip erboven) en
+     bepaalt hoe ver de eerste inhoud omlaag moet; --nav-h-min is de hoogte
+     zodra je scrolt en de strip is weggevallen, en die geldt voor alles waar
+     je naartoe springt (scroll-margin, sticky-elementen).
+
+     Deze waarden zijn alleen de terugval voor de eerste schilderbeurt. De
+     Navbar meet zichzelf en overschrijft ze allebei; zie de toelichting daar
+     voor waarom twee vaste getallen het nooit konden dekken. */
   --nav-h:134px;
+  --nav-h-min:134px;
 }
-@media (max-width:980px){ :root{ --nav-h:116px; } }
+@media (max-width:980px){ :root{ --nav-h:116px; --nav-h-min:116px; } }
 /* Hero: op een telefoon minder wegduwen aan de onderkant, zodat kop, knop
    en de vier categorieknoppen als blok iets lager staan en niet tegen de
    navigatiebalk plakken. De live-strook eronder staat los en verschuift niet. */

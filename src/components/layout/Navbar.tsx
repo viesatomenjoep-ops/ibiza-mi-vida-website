@@ -261,6 +261,23 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
       if (h > 0 && Math.abs(h - vorige) > 0.5) {
         vorige = h
         document.documentElement.style.setProperty('--nav-h', `${Math.round(h)}px`)
+        // Twee maten, want de header heeft er twee. --nav-h is de hoogte
+        // bovenaan de pagina, met de partnerstrip erboven; die bepaalt hoe ver
+        // de eerste inhoud omlaag moet. Maar zodra je scrolt valt die strip op
+        // de homepage weg en is de balk lager, en dát is de maat die telt voor
+        // alles wat je naartoe springt.
+        //
+        // Met één maat kreeg je bij het aanklikken van een categorie een
+        // gekleurde strook boven de sectie: het anker rekende met 117 terwijl
+        // de balk op dat moment 93 was, dus de sectie landde 24px te laag en
+        // je keek tegen de onderrand van de vorige sectie aan.
+        //
+        // De strip meten en aftrekken kan gewoon, want op dit moment (bovenaan)
+        // staat hij er nog. Op pagina's zonder strip is het verschil nul en
+        // zijn beide maten gelijk.
+        const strip = el.querySelector('.nav-topbar') as HTMLElement | null
+        const stripH = strip ? strip.getBoundingClientRect().height : 0
+        document.documentElement.style.setProperty('--nav-h-min', `${Math.round(h - stripH)}px`)
       }
     }
     meet()

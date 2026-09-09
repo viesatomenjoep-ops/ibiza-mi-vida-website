@@ -276,12 +276,19 @@ export function HomeZoneRail({
   return (
     <section
       id={id}
-      className="scroll-mt-[var(--nav-h)]"
+      /* --nav-h-min en niet --nav-h. Je landt hier altijd ná een scrollactie,
+         en dan is de partnerstrip weg en de balk 24px lager. Met --nav-h kwam
+         de sectie 24px te laag uit en zag je een streep van de vorige sectie
+         boven deze -- de roze balk.
+
+         Minder opvulling aan de kop op een telefoon: 72px vlakke kleur boven de
+         kicker is op een scherm van 932px een tiende van je beeld waarin niets
+         staat. Vanaf sm blijft het 72px, daar is de ruimte er wel. */
+      className="scroll-mt-[var(--nav-h-min)] pb-16 pt-10 sm:pb-[88px] sm:pt-[72px]"
       style={{
         position: 'relative',
         background: bg,
         color: dark ? '#fff' : '#141414',
-        padding: '72px 0 88px',
         ...(roundedTop
           ? { borderRadius: '48px 48px 0 0', marginTop: '-48px', boxShadow: `0 -18px 40px -30px rgba(0,0,0,${dark ? '.35' : '.25'})` }
           : {}),

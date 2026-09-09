@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 
 /**
@@ -19,8 +19,32 @@ export function ScrollProgress() {
   const wrapRef = useRef<HTMLDivElement>(null)
   const barRef = useRef<HTMLDivElement>(null)
 
+  /**
+   * Op een telefoon helemaal niet, op verzoek.
+   *
+   * De balk was bedoeld als houvast bij het scrollen, maar op mobiel valt hij
+   * samen met de vaste partnerbalk onderaan en met de dagtegels van de laatste
+   * sectie: drie dingen op dezelfde vijftig pixels. Op desktop is die drukte er
+   * niet en blijft hij staan.
+   *
+   * Een mediaquery in JS en niet `hidden md:block`. Met die klassen zou de balk
+   * wel onzichtbaar zijn, maar zouden de scrollluisteraar, de MutationObserver
+   * en de rAF-lus gewoon doordraaien -- op precies het apparaat waar dat het
+   * meeste kost.
+   */
+  const [breedGenoeg, setBreedGenoeg] = useState(false)
   useEffect(() => {
-    if (!isHome) return
+    const mq = window.matchMedia('(min-width: 768px)')
+    const pas = () => setBreedGenoeg(mq.matches)
+    pas()
+    mq.addEventListener('change', pas)
+    return () => mq.removeEventListener('change', pas)
+  }, [])
+
+  const toon = isHome && breedGenoeg
+
+  useEffect(() => {
+    if (!toon) return
     let raf = 0
     const apply = () => {
       raf = 0
@@ -51,9 +75,9 @@ export function ScrollProgress() {
       if (raf) cancelAnimationFrame(raf)
       mo?.disconnect()
     }
-  }, [isHome])
+  }, [toon])
 
-  if (!isHome) return null
+  if (!toon) return null
 
   return (
     /* Een baan onder de vulling, en dat is de hele fix. Zonder baan zag je
