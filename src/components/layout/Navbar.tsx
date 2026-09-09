@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { GlobalSearch } from '@/components/layout/GlobalSearch'
@@ -202,6 +202,76 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
   const [fadeOn, setFadeOn] = useState(false)
   const [onLight, setOnLight] = useState(false)
   const logoRef = useRef<HTMLImageElement>(null)
+  const headerRef = useRef<HTMLElement>(null)
+
+  /**
+   * --nav-h gemeten in plaats van geraden.
+   *
+   * De variabele stond vast in CSS op 134px (desktop) en 116px (<=980px), en
+   * dat klopte alleen voor de header mét de partnerstrip erboven. Op de
+   * ClubTickets-categorieen staat die strip onderaan het scherm, dus daar is
+   * de header 93px hoog. Elke pagina die `mt-[var(--nav-h)]` gebruikt begon
+   * daardoor 23px te laag, en op een pagina met een donkere achtergrond --
+   * de artiestenpagina's bijvoorbeeld -- zag je die 23px als een zwarte balk
+   * tussen de navbalk en het beeld.
+   *
+   * Twee vaste getallen konden nooit alle varianten dekken: de header verandert
+   * met de route (strip boven of onder), met de schermbreedte en met scrollen.
+   * Nu leest een ResizeObserver de echte hoogte en schrijft die weg, zodat de
+   * variabele per definitie klopt.
+   *
+   * Alleen meten bij scrollpositie 0, en dat is niet optioneel. Op de homepage
+   * verdwijnt de partnerstrip zodra je begint te scrollen, dus de header gaat
+   * daar heen en weer tussen 117px en 93px. Zou ik die live doorschrijven, dan
+   * zou elk blok met `mt-[var(--nav-h)]` 24px op en neer springen terwijl je
+   * scrolt -- erger dan de balk die dit moest oplossen. Gemeten tijdens het
+   * schrijven: 117 bovenaan, 93 na 60px scrollen, 117 weer terug.
+   *
+   * Bovenaan is ook de enige stand die telt: `mt-[var(--nav-h)]` zet de inhoud
+   * één keer neer, en die moet vrij komen van de header zoals die eruitziet
+   * wanneer je bovenaan de pagina staat.
+   *
+   * Geen scroll-luisteraar, en dat is met opzet. Die had ik er eerst bij, om de
+   * terugkeer naar boven te vangen, maar hij vuurt vóórdat React de strip
+   * opnieuw heeft gemonteerd: hij mat dan 93 terwijl de header een frame later
+   * 117 werd, en schreef die 93 weg. De ResizeObserver doet het werk beter,
+   * want die vuurt pas nadat de hoogte echt veranderd is -- op dat moment staat
+   * de teller op 0 en klopt de meting.
+   *
+   * Laadt iemand de pagina al gescrold, dan blijft de CSS-standaard staan tot
+   * hij bovenaan komt; daar herstelt de observer het vanzelf.
+   *
+   * useLayoutEffect zodat de waarde er staat vóór de eerste schilderbeurt; met
+   * useEffect zie je de oude waarde nog één frame. Op de server bestaat
+   * useLayoutEffect niet, vandaar de wissel hieronder.
+   *
+   * Geen lus: het paneel dat zelf van --nav-h afhangt (.nav-search-panel) staat
+   * buiten deze header en is position:fixed, dus de headerhoogte kan niet
+   * meebewegen met wat we schrijven. De drempel van een halve pixel vangt
+   * subpixel-geruis van de browser af.
+   */
+  const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
+  useIsoLayoutEffect(() => {
+    const el = headerRef.current
+    if (!el) return
+    let vorige = 0
+    const meet = () => {
+      if (window.scrollY > 0) return
+      const h = el.getBoundingClientRect().height
+      if (h > 0 && Math.abs(h - vorige) > 0.5) {
+        vorige = h
+        document.documentElement.style.setProperty('--nav-h', `${Math.round(h)}px`)
+      }
+    }
+    meet()
+    const ro = new ResizeObserver(meet)
+    ro.observe(el)
+    window.addEventListener('resize', meet)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('resize', meet)
+    }
+  }, [])
 
   useEffect(() => { setMenuOpen(false) }, [pathname])
   useEffect(() => { setLangOpen(false) }, [pathname])
@@ -447,7 +517,7 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
 
   return (
     <>
-      <header className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${isVasteWitteBalk ? 'site-header--solid' : ''} ${onLight ? 'site-header--onlight' : ''} ${isWittePagina ? 'site-header--forceblack' : ''} ${isPrivateBoat && !fadeOn ? 'site-header--forcewhite' : ''}`}>
+      <header ref={headerRef} className={`site-header ${isScrolled ? 'site-header--scrolled' : ''} ${fadeOn ? 'site-header--fade' : ''} ${isVasteWitteBalk ? 'site-header--solid' : ''} ${onLight ? 'site-header--onlight' : ''} ${isWittePagina ? 'site-header--forceblack' : ''} ${isPrivateBoat && !fadeOn ? 'site-header--forcewhite' : ''}`}>
         {/* Topbar strip: official ticket partner — at the top everywhere EXCEPT the
             ClubTickets categories, where it is shown as a fixed bottom bar instead. */}
         {!isClubCat && !isPrivateBoat && !(isHome && fadeOn) && (

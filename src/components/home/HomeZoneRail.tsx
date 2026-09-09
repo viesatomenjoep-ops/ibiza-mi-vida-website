@@ -316,10 +316,16 @@ export function HomeZoneRail({
         ref={railRef}
         data-rail={id}
         className="relative mt-7 flex cursor-grab gap-3 overflow-x-auto pb-6 pt-2 [--rail-gap:12px] [--rail-pad:16px] [scroll-snap-type:x_mandatory] [scrollbar-width:none] [overscroll-behavior-x:contain] sm:gap-4 sm:[--rail-gap:16px] sm:[--rail-pad:24px] [&::-webkit-scrollbar]:hidden"
+        /* 100% en niet 100vw. 100vw telt de schuifbalk mee, het element zelf
+           niet: op een desktop met een zichtbare schuifbalk van 15px werd het
+           opvulsel links en rechts 154px terwijl er maar 1425px te verdelen
+           was, en dus stond de hele rail 15px uit het midden. Gemeten voor:
+           154 links, 169 rechts. Met 100% rekent de berekening met dezelfde
+           breedte als waarin hij landt. */
         style={{
-          paddingLeft: 'max(var(--rail-pad),calc((100vw - 1132px)/2))',
-          paddingRight: 'max(var(--rail-pad),calc((100vw - 1132px)/2))',
-          scrollPaddingLeft: 'max(var(--rail-pad),calc((100vw - 1132px)/2))',
+          paddingLeft: 'max(var(--rail-pad),calc((100% - 1132px)/2))',
+          paddingRight: 'max(var(--rail-pad),calc((100% - 1132px)/2))',
+          scrollPaddingLeft: 'max(var(--rail-pad),calc((100% - 1132px)/2))',
         }}
       >
         {items.length === 0 ? (
@@ -345,7 +351,13 @@ export function HomeZoneRail({
               key={c.href + i}
               href={c.href}
               draggable={false}
-              className="group relative flex min-h-[250px] w-[calc((100%-var(--rail-gap))/2)] flex-none flex-col justify-end overflow-hidden rounded-[22px] bg-[#141414] p-3.5 text-white shadow-[0_24px_50px_-24px_rgba(0,0,0,.6)] transition-transform duration-[350ms] [transition-timing-function:cubic-bezier(.2,.8,.2,1)] [animation:imvHomeZoneFade_.5s_ease_both] hover:-translate-y-1 sm:min-h-[232px] sm:w-[clamp(300px,88vw,560px)] sm:p-5"
+              /* Twee op een telefoon, drie op een tablet, vier op desktop --
+                 allemaal precies passend, want de breedte is telkens de
+                 zichtbare railbreedte min de tussenruimtes, gedeeld door het
+                 aantal. Op desktop stond hier clamp(300px,88vw,560px): dat gaf
+                 kaarten van 560px en dus twee in beeld, met de derde half
+                 afgesneden. */
+              className="group relative flex min-h-[250px] w-[calc((100%-var(--rail-gap))/2)] flex-none flex-col justify-end overflow-hidden rounded-[22px] bg-[#141414] p-3.5 text-white shadow-[0_24px_50px_-24px_rgba(0,0,0,.6)] transition-transform duration-[350ms] [transition-timing-function:cubic-bezier(.2,.8,.2,1)] [animation:imvHomeZoneFade_.5s_ease_both] hover:-translate-y-1 sm:min-h-[232px] sm:p-5 md:w-[calc((100%-2*var(--rail-gap))/3)] lg:w-[calc((100%-3*var(--rail-gap))/4)]"
               style={{ scrollSnapAlign: 'start' }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -376,13 +388,17 @@ export function HomeZoneRail({
                 </span>
               )}
               <div className="relative flex flex-col gap-1.5">
-                {/* Op mobiel op twee regels afgekapt. Een titel als "Jamie
-                    Jones presents Paradise: Starship Eden" liep op een halve
-                    kaartbreedte over vier regels en duwde samen met het
-                    verloop het hele beeld uit zicht -- precies het beeld
-                    waarvoor deze kaartvorm bestaat. Vanaf sm is de kaart
-                    breed genoeg en mag de titel voluit. */}
-                <strong className="line-clamp-2 font-display text-[clamp(15px,4.2vw,30px)] font-extrabold leading-[1.08] tracking-[-0.02em] sm:line-clamp-none" style={{ textWrap: 'balance' as any }}>
+                {/* Overal op twee regels afgekapt. Een titel als "Jamie Jones
+                    presents Paradise: Starship Eden" liep op een smalle kaart
+                    over vier regels en duwde samen met het verloop het hele
+                    beeld uit zicht -- precies het beeld waarvoor deze
+                    kaartvorm bestaat. Dat gold eerst alleen op mobiel; nu de
+                    kaart op desktop 271px is in plaats van 560px, geldt het
+                    daar net zo goed.
+
+                    De maat volgt de kaart mee: 30px op een kaart van 560px was
+                    passend, op 271px niet meer. */}
+                <strong className="line-clamp-2 font-display text-[clamp(15px,4.2vw,26px)] font-extrabold leading-[1.08] tracking-[-0.02em] md:text-[19px] lg:text-[21px]" style={{ textWrap: 'balance' as any }}>
                   {c.title}
                 </strong>
                 {(c.venue || c.time) && (
