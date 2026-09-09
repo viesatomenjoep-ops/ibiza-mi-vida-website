@@ -353,7 +353,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
       )}
 
       {/* Event List (All Events) */}
-      <section className="py-12 bg-white/50 text-neutral-900" id="tickets">
+      <section className="scroll-mt-[calc(var(--nav-h-min)+16px)] py-12 bg-white/50 text-neutral-900" id="tickets">
         <div className="max-w-7xl mx-auto px-4">
            <div className="flex items-end justify-between mb-6 gap-5">
               <div>

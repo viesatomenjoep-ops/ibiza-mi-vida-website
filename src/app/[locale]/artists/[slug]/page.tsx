@@ -387,8 +387,18 @@ export default async function ArtistPage({ params }: Props) {
       <div className="max-w-7xl mx-auto px-4 mt-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
 
-          {/* Left Column: Events list */}
-          <div className="lg:col-span-2 flex flex-col gap-4" id="tickets">
+          {/* Left Column: Events list
+
+              scroll-mt: dit blok is het doel van "Bekijk tickets" in de vaste
+              balk onderin, en het had geen scrollmarge. De sprong zette de
+              bovenkant van de lijst dus op y=0, precies achter de vaste
+              navigatiebalk, en juist de eerste datum -- degene die je wilt
+              aanklikken -- verdween erachter.
+
+              --nav-h-min en niet --nav-h: die knop klik je altijd terwijl je al
+              gescrold hebt, en dan is de balk lager. De 16px erbij zet de
+              eerste kaart vrij onder de balk in plaats van er tegenaan. */}
+          <div className="flex scroll-mt-[calc(var(--nav-h-min)+16px)] flex-col gap-4 lg:col-span-2" id="tickets">
             {futureDates.length === 0 ? (
               <div className="text-center py-12 text-velvet-obsidian/60 bg-white rounded-3xl border border-black/5 shadow-sm">
                 <Calendar className="w-12 h-12 mx-auto mb-4 opacity-30" />

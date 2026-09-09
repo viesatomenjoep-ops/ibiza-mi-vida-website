@@ -494,7 +494,7 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
           {/* Scroll-down cue — when this event has several dates to browse */}
           {eventDates.length > 1 && <ScrollCue className="-mb-6" />}
           {/* Dates + tickets */}
-          <div id="tickets">
+          <div id="tickets" className="scroll-mt-[calc(var(--nav-h-min)+16px)]">
             <AnimatedSection delay={100} className="flex flex-col gap-6">
               <div>
                 <h2 className="font-serif text-3xl font-black text-black md:text-4xl">{t.event_select_date_book || 'Select date & book'}</h2>
