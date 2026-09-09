@@ -433,26 +433,41 @@ export function HomeZoneRail({
           maar een beeld zag. */}
       <div className="relative mx-auto mt-8 max-w-[1180px] px-6">
         <div className="mx-auto flex w-full max-w-[688px] flex-col items-center gap-4">
-          {/* Bladerpijlen van de kaartrail. Stonden naast de dagkiezer; nu
-              direct onder de kaarten die ze bedienen, want daar hoort een
-              knop die de rij naar links of rechts schuift. */}
-          <div className="flex gap-3">
+          {/* Bladerpijlen van de kaartrail, met de knop naar de agenda ertussen.
+              Die knop stond onderaan de sectie, onder de dagtegels; op verzoek
+              staat hij nu hier, boven de datumkiezer en geflankeerd door de
+              twee pijlen.
+
+              min-w-0 op de knop en de pijlen op flex-none: op een smal scherm
+              (320px blijft er na de opvulling 272px over, waarvan de twee
+              pijlen er al 80 pakken) moet de knop krimpen en niet de pijlen
+              wegduwen. */}
+          <div className="flex w-full items-center justify-center gap-2.5 sm:gap-4">
             <button
               type="button"
               aria-label={t(L.previous, locale)}
               onClick={() => scrollByCard(-1)}
-              className="grid h-10 w-10 place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-11 md:w-11"
+              className="grid h-10 w-10 flex-none place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-11 md:w-11"
               style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
               onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
               onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
             >
               <ChevronLeft className="h-4 w-4 md:h-5 md:w-5" strokeWidth={2.5} aria-hidden />
             </button>
+            <a
+              href={ctaHref}
+              className="inline-flex min-w-0 items-center justify-center gap-2 truncate rounded-full px-3.5 py-2.5 font-sans text-[10px] font-extrabold uppercase tracking-[0.14em] transition-colors duration-200 sm:px-[18px] sm:tracking-[0.18em]"
+              style={{ background: accent, color: accentInk, boxShadow: `0 18px 40px -18px ${accent}cc` }}
+              onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
+              onMouseLeave={e => { e.currentTarget.style.background = accent; e.currentTarget.style.color = accentInk }}
+            >
+              {ctaLabel} <span aria-hidden>→</span>
+            </a>
             <button
               type="button"
               aria-label={t(L.next, locale)}
               onClick={() => scrollByCard(1)}
-              className="grid h-10 w-10 place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-11 md:w-11"
+              className="grid h-10 w-10 flex-none place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-11 md:w-11"
               style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
               onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
               onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
@@ -545,16 +560,6 @@ export function HomeZoneRail({
               )
             })}
           </div>
-
-          <a
-            href={ctaHref}
-            className="mt-1.5 inline-flex items-center gap-2 whitespace-nowrap rounded-full px-[18px] py-2.5 font-sans text-[10px] font-extrabold uppercase tracking-[0.18em] transition-colors duration-200"
-            style={{ background: accent, color: accentInk, boxShadow: `0 18px 40px -18px ${accent}cc` }}
-            onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
-            onMouseLeave={e => { e.currentTarget.style.background = accent; e.currentTarget.style.color = accentInk }}
-          >
-            {ctaLabel} <span aria-hidden>→</span>
-          </a>
         </div>
       </div>
     </section>
