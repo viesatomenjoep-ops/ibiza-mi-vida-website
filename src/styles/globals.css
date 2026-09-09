@@ -50,12 +50,19 @@
         de kleur ziet in welke sectie je zit. Vier van de vijf bladkleuren,
         op volgorde van licht naar donker verdeeld over de pagina.
 
-        Alle vier dragen donkere tekst ruim boven de norm: 6,61 (blauw, de
-        donkerste) tot 15,52 (blush). */
-  --zone-bg-events:#ECC5C6;         /* donkere tekst: 11,73 */
-  --zone-bg-boats:#8A9DB1;          /* donkere tekst:  6,61 */
-  --zone-bg-island:#F5E9E7;         /* donkere tekst: 15,52 */
-  --zone-bg-water:#C1C0C2;          /* donkere tekst: 10,16 */
+        Alle vier zijn 25% richting wit opgetrokken, op verzoek "ietsje
+        lichter". Uniform en niet per kleur: de onderlinge afstand tussen twee
+        opeenvolgende secties is wat je ze uit elkaar laat houden, en die zakt
+        van 1,53 naar 1,36 bij gelijke behandeling. Een poging om de donkerste
+        (blauw) extra op te lichten maakte het júíst erger -- dan schuift hij
+        naar het roze toe en valt de afstand terug naar 1,23.
+
+        Donkere tekst haalt nu 8,86 (blauw, nog steeds de donkerste) tot 16,22
+        (blush); lichter maken kan de leesbaarheid alleen maar helpen. */
+  --zone-bg-events:#F1D4D4;         /* donkere tekst: 13,20 */
+  --zone-bg-boats:#A7B6C5;          /* donkere tekst:  8,86 */
+  --zone-bg-island:#F8EFED;         /* donkere tekst: 16,22 */
+  --zone-bg-water:#D1D0D1;          /* donkere tekst: 11,95 */
 
   /* ── Diepe varianten ──────────────────────────────────────────────────
         Elke bladkleur zo ver teruggebracht dat witte tekst er 5,0 haalt.

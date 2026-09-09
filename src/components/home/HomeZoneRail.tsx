@@ -315,14 +315,13 @@ export function HomeZoneRail({
          (een inline stijl wint van de klasse) en geen enkele voorouder mag
          overflow hidden of auto hebben.
 
-         De factor 1,3 maakt de secties 30% hoger dan het scherm. Ze pasten
-         precies, en dan volgen de kleurvlakken elkaar zo snel op dat het
-         gedrongen aanvoelt. Met 30% extra scrol je een stuk binnen één kleur
-         voordat de volgende begint.
+         De factor 1,15 maakt de secties 15% hoger dan het scherm. Precies
+         passend voelde gedrongen (de kleuren volgden elkaar te snel op), 30%
+         bleek te ruim -- je zat te lang in dezelfde kleur. Hier tussenin.
 
          Meer opvulling onderaan (pb-16 -> pb-24, sm 84 -> 104px): de inhoud
          stond te dicht op de rand waar het volgende vel binnenschuift. */
-      className="flex min-h-[calc((100svh-var(--nav-h-min))*1.3+48px)] scroll-mt-[var(--nav-h-min)] flex-col justify-center pb-24 pt-10 sm:pb-[104px] sm:pt-[68px]"
+      className="flex min-h-[calc((100svh-var(--nav-h-min))*1.15+48px)] scroll-mt-[var(--nav-h-min)] flex-col justify-center pb-24 pt-10 sm:pb-[104px] sm:pt-[68px]"
       style={{
         // Geen `position` hier. Die stond op 'relative' en een inline stijl wint
         // van een klasse, dus de `sticky` uit className deed niets -- gemeten:
