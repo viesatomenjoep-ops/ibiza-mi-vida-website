@@ -319,6 +319,18 @@ export function HomeZoneRail({
         </div>
       </div>
 
+      {/* Een gecentreerde container om de rail heen, in plaats van opvulling
+          ín de rail.
+
+          Met opvulling werd het scheef: op een venster van 1509px is die
+          opvulling 188px per kant, en de rail schuift dwars door de rechter
+          188px heen. Je zag dan links 189px lege achtergrond en rechts twee
+          halve kaarten -- gemeten, en precies wat er op het scherm mis oogde.
+
+          Nu is de rand van deze container de grens aan beide kanten: wat er
+          niet in past wordt afgekapt waar links de marge begint. Vier hele
+          kaarten, even veel lucht links als rechts, geen halve tegel meer. */}
+      <div className="mx-auto mt-[22px] w-full max-w-[1180px] px-4 sm:px-6">
       <div
         ref={railRef}
         data-rail={id}
@@ -340,18 +352,7 @@ export function HomeZoneRail({
            het hele punt -- bij een sectie die wél overloopt valt centreren
            terug op `start`, want anders zou het begin van de rij links buiten
            de scrollbare ruimte vallen en niet meer te bereiken zijn. */
-        className="relative mt-[22px] grid cursor-grab [justify-content:safe_center] auto-cols-[calc((100%-var(--rail-gap))/2)] grid-flow-col grid-rows-2 gap-3 overflow-x-auto pb-5 pt-2 [--rail-gap:12px] [--rail-pad:16px] [scroll-snap-type:x_mandatory] [scrollbar-width:none] [overscroll-behavior-x:contain] sm:gap-4 sm:[--rail-gap:16px] sm:[--rail-pad:24px] md:auto-cols-[calc((100%-2*var(--rail-gap))/3)] lg:auto-cols-[calc((100%-3*var(--rail-gap))/4)] [&::-webkit-scrollbar]:hidden"
-        /* 100% en niet 100vw. 100vw telt de schuifbalk mee, het element zelf
-           niet: op een desktop met een zichtbare schuifbalk van 15px werd het
-           opvulsel links en rechts 154px terwijl er maar 1425px te verdelen
-           was, en dus stond de hele rail 15px uit het midden. Gemeten voor:
-           154 links, 169 rechts. Met 100% rekent de berekening met dezelfde
-           breedte als waarin hij landt. */
-        style={{
-          paddingLeft: 'max(var(--rail-pad),calc((100% - 1132px)/2))',
-          paddingRight: 'max(var(--rail-pad),calc((100% - 1132px)/2))',
-          scrollPaddingLeft: 'max(var(--rail-pad),calc((100% - 1132px)/2))',
-        }}
+        className="relative grid cursor-grab [justify-content:safe_center] auto-cols-[calc((100%-var(--rail-gap))/2)] grid-flow-col grid-rows-2 gap-3 overflow-x-auto pb-5 pt-2 [--rail-gap:12px] [scroll-snap-type:x_mandatory] [scrollbar-width:none] [overscroll-behavior-x:contain] sm:gap-4 sm:[--rail-gap:16px] md:auto-cols-[calc((100%-2*var(--rail-gap))/3)] lg:auto-cols-[calc((100%-3*var(--rail-gap))/4)] [&::-webkit-scrollbar]:hidden"
       >
         {items.length === 0 ? (
           <div
@@ -442,6 +443,7 @@ export function HomeZoneRail({
             </a>
           ))
         )}
+      </div>
       </div>
 
       {/* De rest van de informatie -- dagkiezer, bladerpijlen en de knop naar
