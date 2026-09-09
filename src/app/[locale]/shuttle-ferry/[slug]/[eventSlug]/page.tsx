@@ -18,7 +18,7 @@ import { notFound } from 'next/navigation'
 import { getVenues, getAllDates } from '@/lib/clubtickets'
 import { EventDetailPage } from '@/components/templates/EventDetailPage'
 import { dateParam } from '@/lib/event-date-param'
-import { liveVoorEvent } from '@/lib/clubtickets-live'
+import { reconcileEventDates } from '@/lib/clubtickets-live'
 import { getGoogleReviews } from '@/lib/google-reviews'
 
 export const revalidate = 3600
@@ -34,14 +34,18 @@ export default async function EventPage({ params, searchParams }: Props) {
   if (!venue) notFound();
 
   const allDates = await getAllDates(params.locale);
-  const eventDates = allDates.filter(d => d.venueSlug === venue.slug && d.eventSlug === params.eventSlug);
-  if (eventDates.length === 0) notFound();
+  const snapshotDates = allDates.filter(d => d.venueSlug === venue.slug && d.eventSlug === params.eventSlug);
+  if (snapshotDates.length === 0) notFound();
 
-  // Actuele stand bij ClubTickets voor deze avond. Zie clubtickets-live.ts:
-  // faalt of vertraagt dit, dan komt er undefined uit en rendert de pagina
-  // precies zoals hij dat zonder deze call ook deed.
-  const gekozenDatum = dateParam(searchParams)
-  const live = await liveVoorEvent(eventDates as any, gekozenDatum, params.locale)
+  // Live-stand bij ClubTickets. Zie clubtickets-live.ts: faalt of vertraagt dit,
+  // dan valt alles terug op de opgeslagen datums en rendert de pagina precies
+  // zoals hij dat zonder deze call ook deed. `eventDates` bevat vanaf hier alleen
+  // de avonden die ClubTickets nú nog in de agenda heeft.
+  const requestedDate = dateParam(searchParams)
+  const { dates: eventDates, selected } = await reconcileEventDates(snapshotDates, requestedDate, params.locale)
+  // Alleen een afwijking is het melden waard: 'available' en 'unknown' zeggen de
+  // bezoeker niets nieuws.
+  const banner = selected.status === 'available' || selected.status === 'unknown' ? undefined : selected
   // Gecachet per zes uur en gedeeld met de layout: dit kost geen tweede aanroep.
   const reviews = await getGoogleReviews()
 
@@ -52,8 +56,8 @@ export default async function EventPage({ params, searchParams }: Props) {
       club={venue as any} 
       locale={params.locale} 
       basePath="shuttle-ferry"
-      selectedDate={gekozenDatum}
-      live={live}
+      selectedDate={requestedDate}
+      live={banner}
       rating={reviews ? { rating: reviews.rating, total: reviews.total, url: reviews.url } : null}
     />
   )
