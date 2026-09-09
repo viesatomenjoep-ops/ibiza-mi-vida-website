@@ -31,8 +31,12 @@ const LEGEND: Record<string, { live: string; tonight: string; last: string; now:
   fr: { live: 'En direct à Ibiza', tonight: 'Fête aujourd’hui', last: 'Entrée de dernière minute', now: 'En direct' },
 };
 
+// Wit en niet zwart voor de 'green'-status. De balk eronder is donker, dus
+// een zwarte stip zou daar onzichtbaar zijn (contrast 1,0). Wit haalt op die
+// balk 18,4 en houdt de drie statussen uit elkaar: wit / oranje / rood.
+// De sleutel heet nog 'green' omdat de statuslogica die naam gebruikt.
 const DOT_COLORS: Record<Exclude<Status, null>, string> = {
-  green: '#22e07a',
+  green: '#ffffff',
   orange: '#ff9f1c',
   red: '#ff3b3b',
 };

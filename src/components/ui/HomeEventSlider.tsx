@@ -9,7 +9,11 @@ type LiveEvent = { name: string; slug?: string }
 type LiveRecord = { today: LiveEvent[]; lastNight: LiveEvent[]; isDayClub: boolean }
 type Status = 'green' | 'orange' | 'red' | null
 
-const DOT_COLORS: Record<Exclude<Status, null>, string> = { green: '#22e07a', orange: '#ff9f1c', red: '#ff3b3b' }
+// Wit en niet zwart voor de 'green'-status. De balk eronder is donker, dus
+// een zwarte stip zou daar onzichtbaar zijn (contrast 1,0). Wit haalt op die
+// balk 18,4 en houdt de drie statussen uit elkaar: wit / oranje / rood.
+// De sleutel heet nog 'green' omdat de statuslogica die naam gebruikt.
+const DOT_COLORS: Record<Exclude<Status, null>, string> = { green: '#ffffff', orange: '#ff9f1c', red: '#ff3b3b' }
 const LEGEND: Record<string, { live: string; tonight: string; last: string }> = {
   en: { live: 'Live now on Ibiza', tonight: 'Party today', last: 'Last-minute entry' },
   nl: { live: 'Nu live op Ibiza', tonight: 'Feest vandaag', last: 'Last-minute entree' },

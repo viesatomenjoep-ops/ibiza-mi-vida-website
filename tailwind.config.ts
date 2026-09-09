@@ -56,9 +56,15 @@ const config: Config = {
         // Business accent — kept in lockstep with the `gold` token below so the
         // site has exactly one accent. See the note there for the colour history
         // and the contrast rules.
-        'ibiza-green': '#0E7C66',
-        // Palest tint of the accent, for soft section backgrounds on white.
-        'ibiza-mint': '#E4F2ED',
+        //
+        // De naam klopt niet meer sinds het accent zwart is; hij staat er nog
+        // omdat elk *-ibiza-green* hulpmiddel er nog naar wijst. Repoint hier,
+        // niet in de componenten.
+        'ibiza-green': '#000000',
+        // Palest tint of the accent, voor zachte sectievlakken op wit. Was een
+        // muntgroen (#E4F2ED); zwart heeft geen bleke tint, dus dit is nu de
+        // blush uit het palet.
+        'ibiza-mint': 'var(--imv-blush)',
 
         // VIP Concierge / Ibiza Planner luxury palette
         obsidian: {
@@ -66,21 +72,24 @@ const config: Config = {
           light: '#111319',
           card: '#14161D',
         },
-        // Accent — deep emerald (was slate blue, before that purple, before that
-        // actual gold). Token name kept as `gold` so every existing *-gold*
-        // utility recolours globally. This is the MARKETING SITE's brand accent
-        // — do not repoint it for app-only work below.
+        // Accent — zwart (was deep emerald, daarvoor slate blue, purple, en ooit
+        // echt goud). Tokennaam blijft `gold` zodat elk bestaand *-gold*
+        // hulpmiddel in één keer meeverkleurt. Dit is het accent van de
+        // MARKETINGSITE — niet repointen voor app-werk hieronder.
         //
-        // Contrast, measured against WCAG AA (4.5:1 for normal text):
-        //   white on DEFAULT ....... 5.16:1  ✓  — use for solid fills
-        //   black on DEFAULT ....... 4.07:1  ✗  — do NOT put dark text on a fill
-        //   DEFAULT on obsidian .... 3.68:1  ✗  — too dim for accent text on dark
-        //   soft    on obsidian .... 8.30:1  ✓  — use for accent TEXT on dark
-        // So: `gold` fills surfaces, `gold-soft` writes on dark ones.
+        // Contrast, gemeten tegen WCAG AA (4,5:1 voor gewone tekst):
+        //   wit op DEFAULT ......... 21,00:1  ✓  — voor volle vlakken
+        //   zwart op DEFAULT ....... 1,00:1   ✗  — nooit donkere tekst op een vlak
+        //   DEFAULT op obsidian .... 1,08:1   ✗  — zwart op donker is onzichtbaar
+        //   soft    op obsidian .... 17,64:1  ✓  — voor accentTEKST op donker
+        //
+        // `soft` kan dus niet meer een lichtere variant van het accent zijn,
+        // want zwart heeft er geen. Het is nu de blush uit het palet: dat is de
+        // enige manier om accenttekst op de donkere secties leesbaar te houden.
         gold: {
-          DEFAULT: '#0E7C66',
-          soft: '#3FBF9A',
-          faint: 'rgba(14, 124, 102, 0.14)',
+          DEFAULT: '#000000',
+          soft: 'var(--imv-blush)',
+          faint: 'rgba(0, 0, 0, 0.08)',
         },
         // /m app shell accent — warm copper/bronze against the app's obsidian
         // surfaces, replacing an earlier blue that read too close to the

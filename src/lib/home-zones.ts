@@ -15,8 +15,8 @@ export interface HomeZoneDef {
 }
 
 export const HOME_ZONES: HomeZoneDef[] = [
-  { id: 'zone-events', accent: '#E14D68', naam: { nl: 'Events & Tickets', en: 'Events & Tickets', de: 'Events & Tickets', es: 'Eventos y entradas', fr: 'Événements & billets' } },
-  { id: 'zone-water', accent: '#0E7C66', naam: { nl: 'Private Boat Rental', en: 'Private Boat Rental', de: 'Private Boat Rental', es: 'Private Boat Rental', fr: 'Private Boat Rental' } },
-  { id: 'zone-island', accent: '#C8A24A', naam: { nl: 'On the land activities', en: 'On the land activities', de: 'On the land activities', es: 'On the land activities', fr: 'On the land activities' } },
-  { id: 'zone-wateract', accent: '#8D7BC4', naam: { nl: 'On the water activities', en: 'On the water activities', de: 'On the water activities', es: 'On the water activities', fr: 'On the water activities' } },
+  { id: 'zone-events', accent: '#ECC5C6', naam: { nl: 'Events & Tickets', en: 'Events & Tickets', de: 'Events & Tickets', es: 'Eventos y entradas', fr: 'Événements & billets' } },
+  { id: 'zone-water', accent: '#8A9DB1', naam: { nl: 'Private Boat Rental', en: 'Private Boat Rental', de: 'Private Boat Rental', es: 'Private Boat Rental', fr: 'Private Boat Rental' } },
+  { id: 'zone-island', accent: '#F5E9E7', naam: { nl: 'On the land activities', en: 'On the land activities', de: 'On the land activities', es: 'On the land activities', fr: 'On the land activities' } },
+  { id: 'zone-wateract', accent: '#C1C0C2', naam: { nl: 'On the water activities', en: 'On the water activities', de: 'On the water activities', es: 'On the water activities', fr: 'On the water activities' } },
 ]

@@ -560,9 +560,9 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
       <BackButton locale={locale} fallbackHref={`/${locale}`} variant="top" />
       <style dangerouslySetInnerHTML={{ __html: `
         .fleet-range { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 9999px; outline: none; cursor: pointer; }
-        .fleet-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #0E7C66; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; transition: transform .15s ease; }
+        .fleet-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #000; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; transition: transform .15s ease; }
         .fleet-range::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.12); }
-        .fleet-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #0E7C66; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; }
+        .fleet-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 9999px; background: #fff; border: 3px solid #000; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab; }
         .fleet-range:disabled::-webkit-slider-thumb { cursor: not-allowed; border-color: #9ca3af; }
         /* PERF: 94 kaarten staan allemaal in de HTML (crawlers zonder JS moeten
            de hele vloot zien), maar de browser hoeft alleen te lay-outen en te
