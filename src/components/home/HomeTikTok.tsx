@@ -152,7 +152,7 @@ export function HomeTikTok({ locale = 'nl' }: { locale?: string }) {
             href={TIKTOK_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 text-sm font-semibold text-neutral-400 hover:text-gold"
+            className="mt-3 text-sm font-semibold text-neutral-600 hover:text-gold"
           >
             @{HANDLE}
           </a>

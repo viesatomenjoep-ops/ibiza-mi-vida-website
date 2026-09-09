@@ -111,7 +111,7 @@ export function PackageDealPicker({ locale = 'nl' }: { locale?: string }) {
       <p className="mt-2 max-w-xl text-sm leading-relaxed text-black/60">{t(SUB, locale)}</p>
 
       <fieldset className="mt-6">
-        <legend className="mb-2.5 flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.18em] text-black/50">
+        <legend className="mb-2.5 flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.18em] text-black/60">
           <Users size={13} /> {t(GROUP_LBL, locale)}
         </legend>
         <div className="flex flex-wrap gap-2">
@@ -130,7 +130,7 @@ export function PackageDealPicker({ locale = 'nl' }: { locale?: string }) {
       </fieldset>
 
       <fieldset className="mt-5">
-        <legend className="mb-2.5 text-[11px] font-black uppercase tracking-[0.18em] text-black/50">
+        <legend className="mb-2.5 text-[11px] font-black uppercase tracking-[0.18em] text-black/60">
           {t(KIND_LBL, locale)}
         </legend>
         <div className="flex flex-wrap gap-2">
@@ -150,7 +150,7 @@ export function PackageDealPicker({ locale = 'nl' }: { locale?: string }) {
       </fieldset>
 
       <div className="mt-5">
-        <label htmlFor="pkg-date" className="mb-2.5 block text-[11px] font-black uppercase tracking-[0.18em] text-black/50">
+        <label htmlFor="pkg-date" className="mb-2.5 block text-[11px] font-black uppercase tracking-[0.18em] text-black/60">
           {t(DATE_LBL, locale)}
         </label>
         <input

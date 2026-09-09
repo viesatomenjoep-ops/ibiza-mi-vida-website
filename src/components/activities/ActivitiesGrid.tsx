@@ -77,7 +77,7 @@ export function ActivitiesGrid({ items, locale }: { items: ActivityCard[]; local
     <div>
       <div className="mb-7 flex flex-wrap items-center gap-4">
         <label className="relative min-w-0 flex-1 sm:max-w-sm">
-          <Search size={16} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-black/40" />
+          <Search size={16} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-black/60" />
           <input
             type="search"
             value={q}

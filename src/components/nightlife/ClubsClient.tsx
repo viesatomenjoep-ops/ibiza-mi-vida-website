@@ -71,7 +71,7 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
 
         {/* Standalone club search — with live suggestions */}
         <div className="relative mx-auto mb-10 w-full max-w-xl">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/40" size={18} />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/60" size={18} />
           <input
             type="text"
             placeholder={translations.searchPlaceholder}
@@ -91,7 +91,7 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
                     {(v.whitelogo || v.cover || v.picture) ? <img src={optImg(v.whitelogo || v.cover || v.picture, 100)} loading="lazy" alt="" className="max-h-full max-w-full object-contain" /> : null}
                   </span>
                   <span className="flex-1 truncate font-serif text-sm font-bold text-black">{v.name}</span>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-black/5 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-black/50">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-black/5 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-black/60">
                     {v.is_day_club ? <Sun size={10} /> : <Moon size={10} />}
                     {v.is_day_club ? 'Day' : 'Night'}
                   </span>

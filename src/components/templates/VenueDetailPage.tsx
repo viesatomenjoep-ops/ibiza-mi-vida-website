@@ -405,7 +405,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
             </div>
             
             <div className="bg-white border border-black/10 rounded-3xl p-7 md:p-8 shadow-sm text-black">
-              <h3 className="text-xs font-black uppercase tracking-[0.25em] text-black/40 mb-1">{T.practicalInfo}</h3>
+              <h3 className="text-xs font-black uppercase tracking-[0.25em] text-black/60 mb-1">{T.practicalInfo}</h3>
               <div className="w-10 h-1 rounded-full bg-ibiza-green mb-6" />
 
               <div className="flex flex-col">
@@ -413,7 +413,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                   <div className="w-11 h-11 rounded-2xl bg-black flex items-center justify-center shrink-0 text-white">
                     <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
                   </div>
-                  <span className="text-sm font-semibold text-black/50 uppercase tracking-wider">{T.location}</span>
+                  <span className="text-sm font-semibold text-black/60 uppercase tracking-wider">{T.location}</span>
                   <span className="ml-auto text-base md:text-lg font-black text-black">{T.ibizaSpain}</span>
                 </div>
 
@@ -421,7 +421,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                   <div className="w-11 h-11 rounded-2xl bg-black flex items-center justify-center shrink-0 text-white">
                     <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
                   </div>
-                  <span className="text-sm font-semibold text-black/50 uppercase tracking-wider">{T.openingHours}</span>
+                  <span className="text-sm font-semibold text-black/60 uppercase tracking-wider">{T.openingHours}</span>
                   <span className="ml-auto text-base md:text-lg font-black text-black">{isDayClub ? T.daytime : T.atNight}</span>
                 </div>
 
@@ -429,7 +429,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                   <div className="w-11 h-11 rounded-2xl bg-black flex items-center justify-center shrink-0 text-white">
                     <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
                   </div>
-                  <span className="text-sm font-semibold text-black/50 uppercase tracking-wider">{T.genre}</span>
+                  <span className="text-sm font-semibold text-black/60 uppercase tracking-wider">{T.genre}</span>
                   <span className="ml-auto text-base md:text-lg font-black text-black">{typeName || T.clubbing}</span>
                 </div>
               </div>
@@ -476,7 +476,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
       {/* Sticky Bottom Bar */}
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-black/10 z-50 flex items-center justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
         <div className="flex flex-col">
-          <span className="text-xs font-bold uppercase tracking-wider text-black/50">{T.stickyAgenda}</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-black/60">{T.stickyAgenda}</span>
           <span className="font-black text-xl text-black">{allDates.length} {T.events}</span>
         </div>
         <button 

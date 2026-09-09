@@ -183,7 +183,7 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
       {visible.length === 0 ? (
         <div className="rounded-2xl border border-black/10 bg-black/5 py-14 text-center">
           <CalendarDays size={34} className="mx-auto mb-3 text-black/20" />
-          <p className="font-semibold text-black/50">{L.noDates}</p>
+          <p className="font-semibold text-black/60">{L.noDates}</p>
         </div>
       ) : (
         // mx-auto + max-w-3xl: de kaartenlijst zat in een container van 1280px

@@ -85,7 +85,7 @@ export function GuestlistSignup({ locale = 'nl' }: { locale?: string }) {
 
   const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
   const field =
-    'w-full rounded-full border border-black/12 bg-white px-5 py-2.5 text-sm text-neutral-900 placeholder:text-black/40 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/30'
+    'w-full rounded-full border border-black/12 bg-white px-5 py-2.5 text-sm text-neutral-900 placeholder:text-black/60 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/30'
   const legend = 'mb-2 block text-[11px] font-black uppercase tracking-[0.18em] text-black/60'
 
   return (

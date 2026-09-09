@@ -353,7 +353,7 @@ function BoatCard({ boat, T, locale, live, date, season }: {
 
       {/* Info / price panel */}
       <div className="flex flex-1 flex-col p-4">
-        <div className="mb-0.5 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-black/50">
+        <div className="mb-0.5 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-black/60">
           <MapPin size={11} className="text-ibiza-green" /> {boat.marina}
         </div>
         <h3 className="font-serif text-base font-bold leading-tight text-black">
@@ -377,10 +377,10 @@ function BoatCard({ boat, T, locale, live, date, season }: {
             <div className={`truncate text-[11px] font-bold uppercase tracking-wider ${band === 'high' ? 'text-ibiza-green' : 'text-black/70'}`}>
               {seizoenLabel}
             </div>
-            <div className="truncate text-[10px] text-black/40">{seizoenNoot}</div>
+            <div className="truncate text-[10px] text-black/60">{seizoenNoot}</div>
           </div>
           <div className="shrink-0 whitespace-nowrap font-serif text-lg font-bold text-black">
-            €{fmt(prijs, locale)} <span className="font-sans text-[10px] font-normal text-black/40">{T.perDay}</span>
+            €{fmt(prijs, locale)} <span className="font-sans text-[10px] font-normal text-black/60">{T.perDay}</span>
           </div>
         </div>
 
@@ -397,7 +397,7 @@ function BoatCard({ boat, T, locale, live, date, season }: {
           >
             <FileText size={12} /> {T.dossier}
           </a>
-          <p className="mt-1.5 text-[10px] italic leading-relaxed text-black/40">{T.termsNote}</p>
+          <p className="mt-1.5 text-[10px] italic leading-relaxed text-black/60">{T.termsNote}</p>
         </div>
 
         {/* WhatsApp inquiry */}
@@ -634,10 +634,10 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
             zeggen wanneer dat gemeten is. Dit blok is server-gerenderd, dus
             ook zonder JavaScript zie je hoe vers de stand is. Geen feed, geen
             regel: dan doen we ook geen uitspraak. */}
-        <div className="flex flex-wrap items-baseline gap-x-2 px-1 text-sm font-semibold text-black/50">
+        <div className="flex flex-wrap items-baseline gap-x-2 px-1 text-sm font-semibold text-black/60">
           <span>{T.boatsCount(filtered.length)}</span>
           {live && (
-            <span className="text-[12px] font-normal text-black/40">
+            <span className="text-[12px] font-normal text-black/60">
               · {T.liveStamp(liveStampTime(live.generatedAt, bcp))}
             </span>
           )}
@@ -661,7 +661,7 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
             ))}
           </div>
         ) : (
-          <div className="rounded-3xl border border-black/10 bg-neutral-50 py-20 text-center text-black/50">{T.noResults}</div>
+          <div className="rounded-3xl border border-black/10 bg-neutral-50 py-20 text-center text-black/60">{T.noResults}</div>
         )}
       </section>
 

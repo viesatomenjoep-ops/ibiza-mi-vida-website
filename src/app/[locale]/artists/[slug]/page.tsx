@@ -528,7 +528,7 @@ export default async function ArtistPage({ params }: Props) {
       {futureDates.length > 0 && (
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-black/10 z-50 flex items-center justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
           <div className="flex flex-col">
-            <span className="text-xs font-bold uppercase tracking-wider text-black/50">{EVENTS_LABEL[locale]}</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-black/60">{EVENTS_LABEL[locale]}</span>
             <span className="font-black text-xl text-black">{futureDates.length} {AVAILABLE[locale]}</span>
           </div>
           <a

@@ -116,6 +116,9 @@ export function FleetFilterBar({
 
   const nf = (n: number) => n.toLocaleString(({ en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' } as L5)[locale] || 'en-GB')
 
+  // De labels stonden op text-black/60: dat is rgb(153,153,153) op wit en dus
+  // 2,85:1 -- onder de 4,5 die AA vraagt, en dat gold bij elke lettergrootte
+  // hier (8, 9 en 10px). Op /60 wordt het rgb(102,102,102) en 5,74:1.
   const pil = (id: string, icon: React.ReactNode, label: string, value: string, actief: boolean) => (
     <button
       type="button"
@@ -131,7 +134,7 @@ export function FleetFilterBar({
     >
       <span className={actief ? 'text-white' : 'text-ibiza-green'}>{icon}</span>
       <span className="min-w-0">
-        <span className={`block text-[9px] font-black uppercase tracking-[0.14em] ${actief ? 'text-white/60' : 'text-black/40'}`}>{label}</span>
+        <span className={`block text-[9px] font-black uppercase tracking-[0.14em] ${actief ? 'text-white/60' : 'text-black/60'}`}>{label}</span>
         <span className="block truncate text-[13px] font-bold leading-tight">{value}</span>
       </span>
     </button>
@@ -158,7 +161,7 @@ export function FleetFilterBar({
           over en past "Elk aantal" en "Elk budget" voluit. */}
       {!compact && <span className={actief ? 'shrink-0 text-ibiza-green' : 'shrink-0 text-black/35'}>{icon}</span>}
       <span className="min-w-0">
-        <span className={`block font-black uppercase tracking-[0.14em] text-black/40 ${compact ? 'text-[8px]' : 'text-[9px]'}`}>{label}</span>
+        <span className={`block font-black uppercase tracking-[0.14em] text-black/60 ${compact ? 'text-[8px]' : 'text-[9px]'}`}>{label}</span>
         <span className={`block truncate font-bold leading-tight ${compact ? 'text-[12px]' : 'text-[13px]'} ${actief ? 'text-neutral-900' : 'text-neutral-500'}`}>{value}</span>
       </span>
     </button>
@@ -298,7 +301,7 @@ export function FleetFilterBar({
                   </span>
                   {t(L.onlyFree, locale)}
                 </button>
-                {liveStamp && <p className="mt-2 text-[11px] text-black/40">{fill(t(L.liveAt, locale), 't', liveStamp)}</p>}
+                {liveStamp && <p className="mt-2 text-[11px] text-black/60">{fill(t(L.liveAt, locale), 't', liveStamp)}</p>}
               </>
             )}
 
@@ -325,9 +328,9 @@ export function FleetFilterBar({
                     heeft. */}
                 <div className="flex items-end gap-3">
                   <label className="flex-1">
-                    <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.14em] text-black/40">{t(L.vanaf, locale)}</span>
+                    <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.14em] text-black/60">{t(L.vanaf, locale)}</span>
                     <div className="flex items-center gap-1 rounded-xl border border-black/10 px-3 py-2.5">
-                      <span className="text-sm font-bold text-black/40">€</span>
+                      <span className="text-sm font-bold text-black/60">€</span>
                       <input
                         type="number" inputMode="numeric" min={priceMin} max={maxPrice} step={100}
                         value={minPrice}
@@ -337,11 +340,11 @@ export function FleetFilterBar({
                       />
                     </div>
                   </label>
-                  <span aria-hidden className="pb-3 text-black/30">—</span>
+                  <span aria-hidden className="pb-3 text-black/60">—</span>
                   <label className="flex-1">
-                    <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.14em] text-black/40">{t(L.tot, locale)}</span>
+                    <span className="mb-1 block text-[10px] font-black uppercase tracking-[0.14em] text-black/60">{t(L.tot, locale)}</span>
                     <div className="flex items-center gap-1 rounded-xl border border-black/10 px-3 py-2.5">
-                      <span className="text-sm font-bold text-black/40">€</span>
+                      <span className="text-sm font-bold text-black/60">€</span>
                       <input
                         type="number" inputMode="numeric" min={minPrice} max={priceMax} step={100}
                         value={maxPrice}

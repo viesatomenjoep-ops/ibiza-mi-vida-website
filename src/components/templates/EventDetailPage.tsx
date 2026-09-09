@@ -559,13 +559,13 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
                 <div className="mt-5 flex flex-wrap gap-3">
                   {startAt && (
                     <div className="flex flex-col rounded-2xl border border-black/10 bg-neutral-50 px-5 py-3">
-                      <span className="text-xs font-bold uppercase tracking-wider text-black/50">{S.doors}</span>
+                      <span className="text-xs font-bold uppercase tracking-wider text-black/60">{S.doors}</span>
                       <span className="text-lg font-black text-black md:text-xl">{startAt}</span>
                     </div>
                   )}
                   {endAt && (
                     <div className="flex flex-col rounded-2xl border border-black/10 bg-neutral-50 px-5 py-3">
-                      <span className="text-xs font-bold uppercase tracking-wider text-black/50">{S.closes}</span>
+                      <span className="text-xs font-bold uppercase tracking-wider text-black/60">{S.closes}</span>
                       <span className="text-lg font-black text-black md:text-xl">{endAt}</span>
                     </div>
                   )}
@@ -711,10 +711,12 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
             </h2>
             <div className="flex flex-col gap-3">
               {faqs.map((f, i) => (
-                <details key={i} className="group rounded-2xl border border-white/10 bg-[#0D0509] p-5 open:border-ibiza-green/40 open:shadow-lg">
+                <details key={i} className="group rounded-2xl border border-white/10 bg-[#0D0509] p-5 open:border-white/40 open:shadow-lg">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-lg font-bold text-white marker:content-[''] [&::-webkit-details-marker]:hidden [&::marker]:content-['']">
                     {f.q}
-                    <span className="shrink-0 text-2xl font-light text-ibiza-green transition-transform group-open:rotate-45">+</span>
+                    {/* Wit en niet het accent: deze kaart staat op #0D0509 en het accent is
+                        sinds de kleurwissel zwart, dus de plus was onzichtbaar (1,04). */}
+                    <span className="shrink-0 text-2xl font-light text-white transition-transform group-open:rotate-45">+</span>
                   </summary>
                   <p className="mt-3 text-base leading-relaxed text-white">{f.a}</p>
                 </details>

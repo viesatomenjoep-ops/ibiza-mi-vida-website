@@ -252,7 +252,7 @@ export default function ClubTicketsClient({
 
           {/* Slider of Round Club Tiles */}
           <div className="mb-4 relative group/slider">
-            <div className="text-[10px] font-bold tracking-widest uppercase text-black/40 mb-3">
+            <div className="text-[10px] font-bold tracking-widest uppercase text-black/60 mb-3">
               {locale === 'nl' ? 'Kies een Locatie / Partner' : 'Choose a Location / Partner'}
             </div>
             
@@ -442,11 +442,11 @@ export default function ClubTicketsClient({
                     <div>
                       <h3 className="font-serif text-lg font-bold text-black leading-tight mb-2 truncate group-hover:text-ibiza-green transition-colors">{event.eventName || event.name}</h3>
                       <div className="flex items-center gap-1.5 text-xs text-black/60 mb-2">
-                        <MapPin size={12} className="text-black/40" />
+                        <MapPin size={12} className="text-black/60" />
                         {event.venueName} · {event.date}
                       </div>
                       {event.lineUp && (
-                        <div className="text-xs text-black/50 line-clamp-2 leading-relaxed mb-4">
+                        <div className="text-xs text-black/60 line-clamp-2 leading-relaxed mb-4">
                           <span className="font-bold text-black/70">Line-up: </span>
                           {event.lineUp}
                         </div>
@@ -454,7 +454,7 @@ export default function ClubTicketsClient({
                     </div>
                     <div className="flex justify-between items-end border-t border-white/10 pt-3 mt-auto">
                       <div className="flex flex-col">
-                        <small className="text-[10px] uppercase tracking-wider text-black/40">Vanaf</small>
+                        <small className="text-[10px] uppercase tracking-wider text-black/60">Vanaf</small>
                         <b className="text-black font-bold text-lg">€{price.toFixed(0)}</b>
                       </div>
                       <span className="bg-ibiza-green text-white font-bold text-xs px-4 py-2 rounded-full hover:brightness-95 transition-all">Bekijk</span>

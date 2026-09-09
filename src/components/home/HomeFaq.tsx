@@ -20,7 +20,7 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
  *    components/seo/PageFaq.tsx.
  * 2. Every piece of text inside a <Link> on this white section carries an
  *    explicit text-neutral-900. The legacy theme sets a near-white link colour
- *    which renders at 1.09:1 here. And never text-black/50 (3.94:1) — /60 or
+ *    which renders at 1.09:1 here. And never text-black/60 (3.94:1) — /60 or
  *    darker only.
  */
 

@@ -74,7 +74,16 @@ export function AffiliateLink({
         {children}
       </a>
       {showDisclosure && (
-        <span className="text-[12px] leading-snug text-neutral-500">{DISCLOSURE[l](partner)}</span>
+        <span
+          /* Kleur erven in plaats van vastzetten. Deze mededeling staat op twee
+             soorten ondergrond: op wit onder een partnerkaart, en op obsidian
+             in de vlootsectie. Met een vaste grijstint gaat er altijd één mis --
+             neutral-500 haalde 4,12 op wit en neutral-600 zakte op obsidian
+             naar 2,50. Door de kleur van de omgeving te erven en alleen wat
+             dekking weg te nemen klopt het op allebei: ongeveer 12,6 op wit en
+             12,2 op obsidian. */
+          className="text-[12px] leading-snug opacity-80"
+        >{DISCLOSURE[l](partner)}</span>
       )}
     </span>
   )

@@ -15,7 +15,7 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
  * CONTRAST NOTE — do not remove the explicit text colours on the <a>. A legacy
  * global rule sets link colour to #faf3f5, which on this white section measures
  * 1.09:1, i.e. completely invisible. Every anchor here therefore carries its own
- * text-neutral-900. Body text uses text-neutral-600 rather than text-black/50
+ * text-neutral-900. Body text uses text-neutral-600 rather than text-black/60
  * (3.94:1, below AA).
  */
 

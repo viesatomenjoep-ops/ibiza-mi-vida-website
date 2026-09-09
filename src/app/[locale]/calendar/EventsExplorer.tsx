@@ -355,7 +355,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
               {activeDay ? dayHeader(activeDay) : T.upcoming}
             </h2>
           </div>
-          <span className="hidden sm:inline text-xs font-bold text-black/50 uppercase tracking-widest">{T.events(totalCount)}</span>
+          <span className="hidden sm:inline text-xs font-bold text-black/60 uppercase tracking-widest">{T.events(totalCount)}</span>
         </div>
 
         {/* ── Tiles ── */}
@@ -366,13 +366,13 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
           <div
             role="status"
             aria-live="polite"
-            className="col-span-full text-center py-20 text-black/50 bg-black/5 rounded-3xl border border-black/10"
+            className="col-span-full text-center py-20 text-black/60 bg-black/5 rounded-3xl border border-black/10"
           >
             <Calendar className="w-12 h-12 mx-auto mb-4 animate-pulse opacity-30 text-ibiza-green" />
             <p className="font-semibold text-base">{T.loading}</p>
           </div>
         ) : totalCount === 0 ? (
-          <div className="col-span-full text-center py-20 text-black/50 bg-black/5 rounded-3xl border border-black/10">
+          <div className="col-span-full text-center py-20 text-black/60 bg-black/5 rounded-3xl border border-black/10">
             <Calendar className="w-12 h-12 mx-auto mb-4 opacity-30 text-ibiza-green" />
             <p className="font-semibold text-base">{T.noEvents}</p>
           </div>
@@ -385,7 +385,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
                   <h3 className="mb-4 flex items-center gap-3 font-serif text-lg font-black capitalize text-black md:text-xl">
                     <span className="grid h-8 w-8 place-items-center rounded-xl bg-ibiza-green/15 text-ibiza-green"><Calendar size={16} /></span>
                     {dayHeader(ds)}
-                    <span className="text-sm font-bold text-black/30">· {grouped[ds].length}</span>
+                    <span className="text-sm font-bold text-black/60">· {grouped[ds].length}</span>
                   </h3>
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -456,8 +456,8 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
                                ClubTickets zelf, in de taal van de pagina. */
                             <p className="mt-2 line-clamp-2 text-[12px] leading-snug text-black/55">{ev.ct_events.blurb}</p>
                           ) : null}
-                          <div className="text-xs font-semibold text-black/50 flex items-center gap-1.5 mb-5 mt-auto pt-3">
-                            <MapPin size={14} className="text-black/40" /> {ev.ct_venues?.name || 'Ibiza'}
+                          <div className="text-xs font-semibold text-black/60 flex items-center gap-1.5 mb-5 mt-auto pt-3">
+                            <MapPin size={14} className="text-black/60" /> {ev.ct_venues?.name || 'Ibiza'}
                           </div>
                           <div className="pt-4 border-t border-black/10 w-full mt-auto flex justify-between items-center">
                             <span className="text-xs font-bold text-black/60 uppercase tracking-widest">{T.tickets}</span>

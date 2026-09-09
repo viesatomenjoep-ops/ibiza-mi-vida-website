@@ -29,7 +29,7 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
  * Contrast note: this section sits on white, and the legacy theme sets a
  * near-white link colour. Any <a> added here must carry an explicit
  * text-neutral-900 (or sit on a dark pill with text-white) — never rely on the
- * inherited colour, and never use text-black/50 or lighter for body copy.
+ * inherited colour, and never use text-black/60 or lighter for body copy.
  */
 export function SailingRoutes({ locale }: { locale: string }) {
   const l = (LOCALES as readonly string[]).includes(locale) ? (locale as Locale) : DEFAULT_LOCALE

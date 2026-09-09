@@ -298,9 +298,9 @@ export default function WaterAgendaClient({ title, subtitle, lead, kicker, event
     <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-x-clip">
       {/* Header */}
       <div className="relative z-10 pt-[calc(var(--nav-h)+28px)] pb-2 flex flex-col items-center text-center px-4">
-        <p className="text-[11px] md:text-xs font-black uppercase tracking-[0.3em] text-black/40 mb-2">{kicker || `Ibiza Agenda ${format(today, 'yyyy')}`}</p>
+        <p className="text-[11px] md:text-xs font-black uppercase tracking-[0.3em] text-black/60 mb-2">{kicker || `Ibiza Agenda ${format(today, 'yyyy')}`}</p>
         <h1 className="text-5xl md:text-7xl font-black font-serif text-black leading-none uppercase m-0 tracking-tight drop-shadow-sm">{title}</h1>
-        <p className="text-sm md:text-base text-black/50 font-medium mt-3 max-w-md">{subtitle}</p>
+        <p className="text-sm md:text-base text-black/60 font-medium mt-3 max-w-md">{subtitle}</p>
         {lead ? (
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-neutral-800 md:text-lg">{lead}</p>
         ) : null}
@@ -456,7 +456,7 @@ function MonthGrid({
       {/* Weekday header */}
       <div className="grid grid-cols-7 gap-1 md:gap-2 mb-1 md:mb-2">
         {weekdays.map((d, i) => (
-          <div key={i} className="text-center text-[9px] md:text-[11px] font-black uppercase tracking-widest text-black/40 py-1">
+          <div key={i} className="text-center text-[9px] md:text-[11px] font-black uppercase tracking-widest text-black/60 py-1">
             {format(d, 'EEEEEE', { locale: loc })}
           </div>
         ))}
@@ -483,7 +483,7 @@ function MonthGrid({
                 <span className={`text-[11px] md:text-sm font-black ${isDayToday ? 'bg-red-500 text-white w-5 h-5 md:w-6 md:h-6 flex items-center justify-center rounded-full' : inMonth ? 'text-black' : 'text-black/25'}`}>
                   {format(d, 'd')}
                 </span>
-                {has && <span className="hidden md:inline text-[9px] font-black text-black/40 bg-black/5 rounded-full px-1.5 py-0.5">{evs.length}</span>}
+                {has && <span className="hidden md:inline text-[9px] font-black text-black/60 bg-black/5 rounded-full px-1.5 py-0.5">{evs.length}</span>}
               </div>
 
               {/* Event blocks */}
@@ -493,14 +493,14 @@ function MonthGrid({
                   return (
                     <div key={ev.id} className="flex items-center gap-1 rounded-md bg-black/[0.04] hover:bg-black/[0.08] transition-colors px-1 py-0.5 min-w-0">
                       <span className="w-3.5 h-3.5 md:w-4 md:h-4 rounded-[4px] overflow-hidden bg-white shrink-0 hidden md:flex items-center justify-center border border-black/5">
-                        {img ? <img src={optImg(img, 60)} loading="lazy" alt="" className="w-full h-full object-cover" /> : <Ticket size={9} className="text-black/40" />}
+                        {img ? <img src={optImg(img, 60)} loading="lazy" alt="" className="w-full h-full object-cover" /> : <Ticket size={9} className="text-black/60" />}
                       </span>
                       <span className="text-[8px] md:text-[10px] font-bold text-black/70 truncate leading-tight">{ev.venueName || ev.eventName || '—'}</span>
                     </div>
                   );
                 })}
                 {evs.length > MAX_CHIPS && (
-                  <span className="text-[8px] md:text-[10px] font-black text-black/40 pl-1">+{evs.length - MAX_CHIPS} {moreLabel}</span>
+                  <span className="text-[8px] md:text-[10px] font-black text-black/60 pl-1">+{evs.length - MAX_CHIPS} {moreLabel}</span>
                 )}
                 {/* Mobile dot indicator when chips are hidden */}
                 {has && (

@@ -100,7 +100,7 @@ export function VenueLocationMap({
 
   const cardBg = dark ? 'bg-white/5 border-white/10' : 'bg-white border-black/10'
   const titleColor = dark ? 'text-white' : 'text-black'
-  const subColor = dark ? 'text-white/50' : 'text-black/50'
+  const subColor = dark ? 'text-white/50' : 'text-black/60'
   const chipBg = dark
     ? 'bg-white/10 text-white hover:bg-white/20'
     : 'bg-black text-white hover:bg-black/80'
