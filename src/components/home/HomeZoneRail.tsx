@@ -284,7 +284,7 @@ export function HomeZoneRail({
          Minder opvulling aan de kop op een telefoon: 72px vlakke kleur boven de
          kicker is op een scherm van 932px een tiende van je beeld waarin niets
          staat. Vanaf sm blijft het 72px, daar is de ruimte er wel. */
-      className="scroll-mt-[var(--nav-h-min)] pb-[52px] pt-8 sm:pb-[70px] sm:pt-[58px]"
+      className="scroll-mt-[var(--nav-h-min)] pb-16 pt-10 sm:pb-[84px] sm:pt-[68px]"
       style={{
         position: 'relative',
         background: bg,
@@ -322,7 +322,25 @@ export function HomeZoneRail({
       <div
         ref={railRef}
         data-rail={id}
-        className="relative mt-[22px] flex cursor-grab gap-3 overflow-x-auto pb-5 pt-2 [--rail-gap:12px] [--rail-pad:16px] [scroll-snap-type:x_mandatory] [scrollbar-width:none] [overscroll-behavior-x:contain] sm:gap-4 sm:[--rail-gap:16px] sm:[--rail-pad:24px] [&::-webkit-scrollbar]:hidden"
+        /* Twee rijen in plaats van één, op verzoek. Een raster met
+           grid-flow-col en grid-rows-2 vult van boven naar beneden en dan pas
+           naar rechts, dus je ziet per schermbreedte twee keer zoveel: vier
+           kaarten op een telefoon, acht op desktop. Het blijft horizontaal
+           scrollen met dezelfde snap.
+
+           De kolombreedte staat hier en niet meer op de kaarten zelf. Bij een
+           raster bepaalt de kolom de breedte; zou je hem op het item laten
+           staan, dan telt hij niet mee voor de kolomindeling en lopen de twee
+           rijen uit de pas.
+
+           `justify-content: safe center` en niet gewoon center. De landsectie
+           heeft maar vier items: op desktop zijn dat met twee rijen slechts
+           twee kolommen, en die stonden links met 728px leegte ernaast. Met
+           centreren staat dat blok netjes in het midden. Het woord `safe` is
+           het hele punt -- bij een sectie die wél overloopt valt centreren
+           terug op `start`, want anders zou het begin van de rij links buiten
+           de scrollbare ruimte vallen en niet meer te bereiken zijn. */
+        className="relative mt-[22px] grid cursor-grab [justify-content:safe_center] auto-cols-[calc((100%-var(--rail-gap))/2)] grid-flow-col grid-rows-2 gap-3 overflow-x-auto pb-5 pt-2 [--rail-gap:12px] [--rail-pad:16px] [scroll-snap-type:x_mandatory] [scrollbar-width:none] [overscroll-behavior-x:contain] sm:gap-4 sm:[--rail-gap:16px] sm:[--rail-pad:24px] md:auto-cols-[calc((100%-2*var(--rail-gap))/3)] lg:auto-cols-[calc((100%-3*var(--rail-gap))/4)] [&::-webkit-scrollbar]:hidden"
         /* 100% en niet 100vw. 100vw telt de schuifbalk mee, het element zelf
            niet: op een desktop met een zichtbare schuifbalk van 15px werd het
            opvulsel links en rechts 154px terwijl er maar 1425px te verdelen
@@ -337,7 +355,7 @@ export function HomeZoneRail({
       >
         {items.length === 0 ? (
           <div
-            className="flex min-h-[128px] w-full max-w-[560px] flex-none items-center justify-center rounded-[22px] px-6 text-center text-sm"
+            className="row-span-2 flex min-h-[128px] w-full max-w-[560px] items-center justify-center rounded-[22px] px-6 text-center text-sm"
             style={{
               background: dark ? 'rgba(255,255,255,.06)' : 'rgba(20,20,20,.05)',
               color: dark ? 'rgba(255,255,255,.7)' : 'rgba(20,20,20,.55)',
@@ -364,7 +382,7 @@ export function HomeZoneRail({
                  aantal. Op desktop stond hier clamp(300px,88vw,560px): dat gaf
                  kaarten van 560px en dus twee in beeld, met de derde half
                  afgesneden. */
-              className="group relative flex min-h-[200px] w-[calc((100%-var(--rail-gap))/2)] flex-none flex-col justify-end overflow-hidden rounded-[22px] bg-[#141414] p-3 text-white shadow-[0_24px_50px_-24px_rgba(0,0,0,.6)] transition-transform duration-[350ms] [transition-timing-function:cubic-bezier(.2,.8,.2,1)] [animation:imvHomeZoneFade_.5s_ease_both] hover:-translate-y-1 sm:min-h-[186px] sm:p-4 md:w-[calc((100%-2*var(--rail-gap))/3)] lg:w-[calc((100%-3*var(--rail-gap))/4)]"
+              className="group relative flex min-h-[218px] flex-col justify-end overflow-hidden rounded-[22px] bg-[#141414] p-3 text-white shadow-[0_24px_50px_-24px_rgba(0,0,0,.6)] transition-transform duration-[350ms] [transition-timing-function:cubic-bezier(.2,.8,.2,1)] [animation:imvHomeZoneFade_.5s_ease_both] hover:-translate-y-1 sm:min-h-[208px] sm:p-4"
               style={{ scrollSnapAlign: 'start' }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -431,8 +449,8 @@ export function HomeZoneRail({
           stond eerst een kop, een zin, een knop, een maandbalk en zeven
           dagknoppen: op een telefoon ruim een schermhoogte voordat je ook
           maar een beeld zag. */}
-      <div className="relative mx-auto mt-8 max-w-[1180px] px-6">
-        <div className="mx-auto flex w-full max-w-[688px] flex-col items-center gap-4">
+      <div className="relative mx-auto mt-9 max-w-[1180px] px-6">
+        <div className="mx-auto flex w-full max-w-[688px] flex-col items-center gap-5">
           {/* Bladerpijlen van de kaartrail, met de knop naar de agenda ertussen.
               Die knop stond onderaan de sectie, onder de dagtegels; op verzoek
               staat hij nu hier, boven de datumkiezer en geflankeerd door de
