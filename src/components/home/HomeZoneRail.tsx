@@ -308,21 +308,21 @@ export function HomeZoneRail({
          alsnog meekijken. Met de correctie valt de overgang net onder de
          vouw.
 
-         `sticky top-[var(--nav-h-min)]` maakt er een stapel van: een sectie
-         blijft onder de balk hangen terwijl de volgende er met zijn afgeronde
-         bovenkant overheen schuift, en pas als die zelf boven is neemt hij het
-         plakken over. Dat is het effect waar om gevraagd is.
+         Hier heeft even `sticky top-[var(--nav-h-min)]` gestaan, waarmee de
+         secties over elkaar heen schoven. Dat is er op verzoek weer uit; de
+         secties scrollen weer gewoon langs elkaar. Mocht het ooit terugkomen:
+         het werkte, maar `position` moet dan uit de inline style blijven
+         (een inline stijl wint van de klasse) en geen enkele voorouder mag
+         overflow hidden of auto hebben.
 
-         Twee voorwaarden waar het op valt of staat: de vier secties moeten
-         directe buren zijn binnen één ouder (dat zijn ze, zie de wrapper in
-         HomePageClient), en geen enkele voorouder mag overflow hidden of auto
-         hebben -- sticky werkt dan niet meer. De volgorde in de DOM regelt de
-         stapeling vanzelf: een latere sectie tekent over een eerdere, dus er
-         is geen z-index nodig.
+         De factor 1,3 maakt de secties 30% hoger dan het scherm. Ze pasten
+         precies, en dan volgen de kleurvlakken elkaar zo snel op dat het
+         gedrongen aanvoelt. Met 30% extra scrol je een stuk binnen één kleur
+         voordat de volgende begint.
 
          Meer opvulling onderaan (pb-16 -> pb-24, sm 84 -> 104px): de inhoud
          stond te dicht op de rand waar het volgende vel binnenschuift. */
-      className="sticky top-[var(--nav-h-min)] flex min-h-[calc(100svh-var(--nav-h-min)+48px)] scroll-mt-[var(--nav-h-min)] flex-col justify-center pb-24 pt-10 sm:pb-[104px] sm:pt-[68px]"
+      className="flex min-h-[calc((100svh-var(--nav-h-min))*1.3+48px)] scroll-mt-[var(--nav-h-min)] flex-col justify-center pb-24 pt-10 sm:pb-[104px] sm:pt-[68px]"
       style={{
         // Geen `position` hier. Die stond op 'relative' en een inline stijl wint
         // van een klasse, dus de `sticky` uit className deed niets -- gemeten:
