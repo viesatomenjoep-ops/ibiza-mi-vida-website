@@ -230,7 +230,7 @@ export default async function ThisWeekPage({ params }: { params: { locale: strin
                allemaal in de HTML (dat is de hele bedoeling van deze pagina),
                maar de browser hoeft alleen te lay-outen wat in beeld komt. */
             <div key={day} className="mb-10 [contain-intrinsic-size:auto_640px] [content-visibility:auto]">
-              <h2 className="flex items-center gap-2.5 border-b border-black/10 pb-2 font-serif text-xl font-black tracking-tight sm:text-2xl">
+              <h2 className="sticky top-[var(--nav-h-min)] z-20 -mx-2 flex items-center gap-2.5 border-b border-black/10 bg-white/95 px-2 pb-2 pt-2.5 font-serif text-xl font-black tracking-tight backdrop-blur-sm sm:text-2xl">
                 {isTonight && <span className="live-dot" aria-hidden />}
                 <span className={isTonight ? 'text-ibiza-green' : undefined}>
                   {dayHeading(day, tonightStr, l)}

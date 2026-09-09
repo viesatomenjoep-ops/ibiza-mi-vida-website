@@ -321,8 +321,13 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
   ]
   const periodIdx = periods.findIndex(p => p.key === period)
 
+  // overflow-x-clip en niet overflow-hidden. `hidden` maakt van dit element
+  // een scrollcontainer, en dan werkt `position: sticky` bij alles wat eronder
+  // hangt niet meer -- de dagkoppen bleven zo gewoon meescrollen. `clip` op
+  // alleen de horizontale as knipt nog steeds wat buiten beeld steekt, maar
+  // laat de verticale as `visible` en dus blijft sticky werken.
   return (
-    <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-hidden">
+    <div className="theme-monaco-vip bg-neutral-50 text-[var(--color-ink)] min-h-screen relative overflow-x-clip">
 
       {/* ── Header (house style) ── */}
       <section className="pt-[calc(var(--nav-h)+12px)] pb-0 relative z-10 flex flex-col items-center text-center px-4">
@@ -382,7 +387,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
               <div key={ds} className="[contain-intrinsic-size:auto_640px] [content-visibility:auto]">
                 {/* Day group header (only meaningful for multi-day ranges) */}
                 {!activeDay && (
-                  <h3 className="mb-4 flex items-center gap-3 font-serif text-lg font-black capitalize text-black md:text-xl">
+                  <h3 className="sticky top-[var(--nav-h-min)] z-20 -mx-2 mb-4 flex items-center gap-3 rounded-xl bg-neutral-50/95 px-2 py-2.5 font-serif text-lg font-black capitalize text-black backdrop-blur-sm md:text-xl">
                     <span className="grid h-8 w-8 place-items-center rounded-xl bg-ibiza-green/15 text-ibiza-green"><Calendar size={16} /></span>
                     {dayHeader(ds)}
                     <span className="text-sm font-bold text-black/60">· {grouped[ds].length}</span>
