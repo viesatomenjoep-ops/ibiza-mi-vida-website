@@ -452,12 +452,12 @@ export function HomeZoneRail({
               type="button"
               aria-label={t(L.next, locale)}
               onClick={() => scrollByCard(1)}
-              className="grid h-12 w-12 place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-14 md:w-14"
+              className="grid h-10 w-10 place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-11 md:w-11"
               style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
               onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
               onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
             >
-              <ChevronRight className="h-5 w-5 md:h-6 md:w-6" strokeWidth={2.5} aria-hidden />
+              <ChevronRight className="h-4 w-4 md:h-5 md:w-5" strokeWidth={2.5} aria-hidden />
             </button>
           </div>
 
@@ -505,14 +505,14 @@ export function HomeZoneRail({
               disabled={laadt || !loadWeek}
               aria-label={t(L.next, locale)}
               aria-busy={laadt || undefined}
-              className="grid h-14 w-14 flex-none place-items-center rounded-full border-[1.5px] transition-opacity duration-200 disabled:opacity-30 md:h-16 md:w-16"
+              className="grid h-11 w-11 flex-none place-items-center rounded-full border-[1.5px] transition-opacity duration-200 disabled:opacity-30 md:h-[52px] md:w-[52px]"
               style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
               onMouseEnter={e => { if (!e.currentTarget.disabled) { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' } }}
               onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
             >
               {laadt
                 ? <Loader2 className="h-5 w-5 animate-spin md:h-6 md:w-6" strokeWidth={2.5} aria-hidden />
-                : <ChevronRight className="h-6 w-6 md:h-7 md:w-7" strokeWidth={2.5} aria-hidden />}
+                : <ChevronRight className="h-5 w-5 md:h-6 md:w-6" strokeWidth={2.5} aria-hidden />}
             </button>
           </div>
 
