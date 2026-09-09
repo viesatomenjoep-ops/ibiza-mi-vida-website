@@ -65,12 +65,27 @@ export function HomeNewsletter({ locale = 'nl', rating = null }: { locale?: stri
 
   return (
     <section className="relative overflow-hidden bg-obsidian py-16 text-white md:py-20">
-      {/* Een jacht uit de eigen vloot, heel flauw achter de tekst. Twee lagen,
-          en die tweede is niet optioneel: de foto op 18% dekking maakt de
-          sectie minder kaal, maar een lichte lucht of witte romp zou de tekst
-          erboven alsnog onleesbaar maken. Het donkere vlak eroverheen houdt de
-          ondergrond overal even donker, ongeacht welk deel van de foto in beeld
-          valt. Gemeten na afloop: witte tekst blijft boven 12:1.
+      {/* Een jacht uit de eigen vloot achter de tekst. Twee lagen, en die
+          tweede is niet optioneel: de foto laat de boot zien, het donkere vlak
+          eroverheen houdt de ondergrond donker genoeg, ongeacht welk deel van
+          de foto in beeld valt.
+
+          De foto stond op 18% met een scrim van 70%. Dan draagt de foto nog
+          maar 0,18 x (1 - 0,70) = 0,05 bij, en dus zag je de boot niet. Nu 60%
+          met een scrim van 50%: een bijdrage van 0,30, ruim vijf keer zo veel.
+
+          Waarom niet verder open: de romp van dit jacht is wit en die kan
+          precies achter de alinea vallen. Doorgerekend voor dat slechtste
+          geval, een pixel zuiver wit onder de tekst:
+
+            60% / 50%  ->  rgb(72,72,74)   spierwit erop 7,46
+            65% / 50%  ->                  spierwit erop 6,79
+            70% / 45%  ->                  spierwit erop 5,44
+            75% / 45%  ->                  spierwit erop 4,93
+
+          Boven de 60% zakt de marge onder een alinea van 16px te snel weg. Op
+          de donkere zee, het grootste deel van de foto, komt spierwit uit op
+          18,5.
 
           `aria-hidden` en een lege alt: dit is sfeer, geen informatie. En
           `loading="lazy"`, want deze sectie staat ver onder de vouw. */}
@@ -82,9 +97,9 @@ export function HomeNewsletter({ locale = 'nl', rating = null }: { locale?: stri
           alt=""
           loading="lazy"
           decoding="async"
-          className="h-full w-full object-cover opacity-[0.18]"
+          className="h-full w-full object-cover opacity-60"
         />
-        <div className="absolute inset-0 bg-obsidian/70" />
+        <div className="absolute inset-0 bg-obsidian/50" />
       </div>
       <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-gold/20 blur-[120px]" />
       <div className="relative mx-auto max-w-3xl px-4 text-center">
@@ -94,7 +109,10 @@ export function HomeNewsletter({ locale = 'nl', rating = null }: { locale?: stri
         <h2 className="mt-4 font-serif text-3xl font-black tracking-tight md:text-5xl">
           {t(HEAD, locale)}
         </h2>
-        <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/70">
+        {/* Spierwit, op verzoek. Stond op wit/70 (gemengd 5,9 op de oude
+            ondergrond); nu 21 op de zee en 7,46 in het slechtste geval, met
+            de witte romp precies achter de tekst. */}
+        <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white">
           {t(SUB, locale)}
         </p>
 
@@ -108,7 +126,7 @@ export function HomeNewsletter({ locale = 'nl', rating = null }: { locale?: stri
           {t(BUTTON, locale)}
         </a>
 
-        <p className="mx-auto mt-4 max-w-md text-xs text-white/55">
+        <p className="mx-auto mt-4 max-w-md text-xs text-white">
           {t(NOTE, locale)}
         </p>
 

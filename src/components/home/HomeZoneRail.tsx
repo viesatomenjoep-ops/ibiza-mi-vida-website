@@ -438,7 +438,7 @@ export function HomeZoneRail({
             </button>
           </div>
 
-          <div className="flex w-full items-center justify-center gap-4">
+          <div className="flex w-full items-center gap-3 sm:gap-4">
             <button
               type="button"
               onClick={() => gaNaarWeek(-1)}
@@ -452,8 +452,28 @@ export function HomeZoneRail({
               <ChevronLeft className="h-6 w-6 md:h-7 md:w-7" strokeWidth={2.5} aria-hidden />
             </button>
             {/* Maand en jaar vullend groot: dit is de kop van de kiezer en
-                stond op 11px, kleiner dan de dagen eronder. */}
-            <span className="font-display text-[clamp(20px,5.5vw,34px)] font-black uppercase tracking-[0.04em]" style={{ color: dark ? '#fff' : '#141414' }}>
+                stond op 11px, kleiner dan de dagen eronder.
+
+                flex-1 en text-center, en dat is samen de hele centrering. Het
+                vak had zijn eigen breedte en de rij stond op justify-center,
+                dus het midden van de rij lag in het midden van [knop + tekst +
+                knop]. Zodra "SEPTEMBRE 2026" over twee regels brak werd het vak
+                zo breed als de langste regel en lijnde "2026" links uit binnen
+                dat vak -- precies wat je op het scherm zag.
+
+                Nu neemt het vak alles tussen de twee knoppen in beslag, en die
+                zijn allebei flex-none en even breed. Het midden van de tekst
+                valt dan altijd samen met het midden van de rij, ongeacht de
+                taal, de schermbreedte of het aantal regels. min-w-0 zodat een
+                lange maandnaam de knoppen niet wegdrukt.
+
+                Dat lost meteen iets op wat je pas merkt als je doorklikt: het
+                vak had zijn breedte van de maandnaam, dus bij elke sprong
+                ("mei" -> "september") verschoven beide knoppen mee en sprong
+                de knop onder je vinger weg. Nagemeten over vier maandnamen:
+                de knoppen staan nu op dezelfde x, en de tekst elke keer op 0
+                afwijking. */}
+            <span className="min-w-0 flex-1 text-center font-display text-[clamp(20px,5.5vw,34px)] font-black uppercase leading-[1.06] tracking-[0.04em]" style={{ color: dark ? '#fff' : '#141414' }}>
               {monthLabel}
             </span>
             <button
