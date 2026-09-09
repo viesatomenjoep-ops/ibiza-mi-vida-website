@@ -97,19 +97,20 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
               <Reveal
                 key={i}
                 delay={i * 90}
-                className="group relative overflow-hidden rounded-[22px] border border-white/10 bg-black p-6 transition-all hover:-translate-y-0.5 hover:border-pantone-sun/50 hover:shadow-[0_22px_48px_-24px_rgba(217,230,75,0.35)]"
+                className="group relative overflow-hidden rounded-[22px] border border-white/10 bg-black p-6 transition-all hover:-translate-y-0.5 hover:border-imv-rose/50 hover:shadow-[0_22px_48px_-24px_rgba(236,197,198,0.35)]"
               >
                 {/* Zachte gloed rechtsboven, alleen zichtbaar op hover -- geeft
                     de tegel diepte zonder de rest van de rij drukker te
                     maken. */}
                 <div
                   aria-hidden
-                  className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-pantone-sun/0 blur-2xl transition-colors duration-500 group-hover:bg-pantone-sun/20"
+                  className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-imv-rose/0 blur-2xl transition-colors duration-500 group-hover:bg-imv-rose/20"
                 />
-                {/* Sun Glare op zwart: 15,86:1, het hoogste contrast van het
-                    hele palet. Op de zwarte tegel is dit de enige plek waar de
-                    bladkleur onverdund kan staan. */}
-                <div className="relative mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-pantone-sun/15 text-pantone-sun ring-1 ring-pantone-sun/30 transition-colors group-hover:bg-pantone-sun group-hover:text-black">
+                {/* Roze op zwart: 13,36:1. Op de zwarte tegel kan de bladkleur
+                    onverdund staan; op de lichte secties kan dat nergens. Was
+                    Sun Glare, maar dat was na deze palletwissel de enige felle
+                    kleur die nog over was en dat vloekte met de rest. */}
+                <div className="relative mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-imv-rose/15 text-imv-rose ring-1 ring-imv-rose/30 transition-colors group-hover:bg-imv-rose group-hover:text-black">
                   <Icon size={22} strokeWidth={2} />
                 </div>
                 <h3 className="relative font-serif text-lg font-black leading-tight text-white">

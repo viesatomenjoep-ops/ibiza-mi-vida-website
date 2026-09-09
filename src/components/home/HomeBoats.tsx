@@ -55,20 +55,20 @@ export function HomeBoats({ todayStr, locale = 'nl', base }: { todayStr: string;
     <HomeZoneRail
       id="zone-water"
       locale={locale}
-      // Pantone Blue Violet (2725 C) als accent -- de koelste kleur van het
-      // blad, en de enige die bij water past zonder in het cliché van
-      // zeeblauw te vallen. Haalt met witte tekst 5,34:1, dus de bladkleur
-      // kan hier ongewijzigd blijven.
+      // Blauw (#8A9DB1) als achtergrond -- de koelste kleur van het blad, en
+      // de enige die bij water past zonder in het cliché van zeeblauw te
+      // vallen.
       //
-      // Achtergrond: een bleke violettint van datzelfde accent. Elke wereld
-      // draagt nu de kleur van zijn eigen accent, zodat je aan de achtergrond
-      // ziet in welke sectie je zit -- wit-en-Cloud-om-en-om was daarvoor te
-      // subtiel.
-      bg="var(--zone-bg-violet)"
-      accent="var(--pantone-violet)"
-      accentInk="#fff"
-      kickerColor="var(--pantone-violet-ink)"
-      glow={{ x: '10%', y: '20%', color: 'rgba(107,90,201,.10)' }}
+      // Dit is met afstand de donkerste van de vier sectietinten (luminantie
+      // 0,327 tegen 0,529 tot 0,835). Donkere tekst haalt er 6,61:1 op, dus
+      // ruim boven de norm, maar het is wel de enige sectie waar het accent
+      // niet ver boven de achtergrond uitkomt: #2C2C2C haalt hier 5,01,
+      // tegen 11,77 op blush.
+      bg="var(--zone-bg-boats)"
+      accent="var(--imv-ink)"
+      accentInk="var(--ink-on-accent)"
+      kickerColor="var(--imv-ink)"
+      glow={{ x: '10%', y: '20%', color: 'rgba(138,157,177,.35)' }}
       roundedTop
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}

@@ -91,18 +91,19 @@ export function HomeEventsTickets({
     <HomeZoneRail
       id="zone-events"
       locale={locale}
-      // Pantone Exuberant Orange (17-1363 TSX) als accent van deze wereld --
-      // de meest energieke kleur van het blad, en dat past bij clubnachten.
+      // Roze (#ECC5C6) als achtergrond van deze wereld -- de warmste kleur
+      // van het blad, en dat past bij clubnachten. Donkere tekst haalt er
+      // 11,73:1 op.
       //
-      // Niet de bladkleur zelf (#E8603C): die haalt met witte tekst maar
-      // 3,40:1 en de knop draagt een label. --pantone-orange-fill is dezelfde
-      // kleur een slag dieper en komt op 5,04:1. De bladkleur blijft wel de
-      // gloed voeden, waar geen tekst overheen komt.
-      bg="var(--zone-bg-orange)"
-      accent="var(--pantone-orange-fill)"
-      accentInk="#fff"
-      kickerColor="var(--pantone-orange-ink)"
-      glow={{ x: '85%', y: '10%', color: 'rgba(232,96,60,.10)' }}
+      // Het accent is #2C2C2C en niet een diepere roze. Zie de kop van
+      // globals.css: dit palet ligt te dicht bij neutraal om per sectie een
+      // eigen accentkleur te dragen. Het onderscheid tussen de vier werelden
+      // zit nu in de achtergrond; het accent is overal hetzelfde.
+      bg="var(--zone-bg-events)"
+      accent="var(--imv-ink)"
+      accentInk="var(--ink-on-accent)"
+      kickerColor="var(--imv-ink)"
+      glow={{ x: '85%', y: '10%', color: 'rgba(236,197,198,.45)' }}
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}
       ctaLabel={t(L.knop, locale)}

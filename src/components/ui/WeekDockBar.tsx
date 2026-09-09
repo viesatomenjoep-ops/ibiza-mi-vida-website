@@ -132,7 +132,7 @@ export function WeekDockBar({
         type="button"
         disabled={disabled}
         onClick={() => setActiveDay(on ? null : ds)}
-        style={variant === 'red' ? { backgroundColor: 'var(--pantone-orange-fill)' } : { backgroundColor: 'var(--pantone-darkest)' }}
+        style={variant === 'red' ? { backgroundColor: 'var(--imv-rose-deep)' } : { backgroundColor: 'var(--imv-ink)' }}
         className={`relative flex h-12 flex-col items-center justify-center overflow-hidden rounded-lg leading-none transition-all sm:h-14 ${on ? 'ring-[3px] ring-ibiza-green ring-offset-1 ring-offset-white' : ''} ${disabled ? 'opacity-30' : 'active:scale-95'}`}
       >
         {variant === 'photo' && photoBg && <img src={optImg(photoBg, 800)} loading="lazy" alt="" className={`absolute inset-0 h-full w-full object-cover ${photoDim ? 'scale-110 blur-[2px]' : ''}`} />}

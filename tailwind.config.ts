@@ -11,19 +11,25 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // ── Pantone-palet ────────────────────────────────────────────────
+        // ── Palet ────────────────────────────────────────────────────────
         // De waarden zelf staan in globals.css onder :root; hier alleen de
         // verwijzing, zodat er één bron van waarheid is. Gebruik deze als
-        // `bg-pantone-orange`, `text-pantone-darkest`, enzovoort.
+        // `bg-imv-rose`, `text-imv-ink`, enzovoort.
         //
-        // Sun Glare is te licht voor witte tekst (~1,3:1). Zet daar altijd
-        // `text-pantone-darkest` op, of gebruik de var --ink-on-sun.
-        pantone: {
-          sun: 'var(--pantone-sun-glare)',
-          orange: 'var(--pantone-orange)',
-          violet: 'var(--pantone-violet)',
-          cloud: 'var(--pantone-cloud)',
-          darkest: 'var(--pantone-darkest)',
+        // Geen van de vier bladkleuren draagt witte tekst (1,19 tot 2,79).
+        // Moet er wit op, pak dan de `-deep` variant; die zijn daarop
+        // gemaakt. Voor donkere tekst kan de bladkleur zelf.
+        imv: {
+          blush: 'var(--imv-blush)',
+          rose: 'var(--imv-rose)',
+          grey: 'var(--imv-grey)',
+          blue: 'var(--imv-blue)',
+          olive: 'var(--imv-olive)',
+          ink: 'var(--imv-ink)',
+          'rose-deep': 'var(--imv-rose-deep)',
+          'grey-deep': 'var(--imv-grey-deep)',
+          'blue-deep': 'var(--imv-blue-deep)',
+          'olive-deep': 'var(--imv-olive-deep)',
         },
 
         midnight: '#102033', // Keeping for legacy, use velvet-obsidian

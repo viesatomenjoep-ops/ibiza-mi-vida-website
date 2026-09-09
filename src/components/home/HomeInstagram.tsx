@@ -108,7 +108,10 @@ export function HomeInstagram({ locale = 'nl' }: { locale?: string }) {
             href={INSTA_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 text-sm font-semibold text-neutral-400 hover:text-gold"
+            // neutral-400 haalde op wit 2,52:1 en dit is een link, dus geen
+            // decoratie. neutral-600 komt op 5,74:1. Stond hier al voor de
+            // palletwissel.
+            className="mt-3 text-sm font-semibold text-neutral-600 hover:text-gold"
           >
             @{HANDLE}
           </a>

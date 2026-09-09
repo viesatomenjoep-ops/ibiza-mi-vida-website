@@ -88,22 +88,19 @@ export function HomeWaterActivities({
     <HomeZoneRail
       id="zone-wateract"
       locale={locale}
-      // Pantone Darkest Hour (20-0199 TPM) als accent. Het blad heeft drie
-      // accenten voor vier werelden; die drie zijn alle drie fel en verdragen
-      // elkaar slecht, dus een vierde felle kleur bijverzinnen zou het palet
-      // juist verzwakken. Darkest Hour is de rustigste manier om deze wereld
-      // een eigen gezicht te geven, en haalt met wit 13,97:1 -- veruit het
-      // hoogste contrast van alle vier.
+      // Grijs (#C1C0C2) als achtergrond -- de neutraalste kleur van het
+      // blad. Donkere tekst haalt er 10,16:1 op.
       //
-      // Achtergrond: een warme neutrale tint. De andere drie werelden dragen
-      // de kleur van hun accent; deze heeft Darkest Hour en dat kan niet als
-      // achtergrond, dus een neutrale tint die duidelijk verschilt van de
-      // oranje, violette en geelgroene buren.
-      bg="var(--zone-bg-neutral)"
-      accent="var(--pantone-darkest)"
-      accentInk="#fff"
-      kickerColor="var(--pantone-darkest)"
-      glow={{ x: '15%', y: '20%', color: 'rgba(44,44,44,.06)' }}
+      // Olijf (#837D68) zou hier de logische vijfde kleur zijn, maar die kan
+      // geen achtergrond dragen: met zwart 4,47 en met wit 4,12, allebei
+      // onder de 4,5 van AA. Er is dus geen tekstkleur die erop mag. Olijf
+      // staat daarom alleen in het menu, als streepje waar geen tekst op
+      // ligt.
+      bg="var(--zone-bg-water)"
+      accent="var(--imv-ink)"
+      accentInk="var(--ink-on-accent)"
+      kickerColor="var(--imv-ink)"
+      glow={{ x: '15%', y: '20%', color: 'rgba(44,44,44,.08)' }}
       roundedTop
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}

@@ -335,7 +335,7 @@ export default function WaterAgendaClient({ title, subtitle, lead, kicker, event
                   <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 rounded-full bg-black/55 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white backdrop-blur-sm transition-colors group-hover:bg-ibiza-green group-hover:text-white">{L.tickets} <ChevronRight size={10} /></span>
                 </div>
                 {/* Right half — red panel: event name + date, centred */}
-                <div className="flex w-[45%] flex-col items-center justify-center gap-1 p-2.5 text-center" style={{ backgroundColor: 'var(--pantone-orange-fill)' }}>
+                <div className="flex w-[45%] flex-col items-center justify-center gap-1 p-2.5 text-center" style={{ backgroundColor: 'var(--imv-ink)' }}>
                   <div className="line-clamp-3 font-serif text-[12px] font-black leading-tight text-white">{e.eventName}</div>
                   <div className="line-clamp-1 text-[9px] font-bold uppercase tracking-wide text-white/85">{fmtGallery(e.date, locale)}</div>
                 </div>

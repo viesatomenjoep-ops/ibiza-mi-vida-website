@@ -12,7 +12,7 @@ import { ChevronDown } from 'lucide-react'
 export function ScrollCue({ className = '' }: { className?: string }) {
   return (
     <div className={`flex justify-center ${className}`} aria-hidden>
-      <ChevronDown size={30} strokeWidth={2.5} className="animate-bounce" style={{ color: 'var(--pantone-orange)', filter: 'drop-shadow(0 2px 6px rgba(232,96,60,0.35))' }} />
+      <ChevronDown size={30} strokeWidth={2.5} className="animate-bounce" style={{ color: 'var(--imv-blush)', filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.45))' }} />
     </div>
   )
 }

@@ -308,7 +308,7 @@ export default async function ArtistPage({ params }: Props) {
   // op witte tekst en die haalt daarop maar 3,40:1. De vlakvariant komt op
   // 5,04:1 en blijft onmiskenbaar dezelfde oranje.
   return (
-    <div className="theme-monaco-vip bg-[var(--pantone-orange-fill)] text-white min-h-screen pb-24">
+    <div className="theme-monaco-vip bg-[var(--imv-ink)] text-white min-h-screen pb-24">
       <BreadcrumbJsonLd
         locale={locale}
         items={[

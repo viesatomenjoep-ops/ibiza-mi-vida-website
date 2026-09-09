@@ -178,7 +178,7 @@ export function HomeTikTok({ locale = 'nl' }: { locale?: string }) {
             </blockquote>
           </div>
         ) : (
-          <p className="mt-8 text-center text-xs text-neutral-400">
+          <p className="mt-8 text-center text-xs text-neutral-600">
             {t(GEEN_TOESTEMMING, locale)}
           </p>
         )}

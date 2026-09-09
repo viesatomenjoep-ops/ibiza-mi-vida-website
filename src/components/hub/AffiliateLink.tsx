@@ -64,7 +64,11 @@ export function AffiliateLink({
         rel="sponsored noopener noreferrer"
         className={
           className ??
-          'inline-flex w-fit items-center rounded-full bg-gold px-6 py-3 text-[15px] font-semibold text-neutral-900 hover:brightness-95'
+          // Witte tekst en niet neutral-900. `bg-gold` rendert als #0E7C66
+          // (het gold-token is ooit hergebruikt voor groen) en daar haalt
+          // neutral-900 op 15px maar 3,49:1 -- onder de 4,5 van AA. Wit komt
+          // op 5,13:1. Dit stond hier al voor de palletwissel.
+          'inline-flex w-fit items-center rounded-full bg-gold px-6 py-3 text-[15px] font-semibold text-white hover:brightness-95'
         }
       >
         {children}
