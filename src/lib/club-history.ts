@@ -403,6 +403,99 @@ export const CLUB_HISTORY: Record<string, ClubHistory> = {
       'En plein air signifie dépendre de la météo et du soleil : l’ombre est limitée, et par un après-midi chaud ce n’est pas un détail. La programmation des fêtes de jour sur cette bande varie aussi beaucoup d’une saison à l’autre — fiez-vous à l’agenda ci-dessus.',
     ),
   },
+
+  '528-ibiza': {
+    what: L(
+      'Een weids openlucht-landgoed in de Benimussa-vallei, omringd door beboste heuvels en de ongerepte natuur van het binnenland tussen San Antonio en San Rafael.',
+      'A sprawling open-air estate set in the Benimussa valley, framed by pine-covered hills and the peaceful countryside between San Antonio and San Rafael.',
+      'Ein weitläufiges Open-Air-Areal im Benimussa-Tal, umgeben von pinienbewachsenen Hügeln und ländlicher Natur zwischen San Antonio und San Rafael.',
+      'Una amplia finca al aire libre en el valle de Benimussa, rodeada de colinas de pinos y naturaleza rural entre San Antonio y San Rafael.',
+      'Un vaste domaine en plein air situé dans la vallée de Benimussa, entouré de collines de pins et d’une nature préservée entre San Antonio et San Rafael.',
+    ),
+    known: L(
+      'Voor grote openlucht-events en festival-gevoel onder de sterren: buiten dansen in een natuurlijke arena met foodstands, artistieke installaties en een losse, ruimtelijke atmosfeer.',
+      'For large-scale open-air gatherings with a true festival feel under the stars: dancing outside in an amphitheatre-like valley setting with street food, creative decor and room to move.',
+      'Für großformatige Open-Air-Events und Festival-Feeling unter dem Sternenhimmel: Feiern im Freien in einem natürlichen Talkessel mit Food-Ständen, Kunstinstallationen und viel Freiraum.',
+      'Por sus eventos al aire libre con espíritu de festival bajo las estrellas: bailar en un valle natural con puestos de comida, montajes artísticos y mucho espacio.',
+      'Pour ses événements en plein air aux allures de festival sous les étoiles : danser dans un amphithéâtre naturel entouré de stands gourmands, de décors artistiques et de grands espaces.',
+    ),
+    fits: L(
+      'Het biedt een groene, open tegenhanger voor de gesloten clubzalen. Door de ligging in het heuvelland voelt een feest hier als een buitenevent op het mediterrane platteland.',
+      'It provides a verdant, spacious antidote to enclosed club rooms. Its setting in the rural interior gives events here the feeling of a private open-air festival in the hills.',
+      'Es bietet ein grünes, offenes Gegengewicht zu geschlossenen Clubhallen. Durch die Lage im Hügelland fühlt sich ein Event hier an wie ein Festival auf dem Land.',
+      'Ofrece una alternativa verde y despejada a las salas cerradas de baile. Su ubicación en el campo otorga a cada noche la sensación de un festival al aire libre.',
+      'Il offre une alternative aérée et verdoyante aux salles de club fermées. Niché dans les collines, chaque événement y prend des allures de festival en pleine nature.',
+    ),
+    note: L(
+      'Omdat het terrein afgelegen in een vallei ligt, zijn taxi’s bij vertrek na afloop schaars. Maak gebruik van de officiële pendelbussen of spreek vooraf een vaste transfer af.',
+      'Because the venue sits out in a secluded valley, finding an unscheduled taxi when leaving at closing time is challenging. Use organised shuttles or pre-book transport.',
+      'Da das Areal abgelegen im Tal liegt, sind spontane Taxis bei Veranstaltungsende rar. Nutze offizielle Shuttlebusse oder organisiere die Rückfahrt im Voraus.',
+      'Al estar ubicado en un valle aislado, conseguir taxi libre a la salida resulta complicado. Utiliza las lanzaderas oficiales o concierta tu transporte antes de ir.',
+      'Le site étant situé dans une vallée isolée, trouver un taxi spontané à la sortie est difficile. Empruntez les navettes organisées ou réservez votre transfert à l’avance.',
+    ),
+  },
+
+  'bambuku-ibiza': {
+    what: L(
+      'Een tropisch opgezette beach- en poolclub aan de baai van San Antonio, direct aan het water gelegen naast O Beach.',
+      'A tropical beach and poolside lagoon club situated on San Antonio bay, directly on the waterfront next to O Beach.',
+      'Ein tropisch gestalteter Beach- und Poolclub an der Bucht von San Antonio, direkt am Wasser neben dem O Beach gelegen.',
+      'Un club de playa y piscina de ambiente tropical en la bahía de San Antonio, situado frente al agua junto a O Beach.',
+      'Un club de plage et piscine à l’ambiance tropicale situé dans la baie de San Antonio, en front de mer à côté d’O Beach.',
+    ),
+    known: L(
+      'Voor ontspannen dagcomfort met Balinese ligbedden, zomerse cocktails, familie-vriendelijke lunches en surflessen op de eigen kunstmatige golfinstallatie.',
+      'For laid-back daytime comfort featuring Balinese daybeds, summer cocktails, family-friendly dining, and surf sessions on its artificial Flowrider wave.',
+      'Für entspannten Tageskomfort mit balinesischen Liegen, Sommer-Cocktails, familienfreundlichem Essen und Surfsessions auf der hauseigenen Flowrider-Welle.',
+      'Por su ambiente relajado de día con camas balinesas, cócteles, comida familiar y sesiones de surf en su ola artificial Flowrider.',
+      'Pour son confort décontracté en journée avec lits balinais, cocktails estivaux, déjeuners conviviaux et sessions de glisse sur sa vague artificielle Flowrider.',
+    ),
+    fits: L(
+      'San Antonio heeft aan de baai een levendige boulevard van dagclubs. Bambuku vult het gat voor wie wel wil loungen en genieten aan het water, maar met een rustiger volume en een informelere sfeer.',
+      'San Antonio’s bay features a lively strip of daytime clubs. Bambuku caters to those who want to relax and soak up the sun by the water at a gentler tempo and with an approachable atmosphere.',
+      'Die Bucht von San Antonio bietet eine bunte Reihe an Tagesclubs. Bambuku richtet sich an alle, die am Wasser entspannen möchten, aber bei angenehmerer Lautstärke und lockerer Atmosphäre.',
+      'La bahía de San Antonio cuenta con una animada línea de clubs diurnos. Bambuku es la opción para quien busca descansar junto al agua con un ritmo más pausado y ambiente informal.',
+      'La baie de San Antonio compte plusieurs clubs de jour très animés. Bambuku séduit ceux qui souhaitent se prélasser au bord de l’eau à un tempo plus doux et dans une ambiance conviviale.',
+    ),
+    note: L(
+      'Dit is een daglocatie die zich richt op de middaguren en vroege avond; wie tot diep in de nacht wil dansen, wijkt na zonsondergang uit naar de nabijgelegen clubs.',
+      'This is primarily a daytime venue centered around afternoon and early evening hours; night owls move on to nearby superclubs after sunset.',
+      'Dies ist eine reine Tageslocation für Nachmittags- und frühe Abendstunden; wer bis spät in die Nacht tanzen will, zieht nach Sonnenuntergang in die umliegenden Clubs weiter.',
+      'Es un espacio pensado para la tarde y las primeras horas de la noche; para seguir bailando hasta tarde toca desplazarse a los clubs cercanos tras la puesta de sol.',
+      'Il s’agit d’un lieu diurne pensé pour l’après-midi et le début de soirée ; pour danser jusqu’au bout de la nuit, le public rejoint les clubs voisins après le coucher du soleil.',
+    ),
+  },
+
+  'swag': {
+    what: L(
+      'Een compacte indoor nachtclub in het centrum van Playa d’en Bossa, op korte loopafstand van de boulevard en het strand.',
+      'A dedicated indoor nightclub situated in central Playa d’en Bossa, a short stroll from the main strip and the beach.',
+      'Ein reiner Indoor-Nachtclub im Herzen der Playa d’en Bossa, nur wenige Schritte von der Hauptstraße und dem Strand entfernt.',
+      'Una discoteca cubierta situada en el centro de Playa d’en Bossa, a poca distancia a pie de la avenida principal y de la playa.',
+      'Un club de nuit couvert situé au cœur de Playa d’en Bossa, à quelques pas de l’artère principale et de la plage.',
+    ),
+    known: L(
+      'Als het uitgesproken eiland-thuis voor urban muziek, hiphop, R&B, reggaeton, dembow en afrobeat, op een eiland waar de programmering overwegend house en techno is.',
+      'As the island’s primary home for urban sounds, hip-hop, R&B, reggaeton, dembow and afrobeats, standing out against Ibiza’s predominantly house and techno landscape.',
+      'Als die feste Adresse der Insel für Urban Music, Hip-Hop, R&B, Reggaeton, Dembow und Afrobeats auf einer Insel, die sonst von House und Techno geprägt ist.',
+      'Como el referente indiscutible de la isla para música urbana, hip-hop, R&B, reggaetón, dembow y afrobeats, frente al predominio del house y el techno.',
+      'Comme la référence incontournable de l’île pour les sonorités urbaines, le hip-hop, le R&B, le reggaeton, le dembow et l’afrobeat, au sein d’un paysage dominé par la house et la techno.',
+    ),
+    fits: L(
+      'Playa d’en Bossa trekt een divers internationaal publiek. SWAG biedt een levendig muzikaal alternatief voor wie specifiek op zoek is naar latin en urban beats.',
+      'Playa d’en Bossa attracts a broad international crowd. SWAG provides a distinct musical contrast for clubbers specifically seeking latin, urban and global club rhythms.',
+      'Die Playa d’en Bossa zieht ein vielseitiges Publikum an. SWAG liefert die musikalische Alternative für alle, die gezielt zu Latin- und Urban-Beats feiern möchten.',
+      'Playa d’en Bossa reúne a un público internacional muy variado. SWAG aporta una alternativa musical potente para quienes buscan bailar ritmos latinos y urbanos.',
+      'Playa d’en Bossa attire une clientèle internationale éclectique. SWAG offre une vraie alternative musicale pour les amateurs de rythmes urbains et latino-américains.',
+    ),
+    note: L(
+      'De zaal is aanzienlijk intiemer dan de omliggende megaclubs en raakt snel vol. Het feest komt pas echt op stoom na één uur ’s nachts.',
+      'The venue is significantly more intimate than the nearby superclubs and fills up quickly. The energy peaks well after 01:00.',
+      'Der Raum ist deutlich kompakter als die benachbarten Megaclubs und füllt sich zügig. Richtig voll wird es meist erst nach ein Uhr nachts.',
+      'La sala es bastante más reducida que los superclubs vecinos y se llena pronto. El ambiente alcanza su punto álgido a partir de la una de la madrugada.',
+      'La salle est bien plus intime que les mégaclubs voisins et se remplit vite. L’effervescence commence véritablement après une heure du matin.',
+    ),
+  },
 }
 
 /** Safe lookup used by the component — unknown slugs render nothing. */

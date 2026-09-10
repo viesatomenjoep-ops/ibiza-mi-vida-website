@@ -40,8 +40,8 @@ plan botst met een regel uit `CLAUDE.md` staat de afwijking in AUDIT.md onder
         `/ibiza-club-tickets`, met gemeten prijzen uit de live agenda
   - [x] `/en/ibiza-club-dress-code`
   - [x] `/en/getting-around-ibiza`
-  - [ ] **Open:** de negen UITBREIDEN-punten, in volgorde van opbrengst
-        onderaan `SLUG-DECISIONS.md`
+  - [x] **Afgerond:** alle negen UITBREIDEN-punten onderaan `SLUG-DECISIONS.md`
+        (inclusief VIP tafels, QuickFacts tabellen, beach clubs en club-historie)
 - [x] **G — Event/artist-engine** — *bestaat al: `/artists`, `/artists/[slug]`,
       `/club-tickets/[slug]/[eventSlug]`, `EventSchema` met datum-per-avond.
       Geen nieuwe engine gebouwd.*

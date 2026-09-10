@@ -145,15 +145,10 @@ Per bestaande pagina, in volgorde van opbrengst:
 5. ✅ `/ibiza-season` — sectie met aangekondigde closing parties uit de feed
    *(openings: de feed houdt alleen toekomstige datums, dus die verschijnen
    vanzelf zodra ze in het voorjaar worden aangekondigd)*
-6. `/package-deals` — sectie per club over tafels
-7. ✅ `/beach-clubs` — **niet** uitgebouwd: die aanname klopte niet. `beach-clubs.ts`
-   heeft per zaak al een blurb, een "past bij" en een eerlijke kanttekening in
-   vijf talen, en de component rendert dat volledig. Wel gekoppeld: vijf zaken
-   liggen aan een strand dat ook een vaarstop is en linken nu naar de charters.
-   En de H1 stond deels achter de vaste navigatie — vast getal in plaats van
-   `--nav-h`, de laatste op de site
-8. ✅ `/ferry-formentera` — prijssectie, gemeten uit de agenda
-9. `/club-tickets/[slug]` — redactionele blok per club via `club-history.ts`
+6. ✅ `/package-deals` — sectie per club over tafels (`ClubVipTables.tsx` voor Ushuaïa, Hï, UNVRS, Chinois, Eden, O Beach)
+7. ✅ `/beach-clubs` — QuickFacts vergelijkingstabel + uitgebreid FAQ-schema in 5 talen
+8. ✅ `/ferry-formentera` — prijssectie, gemeten uit de agenda + QuickFacts
+9. ✅ `/club-tickets/[slug]` — redactionele blok per club via `club-history.ts` (14 clubs in 5 talen)
 10. ✅ `/locations/<baai>` — de boot-invalshoek, gekoppeld uit `sailing-routes.ts`
     (zeven baaien: Ses Salines, Cala Comte, Es Vedrà, Benirràs, Portinatx,
     Cala Llonga, Ses Illetes)
