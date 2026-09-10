@@ -3,6 +3,7 @@ import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
 import { HubHero, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { WhatsAppCta } from '@/components/hub/WhatsAppCta'
+import { QuickFacts } from '@/components/water/QuickFacts'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { localizedAlternates, pathFor, localesFor, type RouteKey } from '@/lib/route-slugs'
 import { contentUpdated } from '@/lib/content-dates'
@@ -79,6 +80,8 @@ export function AirportTransferGuide({ locale }: { locale: Locale }) {
         items={C.OPTIONS.map((o) => ({ name: o.name[locale], body: o.body[locale] }))}
         columns={2}
       />
+
+      <QuickFacts pageKey="airport-transfer" locale={locale} />
 
       <ProseSection heading={C.H_WHICH[locale]} paragraphs={C.WHICH.map((p) => p[locale])} />
 

@@ -617,5 +617,37 @@ export const PAGE_FAQ: Record<string, FaqItem[]> = {
         'Tôt dans la journée, et hors des semaines de pointe. Le matin, vous avez les meilleures places, l’eau la plus calme et le moins de circulation ; le milieu de journée en août, c’est exactement l’inverse. Pour beaucoup, la demi-saison est la plus agréable : l’île est plus calme et les criques tout aussi belles. En toute franchise : hors haute saison, une partie de ces adresses tourne au ralenti ou pas du tout, et le vent décide finalement plus que la date — par fort vent de nord, mieux vaut le sud, et inversement.',
       ),
     },
+    {
+      q: L(
+        'Wat is het verschil tussen een standaard ligbed, een Balinees bed en een VIP cabana?',
+        'What is the difference between a single sunbed, a Balinese bed, and a VIP cabana?',
+        'Was ist der Unterschied zwischen Einzelliege, Balinesischem Bett und VIP-Cabana?',
+        '¿Qué diferencia hay entre una hamaca individual, una cama balinesa y una cabana VIP?',
+        'Quelle est la différence entre un transat simple, un lit balinais et une cabana VIP ?',
+      ),
+      a: L(
+        'Standaard ligbedden zijn individuele ligstoelen die je meestal huurt voor een vast dagbedrag. Balinese bedden zijn royale tweepersoonsbedden met zachte matrassen, kussens en parasol of doek, ideaal voor stellen of kleine gezelschappen. VIP cabana’s en lounges zijn gereserveerd voor grotere groepen en werken vrijwel altijd met een zogeheten “minimum spend”: een minimumbedrag dat je besteedt aan eten, cocktails en flessen. Wat je consumeert wordt met dat bedrag verrekend. Reserveringsvoorwaarden en exacte minimale bestedingen verschillen per beachclub en seizoen.',
+        'Standard sunbeds are single loungers usually rented for a flat daily rental fee. Balinese beds are wide double daybeds with thick mattresses, pillows and canopy shades, ideal for couples or pairs of friends. VIP cabanas and daybed lounges cater to larger groups and almost always operate on a "minimum spend" model: a committed amount you spend on food, cocktails and bottle service. Your consumption is credited against this minimum. Exact booking conditions and spend thresholds vary per club and season.',
+        'Standardliegen sind Einzelliegen, die meist gegen eine feste Tagesgebühr vermietet werden. Balinesische Betten sind breite Doppelbetten mit dicken Polstern, Kissen und Sonnendach, ideal für Paare oder Freunde. VIP-Cabanas und Sofalounges richten sich an größere Gruppen und arbeiten fast ausnahmslos mit einem „Mindestverzehr“ (Minimum Spend): ein Betrag, der komplett für Speisen, Cocktails und Flaschen angerechnet wird. Die genauen Bedingungen variieren je nach Club und Saison.',
+        'Las hamacas estándar son tumbonas individuales que suelen alquilarse por un precio fijo por día. Las camas balinesas son camas dobles amplias con colchón grueso, cojines y toldo, ideales para parejas. Las cabanas y zonas VIP están pensadas para grupos y casi siempre funcionan con “consumo mínimo”: un importe que gastas en comida, cócteles y botellas y que se deduce de la cuenta final. Las condiciones exactas dependen de cada club y de la época.',
+        'Les transats simples sont des chaises longues individuelles louées pour un tarif fixe à la journée. Les lits balinais sont de larges lits doubles avec matelas épais, coussins et ombrage, parfaits pour les couples. Les cabanas et salons VIP accueillent les groupes et fonctionnent presque toujours avec un « minimum spend » : un montant minimum à consommer en plats, cocktails et bouteilles, déduit de l’addition. Les conditions précises varient selon l’établissement et la saison.',
+      ),
+    },
+    {
+      q: L(
+        'Kan ik een beachclub bezoeken met een privéboot of jacht?',
+        'Can I visit a beach club by private boat or chartered yacht?',
+        'Kann ich einen Beachclub mit einem Privatboot oder einer Yacht besuchen?',
+        '¿Puedo llegar a un beach club en barco privado o yate?',
+        'Peut-on rejoindre un beach club en bateau privé ou yacht de location ?',
+      ),
+      a: L(
+        'Ja, dit is een van de populairste manieren om een bootdag op Ibiza en Formentera door te brengen. Bekende baaien zoals Cala Jondal (o.a. Casa Jondal, Blue Marlin), Ses Illetes (Beso Beach, Juan y Andrea) en Cala Bassa beschikken over een speciale “tender service”: een zodiac van de club die langszij je boot vaart, je gezelschap oppikt en direct op het strand afzet voor de lunch. Na het eten vaart de tender je weer terug naar de boot. Reserveer je restauranttafel in het hoogseizoen ruim vooraf en geef bij je bootcharter aan Simon door welke baai je wilt aandoen.',
+        'Yes, this is one of the most popular ways to spend a day on the water in Ibiza and Formentera. Renowned bays such as Cala Jondal (e.g. Casa Jondal, Blue Marlin), Ses Illetes (Beso Beach, Juan y Andrea) and Cala Bassa operate a dedicated "tender service": the club’s rib boat comes alongside your yacht, picks up your group, and whisks you straight onto the beach for lunch. Once finished, they transfer you back on board. Pre-book your lunch table well ahead in high season, and let Simon know your desired cove when planning your boat charter.',
+        'Ja, das ist eine der beliebtesten Arten, einen Tag auf dem Wasser rund um Ibiza und Formentera zu verbringen. Bekannte Buchten wie Cala Jondal (z.B. Casa Jondal, Blue Marlin), Ses Illetes (Beso Beach, Juan y Andrea) und Cala Bassa bieten einen „Tender-Service“ an: Ein Schlauchboot des Clubs kommt direkt längsseits an deine Yacht, holt euch ab und bringt euch zum Strandrestaurant. Nach dem Lunch werdet ihr wieder an Bord gebracht. Reserviere den Tisch im Sommer frühzeitig und stimme die Wunschbucht bei der Bootsanfrage mit Simon ab.',
+        'Sí, es una de las formas más deseadas de disfrutar un día de navegación en Ibiza y Formentera. Bahías emblemáticas como Cala Jondal (Casa Jondal, Blue Marlin), Ses Illetes (Beso Beach, Juan y Andrea) y Cala Bassa cuentan con servicio de tender/lancha auxiliar: la zodiac del restaurante se acerca a tu barco, os recoge y os deja en la playa para comer. Al terminar, os devuelve a bordo. Reserva mesa con antelación en temporada alta y coordina con Simon la cala de fondeo al reservar el barco.',
+        'Oui, c’est l’une des plus belles façons de profiter d’une journée en mer à Ibiza et Formentera. Des baies réputées comme Cala Jondal (Casa Jondal, Blue Marlin), Ses Illetes (Beso Beach, Juan y Andrea) ou Cala Bassa proposent un « service de tender » : le semi-rigide du club vient accoster le long de votre bateau, prend votre groupe à bord et vous dépose directement sur la plage pour déjeuner. À la fin, la navette vous ramène au bateau. Réservez votre table très à l’avance en saison et coordonnez votre mouillage avec Simon lors de la réservation du bateau.',
+      ),
+    },
   ],
 }

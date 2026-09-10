@@ -271,6 +271,38 @@ export const FAQS: { q: T; a: T }[] = [
       "Oui, via Simon sur WhatsApp. Envoyez le numéro de vol, l'heure d'atterrissage, le nombre de personnes et votre hébergement : il organise un transfert privé et confirme le prix avant le départ plutôt qu'après l'atterrissage. C'est le même canal que pour la guestlist et les réservations de bateau : tout un séjour se règle dans une seule conversation.",
     ),
   },
+  {
+    q: L(
+      'Wat is het voordeel van een vooraf geboekte transfer ten opzichte van de taxistandplaats?',
+      'What is the advantage of a pre-booked transfer over the airport taxi rank?',
+      'Was ist der Vorteil eines vorab gebuchten Transfers gegenüber dem Taxistand?',
+      '¿Qué ventaja tiene un traslado reservado frente a la parada de taxis?',
+      'Quel est l’avantage d’un transfert réservé par rapport à la station de taxis ?',
+    ),
+    a: L(
+      'Drie doorslaggevende voordelen: rust, capaciteit en zekerheid. Je chauffeur wacht in de aankomsthal met een naambordje, volgt je vluchtnummer live bij eventuele vertraging en brengt je zonder wachttijd direct naar je auto. Voor gezelschappen vanaf 4 personen of met veel ruimbagage voorkomt het dat je moet splitsen over meerdere kleine taxi’s. Bovendien staat de ritprijs vooraf vast via WhatsApp, waardoor je geen last hebt van nachttarieven of meterdiscussies.',
+      'Three main advantages: peace of mind, capacity, and zero waiting. Your driver meets you inside arrivals with a name sign, tracks your flight live for delays, and leads you straight to the vehicle with no queueing. For parties of 4+ passengers or groups with extensive luggage, it avoids splitting across multiple standard taxis. Plus, the fare is agreed in advance via WhatsApp, avoiding meter surprises or peak night surcharges.',
+      'Drei wesentliche Vorteile: Gelassenheit, Kapazität und keine Wartezeit. Dein Fahrer empfängt dich mit Namensschild in der Ankunftshalle, verfolgt deinen Flug live bei Verspätungen und führt dich ohne Anstehen direkt zum Wagen. Für Gruppen ab 4 Personen oder mit viel Gepäck entfällt das Aufteilen auf mehrere Taxis. Zudem steht der Preis vorab fest per WhatsApp — ohne Nachtzuschlag-Überraschungen.',
+      'Tres ventajas clave: tranquilidad, capacidad y cero esperas. El chófer te espera en el hall de llegadas con cartel a tu nombre, monitoriza el vuelo en directo por posibles retrasos y te lleva al vehículo sin hacer cola. Para grupos de 4 o más personas o con mucho equipaje, evita tener que dividirse en varios taxis pequeños. Además, el precio queda cerrado por adelantado vía WhatsApp sin sorpresas de taxímetro.',
+      'Trois atouts décisifs : sérénité, capacité et zéro attente. Votre chauffeur vous accueille dans le hall des arrivées avec une pancarte à votre nom, suit votre vol en direct en cas de retard et vous conduit immédiatement au véhicule sans faire la queue. Pour les groupes de 4 personnes ou plus avec beaucoup de bagages, cela évite de se scinder en plusieurs taxis. Enfin, le tarif est fixé à l’avance par WhatsApp sans mauvaise surprise au compteur.',
+    ),
+  },
+  {
+    q: L(
+      'Zijn er kinderzitjes of babyzitjes beschikbaar voor de transfer?',
+      'Are child or baby car seats available for the airport transfer?',
+      'Gibt es Kindersitze oder Babyschalen für den Flughafentransfer?',
+      '¿Hay sillitas de bebé o alzadores para niños disponibles?',
+      'Des sièges bébé ou rehausseurs pour enfants sont-ils disponibles ?',
+    ),
+    a: L(
+      'Ja. Reguliere taxi’s op de luchthavenstandplaats hebben standaard zelden kinderzitjes bij zich. Boek je een privétransfer via Simon op WhatsApp, geef dan vooraf de leeftijden van de meereizende kinderen door. De chauffeur monteert de juiste goedgekeurde kinderstoel of stoelverhoger voor vertrek, zodat je gezin direct veilig en conform de Spaanse wetgeving kan instappen.',
+      'Yes. Regular taxis at the airport rank rarely carry child seats on hand. When booking a private transfer via Simon on WhatsApp, simply specify the ages of your children in advance. The driver installs the correct certified child seat or booster before arrival, ensuring your family travels safely and fully compliant with Spanish traffic regulations.',
+      'Ja. Reguläre Taxis am Flughafenstand haben standardmäßig selten Kindersitze an Bord. Wenn du einen Privattransfer über Simon per WhatsApp anfragst, nenne einfach vorab das Alter der Kinder. Der Fahrer montiert den passenden, geprüften Kindersitz oder die Sitzerhöhung vor Ankunft, damit deine Familie sicher und gesetzeskonform unterwegs ist.',
+      'Sí. Los taxis ordinarios de la parada rara vez llevan sillitas infantiles disponibles en el momento. Al reservar un traslado privado con Simon por WhatsApp, indica las edades de los niños con antelación. El chófer instalará la silla homologada o el alzador adecuado antes de vuestra llegada para viajar de forma segura y legal.',
+      'Oui. Les taxis classiques à la station de l’aéroport disposent très rarement de sièges enfants sous la main. En réservant un transfert privé via Simon sur WhatsApp, précisez simplement l’âge de vos enfants à l’avance. Le chauffeur installera le siège homologué ou le rehausseur adapté avant votre arrivée, pour un trajet en famille sûr et conforme à la réglementation espagnole.',
+    ),
+  },
 ]
 
 export const H_LINKS: T = L('Gerelateerde pagina’s', 'Related pages', 'Verwandte Seiten', 'Páginas relacionadas', 'Pages liées')

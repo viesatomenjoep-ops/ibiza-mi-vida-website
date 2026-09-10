@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { staticMetadata } from '@/lib/seo-pages'
 import { BeachClubs } from '@/components/beach/BeachClubs'
+import { QuickFacts } from '@/components/water/QuickFacts'
 import { PageFaq } from '@/components/seo/PageFaq'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
@@ -96,6 +97,7 @@ export default function BeachClubsPage({ params: { locale } }: { params: { local
       </section>
 
       <BeachClubs locale={l} />
+      <QuickFacts pageKey="beach-clubs" locale={l} />
       <PageFaq pageKey="beach-clubs" locale={l} />
       <AuthorByline locale={l} topic="beach clubs and sunbeds in Ibiza" />
     </>
