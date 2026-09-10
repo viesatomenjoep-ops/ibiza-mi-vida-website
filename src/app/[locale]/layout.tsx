@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Oswald, Outfit, Montserrat } from 'next/font/google'
+import { Inter, Outfit } from 'next/font/google'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
@@ -11,28 +11,14 @@ import '@/styles/globals.css'
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
-  weight: ['300', '400', '500', '600', '700'],
-  display: 'swap',
-})
-
-const oswald = Oswald({
-  subsets: ['latin'],
-  variable: '--font-oswald',
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
 })
 
 const outfit = Outfit({
   subsets: ['latin'],
   variable: '--font-outfit',
-  weight: ['300', '400', '500', '600', '700', '800', '900'],
-  display: 'swap',
-})
-
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  variable: '--font-montserrat',
-  weight: ['300', '400', '500', '600', '700', '800'],
+  weight: ['400', '500', '600', '700', '800', '900'],
   display: 'swap',
 })
 
@@ -59,9 +45,14 @@ export const metadata: Metadata = {
    * rendert er niets: een lege verificatietag is erger dan geen tag, want
    * Bing leest hem dan als een mislukte poging.
    */
-  ...(process.env.BING_SITE_VERIFICATION
-    ? { verification: { other: { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } } }
-    : {}),
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    other: {
+      ...(process.env.BING_SITE_VERIFICATION
+        ? { 'msvalidate.01': process.env.BING_SITE_VERIFICATION }
+        : {}),
+    },
+  },
   /**
    * GEEN `keywords`. Die stond hier, site-breed, met veertien termen erin.
    *
@@ -167,7 +158,13 @@ export default async function RootLayout({
   const footerRating = reviews ? { rating: reviews.rating, total: reviews.total, url: reviews.url } : null
 
   return (
-    <html lang={locale || 'en'} className={`${inter.variable} ${oswald.variable} ${outfit.variable} ${montserrat.variable}`}>
+    <html lang={locale || 'en'} className={`${inter.variable} ${outfit.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://images.clubtickets.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://images.clubtickets.com" />
+      </head>
       <body>
         <CartProvider>
           <Navbar rating={rating} />

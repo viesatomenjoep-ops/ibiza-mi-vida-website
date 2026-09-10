@@ -107,7 +107,6 @@ const config: Config = {
         serif: ['var(--font-display)', ...defaultTheme.fontFamily.serif],
         display: ['Outfit', ...defaultTheme.fontFamily.sans],
         mono: ['JetBrains Mono', ...defaultTheme.fontFamily.mono],
-        montserrat: ['var(--font-montserrat)', 'Montserrat', ...defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
