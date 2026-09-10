@@ -261,17 +261,17 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       {/* FEATURED CLUBS — premium card grid */}
       {featuredClubs.length > 0 && (
-        <section className="py-8 md:py-12" style={{ background: '#0a0a0a' }}>
+        <section className="py-10 md:py-16 bg-[#FAF8F5] border-t border-b border-black/5">
           <Reveal className="max-w-7xl mx-auto px-4">
 
             {/* Section header */}
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="m-0 font-serif text-[1.625rem] font-black tracking-tight text-white">{translations.home_popular_clubs}</h2>
+                <h2 className="m-0 font-serif text-[1.625rem] md:text-3xl font-black tracking-tight text-neutral-900">{translations.home_popular_clubs}</h2>
               </div>
               <Link
                 href={`${base}/clubs`}
-                className="inline-flex items-center gap-2 text-xs font-black tracking-widest uppercase text-white border-2 border-white/25 hover:bg-white hover:text-black rounded-full px-6 py-3 transition-colors"
+                className="inline-flex items-center gap-2 text-xs font-black tracking-widest uppercase text-neutral-900 border-2 border-black/15 hover:bg-neutral-900 hover:text-white rounded-full px-6 py-3 transition-colors"
               >
                 {translations.home_all_clubs} &rarr;
               </Link>

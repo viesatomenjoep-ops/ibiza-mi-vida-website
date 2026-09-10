@@ -1017,12 +1017,12 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
   background:#1a1a1a;
   text-decoration:none;
   cursor:pointer;
-  box-shadow:0 4px 24px rgba(0,0,0,.4);
+  box-shadow:0 6px 24px rgba(0,0,0,.12);
   transition:transform .35s cubic-bezier(.22,.68,0,1.2), box-shadow .35s ease;
 }
 .club-card-premium:hover{
   transform:translateY(-6px) scale(1.01);
-  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  box-shadow:0 16px 44px rgba(0,0,0,.2);
 }
 
 .club-card-img{
@@ -1559,7 +1559,7 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 .tonight-rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(210px,72vw);gap:14px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding-bottom:6px;scrollbar-width:none}
 .tonight-rail::-webkit-scrollbar{display:none}
 .tonight-card{scroll-snap-align:start;display:flex;flex-direction:column;overflow:hidden;border-radius:22px;border:1px solid rgba(0,0,0,.07);background:#fff;transition:box-shadow .3s ease,transform .3s ease,border-color .3s ease}
-.tonight-card:hover{border-color:rgba(0,0,0,.45);box-shadow:0 20px 44px -26px rgba(0,0,0,.5);transform:translateY(-3px)}
+.tonight-card:hover{border-color:rgba(212,175,55,.6);box-shadow:0 16px 36px -12px rgba(212,175,55,.25);transform:translateY(-3px)}
 .tonight-media{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--imv-blush)}
 .tonight-club{position:absolute;left:10px;bottom:10px;max-width:calc(100% - 20px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-radius:999px;background:rgba(0,0,0,.62);padding:4px 11px;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff;backdrop-filter:blur(4px)}
 .tonight-body{display:flex;flex:1;flex-direction:column;gap:5px;padding:13px 14px 14px}

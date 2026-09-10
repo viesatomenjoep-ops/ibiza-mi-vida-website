@@ -408,7 +408,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
                       <Link
                         key={ev.id}
                         href={href}
-                        className="bg-black/5 hover:bg-white/10 rounded-3xl overflow-hidden shadow-lg hover:shadow-xl border border-black/10 hover:border-ibiza-green/60 transition-all duration-300 group flex flex-col hover:scale-[1.02]"
+                        className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-black/8 hover:border-gold/60 transition-all duration-300 group flex flex-col hover:-translate-y-1 hover:scale-[1.01]"
                       >
                         <div className="h-48 relative bg-[#0D0509] overflow-hidden shrink-0">
                           {image ? (
