@@ -108,7 +108,7 @@ export default function JetSkiRentalIbizaPage() {
               enough to cover the bay and back.
               {price30 ? ` Prices start at €${price30} for 30 minutes.` : ''} The rule that decides your
               booking is legal, not commercial: in Spain you need a licence to ride alone, or you join a
-              guided tour, where the guide's qualification covers the whole group and you need nothing.
+              guided tour, where the guide&apos;s qualification covers the whole group and you need nothing.
             </p>
             <p className="mt-4">
               Most visitors take the guided option, and it is the better one for a first time out anyway —

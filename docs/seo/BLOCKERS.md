@@ -1,22 +1,11 @@
 # Blokkades tijdens de run
 
-## 1. `npm run lint` is niet draaibaar
+## 1. `npm run lint` is niet draaibaar — OPGELOST
 
-`next lint` vindt geen ESLint-configuratie in de repo en valt terug op zijn
-interactieve setup-wizard ("How would you like to configure ESLint?"). In een
-niet-interactieve sessie hangt dat commando dus.
-
-Dit is een bestaande situatie, niet iets van deze run: er staat geen
-`.eslintrc*` of `eslint.config.*` in de repo, terwijl `eslint` en
-`eslint-config-next` wél in `devDependencies` staan.
-
-**Omzeild met** `npx tsc --noEmit` (schoon), `npm run build` (schoon) en
-`npm run check:seo` (alles groen, 217 pagina's).
-
-**Op te lossen door** een `.eslintrc.json` met `{ "extends": "next/core-web-vitals" }`
-toe te voegen. Dat is een aparte commit waard, want de eerste run zal
-waarschijnlijk bestaande meldingen opleveren over de hele codebase en die horen
-niet in deze wijziging.
+`.eslintrc.json` is toegevoegd met `{ "extends": "next/core-web-vitals" }`.
+De 4 unescaped entities (`Newsletter.tsx`, `SearchBar.tsx`, `AdminDashboard.tsx`,
+`jet-ski-rental-ibiza/page.tsx`) zijn gecorrigeerd. `npm run lint` draait nu
+foutloos (code 0).
 
 ## 2. Taxitarieven en buslijnnummers niet verifieerbaar
 

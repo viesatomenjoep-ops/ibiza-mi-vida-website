@@ -139,7 +139,7 @@ export function SearchBar({ placeholder = "Zoek bestemmingen & ervaringen", loca
             <div className="px-6 py-8 text-center flex flex-col items-center justify-center">
               <Search size={48} className="text-slate-200 mb-3" />
               <h3 className="text-slate-900 font-bold mb-1">Geen resultaten gevonden</h3>
-              <p className="text-sm text-slate-500">Probeer een andere zoekterm, bijvoorbeeld "Ushuaia" of "Boot".</p>
+              <p className="text-sm text-slate-500">Probeer een andere zoekterm, bijvoorbeeld &ldquo;Ushuaia&rdquo; of &ldquo;Boot&rdquo;.</p>
             </div>
           )}
         </div>

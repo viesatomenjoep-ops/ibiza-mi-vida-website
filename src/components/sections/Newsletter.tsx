@@ -7,7 +7,7 @@ export function Newsletter() {
     <section className="px-[5%] py-20 bg-black text-white">
       <div className="container mx-auto max-w-4xl text-center">
         <p className="text-gold-soft font-semibold tracking-widest uppercase mb-4">Stay Updated</p>
-        <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">Don't Miss Any Party</h2>
+        <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">Don&apos;t Miss Any Party</h2>
         <p className="text-gray-300 mb-10 max-w-2xl mx-auto text-lg">
           Subscribe to our newsletter and be the first to receive updates on ticket sales, exclusive line-up reveals, and the best VIP deals for your Ibiza trip.
         </p>

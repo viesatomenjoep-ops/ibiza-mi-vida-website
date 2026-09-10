@@ -192,7 +192,7 @@ export default function AdminDashboard() {
                   <div className="flex flex-col items-center text-blue-600">
                     <RefreshCw className="animate-spin mb-3" size={32} />
                     <span className="text-lg font-bold">PDF analyseren...</span>
-                    <span className="text-sm">Dit kan even duren afhankelijk van het aantal pagina's.</span>
+                    <span className="text-sm">Dit kan even duren afhankelijk van het aantal pagina&apos;s.</span>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center text-blue-600">
