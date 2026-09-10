@@ -40,7 +40,20 @@ const SITE = `https://${HOST}`
 const LOCALES = ['nl', 'en', 'de', 'es', 'fr']
 
 /** The pages worth pushing on a routine sync. */
-const KEY_PATHS = ['', '/calendar', '/clubs', '/artists', '/boats', '/boat-party', '/ferry-formentera', '/private-boat-charters', '/guestlist']
+const KEY_PATHS = [
+  '',
+  '/calendar',
+  '/clubs',
+  '/artists',
+  '/boats',
+  '/boat-party',
+  '/ferry-formentera',
+  '/private-boat-charters',
+  '/beach-clubs',
+  '/package-deals',
+  '/guestlist',
+  '/ibiza-airport-transfer',
+]
 
 const argv = process.argv.slice(2)
 const hasFlag = (name) => argv.includes(`--${name}`)
