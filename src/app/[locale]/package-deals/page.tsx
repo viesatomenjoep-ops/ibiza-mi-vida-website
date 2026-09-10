@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
 import { PackageDealPicker } from '@/components/guestlist/PackageDealPicker'
+import { ClubVipTables } from '@/components/guestlist/ClubVipTables'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
@@ -101,6 +102,8 @@ const OTHER_LINK: T = L(
 const FAQS: Record<Locale, Faq[]> = {
   nl: [
     { q: 'Wat is een package deal precies?', a: 'Eén pakket voor je hele groep in plaats van losse tickets. Entree voor iedereen zit er altijd in; afhankelijk van de club en de avond komen daar drank, een tafel of vervoer bij. Je krijgt vooraf op een rij wat er in jouw pakket zit, per club en per datum.' },
+    { q: 'Wat betekent \'minimum spend\' bij een VIP-tafel?', a: 'Op Ibiza betaal je voor een VIP-tafel geen \'huur\', maar een minimum besteding aan flessen en drankjes. Het gehele afgesproken bedrag kun je aan de tafel consumeren. VIP-entree voor je groep, aparte bediening en de tafel zelf zijn daarbij inbegrepen.' },
+    { q: 'Zit entree inbegrepen bij een VIP-tafel?', a: 'Ja, voor het afgesproken aantal personen van de tafel. Jullie gaan naar binnen via de aparte VIP-entree, zonder in de reguliere rij te hoeven wachten, en krijgen officiële VIP-bandjes.' },
     { q: 'Vanaf hoeveel personen is het interessant?', a: 'In de praktijk vanaf een stuk of vier. Daaronder is los boeken meestal net zo makkelijk. Hoe groter de groep, hoe meer een pakket oplevert — niet alleen in prijs, maar vooral doordat iedereen samen naar binnen gaat in plaats van dat de helft in de rij blijft staan.' },
     { q: 'Wat kost een package deal?', a: 'Dat hangt af van de club, de datum en de omvang van je groep, en het verschilt te veel om er hier een bedrag bij te zetten. Een headliner op zaterdag in augustus is een andere wereld dan een doordeweekse avond in juni. Stuur ons club, datum en aantal, dan krijg je het echte bedrag voor die avond.' },
     { q: 'Is een pakket hetzelfde als op de gastenlijst staan?', a: 'Nee. Een pakket is een geboekt geheel voor je groep, met entree en meestal meer. De gastenlijst is een naamlijst aan de deur en betekent per avond iets anders — soms gratis vóór een bepaald tijdstip, soms een lagere prijs. Wil je dat, kijk dan op onze guestlist-pagina.' },
@@ -109,6 +112,8 @@ const FAQS: Record<Locale, Faq[]> = {
   ],
   en: [
     { q: 'What exactly is a package deal?', a: 'One bundle for your whole group instead of separate tickets. Entry for everyone is always in it; depending on the club and the night, drinks, a table or transport come with it. You get the contents of your specific package listed before you commit, per club and per date.' },
+    { q: 'What does \'minimum spend\' mean for an Ibiza VIP table?', a: 'In Ibiza you do not pay a table rental fee; instead you commit to a minimum spend on bottles, mixers and drinks. The entire agreed amount is credited towards your consumption at the table. VIP entry, wristbands, dedicated hostess service and private seating are included.' },
+    { q: 'Is club entry included with a VIP table booking?', a: 'Yes, for the agreed number of guests for that table. Your entire party enters via the dedicated VIP entrance without general admission queues and receives official VIP wristbands.' },
     { q: 'From how many people is it worth it?', a: 'In practice from around four. Below that, booking separately is usually just as easy. The bigger the group the more a package returns — not only in price, but mostly because everyone goes in together rather than half of you staying in the queue.' },
     { q: 'What does a package deal cost?', a: 'It depends on the club, the date and the size of your group, and it varies too much to put a figure here. A headline Saturday in August is a different world from a midweek night in June. Send us the club, the date and the headcount and you get the real number for that night.' },
     { q: 'Is a package the same as being on the guestlist?', a: 'No. A package is a booked arrangement for your group, covering entry and usually more. A guestlist is a name list at the door and means something different each night — sometimes free before a certain time, sometimes a reduced price. If that is what you want, see our guestlist page.' },
@@ -117,6 +122,8 @@ const FAQS: Record<Locale, Faq[]> = {
   ],
   de: [
     { q: 'Was ist ein Package Deal genau?', a: 'Ein Paket für die ganze Gruppe statt Einzeltickets. Eintritt für alle ist immer dabei; je nach Club und Abend kommen Getränke, ein Tisch oder Transport dazu. Was in deinem Paket steckt, bekommst du vorher aufgelistet — pro Club und pro Datum.' },
+    { q: 'Was bedeutet \'Minimum Spend\' bei einem VIP-Tisch auf Ibiza?', a: 'Auf Ibiza zahlst du keine reine Tischmiete, sondern einen Mindestverzehr für Flaschen und Getränke. Der gesamte Betrag wird an eurem Tisch konsumiert. VIP-Einlass für die Gruppe, Armbänder und Hostess-Service sind inklusive.' },
+    { q: 'Ist der Clubeintritt beim VIP-Tisch enthalten?', a: 'Ja, für die vereinbarte Personenzahl des Tisches. Die gesamte Gruppe betritt den Club über den separaten VIP-Einlass ohne Warteschlange und erhält VIP-Bändchen.' },
     { q: 'Ab wie vielen Personen lohnt es sich?', a: 'In der Praxis ab etwa vier. Darunter ist einzeln buchen meist genauso einfach. Je größer die Gruppe, desto mehr bringt ein Paket — nicht nur beim Preis, vor allem weil alle zusammen reinkommen statt die Hälfte in der Schlange zu warten.' },
     { q: 'Was kostet ein Package Deal?', a: 'Das hängt von Club, Datum und Gruppengröße ab und schwankt zu stark für eine Zahl an dieser Stelle. Ein Samstag mit großem Namen im August ist eine andere Welt als ein Mittwoch im Juni. Schick uns Club, Datum und Personenzahl, dann bekommst du den echten Betrag.' },
     { q: 'Ist ein Paket dasselbe wie die Gästeliste?', a: 'Nein. Ein Paket ist eine gebuchte Sache für deine Gruppe, mit Eintritt und meist mehr. Die Gästeliste ist eine Namensliste an der Tür und bedeutet jeden Abend etwas anderes — mal frei vor einer bestimmten Zeit, mal ein reduzierter Preis. Dafür gibt es unsere Gästelisten-Seite.' },
@@ -125,6 +132,8 @@ const FAQS: Record<Locale, Faq[]> = {
   ],
   es: [
     { q: '¿Qué es exactamente un package deal?', a: 'Un paquete para todo el grupo en lugar de entradas sueltas. La entrada para todos siempre está incluida; según el club y la noche se añaden copas, mesa o transporte. Antes de comprometerte te detallamos qué lleva tu paquete concreto, por club y por fecha.' },
+    { q: '¿Qué significa \'minimum spend\' en una mesa VIP en Ibiza?', a: 'En Ibiza no pagas un alquiler por la mesa, sino un consumo mínimo en botellas y copas. Todo el importe pactado se destina a vuestro consumo en mesa. La entrada VIP para el grupo, pulseras y servicio de azafata están incluidos.' },
+    { q: '¿La entrada al club está incluida con la mesa VIP?', a: 'Sí, para el número de personas acordado para la mesa. Todo el grupo entra por el acceso VIP exclusivo sin colas y recibe sus pulseras VIP.' },
     { q: '¿A partir de cuántas personas compensa?', a: 'En la práctica a partir de cuatro. Por debajo, reservar por separado suele ser igual de fácil. Cuanto mayor el grupo, más aporta un paquete — no solo en precio, sino sobre todo porque entráis todos juntos en vez de quedaros la mitad en la cola.' },
     { q: '¿Cuánto cuesta un package deal?', a: 'Depende del club, la fecha y el tamaño del grupo, y varía demasiado para poner una cifra aquí. Un sábado con un nombre grande en agosto no tiene nada que ver con un miércoles de junio. Mándanos club, fecha y número de personas y te damos el importe real.' },
     { q: '¿Un paquete es lo mismo que estar en lista?', a: 'No. Un paquete es algo reservado para tu grupo, con entrada y normalmente más. La lista es un listado de nombres en la puerta y cada noche significa algo distinto — a veces gratis antes de cierta hora, a veces precio reducido. Para eso tenemos la página de lista.' },
@@ -133,6 +142,8 @@ const FAQS: Record<Locale, Faq[]> = {
   ],
   fr: [
     { q: 'Qu’est-ce qu’un package deal exactement ?', a: 'Une formule pour tout le groupe au lieu de billets séparés. L’entrée pour chacun est toujours comprise ; selon le club et la soirée s’y ajoutent les boissons, une table ou le transport. Le contenu de votre formule vous est détaillé avant tout engagement, par club et par date.' },
+    { q: 'Que signifie \'minimum spend\' pour une table VIP à Ibiza ?', a: 'À Ibiza, vous ne payez pas de location de table, mais un montant minimum de consommation en bouteilles et boissons. La totalité de la somme convenue est utilisable à votre table. L’accès VIP, les bracelets et le service d’hôtesse sont inclus.' },
+    { q: 'L’entrée au club est-elle comprise avec une table VIP ?', a: 'Oui, pour le nombre de personnes prévu pour la table. Tout votre groupe accède au club par l’entrée VIP dédiée sans faire la queue et reçoit les bracelets officiels.' },
     { q: 'À partir de combien de personnes est-ce intéressant ?', a: 'En pratique à partir de quatre environ. En dessous, réserver séparément est aussi simple. Plus le groupe est grand, plus une formule rapporte — pas seulement sur le prix, surtout parce que tout le monde entre ensemble au lieu que la moitié reste dans la file.' },
     { q: 'Combien coûte un package deal ?', a: 'Cela dépend du club, de la date et de la taille du groupe, et cela varie trop pour afficher un montant ici. Un samedi de gros nom en août n’a rien à voir avec un mercredi de juin. Envoyez-nous le club, la date et le nombre de personnes et vous aurez le vrai montant.' },
     { q: 'Une formule, est-ce la même chose que la guestlist ?', a: 'Non. Une formule est un ensemble réservé pour votre groupe, avec l’entrée et généralement davantage. La guestlist est une liste de noms à la porte, et elle signifie autre chose chaque soir — parfois gratuit avant une certaine heure, parfois un tarif réduit. Voyez notre page guestlist.' },
@@ -191,6 +202,9 @@ export default function PackageDealsPage({ params: { locale } }: { params: { loc
         <h2 className="mb-6 font-serif text-2xl font-black tracking-tight md:text-3xl">{PICK_TITLE[l]}</h2>
         <PackageDealPicker locale={locale} />
       </section>
+
+      {/* Club VIP tables breakdown and minimum spend guide */}
+      <ClubVipTables locale={locale} />
 
       {/* Cross-link: somebody who wanted the other thing is one click away. */}
       <section className="border-t border-black/5 bg-neutral-50 py-10">

@@ -12,6 +12,9 @@ import { SailingRoutes } from '@/components/boats/SailingRoutes'
 import { BoatRentalPromo } from '@/components/hub/BoatRentalPromo'
 import { VimeoFilm } from '@/components/ui/VimeoFilm'
 import { AuthorByline } from '@/components/seo/AuthorByline'
+import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
+import { crumbLabel } from '@/lib/breadcrumb-labels'
+import { QuickFacts } from '@/components/water/QuickFacts'
 import { getLiveFleet, ibizaToday } from '@/lib/yacht-broker'
 
 // 900 en niet 3600: de live beschikbaarheid staat nu in de HTML zelf (zie
@@ -79,6 +82,10 @@ export default async function PrivateBoatChartersPage({ params: { locale } }: { 
 
   return (
     <>
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[{ name: homeLabel(locale), path: '' }, { name: crumbLabel('private-boat-charters', locale) }]}
+      />
       <ServiceSchema name={sc.name[l]} description={sc.description[l]} serviceType={sc.serviceType} path={`${l}/private-boat-charters`} />
       <PrivateBoatChartersClient locale={locale} live={live} today={ibizaToday()} />
       {/* Direct onder de hero: "wat kost het" is de eerste vraag, en het
@@ -89,6 +96,7 @@ export default async function PrivateBoatChartersPage({ params: { locale } }: { 
           vaarroutes: wie op "goedkoopste boot" binnenkomt wil eerst dat
           getal zien, niet eerst een route. Zie FleetAnswers. */}
       <FleetAnswers locale={l} />
+      <QuickFacts pageKey="private-boat-charters" locale={locale} />
       <SailingRoutes locale={locale} />
       <BoatAdviceCta locale={locale} />
       <BoatRentalPromo locale={locale} />

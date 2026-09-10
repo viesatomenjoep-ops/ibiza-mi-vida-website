@@ -7,6 +7,8 @@ import { MeasuredCrossingPrices } from '@/components/water/MeasuredCrossingPrice
 import { FerryOrBoat } from '@/components/water/FerryOrBoat'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
+import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
+import { crumbLabel } from '@/lib/breadcrumb-labels'
 import { staticMetadata } from '@/lib/seo-pages'
 
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
@@ -72,6 +74,10 @@ export default async function Page({ params }: { params: { locale: string } }) {
 
   return (
     <>
+    <BreadcrumbJsonLd
+      locale={params.locale}
+      items={[{ name: homeLabel(params.locale), path: '' }, { name: crumbLabel('ferry-formentera', params.locale) }]}
+    />
     <ServiceSchema name={sc.name[l]} description={sc.description[l]} serviceType={sc.serviceType} path={`${l}/ferry-formentera`} />
     <WaterAgendaClient
       today={todayStr}
