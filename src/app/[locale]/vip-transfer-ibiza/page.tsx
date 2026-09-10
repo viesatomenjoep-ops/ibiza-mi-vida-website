@@ -11,6 +11,7 @@ import {
   type NamedItem,
 } from '@/components/hub/HubSections'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
+import { VehicleCards } from '@/components/hub/VehicleCards'
 import { WhatsAppCta } from '@/components/hub/WhatsAppCta'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { localizedAlternates, pathFor } from '@/lib/route-slugs'
@@ -200,21 +201,11 @@ export default async function Page() {
         columns={3}
       />
 
-      {vehicles.length > 0 && (
-        <ItemGrid
-          heading="The cars"
-          intro="Published by the operator themselves, with their own photos. Only vehicles from vetted partners with a valid licence appear here."
-          columns={3}
-          items={vehicles.slice(0, 6).map(v => ({
-            name: v.display_name,
-            body: `${v.seats} seats, ${v.luggage} large cases. ${
-              v.features.length
-                ? `On board: ${v.features.map(f => f.replace(/_/g, ' ')).join(', ')}.`
-                : ''
-            } Operated by ${v.partner.name}.`,
-          }))}
-        />
-      )}
+      <VehicleCards
+        heading="The cars"
+        intro="Published by the operator themselves, with their own photos. Only vehicles from vetted partners with a valid licence appear here."
+        vehicles={vehicles.slice(0, 6)}
+      />
 
       <ProseSection
         heading="Why a transfer costs more than the meter says"
