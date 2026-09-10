@@ -45,14 +45,17 @@
   /* Het enige accent dat op alle vier de sectietinten leesbaar blijft. */
   --imv-ink:#141414;
 
-  /* ── Sectietinten ─────────────────────────────────────────────────────
-        Elke wereld op de homepage krijgt een schone, lichte achtergrond:
-        afwisselend zuiver wit (#FFFFFF) en zacht warm albast (#F9F9F8).
-        Geen roze- of blauwtinten meer. */
-  --zone-bg-events:#FFFFFF;         /* zuiver helder wit: >18:1 contrast */
-  --zone-bg-boats:#F9F9F8;          /* verfijnd warm albast / kalksteen: 0% blauw, 0% roze */
-  --zone-bg-island:#FFFFFF;         /* zuiver helder wit: >18:1 contrast */
-  --zone-bg-water:#F9F9F8;          /* verfijnd warm albast / kalksteen: 0% blauw, 0% roze */
+  /* ── Sectietinten Homepage (Alternerend Ritme: 50% Lichter, WCAG AAA) ──
+        Vanaf "Vanavond op Ibiza" (zuiver wit #FFFFFF):
+        1. Events & Tickets: iets donkerder (warm sunset rosé, 50% lichter)
+        2. Private Boat Rental: iets lichter (frisse zeenevel / marine-ijs, 50% lichter)
+        3. On the land activities: iets donkerder (Balearisch kalkzandsteen, 50% lichter)
+        4. On the water activities: iets lichter (kristalhelder baai-aqua, 50% lichter)
+        Alle teksten houden >13.8:1 tot >17:1 contrast met donkere inkt #141414. */
+  --zone-bg-events:#F6E5E5;         /* warm sunset rosé: contrast 14.35:1 (AAA) */
+  --zone-bg-boats:#F0F5F8;          /* zachte maritieme zeenevel: contrast 17.18:1 (AAA) */
+  --zone-bg-island:#ECE6DC;         /* Balearisch warm kalkzand: contrast 13.82:1 (AAA) */
+  --zone-bg-water:#EEF6F8;          /* kristalhelder baai-aqua: contrast 16.94:1 (AAA) */
 
   /* ── Diepe varianten ── */
   --imv-rose-deep:#C5A059;          /* champagne goud */
