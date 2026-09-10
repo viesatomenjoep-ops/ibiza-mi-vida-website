@@ -1165,15 +1165,6 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .slide-feat .body .p{font-family:var(--display);color:var(--spring);font-weight:600;white-space:nowrap}
 .slide-feat .body .p small{display:block;font-weight:300;font-size:.6rem;color:var(--grey);letter-spacing:.2em;text-transform:uppercase}
 
-/* gradients (mock flyers) */
-.g2{background:linear-gradient(140deg,#12172e,#3e5a9b 60%,#F2CDD6)}
-.g3{background:linear-gradient(140deg,#230b14 10%,#7a2f45 60%,#E14D68)}
-.g4{background:linear-gradient(160deg,#441d2a,#240d14 65%,#090306)}
-.g5{background:linear-gradient(140deg,#b04f6a,#38151d 70%)}
-.g6{background:linear-gradient(140deg,#2f6d8a,#0d1a1f 80%)}
-.g7{background:linear-gradient(140deg,#8a4a5f,#6d2f3f 60%,#240d14)}
-.g8{background:linear-gradient(140deg,#4a7bb0,#243f66 55%,#0e1a2b)}
-
 /* ===== dag-tabs + maandkalender ===== */
 .day-strip{display:flex;overflow-x:auto;border:1px solid var(--line);scrollbar-width:thin}
 .day{flex:1 0 92px;padding:18px 8px;text-align:center;font-family:var(--display);text-transform:uppercase;border-right:1px solid var(--line);color:var(--grey);transition:background .15s,color .15s;min-height:84px}
