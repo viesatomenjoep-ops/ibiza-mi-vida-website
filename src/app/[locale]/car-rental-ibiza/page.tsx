@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
 import { HubHero, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { WiberDirect } from '@/components/partner/WiberDirect'
+import { QuickFacts } from '@/components/water/QuickFacts'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { TrustBlock } from '@/components/hub/TrustBlock'
 import { Proof } from '@/components/hub/Proof'
@@ -125,8 +126,10 @@ export default function CarRentalIbizaPage() {
         <WiberDirect locale={LOCALE} />
       </HubHero>
 
+      <QuickFacts pageKey="car-rental" locale={LOCALE} />
 
       <ItemGrid
+
         heading="The conditions, stated up front"
         intro="None of this is unusual for Spain, but all of it is worth knowing before you land rather than at the desk at eleven at night."
         columns={2}

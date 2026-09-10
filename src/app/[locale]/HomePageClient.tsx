@@ -166,7 +166,8 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
                   setTimeout(() => doel.scrollIntoView({ behavior: 'smooth' }), 700)
                   setTimeout(() => doel.scrollIntoView({ behavior: 'auto' }), 1400)
                 }}
-                className="flex min-h-[52px] items-center justify-center rounded-2xl border border-white/25 bg-black/35 px-2 py-2.5 text-[10px] font-black uppercase leading-tight tracking-wide text-white backdrop-blur-sm transition-colors hover:bg-black/55 md:text-[11px] md:tracking-widest"
+                className="flex min-h-[52px] items-center justify-center rounded-2xl border border-white/40 bg-white/20 px-2 py-2.5 text-[10px] font-black uppercase leading-tight tracking-wide text-white backdrop-blur-md shadow-lg transition-all hover:border-white/70 hover:bg-white/35 hover:scale-[1.02] md:text-[11px] md:tracking-widest"
+                style={{ textShadow: '0 1px 4px rgba(0,0,0,0.65)' }}
               >
                 <span className="leading-tight">{z.naam[locale] || z.naam.en}</span>
               </a>

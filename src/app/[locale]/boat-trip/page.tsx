@@ -1,5 +1,11 @@
 import type { Metadata } from 'next'
+import { ServiceSchema } from '@/components/seo/ServiceSchema'
+import { SERVICE_COPY } from '@/lib/service-schema-copy'
 import { BoatRentalPromo } from '@/components/hub/BoatRentalPromo'
+import { PageFaq } from '@/components/seo/PageFaq'
+import { QuickFacts } from '@/components/water/QuickFacts'
+import { AuthorByline } from '@/components/seo/AuthorByline'
+import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { staticMetadata } from '@/lib/seo-pages'
 
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
@@ -14,6 +20,7 @@ import { crumbLabel } from '@/lib/breadcrumb-labels'
 import { ibizaToday } from '@/lib/date-label'
 
 export const revalidate = 3600;
+
 
 export default async function Page({ params }: { params: { locale: string } }) {
   const allVenues = await getVenues(params.locale);
@@ -54,25 +61,31 @@ export default async function Page({ params }: { params: { locale: string } }) {
   }));
 
   const C = agendaCopy('boat-trip', params.locale);
+  const l = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE
+  const sc = SERVICE_COPY['boat-trip']
+
   return (
     <>
       <BreadcrumbJsonLd
         locale={params.locale}
         items={[{ name: homeLabel(params.locale), path: '' }, { name: crumbLabel('boat-trip', params.locale) }]}
       />
-    <WaterAgendaClient
-      today={todayStr}
-      locale={params.locale}
-      basePath="boat-trip"
-      kicker={C.kicker}
-      title={C.title}
-      subtitle={C.subtitle}
-      events={events}
-      venues={venues}
-    />
-    {/* Server-gerenderd onder de agenda: deze pagina beschreef boten zonder
-        ergens een manier te bieden om er een te boeken. */}
-    <BoatRentalPromo locale={params.locale} />
+      <ServiceSchema name={sc.name[l]} description={sc.description[l]} serviceType={sc.serviceType} path={`${l}/boat-trip`} />
+      <WaterAgendaClient
+        today={todayStr}
+        locale={params.locale}
+        basePath="boat-trip"
+        kicker={C.kicker}
+        title={C.title}
+        subtitle={C.subtitle}
+        events={events}
+        venues={venues}
+      />
+      <BoatRentalPromo locale={params.locale} />
+      <QuickFacts pageKey="boat-trip" locale={params.locale} />
+      <PageFaq pageKey="boat-trip" locale={params.locale} />
+      <AuthorByline locale={params.locale} topic="boat trips in Ibiza" />
     </>
   );
 }
+

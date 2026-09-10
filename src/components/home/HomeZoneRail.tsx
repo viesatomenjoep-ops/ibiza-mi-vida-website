@@ -423,7 +423,7 @@ export function HomeZoneRail({
                  aantal. Op desktop stond hier clamp(300px,88vw,560px): dat gaf
                  kaarten van 560px en dus twee in beeld, met de derde half
                  afgesneden. */
-              className="group relative flex min-h-[218px] flex-col justify-end overflow-hidden rounded-[22px] bg-[#141414] p-3 text-white shadow-[0_24px_50px_-24px_rgba(0,0,0,.6)] transition-transform duration-[350ms] [transition-timing-function:cubic-bezier(.2,.8,.2,1)] [animation:imvHomeZoneFade_.5s_ease_both] hover:-translate-y-1 sm:min-h-[208px] sm:p-4"
+              className="group relative flex min-h-[218px] flex-col justify-end overflow-hidden rounded-[22px] bg-[#141414] p-3 text-white shadow-[0_16px_36px_-16px_rgba(0,0,0,.22)] transition-transform duration-[350ms] [transition-timing-function:cubic-bezier(.2,.8,.2,1)] [animation:imvHomeZoneFade_.5s_ease_both] hover:-translate-y-1 sm:min-h-[208px] sm:p-4"
               style={{ scrollSnapAlign: 'start' }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -606,16 +606,16 @@ export function HomeZoneRail({
                   type="button"
                   onClick={() => pickDay(i)}
                   aria-pressed={on}
-                  className="flex aspect-square w-full flex-col items-center justify-center gap-0.5 rounded-2xl border transition-colors duration-200"
+                  className="flex aspect-square w-full flex-col items-center justify-center gap-0.5 rounded-2xl border transition-all duration-200 hover:scale-[1.03]"
                   style={{
-                    borderColor: on ? accent : (dark ? 'rgba(255,255,255,.18)' : 'rgba(20,20,20,.1)'),
-                    background: on ? accent : (dark ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.7)'),
-                    color: on ? accentInk : (dark ? '#fff' : '#141414'),
-                    boxShadow: on ? `0 10px 24px -14px ${accent}` : 'none',
+                    borderColor: on ? '#C5A059' : (dark ? 'rgba(255,255,255,.18)' : 'rgba(0,0,0,.08)'),
+                    background: on ? '#C5A059' : (dark ? 'rgba(255,255,255,.08)' : '#ffffff'),
+                    color: on ? '#ffffff' : (dark ? '#fff' : '#141414'),
+                    boxShadow: on ? '0 10px 24px -8px rgba(197,160,89,0.45)' : '0 2px 8px -2px rgba(0,0,0,0.06)',
                   }}
                 >
                   <span className="font-display text-[clamp(14px,4.3vw,26px)] font-black leading-none tracking-[0.01em]">{num}</span>
-                  <span className="font-sans text-[clamp(8px,1.9vw,10px)] font-semibold uppercase leading-none tracking-[0.06em] opacity-75">{weekday}</span>
+                  <span className={`font-sans text-[clamp(8px,1.9vw,10px)] font-semibold uppercase leading-none tracking-[0.06em] ${on ? 'text-white/90' : 'opacity-60'}`}>{weekday}</span>
                 </button>
               )
             })}

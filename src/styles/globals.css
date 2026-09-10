@@ -59,10 +59,10 @@
 
         Donkere tekst haalt nu 8,86 (blauw, nog steeds de donkerste) tot 16,22
         (blush); lichter maken kan de leesbaarheid alleen maar helpen. */
-  --zone-bg-events:#F1D4D4;         /* donkere tekst: 13,20 */
-  --zone-bg-boats:#A7B6C5;          /* donkere tekst:  8,86 */
-  --zone-bg-island:#F8EFED;         /* donkere tekst: 16,22 */
-  --zone-bg-water:#D1D0D1;          /* donkere tekst: 11,95 */
+  --zone-bg-events:#FAF0F2;         /* fris lichtroze / blush: >16:1 contrast */
+  --zone-bg-boats:#EDF4FA;          /* fris licht zeeblauw: >16:1 contrast */
+  --zone-bg-island:#FAF6F0;         /* warm linnen / zand: >16:1 contrast */
+  --zone-bg-water:#F0F5F6;          /* fris lagunemist / zeebries: >16:1 contrast */
 
   /* ── Diepe varianten ──────────────────────────────────────────────────
         Elke bladkleur zo ver teruggebracht dat witte tekst er 5,0 haalt.
@@ -1244,16 +1244,12 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 .col-card .all{display:inline-block;margin-top:14px;font-family:var(--display);text-transform:uppercase;letter-spacing:.24em;font-size:.64rem;color:var(--spring)}
 
 /* ===== categorieën (20 pagina's) ===== */
-.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
-/* color hoort hier expliciet: deze tegel heeft een bijna-zwarte achtergrond
-   en leunde op de globale regel die alle links wit maakte. Sinds die op
-   `inherit` staat erft hij de donkere tekst van de witte sectie eromheen --
-   gemeten 1,12:1, oftewel zwart op zwart. */
-.cat{color:var(--white);background:var(--black);padding:26px 20px;display:flex;flex-direction:column;gap:14px;min-height:132px;position:relative;transition:background .2s}
-.cat .num{font-family:var(--display);font-weight:300;font-size:.7rem;letter-spacing:.3em;color:var(--grey)}
-.cat strong{font-family:var(--display);text-transform:uppercase;letter-spacing:.1em;font-weight:500;font-size:1rem;line-height:1.25}
-.cat .arrow{position:absolute;right:18px;bottom:16px;color:var(--spring);opacity:0;transition:opacity .2s,transform .2s;transform:translateX(-6px)}
-.cat:hover{background:var(--panel2)}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;background:transparent;border:none}
+.cat{color:#141414;background:#FAF8F5;border:1px solid rgba(0,0,0,.08);border-radius:20px;padding:26px 22px;display:flex;flex-direction:column;gap:14px;min-height:132px;position:relative;transition:all .25s ease;box-shadow:0 4px 16px -4px rgba(0,0,0,.04)}
+.cat .num{font-family:var(--display);font-weight:700;font-size:.75rem;letter-spacing:.25em;color:#C5A059}
+.cat strong{font-family:var(--display);text-transform:uppercase;letter-spacing:.08em;font-weight:700;font-size:1.05rem;line-height:1.25;color:#141414}
+.cat .arrow{position:absolute;right:18px;bottom:16px;color:#C5A059;opacity:0;transition:opacity .2s,transform .2s;transform:translateX(-6px)}
+.cat:hover{background:#FFFFFF;border-color:rgba(212,175,55,.5);box-shadow:0 14px 32px -8px rgba(212,175,55,.2);transform:translateY(-2px)}
 .cat:hover .arrow{opacity:1;transform:none}
 
 /* ===== whatsapp ===== */

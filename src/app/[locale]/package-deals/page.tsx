@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
 import { PackageDealPicker } from '@/components/guestlist/PackageDealPicker'
 import { ClubVipTables } from '@/components/guestlist/ClubVipTables'
+import { QuickFacts } from '@/components/water/QuickFacts'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
@@ -205,6 +206,9 @@ export default function PackageDealsPage({ params: { locale } }: { params: { loc
 
       {/* Club VIP tables breakdown and minimum spend guide */}
       <ClubVipTables locale={locale} />
+
+      {/* Comparison table: regular ticket vs package deal vs VIP table */}
+      <QuickFacts pageKey="package-deals" locale={l} />
 
       {/* Cross-link: somebody who wanted the other thing is one click away. */}
       <section className="border-t border-black/5 bg-neutral-50 py-10">

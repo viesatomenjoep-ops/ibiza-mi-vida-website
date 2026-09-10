@@ -80,16 +80,7 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
           </h2>
         </div>
 
-        {/* Pikzwarte tegels, alle tekst zuiver wit -- in vier stappen hier
-            beland. Eerst een lichte kaart met goud-accent, toen obsidian met
-            alles in het groen (te vlak), daarna Darkest Hour (#2C2C2C), en nu
-            echt #000. Darkest Hour las op een telefoon als donkergrijs in
-            plaats van zwart, zeker naast de witte sectie eromheen.
-
-            De omschrijving stond op wit/70 om de titel eruit te laten
-            springen; die staat nu ook voluit wit (21:1). Het verschil tussen
-            titel en tekst doen de schreefletter en font-black nu alleen, wat
-            genoeg is -- en scheelt de leesbaarheid die 70% dekking kostte. */}
+        {/* Lichte luxe tegels met warme gouden accenten en verfijnde schaduwen */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {USPS.map((u, i) => {
             const Icon = u.icon
@@ -97,26 +88,20 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
               <Reveal
                 key={i}
                 delay={i * 90}
-                className="group relative overflow-hidden rounded-[22px] border border-white/10 bg-black p-6 transition-all hover:-translate-y-0.5 hover:border-imv-rose/50 hover:shadow-[0_22px_48px_-24px_rgba(236,197,198,0.35)]"
+                className="group relative overflow-hidden rounded-[22px] border border-neutral-200/90 bg-[#FAF8F5] p-6 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:bg-white hover:shadow-[0_16px_36px_-10px_rgba(212,175,55,0.2)]"
               >
-                {/* Zachte gloed rechtsboven, alleen zichtbaar op hover -- geeft
-                    de tegel diepte zonder de rest van de rij drukker te
-                    maken. */}
+                {/* Zachte gouden gloed rechtsboven, subtiel op hover */}
                 <div
                   aria-hidden
-                  className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-imv-rose/0 blur-2xl transition-colors duration-500 group-hover:bg-imv-rose/20"
+                  className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-gold/0 blur-2xl transition-colors duration-500 group-hover:bg-gold/15"
                 />
-                {/* Roze op zwart: 13,36:1. Op de zwarte tegel kan de bladkleur
-                    onverdund staan; op de lichte secties kan dat nergens. Was
-                    Sun Glare, maar dat was na deze palletwissel de enige felle
-                    kleur die nog over was en dat vloekte met de rest. */}
-                <div className="relative mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-imv-rose/15 text-imv-rose ring-1 ring-imv-rose/30 transition-colors group-hover:bg-imv-rose group-hover:text-black">
-                  <Icon size={22} strokeWidth={2} />
+                <div className="relative mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gold/10 text-gold ring-1 ring-gold/25 transition-all duration-300 group-hover:bg-gold group-hover:text-white group-hover:ring-gold">
+                  <Icon size={22} strokeWidth={2} className="transition-transform duration-300 group-hover:scale-110" />
                 </div>
-                <h3 className="relative font-serif text-lg font-black leading-tight text-white">
+                <h3 className="relative font-serif text-lg font-black leading-tight text-neutral-900">
                   {t(u.title, locale)}
                 </h3>
-                <p className="relative mt-2 text-sm leading-relaxed text-white">
+                <p className="relative mt-2 text-sm leading-relaxed text-neutral-600">
                   {t(u.text, locale)}
                 </p>
               </Reveal>

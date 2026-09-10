@@ -650,4 +650,137 @@ export const PAGE_FAQ: Record<string, FaqItem[]> = {
       ),
     },
   ],
+  'water-sports': [
+    {
+      q: L(
+        'Heb ik een vaarbewijs nodig om te watersporten of een jetski te besturen op Ibiza?',
+        'Do I need a boat licence for water sports or jet skiing in Ibiza?',
+        'Brauche ich einen Bootsführerschein für Wassersport oder Jetski auf Ibiza?',
+        '¿Necesito carné o titulación náutica para deportes acuáticos o moto de agua en Ibiza?',
+        'Faut-il un permis pour faire des sports nautiques ou piloter un jet-ski à Ibiza ?',
+      ),
+      a: L(
+        'Voor georganiseerde tours en circuits heb je geen vaarbewijs nodig. Bij begeleide jetski-safaris (zoals naar Es Vedrà of de Margarita-eilanden) vaart er een gediplomeerd instructeur mee die de route leidt en vooraf duidelijke instructies geeft. Ook voor parasailing, wakeboarden en flyboarden is geen vaarbewijs vereist. Alleen als je een jetski zelfstandig zonder gids op open zee wilt huren, is een erkend vaarbewijs (ICC / vaarbewijs) wettelijk verplicht.',
+        'For organized tours and guided circuits you do not need a licence. On guided jet ski safaris (such as to Es Vedrà or the Margarita Islands), a certified instructor leads the expedition and provides full controls training beforehand. Parasailing, wakeboarding and flyboard sessions also require no licence. A recognized nautical licence is only legally required if you wish to rent a jet ski independently without a guide on open water.',
+        'Für geführte Touren und Rundkurse brauchst du keinen Führerschein. Bei begleiteten Jetski-Safaris (etwa nach Es Vedrà oder zu den Margarita-Inseln) fährt ein zertifizierter Guide vorneweg und gibt vorab eine gründliche Einweisung. Auch für Parasailing, Wakeboarden und Flyboard ist kein Schein nötig. Nur wenn du einen Jetski eigenständig ohne Guide auf offener See mieten willst, ist ein amtlicher Sportbootführerschein gesetzlich vorgeschrieben.',
+        'Para excursiones organizadas y circuitos guiados no necesitas ninguna titulación. En los safaris en moto de agua (como a Es Vedrà o las Islas Margaritas), un instructor titulado guía el grupo y explica el manejo antes de salir. Para parasailing, wakeboard o flyboard tampoco hace falta título. Solo se exige titulación náutica oficial si deseas alquilar una moto de agua por libre en mar abierto sin monitor.',
+        'Pour les excursions encadrées et les circuits guidés, aucun permis n’est nécessaire. Lors des safaris en jet-ski (vers Es Vedrà ou les îles Margaritas), un moniteur diplômé ouvre la voie après un briefing complet. Le parachute ascensionnel, le wakeboard et le flyboard ne nécessitent aucun permis non plus. Un permis bateau reconnu n’est exigé que pour louer un jet-ski en navigation libre sans guide.',
+      ),
+    },
+    {
+      q: L(
+        'Wat zijn de minimumleeftijden voor jetski en watersportactiviteiten?',
+        'What are the minimum age requirements for jet skiing and water sports?',
+        'Wie lauten die Mindestalter für Jetski und Wassersportaktivitäten?',
+        '¿Cuáles son las edades mínimas para moto de agua y actividades acuáticas?',
+        'Quels sont les âges minimaux pour le jet-ski et les activités nautiques ?',
+      ),
+      a: L(
+        'Als passagier achterop een jetski kunnen kinderen meestal mee vanaf ca. 8 jaar (onder begeleiding van een volwassene en met een gecertificeerd reddingsvest). Om zelf te sturen geldt in Spanje een minimumleeftijd van 16 jaar met schriftelijke toestemming van de ouders/voogd, of 18 jaar zelfstandig. Bij rustigere activiteiten zoals parasailing of een tocht op een funtube kunnen kinderen vaak al vanaf 6 jaar mee.',
+        'As a passenger on a jet ski, children can generally join from around 8 years of age (accompanied by an adult and fitted with an approved life jacket). To drive yourself, Spanish regulations require a minimum age of 16 with written parental consent, or 18 independently. For gentler activities such as tandem parasailing, children can often fly from age 6.',
+        'Als Beifahrer auf einem Jetski können Kinder meist ab ca. 8 Jahren mitfahren (in Begleitung eines Erwachsenen und mit passender Rettungsweste). Um selbst zu steuern, verlangt das spanische Gesetz ein Mindestalter von 16 Jahren mit schriftlicher Einverständniserklärung der Eltern oder 18 Jahre eigenständig. Bei ruhigeren Aktivitäten wie Parasailing können Kinder oft ab 6 Jahren mit.',
+        'Como acompañante en una moto de agua, los niños suelen poder subir a partir de unos 8 años (acompañados de un adulto y con chaleco homologado). Para pilotar, la normativa española exige al menos 16 años con autorización paterna por escrito, o 18 años cumplidos. En actividades tranquilas como el parasailing, los niños pueden volar a menudo desde los 6 años.',
+        'En tant que passager sur un jet-ski, les enfants sont généralement admis dès 8 ans environ (accompagnés d’un adulte avec gilet de sauvetage adapté). Pour piloter, la loi espagnole impose 16 ans avec autorisation parentale écrite, ou 18 ans en autonomie. Pour les activités douces comme le parachute ascensionnel, les enfants volent souvent dès 6 ans.',
+      ),
+    },
+    {
+      q: L(
+        'Kunnen watersportartikelen (zoals een Seabob of e-Foil) worden bezorgd op een privéboot?',
+        'Can water toys like Seabobs or e-Foils be delivered directly to a chartered boat?',
+        'Können Wassersport-Toys wie Seabob oder e-Foil direkt zu unserem Charterboot geliefert werden?',
+        '¿Se pueden entregar juguetes acuáticos como Seabob o e-Foil directamente en un barco privado?',
+        'Peut-on faire livrer des équipements comme un Seabob ou un e-Foil sur un bateau privé ?',
+      ),
+      a: L(
+        'Ja, dat is een veelgekozen toevoeging aan een privédag op het water. Als je een privéjacht of motorboot via ons huurt, kunnen we een Seabob, elektrische e-foil, extra paddleboards of professionele snorkelsets direct aan boord laten bezorgen in de haven of per tenderservice op je ankerlocatie bij Ibiza of Formentera. Geef je wensen vooraf door aan Simon via WhatsApp, dan controleren we de beschikbaarheid en zorgen voor opgeladen accupakketten.',
+        'Yes, this is one of our most popular add-ons for private charter days. When chartering a yacht or motorboat through us, we can arrange for Seabobs, electric e-foils, extra stand-up paddle boards or snorkeling kits to be delivered directly on board in the marina or via tender to your anchorage in Ibiza or Formentera. Let Simon know your preferences on WhatsApp so we confirm availability and fully charged battery packs.',
+        'Ja, das ist eine sehr gefragte Ergänzung für private Chartertage. Wenn du eine Yacht oder ein Motorboot über uns buchst, können wir Seabobs, elektrische e-Foils, zusätzliche SUP-Boards oder Schnorchelausrüstung direkt im Hafen an Bord liefern lassen oder per Tender an deinen Ankerplatz vor Ibiza oder Formentera bringen. Sag Simon einfach per WhatsApp Bescheid, damit wir Verfügbarkeit und geladene Akkus einplanen.',
+        'Sí, es un servicio muy demandado para días de chárter privado. Si alquilas un barco o yate con nosotros, podemos organizar la entrega de Seabobs, e-foils eléctricos, tablas de paddle surf adicionales o equipos de esnórquel directamente a bordo en el puerto o en lancha auxiliar en tu punto de fondeo en Ibiza o Formentera. Indícaselo a Simon por WhatsApp para coordinar baterías y disponibilidad.',
+        'Oui, c’est une option très demandée pour les journées en bateau privé. Lorsque vous louez un yacht ou un bateau à moteur par notre intermédiaire, nous pouvons faire livrer Seabobs, e-foils électriques, paddles ou kits de snorkeling directement à bord au port ou par semi-rigide sur votre mouillage à Ibiza ou Formentera. Précisez votre souhait à Simon sur WhatsApp pour caler la disponibilité et les batteries.',
+      ),
+    },
+    {
+      q: L(
+        'Vanaf welke havens en baaien vertrekken de watersportactiviteiten op Ibiza?',
+        'Where do water sports activities depart from on Ibiza?',
+        'Von welchen Häfen und Buchten starten die Wassersportaktivitäten auf Ibiza?',
+        '¿Desde qué puertos y playas salen las actividades acuáticas en Ibiza?',
+        'D’où partent les activités nautiques à Ibiza ?',
+      ),
+      a: L(
+        'De meeste georganiseerde activiteiten vertrekken vanuit de beschutte baaien en jachthavens rond het eiland: de haven en baai van San Antonio (ideaal voor tochten naar de westkust en zonsondergang), Playa d’en Bossa (voor actie dichtbij Ibiza-stad), de jachthaven van Santa Eulària en het strand van Cala Bassa. De exacte verzamelplek en routebeschrijving staan vermeld in de activiteitenagenda hierboven en worden bij boeking per WhatsApp bevestigd.',
+        'Most organized activities depart from sheltered bays and marinas across the island: the port and bay of San Antonio (prime for west-coast tours and sunsets), Playa d’en Bossa (convenient to Ibiza Town), the marina of Santa Eulària, and Cala Bassa beach. Precise meeting points and directions are specified in the activity agenda above and reconfirmed over WhatsApp upon booking.',
+        'Die meisten Aktivitäten starten an geschützten Buchten und Marinas rund um die Insel: der Hafen und die Bucht von San Antonio (ideal für Westküstentouren und Sonnenuntergang), Playa d’en Bossa (nah an Ibiza-Stadt), der Yachthafen von Santa Eulària und der Strand der Cala Bassa. Den genauen Treffpunkt und Wegbeschreibung findest du oben im Kalender und erhältst du nach der Buchung per WhatsApp.',
+        'La mayoría de las actividades salen de bahías resguardadas y puertos deportivos: el puerto y la bahía de San Antonio (ideales para la costa oeste y atardeceres), Playa d’en Bossa (cerca de Ibiza ciudad), el puerto deportivo de Santa Eulària y Cala Bassa. El punto de encuentro exacto y cómo llegar figuran en la agenda de arriba y se reconfirman por WhatsApp al reservar.',
+        'La plupart des activités partent de baies abritées et de marinas réparties sur l’île : le port et la baie de San Antonio (idéaux pour la côte ouest et les couchers de soleil), Playa d’en Bossa (proche d’Ibiza-ville), le port de plaisance de Santa Eulària et la plage de Cala Bassa. Le point de rendez-vous exact est indiqué dans l’agenda ci-dessus et confirmé par WhatsApp lors de la réservation.',
+      ),
+    },
+  ],
+  'boat-trip': [
+    {
+      q: L(
+        'Wat is het verschil tussen een ontspannen boottocht en een boat party op Ibiza?',
+        'What is the difference between a scenic boat trip and an Ibiza boat party?',
+        'Was ist der Unterschied zwischen einer ruhigen Bootstour und einer Boat Party auf Ibiza?',
+        '¿Qué diferencia hay entre una excursión relajada en barco y una boat party en Ibiza?',
+        'Quelle est la différence entre une sortie en bateau tranquille et une boat party à Ibiza ?',
+      ),
+      a: L(
+        'Een boottocht (boat trip) richt zich op ontspanning, natuurschoon, zwemmen in kristalheldere calas (zoals Cala Comte, Cala Bassa of voor Es Vedrà) en genieten van de kustlijn met familie of vrienden, met relaxte achtergrondmuziek en zwemstops. Een boat party daarentegen is een drijvende club: hardere muziek met live dj’s, een dansvloer, feestverlichting en een uitgelaten feestsfeer gericht op jongeren en volwassenen die willen dansen. Op deze pagina vind je voornamelijk panoramische boottochten en dagtrips.',
+        'A scenic boat trip focuses on relaxation, natural coastal scenery, swimming in turquoise coves (such as Cala Comte, Cala Bassa or near Es Vedrà), and enjoying the Mediterranean sun with mellow background tunes and swim stops. An Ibiza boat party, by contrast, is a floating nightclub: high-energy DJ sets, a dancefloor, an open bar or drink tokens, and an upbeat party crowd. This page covers scenic excursions and day cruises.',
+        'Eine Bootstour (Boat Trip) konzentriert sich auf Entspannung, Naturkulisse, Baden in türkisblauen Buchten (wie Cala Comte, Cala Bassa oder vor Es Vedrà) und entspannte Musik mit Badestopps. Eine Boat Party hingegen ist ein schwimmender Club: lautere Beats von Live-DJs, eine Tanzfläche und ausgelassene Feierstimmung für Erwachsene. Auf dieser Seite findest du vor allem landschaftlich schöne Ausflüge und Tageskreuzfahrten.',
+        'Una excursión en barco se centra en relajarse, disfrutar del paisaje natural, nadar en calas turquesas (como Cala Comte, Cala Bassa o frente a Es Vedrà) y buena música de ambiente con paradas de baño. Una boat party, en cambio, es una discoteca flotante: música alta con DJs en directo, pista de baile y ambiente festivo enfocado a la fiesta. En esta página encontrarás sobre todo excursiones panorámicas y cruceros de día.',
+        'Une sortie en bateau est axée sur la détente, les paysages côtiers, la baignade dans des criques turquoise (comme Cala Comte, Cala Bassa ou face à Es Vedrà) et une musique d’ambiance douce. À l’inverse, une boat party est un club flottant : DJs en direct, piste de danse et ambiance festive animée. Cette page est consacrée aux excursions panoramiques et croisières de jour.',
+      ),
+    },
+    {
+      q: L(
+        'Wat is er doorgaans inbegrepen bij een georganiseerde boottocht?',
+        'What is typically included in an organized boat tour in Ibiza?',
+        'Was ist bei einer organisierten Bootstour auf Ibiza normalerweise inbegrepen?',
+        '¿Qué suele incluir una excursión organizada en barco por Ibiza?',
+        'Que comprend généralement une excursion en bateau organisée à Ibiza ?',
+      ),
+      a: L(
+        'Bij de meeste dagtochten zijn ankerstops voor zwempauzes inbegrepen, evenals het gebruik van snorkelspullen en stand-up paddleboards (SUP), een ervaren lokale schipper en brandstof. Vaak worden er ook welkomstcocktails, frisdrank, water en vers seizoensfruit geserveerd. Tochten naar Formentera geven je meestal de gelegenheid om aan land te gaan om de stranden of een restaurant te bezoeken. De precieze specificaties per afvaart vind je direct in de agenda hierboven.',
+        'Most day trips include swim stops in pristine coves, use of snorkeling masks and stand-up paddle boards (SUP), an experienced local skipper, and fuel. Welcome drinks, soft drinks, water and fresh fruit are frequently offered on board. Crossings to Formentera generally give you free time to disembark on the beach or dine at a seaside restaurant. Detailed inclusions per sailing are visible in the calendar above.',
+        'Die meisten Tagestouren beinhalten Badestopps in einsamen Buchten, die Nutzung von Schnorchelmasken und SUP-Boards, einen erfahrenen Kapitän und Treibstoff. Häufig werden Begrüßungsgetränke, Wasser und frisches Obst an Bord gereicht. Bei Ausflügen nach Formentera hast du meist Zeit für einen Landgang am Strand oder im Restaurant. Alle Details pro Tour findest du direkt in der Übersicht oben.',
+        'La mayoría de las salidas de día incluyen paradas para nadar, uso de gafas de esnórquel y tablas de paddle surf, patrón local experimentado y combustible. Con frecuencia se sirven bebidas de bienvenida, agua y fruta fresca. En las salidas a Formentera suele haber tiempo libre para bajar a la playa o comer en un chiringuito. Los detalles de cada salida están descritos en la agenda de arriba.',
+        'La plupart des sorties à la journée incluent des arrêts baignade, le matériel de snorkeling et des paddles, un capitaine local expérimenté et le carburant. Des boissons d’accueil, de l’eau et des fruits frais sont couramment servis à bord. Pour les excursions vers Formentera, du temps libre à terre est généralement prévu pour profiter de la plage ou d’un restaurant. Tous les détails figurent dans l’agenda ci-dessus.',
+      ),
+    },
+    {
+      q: L(
+        'Wat gebeurt er bij slecht weer of ruwe zeegang?',
+        'What happens in case of bad weather or rough sea conditions?',
+        'Was passiert bei schlechtem Wetter oder unruhigem Seegang?',
+        '¿Qué ocurre en caso de mal tiempo o mala mar?',
+        'Que se passe-t-il en cas de mauvais temps ou de mer agitée ?',
+      ),
+      a: L(
+        'Veiligheid op zee staat altijd op de eerste plaats. Lokale kapiteins volgen de maritieme weersvoorspellingen continu. Bij matige wind kan de route worden verlegd naar de beschutte kant van het eiland waar de zee rustig blijft. Mocht het weer een veilige en plezierige afvaart verhinderen, dan wordt de tocht kosteloos verplaatst naar een andere dag van je vakantie, of krijg je het aankoopbedrag volledig terugbetaald.',
+        'Safety at sea always comes first. Local captains monitor marine weather forecasts closely. If winds pick up from one direction, itineraries are adjusted towards the island’s sheltered coastlines where waters remain calm. If adverse conditions prevent sailing altogether, your booking is rescheduled free of charge to another day of your holiday, or fully refunded.',
+        'Sicherheit auf See steht an erster Stelle. Die Kapitäne beobachten die Wetter- und Winddaten kontinuierlich. Bei mäßigem Wind wird die Route auf die windabgewandte Seite der Insel verlegt, wo das Meer ruhig ist. Sollte das Wetter eine angenehme Ausfahrt verhindern, wird der Ausflug kostenfrei auf einen anderen Tag deines Urlaubs umgebucht oder der Betrag vollständig erstattet.',
+        'La seguridad en el mar es prioritaria. Los patrones siguen de cerca las previsiones marítimas. Si sopla viento de un lado, la ruta se desvía hacia la vertiente resguardada de la isla para navegar en aguas calmas. Si las condiciones impiden salir con seguridad y confort, la excursión se reprograma sin coste para otro día de tu estancia o se reembolsa íntegramente.',
+        'La sécurité en mer est la priorité absolue. Les capitaines surveillent en permanence les prévisions météo marines. En cas de vent, l’itinéraire est adapté vers la côte abritée de l’île où la mer reste calme. Si les conditions ne permettent pas une navigation agréable, la sortie est reportée sans frais à un autre jour de votre séjour ou intégralement remboursée.',
+      ),
+    },
+    {
+      q: L(
+        'Vanaf welke havens vertrekken de boottochten op Ibiza?',
+        'From which ports and marinas do boat trips depart in Ibiza?',
+        'Von welchen Häfen starten die Bootstouren auf Ibiza?',
+        '¿De qué puertos y zonas salen las excursiones en barco en Ibiza?',
+        'De quels ports partent les excursions en bateau à Ibiza ?',
+      ),
+      a: L(
+        'De drie belangrijkste vertrekhavens zijn: de haven van Ibiza-stad (Puerto de Ibiza / Marina Botafoch) voor tochten naar Formentera en de zuidoostkust; de jachthaven van San Antonio voor cruises langs Cala Bassa, Cala Comte en zonsondergangen voor Es Vedrà; en de jachthaven van Santa Eulària voor de noordoostelijke calas. Daarnaast zijn er in het seizoen strandopstappunten bij Figueretas en Playa d’en Bossa.',
+        'The three primary departure marinas are: Ibiza Town port (Puerto de Ibiza / Marina Botafoch) for Formentera crossings and south-east coves; San Antonio harbor for cruises along Cala Bassa, Cala Comte and sunset sailings towards Es Vedrà; and Santa Eulària marina for northern and eastern bays. Seasonal beach boarding jetties also operate at Figueretas and Playa d’en Bossa.',
+        'Die drei Haupthäfen sind: Ibiza-Stadt (Puerto de Ibiza / Marina Botafoch) für Formentera-Touren und die Südostküste; San Antonio für Touren zur Cala Bassa, Cala Comte und Sonnenuntergangstörns vor Es Vedrà; sowie Santa Eulària für Buchten im Nordosten. In der Saison gibt es zudem Anlegestellen an den Stränden von Figueretas und Playa d’en Bossa.',
+        'Los tres puertos principales de salida son: el puerto de Ibiza ciudad (Puerto de Ibiza / Marina Botafoch) para cruces a Formentera y la costa sureste; el puerto de San Antonio para navegar hacia Cala Bassa, Cala Comte y puestas de sol frente a Es Vedrà; y el puerto deportivo de Santa Eulària para las calas del noreste. En temporada también hay puntos de embarque en Figueretas y Playa d’en Bossa.',
+        'Les trois principaux ports de départ sont : le port d’Ibiza-ville (Port d’Ibiza / Marina Botafoch) pour les départs vers Formentera et le sud-est ; le port de San Antonio pour les croisières vers Cala Bassa, Cala Comte et les couchers de soleil face à Es Vedrà ; et le port de Santa Eulària pour les criques du nord-est. En saison, des embarcadères fonctionnent aussi à Figueretas et Playa d’en Bossa.',
+      ),
+    },
+  ],
 }
+

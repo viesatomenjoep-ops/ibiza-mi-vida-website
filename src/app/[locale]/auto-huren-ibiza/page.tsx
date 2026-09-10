@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
 import { HubHero, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { WiberDirect } from '@/components/partner/WiberDirect'
+import { QuickFacts } from '@/components/water/QuickFacts'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { TrustBlock } from '@/components/hub/TrustBlock'
 import { Proof } from '@/components/hub/Proof'
@@ -115,13 +116,14 @@ export default function AutoHurenIbizaPage() {
           het blok met de voorwaarden, waar ze per stuk opzoekbaar zijn in
           plaats van als lopende tekst. */}
       <HubHero
-        h1="Auto huren op Ibiza"
+        h1="Auto huren op Ibiza — all-in tarief"
         locale={LOCALE}
         updated={contentUpdated(PAGE_KEY)}
       >
         <WiberDirect locale={LOCALE} />
       </HubHero>
 
+      <QuickFacts pageKey="car-rental" locale={LOCALE} />
 
       <ItemGrid
         heading="De voorwaarden, meteen op tafel"

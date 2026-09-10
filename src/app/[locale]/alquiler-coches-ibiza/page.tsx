@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
 import { HubHero, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { WiberDirect } from '@/components/partner/WiberDirect'
+import { QuickFacts } from '@/components/water/QuickFacts'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { TrustBlock } from '@/components/hub/TrustBlock'
 import { Proof } from '@/components/hub/Proof'
@@ -74,8 +75,10 @@ export default function AlquilerCochesIbizaPage() {
         <WiberDirect locale={LOCALE} />
       </HubHero>
 
+      <QuickFacts pageKey="car-rental" locale={LOCALE} />
 
       <ItemGrid
+
         heading="Las condiciones, por delante"
         columns={2}
         intro="Nada de esto es raro en España, pero conviene saberlo antes de aterrizar y no en el mostrador a las once de la noche."

@@ -53,7 +53,10 @@ const KEY_PATHS = [
   '/package-deals',
   '/guestlist',
   '/ibiza-airport-transfer',
+  '/water-sports',
+  '/boat-trip',
 ]
+
 
 const argv = process.argv.slice(2)
 const hasFlag = (name) => argv.includes(`--${name}`)

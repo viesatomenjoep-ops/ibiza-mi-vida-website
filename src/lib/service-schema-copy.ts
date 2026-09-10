@@ -87,4 +87,39 @@ export const SERVICE_COPY: Record<string, ServiceCopy> = {
       'Nous inscrivons votre nom sur les guestlists des clubs d’Ibiza, organisé via WhatsApp. Ce qui s’applique le soir même — entrée libre, tarif réduit ou billet uniquement — varie selon le club et le jour, et est confirmé à l’avance.',
     ),
   },
+  'water-sports': {
+    serviceType: 'Water sports',
+    name: L(
+      'Watersport op Ibiza',
+      'Water sports in Ibiza',
+      'Wassersport auf Ibiza',
+      'Deportes acuáticos en Ibiza',
+      'Sports nautiques à Ibiza',
+    ),
+    description: L(
+      'Watersportactiviteiten en tours op Ibiza: jetski safaris naar Es Vedrà, parasailing vluchten, e-foil lessen en Seabob verhuur. Boekbaar via de agenda en direct via WhatsApp.',
+      'Water sports activities and guided tours in Ibiza: jet ski safaris to Es Vedrà, panoramic parasailing, e-foil lessons and Seabob hire. Bookable via the calendar and directly over WhatsApp.',
+      'Wassersport-Aktivitäten und geführte Touren auf Ibiza: Jetski-Safaris nach Es Vedrà, Parasailing-Flüge, E-Foil-Coaching und Seabob-Verleih. Buchbar über die Agenda und per WhatsApp.',
+      'Actividades náuticas y excursiones en Ibiza: safaris en moto de agua a Es Vedrà, parasailing, clases de e-foil y alquiler de Seabob. Reservable en la agenda y por WhatsApp.',
+      'Activités nautiques et excursions à Ibiza : safaris jet-ski vers Es Vedrà, parachute ascensionnel, cours d’e-foil et location de Seabob. Réservation dans l’agenda et via WhatsApp.',
+    ),
+  },
+  'boat-trip': {
+    serviceType: 'Boat tour',
+    name: L(
+      'Boottochten op Ibiza',
+      'Boat trips in Ibiza',
+      'Bootstouren auf Ibiza',
+      'Excursiones en barco por Ibiza',
+      'Excursions en bateau à Ibiza',
+    ),
+    description: L(
+      'Georganiseerde boottochten en dagtrips op Ibiza en naar Formentera: kustcruises, snorkelstops in afgelegen baaien en zonsondergangtochten voor Es Vedrà. Boekbaar per afvaart of als privécharter.',
+      'Organized boat excursions and day trips in Ibiza and towards Formentera: scenic coast cruises, snorkel swim stops in secluded coves and sunset sailings by Es Vedrà. Bookable by ticket or private charter.',
+      'Organisierte Bootstouren und Tagesausflüge auf Ibiza und nach Formentera: Küstencruises, Schnorchelstopps in einsamen Buchten und Sunset-Törns vor Es Vedrà. Buchbar als Einzelticket oder Privatcharter.',
+      'Excursiones organizadas en barco y salidas de un día en Ibiza y hacia Formentera: cruceros costeros, esnórquel en calas vírgenes y puestas de sol frente a Es Vedrà. En billete o chárter privado.',
+      'Excursions en bateau organisées et sorties à la journée à Ibiza et vers Formentera : croisières côtières, snorkeling dans les criques et couchers de soleil face à Es Vedrà. En billet ou charter privé.',
+    ),
+  },
 }
+
