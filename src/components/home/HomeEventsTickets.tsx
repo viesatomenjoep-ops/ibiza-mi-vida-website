@@ -103,7 +103,7 @@ export function HomeEventsTickets({
       accent="var(--imv-ink)"
       accentInk="var(--ink-on-accent)"
       kickerColor="var(--imv-ink)"
-      glow={{ x: '85%', y: '10%', color: 'rgba(250,215,222,.35)' }}
+      glow={{ x: '85%', y: '10%', color: 'rgba(212,175,55,.07)' }}
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}
       ctaLabel={t(L.knop, locale)}
