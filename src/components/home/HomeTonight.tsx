@@ -61,7 +61,7 @@ export function HomeTonight({
       <div className="mx-auto max-w-7xl px-4">
         <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <span className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.24em] text-gold">
+            <span className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.24em] text-neutral-900">
               <span className="live-dot" aria-hidden />
               {heading}
             </span>

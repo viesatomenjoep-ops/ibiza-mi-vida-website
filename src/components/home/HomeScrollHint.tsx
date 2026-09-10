@@ -32,7 +32,7 @@ export function HomeScrollHint({ locale = 'nl' }: { locale?: string }) {
       <span className="text-[11px] font-black uppercase tracking-[0.22em] text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]">
         {TXT[locale] || TXT.en}
       </span>
-      <ChevronDown size={26} strokeWidth={2.6} className="animate-bounce" style={{ color: '#C5A059', filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.5))' }} />
+      <ChevronDown size={26} strokeWidth={2.6} className="animate-bounce" style={{ color: '#FFFFFF', filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.5))' }} />
     </div>
   )
 }

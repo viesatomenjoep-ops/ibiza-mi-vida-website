@@ -101,9 +101,9 @@ export function HomeNewsletter({ locale = 'nl', rating = null }: { locale?: stri
         />
         <div className="absolute inset-0 bg-obsidian/50" />
       </div>
-      <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-gold/20 blur-[120px]" />
+      <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-white/10 blur-[120px]" />
       <div className="relative mx-auto max-w-3xl px-4 text-center">
-        <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-gold-soft">
+        <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-white/80">
           {t(KICKER, locale)}
         </span>
         <h2 className="mt-4 font-serif text-3xl font-black tracking-tight md:text-5xl">

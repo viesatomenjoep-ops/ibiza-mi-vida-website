@@ -72,7 +72,7 @@ export function HeroRatingBadge({ rating, total, url, locale }: HeroRating & { l
           <Star
             key={i}
             size={14}
-            className={i < filled ? 'fill-gold-soft text-gold-soft' : 'text-white/35'}
+            className={i < filled ? 'fill-white text-white' : 'text-white/35'}
           />
         ))}
       </span>

@@ -72,7 +72,7 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
     <section className="bg-white text-neutral-900 py-12 md:py-16 border-t border-black/5">
       <Reveal className="max-w-7xl mx-auto px-4">
         <div className="mb-8 text-center">
-          <span className="inline-block text-[11px] font-bold uppercase tracking-[0.28em] text-gold">
+          <span className="inline-block text-[11px] font-bold uppercase tracking-[0.28em] text-neutral-900">
             {t(KICKER, locale)}
           </span>
           <h2 className="mt-3 font-serif text-[1.625rem] md:text-4xl font-black tracking-tight text-neutral-900">
@@ -80,7 +80,7 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
           </h2>
         </div>
 
-        {/* Lichte luxe tegels met warme gouden accenten en verfijnde schaduwen */}
+        {/* Lichte luxe tegels met verfijnde schaduwen */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {USPS.map((u, i) => {
             const Icon = u.icon
@@ -88,14 +88,14 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
               <Reveal
                 key={i}
                 delay={i * 90}
-                className="group relative overflow-hidden rounded-[22px] border border-neutral-200/90 bg-[#FAF8F5] p-6 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:bg-white hover:shadow-[0_16px_36px_-10px_rgba(212,175,55,0.2)]"
+                className="group relative overflow-hidden rounded-[22px] border border-neutral-200/90 bg-[#FAF8F5] p-6 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-black/30 hover:bg-white hover:shadow-[0_16px_36px_-10px_rgba(0,0,0,0.1)]"
               >
-                {/* Zachte gouden gloed rechtsboven, subtiel op hover */}
+                {/* Zachte gloed rechtsboven, subtiel op hover */}
                 <div
                   aria-hidden
-                  className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-gold/0 blur-2xl transition-colors duration-500 group-hover:bg-gold/15"
+                  className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-black/0 blur-2xl transition-colors duration-500 group-hover:bg-black/5"
                 />
-                <div className="relative mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gold/10 text-gold ring-1 ring-gold/25 transition-all duration-300 group-hover:bg-gold group-hover:text-white group-hover:ring-gold">
+                <div className="relative mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-black/5 text-[#141414] ring-1 ring-black/15 transition-all duration-300 group-hover:bg-[#141414] group-hover:text-white group-hover:ring-[#141414]">
                   <Icon size={22} strokeWidth={2} className="transition-transform duration-300 group-hover:scale-110" />
                 </div>
                 <h3 className="relative font-serif text-lg font-black leading-tight text-neutral-900">

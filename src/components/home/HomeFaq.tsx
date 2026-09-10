@@ -78,7 +78,7 @@ export function HomeFaq({ locale }: { locale?: string }) {
     <section className="border-t border-black/5 bg-white py-16 text-neutral-900">
       <FaqJsonLd faqs={faqs} />
       <div className="mx-auto max-w-3xl px-4">
-        <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{KICKER[l]}</p>
+        <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-neutral-900">{KICKER[l]}</p>
         <h2 className="mt-3 font-serif text-2xl font-black tracking-tight text-neutral-900 md:text-3xl">
           {HEADING[l]}
         </h2>
@@ -90,7 +90,7 @@ export function HomeFaq({ locale }: { locale?: string }) {
                 {f.q}
                 <span
                   aria-hidden
-                  className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-neutral-500 transition-transform group-open:rotate-45 group-open:border-gold group-open:text-gold"
+                  className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-neutral-500 transition-transform group-open:rotate-45 group-open:border-neutral-900 group-open:text-neutral-900"
                 >
                   +
                 </span>
@@ -103,7 +103,7 @@ export function HomeFaq({ locale }: { locale?: string }) {
         <div className="mt-8">
           <Link
             href={`/${l}/faq`}
-            className="inline-flex items-center gap-2 !text-neutral-900 font-serif text-sm font-black tracking-tight underline decoration-gold decoration-2 underline-offset-4 transition-colors hover:!text-neutral-600"
+            className="inline-flex items-center gap-2 !text-neutral-900 font-serif text-sm font-black tracking-tight underline decoration-neutral-900 decoration-2 underline-offset-4 transition-colors hover:!text-neutral-600"
           >
             <span className="text-neutral-900">{LINK_LABEL[l]}</span>
             <span aria-hidden className="text-neutral-900">→</span>

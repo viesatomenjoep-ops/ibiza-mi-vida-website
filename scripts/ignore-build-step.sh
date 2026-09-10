@@ -12,10 +12,16 @@ if [ "$VERCEL_ENV" != "production" ]; then
   exit 0
 fi
 
-# 2. Controleer of er daadwerkelijk applicatiecode of assets zijn gewijzigd
+# 2. Bepaal commit range (Vercel levert CACHED_COMMIT_REF van de vorige deployment)
+COMMIT_RANGE="HEAD^ HEAD"
+if [ -n "$CACHED_COMMIT_REF" ]; then
+  COMMIT_RANGE="$CACHED_COMMIT_REF HEAD"
+fi
+
+# Controleer of er daadwerkelijk applicatiecode of assets zijn gewijzigd
 # Als alleen documentatie, markdown of git-config is gewijzigd, sla de build over
-if git diff HEAD^ HEAD --quiet -- src/ public/ package.json package-lock.json next.config.mjs tailwind.config.ts tsconfig.json; then
-  echo "🛑 Geen wijzigingen in src/, public/ of configuratie. Build overgeslagen."
+if git diff $COMMIT_RANGE --quiet -- src/ public/ package.json package-lock.json next.config.mjs tailwind.config.ts postcss.config.mjs tsconfig.json; then
+  echo "🛑 Geen wijzigingen in applicatiecode of configuratie ($COMMIT_RANGE). Build overgeslagen."
   exit 0
 fi
 

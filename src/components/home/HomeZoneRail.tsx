@@ -608,10 +608,10 @@ export function HomeZoneRail({
                   aria-pressed={on}
                   className="flex aspect-square w-full flex-col items-center justify-center gap-0.5 rounded-2xl border transition-all duration-200 hover:scale-[1.03]"
                   style={{
-                    borderColor: on ? '#C5A059' : (dark ? 'rgba(255,255,255,.18)' : 'rgba(0,0,0,.08)'),
-                    background: on ? '#C5A059' : (dark ? 'rgba(255,255,255,.08)' : '#ffffff'),
+                    borderColor: on ? '#141414' : (dark ? 'rgba(255,255,255,.18)' : 'rgba(0,0,0,.08)'),
+                    background: on ? '#141414' : (dark ? 'rgba(255,255,255,.08)' : '#ffffff'),
                     color: on ? '#ffffff' : (dark ? '#fff' : '#141414'),
-                    boxShadow: on ? '0 10px 24px -8px rgba(197,160,89,0.45)' : '0 2px 8px -2px rgba(0,0,0,0.06)',
+                    boxShadow: on ? '0 10px 24px -8px rgba(0,0,0,0.45)' : '0 2px 8px -2px rgba(0,0,0,0.06)',
                   }}
                 >
                   <span className="font-display text-[clamp(14px,4.3vw,26px)] font-black leading-none tracking-[0.01em]">{num}</span>

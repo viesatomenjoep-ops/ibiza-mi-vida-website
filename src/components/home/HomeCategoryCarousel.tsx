@@ -285,7 +285,7 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-              <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-gold md:text-[11px] md:tracking-[0.28em]">
+              <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-neutral-900 md:text-[11px] md:tracking-[0.28em]">
                 {KICKER[locale] || KICKER.en}
               </span>
               <div className="mt-1.5 flex items-baseline gap-2.5 md:mt-2 md:gap-4">
@@ -309,7 +309,7 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
               </motion.p>
               <Link
                 href={active.href}
-                className="mt-3 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-5 py-2.5 font-serif text-[11px] font-black uppercase tracking-widest text-white transition-colors hover:bg-gold md:mt-6 md:px-7 md:py-3.5 md:text-xs"
+                className="mt-3 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-5 py-2.5 font-serif text-[11px] font-black uppercase tracking-widest text-white transition-colors hover:bg-neutral-700 md:mt-6 md:px-7 md:py-3.5 md:text-xs"
               >
                 {CTA[locale] || CTA.en} <ArrowRight size={14} />
               </Link>
@@ -321,7 +321,7 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
               type="button"
               onClick={handlePrev}
               aria-label="Previous category"
-              className="grid h-9 w-9 place-items-center rounded-full bg-neutral-900 text-white transition-colors hover:bg-gold md:h-11 md:w-11"
+              className="grid h-9 w-9 place-items-center rounded-full bg-neutral-900 text-white transition-colors hover:bg-neutral-700 md:h-11 md:w-11"
             >
               <ArrowLeft size={16} className="md:hidden" />
               <ArrowLeft size={20} className="hidden md:block" />
@@ -330,7 +330,7 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
               type="button"
               onClick={handleNext}
               aria-label="Next category"
-              className="grid h-9 w-9 place-items-center rounded-full bg-neutral-900 text-white transition-colors hover:bg-gold md:h-11 md:w-11"
+              className="grid h-9 w-9 place-items-center rounded-full bg-neutral-900 text-white transition-colors hover:bg-neutral-700 md:h-11 md:w-11"
             >
               <ArrowRight size={16} className="md:hidden" />
               <ArrowRight size={20} className="hidden md:block" />

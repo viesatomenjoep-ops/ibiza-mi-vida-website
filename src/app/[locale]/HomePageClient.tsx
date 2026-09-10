@@ -128,7 +128,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
           <HeroShowIntro locale={locale} />
           <Link
             href={`${base}/calendar`}
-            className="pointer-events-auto mt-10 inline-flex items-center gap-2 rounded-full border border-gold/60 bg-gold/10 px-8 py-3.5 font-serif text-xs font-bold uppercase tracking-[0.25em] text-gold-soft backdrop-blur-sm transition-all hover:border-gold hover:bg-gold hover:text-white"
+            className="pointer-events-auto mt-10 inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/10 px-8 py-3.5 font-serif text-xs font-bold uppercase tracking-[0.25em] text-white backdrop-blur-md transition-all hover:border-white hover:bg-white hover:text-neutral-950"
             style={{
               boxShadow: '0 0 18px 1px rgba(0,0,0,0.55), inset 0 0 12px rgba(0,0,0,0.25)',
               textShadow: '0 0 10px rgba(0,0,0,0.85)',

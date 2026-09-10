@@ -86,7 +86,7 @@ export function HomeInstagram({ locale = 'nl' }: { locale?: string }) {
       <Reveal className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col items-center text-center">
           <SocialBrandMark />
-          <span className="mt-4 text-[11px] font-bold uppercase tracking-[0.28em] text-gold">
+          <span className="mt-4 text-[11px] font-bold uppercase tracking-[0.28em] text-neutral-900">
             {t(KICKER, locale)}
           </span>
           <h2 className="mt-3 font-serif text-[1.625rem] md:text-4xl font-black tracking-tight text-neutral-900">
@@ -99,7 +99,7 @@ export function HomeInstagram({ locale = 'nl' }: { locale?: string }) {
             href={INSTA_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-8 py-3.5 font-serif text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-gold hover:text-neutral-900"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-8 py-3.5 font-serif text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-neutral-700 hover:text-white"
           >
             <Instagram size={16} />
             {t(CTA, locale)}
@@ -111,7 +111,7 @@ export function HomeInstagram({ locale = 'nl' }: { locale?: string }) {
             // neutral-400 haalde op wit 2,52:1 en dit is een link, dus geen
             // decoratie. neutral-600 komt op 5,74:1. Stond hier al voor de
             // palletwissel.
-            className="mt-3 text-sm font-semibold text-neutral-600 hover:text-gold"
+            className="mt-3 text-sm font-semibold text-neutral-600 hover:text-black"
           >
             @{HANDLE}
           </a>

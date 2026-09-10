@@ -37,28 +37,28 @@
 :root{
   /* Clean Mediterranean luxury palette — crisp white, warm alabaster, obsidian & champagne gold. */
   --imv-blush:#FAFAF8;
-  --imv-rose:#C5A059;
+  --imv-rose:#141414;
   --imv-grey:#EAE7E1;
-  --imv-blue:#C5A059;
+  --imv-blue:#141414;
   --imv-olive:#837D68;
 
   /* Het enige accent dat op alle vier de sectietinten leesbaar blijft. */
   --imv-ink:#141414;
 
-  /* ── Sectietinten Homepage (Alternerend Ritme: 50% Lichter, WCAG AAA) ──
+  /* ── Sectietinten Homepage (Alternerend Ritme: WCAG AAA) ──
         Vanaf "Vanavond op Ibiza" (zuiver wit #FFFFFF):
-        1. Events & Tickets: iets donkerder (warm sunset rosé, 50% lichter)
-        2. Private Boat Rental: iets lichter (frisse zeenevel / marine-ijs, 50% lichter)
-        3. On the land activities: iets donkerder (Balearisch kalkzandsteen, 50% lichter)
-        4. On the water activities: iets lichter (kristalhelder baai-aqua, 50% lichter)
-        Alle teksten houden >13.8:1 tot >17:1 contrast met donkere inkt #141414. */
-  --zone-bg-events:#F6E5E5;         /* warm sunset rosé: contrast 14.35:1 (AAA) */
+        1. Events & Tickets: warm albast / ivoor (#FAF8F5, dezelfde tint als Populaire clubs)
+        2. Private Boat Rental: iets lichter (frisse zeenevel / marine-ijs #F0F5F8)
+        3. On the land activities: iets donkerder (Balearisch kalkzandsteen #ECE6DC)
+        4. On the water activities: iets lichter (kristalhelder baai-aqua #EEF6F8)
+        Alle teksten houden >14:1 tot >18:1 contrast met donkere inkt #141414. */
+  --zone-bg-events:#FAF8F5;         /* warm albast / ivoor (dezelfde tint als Populaire clubs) */
   --zone-bg-boats:#F0F5F8;          /* zachte maritieme zeenevel: contrast 17.18:1 (AAA) */
   --zone-bg-island:#ECE6DC;         /* Balearisch warm kalkzand: contrast 13.82:1 (AAA) */
   --zone-bg-water:#EEF6F8;          /* kristalhelder baai-aqua: contrast 16.94:1 (AAA) */
 
   /* ── Diepe varianten ── */
-  --imv-rose-deep:#C5A059;          /* champagne goud */
+  --imv-rose-deep:#141414;          /* diep obsidiaan */
   --imv-grey-deep:#737373;          /* neutraal grijs */
   --imv-blue-deep:#2C2C2C;          /* diep obsidiaan */
   --imv-olive-deep:#756F5D;         /* warm olijf/kaki */
@@ -74,7 +74,7 @@
   --white:#FFFFFF;
   --grey:#737373;
   --mint:#F5F5F2;
-  --spring:#C5A059;
+  --spring:#141414;
   --mist:#EAE7E1;
   --font-display: var(--font-outfit), 'Outfit', sans-serif;
   /* Unified display font — matches the hero headline ("Boek jouw ultieme eiland").
@@ -1229,10 +1229,10 @@ h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.
 /* ===== categorieën (20 pagina's) ===== */
 .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;background:transparent;border:none}
 .cat{color:#141414;background:#FAF8F5;border:1px solid rgba(0,0,0,.08);border-radius:20px;padding:26px 22px;display:flex;flex-direction:column;gap:14px;min-height:132px;position:relative;transition:all .25s ease;box-shadow:0 4px 16px -4px rgba(0,0,0,.04)}
-.cat .num{font-family:var(--display);font-weight:700;font-size:.75rem;letter-spacing:.25em;color:#C5A059}
+.cat .num{font-family:var(--display);font-weight:700;font-size:.75rem;letter-spacing:.25em;color:#141414}
 .cat strong{font-family:var(--display);text-transform:uppercase;letter-spacing:.08em;font-weight:700;font-size:1.05rem;line-height:1.25;color:#141414}
-.cat .arrow{position:absolute;right:18px;bottom:16px;color:#C5A059;opacity:0;transition:opacity .2s,transform .2s;transform:translateX(-6px)}
-.cat:hover{background:#FFFFFF;border-color:rgba(212,175,55,.5);box-shadow:0 14px 32px -8px rgba(212,175,55,.2);transform:translateY(-2px)}
+.cat .arrow{position:absolute;right:18px;bottom:16px;color:#141414;opacity:0;transition:opacity .2s,transform .2s;transform:translateX(-6px)}
+.cat:hover{background:#FFFFFF;border-color:rgba(20,20,20,.35);box-shadow:0 14px 32px -8px rgba(0,0,0,.1);transform:translateY(-2px)}
 .cat:hover .arrow{opacity:1;transform:none}
 
 /* ===== whatsapp ===== */
@@ -1542,7 +1542,7 @@ footer::after{content:"";position:absolute;right:-140px;bottom:-140px;width:420p
 .tonight-rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(210px,72vw);gap:14px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding-bottom:6px;scrollbar-width:none}
 .tonight-rail::-webkit-scrollbar{display:none}
 .tonight-card{scroll-snap-align:start;display:flex;flex-direction:column;overflow:hidden;border-radius:22px;border:1px solid rgba(0,0,0,.07);background:#fff;transition:box-shadow .3s ease,transform .3s ease,border-color .3s ease}
-.tonight-card:hover{border-color:rgba(212,175,55,.6);box-shadow:0 16px 36px -12px rgba(212,175,55,.25);transform:translateY(-3px)}
+.tonight-card:hover{border-color:rgba(20,20,20,.35);box-shadow:0 16px 36px -12px rgba(0,0,0,.15);transform:translateY(-3px)}
 .tonight-media{position:relative;aspect-ratio:4/3;overflow:hidden;background:#F5F5F2}
 .tonight-club{position:absolute;left:10px;bottom:10px;max-width:calc(100% - 20px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-radius:999px;background:rgba(0,0,0,.62);padding:4px 11px;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff;backdrop-filter:blur(4px)}
 .tonight-body{display:flex;flex:1;flex-direction:column;gap:5px;padding:13px 14px 14px}

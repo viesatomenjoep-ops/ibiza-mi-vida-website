@@ -126,7 +126,7 @@ export function HomeTikTok({ locale = 'nl' }: { locale?: string }) {
       <Reveal className="mx-auto max-w-7xl px-4">
         <div className="flex flex-col items-center text-center">
           <SocialBrandMark />
-          <span className="mt-4 text-[11px] font-bold uppercase tracking-[0.28em] text-gold">
+          <span className="mt-4 text-[11px] font-bold uppercase tracking-[0.28em] text-neutral-900">
             {t(KICKER, locale)}
           </span>
           <h2 className="mt-3 font-serif text-[1.625rem] font-black tracking-tight text-neutral-900 md:text-4xl">
@@ -139,7 +139,7 @@ export function HomeTikTok({ locale = 'nl' }: { locale?: string }) {
             href={TIKTOK_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-8 py-3.5 font-serif text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-gold hover:text-neutral-900"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-8 py-3.5 font-serif text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-neutral-700 hover:text-white"
           >
             {/* Het merkteken van TikTok zit niet in lucide-react, dus als pad.
                 Decoratief: de tekst ernaast zegt al waar je heen gaat. */}
@@ -152,7 +152,7 @@ export function HomeTikTok({ locale = 'nl' }: { locale?: string }) {
             href={TIKTOK_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 text-sm font-semibold text-neutral-600 hover:text-gold"
+            className="mt-3 text-sm font-semibold text-neutral-600 hover:text-black"
           >
             @{HANDLE}
           </a>

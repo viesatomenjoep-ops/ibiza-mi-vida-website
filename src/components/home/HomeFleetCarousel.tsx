@@ -87,7 +87,7 @@ export function HomeFleetCarousel({ locale = 'nl' }: { locale?: string }) {
             mensen voor komen. Kicker in goud zoals HomeTonight, niet in groen:
             groen is op deze site de kleur van acties, niet van labels. */}
         <div className="mx-auto max-w-7xl px-4 md:px-8">
-          <span className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.24em] text-gold">
+          <span className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.24em] text-neutral-900">
             <Anchor size={13} /> {KICKER[locale] || KICKER.en}
           </span>
           <div className="mb-4 mt-2 flex flex-wrap items-center gap-4">
