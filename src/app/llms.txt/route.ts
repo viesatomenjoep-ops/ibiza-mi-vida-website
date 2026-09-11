@@ -38,6 +38,7 @@ export async function GET() {
 
 Site: ${SITE_URL}
 Founder: Simon (based on Ibiza, answers enquiries personally)
+Full documentation: ${SITE_URL}/llms-full.txt
 Languages: Dutch, English, German, Spanish, French (paths are locale-prefixed, e.g. ${SITE_URL}/en/calendar)
 Contact: WhatsApp +33 6 66 52 84 12
 Service area: Ibiza and Formentera, Balearic Islands, Spain

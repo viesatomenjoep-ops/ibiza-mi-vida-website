@@ -1,12 +1,12 @@
 # AI visibility report
 
-Generated 2026-08-31 by `scripts/ai-visibility/report.mjs` from `scripts/ai-visibility/results.csv`.
+Generated 2026-09-10 by `scripts/ai-visibility/report.mjs` from `scripts/ai-visibility/results.csv`.
 **Do not edit the tables by hand** — regenerate with `npm run ai-report`. The
 measurement discipline at the foot of this file is prose and is safe to edit.
 
 ## No measurements yet
 
-`results.csv` contains only its header, so there is nothing to report. There are **20 active queries** waiting to be run — see the method below.
+`results.csv` contains only its header, so there is nothing to report. There are **36 active queries** waiting to be run — see the method below.
 
 The first week of data is not a baseline. Three or four weeks are, because
 single-session mention rates swing far too much to read anything into one run.

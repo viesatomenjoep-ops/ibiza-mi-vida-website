@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter, Outfit } from 'next/font/google'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
@@ -21,6 +21,13 @@ const outfit = Outfit({
   weight: ['400', '500', '600', '700', '800', '900'],
   display: 'swap',
 })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#FFFFFF',
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

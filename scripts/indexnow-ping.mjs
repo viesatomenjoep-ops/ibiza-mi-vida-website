@@ -39,7 +39,7 @@ const HOST = 'www.ibizamivida.com'
 const SITE = `https://${HOST}`
 const LOCALES = ['nl', 'en', 'de', 'es', 'fr']
 
-/** The pages worth pushing on a routine sync. */
+/** The pages shared identically across all five locales. */
 const KEY_PATHS = [
   '',
   '/calendar',
@@ -47,14 +47,30 @@ const KEY_PATHS = [
   '/artists',
   '/boats',
   '/boat-party',
+  '/boat-trip',
   '/ferry-formentera',
   '/private-boat-charters',
   '/beach-clubs',
   '/package-deals',
   '/guestlist',
-  '/ibiza-airport-transfer',
   '/water-sports',
-  '/boat-trip',
+  '/tours',
+  '/tips',
+  '/ibiza-prices',
+  '/this-week',
+  '/ibiza-season',
+]
+
+/** Key commercial keyword pillars with localized slugs per language. */
+const LOCALIZED_KEY_PATHS = [
+  { en: 'boat-hire-ibiza-no-licence', nl: 'boot-huren-ibiza-zonder-vaarbewijs', de: 'boot-mieten-ibiza-ohne-fuehrerschein', fr: 'location-bateau-ibiza-sans-permis', es: 'alquiler-barco-ibiza-sin-titulacion' },
+  { en: 'boat-rental-with-skipper-ibiza', nl: 'boot-huren-ibiza-met-schipper', de: 'boot-mieten-ibiza-mit-skipper', fr: 'location-bateau-ibiza-avec-skipper', es: 'alquiler-barco-ibiza-con-patron' },
+  { en: 'jet-ski-rental-ibiza', nl: 'jetski-huren-ibiza', de: 'jetski-mieten-ibiza', fr: 'location-jet-ski-ibiza', es: 'alquiler-motos-agua-ibiza' },
+  { en: 'car-rental-ibiza', nl: 'auto-huren-ibiza', de: 'mietwagen-ibiza', fr: 'location-voiture-ibiza', es: 'alquiler-coches-ibiza' },
+  { en: 'car-rental-ibiza-airport', nl: 'auto-huren-ibiza-luchthaven', de: 'mietwagen-ibiza-flughafen', fr: 'location-voiture-ibiza-aeroport', es: 'alquiler-coches-aeropuerto-ibiza' },
+  { en: 'convertible-car-rental-ibiza', nl: 'cabrio-huren-ibiza', de: 'cabrio-mieten-ibiza', fr: 'location-cabriolet-ibiza', es: 'alquiler-descapotable-ibiza' },
+  { en: 'ibiza-club-tickets', nl: 'ibiza-clubtickets', de: 'ibiza-club-tickets-kaufen', fr: 'billets-clubs-ibiza', es: 'entradas-discotecas-ibiza' },
+  { en: 'ibiza-nightlife', nl: 'ibiza-uitgaan', de: 'ibiza-nachtleben', fr: 'vie-nocturne-ibiza', es: 'vida-nocturna-ibiza' },
 ]
 
 
@@ -139,7 +155,10 @@ async function collectUrls() {
   if (hasFlag('sitemap')) return { urls: await fromSitemap(), source: 'sitemap' }
 
   return {
-    urls: LOCALES.flatMap((l) => KEY_PATHS.map((p) => `${SITE}/${l}${p}`)),
+    urls: [
+      ...LOCALES.flatMap((l) => KEY_PATHS.map((p) => `${SITE}/${l}${p}`)),
+      ...LOCALES.flatMap((l) => LOCALIZED_KEY_PATHS.map((m) => `${SITE}/${l}/${m[l]}`)),
+    ],
     source: 'key pages',
   }
 }

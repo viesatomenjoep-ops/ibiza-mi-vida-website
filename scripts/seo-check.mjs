@@ -47,6 +47,7 @@ async function checkFiles() {
   const files = [
     { path: '/robots.txt', must: ['Sitemap:', 'User-Agent'] },
     { path: '/llms.txt', must: ['Ibiza Mi Vida'] },
+    { path: '/llms-full.txt', must: ['Ibiza Mi Vida'] },
     { path: '/sitemap.xml', must: ['<urlset', '<loc>'] },
   ]
   let failed = 0
