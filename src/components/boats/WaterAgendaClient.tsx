@@ -12,6 +12,7 @@ import { WeekDockBar } from '@/components/ui/WeekDockBar';
 import { ScrollCue } from '@/components/ui/ScrollCue';
 import { optImg } from '@/lib/img';
 import { ctLink } from '@/lib/ct-link';
+import { withDate } from '@/lib/event-date-param';
 import { scrollSectionIntoView } from '@/lib/scroll-to-section';
 
 // ── i18n labels (en, nl, de, es, fr) ──
@@ -391,7 +392,7 @@ function EventTile({ ev, locale, basePath = '' }: { ev: WaterAgendaEvent; locale
   // Prefer our own intermediate detail page; fall back to ClubTickets only if we
   // can't build an internal route.
   const internal = basePath && ev.venueSlug && ev.eventSlug
-    ? `/${locale}/${basePath}/${ev.venueSlug}/${ev.eventSlug}`
+    ? withDate(`/${locale}/${basePath}/${ev.venueSlug}/${ev.eventSlug}`, ev.date)
     : '';
   const link = internal || ctLink(ev.affLink, locale, 'agenda', ev.eventName || ev.name) || `/${locale}`;
   const isExternal = link.startsWith('http');

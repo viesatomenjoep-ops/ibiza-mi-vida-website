@@ -7,6 +7,7 @@ import { format } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
 import { getArtist, getArtistDates, getVenues, getArtistsWithUpcomingDates } from '@/lib/clubtickets'
 import { eventBasePath } from '@/lib/event-path'
+import { withDate } from '@/lib/event-date-param'
 import { ibizaTonight } from '@/lib/date-label'
 import { BackButton } from '@/components/ui/BackButton'
 import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
@@ -407,7 +408,10 @@ export default async function ArtistPage({ params }: Props) {
             ) : (
               futureDates.map((date, i) => (
                 <Link
-                  href={`/${locale}/${date.basePath}/${date.venueSlug || 'club'}/${date.eventSlug || 'event'}`}
+                  href={withDate(
+                    `/${locale}/${date.basePath}/${date.venueSlug || 'club'}/${date.eventSlug || 'event'}`,
+                    date.date
+                  )}
                   key={i}
                   className="bg-white rounded-2xl p-4 border border-black/5 flex items-center gap-4 hover:shadow-md transition-shadow group"
                 >

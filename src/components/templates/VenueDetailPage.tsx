@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react'
 import { fmtShortDate } from '@/lib/date-label'
+import { withDate } from '@/lib/event-date-param'
 import Image from 'next/image'
 import Link from 'next/link'
 import { cleanHtml } from '@/lib/html-utils'
@@ -368,7 +369,7 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                 const eventCover = date.ct_events?.cover || date.eventCover || date.eventLogo;
                 const eventName = date.eventName || date.name;
                 return (
-                <Link href={`/${locale}/${basePath}/${club.slug}/${eventSlug}`} key={i} className="bg-white rounded-2xl p-3 md:p-4 border border-black/5 flex items-center gap-4 hover:shadow-md transition-shadow group">
+                <Link href={withDate(`/${locale}/${basePath}/${club.slug}/${eventSlug}`, date.date)} key={i} className="bg-white rounded-2xl p-3 md:p-4 border border-black/5 flex items-center gap-4 hover:shadow-md transition-shadow group">
                    <div className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-xl overflow-hidden bg-ibiza-mint relative">
                      {eventCover && <Image src={eventCover} alt={eventName || 'Event'} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />}
                    </div>
