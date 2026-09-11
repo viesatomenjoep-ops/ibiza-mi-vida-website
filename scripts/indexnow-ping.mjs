@@ -34,7 +34,7 @@
 
 import { readFileSync } from 'node:fs'
 
-const KEY = '006dbc51fcf510e41156e205c664581ba84684c08531c50da12497b933a913ae'
+const KEY = 'a09a375d5ed0f341c22a12bac3e8110d'
 const HOST = 'www.ibizamivida.com'
 const SITE = `https://${HOST}`
 const LOCALES = ['nl', 'en', 'de', 'es', 'fr']
