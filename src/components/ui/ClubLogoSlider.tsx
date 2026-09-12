@@ -291,7 +291,7 @@ export function ClubLogoSlider({
                     <StatusBadge status={live.status} count={live.count} />
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={optImg(club.whitelogo || club.picture, 128)}
+                      src={optImg(club.whitelogo || club.picture, 192)}
                       alt={club.name}
                       className={`max-h-full max-w-full object-contain drop-shadow-md pointer-events-none ${onLight ? 'brightness-0' : 'brightness-0 invert'}`}
                       loading="lazy"
