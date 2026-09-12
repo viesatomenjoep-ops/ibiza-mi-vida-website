@@ -429,7 +429,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
                             <div className="absolute bottom-3 left-3 w-12 h-12 rounded-2xl bg-white border border-white/20 p-1.5 flex items-center justify-center shadow-lg z-10">
                               <img
                                 src={logoSrc}
-                                alt=""
+                                alt={`${venueOf(ev)?.name || 'Ibiza club'} logo`}
                                 style={{ filter: KEEP_LOGO.includes(slug) ? 'none' : 'brightness(0)' }}
                                 className="object-contain max-w-full max-h-full"
                               />

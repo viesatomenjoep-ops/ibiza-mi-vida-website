@@ -125,8 +125,9 @@ export function HomeHeroVideo({ className, style }: { className?: string; style?
       // eslint-disable-next-line @next/next/no-img-element
       <img
         src={POSTERS[i]}
-        alt=""
+        alt="Ibiza mi Vida hero preview"
         aria-hidden="true"
+        role="presentation"
         className={className}
         style={{ ...style, objectPosition: POSITIONS[i], pointerEvents: 'none' }}
       />

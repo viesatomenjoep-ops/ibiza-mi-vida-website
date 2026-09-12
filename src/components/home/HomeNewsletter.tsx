@@ -94,7 +94,8 @@ export function HomeNewsletter({ locale = 'nl', rating = null }: { locale?: stri
             een externe bron die geen next/image-configuratie waard is. */}
         <img
           src="https://theyachtbroker.club/img/legendary.JPG"
-          alt=""
+          alt="Ibiza luxury yacht at sea"
+          role="presentation"
           loading="lazy"
           decoding="async"
           className="h-full w-full object-cover opacity-60"

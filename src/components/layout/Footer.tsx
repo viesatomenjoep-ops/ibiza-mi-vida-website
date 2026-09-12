@@ -152,7 +152,7 @@ export function Footer({ rating = null, clubLogos = [] }: {
       <div aria-hidden className="pointer-events-none absolute inset-0 grid select-none auto-rows-fr grid-cols-3 overflow-hidden lg:grid-cols-6">
         {tiles.map((src, i) => (
           // eslint-disable-next-line @next/next/no-img-element
-          <img key={i} src={optImg(src, 384)} alt="" loading="lazy" decoding="async"
+          <img key={i} src={optImg(src, 384)} alt="Ibiza club logo" role="presentation" loading="lazy" decoding="async"
             className="h-full w-full object-contain p-6 opacity-[0.06] invert grayscale md:p-10" />
         ))}
       </div>

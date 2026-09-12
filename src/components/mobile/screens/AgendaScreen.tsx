@@ -246,7 +246,7 @@ export function AgendaScreen({
                   className="flex w-24 shrink-0 flex-col items-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-app-accent-soft rounded-2xl active:scale-95 motion-reduce:active:scale-100 transition-transform motion-reduce:transition-none"
                 >
                   <span className="grid h-20 w-20 place-items-center overflow-hidden rounded-2xl border border-white/[0.07] bg-white p-2.5">
-                    <img src={optImg(v.whitelogo || v.picture, 128)} loading="lazy" decoding="async" alt="" className="max-h-full max-w-full object-contain brightness-0" />
+                    <img src={optImg(v.whitelogo || v.picture, 128)} loading="lazy" decoding="async" alt={`${v.name} logo`} className="max-h-full max-w-full object-contain brightness-0" />
                   </span>
                   <span className="w-full truncate text-center text-[11px] font-bold uppercase tracking-wide text-white/55">{v.name}</span>
                 </button>

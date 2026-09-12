@@ -85,6 +85,8 @@ interface FleetLabels {
   catAll: string;
   catYacht: string;                  // "Yachts 50–70 ft"
   catMotorboat: string;              // "Motorboats 20–30 ft"
+  catCatamaran: string;
+  catJetski: string;
   inquire: string;                   // WhatsApp button text
   waMessage: (boat: string) => string;
   bannerTitle: string;
@@ -117,7 +119,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaDate: (d) => `Preferred date: ${d}`,
     favWaOutro: 'Could you check availability and prices for these?',
     favRemove: 'Remove',
-    catAll: 'All boats', catYacht: 'Yachts 50 ft+', catMotorboat: 'Motorboats 20–50 ft',
+    catAll: 'All boats', catYacht: 'Yachts 50 ft+', catMotorboat: 'Motorboats 20–50 ft', catCatamaran: 'Catamarans', catJetski: 'Jet Skis',
     inquire: 'Book this boat now',
     waMessage: (boat) => `Hi Ibiza mi Vida! I would like to book the private boat ${boat}. Could you confirm availability and the price?`,
     bannerTitle: 'Not sure which yacht fits you?',
@@ -148,7 +150,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaDate: (d) => `Voorkeursdatum: ${d}`,
     favWaOutro: 'Kunnen jullie hiervoor beschikbaarheid en prijzen checken?',
     favRemove: 'Verwijder',
-    catAll: 'Alle boten', catYacht: 'Jachten 50 ft+', catMotorboat: 'Motorboten 20–50 ft',
+    catAll: 'Alle boten', catYacht: 'Jachten 50 ft+', catMotorboat: 'Motorboten 20–50 ft', catCatamaran: 'Catamarans', catJetski: 'Jetski\'s',
     inquire: 'Boek deze boot direct',
     waMessage: (boat) => `Hoi Ibiza mi Vida! Ik wil de private boot ${boat} graag boeken. Kunnen jullie de beschikbaarheid en de prijs bevestigen?`,
     bannerTitle: 'Niet zeker welk jacht bij je past?',
@@ -179,7 +181,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaDate: (d) => `Wunschdatum: ${d}`,
     favWaOutro: 'Könnt ihr dafür Verfügbarkeit und Preise prüfen?',
     favRemove: 'Entfernen',
-    catAll: 'Alle Boote', catYacht: 'Yachten 50 ft+', catMotorboat: 'Motorboote 20–50 ft',
+    catAll: 'Alle Boote', catYacht: 'Yachten 50 ft+', catMotorboat: 'Motorboote 20–50 ft', catCatamaran: 'Katamarane', catJetski: 'Jetskis',
     inquire: 'Dieses Boot direkt buchen',
     waMessage: (boat) => `Hallo Ibiza mi Vida! Ich möchte das Privatboot ${boat} buchen. Können Sie Verfügbarkeit und Preis bestätigen?`,
     bannerTitle: 'Nicht sicher, welche Yacht zu Ihnen passt?',
@@ -210,7 +212,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaDate: (d) => `Fecha preferida: ${d}`,
     favWaOutro: '¿Podéis comprobar disponibilidad y precios?',
     favRemove: 'Quitar',
-    catAll: 'Todos los barcos', catYacht: 'Yates 50 ft+', catMotorboat: 'Lanchas 20–50 ft',
+    catAll: 'Todos los barcos', catYacht: 'Yates 50 ft+', catMotorboat: 'Lanchas 20–50 ft', catCatamaran: 'Catamaranes', catJetski: 'Motos de agua',
     inquire: 'Reserva este barco ya',
     waMessage: (boat) => `¡Hola Ibiza mi Vida! Quiero reservar el barco privado ${boat}. ¿Podéis confirmar la disponibilidad y el precio?`,
     bannerTitle: '¿No sabes qué yate elegir?',
@@ -241,7 +243,7 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     favWaDate: (d) => `Date souhaitée : ${d}`,
     favWaOutro: 'Pouvez-vous vérifier la disponibilité et les prix ?',
     favRemove: 'Retirer',
-    catAll: 'Tous les bateaux', catYacht: 'Yachts 50 ft+', catMotorboat: 'Bateaux à moteur 20–50 ft',
+    catAll: 'Tous les bateaux', catYacht: 'Yachts 50 ft+', catMotorboat: 'Bateaux à moteur 20–50 ft', catCatamaran: 'Catamarans', catJetski: 'Jet-skis',
     inquire: 'Réservez ce bateau',
     waMessage: (boat) => `Bonjour Ibiza mi Vida ! Je souhaite réserver le bateau privé ${boat}. Pouvez-vous confirmer la disponibilité et le tarif ?`,
     bannerTitle: 'Vous ne savez pas quel yacht choisir ?',
@@ -262,7 +264,9 @@ function boatLabel(boat: Boat) {
 function waLink(boat: Boat, T: FleetLabels, date?: string | null) {
   // De gekozen datum gaat mee. Zonder datum is een "boek deze boot"-bericht
   // alsnog een vraag om informatie, en moet Simon eerst terugvragen wanneer.
-  const tekst = T.waMessage(boatLabel(boat)) + (date ? `\n${T.favWaDate(date)}` : '');
+  const specs = [boat.length ? `${boat.length}m` : null, boat.marina || null, `${boat.pax} pax`].filter(Boolean).join(' · ');
+  const details = specs ? ` (${specs})` : '';
+  const tekst = T.waMessage(boatLabel(boat) + details) + (date ? `\n${T.favWaDate(date)}` : '');
   return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(tekst)}`;
 }
 
@@ -331,13 +335,23 @@ function BoatCard({ boat, T, locale, live, date, season }: {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
         {/* Spec badges */}
-        <div className="absolute top-3 left-3 flex gap-1.5">
+        <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
           <span className="inline-flex items-center gap-1 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm ring-1 ring-white/15">
             <Users size={12} className="text-ibiza-green" /> {boat.pax}
           </span>
           {boat.length != null && (
             <span className="inline-flex items-center gap-1 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm ring-1 ring-white/15">
               <Ruler size={12} className="text-ibiza-green" /> {boat.length}M
+            </span>
+          )}
+          {boat.category === 'catamaran' && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-blue-600/80 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm ring-1 ring-white/15">
+              {T.catCatamaran}
+            </span>
+          )}
+          {boat.category === 'jetski' && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-amber-600/80 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm ring-1 ring-white/15">
+              {T.catJetski}
             </span>
           )}
         </div>
@@ -589,6 +603,8 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
             <FilterTab active={category === 'all'} onClick={() => setCategory('all')}>{T.catAll}</FilterTab>
             <FilterTab active={category === 'yacht'} onClick={() => setCategory('yacht')}>{T.catYacht}</FilterTab>
             <FilterTab active={category === 'motorboat'} onClick={() => setCategory('motorboat')}>{T.catMotorboat}</FilterTab>
+            <FilterTab active={category === 'catamaran'} onClick={() => setCategory('catamaran')}>{T.catCatamaran}</FilterTab>
+            <FilterTab active={category === 'jetski'} onClick={() => setCategory('jetski')}>{T.catJetski}</FilterTab>
           </div>
         </div>
       </section>

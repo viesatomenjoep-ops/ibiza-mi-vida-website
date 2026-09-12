@@ -338,7 +338,7 @@ export default function ClubTicketsClient({
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-transparent border border-black/10 rounded-xl flex items-center justify-center p-1.5 shrink-0">
                   {uniqueVenues.find(v => v.slug === filter)?.logo ? (
-                    <img src={optImg(uniqueVenues.find(v => v.slug === filter)?.logo, 120)} loading="lazy" alt="" className="object-contain max-w-full max-h-full filter brightness-0" />
+                    <img src={optImg(uniqueVenues.find(v => v.slug === filter)?.logo, 120)} loading="lazy" alt={`${uniqueVenues.find(v => v.slug === filter)?.name || 'Club'} logo`} className="object-contain max-w-full max-h-full filter brightness-0" />
                   ) : (
                     <Music className="text-ibiza-green" size={24} />
                   )}
@@ -431,7 +431,7 @@ export default function ClubTicketsClient({
                       <div className="absolute bottom-3 left-3 w-12 h-12 rounded-2xl bg-white border border-white/20 p-1.5 flex items-center justify-center shadow-lg z-10">
                         <img
                           src={cardLogo}
-                          alt=""
+                          alt={`${event.venueName || 'Club'} logo`}
                           style={{ filter: 'brightness(0)' }}
                           className="object-contain max-w-full max-h-full"
                         />

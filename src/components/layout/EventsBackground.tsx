@@ -45,10 +45,10 @@ export function EventsBackground() {
           >
             {[1,2,3,4,5,6].map((i) => (
               <React.Fragment key={`${colIndex}-${i}`}>
-                <img src="/logos/amnesia.png" alt="" className="w-full object-contain filter invert" />
-                <img src="/logos/pacha.png" alt="" className="w-full object-contain filter invert" />
-                <img src="/logos/hi.png" alt="" className="w-full object-contain filter invert" />
-                <img src="/logos/ushuaia.png" alt="" className="w-full object-contain filter invert" />
+                <img src="/logos/amnesia.png" alt="Amnesia Ibiza" aria-hidden="true" role="presentation" className="w-full object-contain filter invert" />
+                <img src="/logos/pacha.png" alt="Pacha Ibiza" aria-hidden="true" role="presentation" className="w-full object-contain filter invert" />
+                <img src="/logos/hi.png" alt="Hï Ibiza" aria-hidden="true" role="presentation" className="w-full object-contain filter invert" />
+                <img src="/logos/ushuaia.png" alt="Ushuaïa Ibiza" aria-hidden="true" role="presentation" className="w-full object-contain filter invert" />
               </React.Fragment>
             ))}
           </div>

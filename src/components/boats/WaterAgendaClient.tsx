@@ -494,7 +494,7 @@ function MonthGrid({
                   return (
                     <div key={ev.id} className="flex items-center gap-1 rounded-md bg-black/[0.04] hover:bg-black/[0.08] transition-colors px-1 py-0.5 min-w-0">
                       <span className="w-3.5 h-3.5 md:w-4 md:h-4 rounded-[4px] overflow-hidden bg-white shrink-0 hidden md:flex items-center justify-center border border-black/5">
-                        {img ? <img src={optImg(img, 60)} loading="lazy" alt="" className="w-full h-full object-cover" /> : <Ticket size={9} className="text-black/60" />}
+                        {img ? <img src={optImg(img, 60)} loading="lazy" alt={`${ev.eventName || ev.venueName || 'Ibiza'} event`} className="w-full h-full object-cover" /> : <Ticket size={9} className="text-black/60" />}
                       </span>
                       <span className="text-[8px] md:text-[10px] font-bold text-black/70 truncate leading-tight">{ev.venueName || ev.eventName || '—'}</span>
                     </div>

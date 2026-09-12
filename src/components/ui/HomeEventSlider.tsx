@@ -192,7 +192,7 @@ export function HomeEventSlider({
                     </span>
                   )}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  {e.clubLogo ? <img src={optImg(e.clubLogo, 100)} alt="" className={`pointer-events-none max-h-9 max-w-full object-contain ${onLight ? 'brightness-0' : 'brightness-0 invert'}`} loading="lazy" decoding="async" /> : <span className={`text-[15px] font-black ${onLight ? 'text-black' : 'text-white'}`}>{e.clubName.slice(0, 3).toUpperCase()}</span>}
+                  {e.clubLogo ? <img src={optImg(e.clubLogo, 100)} alt={`${e.clubName} logo`} className={`pointer-events-none max-h-9 max-w-full object-contain ${onLight ? 'brightness-0' : 'brightness-0 invert'}`} loading="lazy" decoding="async" /> : <span className={`text-[15px] font-black ${onLight ? 'text-black' : 'text-white'}`}>{e.clubName.slice(0, 3).toUpperCase()}</span>}
                 </span>
                 <span className={`whitespace-nowrap text-xl font-bold ${onLight ? 'text-black' : 'text-white drop-shadow'}`}>{e.eventName}</span>
               </Link>

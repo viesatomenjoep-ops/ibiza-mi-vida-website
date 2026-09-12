@@ -182,7 +182,7 @@ export function GlobalSearch({ locale = 'nl' }: { locale?: string }) {
                       <span className="nav-search-thumb">
                         {r.image ? (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img src={r.image} alt="" loading="lazy" decoding="async" />
+                          <img src={r.image} alt={r.title || 'Ibiza search result'} loading="lazy" decoding="async" />
                         ) : null}
                       </span>
                       <span className="min-w-0 flex-1 text-left">

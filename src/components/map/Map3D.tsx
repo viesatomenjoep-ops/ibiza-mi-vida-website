@@ -179,7 +179,7 @@ export function Map3D({
             'display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:rgba(11,12,16,.92);border:1.5px solid rgba(255,255,255,.55);cursor:pointer;box-shadow:0 10px 26px -8px rgba(0,0,0,.6);overflow:hidden;transition:transform .2s;'
           const media = place.logo || place.img
           el.innerHTML = media
-            ? `<img src="${media}" alt="" style="max-width:74%;max-height:64%;object-fit:contain;${place.photo ? 'width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;' : 'filter:brightness(0) invert(1);'}">`
+            ? `<img src="${media}" alt="${place.name}" style="max-width:74%;max-height:64%;object-fit:contain;${place.photo ? 'width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;' : 'filter:brightness(0) invert(1);'}">`
             : `<span style="color:#EFEDEA;font-weight:800;font-size:10px;">${(place.ini || place.name.slice(0, 2)).toUpperCase()}</span>`
           el.addEventListener('mouseenter', () => { el.style.transform = 'scale(1.12)' })
           el.addEventListener('mouseleave', () => { el.style.transform = 'scale(1)' })

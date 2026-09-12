@@ -286,7 +286,7 @@ export default function BoatsHub({ locale, covers, heroImage }: BoatsHubProps) {
             blijft halen. priority: dit is de LCP-afbeelding van de pagina. */}
         <Image
           src={heroImage}
-          alt=""
+          alt={T.h1 || "Private Boat Charter Ibiza"}
           fill
           priority
           sizes="100vw"

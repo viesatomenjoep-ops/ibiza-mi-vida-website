@@ -69,7 +69,7 @@ export function MapScreen({ venues, t, locale, openVenue }: ScreenProps) {
             >
               <span className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-xl bg-white p-1.5">
                 {img ? (
-                  <img src={optImg(img, 96)} loading="lazy" decoding="async" alt="" className="max-h-full max-w-full object-contain brightness-0" />
+                  <img src={optImg(img, 96)} loading="lazy" decoding="async" alt={`${v.name} logo`} className="max-h-full max-w-full object-contain brightness-0" />
                 ) : (
                   <span className="font-display text-base font-black text-obsidian">{v.name.slice(0, 2)}</span>
                 )}

@@ -29,7 +29,7 @@ function YachtTile({ pool, delay, seed }: { pool: string[]; delay: number; seed:
       onClick={() => setIdx(i => randOther(pool.length, i))}
     >
       {/* key forces a remount so the fade-in animation replays on every change */}
-      <img key={idx} src={pool[idx]} alt="" loading="lazy" />
+      <img key={idx} src={pool[idx]} alt="Ibiza luxury yacht charter" loading="lazy" />
     </div>
   )
 }

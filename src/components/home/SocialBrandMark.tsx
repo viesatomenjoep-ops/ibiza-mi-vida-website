@@ -26,7 +26,7 @@ export function SocialBrandMark({ size = 88 }: { size?: number }) {
     >
       <Image
         src="/logo-clean.png"
-        alt=""
+        alt="Ibiza mi Vida logo"
         // 0.72 en niet 0.62, en op volle dekking: dit is een dun lijnmerk,
         // geen vlak logo. Op 40px in een cirkel van 64 viel het visueel weg
         // naast de forse avatars die mensen van Instagram en TikTok gewend

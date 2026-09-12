@@ -429,7 +429,7 @@ export function HomeZoneRail({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={optImg(c.image, 720)}
-                alt=""
+                alt={c.venue ? `${c.title} - ${c.venue}` : (c.title || 'Ibiza event')}
                 draggable={false}
                 loading={i === 0 ? 'eager' : 'lazy'}
                 decoding="async"

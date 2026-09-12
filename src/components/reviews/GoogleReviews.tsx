@@ -73,7 +73,7 @@ function ReviewCard({ review, l }: { review: GoogleReview; l: Locale }) {
             // eslint-disable-next-line @next/next/no-img-element -- Google's CDN host, not worth a remotePatterns entry
             <img
               src={review.profilePhoto}
-              alt=""
+              alt={`${review.author} review`}
               width={40}
               height={40}
               loading="lazy"

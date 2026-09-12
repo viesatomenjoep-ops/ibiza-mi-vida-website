@@ -254,8 +254,7 @@ export default async function ThisWeekPage({ params }: { params: { locale: strin
                           <span className="inline-flex h-6 shrink-0 items-center rounded-md bg-obsidian px-2">
                             <img
                               src={optImg(club.whiteLogo, 208)}
-                              alt=""
-                              aria-hidden
+                              alt={`${club.name} logo`}
                               loading="lazy"
                               decoding="async"
                               className="h-3 w-auto max-w-[84px] object-contain"
@@ -284,8 +283,7 @@ export default async function ThisWeekPage({ params }: { params: { locale: strin
                                     src={optImg(n.image, 384)}
                                     srcSet={`${optImg(n.image, 208)} 208w, ${optImg(n.image, 384)} 384w`}
                                     sizes="(max-width: 640px) 104px, 152px"
-                                    alt=""
-                                    aria-hidden
+                                    alt={n.eventName ? `${n.eventName} at ${club.name}` : club.name}
                                     loading="lazy"
                                     decoding="async"
                                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06] motion-reduce:transition-none motion-reduce:group-hover:scale-100"

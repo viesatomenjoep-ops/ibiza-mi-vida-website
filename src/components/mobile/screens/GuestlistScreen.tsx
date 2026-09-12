@@ -48,14 +48,14 @@ export function GuestlistScreen({ venues, t, openVenue }: ScreenProps) {
                     <img
                       src={optImg(photo, 640)}
                       loading="lazy"
-                      alt=""
+                      alt={`${v.name} Ibiza`}
                       className="h-full w-full object-cover transition-transform duration-500 motion-reduce:transition-none group-hover:scale-[1.03]"
                     />
                   ) : logo ? (
                     <img
                       src={optImg(logo, 640)}
                       loading="lazy"
-                      alt=""
+                      alt={`${v.name} logo`}
                       className="h-full w-full object-contain p-8 brightness-0 transition-transform duration-500 motion-reduce:transition-none group-hover:scale-[1.03]"
                     />
                   ) : (

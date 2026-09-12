@@ -54,7 +54,7 @@ export function AppHeader({ t, locale, onOpenPlanner }: { t: AppLabels; locale: 
       style={{ paddingTop: 'calc(env(safe-area-inset-top) + 10px)' }}
     >
       <span className="flex min-w-0 items-center gap-2">
-        <img src="/logo-white.png" alt="" className="h-6 w-6 shrink-0 object-contain opacity-90" />
+        <img src="/logo-white.png" alt="Ibiza mi Vida" className="h-6 w-6 shrink-0 object-contain opacity-90" />
         <span className="truncate font-display text-[13px] font-black uppercase tracking-[0.14em] text-white">
           {t.brandName}
         </span>

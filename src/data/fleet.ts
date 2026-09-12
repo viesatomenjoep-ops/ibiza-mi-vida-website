@@ -28,7 +28,7 @@
 
 import { cloudinaryFetchRemote } from '@/lib/cloudinary';
 
-export type FleetCategory = 'yacht' | 'motorboat';
+export type FleetCategory = 'yacht' | 'motorboat' | 'catamaran' | 'jetski' | 'boat';
 
 export interface FleetPrice {
   low: number;                 // laagseizoensband (rest van het jaar)

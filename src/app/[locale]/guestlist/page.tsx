@@ -585,7 +585,7 @@ export default async function GuestlistPage({ params }: { params: { locale: stri
                 {club.cover || club.picture ? (
                   <Image
                     src={club.cover || club.picture}
-                    alt=""
+                    alt={`${club.name} Ibiza VIP guestlist`}
                     fill
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     className="object-cover opacity-30 transition-opacity group-hover:opacity-45"

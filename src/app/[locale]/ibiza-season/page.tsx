@@ -398,8 +398,9 @@ export default async function IbizaSeasonPage({ params }: { params: { locale: st
                         <span className="relative hidden h-5 w-14 shrink-0 items-center justify-start sm:inline-flex">
                           <img
                             src={v.logo}
-                            alt=""
+                            alt={`${v.name} logo`}
                             aria-hidden
+                            role="presentation"
                             className="max-h-full max-w-full object-contain object-left opacity-75 brightness-0"
                             loading="lazy"
                             decoding="async"

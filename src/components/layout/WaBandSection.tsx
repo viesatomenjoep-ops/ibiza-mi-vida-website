@@ -63,7 +63,9 @@ export default function WaBandSection({
                       <div key={`${v.slug}-${idx}`} className="lift-item">
                         <img
                           src={v.whitelogo || v.picture || ''}
-                          alt=""
+                          alt={`${v.name || 'Ibiza venue'} logo`}
+                          aria-hidden="true"
+                          role="presentation"
                           className="wa-lift-logo"
                           loading="lazy"
                           decoding="async"

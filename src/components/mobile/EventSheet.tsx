@@ -34,7 +34,7 @@ export function EventSheet({
               transparency; an opaque jpg would render as a solid black block. */}
           {venueLogo && /\.png(\?|$)/i.test(venueLogo) && (
             <span className="absolute bottom-3 left-3 grid h-12 w-12 place-items-center overflow-hidden rounded-xl bg-white/95 p-1.5 shadow-lg">
-              <img src={optImg(venueLogo, 96)} alt="" decoding="async" className="max-h-full max-w-full object-contain brightness-0" />
+              <img src={optImg(venueLogo, 96)} alt={`${e.venueName || 'Venue'} logo`} decoding="async" className="max-h-full max-w-full object-contain brightness-0" />
             </span>
           )}
         </div>

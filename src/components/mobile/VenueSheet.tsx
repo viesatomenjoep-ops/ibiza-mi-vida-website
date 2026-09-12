@@ -28,7 +28,7 @@ export function VenueSheet({
       <div className="flex items-center gap-4">
         <span className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-2xl bg-white p-2 shadow-lg">
           {img ? (
-            <img src={optImg(img, 128)} alt="" className="max-h-full max-w-full object-contain brightness-0" />
+            <img src={optImg(img, 128)} alt={`${v.name} logo`} className="max-h-full max-w-full object-contain brightness-0" />
           ) : (
             <span className="font-display text-xl font-black text-obsidian">{v.name.slice(0, 2)}</span>
           )}

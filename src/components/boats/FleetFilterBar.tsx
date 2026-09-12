@@ -21,7 +21,7 @@ export type SortKey = 'default' | 'price-asc' | 'price-desc'
  * `category` staat wel bij alle 94 boten in de brongegevens en zegt precies
  * hetzelfde in gewone woorden: 33 jachten, 61 motorboten.
  */
-export type BoatSoort = 'all' | 'yacht' | 'motorboat'
+export type BoatSoort = 'all' | 'yacht' | 'motorboat' | 'catamaran' | 'jetski' | 'boat'
 
 type L5 = Record<string, string>
 const T = (nl: string, en: string, de: string, es: string, fr: string): L5 => ({ nl, en, de, es, fr })
@@ -47,6 +47,9 @@ const L = {
   alleSoorten: T('Alle boten', 'All boats', 'Alle Boote', 'Todos los barcos', 'Tous les bateaux'),
   jacht: T('Jacht', 'Yacht', 'Yacht', 'Yate', 'Yacht'),
   motorboot: T('Motorboot', 'Motorboat', 'Motorboot', 'Lancha', 'Bateau à moteur'),
+  catamaran: T('Catamaran', 'Catamaran', 'Katamaran', 'Catamarán', 'Catamaran'),
+  jetski: T('Jetski', 'Jet Ski', 'Jetski', 'Moto de agua', 'Jet ski'),
+  boot: T('Boot', 'Boat', 'Boot', 'Barco', 'Bateau'),
   sort: T('Sorteer', 'Sort', 'Sortieren', 'Ordenar', 'Trier'),
   sortDefault: T('Onze selectie', 'Our selection', 'Unsere Auswahl', 'Nuestra selección', 'Notre sélection'),
   sortAsc: T('Prijs: laag → hoog', 'Price: low → high', 'Preis: niedrig → hoch', 'Precio: bajo → alto', 'Prix : bas → haut'),
@@ -204,7 +207,7 @@ export function FleetFilterBar({
           {segment('marina', <MapPin size={17} />, t(L.depart, locale),
             marina === 'all' ? t(L.allMarinas, locale) : marina, marina !== 'all')}
           {segment('soort', <Ship size={17} />, t(L.soort, locale),
-            soort === 'yacht' ? t(L.jacht, locale) : soort === 'motorboat' ? t(L.motorboot, locale) : t(L.alleSoorten, locale),
+            soort === 'yacht' ? t(L.jacht, locale) : soort === 'motorboat' ? t(L.motorboot, locale) : soort === 'catamaran' ? t(L.catamaran, locale) : soort === 'jetski' ? t(L.jetski, locale) : soort === 'boat' ? t(L.boot, locale) : t(L.alleSoorten, locale),
             soort !== 'all')}
           {segment('sort', <ArrowUpDown size={17} />, t(L.sort, locale),
             sort === 'price-asc' ? t(L.sortAsc, locale) : sort === 'price-desc' ? t(L.sortDesc, locale) : t(L.sortDefault, locale),
@@ -260,7 +263,7 @@ export function FleetFilterBar({
           {pil('marina', <MapPin size={15} />, t(L.depart, locale),
             marina === 'all' ? t(L.allMarinas, locale) : marina, marina !== 'all')}
           {pil('soort', <Ship size={15} />, t(L.soort, locale),
-            soort === 'yacht' ? t(L.jacht, locale) : soort === 'motorboat' ? t(L.motorboot, locale) : t(L.alleSoorten, locale),
+            soort === 'yacht' ? t(L.jacht, locale) : soort === 'motorboat' ? t(L.motorboot, locale) : soort === 'catamaran' ? t(L.catamaran, locale) : soort === 'jetski' ? t(L.jetski, locale) : soort === 'boat' ? t(L.boot, locale) : t(L.alleSoorten, locale),
             soort !== 'all')}
           {pil('sort', <ArrowUpDown size={15} />, t(L.sort, locale),
             sort === 'price-asc' ? t(L.sortAsc, locale) : sort === 'price-desc' ? t(L.sortDesc, locale) : t(L.sortDefault, locale),
@@ -393,7 +396,7 @@ export function FleetFilterBar({
 
             {open === 'soort' && (
               <div className="flex flex-col gap-1">
-                {([['all', L.alleSoorten], ['yacht', L.jacht], ['motorboat', L.motorboot]] as [BoatSoort, L5][]).map(([k, lab]) => (
+                {([['all', L.alleSoorten], ['yacht', L.jacht], ['motorboat', L.motorboot], ['catamaran', L.catamaran], ['jetski', L.jetski], ['boat', L.boot]] as [BoatSoort, L5][]).map(([k, lab]) => (
                   <button key={k} type="button" onClick={() => { setSoort(k); sluit() }} className={keuze(soort === k)}>
                     {t(lab, locale)}
                     {soort === k && <Check size={14} />}

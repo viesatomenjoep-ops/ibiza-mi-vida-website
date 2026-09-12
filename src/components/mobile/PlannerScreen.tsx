@@ -54,7 +54,7 @@ export function PlannerScreen({
         >
           <ArrowLeftCircle size={18} />
         </button>
-        <img src="/logo-white.png" alt="" className="h-5 w-5 shrink-0 object-contain opacity-90" />
+        <img src="/logo-white.png" alt="Ibiza mi Vida" className="h-5 w-5 shrink-0 object-contain opacity-90" />
         <h1 className="truncate font-display text-[15px] font-black uppercase tracking-wide text-white">{t.plannerTitle}</h1>
       </div>
 
