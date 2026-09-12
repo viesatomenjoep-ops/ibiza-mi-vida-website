@@ -10,13 +10,38 @@ name: SEO checks
 # Concurrency cancels superseded runs on the same PR, so a branch that gets
 # three pushes in five minutes does not queue three builds.
 
+# Triggers, and why each one is here:
+#
+#  - pull_request: block a merge that breaks the markup. The original reason
+#    this suite exists.
+#  - push to master: commits land on master directly here, both from people and
+#    from the nightly data job. Without this trigger the suite never sees the
+#    main line at all — it only ever judged branches that happened to go
+#    through a PR.
+#  - schedule: the pages are built from data that changes underneath them.
+#    price-snapshot.yml rewrites the agenda and prices every morning and pushes
+#    straight to master, and the dynamic routes read partner APIs at request
+#    time. An Offer that loses its price or an AggregateRating that drops to
+#    zero reviews is a data failure, not a code failure, so no push has to
+#    happen for it to appear. 06:40 UTC is after that job finishes (it starts
+#    at 05:20 and waits four minutes on IndexNow) and after live-health at
+#    06:00, so the three do not compete for a runner.
+
 on:
   pull_request:
+  push:
+    branches: [master]
+  schedule:
+    - cron: '40 6 * * *'
   workflow_dispatch:
 
 concurrency:
-  group: seo-check-${{ github.ref }}
-  cancel-in-progress: true
+  group: seo-check-${{ github.ref }}-${{ github.event_name }}
+  # Only a PR wants its older run cancelled: three pushes in five minutes there
+  # should not queue three builds. A scheduled run has no successor to defer
+  # to, and cancelling it would mean the nightly data check silently does not
+  # happen on the days someone pushes at the wrong moment.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   seo:
@@ -30,9 +55,12 @@ jobs:
       # wrong to the check.
       NEXT_PUBLIC_SITE_URL: https://www.ibizamivida.com
       CHECK_BASE_URL: http://localhost:3000
-      # Keep the run quick: one URL per template per locale. Set CHECK_ALL=1
-      # manually via workflow_dispatch to sweep the whole sitemap.
-      CHECK_SAMPLE: '2'
+      # Keep a PR quick: one URL per template per locale. The nightly run is
+      # not waiting on anyone, so it samples wider — a data-driven break shows
+      # up on one event page out of forty, and a sample of two would find it
+      # only by luck. Set CHECK_ALL=1 manually via workflow_dispatch to sweep
+      # the whole sitemap.
+      CHECK_SAMPLE: ${{ github.event_name == 'schedule' && '6' || '2' }}
 
     steps:
       - uses: actions/checkout@v4
