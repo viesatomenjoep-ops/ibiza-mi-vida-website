@@ -189,7 +189,7 @@ const PAGINAS: { pad: string; routeKey?: string; sleutels: string[]; titel: Reco
   { pad: 'calendar', sleutels: ['agenda', 'calendar', 'kalender', 'clubagenda'], titel: { nl: 'Clubagenda', en: 'Club calendar', de: 'Clubkalender', es: 'Agenda de clubs', fr: 'Agenda des clubs' } },
   { pad: 'activities-calendar', sleutels: ['activiteiten', 'activities', 'excursies', 'aktivitaten'], titel: { nl: 'Activiteitenagenda', en: 'Activities calendar', de: 'Aktivitätenkalender', es: 'Agenda de actividades', fr: 'Agenda des activités' } },
   { pad: 'this-week', sleutels: ['deze week', 'this week', 'week'], titel: { nl: 'Deze week', en: 'This week', de: 'Diese Woche', es: 'Esta semana', fr: 'Cette semaine' } },
-  { pad: 'private-boat-charters', sleutels: ['boot', 'boat', 'jacht', 'yacht', 'charter', 'boot huren'], titel: { nl: 'Privé boot charters', en: 'Private boat charters', de: 'Private Bootscharter', es: 'Alquiler de barcos privados', fr: 'Location de bateaux privés' } },
+  { pad: 'private-boat-charters', sleutels: ['boot', 'boat', 'jacht', 'yacht', 'charter', 'boot huren'], titel: { nl: 'Privéboot huren', en: 'Private boat charters', de: 'Privatboot mieten', es: 'Alquiler de barcos privados', fr: 'Location de bateaux privés' } },
   { pad: 'guestlist', sleutels: ['guestlist', 'gastenlijst', 'gratis'], titel: { nl: 'Guestlist', en: 'Guestlist', de: 'Gästeliste', es: 'Lista de invitados', fr: 'Guestlist' } },
   { pad: 'clubs', sleutels: ['clubs', 'club'], titel: { nl: 'Clubs op Ibiza', en: 'Clubs in Ibiza', de: 'Clubs auf Ibiza', es: 'Clubes en Ibiza', fr: 'Clubs à Ibiza' } },
   { pad: 'artists', sleutels: ['artiesten', 'artists', 'dj', "dj's"], titel: { nl: 'Artiesten', en: 'Artists', de: 'Künstler', es: 'Artistas', fr: 'Artistes' } },
