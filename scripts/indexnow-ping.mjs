@@ -200,26 +200,47 @@ async function main() {
   if (dryRun) {
     console.log(`IndexNow DRY RUN — ${urls.length} URLs from ${source}, nothing submitted.`)
     console.log(`  endpoint:    POST https://api.indexnow.org/IndexNow`)
-    console.log(`  host:        ${payload.host}`)
-    console.log(`  keyLocation: ${payload.keyLocation}`)
+    console.log(`  host:        ${HOST}`)
+    console.log(`  keyLocation: ${SITE}/${KEY}.txt`)
     for (const url of urls) console.log(`  - ${url}`)
     return
   }
 
-  console.log(`Submitting ${urls.length} URLs to IndexNow (${source})…`)
-
-  const res = await fetch('https://api.indexnow.org/IndexNow', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify(payload),
-  })
-
-  // 200 = accepted, 202 = accepted but key still being validated. Both fine.
-  if (res.status === 200 || res.status === 202) {
-    console.log(`OK (${res.status}) — ${urls.length} URLs submitted.`)
-    return
+  // Bing recommends Streaming mode: max 50-100 URLs per request with brief pauses,
+  // preventing "Batch mode" warnings and server congestion.
+  const CHUNK_SIZE = 50
+  const chunks = []
+  for (let i = 0; i < urls.length; i += CHUNK_SIZE) {
+    chunks.push(urls.slice(i, i + CHUNK_SIZE))
   }
-  throw new Error(`IndexNow returned ${res.status}: ${await res.text()}`)
+
+  console.log(`Streaming ${urls.length} URLs to IndexNow (${source}) across ${chunks.length} batch(es)…`)
+
+  for (let idx = 0; idx < chunks.length; idx++) {
+    const chunk = chunks[idx]
+    const payload = {
+      host: HOST,
+      key: KEY,
+      keyLocation: `${SITE}/${KEY}.txt`,
+      urlList: chunk,
+    }
+
+    const res = await fetch('https://api.indexnow.org/IndexNow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify(payload),
+    })
+
+    if (res.status === 200 || res.status === 202) {
+      console.log(`  [${idx + 1}/${chunks.length}] OK (${res.status}) — ${chunk.length} URLs streamed.`)
+    } else {
+      throw new Error(`IndexNow returned ${res.status}: ${await res.text()}`)
+    }
+
+    if (idx < chunks.length - 1) {
+      await new Promise((resolve) => setTimeout(resolve, 300))
+    }
+  }
 }
 
 /**

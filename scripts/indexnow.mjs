@@ -21,25 +21,42 @@
 const SLEUTEL = 'a09a375d5ed0f341c22a12bac3e8110d'
 const HOST = 'www.ibizamivida.com'
 const SITEMAP = `https://${HOST}/sitemap.xml`
-/** IndexNow accepteert maximaal 10.000 per keer; wij zitten daar ruim onder. */
-const MAX_PER_KEER = 10000
+const CHUNK_GROOTTE = 50
 
 const xml = await (await fetch(SITEMAP)).text()
 const urls = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => m[1])
 if (!urls.length) { console.error('Geen URL\'s in de sitemap gevonden.'); process.exit(1) }
 
-const res = await fetch('https://api.indexnow.org/IndexNow', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json; charset=utf-8' },
-  body: JSON.stringify({
-    host: HOST,
-    key: SLEUTEL,
-    keyLocation: `https://${HOST}/${SLEUTEL}.txt`,
-    urlList: urls.slice(0, MAX_PER_KEER),
-  }),
-})
+const chunks = []
+for (let i = 0; i < urls.length; i += CHUNK_GROOTTE) {
+  chunks.push(urls.slice(i, i + CHUNK_GROOTTE))
+}
 
-// 200 en 202 betekenen allebei "aangenomen"; 422 betekent dat de sleutel niet
-// klopt of het bestand niet bereikbaar is.
-console.log(`${urls.length} URL's aangemeld -> HTTP ${res.status} ${res.statusText}`)
-if (!res.ok) console.log(await res.text())
+console.log(`${urls.length} URL's streamen naar IndexNow in ${chunks.length} batches van max ${CHUNK_GROOTTE}...`)
+
+let success = 0
+for (let idx = 0; idx < chunks.length; idx++) {
+  const chunk = chunks[idx]
+  const res = await fetch('https://api.indexnow.org/IndexNow', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({
+      host: HOST,
+      key: SLEUTEL,
+      keyLocation: `https://${HOST}/${SLEUTEL}.txt`,
+      urlList: chunk,
+    }),
+  })
+
+  if (res.ok) {
+    success += chunk.length
+  } else {
+    console.error(`Fout bij batch ${idx + 1}: HTTP ${res.status}`)
+  }
+
+  if (idx < chunks.length - 1) {
+    await new Promise((resolve) => setTimeout(resolve, 250))
+  }
+}
+
+console.log(`Klaar: ${success}/${urls.length} URL's succesvol gestreamd naar IndexNow.`)
