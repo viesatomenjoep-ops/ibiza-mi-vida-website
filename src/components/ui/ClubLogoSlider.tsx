@@ -289,8 +289,9 @@ export function ClubLogoSlider({
                   {/* Fixed box so every logo occupies the same footprint (equal visual size) */}
                   <span className="relative inline-flex h-9 w-24 md:h-11 md:w-32 items-center justify-center">
                     <StatusBadge status={live.status} count={live.count} />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={optImg(club.whitelogo || club.picture, 256)}
+                      src={optImg(club.whitelogo || club.picture, 128)}
                       alt={club.name}
                       className={`max-h-full max-w-full object-contain drop-shadow-md pointer-events-none ${onLight ? 'brightness-0' : 'brightness-0 invert'}`}
                       loading="lazy"

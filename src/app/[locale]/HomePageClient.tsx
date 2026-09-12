@@ -12,11 +12,19 @@ import { HomeEventSlider } from '@/components/ui/HomeEventSlider';
 import { HomeHeroVideo } from '@/components/home/HomeHeroVideo';
 import { HeroShowIntro } from '@/components/home/HeroShowIntro';
 import { HomeCategoryCarousel } from '@/components/home/HomeCategoryCarousel';
+import dynamic from 'next/dynamic';
 import { HomeUSP } from '@/components/home/HomeUSP';
-import { HomeInstagram } from '@/components/home/HomeInstagram';
-import { HomeTikTok } from '@/components/home/HomeTikTok';
-import { HomeNewsletter } from '@/components/home/HomeNewsletter';
 import { HomeTonight } from '@/components/home/HomeTonight';
+
+const HomeInstagram = dynamic(() => import('@/components/home/HomeInstagram').then((m) => m.HomeInstagram), {
+  ssr: true,
+});
+const HomeTikTok = dynamic(() => import('@/components/home/HomeTikTok').then((m) => m.HomeTikTok), {
+  ssr: true,
+});
+const HomeNewsletter = dynamic(() => import('@/components/home/HomeNewsletter').then((m) => m.HomeNewsletter), {
+  ssr: true,
+});
 import { HeroRatingBadge, type HeroRating } from '@/components/home/HeroRatingBadge';
 import { HomeEventsTickets } from '@/components/home/HomeEventsTickets'
 import { HomeActivities } from '@/components/home/HomeActivities'

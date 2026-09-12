@@ -11,13 +11,20 @@ import { VenueSheet } from './VenueSheet'
 import { ArtistSheet } from './ArtistSheet'
 import { BoatSheet } from './BoatSheet'
 import { DatePickerSheet } from './DatePickerSheet'
-import { PlannerScreen } from './PlannerScreen'
+import dynamic from 'next/dynamic'
 import { AgendaScreen } from './screens/AgendaScreen'
 import { EventsScreen } from './screens/EventsScreen'
 import { BoatsScreen } from './screens/BoatsScreen'
 import { SearchScreen } from './screens/SearchScreen'
-import { MapScreen } from './screens/MapScreen'
 import { GuestlistScreen } from './screens/GuestlistScreen'
+
+const MapScreen = dynamic(() => import('./screens/MapScreen').then((m) => m.MapScreen), {
+  ssr: false,
+  loading: () => <div className="h-[46vh] w-full animate-pulse bg-obsidian" />,
+})
+const PlannerScreen = dynamic(() => import('./PlannerScreen').then((m) => m.PlannerScreen), {
+  ssr: false,
+})
 
 export interface ScreenProps {
   events: AppEvent[]
