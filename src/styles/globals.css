@@ -101,8 +101,9 @@
 :root{--hero-bottom:14vh}
 @media (max-width:767px){ :root{ --hero-bottom:6vh } }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;overflow-x:clip;max-width:100%;overscroll-behavior-x:none}
+html{scroll-behavior:smooth;overflow-x:clip;max-width:100%;overscroll-behavior-x:none;touch-action:manipulation}
 body{font-family:var(--body);background:var(--black);color:var(--white);line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;text-rendering:optimizeSpeed;
   background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.4px);background-size:28px 28px;
   overflow-x:clip;max-width:100%;width:100%;position:relative;overscroll-behavior-x:none;
 }
