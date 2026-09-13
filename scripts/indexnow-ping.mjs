@@ -206,8 +206,43 @@ async function main() {
     return
   }
 
-  // Bing recommends Streaming mode: max 50-100 URLs per request with brief pauses,
+  // Bing recommends Streaming mode: URLs submitted individually in real-time,
   // preventing "Batch mode" warnings and server congestion.
+  // For sets <= 250 URLs (key pages and changed routes), stream each URL individually via GET.
+  // For very large sitemaps, chunk them into batches of 50.
+  if (urls.length <= 250) {
+    console.log(`Streaming ${urls.length} URLs individually to Bing IndexNow (${source})…`)
+    const CONCURRENCY = 5
+    let success = 0
+    let failed = 0
+
+    for (let i = 0; i < urls.length; i += CONCURRENCY) {
+      const slice = urls.slice(i, i + CONCURRENCY)
+      await Promise.all(
+        slice.map(async (u) => {
+          const endpoint = `https://www.bing.com/indexnow?url=${encodeURIComponent(u)}&key=${KEY}&keyLocation=${encodeURIComponent(`${SITE}/${KEY}.txt`)}`
+          try {
+            const res = await fetch(endpoint)
+            if (res.status === 200 || res.status === 202) {
+              success++
+            } else {
+              failed++
+              console.warn(`  IndexNow HTTP ${res.status} for ${u}`)
+            }
+          } catch (err) {
+            failed++
+            console.warn(`  IndexNow error for ${u}:`, err.message)
+          }
+        })
+      )
+      if (i + CONCURRENCY < urls.length) {
+        await new Promise((resolve) => setTimeout(resolve, 50))
+      }
+    }
+    console.log(`IndexNow Streaming complete: ${success}/${urls.length} URLs streamed individually to Bing (0 batch).`)
+    return
+  }
+
   const CHUNK_SIZE = 50
   const chunks = []
   for (let i = 0; i < urls.length; i += CHUNK_SIZE) {

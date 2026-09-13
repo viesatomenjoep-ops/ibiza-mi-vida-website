@@ -27,36 +27,32 @@ const xml = await (await fetch(SITEMAP)).text()
 const urls = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => m[1])
 if (!urls.length) { console.error('Geen URL\'s in de sitemap gevonden.'); process.exit(1) }
 
-const chunks = []
-for (let i = 0; i < urls.length; i += CHUNK_GROOTTE) {
-  chunks.push(urls.slice(i, i + CHUNK_GROOTTE))
-}
+console.log(`${urls.length} URL's individueel streamen naar Bing IndexNow...`)
 
-console.log(`${urls.length} URL's streamen naar IndexNow in ${chunks.length} batches van max ${CHUNK_GROOTTE}...`)
-
+const CONCURRENCY = 5
 let success = 0
-for (let idx = 0; idx < chunks.length; idx++) {
-  const chunk = chunks[idx]
-  const res = await fetch('https://api.indexnow.org/IndexNow', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify({
-      host: HOST,
-      key: SLEUTEL,
-      keyLocation: `https://${HOST}/${SLEUTEL}.txt`,
-      urlList: chunk,
-    }),
-  })
+let failed = 0
 
-  if (res.ok) {
-    success += chunk.length
-  } else {
-    console.error(`Fout bij batch ${idx + 1}: HTTP ${res.status}`)
-  }
-
-  if (idx < chunks.length - 1) {
-    await new Promise((resolve) => setTimeout(resolve, 250))
+for (let i = 0; i < urls.length; i += CONCURRENCY) {
+  const slice = urls.slice(i, i + CONCURRENCY)
+  await Promise.all(
+    slice.map(async (u) => {
+      const endpoint = `https://www.bing.com/indexnow?url=${encodeURIComponent(u)}&key=${SLEUTEL}&keyLocation=${encodeURIComponent(`https://${HOST}/${SLEUTEL}.txt`)}`
+      try {
+        const res = await fetch(endpoint)
+        if (res.status === 200 || res.status === 202) {
+          success++
+        } else {
+          failed++
+        }
+      } catch {
+        failed++
+      }
+    })
+  )
+  if (i + CONCURRENCY < urls.length) {
+    await new Promise((resolve) => setTimeout(resolve, 50))
   }
 }
 
-console.log(`Klaar: ${success}/${urls.length} URL's succesvol gestreamd naar IndexNow.`)
+console.log(`Klaar: ${success}/${urls.length} URL's succesvol individueel gestreamd naar Bing IndexNow (0 batches).`)
