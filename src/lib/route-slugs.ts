@@ -53,6 +53,7 @@ export type RouteKey =
   | 'nightlife-guide'
   | 'dress-code'
   | 'getting-around'
+  | 'concierge'
 
 type SlugSet = Record<Locale, string>
 
@@ -221,6 +222,19 @@ export const ROUTE_SLUGS: Record<RouteKey, SlugSet> = {
     fr: 'se-deplacer-a-ibiza',
     es: 'como-moverse-por-ibiza',
   },
+  // Conciergepagina. Drie van de vijf talen delen de slug, en dat is geen
+  // slordigheid: 'concierge' is in het Nederlands, Engels en Duits hetzelfde
+  // leenwoord en wordt ook zo ingetypt. Een verzonnen vertaling ('conciergedienst
+  // ibiza') zou een zoekterm nabootsen die niemand gebruikt. Spaans en Frans
+  // hebben wél een eigen woord dat mensen echt intypen, en krijgen dus een
+  // eigen slug — en daarmee een eigen routemap.
+  concierge: {
+    en: 'concierge-ibiza',
+    nl: 'concierge-ibiza',
+    de: 'concierge-ibiza',
+    fr: 'conciergerie-ibiza',
+    es: 'conserjeria-ibiza',
+  },
 }
 
 /**
@@ -318,6 +332,11 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   'dress-code': ['en', 'nl', 'de', 'es', 'fr'],
   // Vijf talen sinds 07-09: GettingAroundGuide + getting-around-copy.ts.
   'getting-around': ['en', 'nl', 'de', 'es', 'fr'],
+  // Alle vijf vanaf dag één: ConciergeGuide + concierge-copy.ts, met een
+  // routebestand per distincte slug (NL/EN/DE delen er één). De tekst is per
+  // taal geschreven en niet vertaald, dus het hreflang-cluster verwijst naar
+  // vijf pagina's die alle vijf renderen.
+  concierge: ['en', 'nl', 'de', 'es', 'fr'],
 }
 
 /** The locales a route is published in. */

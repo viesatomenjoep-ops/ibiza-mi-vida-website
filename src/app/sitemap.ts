@@ -141,6 +141,10 @@ const LOCALIZED_ROUTES: { key: RouteKey; priority: number; changeFrequency: Meta
   { key: 'nightlife-guide', priority: 0.8, changeFrequency: 'weekly' },
   { key: 'dress-code', priority: 0.6, changeFrequency: 'monthly' },
   { key: 'getting-around', priority: 0.6, changeFrequency: 'monthly' },
+  // Conciergegids, vijf talen, drie routemappen. Monthly: dit is evergreen
+  // tekst over hoe de dienst werkt en wat hij kost — verandert die, dan is dat
+  // een herziening en geen wekelijkse schommeling.
+  { key: 'concierge', priority: 0.7, changeFrequency: 'monthly' },
   // BEWUST AFWEZIG: 'pacha-venue', 'amnesia-venue' en 'dc10-venue'. Die drie
   // pagina's zijn geschreven maar 404'en nog (src/lib/pending-venues.ts) tot het
   // akkoord met de clubs rond is. Een URL in de sitemap die 404't is een

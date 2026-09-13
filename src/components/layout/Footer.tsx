@@ -48,6 +48,7 @@ import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { slugFor } from '@/lib/route-slugs'
+import { CRUMB_SELF as CONCIERGE_LABEL } from '@/lib/concierge-copy'
 import { DEFAULT_LOCALE, LOCALES as SEO_LOCALES, type Locale } from '@/lib/seo'
 
 import en from '@/dictionaries/en.json'
@@ -122,6 +123,12 @@ export function Footer({ rating = null, clubLogos = [] }: {
       title: t.nav_company || 'Ibiza Mi Vida',
       links: [
         { href: `${base}/about-us`, label: t.nav_about || 'Over ons' },
+        // Zelfde reden als about-us hierboven: de conciergepagina legt uit wat
+        // het bedrijf doet en wat het kost, en stond na publicatie nergens in
+        // de sitenavigatie. Het label komt uit concierge-copy en niet uit een
+        // fallback-string, want 'Concierge' is in het Spaans en Frans een
+        // ander woord dan in de andere drie talen.
+        { href: `${base}/${slugFor('concierge', l)}`, label: t.nav_concierge || CONCIERGE_LABEL[l] },
         { href: `${base}/contact`, label: t.nav_contact || 'Contact' },
         { href: `${base}/faq`, label: t.nav_faq || 'FAQ' },
         { href: `${base}/privacy-policy`, label: t.nav_privacy || 'Privacybeleid' },

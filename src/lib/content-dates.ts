@@ -16,6 +16,10 @@
  * ClubTickets sync via `getDataLastUpdated()`, which is the real thing.
  */
 export const CONTENT_UPDATED: Record<string, string> = {
+  // Nieuw geschreven conciergepagina in vijf talen. Eén sleutel voor alle vijf
+  // de slugs: het is één tekst met één herzieningsdatum, en vijf regels die
+  // altijd hetzelfde moeten zeggen zijn vier plekken om te vergeten.
+  'concierge-ibiza': '2026-09-13',
   // All four rewritten when per-page FAQs and Service schema were added.
   'private-boat-charters': '2026-08-29',
   // 07-09 de sectie "welke boot onder €1000", berekend uit fleet.ts.

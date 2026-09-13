@@ -19,6 +19,23 @@ export interface ServiceCopy {
 }
 
 export const SERVICE_COPY: Record<string, ServiceCopy> = {
+  concierge: {
+    serviceType: 'Concierge service',
+    name: L(
+      'Concierge op Ibiza',
+      'Concierge service in Ibiza',
+      'Concierge auf Ibiza',
+      'Servicio de conserjería en Ibiza',
+      'Service de conciergerie à Ibiza',
+    ),
+    description: L(
+      'Eén contactpersoon op Ibiza voor clubtickets en gastenlijst, een privéboot, luchthavenvervoer, een huurauto en een tafel in een restaurant. Geen bemiddelingstarief: wij verdienen commissie van de aanbieders. Bereikbaar via WhatsApp in vijf talen.',
+      'One point of contact in Ibiza for club tickets and guestlist, a private boat, airport transport, a rental car and a restaurant table. No booking fee: we earn commission from the operators. Reachable over WhatsApp in five languages.',
+      'Ein Ansprechpartner auf Ibiza für Clubtickets und Gästeliste, ein Privatboot, Flughafentransport, einen Mietwagen und einen Tisch im Restaurant. Keine Vermittlungsgebühr: Wir verdienen Provision von den Anbietern. Erreichbar per WhatsApp in fünf Sprachen.',
+      'Un único interlocutor en Ibiza para entradas y lista de invitados, un barco privado, transporte del aeropuerto, un coche de alquiler y una mesa de restaurante. Sin tarifa de gestión: ganamos comisión de los operadores. Por WhatsApp en cinco idiomas.',
+      'Un seul interlocuteur à Ibiza pour les billets de club et la guestlist, un bateau privé, le transport aéroport, une voiture de location et une table au restaurant. Sans frais de dossier : nous percevons une commission des prestataires. Sur WhatsApp en cinq langues.',
+    ),
+  },
   'private-boat-charters': {
     serviceType: 'Boat charter',
     name: L(
