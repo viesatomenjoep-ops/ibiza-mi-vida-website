@@ -4,6 +4,7 @@ import { staticMetadata } from '@/lib/seo-pages'
 import { FAQ_GROUPS } from '@/lib/faq-content'
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
+import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { crumbLabel } from '@/lib/breadcrumb-labels'
 
@@ -27,7 +28,7 @@ const CONTACT_CTA: T = L('Stel je vraag via WhatsApp', 'Ask us on WhatsApp', 'Fr
 
 export default function FaqPage({ params }: { params: { locale: string } }) {
   const locale = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE
-  const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER
+  const whatsapp = WHATSAPP_NUMBER
   const allFaqs = FAQ_GROUPS.flatMap((g) => g.items.map((i) => ({ q: i.q[locale], a: i.a[locale] })))
 
   return (

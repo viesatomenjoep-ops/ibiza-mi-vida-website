@@ -1,6 +1,7 @@
 import { SITE_URL, SITE_NAME, type Locale } from '@/lib/seo'
 import { HOME_DESC } from '@/lib/seo-pages'
 import { FOUNDER_ID, founderNode } from '@/lib/team'
+import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 
 /**
  * Homepage structured data: Organization + WebSite (with SearchAction) +
@@ -8,7 +9,6 @@ import { FOUNDER_ID, founderNode } from '@/lib/team'
  * rich results (sitelinks search box, knowledge panel, business info).
  */
 export function HomeJsonLd({ locale = 'nl' }: { locale?: string }) {
-  const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER
   const ogImage = `${SITE_URL}/og-default.jpg`
   // Same localized "bio" everywhere Google can surface it: Knowledge Panel
   // (Organization), rich result business card (TravelAgency), and the page's
@@ -23,7 +23,7 @@ export function HomeJsonLd({ locale = 'nl' }: { locale?: string }) {
     logo: `${SITE_URL}/logo-clean.png`,
     image: ogImage,
     description: bio,
-    ...(phone ? { telephone: `+${phone}` } : {}),
+    telephone: `+${WHATSAPP_NUMBER}`,
     // Elk profiel dat aantoonbaar van dit bedrijf is. Dit is het veld waarmee
     // een zoekmachine of taalmodel deze site koppelt aan wat er elders over ons
     // staat, en dat is waar het merendeel van de vermeldingen vandaan komt —
@@ -73,7 +73,7 @@ export function HomeJsonLd({ locale = 'nl' }: { locale?: string }) {
     name: SITE_NAME,
     url: SITE_URL,
     image: ogImage,
-    ...(phone ? { telephone: `+${phone}` } : {}),
+    telephone: `+${WHATSAPP_NUMBER}`,
     priceRange: '€€€',
     address: {
       '@type': 'PostalAddress',

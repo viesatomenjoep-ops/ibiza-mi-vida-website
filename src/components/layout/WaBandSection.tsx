@@ -1,5 +1,6 @@
 'use client';
 
+import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 import React, { useMemo } from 'react';
 import { MessageCircle } from 'lucide-react';
 
@@ -25,7 +26,7 @@ export default function WaBandSection({
   heading = 'Wij staan voor je klaar',
   description = 'Chat met ons via WhatsApp voor advies, VIP reserveringen of hulp bij het boeken van je tickets.',
   btnLabel = 'Chat met ons',
-  phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '34657639800',
+  phone = WHATSAPP_NUMBER,
   venues = [],
 }: WaBandSectionProps) {
   const liftCols = useMemo(() =>

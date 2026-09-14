@@ -1,5 +1,6 @@
 'use client';
 
+import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,7 +17,7 @@ import { FleetFilterBar, type SortKey } from '@/components/boats/FleetFilterBar'
 import { getFavourites, onFavouritesChange, toggleFavourite } from '@/lib/boat-favourites';
 
 /** WhatsApp business number (digits only). */
-const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '34657639800';
+const WHATSAPP = WHATSAPP_NUMBER;
 
 // ── Price range (from real fleet "low season" day rates) ──────────────────────
 const FLEET_LOWS = FLEET.map(b => b.price.low);

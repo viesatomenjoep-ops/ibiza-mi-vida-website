@@ -1,5 +1,6 @@
 import { SITE_URL, SITE_NAME, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { FOUNDER_ID } from '@/lib/team'
+import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 import { breadcrumbListSchema, type BreadcrumbItem } from '@/components/seo/BreadcrumbJsonLd'
 
 /**
@@ -96,7 +97,6 @@ function sameAs(): string[] {
 }
 
 export function organizationNode(locale: Locale) {
-  const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER
   return {
     '@type': 'Organization',
     '@id': `${SITE_URL}/#organization`,
@@ -110,7 +110,7 @@ export function organizationNode(locale: Locale) {
       name: 'Ibiza, Spain',
       address: { '@type': 'PostalAddress', addressRegion: 'Ibiza', addressCountry: 'ES' },
     },
-    ...(phone ? { telephone: `+${phone}` } : {}),
+    telephone: `+${WHATSAPP_NUMBER}`,
     sameAs: sameAs(),
     founder: { '@id': FOUNDER_ID },
     inLanguage: locale,

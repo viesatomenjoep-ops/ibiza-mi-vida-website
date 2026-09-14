@@ -1,4 +1,5 @@
 import { SITE_URL, type Locale } from '@/lib/seo'
+import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 
 /**
  * The people behind the business — single source of truth.
@@ -60,7 +61,6 @@ export const FOUNDER = {
 
 /** `Person` node for Simon. Referenced by @id elsewhere, never redeclared. */
 export function founderNode() {
-  const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER
   return {
     '@type': 'Person',
     '@id': FOUNDER_ID,
@@ -68,6 +68,6 @@ export function founderNode() {
     jobTitle: FOUNDER.jobTitle,
     worksFor: { '@id': `${SITE_URL}/#organization` },
     knowsLanguage: FOUNDER.languageTags,
-    ...(phone ? { telephone: `+${phone}` } : {}),
+    telephone: `+${WHATSAPP_NUMBER}`,
   }
 }
