@@ -67,7 +67,7 @@ Formentera, Balearic Islands, Spain
 ## 4. Contactgegevens
 
 ```
-Telefoon:  +33 6 66 52 84 12
+Telefoon:  +34 657 639 800
 Website:   https://www.ibizamivida.com
 ```
 
@@ -184,7 +184,7 @@ Overal exact dezelfde gegevens:
 
 ```
 Naam:     Ibiza Mi Vida
-Telefoon: +33 6 66 52 84 12
+Telefoon: +34 657 639 800
 Website:  https://www.ibizamivida.com
 ```
 
@@ -233,7 +233,7 @@ om één bedrijf gaat.
 
 ```
 Naam:     Ibiza Mi Vida
-Telefoon: +33 6 66 52 84 12
+Telefoon: +34 657 639 800
 Website:  https://www.ibizamivida.com
 Gebied:   Ibiza & Formentera, Spanje
 ```

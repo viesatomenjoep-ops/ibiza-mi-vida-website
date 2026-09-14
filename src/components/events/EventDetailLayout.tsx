@@ -49,7 +49,7 @@ export function EventDetailLayout({
   onShare,
   onBookPrimary,
   bookButtonLabel = 'Book Now',
-  whatsappNumber = '33666528412'
+  whatsappNumber = '34657639800'
 }: EventDetailLayoutProps) {
   return (
     <div className="relative w-full max-w-md mx-auto min-h-screen bg-ibiza-sand pb-32">

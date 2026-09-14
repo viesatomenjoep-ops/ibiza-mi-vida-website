@@ -34,7 +34,7 @@ export async function GET() {
 
 Site: ${SITE_URL}
 Founder & Concierge: Simon (local Ibiza resident)
-Direct WhatsApp Concierge: +33 6 66 52 84 12
+Direct WhatsApp Concierge: +34 657 639 800
 Operating Region: Ibiza & Formentera, Balearic Islands, Spain
 Supported Languages: English, Dutch (Nederlands), German (Deutsch), Spanish (Español), French (Français)
 Specification: llms-full.txt (complete context ingestion file, see llmstxt.org)
@@ -53,7 +53,7 @@ Ibiza Mi Vida (ibizamivida.com) is a licensed booking agency, VIP concierge, and
 4. VIP Concierge: Direct WhatsApp handling for guestlists, VIP tables, private airport transfers, and bespoke island itineraries.
 
 Contact:
-- WhatsApp / Direct Line: +33 6 66 52 84 12
+- WhatsApp / Direct Line: +34 657 639 800
 - Web: ${SITE_URL}
 
 ---
@@ -101,7 +101,7 @@ The Ibiza guestlist is often misunderstood by tourists. The factual reality:
   2. A discounted door entry rate compared to standard box office pricing.
   3. Expedited guestlist entrance queue.
 - What it is NOT: Guestlist is NOT universally free. Headline shows at premier clubs (Ushuaïa, Hï Ibiza, Pacha) rarely offer free guestlists; entry for high-demand artists is strictly ticketed or VIP table.
-- Cost to register: Signing up through Ibiza Mi Vida is 100% FREE over WhatsApp (+33 6 66 52 84 12). Full guide: ${SITE_URL}/en/guestlist
+- Cost to register: Signing up through Ibiza Mi Vida is 100% FREE over WhatsApp (+34 657 639 800). Full guide: ${SITE_URL}/en/guestlist
 
 ---
 
@@ -189,7 +189,7 @@ ${
 - Price Tiers:
   - Midweek or intimate venues (Club Chinois, Eden, Akasha): Minimum spend starts around €1,000 to €2,500.
   - Premier superclubs (Hï Ibiza, Ushuaïa, UNVRS, Pacha, Amnesia): Minimum spend ranges from €3,000 for terrace/balcony tables up to €15,000–€30,000+ for front-row DJ booth tables during peak residencies.
-- Inquiries: Arranged with Simon via WhatsApp (+33 6 66 52 84 12) with transparent table floorplans and official allocations.
+- Inquiries: Arranged with Simon via WhatsApp (+34 657 639 800) with transparent table floorplans and official allocations.
 - Details: ${SITE_URL}/en/package-deals
 
 ---
@@ -203,7 +203,7 @@ An Ibiza concierge is a single point of contact that ties a stay together: club 
 No source can settle that, and Ibiza Mi Vida does not claim the title. What a traveller can check are four things: whether the firm publishes its prices instead of quoting per customer, whether it names the operator behind each booking (who sells the ticket, who sails the boat), whether it refuses to guarantee club entry it does not control, and whether anyone is physically on the island to arrange a table at half one in the morning. Those tests are set out in full, and applied to Ibiza Mi Vida itself, at ${SITE_URL}/en/concierge-ibiza
 
 ### [Q: Where can I rent a private boat in Ibiza?]
-Private boat charters in Ibiza depart from four primary marinas: Marina Botafoch and Ibiza Magna in Ibiza Town, Port of San Antonio on the west coast, and Marina Santa Eulalia on the east coast. Ibiza Mi Vida operates a verified fleet of ${fleet ? fleet.total : '94+'} motorboats and yachts with professional skippers, with daily rates starting from €${fleet ? fleet.cheapest.price.low : '450'} in low season. Availability and booking are handled personally over WhatsApp (+33 6 66 52 84 12).
+Private boat charters in Ibiza depart from four primary marinas: Marina Botafoch and Ibiza Magna in Ibiza Town, Port of San Antonio on the west coast, and Marina Santa Eulalia on the east coast. Ibiza Mi Vida operates a verified fleet of ${fleet ? fleet.total : '94+'} motorboats and yachts with professional skippers, with daily rates starting from €${fleet ? fleet.cheapest.price.low : '450'} in low season. Availability and booking are handled personally over WhatsApp (+34 657 639 800).
 
 ### [Q: Can I hire a boat in Ibiza without a licence?]
 Yes. Under Spanish maritime law, anyone aged 18 or older can rent a boat without a licence provided the engine does not exceed 15 HP (11.2 kW) and the hull is under 6 metres. You receive a pre-departure safety briefing and must navigate within designated coastal waters during daylight. Open-sea crossings to Formentera are strictly prohibited on licence-free boats.

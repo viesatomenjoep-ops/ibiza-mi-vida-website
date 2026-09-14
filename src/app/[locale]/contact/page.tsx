@@ -113,7 +113,7 @@ export default function ContactPage({ params }: { params: { locale: string } }) 
   const wa = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WA_PREFILL[l])}`
   const tel = `+${WHATSAPP_NUMBER}`
   // Same digits, formatted for humans.
-  const telDisplay = '+33 6 66 52 84 12'
+  const telDisplay = '+34 657 639 800'
 
   const schema = {
     '@context': 'https://schema.org',

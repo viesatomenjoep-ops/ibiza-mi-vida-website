@@ -16,7 +16,7 @@ import { FleetFilterBar, type SortKey } from '@/components/boats/FleetFilterBar'
 import { getFavourites, onFavouritesChange, toggleFavourite } from '@/lib/boat-favourites';
 
 /** WhatsApp business number (digits only). */
-const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '33666528412';
+const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '34657639800';
 
 // ── Price range (from real fleet "low season" day rates) ──────────────────────
 const FLEET_LOWS = FLEET.map(b => b.price.low);

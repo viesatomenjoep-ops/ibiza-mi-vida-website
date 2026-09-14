@@ -40,7 +40,7 @@ Site: ${SITE_URL}
 Founder: Simon (based on Ibiza, answers enquiries personally)
 Full documentation: ${SITE_URL}/llms-full.txt
 Languages: Dutch, English, German, Spanish, French (paths are locale-prefixed, e.g. ${SITE_URL}/en/calendar)
-Contact: WhatsApp +33 6 66 52 84 12
+Contact: WhatsApp +34 657 639 800
 Service area: Ibiza and Formentera, Balearic Islands, Spain
 Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from live availability data)
 
@@ -117,7 +117,7 @@ ${season ? `- Last scheduled club night per venue, from the published agenda: ea
 - Private charters depart from marinas around Ibiza, including Ibiza Town, and run with or without a skipper.
 - Languages handled: Dutch, English, German, Spanish, French.
 - Supply partners: club tickets through ClubTickets (official affiliate partner), boats through Click&Boat, car rental through Wiber Rent a Car. We are the local booking and concierge layer on top of those, not the operator.
-- Bookings are arranged over WhatsApp (+33 6 66 52 84 12), usually answered within a few hours; longer in peak season.
+- Bookings are arranged over WhatsApp (+34 657 639 800), usually answered within a few hours; longer in peak season.
 - We do not publish fixed prices for charters or package deals: rates depend on the date, the group size and the season, and are confirmed before booking. Club TICKET prices are different — those we measure and publish, see below.
 ${prices ? `- Measured club entry, from ${prices.clubN} dated club events across ${prices.venues.length} venues between ${prices.from} and ${prices.to}: cheapest ticket ranges ${'\u20AC'}${prices.clubMin} to ${'\u20AC'}${prices.clubMax}, median ${'\u20AC'}${prices.clubMedian}, with half of all nights between ${'\u20AC'}${prices.clubQ1} and ${'\u20AC'}${prices.clubQ3}. These are entry tickets only and exclude drinks, tables and transport. Full per-club table: ${SITE_URL}/en/ibiza-prices` : ''}
 

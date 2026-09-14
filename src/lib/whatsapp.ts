@@ -4,7 +4,7 @@
  * environment — every surface on the site must reach the same number.
  */
 export const WHATSAPP_NUMBER =
-  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '33666528412'
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '34657639800'
 
 interface WhatsAppParams {
   firstName: string

@@ -103,7 +103,7 @@ something you should not click, and on WhatsApp it wraps across three lines.
 >
 > Simon
 > Ibiza Mi Vida
-> WhatsApp +33 6 66 52 84 12
+> WhatsApp +34 657 639 800
 
 ## Email — Nederlands
 
@@ -128,7 +128,7 @@ something you should not click, and on WhatsApp it wraps across three lines.
 > Groet,
 > Simon
 > Ibiza Mi Vida
-> WhatsApp +33 6 66 52 84 12
+> WhatsApp +34 657 639 800
 
 ## Why the wording is what it is
 

@@ -8,7 +8,7 @@ repo is dat niet. Wat er per fase daadwerkelijk gebeurd is en waarom, staat in
 ## Vaste merkfeiten (blijven gelden)
 
 - Merknaam **Ibiza Mi Vida**, canonieke host `https://www.ibizamivida.com`
-- Concierge: Simon, lokaal op Ibiza, WhatsApp +33 6 66 52 84 12
+- Concierge: Simon, lokaal op Ibiza, WhatsApp +34 657 639 800
 - Officiële ClubTickets-partner voor clubtickets; boten via eigen brokerage
   (theyachtbroker-koppeling); affiliates Click&Boat en Wiber via Awin —
   bestaande links hergebruiken, nooit een nieuwe verzinnen

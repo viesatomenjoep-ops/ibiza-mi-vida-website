@@ -151,7 +151,7 @@ Categorieën: *Boat rental service* + *Tour agency*. Servicegebied Ibiza +
 Formentera. Zelfde omschrijving als in `llms.txt`. ~30 minuten.
 
 ### 3.2 Consistente bedrijfsgegevens overal
-Exact dezelfde naam, adres en telefoon (**+33 6 66 52 84 12**) op elke plek waar
+Exact dezelfde naam, adres en telefoon (**+34 657 639 800**) op elke plek waar
 je vermeld staat. Afwijkingen splitsen je entiteit op in de ogen van Google.
 
 ### 3.3 Vermeldingen en citaties

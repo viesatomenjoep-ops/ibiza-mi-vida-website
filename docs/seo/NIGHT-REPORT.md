@@ -204,7 +204,7 @@ zolang die pagina's 404'en, maar ze moeten wél af vóór publicatie.
 | 4 | **Google Search Console** domain-property aanmelden als kale `ibizamivida.com` (zonder scheme, zonder www) via DNS-TXT, daarna de sitemap indienen. Voer je de volledige URL in, dan krijg je een URL-prefix-property die non-www mist. | `docs/search-setup.md` |
 | 5 | **GA4** measurement-ID in `NEXT_PUBLIC_GA_ID`. | Vercel |
 | 6 | **Bing Webmaster Tools** — `BING_SITE_VERIFICATION` in Vercel. En: **genereer daar nooit een nieuwe IndexNow-sleutel.** Die staat op drie plekken die moeten matchen (`public/<key>.txt`, `KEY` in `scripts/indexnow-ping.mjs`, het Bing-dashboard) en een nieuwe breekt de andere twee stil. | Vercel + Bing |
-| 7 | **Google Bedrijfsprofiel** claimen als "Ibiza Mi Vida", met dezelfde NAP als op de site (naam + WhatsApp +33 6 66 52 84 12). Dit is ook wat taak 3 voedt. | Google |
+| 7 | **Google Bedrijfsprofiel** claimen als "Ibiza Mi Vida", met dezelfde NAP als op de site (naam + WhatsApp +34 657 639 800). Dit is ook wat taak 3 voedt. | Google |
 | 8 | **`.eslintrc.json` toevoegen** — `npm run lint` valt nu terug op een interactieve wizard omdat er geen ESLint-config in de repo staat. Aparte commit waard. | `BLOCKERS.md` |
 | 9 | **Nulmeting AI-zichtbaarheid.** `scripts/ai-visibility/results.csv` is leeg; het systeem heeft nog nooit gedraaid. 36 vragen × 4 engines, ongeveer een uur. | `docs/seo/GEO-KPI.md` |
 | 10 | **De `[[VERIFY]]`-lijst hierboven invullen** — vooral de DC-10/DICE-bevestiging, want die claim is stellig geformuleerd. | Dit bestand |

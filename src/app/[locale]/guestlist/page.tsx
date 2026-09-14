@@ -410,7 +410,7 @@ const GL_FAQS: { q: T; a: T }[] = [
 export default async function GuestlistPage({ params }: { params: { locale: string } }) {
   const locale = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE
   const base = `/${locale}`
-  const waHref = `https://wa.me/33666528412?text=${encodeURIComponent(WA_PREFILL[locale])}`
+  const waHref = `https://wa.me/34657639800?text=${encodeURIComponent(WA_PREFILL[locale])}`
 
   const venues = await getVenues(locale)
   const clubs = venues.filter(v => v.type?.slug === 'clubbing')

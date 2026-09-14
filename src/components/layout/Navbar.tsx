@@ -756,7 +756,7 @@ export function Navbar({ rating = null }: { rating?: NavRating | null }) {
           <div className="fs-actions">
             <SpotifyButton />
             <a
-              href="https://wa.me/33666528412"
+              href="https://wa.me/34657639800"
               target="_blank"
               rel="noreferrer"
               className="fs-wa-btn"
