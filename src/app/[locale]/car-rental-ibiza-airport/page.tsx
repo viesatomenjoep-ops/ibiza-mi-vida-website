@@ -50,7 +50,7 @@ const FAQS: Faq[] = [
 export default function CarRentalAirportPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'car-rental-ibiza-airport', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Car rental at Ibiza Airport',
         description: 'All-inclusive car rental collected five minutes from Ibiza Airport with a free shuttle and contactless pick-up.',
         brand: 'Wiber Rent a Car', price: perDay, path: 'car-rental-ibiza-airport',

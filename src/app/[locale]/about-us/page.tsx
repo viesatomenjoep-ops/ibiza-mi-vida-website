@@ -2,10 +2,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { MessageCircle } from 'lucide-react'
 import { staticMetadata } from '@/lib/seo-pages'
-import { DEFAULT_LOCALE, LOCALES, SITE_URL, SITE_NAME, type Locale } from '@/lib/seo'
-import { FOUNDER, FOUNDER_ID, founderNode } from '@/lib/team'
+import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
+import { FOUNDER, KNOWS_ABOUT, founderExperience, knowsAboutHref } from '@/lib/team'
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
-import { breadcrumbListSchema, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
+import { contentUpdated } from '@/lib/content-dates'
+import { homeLabel } from '@/components/seo/BreadcrumbJsonLd'
+import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
+import { LastUpdated } from '@/components/hub/HubSections'
 import { ReviewSchema } from '@/components/seo/ReviewSchema'
 import { GoogleReviews } from '@/components/reviews/GoogleReviews'
 import { Reveal } from '@/components/ui/Reveal'
@@ -50,6 +53,8 @@ const INTRO: T = L(
   'Ibiza Mi Vida no es un call center ni una plataforma de reservas anónima. Es Simon, que vive en Ibiza y responde personalmente cada solicitud por WhatsApp — ya sea un barco privado, un billete de ferry a Formentera, entradas de club o un package deal para tu grupo.',
   'Ibiza Mi Vida n’est ni un centre d’appels ni une plateforme de réservation anonyme. C’est Simon, qui vit à Ibiza et répond lui-même à chaque demande via WhatsApp — bateau privé, billet de ferry pour Formentera, entrées en club ou package deal pour votre groupe.',
 )
+
+const KNOWS_TITLE: T = L('Waar Simon over adviseert', 'What Simon advises on', 'Wozu Simon berät', 'Sobre qué asesora Simon', 'Ce sur quoi Simon conseille')
 
 const HOW_TITLE: T = L('Hoe we werken', 'How we work', 'Wie wir arbeiten', 'Cómo trabajamos', 'Comment nous travaillons')
 const HOW: { t: T; d: T }[] = [
@@ -156,52 +161,32 @@ export default function AboutUsPage({ params }: { params: { locale: string } }) 
   const base = `/${l}`
   const wa = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(CTA_PREFILL[l])}`
 
-  // AboutPage tied to the existing Organization, with Simon as founder. The
-  // Person is declared once here and referenced by @id everywhere else, so
-  // search engines merge them into one entity instead of several Simons.
-  const schema = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      founderNode(),
-      {
-        '@type': 'AboutPage',
-        '@id': `${SITE_URL}/${l}/about-us#page`,
-        url: `${SITE_URL}/${l}/about-us`,
-        name: TITLE[l],
-        description: INTRO[l],
-        inLanguage: l,
-        isPartOf: { '@id': `${SITE_URL}/#website` },
-        about: { '@id': `${SITE_URL}/#organization` },
-        mainEntity: { '@id': `${SITE_URL}/#organization` },
-      },
-      {
-        '@type': 'Organization',
-        '@id': `${SITE_URL}/#organization`,
-        name: SITE_NAME,
-        // Zonder url is dit knooppunt onvolledig: een consument die het los van
-        // de pagina leest (een feed, een cache, een antwoordmachine) kan het
-        // bedrijf dan nergens aan koppelen.
-        url: SITE_URL,
-        founder: { '@id': FOUNDER_ID },
-        employee: { '@id': FOUNDER_ID },
-        knowsLanguage: FOUNDER.languageTags,
-        areaServed: [
-          { '@type': 'Place', name: 'Ibiza, Spain' },
-          { '@type': 'Place', name: 'Formentera, Spain' },
-        ],
-      },
-      breadcrumbListSchema([{ name: homeLabel(l), path: '' }, { name: TITLE[l] }], l),
-    ],
-  }
+  const crumbs = [{ name: homeLabel(l), path: '' }, { name: TITLE[l] }]
 
   return (
     <main className="bg-white text-neutral-900">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      {/* Organization + Person + AboutPage + breadcrumb in one graph, declared
+          through the same functions every other page uses, so this page can
+          never describe a different Simon or a different business. */}
+      <SchemaMarkup
+        locale={l}
+        organization
+        founder
+        breadcrumbs={crumbs}
+        page={{
+          type: 'AboutPage',
+          path: 'about-us',
+          name: TITLE[l],
+          description: INTRO[l],
+          dateModified: contentUpdated('about-us'),
+        }}
+      />
 
       <section className="mx-auto max-w-3xl px-4 pb-12 pt-[calc(var(--nav-h)+48px)] text-center">
         <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{KICKER[l]}</p>
         <h1 className="mt-3 font-serif text-4xl font-black tracking-tight md:text-6xl">{TITLE[l]}</h1>
         <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-neutral-600">{INTRO[l]}</p>
+        <LastUpdated iso={contentUpdated('about-us')} locale={l} />
       </section>
 
       {/* Founder card — the page's core E-E-A-T signal. */}
@@ -217,7 +202,25 @@ export default function AboutUsPage({ params }: { params: { locale: string } }) 
             <h2 className="font-serif text-2xl font-black leading-tight">{FOUNDER.name}</h2>
             <p className="mt-0.5 text-sm font-bold text-gold">{FOUNDER.role[l]}</p>
             <p className="mt-3 text-[15px] leading-relaxed text-neutral-600">{FOUNDER.bio[l]}</p>
+            <p className="mt-2 text-[15px] font-semibold leading-relaxed text-neutral-800">{founderExperience(l)}</p>
             <p className="mt-3 text-xs text-black/60">{FOUNDER.languages.join(' · ')}</p>
+            {/* The visible counterpart of `knowsAbout` in the Person/Organization
+                schema: same list, same order, each linked to the page that
+                proves it. Markup claiming expertise the page does not show is
+                the failure mode this avoids. */}
+            <p className="mt-5 text-[11px] font-black uppercase tracking-[0.18em] text-black/60">{KNOWS_TITLE[l]}</p>
+            <ul className="mt-2 flex flex-wrap gap-2">
+              {KNOWS_ABOUT.map((k) => (
+                <li key={k.name}>
+                  <Link
+                    href={knowsAboutHref(k, l)}
+                    className="inline-block rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-semibold text-neutral-800 hover:border-gold/60"
+                  >
+                    {k.label[l]}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </Reveal>
       </section>

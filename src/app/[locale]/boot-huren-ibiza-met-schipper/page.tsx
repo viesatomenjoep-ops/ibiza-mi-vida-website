@@ -67,7 +67,7 @@ const FAQS: Faq[] = [
 export default function BootHurenMetSchipperPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'boot-huren-ibiza-met-schipper', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Boot huren op Ibiza met schipper',
         description: 'Dagcharters met schipper op Ibiza vanuit jachthavens rond het eiland, met lokale schippers die meerdere talen spreken.',
         brand: 'Click&Boat', price: prijs, path: 'boot-huren-ibiza-met-schipper',

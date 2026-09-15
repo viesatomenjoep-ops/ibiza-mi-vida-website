@@ -68,7 +68,7 @@ const FAQS: Faq[] = [
 export default function LocationBateauSansPermisPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'location-bateau-ibiza-sans-permis', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Location de bateau à Ibiza sans permis',
         description: 'Location de bateau à Ibiza sans permis : jusqu’à 15 ch, coque de moins de six mètres, pilote de 18 ans ou plus.',
         brand: 'Click&Boat', price: prix, path: 'location-bateau-ibiza-sans-permis',

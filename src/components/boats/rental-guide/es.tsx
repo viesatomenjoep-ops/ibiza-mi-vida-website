@@ -52,7 +52,7 @@ const FAQS: Faq[] = [
 export function BoatRentalGuide() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'boats', dateModified: contentUpdated(PAGE_KEY) }} faqs={FAQS} product={{
         name: 'Alquiler de barco en Ibiza',
         description: 'Alquiler de barco en Ibiza con patrón, con titulación propia o sin ella hasta 15 CV, desde cuatro puertos de la isla.',
         brand: 'Click&Boat', price: patron, path: 'boats',

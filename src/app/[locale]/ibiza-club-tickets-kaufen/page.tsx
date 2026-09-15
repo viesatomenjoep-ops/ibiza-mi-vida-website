@@ -126,7 +126,7 @@ const CLUBS = [
 export default function IbizaClubTicketsKaufenPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} />
+      <SchemaMarkup locale={LOCALE} page={{ path: 'ibiza-club-tickets-kaufen', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} />
       <Breadcrumbs items={CRUMBS} locale={LOCALE} />
 
       <HubHero

@@ -64,7 +64,7 @@ const FAQS: Faq[] = [
 export default function CabrioHurenPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'cabrio-huren-ibiza', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Cabrio huren op Ibiza',
         description: 'Cabrioverhuur op Ibiza voor de west- en noordkustwegen, all-in via Wiber Rent a Car.',
         brand: 'Wiber Rent a Car', price: null, path: 'cabrio-huren-ibiza',

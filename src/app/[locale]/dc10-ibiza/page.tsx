@@ -132,7 +132,7 @@ export default function Dc10IbizaPage() {
 
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} />
+      <SchemaMarkup locale={LOCALE} page={{ path: 'dc10-ibiza', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} />
       <Breadcrumbs items={CRUMBS} locale={LOCALE} />
 
       <HubHero

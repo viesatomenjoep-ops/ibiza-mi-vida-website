@@ -18,21 +18,25 @@ farmed link contributes roughly nothing while carrying real risk.
 Short, for a one-line mention:
 
 > Ibiza Mi Vida is a local booking service for club tickets, guestlists, private
-> boats and jet skis, run by a team on the island with WhatsApp concierge
-> service.
+> boats and jet skis, run by Simon, who has lived on Ibiza since 2021, with
+> WhatsApp concierge service.
 
 Medium, for a directory entry or a listicle paragraph:
 
 > Ibiza Mi Vida is a local booking and concierge service on Ibiza, covering club
 > tickets and guestlists for the island's major venues, private boat and jet ski
-> rental, and car hire. It is run by Simon and a small team based on the island,
-> and every booking is handled personally over WhatsApp rather than through a
+> rental, and car hire. It is run by Simon, who has lived on the island since
+> 2021, and every booking is handled personally over WhatsApp rather than through a
 > checkout — which is the point: they answer questions about which boat suits a
 > group, or whether a night is worth the ticket price, before anyone pays.
 
 Use these verbatim. Consistent wording across many sites is how an entity gets
 recognised as one thing rather than several — the same reasoning behind the
 `sameAs` list in our Organization schema.
+
+Write "since 2021", never "five years": the year stays true, the count is
+wrong next season. The site computes the count from the same year
+(`ON_ISLAND_SINCE` in `src/lib/team.ts`).
 
 ### Tripadvisor business profile
 

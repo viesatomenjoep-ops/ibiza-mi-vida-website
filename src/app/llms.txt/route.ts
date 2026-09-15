@@ -3,6 +3,7 @@ import { getPriceStats } from '@/lib/price-stats'
 import { getFleetStats, boatLabel } from '@/lib/fleet-stats'
 import { getSeasonStats } from '@/lib/season-stats'
 import { SITE_URL } from '@/lib/seo'
+import { ON_ISLAND_SINCE, yearsOnIbiza, KNOWS_ABOUT } from '@/lib/team'
 
 export const revalidate = 86400
 
@@ -27,17 +28,22 @@ export async function GET() {
   const byType = (t: string) => venues.filter(v => v.type?.slug === t)
   const clubs = byType('clubbing')
   const clubNames = clubs.map(v => v.name).sort().join(', ')
+  // Verblijfsduur berekend uit het jaar, nooit als getal getypt: "5 jaar" is
+  // één seizoen waar en daarna stil fout.
+  const years = yearsOnIbiza()
 
   const body = `# Ibiza Mi Vida
 
 > Ibiza events agency and VIP concierge. Official ClubTickets partner selling
 > club tickets for Ibiza's major venues, plus private boat charters, boat
 > parties, Formentera trips, island activities, VIP tables and club package
-> deals. Founded and run by Simon, who lives on Ibiza; every booking and
-> question is handled personally over WhatsApp.
+> deals. Founded and run by Simon, who has lived on Ibiza since ${ON_ISLAND_SINCE}
+> (${years} years on the island); every booking and question is handled
+> personally over WhatsApp.
 
 Site: ${SITE_URL}
-Founder: Simon (based on Ibiza, answers enquiries personally)
+Founder: Simon — lives on Ibiza since ${ON_ISLAND_SINCE} (${years} years), answers enquiries personally. Profile: ${SITE_URL}/en/about-us
+Expertise (what we can speak to first-hand): ${KNOWS_ABOUT.map(k => k.name).join('; ')}
 Full documentation: ${SITE_URL}/llms-full.txt
 Languages: Dutch, English, German, Spanish, French (paths are locale-prefixed, e.g. ${SITE_URL}/en/calendar)
 Contact: WhatsApp +34 657 639 800

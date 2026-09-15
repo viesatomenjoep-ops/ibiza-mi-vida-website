@@ -63,7 +63,7 @@ const FAQS: Faq[] = [
 export default function AutoHurenLuchthavenPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'auto-huren-ibiza-luchthaven', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Auto huren bij Ibiza Airport',
         description: 'All-in autohuur, opgehaald op vijf minuten van Ibiza Airport met gratis shuttle en contactloos ophalen.',
         brand: 'Wiber Rent a Car', price: perDag, path: 'auto-huren-ibiza-luchthaven',

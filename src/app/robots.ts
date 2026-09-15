@@ -41,9 +41,15 @@ const AI_CRAWLERS = [
   'ClaudeBot', 'Claude-User', 'Claude-SearchBot',   // Anthropic / Claude
   'Google-Extended',                                // Gemini, Vertex grounding
   'PerplexityBot', 'Perplexity-User',               // Perplexity
-  'Applebot-Extended',                              // Apple Intelligence
-  'CCBot',                                          // Common Crawl
-  'meta-externalagent',                             // Meta AI
+  'Applebot', 'Applebot-Extended',                  // Siri/Spotlight, Apple Intelligence
+  'DuckAssistBot',                                  // DuckDuckGo AI answers
+  'MistralAI-User',                                 // Le Chat (Mistral)
+  'Amazonbot',                                      // Alexa / Rufus
+  'YouBot',                                         // You.com
+  'CCBot',                                          // Common Crawl (training corpora)
+  'meta-externalagent', 'Meta-ExternalFetcher',     // Meta AI
+  'Bytespider',                                     // ByteDance / Doubao
+  'Google-CloudVertexBot',                          // Vertex AI Search grounding
 ]
 
 // NOTE — Brave deliberately has no token on that list, and cannot have one.

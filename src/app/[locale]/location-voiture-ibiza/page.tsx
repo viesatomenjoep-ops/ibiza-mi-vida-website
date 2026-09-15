@@ -53,7 +53,7 @@ const FAQS: Faq[] = [
 export default function LocationVoitureIbizaPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'location-voiture-ibiza', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Location de voiture à Ibiza',
         description: 'Location de voiture tout compris à Ibiza avec Wiber Rent a Car, à cinq minutes de l’aéroport avec navette gratuite et prise en charge sans contact.',
         brand: 'Wiber Rent a Car', price: parJour, path: 'location-voiture-ibiza',

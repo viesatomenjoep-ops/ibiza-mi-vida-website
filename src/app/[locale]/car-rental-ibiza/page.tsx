@@ -97,6 +97,7 @@ export default function CarRentalIbizaPage() {
     <>
       <SchemaMarkup
         locale={LOCALE}
+        page={{ path: 'car-rental-ibiza', dateModified: contentUpdated(PAGE_KEY) }}
         breadcrumbs={CRUMBS}
         faqs={FAQS}
         product={{

@@ -93,6 +93,7 @@ export default function JetskiHurenIbizaPage() {
     <>
       <SchemaMarkup
         locale={LOCALE}
+        page={{ path: 'jetski-huren-ibiza', dateModified: contentUpdated(PAGE_KEY) }}
         breadcrumbs={CRUMBS}
         faqs={FAQS}
         product={{

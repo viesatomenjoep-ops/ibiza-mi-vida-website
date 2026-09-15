@@ -95,6 +95,7 @@ export default function JetskiMietenIbizaPage() {
     <>
       <SchemaMarkup
         locale={LOCALE}
+        page={{ path: 'jetski-mieten-ibiza', dateModified: contentUpdated(PAGE_KEY) }}
         breadcrumbs={CRUMBS}
         faqs={FAQS}
         product={{

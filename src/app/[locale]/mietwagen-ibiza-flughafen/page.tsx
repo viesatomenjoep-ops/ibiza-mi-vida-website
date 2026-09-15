@@ -62,7 +62,7 @@ const FAQS: Faq[] = [
 export default function MietwagenFlughafenPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'mietwagen-ibiza-flughafen', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Mietwagen am Flughafen Ibiza',
         description: 'All-inclusive-Mietwagen, abgeholt fünf Minuten vom Flughafen Ibiza, mit kostenlosem Shuttle und kontaktloser Übergabe.',
         brand: 'Wiber Rent a Car', price: proTag, path: 'mietwagen-ibiza-flughafen',
