@@ -1,5 +1,7 @@
 import { SITE_URL, SITE_NAME, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
-import { FOUNDER_ID } from '@/lib/team'
+import { HOME_DESC } from '@/lib/seo-pages'
+import { FOUNDER, FOUNDER_ID, KNOWS_ABOUT, founderNode } from '@/lib/team'
+import { sameAs } from '@/lib/profiles'
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 import { breadcrumbListSchema, type BreadcrumbItem } from '@/components/seo/BreadcrumbJsonLd'
 
@@ -61,10 +63,35 @@ export interface ReviewData {
   url?: string
 }
 
+/**
+ * A WebPage node for the current URL: who wrote it, who publishes it, when it
+ * was last revised. `dateModified` comes from CONTENT_UPDATED via
+ * `contentUpdated(PAGE_KEY)` — the same value the visible "last updated" stamp
+ * shows — so schema and page can never disagree about the date.
+ */
+export interface PageInfo {
+  /** Locale-agnostic path, e.g. 'jet-ski-rental-ibiza'; '' for the homepage. */
+  path: string
+  /** ISO date of the last genuine content revision; omitted when unknown. */
+  dateModified?: string
+  /** Defaults to WebPage. */
+  type?: 'WebPage' | 'AboutPage' | 'ContactPage' | 'CollectionPage' | 'ItemPage'
+  name?: string
+  description?: string
+}
+
 export interface SchemaMarkupProps {
   locale: Locale | string
   /** Site-wide Organization node. Set on the root layout and the homepage. */
   organization?: boolean
+  /** The Person node for Simon (founder, author). Emitted once per page. */
+  founder?: boolean
+  /** WebSite node with the sitelinks SearchAction. Homepage only. */
+  website?: boolean
+  /** TravelAgency/LocalBusiness node for the knowledge panel. Homepage only. */
+  business?: boolean
+  /** WebPage node: author, publisher, dateModified. Pass on every evergreen page. */
+  page?: PageInfo
   /** Product + Offer, for a rental/commercial page. */
   product?: ProductOffer
   /**
@@ -79,23 +106,16 @@ export interface SchemaMarkupProps {
   reviews?: ReviewData | null
 }
 
-/** Confirmed profiles only. An unconfirmed guess claims an account we may not own. */
-function sameAs(): string[] {
-  const links = [
-    'https://www.instagram.com/ibizamivida/',
-    'https://www.tiktok.com/@ibizamivida',
-    // Het Google Bedrijfsprofiel, in de stabiele cid-vorm (de /maps/place/…-URL
-    // bevat sessieparameters). Dit is de entiteitskoppeling die de reviews
-    // aan deze Organization bindt — en precies wat een antwoordmachine
-    // gebruikt om "Ibiza mi Vida" als één bedrijf te herkennen.
-    'https://maps.google.com/?cid=2584947247658109964',
-  ]
-  // Een afwijkende of extra profiel-URL kan via env erbij; dubbel wordt ontdubbeld.
-  const gbp = process.env.NEXT_PUBLIC_GOOGLE_BUSINESS_URL
-  if (gbp && !links.includes(gbp)) links.push(gbp)
-  return links
-}
-
+/**
+ * The Organization — declared identically everywhere it appears.
+ *
+ * This is the entity an answer engine has to recognise as "Ibiza Mi Vida".
+ * Every page that emits it calls this function, so the description, the
+ * `sameAs` profiles, the founder, the languages and the service area are the
+ * same on the homepage, the about page, the contact page and every pillar.
+ * Three pages used to declare three slightly different Organizations; that is
+ * three entities to a parser, not one.
+ */
 export function organizationNode(locale: Locale) {
   return {
     '@type': 'Organization',
@@ -105,15 +125,101 @@ export function organizationNode(locale: Locale) {
     url: SITE_URL,
     logo: `${SITE_URL}/logo-clean.png`,
     image: `${SITE_URL}/og-default.jpg`,
-    areaServed: {
-      '@type': 'Place',
-      name: 'Ibiza, Spain',
-      address: { '@type': 'PostalAddress', addressRegion: 'Ibiza', addressCountry: 'ES' },
-    },
+    description: HOME_DESC[locale] ?? HOME_DESC.en,
+    areaServed: [
+      {
+        '@type': 'Place',
+        name: 'Ibiza, Spain',
+        address: { '@type': 'PostalAddress', addressRegion: 'Ibiza', addressCountry: 'ES' },
+      },
+      { '@type': 'Place', name: 'Formentera, Spain' },
+    ],
     telephone: `+${WHATSAPP_NUMBER}`,
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      telephone: `+${WHATSAPP_NUMBER}`,
+      availableLanguage: FOUNDER.languageTags,
+      areaServed: ['ES'],
+    },
+    knowsLanguage: FOUNDER.languageTags,
+    // Same list as the Person: the business knows what its founder knows.
+    knowsAbout: KNOWS_ABOUT.map((k) => k.name),
     sameAs: sameAs(),
     founder: { '@id': FOUNDER_ID },
+    employee: { '@id': FOUNDER_ID },
     inLanguage: locale,
+  }
+}
+
+/** WebSite node — one per site, with the calendar search as SearchAction. */
+export function websiteNode(locale: Locale) {
+  return {
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    url: SITE_URL,
+    name: SITE_NAME,
+    inLanguage: locale,
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}/${locale}/calendar?search={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  }
+}
+
+/**
+ * LocalBusiness (TravelAgency) node for the knowledge panel. No street
+ * address on purpose: this is a service-area business with no walk-in office,
+ * and a made-up address is the fastest way to a suspended Business Profile.
+ */
+export function businessNode(locale: Locale) {
+  return {
+    '@type': 'TravelAgency',
+    '@id': `${SITE_URL}/#business`,
+    name: SITE_NAME,
+    url: SITE_URL,
+    image: `${SITE_URL}/og-default.jpg`,
+    telephone: `+${WHATSAPP_NUMBER}`,
+    priceRange: '€€€',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Ibiza',
+      addressRegion: 'Balearic Islands',
+      addressCountry: 'ES',
+    },
+    geo: { '@type': 'GeoCoordinates', latitude: 38.9067, longitude: 1.4206 },
+    areaServed: [
+      { '@type': 'Place', name: 'Ibiza, Spain' },
+      { '@type': 'Place', name: 'Formentera, Spain' },
+    ],
+    parentOrganization: { '@id': `${SITE_URL}/#organization` },
+    description: HOME_DESC[locale] ?? HOME_DESC.en,
+  }
+}
+
+function pageNode(p: PageInfo, locale: Locale) {
+  const clean = p.path.replace(/^\//, '')
+  const url = `${SITE_URL}/${locale}${clean ? `/${clean}` : ''}`
+  return {
+    '@type': p.type ?? 'WebPage',
+    '@id': `${url}#webpage`,
+    url,
+    ...(p.name ? { name: p.name } : {}),
+    ...(p.description ? { description: p.description } : {}),
+    inLanguage: locale,
+    isPartOf: { '@id': `${SITE_URL}/#website` },
+    about: { '@id': `${SITE_URL}/#organization` },
+    // An AboutPage's main entity is the business itself; other page types
+    // are about their own subject and only reference the organization.
+    ...(p.type === 'AboutPage' ? { mainEntity: { '@id': `${SITE_URL}/#organization` } } : {}),
+    author: { '@id': FOUNDER_ID },
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    ...(p.dateModified ? { dateModified: p.dateModified } : {}),
   }
 }
 
@@ -172,6 +278,10 @@ function faqNode(faqs: { q: string; a: string }[]) {
 export function SchemaMarkup({
   locale,
   organization,
+  founder,
+  website,
+  business,
+  page,
   product,
   faqs,
   breadcrumbs,
@@ -184,6 +294,10 @@ export function SchemaMarkup({
   const graph: Record<string, unknown>[] = []
 
   if (organization) graph.push(organizationNode(l))
+  if (founder) graph.push(founderNode())
+  if (website) graph.push(websiteNode(l))
+  if (business) graph.push(businessNode(l))
+  if (page) graph.push(pageNode(page, l))
   if (product) graph.push(productNode(product, l, reviews))
   if (faqs && faqs.length) graph.push(faqNode(faqs))
   if (breadcrumbs && breadcrumbs.length >= 2) graph.push(breadcrumbListSchema(breadcrumbs, l))

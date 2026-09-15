@@ -5,7 +5,7 @@ import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { WhatsAppCta } from '@/components/hub/WhatsAppCta'
 import { QuickFacts } from '@/components/water/QuickFacts'
 import { AuthorByline } from '@/components/seo/AuthorByline'
-import { localizedAlternates, pathFor, localesFor, type RouteKey } from '@/lib/route-slugs'
+import { localizedAlternates, slugFor, pathFor, localesFor, type RouteKey } from '@/lib/route-slugs'
 import { contentUpdated } from '@/lib/content-dates'
 import { SITE_NAME, type Locale } from '@/lib/seo'
 import * as C from '@/lib/airport-transfer-copy'
@@ -60,7 +60,12 @@ export function AirportTransferGuide({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <SchemaMarkup locale={locale} breadcrumbs={crumbs} faqs={faqs} />
+      <SchemaMarkup
+        locale={locale}
+        page={{ path: slugFor('airport-transfer', locale), dateModified: contentUpdated(PAGE_KEY) }}
+        breadcrumbs={crumbs}
+        faqs={faqs}
+      />
       <Breadcrumbs items={crumbs} locale={locale} />
 
       <HubHero

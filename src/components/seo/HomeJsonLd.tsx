@@ -1,101 +1,17 @@
-import { SITE_URL, SITE_NAME, type Locale } from '@/lib/seo'
-import { HOME_DESC } from '@/lib/seo-pages'
-import { FOUNDER_ID, founderNode } from '@/lib/team'
-import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
+import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
 
 /**
- * Homepage structured data: Organization + WebSite (with SearchAction) +
- * TravelAgency/LocalBusiness. Rendered once on the homepage so Google can build
- * rich results (sitelinks search box, knowledge panel, business info).
+ * Homepage structured data: Organization + Person (founder) + WebSite (with
+ * SearchAction) + TravelAgency, in ONE @graph so Google can build rich
+ * results (sitelinks search box, knowledge panel, business info).
+ *
+ * This used to build its own graph with its own copy of the Organization and
+ * its own `sameAs` list, next to the copy in SchemaMarkup and the copies on
+ * /about-us and /contact — four declarations of the same business that had
+ * already drifted apart. It is now a thin alias so the homepage emits the same
+ * nodes as every other page. Kept as a named component only so the homepage
+ * reads as "the home schema" rather than a bag of booleans.
  */
-export function HomeJsonLd({ locale = 'nl' }: { locale?: string }) {
-  const ogImage = `${SITE_URL}/og-default.jpg`
-  // Same localized "bio" everywhere Google can surface it: Knowledge Panel
-  // (Organization), rich result business card (TravelAgency), and the page's
-  // own meta description (page.tsx) — one consistent story, five languages.
-  const bio = HOME_DESC[locale as Locale] || HOME_DESC.en
-
-  const organization = {
-    '@type': 'Organization',
-    '@id': `${SITE_URL}/#organization`,
-    name: SITE_NAME,
-    url: SITE_URL,
-    logo: `${SITE_URL}/logo-clean.png`,
-    image: ogImage,
-    description: bio,
-    telephone: `+${WHATSAPP_NUMBER}`,
-    // Elk profiel dat aantoonbaar van dit bedrijf is. Dit is het veld waarmee
-    // een zoekmachine of taalmodel deze site koppelt aan wat er elders over ons
-    // staat, en dat is waar het merendeel van de vermeldingen vandaan komt —
-    // zonder deze koppeling moeten ze zelf raden dat @ibizamivida hetzelfde
-    // bedrijf is als ibizamivida.com.
-    //
-    // Alleen kanalen waarvan de URL bevestigd is. Een gokje dat naar een
-    // vreemd of leeg profiel wijst is erger dan een korte lijst: dan claim je
-    // een account dat niet van jou is, en dat is lastig terug te draaien.
-    // Canonieke URL's, zonder tracking-parameters — TikTok plakt er
-    // ?is_from_webapp=... achter als je hem uit de app kopieert, en die hoort
-    // hier niet in.
-    //
-    // Aanvullen zodra ze bestaan: TripAdvisor. Het Google Bedrijfsprofiel
-    // bestaat en is geverifieerd; zelfde cid-vorm als in SchemaMarkup.
-    sameAs: [
-      'https://www.instagram.com/ibizamivida/',
-      'https://www.tiktok.com/@ibizamivida',
-      'https://maps.google.com/?cid=2584947247658109964',
-    ],
-    // E-E-A-T: names a real person behind the business. Referenced by @id — the
-    // Person itself is emitted alongside, and declared identically on /about-us
-    // and /contact, so all of them merge into one entity.
-    founder: { '@id': FOUNDER_ID },
-  }
-
-  const website = {
-    '@type': 'WebSite',
-    '@id': `${SITE_URL}/#website`,
-    url: SITE_URL,
-    name: SITE_NAME,
-    inLanguage: locale,
-    publisher: { '@id': `${SITE_URL}/#organization` },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/${locale}/calendar?search={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
-  }
-
-  const business = {
-    '@type': 'TravelAgency',
-    '@id': `${SITE_URL}/#business`,
-    name: SITE_NAME,
-    url: SITE_URL,
-    image: ogImage,
-    telephone: `+${WHATSAPP_NUMBER}`,
-    priceRange: '€€€',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Ibiza',
-      addressRegion: 'Balearic Islands',
-      addressCountry: 'ES',
-    },
-    geo: { '@type': 'GeoCoordinates', latitude: 38.9067, longitude: 1.4206 },
-    areaServed: { '@type': 'Place', name: 'Ibiza, Spain' },
-    parentOrganization: { '@id': `${SITE_URL}/#organization` },
-    description: bio,
-  }
-
-  const graph = {
-    '@context': 'https://schema.org',
-    '@graph': [organization, founderNode(), website, business],
-  }
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
-    />
-  )
+export function HomeJsonLd({ locale = 'en' }: { locale?: string }) {
+  return <SchemaMarkup locale={locale} organization founder website business page={{ path: '' }} />
 }

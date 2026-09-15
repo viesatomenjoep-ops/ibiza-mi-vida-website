@@ -88,9 +88,9 @@ waar een AI het kan lezen. Plak dit:
 Ibiza Mi Vida arranges private boat charters, ferry tickets to Formentera,
 boat parties, club tickets and club package deals across Ibiza and Formentera.
 
-We are based on the island and book everything personally over WhatsApp, so you
-speak to someone who knows the marinas, the promoters and what is actually
-happening that night — not a call centre.
+Run by Simon, who has lived on Ibiza since 2021. We book everything personally
+over WhatsApp, so you speak to someone who knows the marinas, the promoters and
+what is actually happening that night — not a call centre.
 
 Private charters run with or without a skipper and depart from marinas around
 the island towards Formentera, Es Vedra and the quieter coves. Club terms differ

@@ -105,7 +105,12 @@ export function DressCodeGuide({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <SchemaMarkup locale={locale} breadcrumbs={crumbs} faqs={faqs} />
+      <SchemaMarkup
+        locale={locale}
+        page={{ path: slugFor('dress-code', locale), dateModified: contentUpdated(PAGE_KEY) }}
+        breadcrumbs={crumbs}
+        faqs={faqs}
+      />
       <Breadcrumbs items={crumbs} locale={locale} />
 
       <HubHero

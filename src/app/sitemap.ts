@@ -145,6 +145,12 @@ const LOCALIZED_ROUTES: { key: RouteKey; priority: number; changeFrequency: Meta
   // tekst over hoe de dienst werkt en wat hij kost — verandert die, dan is dat
   // een herziening en geen wekelijkse schommeling.
   { key: 'concierge', priority: 0.7, changeFrequency: 'monthly' },
+  // Amerikaans cluster, alleen /en. Weekly voor de vluchtenpagina: de
+  // nonstop-status en de wisselkoers veranderen; monthly voor de rest.
+  { key: 'us-hub', priority: 0.8, changeFrequency: 'weekly' },
+  { key: 'us-flights', priority: 0.8, changeFrequency: 'weekly' },
+  { key: 'us-requirements', priority: 0.7, changeFrequency: 'monthly' },
+  { key: 'us-itinerary', priority: 0.7, changeFrequency: 'monthly' },
   // BEWUST AFWEZIG: 'pacha-venue', 'amnesia-venue' en 'dc10-venue'. Die drie
   // pagina's zijn geschreven maar 404'en nog (src/lib/pending-venues.ts) tot het
   // akkoord met de clubs rond is. Een URL in de sitemap die 404't is een

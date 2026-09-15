@@ -60,7 +60,7 @@ const FAQS: Faq[] = [
 export default function LocationCabrioletPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'location-cabriolet-ibiza', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Location de cabriolet à Ibiza',
         description: 'Location de cabriolet à Ibiza pour les routes de la côte ouest et nord, tout compris via Wiber Rent a Car.',
         brand: 'Wiber Rent a Car', price: null, path: 'location-cabriolet-ibiza',

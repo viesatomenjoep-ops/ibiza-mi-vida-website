@@ -66,7 +66,7 @@ const FAQS: Faq[] = [
 export default function BootMietenMitSkipperPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'boot-mieten-ibiza-mit-skipper', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Boot mieten auf Ibiza mit Skipper',
         description: 'Tagescharter mit Skipper auf Ibiza ab Marinas rund um die Insel, mit ortskundigen Skippern in mehreren Sprachen.',
         brand: 'Click&Boat', price: preis, path: 'boot-mieten-ibiza-mit-skipper',

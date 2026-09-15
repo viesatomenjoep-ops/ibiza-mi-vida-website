@@ -49,7 +49,7 @@ const FAQS: Faq[] = [
 export default function ConvertibleRentalPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'convertible-car-rental-ibiza', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Convertible car rental in Ibiza',
         description: 'Convertible hire in Ibiza for the west and north coast roads, all-inclusive through Wiber Rent a Car.',
         brand: 'Wiber Rent a Car', price: null, path: 'convertible-car-rental-ibiza',

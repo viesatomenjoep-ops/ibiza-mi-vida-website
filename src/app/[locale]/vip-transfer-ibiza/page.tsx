@@ -145,6 +145,7 @@ export default async function Page() {
     <>
       <SchemaMarkup
         locale={LOCALE}
+        page={{ path: 'vip-transfer-ibiza', dateModified: contentUpdated(PAGE_KEY) }}
         breadcrumbs={crumbs}
         faqs={FAQS.map(f => ({ q: f.q, a: f.a }))}
         product={{

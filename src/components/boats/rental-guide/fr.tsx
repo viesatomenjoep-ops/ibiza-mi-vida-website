@@ -51,7 +51,7 @@ const FAQS: Faq[] = [
 export function BoatRentalGuide() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'boats', dateModified: contentUpdated(PAGE_KEY) }} faqs={FAQS} product={{
         name: 'Location de bateau à Ibiza',
         description: 'Location de bateau à Ibiza avec skipper, avec votre propre permis ou sans permis jusqu’à 15 ch, au départ de quatre ports.',
         brand: 'Click&Boat', price: skipper, path: 'boats',

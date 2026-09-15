@@ -65,7 +65,7 @@ const FAQS: Faq[] = [
 export default function LocationBateauAvecSkipperPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'location-bateau-ibiza-avec-skipper', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Location de bateau à Ibiza avec skipper',
         description: 'Charters à la journée avec skipper à Ibiza, au départ des marinas de l’île, avec des skippers locaux travaillant en plusieurs langues.',
         brand: 'Click&Boat', price: prix, path: 'location-bateau-ibiza-avec-skipper',

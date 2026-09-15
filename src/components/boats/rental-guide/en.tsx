@@ -107,6 +107,7 @@ export function BoatRentalGuide() {
     <>
       <SchemaMarkup
         locale={LOCALE}
+        page={{ path: 'boats', dateModified: contentUpdated(PAGE_KEY) }}
         faqs={FAQS}
         product={{
           name: 'Boat rental in Ibiza',

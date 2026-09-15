@@ -68,7 +68,7 @@ const FAQS: Faq[] = [
 export default function BootMietenOhneFuehrerscheinPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'boot-mieten-ibiza-ohne-fuehrerschein', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Boot mieten auf Ibiza ohne Führerschein',
         description: 'Boot mieten auf Ibiza ohne Führerschein: bis 15 PS, Rumpf unter sechs Metern, Fahrer ab 18 Jahren.',
         brand: 'Click&Boat', price: preis, path: 'boot-mieten-ibiza-ohne-fuehrerschein',

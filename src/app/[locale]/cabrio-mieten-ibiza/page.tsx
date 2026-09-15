@@ -61,7 +61,7 @@ const FAQS: Faq[] = [
 export default function CabrioMietenPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'cabrio-mieten-ibiza', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Cabrio mieten auf Ibiza',
         description: 'Cabriovermietung auf Ibiza für die West- und Nordküstenstraßen, all-inclusive über Wiber Rent a Car.',
         brand: 'Wiber Rent a Car', price: null, path: 'cabrio-mieten-ibiza',

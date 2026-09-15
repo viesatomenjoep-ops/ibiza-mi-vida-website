@@ -52,7 +52,7 @@ const FAQS: Faq[] = [
 export function BoatRentalGuide() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'boats', dateModified: contentUpdated(PAGE_KEY) }} faqs={FAQS} product={{
         name: 'Boot mieten auf Ibiza',
         description: 'Bootsverleih auf Ibiza mit Skipper, mit eigenem Führerschein oder führerscheinfrei bis 15 PS, ab vier Marinas rund um die Insel.',
         brand: 'Click&Boat', price: skipper, path: 'boats',

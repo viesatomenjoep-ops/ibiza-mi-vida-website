@@ -92,6 +92,7 @@ export default function AlquilerMotosAguaIbizaPage() {
     <>
       <SchemaMarkup
         locale={LOCALE}
+        page={{ path: 'alquiler-motos-agua-ibiza', dateModified: contentUpdated(PAGE_KEY) }}
         breadcrumbs={CRUMBS}
         faqs={FAQS}
         product={{

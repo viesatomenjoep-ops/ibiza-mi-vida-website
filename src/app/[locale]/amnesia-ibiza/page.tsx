@@ -130,7 +130,7 @@ export default function AmnesiaIbizaPage() {
 
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} />
+      <SchemaMarkup locale={LOCALE} page={{ path: 'amnesia-ibiza', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} />
       <Breadcrumbs items={CRUMBS} locale={LOCALE} />
 
       <HubHero

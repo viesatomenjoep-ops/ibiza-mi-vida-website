@@ -50,7 +50,7 @@ const FAQS: Faq[] = [
 export default function BoatWithSkipperPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'boat-rental-with-skipper-ibiza', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Boat rental with a skipper in Ibiza',
         description: 'Skippered day charters in Ibiza from marinas around the island, with local skippers working in several languages.',
         brand: 'Click&Boat', price, path: 'boat-rental-with-skipper-ibiza',

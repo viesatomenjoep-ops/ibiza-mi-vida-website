@@ -174,6 +174,7 @@ export default function PackageDealsPage({ params: { locale } }: { params: { loc
     <div className="min-h-screen bg-white text-neutral-900">
       <SchemaMarkup
         locale={l}
+        page={{ path: 'package-deals', dateModified: contentUpdated(PAGE_KEY) }}
         faqs={faqs}
         breadcrumbs={[{ name: HOME[l], path: '' }, { name: TITLE[l] }]}
       />

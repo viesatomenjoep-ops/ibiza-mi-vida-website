@@ -66,7 +66,7 @@ const FAQS: Faq[] = [
 export default function AlquilerBarcoSinTitulacionPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'alquiler-barco-ibiza-sin-titulacion', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Alquiler de barco en Ibiza sin titulación',
         description: 'Alquiler de barco en Ibiza sin titulación: hasta 15 CV, eslora inferior a seis metros, patrón desde 18 años.',
         brand: 'Click&Boat', price: precio, path: 'alquiler-barco-ibiza-sin-titulacion',

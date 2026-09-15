@@ -63,7 +63,7 @@ const FAQS: Faq[] = [
 export default function AlquilerCochesAeropuertoPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'alquiler-coches-aeropuerto-ibiza', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Alquiler de coches en el aeropuerto de Ibiza',
         description: 'Alquiler de coches todo incluido, recogido a cinco minutos del aeropuerto de Ibiza con lanzadera gratuita y entrega sin papeleo.',
         brand: 'Wiber Rent a Car', price: porDia, path: 'alquiler-coches-aeropuerto-ibiza',

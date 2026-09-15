@@ -67,7 +67,7 @@ const FAQS: Faq[] = [
 export default function BootHurenZonderVaarbewijsPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'boot-huren-ibiza-zonder-vaarbewijs', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Boot huren op Ibiza zonder vaarbewijs',
         description: 'Boot huren op Ibiza zonder vaarbewijs: tot 15 pk, romp onder zes meter, bestuurder vanaf 18 jaar.',
         brand: 'Click&Boat', price: prijs, path: 'boot-huren-ibiza-zonder-vaarbewijs',
