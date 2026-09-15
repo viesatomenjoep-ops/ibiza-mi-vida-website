@@ -32,7 +32,6 @@ export interface LocationData {
   name: string
   /** Which island the place belongs to — drives grouping and containedInPlace. */
   island: Island
-  imageUrl: string
   tagline: T
   intro: T
   history: T
@@ -49,7 +48,6 @@ export const locations: LocationData[] = [
     slug: 'ibiza-stad',
     name: 'Ibiza Town (Eivissa)',
     island: 'ibiza',
-    imageUrl: '/locations/loc_ibiza_stad_1782313041046.png',
     tagline: L(
       'De ommuurde oude stad, de haven en het bestuurlijke hart van het eiland',
       'The walled old town, the harbour and the island’s administrative heart',
@@ -165,7 +163,6 @@ export const locations: LocationData[] = [
     slug: 'san-antonio',
     name: 'San Antonio (Sant Antoni de Portmany)',
     island: 'ibiza',
-    imageUrl: '/locations/loc_san_antonio_1782313029811.png',
     tagline: L(
       'De westkust: zonsondergang boven zee en het dichtste uitgaansgebied',
       'The west coast: sunset over water and the island’s densest nightlife',
@@ -281,7 +278,6 @@ export const locations: LocationData[] = [
     slug: 'playa-den-bossa',
     name: 'Playa d’en Bossa',
     island: 'ibiza',
-    imageUrl: '/locations/loc_playa_den_bossa_1782313054063.png',
     tagline: L(
       'Lang, recht zandstrand met de dichtste concentratie dagfeesten',
       'A long, straight sand beach with the densest concentration of daytime parties',
@@ -397,7 +393,6 @@ export const locations: LocationData[] = [
     slug: 'santa-eulalia',
     name: 'Santa Eulària des Riu',
     island: 'ibiza',
-    imageUrl: '/locations/loc_santa_eulalia_1782313062420.png',
     tagline: L(
       'Oostkuststadje met een rivier, een kerkheuvel en een rustiger tempo',
       'An east-coast town with a river, a hilltop church and a calmer pace',
@@ -513,7 +508,6 @@ export const locations: LocationData[] = [
     slug: 'ses-salines',
     name: 'Ses Salines',
     island: 'ibiza',
-    imageUrl: '',
     tagline: L(
       'Werkende zoutpannen, een natuurpark en het strand in het uiterste zuiden',
       'Working salt pans, a nature park and the beach at the island’s southern tip',
@@ -629,7 +623,6 @@ export const locations: LocationData[] = [
     slug: 'cala-comte',
     name: 'Cala Comte (Cala Conta)',
     island: 'ibiza',
-    imageUrl: '',
     tagline: L(
       'Lage rotskust met eilandjes voor de kust en het helderste water van de westkant',
       'Low rocky shoreline, islets offshore and the clearest water on the west coast',
@@ -745,7 +738,6 @@ export const locations: LocationData[] = [
     slug: 'cala-jondal',
     name: 'Cala Jondal',
     island: 'ibiza',
-    imageUrl: '/locations/loc_cala_jondal_1782313083677.png',
     tagline: L(
       'Kiezelbaai in het zuiden waar de jachten voor anker gaan',
       'A pebble bay on the south coast where the yachts drop anchor',
@@ -861,7 +853,6 @@ export const locations: LocationData[] = [
     slug: 'es-vedra',
     name: 'Es Vedrà',
     island: 'ibiza',
-    imageUrl: '/locations/loc_es_vedra_1782313094075.png',
     tagline: L(
       'De onbewoonde rots voor de zuidwestkust en de uitkijkpunten erboven',
       'The uninhabited rock off the south-west coast, and the viewpoints above it',
@@ -977,7 +968,6 @@ export const locations: LocationData[] = [
     slug: 'san-juan',
     name: 'San Juan (Sant Joan de Labritja)',
     island: 'ibiza',
-    imageUrl: '/locations/loc_san_juan_1782313104066.png',
     tagline: L(
       'Het bergachtige noorden: dorpen, terrassen en het lege deel van Ibiza',
       'The hilly north: villages, terraces and the empty part of Ibiza',
@@ -1093,7 +1083,6 @@ export const locations: LocationData[] = [
     slug: 'benirras',
     name: 'Benirràs',
     island: 'ibiza',
-    imageUrl: '',
     tagline: L(
       'Noordelijke baai tussen kliffen, bekend van de trommels bij zonsondergang',
       'A northern bay between cliffs, known for the drums at sunset',
@@ -1209,7 +1198,6 @@ export const locations: LocationData[] = [
     slug: 'portinatx',
     name: 'Portinatx',
     island: 'ibiza',
-    imageUrl: '',
     tagline: L(
       'Beschutte baaien op het noordpunt, met de vuurtoren en helder water',
       'Sheltered coves on the northern tip, with the lighthouse and clear water',
@@ -1325,7 +1313,6 @@ export const locations: LocationData[] = [
     slug: 'es-canar',
     name: 'Es Canar',
     island: 'ibiza',
-    imageUrl: '',
     tagline: L(
       'Rustige familiebadplaats aan de oostkust, met de hippiemarkt om de hoek',
       'A calm family resort on the east coast, with the hippy market next door',
@@ -1441,7 +1428,6 @@ export const locations: LocationData[] = [
     slug: 'cala-llonga',
     name: 'Cala Llonga',
     island: 'ibiza',
-    imageUrl: '',
     tagline: L(
       'Diepe baai tussen beboste hellingen, halverwege stad en Santa Eulària',
       'A deep bay between wooded slopes, halfway between the town and Santa Eulària',
@@ -1557,7 +1543,6 @@ export const locations: LocationData[] = [
     slug: 'santa-gertrudis',
     name: 'Santa Gertrudis de Fruitera',
     island: 'ibiza',
-    imageUrl: '',
     tagline: L(
       'Het dorp in het midden van het eiland, zonder kust maar met alles eromheen',
       'The village in the middle of the island — no coast, but everything around it',
@@ -1673,7 +1658,6 @@ export const locations: LocationData[] = [
     slug: 'sant-josep',
     name: 'Sant Josep de sa Talaia',
     island: 'ibiza',
-    imageUrl: '',
     tagline: L(
       'Het dorp onder de hoogste top, en de gemeente met de bekendste stranden',
       'The village below the highest peak, and the municipality with the best-known beaches',
@@ -1790,7 +1774,6 @@ export const locations: LocationData[] = [
     slug: 'formentera',
     name: 'Formentera',
     island: 'formentera',
-    imageUrl: '/locations/loc_formentera_1782313071571.png',
     tagline: L(
       'Het eiland zonder vliegveld, alleen over zee bereikbaar',
       'The island with no airport, reachable only by sea',
@@ -1906,7 +1889,6 @@ export const locations: LocationData[] = [
     slug: 'ses-illetes',
     name: 'Ses Illetes',
     island: 'formentera',
-    imageUrl: '',
     tagline: L(
       'De zandspit in het noorden, met water aan beide kanten',
       'The sand spit in the north, with water on both sides',
@@ -2022,7 +2004,6 @@ export const locations: LocationData[] = [
     slug: 'es-pujols',
     name: 'Es Pujols',
     island: 'formentera',
-    imageUrl: '',
     tagline: L(
       'De belangrijkste badplaats van Formentera, met de enige echte avondstraat',
       'Formentera’s main resort, and the island’s only real evening street',
@@ -2138,7 +2119,6 @@ export const locations: LocationData[] = [
     slug: 'sant-francesc',
     name: 'Sant Francesc Xavier',
     island: 'formentera',
-    imageUrl: '',
     tagline: L(
       'De hoofdplaats van Formentera, landinwaarts en zonder strand',
       'Formentera’s main town — inland, and without a beach',
@@ -2254,7 +2234,6 @@ export const locations: LocationData[] = [
     slug: 'la-mola',
     name: 'La Mola',
     island: 'formentera',
-    imageUrl: '',
     tagline: L(
       'Het hoge plateau in het oosten, met kliffen en een vuurtoren',
       'The high plateau in the east, with cliffs and a lighthouse',
@@ -2370,7 +2349,6 @@ export const locations: LocationData[] = [
     slug: 'es-calo',
     name: 'Es Caló de Sant Agustí',
     island: 'formentera',
-    imageUrl: '',
     tagline: L(
       'Klein vissersplaatsje aan de noordkust, onder de opgang naar La Mola',
       'A small fishing settlement on the north coast, below the climb to La Mola',

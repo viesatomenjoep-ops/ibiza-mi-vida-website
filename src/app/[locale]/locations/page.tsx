@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { LocationImage } from '@/components/locations/LocationImage'
 import Link from 'next/link'
 import Image from 'next/image'
 import { locations, locationsByIsland, type LocationData } from '@/lib/locations'
@@ -114,15 +113,11 @@ export default function LocationsIndex({ params }: { params: { locale: string } 
                 href={`${base}/locations/${loc.slug}`}
                 className="group flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white text-neutral-900 transition-all hover:border-gold hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)]"
               >
-                <span className="relative block aspect-[4/3] overflow-hidden bg-ibiza-mint">
-                  <LocationImage
-                    src={loc.imageUrl}
-                    name={loc.name}
-                    sizes="(max-width: 640px) 100vw, 33vw"
-                    className="transition-transform duration-500 group-hover:scale-105"
-                  />
-                </span>
-                <span className="flex flex-1 flex-col gap-1.5 p-5 text-neutral-900">
+                {/* Geen beeld meer op deze kaarten. De foto's waren AI-gegenereerd
+                    en dertien van de eenentwintig plaatsen hadden er geen, wat
+                    een raster met donkere stand-in-vlakken opleverde. Een
+                    typografische kaart is eerlijker én rustiger dan allebei. */}
+                <span className="flex flex-1 flex-col gap-1.5 p-6 text-neutral-900">
                   <strong className="font-serif text-lg font-black leading-tight text-neutral-900">{loc.name}</strong>
                   <span className="text-sm leading-relaxed text-neutral-600">{loc.tagline[l]}</span>
                 </span>
