@@ -16,6 +16,7 @@ dezelfde instructie ontstaat:
 | Vermeldingen, outreach, Reddit-regels, boilerplate | `docs/authority-plan.md` |
 | Reviews vragen (Google) | `docs/review-flow.md` |
 | Trustpilot koppelen | `docs/geo/TRUSTPILOT.md` |
+| Amerikaanse reizigers (Engels cluster, affiliate-netwerken VS) | `docs/geo/US-MARKET.md` |
 | Meten of we genoemd worden | `docs/seo/GEO-KPI.md` |
 | Schrijfregels voor nieuwe pagina's | `docs/seo/WRITING-RULES.md` |
 

@@ -222,6 +222,11 @@ export default function CarRentalIbizaPage() {
             href: 'car-rental-ibiza-airport',
             body: 'The pick-up flow at IBZ, shuttle times and what to do after a late landing.',
           },
+          {
+            label: 'Driving in Ibiza with a US license',
+            href: 'ibiza-travel-requirements-us-citizens',
+            body: 'Why Americans need an International Driving Permit at the desk, and the other entry rules.',
+          },
         ]}
       />
 

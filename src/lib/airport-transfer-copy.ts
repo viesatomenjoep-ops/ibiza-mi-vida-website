@@ -309,6 +309,11 @@ export const H_LINKS: T = L('Gerelateerde pagina’s', 'Related pages', 'Verwand
 
 export const LINKS: { key: string; localized: boolean; label: T; body: T }[] = [
   {
+    key: 'us-flights', localized: true,
+    label: L('Vliegen vanuit de VS', 'Flights from the US to Ibiza', 'Flüge aus den USA nach Ibiza', 'Vuelos desde EE. UU. a Ibiza', 'Vols des États-Unis vers Ibiza'),
+    body: L('De aangekondigde nonstop vanaf Newark en de overstaproutes via Madrid en Barcelona (Engels).', 'The announced Newark nonstop and the one-stop routes via Madrid and Barcelona.', 'Der angekündigte Nonstop ab Newark und die Umsteigeverbindungen über Madrid und Barcelona (Englisch).', 'El vuelo directo anunciado desde Newark y las conexiones vía Madrid y Barcelona (en inglés).', "Le vol direct annoncé depuis Newark et les correspondances via Madrid et Barcelone (en anglais)."),
+  },
+  {
     key: 'vip-transfer', localized: true,
     label: L('VIP-transfer met chauffeur', 'VIP transfer with a private driver', 'VIP-Transfer mit Chauffeur', 'Traslado VIP con chófer', 'Transfert VIP avec chauffeur'),
     body: L('Vaste prijs per auto, chauffeur volgt je vlucht.', 'Fixed price per car, the driver tracks your flight.', 'Fester Preis pro Wagen, der Fahrer verfolgt deinen Flug.', 'Precio fijo por coche, el chófer sigue tu vuelo.', "Prix fixe par voiture, le chauffeur suit votre vol."),

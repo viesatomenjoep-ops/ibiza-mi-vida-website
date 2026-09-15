@@ -55,6 +55,13 @@ export const CONTENT_UPDATED: Record<string, string> = {
   'amnesia-ibiza': '2026-09-07',
   'dc10-ibiza': '2026-09-07',
   'ibiza-airport-transfer': '2026-09-07',
+  // Het Amerikaanse cluster, nieuw geschreven. Eén datum voor de hub en de
+  // drie spokes; de vluchtenpagina krijgt een eigen bump zodra de
+  // nonstop-status in us-travel.ts verandert.
+  'ibiza-for-americans': '2026-09-15',
+  'flights-to-ibiza-from-usa': '2026-09-15',
+  'ibiza-travel-requirements-us-citizens': '2026-09-15',
+  'luxury-ibiza-itinerary-5-days': '2026-09-15',
   // Gidsen, nieuw geschreven.
   'ibiza-nightlife': '2026-09-07',
   'ibiza-club-dress-code': '2026-09-07',

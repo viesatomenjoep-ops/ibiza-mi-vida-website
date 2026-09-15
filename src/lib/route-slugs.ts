@@ -54,6 +54,10 @@ export type RouteKey =
   | 'dress-code'
   | 'getting-around'
   | 'concierge'
+  | 'us-hub'
+  | 'us-flights'
+  | 'us-requirements'
+  | 'us-itinerary'
 
 type SlugSet = Record<Locale, string>
 
@@ -235,6 +239,39 @@ export const ROUTE_SLUGS: Record<RouteKey, SlugSet> = {
     fr: 'conciergerie-ibiza',
     es: 'conserjeria-ibiza',
   },
+  // Het Amerikaanse cluster. Geschreven voor één publiek en één taal; de
+  // vertaalde slugs staan er alleen zodat de middleware een verkeerde
+  // taalvariant naar /en kan sturen. ROUTE_LOCALES blijft ['en'] tot een
+  // vertaling commercieel zin heeft — een Duitser zoekt geen "Ibiza für
+  // Amerikaner".
+  'us-hub': {
+    en: 'ibiza-for-americans',
+    nl: 'ibiza-voor-amerikanen',
+    de: 'ibiza-fuer-amerikaner',
+    fr: 'ibiza-pour-americains',
+    es: 'ibiza-para-estadounidenses',
+  },
+  'us-flights': {
+    en: 'flights-to-ibiza-from-usa',
+    nl: 'vluchten-ibiza-vanuit-vs',
+    de: 'fluege-ibiza-aus-usa',
+    fr: 'vols-ibiza-depuis-etats-unis',
+    es: 'vuelos-ibiza-desde-estados-unidos',
+  },
+  'us-requirements': {
+    en: 'ibiza-travel-requirements-us-citizens',
+    nl: 'reisvereisten-ibiza-amerikanen',
+    de: 'einreise-ibiza-us-buerger',
+    fr: 'formalites-ibiza-citoyens-americains',
+    es: 'requisitos-viaje-ibiza-estadounidenses',
+  },
+  'us-itinerary': {
+    en: 'luxury-ibiza-itinerary-5-days',
+    nl: 'luxe-ibiza-reisschema-5-dagen',
+    de: 'luxus-ibiza-reiseplan-5-tage',
+    fr: 'itineraire-ibiza-luxe-5-jours',
+    es: 'itinerario-ibiza-lujo-5-dias',
+  },
 }
 
 /**
@@ -337,6 +374,10 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   // taal geschreven en niet vertaald, dus het hreflang-cluster verwijst naar
   // vijf pagina's die alle vijf renderen.
   concierge: ['en', 'nl', 'de', 'es', 'fr'],
+  'us-hub': ['en'],
+  'us-flights': ['en'],
+  'us-requirements': ['en'],
+  'us-itinerary': ['en'],
 }
 
 /** The locales a route is published in. */

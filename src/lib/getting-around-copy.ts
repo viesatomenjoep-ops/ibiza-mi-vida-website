@@ -406,6 +406,11 @@ export const LINKS: { key: string; localized: boolean; label: T; body: T }[] = [
     body: L('Waar je je basis kiest, en wat dat kost aan reistijd.', 'Where to base yourself, and what that costs in travel time.', 'Wo du dich einquartierst und was das an Fahrzeit kostet.', 'Dónde alojarte y lo que cuesta en tiempo de viaje.', "Où s'installer, et ce que cela coûte en temps de trajet."),
   },
   {
+    key: 'us-hub', localized: true,
+    label: L('Ibiza voor Amerikanen', 'Ibiza for American travelers', 'Ibiza für US-Reisende', 'Ibiza para viajeros de EE. UU.', 'Ibiza pour les voyageurs américains'),
+    body: L('Vluchten, papieren en rijbewijsregels voor bezoekers uit de VS (Engels).', 'Flights, paperwork and the driving-permit rule for visitors from the US.', 'Flüge, Papiere und die Führerscheinregel für Besucher aus den USA (Englisch).', 'Vuelos, documentos y la norma del permiso de conducir para visitantes de EE. UU. (en inglés).', "Vols, papiers et règle du permis de conduire pour les visiteurs des États-Unis (en anglais)."),
+  },
+  {
     key: 'tips', localized: false,
     label: L('Ibiza tips', 'Ibiza tips', 'Ibiza Tipps', 'Consejos de Ibiza', 'Conseils Ibiza'),
     body: L('Praktisch eilandadvies van het lokale team.', 'Practical island advice from the local team.', 'Praktische Inseltipps vom Team vor Ort.', 'Consejos prácticos del equipo local.', "Conseils pratiques de l'équipe sur place."),
