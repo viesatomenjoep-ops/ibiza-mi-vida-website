@@ -143,7 +143,7 @@ const CLUSTER: { path: string; label: string; body: string }[] = [
   { path: 'ibiza-for-americans', label: 'Ibiza for Americans: the hub', body: 'Everything a US traveler needs before booking, on one page.' },
   { path: 'flights-to-ibiza-from-usa', label: 'Flights from the US to Ibiza', body: 'The Newark nonstop, and the one-stop routes from ten US airports.' },
   { path: 'ibiza-travel-requirements-us-citizens', label: 'Entry requirements for US citizens', body: 'Passport rules, ETIAS status, the driving permit and what to carry.' },
-  { path: 'luxury-ibiza-itinerary-5-days', label: '5-day luxury Ibiza itinerary', body: 'Day by day, with what each part costs in euros and dollars.' },
+  { path: 'luxury-ibiza-itinerary-5-days', label: 'Planning a 5-day trip', body: 'What each day is for, what to book first, and what it costs.' },
 ]
 
 export function UsClusterLinks({ current }: { current: string }) {

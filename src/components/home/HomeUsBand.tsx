@@ -44,8 +44,8 @@ const SPOKES = [
   {
     icon: CalendarDays,
     href: '/en/luxury-ibiza-itinerary-5-days',
-    title: '5-day luxury plan',
-    body: 'Day by day, with costs in euros and dollars.',
+    title: 'Planning and costs',
+    body: 'How to shape five days, what to book first, and what it costs in dollars.',
   },
 ]
 
