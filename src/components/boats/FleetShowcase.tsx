@@ -8,13 +8,22 @@ import {
   Search, MessageCircle, Anchor, Ship, Waves, Percent, Users, Ruler,
   MapPin, X, Check, Euro, Lock, LockOpen, SlidersHorizontal,
 } from 'lucide-react';
-import { FLEET, FLEET_FROM_PRICE, dossierHref, type Boat, type FleetCategory } from '@/data/fleet';
+import { FLEET, FLEET_CATEGORIES, FLEET_FROM_PRICE, dossierHref, type Boat, type FleetCategory } from '@/data/fleet';
 import { priceForDate, statusForDate, seasonForDate, ibizaToday, liveStampTime, type LiveFleet } from '@/lib/yacht-broker';
 import { FileText, CalendarDays } from 'lucide-react';
 import { BackButton } from '@/components/ui/BackButton';
 import { FavouriteButton } from '@/components/boats/FavouriteButton';
 import { FleetFilterBar, type SortKey } from '@/components/boats/FleetFilterBar';
 import { getFavourites, onFavouritesChange, toggleFavourite } from '@/lib/boat-favourites';
+import { FleetSteps, PAX_STEPS, BUDGET_STEPS } from '@/components/boats/FleetSteps';
+
+/**
+ * Hoeveel kaarten je in één keer te zien krijgt, en in welke volgorde de
+ * categorieën aan de beurt zijn bij het samenstellen van die selectie.
+ * Op moduleniveau zodat ze niet per render opnieuw ontstaan.
+ */
+const SHORTLIST = 12;
+const CAT_ORDER: FleetCategory[] = ['yacht', 'motorboat', 'catamaran', 'jetski', 'boat'];
 
 /** WhatsApp business number (digits only). */
 const WHATSAPP = WHATSAPP_NUMBER;
@@ -96,6 +105,9 @@ interface FleetLabels {
   noResults: string;
   enlarge: string;
   boatsCount: (n: number) => string;
+  /** Knop onder de selectie: "Toon alle 94 boten". */
+  showAll: (n: number) => string;
+  showAllNote: string;
 }
 
 const FLEET_I18N: Record<string, FleetLabels> = {
@@ -129,6 +141,8 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'No yachts match your search.',
     enlarge: 'Enlarge photo',
     boatsCount: (n) => `${n} ${n === 1 ? 'yacht' : 'yachts'}`,
+    showAll: (n) => `Show all ${n} boats`,
+    showAllNote: 'The first twelve span the fleet — every type, cheapest first. The rest are already on this page.',
   },
   nl: {
     title: 'Private Boot Charters Ibiza',
@@ -160,6 +174,8 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'Geen jachten gevonden voor je zoekopdracht.',
     enlarge: 'Foto vergroten',
     boatsCount: (n) => `${n} ${n === 1 ? 'jacht' : 'jachten'}`,
+    showAll: (n) => `Toon alle ${n} boten`,
+    showAllNote: 'De eerste twaalf spannen de vloot op — elke soort, goedkoopste eerst. De rest staat al op deze pagina.',
   },
   de: {
     title: 'Private Bootscharter Ibiza',
@@ -191,6 +207,8 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'Keine Yachten für Ihre Suche gefunden.',
     enlarge: 'Foto vergrößern',
     boatsCount: (n) => `${n} ${n === 1 ? 'Yacht' : 'Yachten'}`,
+    showAll: (n) => `Alle ${n} Boote zeigen`,
+    showAllNote: 'Die ersten zwölf decken die ganze Flotte ab — jede Art, günstigste zuerst. Der Rest steht bereits auf dieser Seite.',
   },
   es: {
     title: 'Chárter de Barcos Privados en Ibiza',
@@ -222,6 +240,8 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'Ningún yate coincide con tu búsqueda.',
     enlarge: 'Ampliar foto',
     boatsCount: (n) => `${n} ${n === 1 ? 'yate' : 'yates'}`,
+    showAll: (n) => `Ver los ${n} barcos`,
+    showAllNote: 'Los primeros doce abarcan toda la flota — cada tipo, del más barato al más caro. El resto ya está en esta página.',
   },
   fr: {
     title: 'Location de Bateaux Privés à Ibiza',
@@ -253,6 +273,8 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'Aucun yacht ne correspond à votre recherche.',
     enlarge: 'Agrandir la photo',
     boatsCount: (n) => `${n} ${n === 1 ? 'yacht' : 'yachts'}`,
+    showAll: (n) => `Voir les ${n} bateaux`,
+    showAllNote: 'Les douze premiers couvrent toute la flotte — chaque type, du moins cher au plus cher. Le reste est déjà sur cette page.',
   },
 };
 
@@ -272,8 +294,10 @@ function waLink(boat: Boat, T: FleetLabels, date?: string | null) {
 }
 
 // ── Boat advertisement card ─────────────────────────────────────────────────────
-function BoatCard({ boat, T, locale, live, date, season }: {
+function BoatCard({ boat, T, locale, live, date, season, hidden = false }: {
   boat: Boat; T: FleetLabels; locale: string;
+  /** Wel in de HTML, niet in beeld — zie de grid in FleetShowcase. */
+  hidden?: boolean;
   /* Live gegevens voor deze boot, of null zolang de feed niet geladen/bereikbaar is. */
   live: { days: Record<string, 'booked' | 'option'>; price: Partial<Record<'low'|'mid'|'high'|'top', number>> | null; priceBands: { from: string; to: string; price: number }[] | null } | null;
   date: string | null; season: 'low'|'mid'|'high'|'top';
@@ -311,7 +335,7 @@ function BoatCard({ boat, T, locale, live, date, season }: {
     : band === 'mid' ? (boat.category === 'motorboat' ? T.seasonMidNoteCompact : T.seasonMidNote)
     : T.seasonLowNote;
   return (
-    <article id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="fleet-card group relative flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
+    <article hidden={hidden} id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="fleet-card group relative flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
       {/* Foto → rechtstreeks het dossier, zie dossierHref() in data/fleet.ts.
           Een gewone <a> en geen <Link>: dit is een bestand, geen route, dus
           client-side navigatie heeft er niets te zoeken. Zelfde tabblad,
@@ -321,15 +345,20 @@ function BoatCard({ boat, T, locale, live, date, season }: {
         className="relative block aspect-[4/3] w-full overflow-hidden"
         aria-label={`${T.dossier} — ${boat.model} ${boat.name ?? ''}`}
       >
-        {/* Gewone <img> met een srcset van drie Cloudinary-breedtes — zie
+        {/* Gewone <img> met een srcset van vier Cloudinary-breedtes — zie
             FLEET in src/data/fleet.ts voor waarom niet next/image. lazy +
-            async: 94 foto's mogen nooit de eerste paint ophouden. */}
+            async: 94 foto's mogen nooit de eerste paint ophouden.
+            `sizes`: de kaart is ~320px breed in de vierkoloms-grid
+            (max-w-7xl), een derde tussen 1024 en 1280, de helft op tablet en
+            volle breedte op een telefoon. Stond op "25vw" voor álles boven
+            1024px, dus op een breed scherm koos de browser een veel grotere
+            foto dan nodig en op 1100px een te kleine. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={boat.image}
           srcSet={boat.imageSet}
           alt={`${boat.model} ${boat.name}`}
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          sizes="(min-width: 1280px) 320px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           loading="lazy"
           decoding="async"
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
@@ -544,6 +573,95 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
         : 0);
   }, [search, marina, category, minPrice, maxPrice, minPax, sort, onlyAvailable, dateInRange, live, date]);
 
+  // ── De drie stappen boven de vloot ────────────────────────────────────────
+  //
+  // De chips zetten dezelfde state als de filterbalk en lezen hem ook weer
+  // terug: één waarheid, twee ingangen. Wie in de balk een eigen bedrag of
+  // een eigen aantal invult valt buiten elke chip — dan staat er geen chip
+  // aan in plaats van een chip die iets anders belooft dan het filter doet.
+  const paxStep = PAX_STEPS.find(s => s.min === minPax)?.key ?? '';
+  const setPaxStep = useCallback((k: string) => {
+    setMinPax(PAX_STEPS.find(s => s.key === k)?.min ?? 0);
+  }, []);
+  const budgetStep =
+    BUDGET_STEPS.find(s => (s.min ?? PRICE_MIN) === minPrice && (s.max ?? PRICE_MAX) === maxPrice)?.key ?? '';
+  const setBudgetStep = useCallback((k: string) => {
+    const s = BUDGET_STEPS.find(x => x.key === k);
+    setMinPrice(s?.min ?? PRICE_MIN);
+    setMaxPrice(s?.max ?? PRICE_MAX);
+  }, []);
+
+  // ── Wat je in één keer te zien krijgt ─────────────────────────────────────
+  //
+  // Alle 94 kaarten tegelijk was de klacht, en terecht: de eerste twintig zijn
+  // superjachten van vijf cijfers, dus wie een dagboot zoekt scrolt langs een
+  // prijsklasse waar hij niet voor kwam en denkt dat de vloot niet voor hem is.
+  //
+  // De keuze hieronder is een ronde langs de categorieën in plaats van een
+  // kop van de lijst: eerst de goedkoopste jachten, motorboot, catamaran en
+  // jetski, dan de tweede van elk, enzovoort. Zo spant de eerste rij de hele
+  // vloot op — prijs én soort — in plaats van één hoek ervan. Boten die op de
+  // gekozen datum vrij zijn gaan voor; er valt niets te kiezen aan een boot
+  // die bezet is.
+  //
+  // Deterministisch, want dit rendert server-side: geen Math.random en geen
+  // Date.now, anders rendert React de hele pagina na hydration opnieuw (zie
+  // CLAUDE.md). De rest van de vloot blijft gewoon in de HTML staan — een
+  // crawler zonder JavaScript hoort alle 94 te zien — maar staat op `hidden`
+  // tot je de knop gebruikt.
+  const shortlistSlugs = useMemo(() => {
+    const vrij = (b: Boat) => {
+      if (!live || !date || !dateInRange) return true;
+      const lb = live.boats[b.brokerKey];
+      return !lb || statusForDate(lb, date) === 'free';
+    };
+    const perCat = new Map<string, Boat[]>();
+    for (const b of filtered) {
+      const lijst = perCat.get(b.category) ?? [];
+      lijst.push(b);
+      perCat.set(b.category, lijst);
+    }
+    // Binnen een categorie: vrij vóór bezet, daarna op prijs van laag naar
+    // hoog. Stabiel bij gelijke prijs door op slug te sorteren.
+    for (const cat of CAT_ORDER) {
+      const lijst = perCat.get(cat);
+      if (!lijst) continue;
+      lijst.sort((a: Boat, b: Boat) =>
+        Number(vrij(b)) - Number(vrij(a)) ||
+        a.price.low - b.price.low ||
+        a.slug.localeCompare(b.slug));
+    }
+    const keuze: string[] = [];
+    for (let ronde = 0; keuze.length < SHORTLIST; ronde++) {
+      let gepakt = false;
+      for (const cat of CAT_ORDER) {
+        const b = perCat.get(cat)?.[ronde];
+        if (!b) continue;
+        keuze.push(b.slug);
+        gepakt = true;
+        if (keuze.length >= SHORTLIST) break;
+      }
+      if (!gepakt) break;
+    }
+    return new Set(keuze);
+  }, [filtered, live, date, dateInRange]);
+
+  // Eerst de selectie, dan de rest — in de DOM staan ze allebei.
+  const geordend = useMemo(() => {
+    if (filtered.length <= SHORTLIST) return filtered;
+    return [
+      ...filtered.filter(b => shortlistSlugs.has(b.slug)),
+      ...filtered.filter(b => !shortlistSlugs.has(b.slug)),
+    ];
+  }, [filtered, shortlistSlugs]);
+
+  const [showAll, setShowAll] = useState(false);
+  const verborgen = showAll ? 0 : Math.max(0, geordend.length - SHORTLIST);
+  // Een nieuwe filterkeuze is een nieuwe vraag, dus weer een selectie in
+  // plaats van de hele lijst die van de vorige vraag nog openstond.
+  const filterSig = `${category}|${marina}|${minPax}|${minPrice}|${maxPrice}|${search}|${onlyAvailable}|${sort}`;
+  useEffect(() => { setShowAll(false); }, [filterSig]);
+
   // Actieve filters tellen voor de wis-knop. `date` telt niet mee: die staat
   // altijd op vandaag en is geen filter tot je "alleen beschikbaar" aanzet.
   const actieveFilters =
@@ -599,16 +717,24 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
           </span>
           <h1 className="text-5xl md:text-7xl font-black font-serif text-white leading-tight uppercase m-0 tracking-tight drop-shadow-lg">{T.title}</h1>
           <p className="font-sans text-base md:text-lg text-white/90 max-w-2xl mx-auto mt-1 drop-shadow">{T.subtitle}</p>
-          {/* Category selector — sits directly on the image */}
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <FilterTab active={category === 'all'} onClick={() => setCategory('all')}>{T.catAll}</FilterTab>
-            <FilterTab active={category === 'yacht'} onClick={() => setCategory('yacht')}>{T.catYacht}</FilterTab>
-            <FilterTab active={category === 'motorboat'} onClick={() => setCategory('motorboat')}>{T.catMotorboat}</FilterTab>
-            <FilterTab active={category === 'catamaran'} onClick={() => setCategory('catamaran')}>{T.catCatamaran}</FilterTab>
-            <FilterTab active={category === 'jetski'} onClick={() => setCategory('jetski')}>{T.catJetski}</FilterTab>
-          </div>
         </div>
       </section>
+
+      {/* De soortkeuze stond als pillenrij op de herofoto. Die is nu stap 1
+          hieronder: twee plekken om hetzelfde te kiezen, waarvan de ene pas
+          bestaat als je scrolt, is precies hoe een bezoeker de helft van de
+          vloot mist. */}
+      <FleetSteps
+        locale={locale}
+        soorten={FLEET_CATEGORIES}
+        category={category}
+        setCategory={setCategory}
+        paxStep={paxStep}
+        setPaxStep={setPaxStep}
+        budgetStep={budgetStep}
+        setBudgetStep={setBudgetStep}
+        resultCount={filtered.length}
+      />
 
       {/* Filterbalk in Airbnb-stijl. Verving een brede budgetschuif plus een
           losse datumbalk die samen het halve scherm vulden — zie
@@ -638,6 +764,7 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
            het was een filter dat niemand kon bedienen. */
         soort={category}
         setSoort={setCategory}
+        soorten={FLEET_CATEGORIES}
         sort={sort}
         setSort={setSort}
         onClear={wisFilters}
@@ -664,19 +791,38 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
       {/* Grid */}
       <section className="mx-auto max-w-7xl px-4 pb-10 pt-6">
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filtered.map(boat => (
-              <BoatCard
-                key={boat.slug}
-                boat={boat}
-                T={T}
-                locale={locale}
-                live={dateInRange ? (live!.boats[boat.brokerKey] ?? null) : null}
-                date={date}
-                season={live?.season ?? 'mid'}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {geordend.map((boat, i) => (
+                <BoatCard
+                  key={boat.slug}
+                  boat={boat}
+                  T={T}
+                  locale={locale}
+                  live={dateInRange ? (live!.boats[boat.brokerKey] ?? null) : null}
+                  date={date}
+                  season={live?.season ?? 'mid'}
+                  /* Het `hidden`-attribuut en niet uit de lijst weglaten: de
+                     hele vloot hoort in de HTML te staan, ook voor een crawler
+                     die geen JavaScript draait. Wat hier gebeurt is een
+                     weergavekeuze, geen inhoudelijke. */
+                  hidden={!showAll && i >= SHORTLIST}
+                />
+              ))}
+            </div>
+            {verborgen > 0 && (
+              <div className="mt-8 text-center">
+                <button
+                  type="button"
+                  onClick={() => setShowAll(true)}
+                  className="inline-flex items-center gap-2 rounded-full border-2 border-black bg-white px-8 py-4 text-sm font-bold text-black transition-colors hover:bg-black hover:text-white"
+                >
+                  {T.showAll(geordend.length)}
+                </button>
+                <p className="mx-auto mt-3 max-w-md text-sm text-black/55">{T.showAllNote}</p>
+              </div>
+            )}
+          </>
         ) : (
           <div className="rounded-3xl border border-black/10 bg-neutral-50 py-20 text-center text-black/60">{T.noResults}</div>
         )}
@@ -743,18 +889,5 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
       </section>
 
     </div>
-  );
-}
-
-function FilterTab({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`rounded-full px-6 py-3 text-sm font-bold transition-all duration-200 md:text-base ${
-        active ? 'bg-ibiza-green text-white shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200 hover:text-black'
-      }`}
-    >
-      {children}
-    </button>
   );
 }

@@ -17,8 +17,8 @@ site onzichtbaar voor ChatGPT-citaties, ongeacht de Google-posities.
 | Canonieke host | `www.ibizamivida.com` (https) |
 | Toegang tot DNS | het registrar-/DNS-paneel van `ibizamivida.com` (TXT-record kunnen toevoegen) |
 | Google-account | het account dat eigenaar van de property moet worden |
-| IndexNow-key | `006dbc51fcf510e41156e205c664581ba84684c08531c50da12497b933a913ae` |
-| Key-bestand | `public/006dbc51fcf510e41156e205c664581ba84684c08531c50da12497b933a913ae.txt` |
+| IndexNow-key | `a09a375d5ed0f341c22a12bac3e8110d` |
+| Key-bestand | `public/a09a375d5ed0f341c22a12bac3e8110d.txt` |
 
 ---
 
@@ -101,16 +101,16 @@ Google op, waardoor je in Bing niets apart hoeft te verifiëren.
       dashboard niet meer overeen met het bestand in `public/` en worden
       submissions geweigerd. Gebruik deze:
       ```
-      006dbc51fcf510e41156e205c664581ba84684c08531c50da12497b933a913ae
+      a09a375d5ed0f341c22a12bac3e8110d
       ```
       met key-locatie:
       ```
-      https://www.ibizamivida.com/006dbc51fcf510e41156e205c664581ba84684c08531c50da12497b933a913ae.txt
+      https://www.ibizamivida.com/a09a375d5ed0f341c22a12bac3e8110d.txt
       ```
 - [ ] **2.5** Controleer dat het key-bestand publiek bereikbaar is — dit is de
       voorwaarde die IndexNow zelf controleert:
       ```bash
-      curl -s https://www.ibizamivida.com/006dbc51fcf510e41156e205c664581ba84684c08531c50da12497b933a913ae.txt
+      curl -s https://www.ibizamivida.com/a09a375d5ed0f341c22a12bac3e8110d.txt
       ```
       Verwachte uitvoer: exact de sleutel, als platte tekst, HTTP 200. Krijg je
       een 404, dan is de laatste deploy nog niet live.
@@ -126,12 +126,18 @@ Beide onderdelen staan al in de repo; deze sectie legt vast hoe je ze gebruikt.
 ### Key-bestand
 
 ```
-public/006dbc51fcf510e41156e205c664581ba84684c08531c50da12497b933a913ae.txt
+public/a09a375d5ed0f341c22a12bac3e8110d.txt
 ```
+
+> De oudere sleutel `006dbc51fcf510e41156e205c664581ba84684c08531c50da12497b933a913ae`
+> staat nog als bestand in `public/` en blijft daar staan: IndexNow accepteert
+> meerdere sleutels zolang elk bestand bereikbaar is, en een sleutel weghalen
+> die ooit is ingediend laat oude submissions alsnog falen. De actieve sleutel
+> — die de scripts meesturen en die in Bing staat — is `a09a375d…`.
 
 De bestandsnaam **is** de sleutel, en de inhoud is diezelfde sleutel als platte
 tekst. Next.js serveert `public/` op de root, dus het bestand komt uit op
-`https://www.ibizamivida.com/006dbc51….txt` — precies de `keyLocation` die het
+`https://www.ibizamivida.com/a09a375d….txt` — precies de `keyLocation` die het
 script meestuurt. Hernoem of verplaats dit bestand niet: de sleutel staat
 hardgecodeerd in `scripts/indexnow-ping.mjs` én in het Bing-dashboard, en
 wijzigen op één plek breekt de andere twee.
@@ -209,7 +215,7 @@ en de eigen crawl-planning aangewezen.
 - [ ] Bing Webmaster Tools toont de site als geverifieerd via GSC-import
 - [ ] Bing sitemap-status: **Success**
 - [ ] IndexNow staat **On** in het Bing-dashboard, met bovenstaande sleutel
-- [ ] `curl -s https://www.ibizamivida.com/006dbc51….txt` geeft HTTP 200 met de sleutel
+- [ ] `curl -s https://www.ibizamivida.com/a09a375d….txt` geeft HTTP 200 met de sleutel
 - [ ] Dry run draait schoon:
       ```bash
       node scripts/indexnow-ping.mjs --dry-run
@@ -313,4 +319,4 @@ Eigen bestanden ter controle:
 | Sitemap | https://www.ibizamivida.com/sitemap.xml |
 | Robots | https://www.ibizamivida.com/robots.txt |
 | llms.txt | https://www.ibizamivida.com/llms.txt |
-| IndexNow-sleutel | https://www.ibizamivida.com/006dbc51fcf510e41156e205c664581ba84684c08531c50da12497b933a913ae.txt |
+| IndexNow-sleutel | https://www.ibizamivida.com/a09a375d5ed0f341c22a12bac3e8110d.txt |
