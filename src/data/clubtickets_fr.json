@@ -942,6 +942,23 @@
           "requirements": "<div>- O Beach Ibiza applique une politique réservée aux plus de 18 ans. Toute personne de moins de 18 ans se verra refuser l'entrée.</div><div>- Tous les assistants doivent présenter une pièce d'identité valide.</div><div>- O Beach Ibiza ne sera pas tenu responsable des conditions météorologiques défavorables.</div><div>- Les programmations et les horaires peuvent être modifiés.</div><div>- Aucune réadmission n'est autorisée, une fois que vous quittez le lieu, vous devrez payer à nouveau pour entrer.</div><div>- Les détenteurs de billets d'entrée anticipée doivent arriver avant 14h (les arrivées après cette heure devront payer la différence entre le prix du billet d'entrée anticipée et le prix à la porte).</div><div>- Les détenteurs de billets standard doivent arriver avant 15h (en cas de capacité maximale, le lieu peut être soumis à un scénario d'entrée un pour un).</div><div>- Les billets ne sont pas remboursables.</div><div>- Casiers limités disponibles (frais requis).</div>",
           "affLink": "https://www.clubtickets.com/fr/clubbing/o-beach-ibiza/lovejuice?aff=CT219",
           "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/19/event/2087?locale=fr"
+        },
+        {
+          "id": 2183,
+          "name": "Clasico Ibiza - Then & Now",
+          "slug": "clasico-ibiza",
+          "logo": "https://media.clubtickets.com/event/6aa9068210457.png",
+          "cover": "https://media.clubtickets.com/event/6aa906958a760.png",
+          "whitelogo": "",
+          "startAt": "13:00",
+          "endAt": "22:00",
+          "endIsDefined": true,
+          "startAtNextDay": false,
+          "endAtNextDay": false,
+          "description": "Clasico Ibiza - Then &amp; Now à O Beach Ibiza 2026<br />\r\n<br />\r\n<p class=\"tdfocus-1789461930557\"><br></p><p class=\"tdfocus-1789461930557\">Préparez-vous à revivre les hymnes qui ont fait d'Ibiza l'épicentre de la musique dance, tout en découvrant les sons qui façonnent sa scène aujourd'hui. Clásico Ibiza mélange le passé emblématique de l'île avec son présent vibrant pour un vendredi incontournable le 9 octobre à O Beach Ibiza.</p><p class=\"tdfocus-1789461930557\">Présentant tout, des classiques intemporels et des moments inoubliables sur la piste de danse aux morceaux actuels les plus chauds d'Ibiza, cet événement rend hommage à la musique qui maintient l'île en vie. En tête d'affiche de la soirée, l'icône de la house music <b>Todd Terry</b> et le DJ international et producteur de disques de platine <b>Majestic</b>, aux côtés des <b>résidents DJs d'O Beach</b>, qui sélectionneront soigneusement leurs morceaux préférés à travers les décennies. Préparez-vous à entendre tout, de Van Helden à Baker, de Sanchez à Swedish House Mafia, de Prydz à PAWSA, et de Groove Armada à Calvin Harris*, les morceaux qui ont défini l'héritage d'Ibiza, joués aux côtés de ceux qui façonnent son son aujourd'hui.</p><p class=\"tdfocus-1789461930557\">Ajoutant une couche supplémentaire à l'expérience, des performances live électrisantes de <b>Helena Logah</b> au violon, <b>Piano Galligan</b> au piano, et <b>Albert Bace</b> à la batterie, insufflant une nouvelle vie à certains des hymnes les plus emblématiques d'Ibiza dans le véritable style O Beach.</p><p class=\"tdfocus-1789461930557\">Attendez-vous à des morceaux énormes, une musicalité live, une euphorie les bras en l'air, et cette énergie signature d'O Beach du début à la fin. Ibiza — Passé &amp; Présent. Un jour. Une bande-son. Un Clásico Ibiza.<br></p><br><br />\r\n<br />\r\nLine-up Clasico Ibiza - Then &amp; Now à O Beach Ibiza 2026<br />\r\n<br />\r\n<p class=\"tdfocus-1733395593583\">Le Line-up pour Clasico Ibiza - Then &amp; Now le 09/10 mettra en vedette Todd Terry, Majestic et les DJs résidents d'O Beach. Également les performances live de Helena Logah (violoniste live), Piano Galligan (pianiste live) et Albert Bace (percussion live).</p><br><br />\r\n<br />\r\nBillets Clasico Ibiza - Then &amp; Now à O Beach Ibiza 2026<br />\r\n<br />\r\n<p class=\"tdfocus-1768310138447\">Les billets pour Clasico Ibiza - Then &amp; Now à O Beach Ibiza 2026 sont maintenant en vente. Vous pouvez acheter un billet d'entrée anticipée à partir de seulement 30 € (entrée avant 14h00) ou un billet d'admission générale sans restriction de temps à partir de 40 €.</p><br><br />\r\n<br />\r\n<br />\r\n<p><b>Club : O Beach</b></p><br />\r\n<p></p><p></p>",
+          "requirements": "<div>- O Beach Ibiza applique une politique réservée aux plus de 18 ans. Toute personne de moins de 18 ans se verra refuser l'entrée.</div><div>- Tous les assistants doivent présenter une pièce d'identité valide.</div><div>- O Beach Ibiza ne sera pas tenu responsable des conditions météorologiques défavorables.</div><div>- Les programmations et horaires peuvent être sujets à changement.</div><div>- Aucune réadmission n'est autorisée, une fois que vous quittez le lieu, vous devrez payer à nouveau pour accéder.</div><div>- Les détenteurs de billets d'entrée anticipée doivent arriver avant 14h (les arrivées après cette heure devront payer la différence entre le prix du billet d'entrée anticipée et le prix à la porte).</div><div>- Les détenteurs de billets standard doivent arriver avant 15h (en cas de capacité maximale, le lieu peut être soumis à une entrée un à un).</div><div>- Les billets ne sont pas remboursables.</div><div>- Casiers limités disponibles (frais requis).</div>",
+          "affLink": "https://www.clubtickets.com/fr/clubbing/o-beach-ibiza/clasico-ibiza?aff=CT219",
+          "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/19/event/2183?locale=fr"
         }
       ],
       "type": {
@@ -950,7 +967,7 @@
         "slug": "clubbing"
       },
       "description": "Informations sur O Beach Ibiza<br><br />\r\n<p></p><p><b>O Beach Ibiza, anciennement connu sous le nom d'Ocean Beach, est le beach club tendance de San Antonio, où se tiennent certaines des pool parties les plus célèbres d'Ibiza.</b></p><br><br />\r\n<p>Inauguré en 2012, O Beach Club combine le concept de beach club glamour avec l'un des plus beaux couchers de soleil de la Méditerranée. Situé à quelques mètres de la mer, sa terrasse est l'endroit idéal pour profiter de pool parties amusantes, grâce à une piscine centrale spectaculaire de 600 mètres carrés, entourée de nombreux transats et tables VIP.</p><br><br />\r\n<p>O Beach Club propose une sélection musicale de qualité avec des grands DJs. Le lieu ouvre à midi avec une ambiance décontractée, mais s'anime au fur et à mesure que le soleil se couche, et la fête continue jusqu'à minuit.</p><br><br />\r\n<p>2018 a été sans aucun doute son année phare, attirant de grands promoteurs pour organiser leurs pool parties à O Beach. Depuis, il maintient les meilleures résidences et affiche \"complet\" tous les jours.</p><br><br />\r\n<p>Mettez votre maillot de bain, vos lunettes de soleil, et ne le manquez pas !</p><br><br />\r\nQue trouverez-vous à O Beach Club Ibiza ?<br><br />\r\n<p>Acrobaties, spectacles en direct et, bien sûr, une atmosphère incomparable qui vous fera oublier la routine. Laissez-vous simplement porter et faites ce que votre cœur vous dicte : danser au rythme de la musique ou vous allonger sur votre lit VIP tout en sirotant les cocktails les plus sophistiqués.</p><br><br />\r\n<p>De plus, O Beach offre divers services des plus glamour pour une expérience de luxe authentique : une gastronomie fusion exquise dans son restaurant, une boutique exclusive et, bien sûr, des zones VIP pour vivre une journée inoubliable.</p><br>",
-      "activeEvents": 14,
+      "activeEvents": 15,
       "affLink": "https://www.clubtickets.com/fr/clubbing/o-beach-ibiza?aff=CT219",
       "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/19?locale=fr",
       "cleanDescription": "Informations sur O Beach Ibiza<br><br />\r\n<p></p><p><b>O Beach Ibiza, anciennement connu sous le nom d'Ocean Beach, est le beach club tendance de San Antonio, où se tiennent certaines des pool parties les plus célèbres d'Ibiza.</b></p><br><br />\r\n<p>Inauguré en 2012, O Beach Club combine le concept de beach club glamour avec l'un des plus beaux couchers de soleil de la Méditerranée. Situé à quelques mètres de la mer, sa terrasse est l'endroit idéal pour profiter de pool parties amusantes, grâce à une piscine centrale spectaculaire de 600 mètres carrés, entourée de nombreux transats et tables VIP.</p><br><br />\r\n<p>O Beach Club propose une sélection musicale de qualité avec des grands DJs. Le lieu ouvre à midi avec une ambiance décontractée, mais s'anime au fur et à mesure que le soleil se couche, et la fête continue jusqu'à minuit.</p><br><br />\r\n<p>2018 a été sans aucun doute son année phare, attirant de grands promoteurs pour organiser leurs pool parties à O Beach. Depuis, il maintient les meilleures résidences et affiche \"complet\" tous les jours.</p><br><br />\r\n<p>Mettez votre maillot de bain, vos lunettes de soleil, et ne le manquez pas !</p><br><br />\r\nQue trouverez-vous à O Beach Club Ibiza ?<br><br />\r\n<p>Acrobaties, spectacles en direct et, bien sûr, une atmosphère incomparable qui vous fera oublier la routine. Laissez-vous simplement porter et faites ce que votre cœur vous dicte : danser au rythme de la musique ou vous allonger sur votre lit VIP tout en sirotant les cocktails les plus sophistiqués.</p><br><br />\r\n<p>De plus, O Beach offre divers services des plus glamour pour une expérience de luxe authentique : une gastronomie fusion exquise dans son restaurant, une boutique exclusive et, bien sûr, des zones VIP pour vivre une journée inoubliable.</p><br>"
@@ -1035,6 +1052,23 @@
           "requirements": "<p class=\"tdfocus-1744192919224\">Merci beaucoup d'avoir choisi Chinois Ibiza, et rappelez-vous que :</p><br />\r\n<p class=\"tdfocus-1744192928620\">- Chinois Ibiza est réservé aux personnes de plus de 18 ans. Les mineurs ne sont pas autorisés à entrer. Tous les participants doivent avoir une documentation originale et valide.</p><br />\r\n<p>- Les programmations et les horaires des sessions sont susceptibles de changer.</p><br />\r\n<p>- Aucune réadmission n'est autorisée.</p><br />\r\n<p><b>- CODE VESTIMENTAIRE :</b> tenue décontractée chic. Nous demandons aimablement aux messieurs de respecter notre politique de port de pantalons longs. Les vêtements de sport et les chaussures ouvertes ne seront pas autorisés dans le lieu. Veuillez noter que le lieu se réserve le droit de refuser l'entrée, et l'entrée est à la discrétion de l'équipe de la porte le soir même.</p>",
           "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/la-troya?aff=CT219",
           "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/273/event/1665?locale=fr"
+        },
+        {
+          "id": 1683,
+          "name": "TRIP",
+          "slug": "trip",
+          "logo": "https://media.clubtickets.com/migrated/event/32eb3f62-af1a-4214-adbf-f5b82c13ef3d.jpg",
+          "cover": "https://media.clubtickets.com/migrated/event/f8149d5e-1a54-4e01-8575-cf9c9acdef49.jpg",
+          "whitelogo": "",
+          "startAt": "23:30",
+          "endAt": "00:00",
+          "endIsDefined": false,
+          "startAtNextDay": false,
+          "endAtNextDay": false,
+          "description": "Trip revient à Chinois en 2026 !<br />\r\n<p>Trip est de retour pour sa cinquième saison à Chinois Ibiza après le succès de ses soirées en 2025. C'est un nouveau voyage profond dans le son et les visions psychédéliques : « d'Ibiza, pour Ibiza » comme l'équipe le décrit, et c'est certainement la description la plus appropriée que nous puissions donner à cette nouvelle fête sur mesure.</p><br />\r\n<p>Et maintenant <b>Trip revient à Chinois</b> pour une autre saison en 2026. Surréaliste, psychédélique et hallucinant, avec une bande sonore fournie par certains des meilleurs DJs underground du monde.</p><br />\r\n<p><br></p><br />\r\n<br />\r\nProgrammation Trip à Chinois 2026<br />\r\n<p class=\"tdfocus-1789464494763\">Chaque semaine, de nouveaux noms rejoignent les événements Trip.</p><br />\r\n<br><br />\r\nBillets pour Trip à Chinois 2026<br />\r\n<p>Les billets pour Trip à Chinois sont maintenant en vente. Obtenez vos billets d'entrée anticipée à partir de seulement 30€. Achetez en ligne et économisez de l'argent et du temps.</p><br><br />\r\n<br />\r\n<p><b>Club : </b>Chinois</p><p></p><p></p>",
+          "requirements": "<p class=\"tdfocus-1744193682327\">Merci beaucoup d'avoir choisi Chinois Ibiza, et rappelez-vous que :</p><p class=\"tdfocus-1744193683414\">- Chinois Ibiza est réservé aux personnes de plus de 18 ans. Les mineurs ne sont pas autorisés à entrer. Tous les participants doivent être munis de documents originaux et valides.</p><p>- Les programmations et les horaires des sessions sont susceptibles de changer.</p><p>- Aucune réadmission n'est autorisée.</p><p><b>- CODE VESTIMENTAIRE :</b> code vestimentaire chic et décontracté. Nous demandons aimablement aux messieurs de respecter notre politique de port de pantalons longs. Les vêtements de sport et les chaussures ouvertes ne seront pas autorisés dans le lieu. Veuillez noter que le lieu se réserve le droit de refuser l'entrée, et l'entrée est à la discrétion de l'équipe de la porte le soir même.</p>",
+          "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/trip?aff=CT219",
+          "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/273/event/1683?locale=fr"
         },
         {
           "id": 1933,
@@ -1128,7 +1162,7 @@
         "slug": "clubbing"
       },
       "description": "Informations sur Chinois Ibiza<br><br />\r\n<p>Situé dans l'ancienne salle de HEART Ibiza et inspiré des clubs de jazz décadents mais impitoyables du Shanghai des années 30, <b class=\"tdfocus-1746209434586\">Chinois</b> promet d'offrir l'hospitalité du vieux monde tout en s'immergeant dans un divertissement contemporain de classe mondiale sur les côtes ensoleillées d'Ibiza.</p><br><p>Ce lieu de 3 000 mètres carrés, qui deviendra l'ouverture la plus attendue de l'île, a été minutieusement conçu par le studio de design parisien primé Laleh Assefi. Les intérieurs, audacieux mais élégants, célèbrent l'ère de la Chinoiserie dans chaque carreau et table, évoquant une époque de grâce et de charme passés.</p><br><p>La palette grandiose et somptueuse est conçue pour être un festin sensoriel, et derrière son mélange opulent de l'Est et de l'Ouest, il y a un sens de l'esprit et du jeu, un hommage indéniable à l'héritage hédoniste sacré d'Ibiza.</p><br><p class=\"tdfocus-1746209436865\">Le Chinois accueillera des talents internationaux, des DJs résidents acclamés aux superstars et artistes en tête d'affiche, offrant une expérience immersive aux fêtards avec des normes de production de la plus haute qualité.</p>",
-      "activeEvents": 7,
+      "activeEvents": 8,
       "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza?aff=CT219",
       "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/273?locale=fr",
       "cleanDescription": "Informations sur Chinois Ibiza<br><br />\r\n<p>Situé dans l'ancienne salle de HEART Ibiza et inspiré des clubs de jazz décadents mais impitoyables du Shanghai des années 30, <b class=\"tdfocus-1746209434586\">Chinois</b> promet d'offrir l'hospitalité du vieux monde tout en s'immergeant dans un divertissement contemporain de classe mondiale sur les côtes ensoleillées d'Ibiza.</p><br><p>Ce lieu de 3 000 mètres carrés, qui deviendra l'ouverture la plus attendue de l'île, a été minutieusement conçu par le studio de design parisien primé Laleh Assefi. Les intérieurs, audacieux mais élégants, célèbrent l'ère de la Chinoiserie dans chaque carreau et table, évoquant une époque de grâce et de charme passés.</p><br><p>La palette grandiose et somptueuse est conçue pour être un festin sensoriel, et derrière son mélange opulent de l'Est et de l'Ouest, il y a un sens de l'esprit et du jeu, un hommage indéniable à l'héritage hédoniste sacré d'Ibiza.</p><br><p class=\"tdfocus-1746209436865\">Le Chinois accueillera des talents internationaux, des DJs résidents acclamés aux superstars et artistes en tête d'affiche, offrant une expérience immersive aux fêtards avec des normes de production de la plus haute qualité.</p>"
@@ -1633,23 +1667,6 @@
           "requirements": "<div>- Tous les assistants doivent présenter une pièce d'identité valide.</div><div>- SWAG Ibiza applique une politique pour les plus de 18 ans. Toute personne de moins de 18 ans se verra refuser l'entrée.</div><div>- Les programmations et les horaires peuvent être modifiés.</div><div>- Aucune réadmission autorisée, une fois que vous quittez le lieu, vous devrez payer à nouveau pour accéder.</div>",
           "affLink": "https://www.clubtickets.com/fr/clubbing/swag/xcandalous?aff=CT219",
           "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/18/event/261?locale=fr"
-        },
-        {
-          "id": 263,
-          "name": "Safari",
-          "slug": "safari",
-          "logo": "https://media.clubtickets.com/migrated/event/d08ec3a5-09a0-4914-8479-d73f13b89c47.jpg",
-          "cover": "https://media.clubtickets.com/migrated/event/14140776-a5e4-4993-bbb9-08a78a366e63.jpg",
-          "whitelogo": "https://media.clubtickets.com/migrated/event/98ca25ec-d1c7-4dac-84ff-ed39f1b3267b.png",
-          "startAt": "23:55",
-          "endAt": "00:00",
-          "endIsDefined": false,
-          "startAtNextDay": false,
-          "endAtNextDay": false,
-          "description": "Safari à SWAG Ibiza !<br />\r\n<p>Bienvenue du côté sauvage d'Ibiza. Safari libère son énergie indomptée à SWAG Ibiza en 2026, débutant avec trois éditions spéciales le dimanche <b>10, 17 et 24 mai</b>, avant de s'installer dans <b>sa résidence hebdomadaire tous les lundis du 1er juin au 14 septembre</b>.</p><p>Né sous le soleil tropical des îles Canaries et rugissant maintenant sur les côtes baléares, cette expérience imprégnée de jungle transforme le club en un habitat de créatures sauvages, d'ambiances exotiques et d'instincts incontrôlables.</p><p>Reggaeton, trap et dembow jamaïcain rythment une nuit où la seule règle est de laisser votre côté animal prendre le dessus. Entre beats féroces, esthétique tribale et une foule qui rôde sur la piste de danse jusqu'à l'aube, Safari est l'évasion ultime dans le fantasme le plus sauvage d'Ibiza.<br></p><br><br />\r\nProgrammation Safari à SWAG Ibiza 2026<br />\r\n<p>Safari mettra en vedette les résidents de SWAG Ibiza et des invités spéciaux qui seront annoncés dans les prochains jours.</p><br><br />\r\nBillets Safari à SWAG Ibiza 2026<br />\r\n<p>Les billets pour Safari à SWAG Ibiza sont maintenant en vente à partir de seulement 20€. Achetez en ligne et économisez de l'argent et du temps.</p><br><br />\r\n<p><b>Club : </b>SWAG Ibiza</p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>",
-          "requirements": "<div>- Tous les assistants doivent présenter une pièce d'identité valide.</div><div>- SWAG Ibiza applique une politique pour les plus de 18 ans. Toute personne de moins de 18 ans se verra refuser l'entrée.</div><div>- Les programmations et les horaires peuvent être modifiés.</div><div>- Aucune réadmission autorisée, une fois que vous quittez le lieu, vous devrez payer à nouveau pour entrer.</div>",
-          "affLink": "https://www.clubtickets.com/fr/clubbing/swag/safari?aff=CT219",
-          "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/18/event/263?locale=fr"
         }
       ],
       "type": {
@@ -1658,7 +1675,7 @@
         "slug": "clubbing"
       },
       "description": "Informations sur la discothèque SWAG Ibiza<br><br />\r\n<p></p><p>SWAG Ibiza, au cœur de Playa d’en Bossa, est le club de musique urbaine par excellence à Ibiza</p><p><b><br></b></p><p>La discothèque SWAG a ouvert ses portes pour la première fois en 2014 pour se positionner comme l'alternative de loisir offrant la meilleure musique urbaine à Ibiza, un lieu incontournable si vous recherchez quelque chose de différent. En quelques années, elle est devenue le lieu tendance pour tous ceux qui souhaitent échapper à la musique électronique et profiter d'une nuit alternative.</p><p><br></p><p>Le répertoire de genres au SWAG club est très varié et englobe tous types de musique urbaine. Ouvert 7 jours sur 7, vous pourrez profiter de différents genres musicaux, du rap, trap, R &amp; B, hip-hop ou même reggaeton. Un mélange de styles avec pour seul objectif de faire vibrer un public hétérogène en quête d'une expérience différente à Ibiza.</p><p><br></p><p>Aux soirées de SWAG, on retrouve des DJs internationaux qui marquent les tendances au sein de la culture urbaine.</p><p><br></p><p>La discothèque SWAG peut accueillir jusqu'à 1000 personnes, avec deux pistes de danse, 3 espaces VIP différents et une cabine de DJ qui peut accueillir deux artistes en même temps pour des sessions B2B. Elle dispose également d’un système d’éclairage et visuel impressionnant.<br></p>",
-      "activeEvents": 2,
+      "activeEvents": 1,
       "affLink": "https://www.clubtickets.com/fr/clubbing/swag?aff=CT219",
       "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/18?locale=fr",
       "cleanDescription": "Informations sur la discothèque SWAG Ibiza<br><br />\r\n<p></p><p>SWAG Ibiza, au cœur de Playa d’en Bossa, est le club de musique urbaine par excellence à Ibiza</p><p><b><br></b></p><p>La discothèque SWAG a ouvert ses portes pour la première fois en 2014 pour se positionner comme l'alternative de loisir offrant la meilleure musique urbaine à Ibiza, un lieu incontournable si vous recherchez quelque chose de différent. En quelques années, elle est devenue le lieu tendance pour tous ceux qui souhaitent échapper à la musique électronique et profiter d'une nuit alternative.</p><p><br></p><p>Le répertoire de genres au SWAG club est très varié et englobe tous types de musique urbaine. Ouvert 7 jours sur 7, vous pourrez profiter de différents genres musicaux, du rap, trap, R &amp; B, hip-hop ou même reggaeton. Un mélange de styles avec pour seul objectif de faire vibrer un public hétérogène en quête d'une expérience différente à Ibiza.</p><p><br></p><p>Aux soirées de SWAG, on retrouve des DJs internationaux qui marquent les tendances au sein de la culture urbaine.</p><p><br></p><p>La discothèque SWAG peut accueillir jusqu'à 1000 personnes, avec deux pistes de danse, 3 espaces VIP différents et une cabine de DJ qui peut accueillir deux artistes en même temps pour des sessions B2B. Elle dispose également d’un système d’éclairage et visuel impressionnant.<br></p>"
@@ -3724,15 +3741,6 @@
       },
       "dates": [
         {
-          "id": 164715,
-          "date": "2026-09-14",
-          "name": "",
-          "lineUp": "<p><b>MAIN ROOM</b></p><p>Armin van Buuren</p><p>(special 5h set)</p><p>Eli Brown</p><p>(Face to Face set)</p><p>Laura Van Dam</p><p><br></p><p> </p><p><b>   THE BUNKER </b></p><p> Blondex</p><p> Modea<br></p>",
-          "prices": "50 € - 300 €",
-          "lowestAvailablePrice": 50,
-          "affLink": "https://www.clubtickets.com/fr/clubbing/unvrs-ibiza/armin-van-buuren-asot/2026-09-14?aff=CT219"
-        },
-        {
           "id": 164716,
           "date": "2026-09-21",
           "name": "",
@@ -4661,15 +4669,6 @@
       },
       "dates": [
         {
-          "id": 162426,
-          "date": "2026-09-14",
-          "name": "",
-          "lineUp": "<p><b>THEATRE</b></p><p>Francis Mercier B2B Kölsch</p><p>Patrick Mason</p><p>Kilimanjaro</p><p>Bantu B2B Dr. Chaii</p><p><br></p><p><b>CLUB ROOM</b></p><p>Andrea Oliva</p><p>Honeyluv</p><p>Cincity</p><p>Daughter In Law</p>",
-          "prices": "30 € - 50 €",
-          "lowestAvailablePrice": 30,
-          "affLink": "https://www.clubtickets.com/fr/clubbing/hi-ibiza/francis-mercier/2026-09-14?aff=CT219"
-        },
-        {
           "id": 162427,
           "date": "2026-09-21",
           "name": "",
@@ -4964,7 +4963,7 @@
         {
           "id": 170685,
           "date": "2026-09-25",
-          "name": "",
+          "name": "Hot Creations Closing Party",
           "lineUp": "",
           "prices": "70 €",
           "lowestAvailablePrice": 70,
@@ -5133,7 +5132,7 @@
           "id": 173903,
           "date": "2026-09-18",
           "name": "",
-          "lineUp": "",
+          "lineUp": "<p class=\"tdfocus-1789460193673\">Janoo</p><p class=\"tdfocus-1789460193673\">Molly D</p><p class=\"tdfocus-1789460193673\">Yalla Habebe</p><p class=\"tdfocus-1789460193673\">Tinovcc</p>",
           "prices": "30 €",
           "lowestAvailablePrice": 30,
           "affLink": "https://www.clubtickets.com/fr/clubbing/playa-soleil/meraki-nuage-supper-club/2026-09-18?aff=CT219"
@@ -5314,15 +5313,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/19?locale=fr"
       },
       "dates": [
-        {
-          "id": 160719,
-          "date": "2026-09-15",
-          "name": "",
-          "lineUp": "<p>Matchstick<br></p><br />\r\n<p>DJ Cameo<br></p><br />\r\n<p>Lucy Jane<br></p><br />\r\n<p>Sam Dungate<br></p><br />\r\n<p>Albert Bace live on drums<br></p>",
-          "prices": "25 € - 35 €",
-          "lowestAvailablePrice": 25,
-          "affLink": "https://www.clubtickets.com/fr/clubbing/o-beach-ibiza/kisstory/2026-09-15?aff=CT219"
-        },
         {
           "id": 160720,
           "date": "2026-09-22",
@@ -6028,6 +6018,50 @@
       "venueLogo": "https://media.clubtickets.com/migrated/venue/e65f2e55-376a-4301-a4c7-64b94f17eca5.png"
     },
     {
+      "id": 2183,
+      "name": "Clasico Ibiza - Then & Now",
+      "slug": "clasico-ibiza",
+      "logo": "https://media.clubtickets.com/event/6aa9068210457.png",
+      "cover": "https://media.clubtickets.com/event/6aa906958a760.png",
+      "whitelogo": "",
+      "startAt": "13:00",
+      "endAt": "22:00",
+      "endIsDefined": true,
+      "startAtNextDay": false,
+      "endAtNextDay": false,
+      "venue": {
+        "id": 19,
+        "name": "O Beach Ibiza",
+        "slug": "o-beach-ibiza",
+        "affLink": "https://www.clubtickets.com/fr/clubbing/o-beach-ibiza?aff=CT219",
+        "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/19?locale=fr"
+      },
+      "dates": [
+        {
+          "id": 173921,
+          "date": "2026-10-09",
+          "name": "",
+          "lineUp": "<p class=\"tdfocus-1789462101648\">Todd Terry</p><p class=\"tdfocus-1789462101648\">Majestic</p><p class=\"tdfocus-1789462101648\">O Beach Resident DJs</p><p class=\"tdfocus-1789462101648\">Helena Logah (live violinist)</p><p class=\"tdfocus-1789462101648\">Piano Galligan (live pianist)</p><p class=\"tdfocus-1789462101648\">Albert Bace (live percussion)<br></p>",
+          "prices": "30 € - 40 €",
+          "lowestAvailablePrice": 30,
+          "affLink": "https://www.clubtickets.com/fr/clubbing/o-beach-ibiza/clasico-ibiza/2026-10-09?aff=CT219"
+        }
+      ],
+      "description": "Clasico Ibiza - Then &amp; Now à O Beach Ibiza 2026<br />\r\n<br />\r\n<p class=\"tdfocus-1789461930557\"><br></p><p class=\"tdfocus-1789461930557\">Préparez-vous à revivre les hymnes qui ont fait d'Ibiza l'épicentre de la musique dance, tout en découvrant les sons qui façonnent sa scène aujourd'hui. Clásico Ibiza mélange le passé emblématique de l'île avec son présent vibrant pour un vendredi incontournable le 9 octobre à O Beach Ibiza.</p><p class=\"tdfocus-1789461930557\">Présentant tout, des classiques intemporels et des moments inoubliables sur la piste de danse aux morceaux actuels les plus chauds d'Ibiza, cet événement rend hommage à la musique qui maintient l'île en vie. En tête d'affiche de la soirée, l'icône de la house music <b>Todd Terry</b> et le DJ international et producteur de disques de platine <b>Majestic</b>, aux côtés des <b>résidents DJs d'O Beach</b>, qui sélectionneront soigneusement leurs morceaux préférés à travers les décennies. Préparez-vous à entendre tout, de Van Helden à Baker, de Sanchez à Swedish House Mafia, de Prydz à PAWSA, et de Groove Armada à Calvin Harris*, les morceaux qui ont défini l'héritage d'Ibiza, joués aux côtés de ceux qui façonnent son son aujourd'hui.</p><p class=\"tdfocus-1789461930557\">Ajoutant une couche supplémentaire à l'expérience, des performances live électrisantes de <b>Helena Logah</b> au violon, <b>Piano Galligan</b> au piano, et <b>Albert Bace</b> à la batterie, insufflant une nouvelle vie à certains des hymnes les plus emblématiques d'Ibiza dans le véritable style O Beach.</p><p class=\"tdfocus-1789461930557\">Attendez-vous à des morceaux énormes, une musicalité live, une euphorie les bras en l'air, et cette énergie signature d'O Beach du début à la fin. Ibiza — Passé &amp; Présent. Un jour. Une bande-son. Un Clásico Ibiza.<br></p><br><br />\r\n<br />\r\nLine-up Clasico Ibiza - Then &amp; Now à O Beach Ibiza 2026<br />\r\n<br />\r\n<p class=\"tdfocus-1733395593583\">Le Line-up pour Clasico Ibiza - Then &amp; Now le 09/10 mettra en vedette Todd Terry, Majestic et les DJs résidents d'O Beach. Également les performances live de Helena Logah (violoniste live), Piano Galligan (pianiste live) et Albert Bace (percussion live).</p><br><br />\r\n<br />\r\nBillets Clasico Ibiza - Then &amp; Now à O Beach Ibiza 2026<br />\r\n<br />\r\n<p class=\"tdfocus-1768310138447\">Les billets pour Clasico Ibiza - Then &amp; Now à O Beach Ibiza 2026 sont maintenant en vente. Vous pouvez acheter un billet d'entrée anticipée à partir de seulement 30 € (entrée avant 14h00) ou un billet d'admission générale sans restriction de temps à partir de 40 €.</p><br><br /><br /><p><b>Club : O Beach</b></p><br />\r\n<p></p><p></p>",
+      "requirements": "<div>- O Beach Ibiza applique une politique réservée aux plus de 18 ans. Toute personne de moins de 18 ans se verra refuser l'entrée.</div><div>- Tous les assistants doivent présenter une pièce d'identité valide.</div><div>- O Beach Ibiza ne sera pas tenu responsable des conditions météorologiques défavorables.</div><div>- Les programmations et horaires peuvent être sujets à changement.</div><div>- Aucune réadmission n'est autorisée, une fois que vous quittez le lieu, vous devrez payer à nouveau pour accéder.</div><div>- Les détenteurs de billets d'entrée anticipée doivent arriver avant 14h (les arrivées après cette heure devront payer la différence entre le prix du billet d'entrée anticipée et le prix à la porte).</div><div>- Les détenteurs de billets standard doivent arriver avant 15h (en cas de capacité maximale, le lieu peut être soumis à une entrée un à un).</div><div>- Les billets ne sont pas remboursables.</div><div>- Casiers limités disponibles (frais requis).</div>",
+      "type": {
+        "id": 1,
+        "name": "Clubbing",
+        "slug": "clubbing"
+      },
+      "affLink": "https://www.clubtickets.com/fr/clubbing/o-beach-ibiza/clasico-ibiza?aff=CT219",
+      "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/19/event/2183?locale=fr",
+      "venueName": "O Beach Ibiza",
+      "venueSlug": "o-beach-ibiza",
+      "venueCover": "https://media.clubtickets.com/venue/6a9931fff0b2e.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/e65f2e55-376a-4301-a4c7-64b94f17eca5.png"
+    },
+    {
       "id": 1747,
       "name": "El Kiddo",
       "slug": "el-kiddo",
@@ -6154,15 +6188,6 @@
       },
       "dates": [
         {
-          "id": 169882,
-          "date": "2026-09-14",
-          "name": "",
-          "lineUp": "<p class=\"tdfocus-1786356524471\">Ben Westbeech</p><p class=\"tdfocus-1786356524471\">Dymos/Jay Fase/Shizzo</p><p class=\"tdfocus-1786356524471\">Oscar Colorado B2B<span>2Lovers</span></p><p>Gianluca Rissone</p>",
-          "prices": "30 € - 35 €",
-          "lowestAvailablePrice": 30,
-          "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/la-troya/2026-09-14?aff=CT219"
-        },
-        {
           "id": 169883,
           "date": "2026-09-21",
           "name": "",
@@ -6205,6 +6230,77 @@
       "venueLogo": "https://media.clubtickets.com/migrated/venue/4ba10e8f-b7af-4e4f-b4d8-80235cb63324.png"
     },
     {
+      "id": 1683,
+      "name": "TRIP",
+      "slug": "trip",
+      "logo": "https://media.clubtickets.com/migrated/event/32eb3f62-af1a-4214-adbf-f5b82c13ef3d.jpg",
+      "cover": "https://media.clubtickets.com/migrated/event/f8149d5e-1a54-4e01-8575-cf9c9acdef49.jpg",
+      "whitelogo": "",
+      "startAt": "23:30",
+      "endAt": "00:00",
+      "endIsDefined": false,
+      "startAtNextDay": false,
+      "endAtNextDay": false,
+      "venue": {
+        "id": 273,
+        "name": "Chinois Ibiza",
+        "slug": "club-chinois-ibiza",
+        "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza?aff=CT219",
+        "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/273?locale=fr"
+      },
+      "dates": [
+        {
+          "id": 173922,
+          "date": "2026-09-30",
+          "name": "",
+          "lineUp": "",
+          "prices": "30 € - 35 €",
+          "lowestAvailablePrice": 30,
+          "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/trip/2026-09-30?aff=CT219"
+        },
+        {
+          "id": 173923,
+          "date": "2026-10-14",
+          "name": "",
+          "lineUp": "",
+          "prices": "30 € - 35 €",
+          "lowestAvailablePrice": 30,
+          "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/trip/2026-10-14?aff=CT219"
+        },
+        {
+          "id": 173924,
+          "date": "2026-10-24",
+          "name": "",
+          "lineUp": "",
+          "prices": "30 € - 35 €",
+          "lowestAvailablePrice": 30,
+          "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/trip/2026-10-24?aff=CT219"
+        },
+        {
+          "id": 173925,
+          "date": "2026-11-01",
+          "name": "",
+          "lineUp": "",
+          "prices": "30 € - 35 €",
+          "lowestAvailablePrice": 30,
+          "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/trip/2026-11-01?aff=CT219"
+        }
+      ],
+      "description": "Trip revient à Chinois en 2026 !<br />\r\n<p>Trip est de retour pour sa cinquième saison à Chinois Ibiza après le succès de ses soirées en 2025. C'est un nouveau voyage profond dans le son et les visions psychédéliques : « d'Ibiza, pour Ibiza » comme l'équipe le décrit, et c'est certainement la description la plus appropriée que nous puissions donner à cette nouvelle fête sur mesure.</p><br />\r\n<p>Et maintenant <b>Trip revient à Chinois</b> pour une autre saison en 2026. Surréaliste, psychédélique et hallucinant, avec une bande sonore fournie par certains des meilleurs DJs underground du monde.</p><br />\r\n<p><br></p><br />\r\n<br />\r\nProgrammation Trip à Chinois 2026<br />\r\n<p class=\"tdfocus-1789464494763\">Chaque semaine, de nouveaux noms rejoignent les événements Trip.</p><br />\r\n<br><br />\r\nBillets pour Trip à Chinois 2026<br />\r\n<p>Les billets pour Trip à Chinois sont maintenant en vente. Obtenez vos billets d'entrée anticipée à partir de seulement 30€. Achetez en ligne et économisez de l'argent et du temps.</p><br><br />\r\n<br />\r\n<p><b>Club : </b>Chinois</p><p></p><p></p>",
+      "requirements": "<p class=\"tdfocus-1744193682327\">Merci beaucoup d'avoir choisi Chinois Ibiza, et rappelez-vous que :</p><p class=\"tdfocus-1744193683414\">- Chinois Ibiza est réservé aux personnes de plus de 18 ans. Les mineurs ne sont pas autorisés à entrer. Tous les participants doivent être munis de documents originaux et valides.</p><p>- Les programmations et les horaires des sessions sont susceptibles de changer.</p><p>- Aucune réadmission n'est autorisée.</p><p><b>- CODE VESTIMENTAIRE :</b> code vestimentaire chic et décontracté. Nous demandons aimablement aux messieurs de respecter notre politique de port de pantalons longs. Les vêtements de sport et les chaussures ouvertes ne seront pas autorisés dans le lieu. Veuillez noter que le lieu se réserve le droit de refuser l'entrée, et l'entrée est à la discrétion de l'équipe de la porte le soir même.</p>",
+      "type": {
+        "id": 1,
+        "name": "Clubbing",
+        "slug": "clubbing"
+      },
+      "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/trip?aff=CT219",
+      "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/273/event/1683?locale=fr",
+      "venueName": "Chinois Ibiza",
+      "venueSlug": "club-chinois-ibiza",
+      "venueCover": "https://media.clubtickets.com/migrated/venue/fe051ad4-d5b2-49ba-afff-ba2b3b347096.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/4ba10e8f-b7af-4e4f-b4d8-80235cb63324.png"
+    },
+    {
       "id": 1933,
       "name": "Claptone: The Masquerade",
       "slug": "claptone-the-masquerade",
@@ -6229,8 +6325,8 @@
           "date": "2026-09-19",
           "name": "",
           "lineUp": "<p>Claptone</p><p>Pete Tong </p><p> Alexander Som </p><p> Artche</p>",
-          "prices": "40 € - 45 €",
-          "lowestAvailablePrice": 40,
+          "prices": "35 € - 45 €",
+          "lowestAvailablePrice": 35,
           "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/claptone-the-masquerade/2026-09-19?aff=CT219"
         },
         {
@@ -6318,8 +6414,8 @@
           "date": "2026-10-04",
           "name": "",
           "lineUp": "<p>Bedouin</p><p>Guy Gerber</p><p>Nandu</p>",
-          "prices": "40 € - 50 €",
-          "lowestAvailablePrice": 40,
+          "prices": "35 € - 45 €",
+          "lowestAvailablePrice": 35,
           "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/bedouin-presents-saga/2026-10-04?aff=CT219"
         }
       ],
@@ -6477,8 +6573,8 @@
           "date": "2026-09-18",
           "name": "",
           "lineUp": "<p>Major League DJz</p><p>Djeff B2B Fiona Kraft</p><p>Jonathan Kaspar</p><p>Sama</p>",
-          "prices": "40 €",
-          "lowestAvailablePrice": 40,
+          "prices": "35 € - 45 €",
+          "lowestAvailablePrice": 35,
           "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/major-league-djz/2026-09-18?aff=CT219"
         },
         {
@@ -7789,7 +7885,7 @@
           "id": 164598,
           "date": "2026-09-15",
           "name": "Pikes Presents x Detroit Love",
-          "lineUp": "<p><b>Garden Stage (18:00 - 23:00) </b></p><p> Carl Craig </p><p> Mirko Loko</p><p>  Pikes Resident DJs</p><p><br></p><p><b>  Club (23:00 - 04:00) </b></p><p> Special Guests TBA</p><p> </p><p>Ryan O Gorman</p><p><br></p>",
+          "lineUp": "<p><b>Garden Stage (18:00 - 23:00) </b></p><p class=\"tdfocus-1789459145233\"><span>Moodymann</span></p><p class=\"tdfocus-1789459145233\"><span>Mirko Loko</span></p><p class=\"tdfocus-1789459145233\"><span><br></span></p><p class=\"tdfocus-1789459145233\"><span class=\"tdfocus-1789459193945\"><b>Forest (18:00 - 22:45)</b></span></p><p class=\"tdfocus-1789459145233\"><span>hosted by Openlab:</span></p><p class=\"tdfocus-1789459145233\"><span>Androosh</span></p><p class=\"tdfocus-1789459145233\"><span class=\"tdfocus-1789459319287\">TinTin</span></p><p class=\"tdfocus-1789459153818\"><br></p><p><b class=\"tdfocus-1789459161726\">  Teatro (23:00 - 04:00) </b></p><p class=\"tdfocus-1789459200891\"><span>Carl Craig</span></p><p class=\"tdfocus-1789459200891\"><span>Idriss D</span></p><p class=\"tdfocus-1789459200891\"><span>Ryan O Gorman</span></p><p><br></p>",
           "prices": "29.5 € - 51 €",
           "lowestAvailablePrice": 29.5,
           "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza/pikes-presents/2026-09-15?aff=CT219"
@@ -7798,7 +7894,7 @@
           "id": 171030,
           "date": "2026-09-19",
           "name": "Pikes Presents x Bugged Out!",
-          "lineUp": "<p><b>Garden Stage (18:00 - 23:00) </b></p><p>HAAi</p><p>   Pikes Resident DJs </p><p>More TBA</p><p><br></p><p><b>       Club (23:00 - 04:00) </b></p><p><span>Lineup TBA</span></p><p><span>Pikes Resident DJs</span></p>",
+          "lineUp": "<p><b>Garden Stage (18:00 - 23:00) </b></p><p class=\"tdfocus-1789459220992\">HAAi B2B Young Marco</p><p class=\"tdfocus-1789459229175\">Special Guest</p><p class=\"tdfocus-1789459229175\">Mina</p><p class=\"tdfocus-1789459240871\"><br></p><p class=\"tdfocus-1789459240871\"><b>Forest (18:00 - 22:45)</b></p><p class=\"tdfocus-1789459240871\"> hosted by Defex:</p><p class=\"tdfocus-1789459240871\">Flashbaxx (Live PA)</p><p class=\"tdfocus-1789459240871\">Defex</p><p class=\"tdfocus-1789459240871\">Federico Grazzini</p><p class=\"tdfocus-1789459240871\">Milou</p><p class=\"tdfocus-1789459240871\"><br></p><p><b class=\"tdfocus-1789459286296\">       Teatro (23:00 - 04:00) </b></p><p><span>James Lavelle</span></p><p><span class=\"tdfocus-1789459295168\">Andy Baxter</span></p>",
           "prices": "29.5 € - 51 €",
           "lowestAvailablePrice": 29.5,
           "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza/pikes-presents/2026-09-19?aff=CT219"
@@ -7807,7 +7903,7 @@
           "id": 164599,
           "date": "2026-09-22",
           "name": "Pikes Presents... at 528: Hot Chip",
-          "lineUp": "<p><b>Garden Stage (18:00 - 23:00)</b></p><p>  Hot Chip (DJ Set)</p><p>Crazy P (DJ Set)</p><p>   Pikes Resident DJs </p><p><br></p><p><b> Club (23:00 - 04:00) </b></p><p>Justin Robertson</p><p> Pikes Resident DJs<br></p>",
+          "lineUp": "<p><b>Garden Stage (18:00 - 23:00)</b></p><p>  Hot Chip (DJ Set)</p><p class=\"tdfocus-1789459398350\">Crazy P (DJ Set)</p><p class=\"tdfocus-1789459366125\">AKA Jay</p><p class=\"tdfocus-1789459366125\"><br></p><p class=\"tdfocus-1789459366125\"><b>Forest (18:00 - 22:45)</b></p><p class=\"tdfocus-1789459366125\">hosted by Openlab:</p><p class=\"tdfocus-1789459366125\">Mick Wilson</p><p class=\"tdfocus-1789459366125\">Zlata</p><p class=\"tdfocus-1789459366125\"><br></p><p><b class=\"tdfocus-1789459392973\"> Teatro (23:00 - 04:00) </b></p><p>Justin Robertson</p><p class=\"tdfocus-1789459410733\"> Camila Ramirez<br></p>",
           "prices": "29.5 € - 51 €",
           "lowestAvailablePrice": 29.5,
           "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza/pikes-presents/2026-09-22?aff=CT219"
@@ -7816,7 +7912,7 @@
           "id": 164600,
           "date": "2026-09-29",
           "name": "Pikes Presents... at 528: Basement Jaxx",
-          "lineUp": "<p><b>Garden Stage (18:00 - 23:00) </b></p><p> Basement Jaxx (DJ Set) </p><p> Pikes Resident DJs</p><p> </p><p>More TBA</p><p><br></p><p><b> Club (23:00 - 04:00)</b></p><p>  Special Guests TBA</p><p>  Pikes Resident DJs<br></p>",
+          "lineUp": "<p><b>Garden Stage (18:00 - 23:00) </b></p><p> Basement Jaxx (DJ Set) </p><p class=\"tdfocus-1789459438340\"><span>Leftfield (DJ Set)</span></p><p class=\"tdfocus-1789459438340\">S/A/M</p><p class=\"tdfocus-1789459438340\"><br></p><p class=\"tdfocus-1789459438340\"><b>Forest (18:00 - 22:45)</b></p><p class=\"tdfocus-1789459438340\">Quantum Disco</p><p class=\"tdfocus-1789459438340\">(JR Hartley &amp; Sadeedo)</p><p class=\"tdfocus-1789459438340\"><br></p><p><b class=\"tdfocus-1789459485637\">Teatro (23:00 - 04:00)</b></p><p>Chaos in The CBD</p><p>Lilli Kelly</p>",
           "prices": "29.5 € - 51 €",
           "lowestAvailablePrice": 29.5,
           "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza/pikes-presents/2026-09-29?aff=CT219"
@@ -7825,7 +7921,7 @@
           "id": 164601,
           "date": "2026-10-06",
           "name": "Pikes Presents... at 528: Closing Party",
-          "lineUp": "<p><b>Garden Stage (18:00 - 23:00) </b></p><p> Layo &amp; Bushwacka! </p><p> Pikes Resident DJs </p><p><br></p><p><b>   Club (23:00 - 04:00) </b></p><p> Special Guests TBA </p><p> Pikes Resident DJs<br></p>",
+          "lineUp": "<p><b>Garden Stage (18:00 - 23:00) </b></p><p> Layo &amp; Bushwacka! </p><p class=\"tdfocus-1789459530280\">Daniel Avery</p><p class=\"tdfocus-1789459530280\">Pikes Resident DJs</p><p class=\"tdfocus-1789459546882\"><br></p><p class=\"tdfocus-1789459546882\"><b>Forest (18:00 - 22:45)</b>    hosted by Openlab</p><p class=\"tdfocus-1789459546882\"><br></p><p><b class=\"tdfocus-1789459564274\">   Teatro (23:00 - 04:00) </b></p><p class=\"tdfocus-1789459576452\"><span>Jennifer Loveless</span></p><p class=\"tdfocus-1789459576452\"><span>Pikes Resident DJs</span></p>",
           "prices": "29.5 € - 51 €",
           "lowestAvailablePrice": 29.5,
           "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza/pikes-presents/2026-10-06?aff=CT219"
@@ -8078,50 +8174,6 @@
       },
       "affLink": "https://www.clubtickets.com/fr/clubbing/swag/xcandalous?aff=CT219",
       "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/18/event/261?locale=fr",
-      "venueName": "SWAG",
-      "venueSlug": "swag",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/260722ca-4371-4a1d-bc29-0c868d77e919.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/316e7daa-4045-48f5-89c7-dae1a79c0518.png"
-    },
-    {
-      "id": 263,
-      "name": "Safari",
-      "slug": "safari",
-      "logo": "https://media.clubtickets.com/migrated/event/d08ec3a5-09a0-4914-8479-d73f13b89c47.jpg",
-      "cover": "https://media.clubtickets.com/migrated/event/14140776-a5e4-4993-bbb9-08a78a366e63.jpg",
-      "whitelogo": "https://media.clubtickets.com/migrated/event/98ca25ec-d1c7-4dac-84ff-ed39f1b3267b.png",
-      "startAt": "23:55",
-      "endAt": "00:00",
-      "endIsDefined": false,
-      "startAtNextDay": false,
-      "endAtNextDay": false,
-      "venue": {
-        "id": 18,
-        "name": "SWAG",
-        "slug": "swag",
-        "affLink": "https://www.clubtickets.com/fr/clubbing/swag?aff=CT219",
-        "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/18?locale=fr"
-      },
-      "dates": [
-        {
-          "id": 170633,
-          "date": "2026-09-14",
-          "name": "Closing Party SAFARI",
-          "lineUp": "",
-          "prices": "20 € - 50 €",
-          "lowestAvailablePrice": 20,
-          "affLink": "https://www.clubtickets.com/fr/clubbing/swag/safari/2026-09-14?aff=CT219"
-        }
-      ],
-      "description": "Safari à SWAG Ibiza !<br />\r\n<p>Bienvenue du côté sauvage d'Ibiza. Safari libère son énergie indomptée à SWAG Ibiza en 2026, débutant avec trois éditions spéciales le dimanche <b>10, 17 et 24 mai</b>, avant de s'installer dans <b>sa résidence hebdomadaire tous les lundis du 1er juin au 14 septembre</b>.</p><p>Né sous le soleil tropical des îles Canaries et rugissant maintenant sur les côtes baléares, cette expérience imprégnée de jungle transforme le club en un habitat de créatures sauvages, d'ambiances exotiques et d'instincts incontrôlables.</p><p>Reggaeton, trap et dembow jamaïcain rythment une nuit où la seule règle est de laisser votre côté animal prendre le dessus. Entre beats féroces, esthétique tribale et une foule qui rôde sur la piste de danse jusqu'à l'aube, Safari est l'évasion ultime dans le fantasme le plus sauvage d'Ibiza.<br></p><br><br />\r\nProgrammation Safari à SWAG Ibiza 2026<br />\r\n<p>Safari mettra en vedette les résidents de SWAG Ibiza et des invités spéciaux qui seront annoncés dans les prochains jours.</p><br><br />\r\nBillets Safari à SWAG Ibiza 2026<br />\r\n<p>Les billets pour Safari à SWAG Ibiza sont maintenant en vente à partir de seulement 20€. Achetez en ligne et économisez de l'argent et du temps.</p><br><br />\r\n<p><b>Club : </b>SWAG Ibiza</p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>",
-      "requirements": "<div>- Tous les assistants doivent présenter une pièce d'identité valide.</div><div>- SWAG Ibiza applique une politique pour les plus de 18 ans. Toute personne de moins de 18 ans se verra refuser l'entrée.</div><div>- Les programmations et les horaires peuvent être modifiés.</div><div>- Aucune réadmission autorisée, une fois que vous quittez le lieu, vous devrez payer à nouveau pour entrer.</div>",
-      "type": {
-        "id": 1,
-        "name": "Clubbing",
-        "slug": "clubbing"
-      },
-      "affLink": "https://www.clubtickets.com/fr/clubbing/swag/safari?aff=CT219",
-      "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/18/event/263?locale=fr",
       "venueName": "SWAG",
       "venueSlug": "swag",
       "venueCover": "https://media.clubtickets.com/migrated/venue/260722ca-4371-4a1d-bc29-0c868d77e919.jpg",
@@ -8956,15 +9008,6 @@
       },
       "dates": [
         {
-          "id": 164820,
-          "date": "2026-09-15",
-          "name": "",
-          "lineUp": "",
-          "prices": "30 € - 59.99 €",
-          "lowestAvailablePrice": 30,
-          "affLink": "https://www.clubtickets.com/fr/boat/the-beach-hopper/beach-hopper-daytime/2026-09-15?aff=CT219"
-        },
-        {
           "id": 164821,
           "date": "2026-09-16",
           "name": "",
@@ -8972,15 +9015,6 @@
           "prices": "30 € - 59.99 €",
           "lowestAvailablePrice": 30,
           "affLink": "https://www.clubtickets.com/fr/boat/the-beach-hopper/beach-hopper-daytime/2026-09-16?aff=CT219"
-        },
-        {
-          "id": 164822,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "30 € - 59.99 €",
-          "lowestAvailablePrice": 30,
-          "affLink": "https://www.clubtickets.com/fr/boat/the-beach-hopper/beach-hopper-daytime/2026-09-17?aff=CT219"
         },
         {
           "id": 164823,
@@ -9610,15 +9644,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/27?locale=fr"
       },
       "dates": [
-        {
-          "id": 166497,
-          "date": "2026-09-15",
-          "name": "",
-          "lineUp": "",
-          "prices": "22 € - 45 €",
-          "lowestAvailablePrice": 22,
-          "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/barco-a-formentera-ulises-cat/ulises-cat-barco-a-formentera/2026-09-15?aff=CT219"
-        },
         {
           "id": 166498,
           "date": "2026-09-16",
@@ -10293,15 +10318,6 @@
       },
       "dates": [
         {
-          "id": 173841,
-          "date": "2026-09-15",
-          "name": "",
-          "lineUp": "",
-          "prices": "30 € - 79 €",
-          "lowestAvailablePrice": 30,
-          "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/barco-a-formentera-ulises-cat/crystal-waters/2026-09-15?aff=CT219"
-        },
-        {
           "id": 173842,
           "date": "2026-09-17",
           "name": "",
@@ -10838,15 +10854,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/69?locale=fr"
       },
       "dates": [
-        {
-          "id": 160973,
-          "date": "2026-09-15",
-          "name": "",
-          "lineUp": "",
-          "prices": "25 € - 69 €",
-          "lowestAvailablePrice": 25,
-          "affLink": "https://www.clubtickets.com/fr/boat/float-your-boat/beach-cruise-daytime/2026-09-15?aff=CT219"
-        },
         {
           "id": 160974,
           "date": "2026-09-16",
@@ -15424,15 +15431,6 @@
       },
       "dates": [
         {
-          "id": 164291,
-          "date": "2026-09-16",
-          "name": "",
-          "lineUp": "",
-          "prices": "130 €",
-          "lowestAvailablePrice": 130,
-          "affLink": "https://www.clubtickets.com/fr/activities/emove-ibiza/electric-motorbike-tour/2026-09-16?aff=CT219"
-        },
-        {
           "id": 164292,
           "date": "2026-09-17",
           "name": "",
@@ -16912,15 +16910,6 @@
       },
       "dates": [
         {
-          "id": 170520,
-          "date": "2026-09-15",
-          "name": "",
-          "lineUp": "",
-          "prices": "22 € - 44 €",
-          "lowestAvailablePrice": 22,
-          "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/cruceros-portmany/formentera/2026-09-15?aff=CT219"
-        },
-        {
           "id": 170521,
           "date": "2026-09-16",
           "name": "",
@@ -17189,15 +17178,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/137?locale=fr"
       },
       "dates": [
-        {
-          "id": 168906,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "45 € - 80 €",
-          "lowestAvailablePrice": 45,
-          "affLink": "https://www.clubtickets.com/fr/boat/salvador/salvador-boat-day-trip/2026-09-17?aff=CT219"
-        },
         {
           "id": 168907,
           "date": "2026-09-18",
@@ -18061,15 +18041,6 @@
       },
       "dates": [
         {
-          "id": 167176,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "70 € - 100 €",
-          "lowestAvailablePrice": 70,
-          "affLink": "https://www.clubtickets.com/fr/activities/take-off/speed-boat-adventure/2026-09-17?aff=CT219"
-        },
-        {
           "id": 167177,
           "date": "2026-09-18",
           "name": "",
@@ -18500,15 +18471,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/31?locale=fr"
       },
       "dates": [
-        {
-          "id": 167389,
-          "date": "2026-09-16",
-          "name": "",
-          "lineUp": "",
-          "prices": "110 € - 160 €",
-          "lowestAvailablePrice": 110,
-          "affLink": "https://www.clubtickets.com/fr/activities/take-off/barco-con-juguetes-acuaticos-de-lujo/2026-09-16?aff=CT219"
-        },
         {
           "id": 167390,
           "date": "2026-09-17",
@@ -19389,15 +19351,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/329?locale=fr"
       },
       "dates": [
-        {
-          "id": 168701,
-          "date": "2026-09-16",
-          "name": "",
-          "lineUp": "",
-          "prices": "110 € - 320 €",
-          "lowestAvailablePrice": 110,
-          "affLink": "https://www.clubtickets.com/fr/activities/ibiza-jet-ski-beach/jet-ski-san-antonio-ibiza-jet-ski-beach/2026-09-16?aff=CT219"
-        },
         {
           "id": 168702,
           "date": "2026-09-17",
@@ -20288,15 +20241,6 @@
       },
       "dates": [
         {
-          "id": 168305,
-          "date": "2026-09-15",
-          "name": "",
-          "lineUp": "",
-          "prices": "24 € - 52 €",
-          "lowestAvailablePrice": 24,
-          "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/santa-eularia-ferry/santa-eulalia-formentera-ferry/2026-09-15?aff=CT219"
-        },
-        {
           "id": 168306,
           "date": "2026-09-16",
           "name": "",
@@ -21060,15 +21004,6 @@
       },
       "dates": [
         {
-          "id": 173439,
-          "date": "2026-09-15",
-          "name": "",
-          "lineUp": "",
-          "prices": "42 € - 114 €",
-          "lowestAvailablePrice": 42,
-          "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/santa-eularia-ferry/formentera-experience-by-santa-eularia-ferry/2026-09-15?aff=CT219"
-        },
-        {
           "id": 173440,
           "date": "2026-09-17",
           "name": "",
@@ -21112,15 +21047,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/177?locale=fr"
       },
       "dates": [
-        {
-          "id": 169341,
-          "date": "2026-09-15",
-          "name": "",
-          "lineUp": "",
-          "prices": "69.5 € - 139 €",
-          "lowestAvailablePrice": 69.5,
-          "affLink": "https://www.clubtickets.com/fr/boat/excursiones-ibiza/excursion-es-vedra-formentera/2026-09-15?aff=CT219"
-        },
         {
           "id": 169342,
           "date": "2026-09-16",
@@ -22064,15 +21990,6 @@
       },
       "dates": [
         {
-          "id": 171849,
-          "date": "2026-09-15",
-          "name": "",
-          "lineUp": "",
-          "prices": "175 € - 250 €",
-          "lowestAvailablePrice": 175,
-          "affLink": "https://www.clubtickets.com/fr/activities/into-the-island/into-the-island-combo-tour/2026-09-15?aff=CT219"
-        },
-        {
           "id": 171850,
           "date": "2026-09-16",
           "name": "",
@@ -22845,15 +22762,6 @@
       },
       "dates": [
         {
-          "id": 170828,
-          "date": "2026-09-16",
-          "name": "",
-          "lineUp": "",
-          "prices": "195 € - 360 €",
-          "lowestAvailablePrice": 195,
-          "affLink": "https://www.clubtickets.com/fr/activities/ibiza-buggy-adventure/ibiza-buggy-adventure/2026-09-16?aff=CT219"
-        },
-        {
           "id": 170829,
           "date": "2026-09-17",
           "name": "",
@@ -23149,15 +23057,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/265?locale=fr"
       },
       "dates": [
-        {
-          "id": 171001,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "90 € - 130 €",
-          "lowestAvailablePrice": 90,
-          "affLink": "https://www.clubtickets.com/fr/activities/ibiza-buggy-adventure/ibiza-buggy-adventure-quad-tours/2026-09-17?aff=CT219"
-        },
         {
           "id": 171002,
           "date": "2026-09-18",
@@ -23750,15 +23649,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/332?locale=fr"
       },
       "dates": [
-        {
-          "id": 171207,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "75 €",
-          "lowestAvailablePrice": 75,
-          "affLink": "https://www.clubtickets.com/fr/activities/sup-paradise-ibiza/3h-boat-trip-with-paddle-surf-lesson-snorkeling/2026-09-17?aff=CT219"
-        },
         {
           "id": 171208,
           "date": "2026-09-18",
@@ -24882,101 +24772,6 @@
   ],
   "dates": [
     {
-      "id": 164715,
-      "date": "2026-09-14",
-      "name": "",
-      "lineUp": "MAIN ROOM Armin van Buuren (special 5h set) Eli Brown (Face to Face set) Laura Van Dam THE BUNKER Blondex Modea",
-      "prices": "50 € - 300 €",
-      "lowestAvailablePrice": 50,
-      "affLink": "https://www.clubtickets.com/fr/clubbing/unvrs-ibiza/armin-van-buuren-asot/2026-09-14?aff=CT219",
-      "eventName": "Armin van Buuren presents A State of Trance",
-      "eventSlug": "armin-van-buuren-asot",
-      "venueName": "[UNVRS]",
-      "venueSlug": "unvrs-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/0422eef8-99ea-42a1-9749-1b31f95914d9.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/940302ac-ef06-46bf-b76a-91d3b092b184.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/71e438f9-4f54-4f44-b255-4cd856f99fff.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/ef1b8be0-8489-4cb0-a760-e5e944d65922.jpg",
-      "eventId": 2098,
-      "venueId": 319
-    },
-    {
-      "id": 162426,
-      "date": "2026-09-14",
-      "name": "",
-      "lineUp": "THEATRE Francis Mercier B2B Kölsch Patrick Mason Kilimanjaro Bantu B2B Dr. Chaii CLUB ROOM Andrea Oliva Honeyluv Cincity Daughter In Law",
-      "prices": "30 € - 50 €",
-      "lowestAvailablePrice": 30,
-      "affLink": "https://www.clubtickets.com/fr/clubbing/hi-ibiza/francis-mercier/2026-09-14?aff=CT219",
-      "eventName": "Francis Mercier presents Solèy",
-      "eventSlug": "francis-mercier",
-      "venueName": "Hï Ibiza",
-      "venueSlug": "hi-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/f0d09f3c-cc99-4c9b-9f40-78bd925985c4.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/f158734e-05d3-42b6-9499-25c2acc00633.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/38891b17-773d-4994-ac4f-96052fff37d6.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/859a6fcf-7326-47e8-b5bb-20340b1610a5.jpg",
-      "eventId": 2089,
-      "venueId": 12
-    },
-    {
-      "id": 169882,
-      "date": "2026-09-14",
-      "name": "",
-      "lineUp": "Ben Westbeech Dymos/Jay Fase/Shizzo Oscar Colorado B2B 2Lovers Gianluca Rissone",
-      "prices": "30 € - 35 €",
-      "lowestAvailablePrice": 30,
-      "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/la-troya/2026-09-14?aff=CT219",
-      "eventName": "La Troya",
-      "eventSlug": "la-troya",
-      "venueName": "Chinois Ibiza",
-      "venueSlug": "club-chinois-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/fe051ad4-d5b2-49ba-afff-ba2b3b347096.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/4ba10e8f-b7af-4e4f-b4d8-80235cb63324.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/f91e72c5-9d13-4738-956f-1d4c3bd13fe9.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/6366b2a5-fd6f-4f78-a20d-872b60e1c877.png",
-      "eventId": 1665,
-      "venueId": 273
-    },
-    {
-      "id": 170633,
-      "date": "2026-09-14",
-      "name": "Closing Party SAFARI",
-      "lineUp": "",
-      "prices": "20 € - 50 €",
-      "lowestAvailablePrice": 20,
-      "affLink": "https://www.clubtickets.com/fr/clubbing/swag/safari/2026-09-14?aff=CT219",
-      "eventName": "Safari",
-      "eventSlug": "safari",
-      "venueName": "SWAG",
-      "venueSlug": "swag",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/260722ca-4371-4a1d-bc29-0c868d77e919.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/316e7daa-4045-48f5-89c7-dae1a79c0518.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/14140776-a5e4-4993-bbb9-08a78a366e63.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d08ec3a5-09a0-4914-8479-d73f13b89c47.jpg",
-      "eventId": 263,
-      "venueId": 18
-    },
-    {
-      "id": 164540,
-      "date": "2026-09-14",
-      "name": "",
-      "lineUp": "",
-      "prices": "240 € - 360 €",
-      "lowestAvailablePrice": 240,
-      "affLink": "https://www.clubtickets.com/fr/activities/emove-ibiza/vintage-car-tour/2026-09-14?aff=CT219",
-      "eventName": "Retro Tour by Mehari or Kate",
-      "eventSlug": "vintage-car-tour",
-      "venueName": "Emove Ibiza",
-      "venueSlug": "emove-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/9c0d4515-7211-455f-aeeb-093fb5dbfb45.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/c8f09ebb-3771-4533-b2f5-ca604afea4c1.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/9acfdef0-6f33-4787-bfe3-81c43c5ecfa9.png",
-      "eventId": 2094,
-      "venueId": 61
-    },
-    {
       "id": 164705,
       "date": "2026-09-15",
       "name": "",
@@ -25013,25 +24808,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/da32ce16-ac4d-4402-b605-f9fc9b0136dd.jpg",
       "eventId": 2090,
       "venueId": 12
-    },
-    {
-      "id": 160719,
-      "date": "2026-09-15",
-      "name": "",
-      "lineUp": "Matchstick DJ Cameo Lucy Jane Sam Dungate Albert Bace live on drums",
-      "prices": "25 € - 35 €",
-      "lowestAvailablePrice": 25,
-      "affLink": "https://www.clubtickets.com/fr/clubbing/o-beach-ibiza/kisstory/2026-09-15?aff=CT219",
-      "eventName": "Kisstory",
-      "eventSlug": "kisstory",
-      "venueName": "O Beach Ibiza",
-      "venueSlug": "o-beach-ibiza",
-      "venueCover": "https://media.clubtickets.com/venue/6a9931fff0b2e.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/e65f2e55-376a-4301-a4c7-64b94f17eca5.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/23d9e616-ba3b-4d94-80a0-180d3fa21724.png",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/3784c84c-dfd8-4acb-9dc1-5d6a181286e6.png",
-      "eventId": 30,
-      "venueId": 19
     },
     {
       "id": 172572,
@@ -25094,7 +24870,7 @@
       "id": 164598,
       "date": "2026-09-15",
       "name": "Pikes Presents x Detroit Love",
-      "lineUp": "Garden Stage (18:00 - 23:00) Carl Craig Mirko Loko Pikes Resident DJs Club (23:00 - 04:00) Special Guests TBA Ryan O Gorman",
+      "lineUp": "Garden Stage (18:00 - 23:00) Moodymann Mirko Loko Forest (18:00 - 22:45) hosted by Openlab: Androosh TinTin Teatro (23:00 - 04:00) Carl Craig Idriss D Ryan O Gorman",
       "prices": "29.5 € - 51 €",
       "lowestAvailablePrice": 29.5,
       "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza/pikes-presents/2026-09-15?aff=CT219",
@@ -25129,25 +24905,6 @@
       "venueId": 127
     },
     {
-      "id": 164820,
-      "date": "2026-09-15",
-      "name": "",
-      "lineUp": "",
-      "prices": "30 € - 59.99 €",
-      "lowestAvailablePrice": 30,
-      "affLink": "https://www.clubtickets.com/fr/boat/the-beach-hopper/beach-hopper-daytime/2026-09-15?aff=CT219",
-      "eventName": "The Beach Hopper Daytime",
-      "eventSlug": "beach-hopper-daytime",
-      "venueName": "The Beach Hopper",
-      "venueSlug": "the-beach-hopper",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/8afbbb03-026b-4125-bbf2-a1b54da7465e.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/6f67d0e3-d578-4ce9-80cf-fc82d0e883af.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/85d0660d-b33a-44b3-b521-b58d83a2ed9c.png",
-      "eventId": 1709,
-      "venueId": 338
-    },
-    {
       "id": 172691,
       "date": "2026-09-15",
       "name": "",
@@ -25164,44 +24921,6 @@
       "eventCover": "https://media.clubtickets.com/migrated/event/7edaa55a-0787-4a11-9c62-acfd1a97f2ac.jpg",
       "eventLogo": "https://media.clubtickets.com/migrated/event/fa8952f1-2642-45cc-b75d-6aa96ab8ac0f.jpg",
       "eventId": 351,
-      "venueId": 27
-    },
-    {
-      "id": 166497,
-      "date": "2026-09-15",
-      "name": "",
-      "lineUp": "",
-      "prices": "22 € - 45 €",
-      "lowestAvailablePrice": 22,
-      "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/barco-a-formentera-ulises-cat/ulises-cat-barco-a-formentera/2026-09-15?aff=CT219",
-      "eventName": "Ferry Figueretas & Playa d'en Bossa - Formentera",
-      "eventSlug": "ulises-cat-barco-a-formentera",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/c4b23ab8-744a-42e2-bf91-57260740906e.jpg",
-      "eventLogo": "https://media.clubtickets.com/event/6a8428fd0224b.png",
-      "eventId": 117,
-      "venueId": 27
-    },
-    {
-      "id": 173841,
-      "date": "2026-09-15",
-      "name": "",
-      "lineUp": "",
-      "prices": "30 € - 79 €",
-      "lowestAvailablePrice": 30,
-      "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/barco-a-formentera-ulises-cat/crystal-waters/2026-09-15?aff=CT219",
-      "eventName": "Crystal Waters boat trip",
-      "eventSlug": "crystal-waters",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/84a85a8f-a826-4f29-b15c-08ca99c6247c.webp",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/2624f6f7-b534-4b06-aec3-6213c0c8c3db.png",
-      "eventId": 1501,
       "venueId": 27
     },
     {
@@ -25222,25 +24941,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/e2abb19c-582e-4ab7-8eca-689de09a47ca.png",
       "eventId": 1779,
       "venueId": 27
-    },
-    {
-      "id": 160973,
-      "date": "2026-09-15",
-      "name": "",
-      "lineUp": "",
-      "prices": "25 € - 69 €",
-      "lowestAvailablePrice": 25,
-      "affLink": "https://www.clubtickets.com/fr/boat/float-your-boat/beach-cruise-daytime/2026-09-15?aff=CT219",
-      "eventName": "FYB Beach Cruise Daytime",
-      "eventSlug": "beach-cruise-daytime",
-      "venueName": "Float Your Boat",
-      "venueSlug": "float-your-boat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/1b0b64f2-f8d9-4182-a8b3-b1095ff02a4c.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/a12ed151-b36e-4918-ae02-50e97bb0ffcc.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/2ad0df2b-5b8a-4f40-9afc-9073adc5e18b.jpg",
-      "eventId": 855,
-      "venueId": 69
     },
     {
       "id": 161173,
@@ -25395,44 +25095,6 @@
       "venueId": 61
     },
     {
-      "id": 170520,
-      "date": "2026-09-15",
-      "name": "",
-      "lineUp": "",
-      "prices": "22 € - 44 €",
-      "lowestAvailablePrice": 22,
-      "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/cruceros-portmany/formentera/2026-09-15?aff=CT219",
-      "eventName": "San Antonio - Formentera",
-      "eventSlug": "formentera",
-      "venueName": "Cruceros Portmany",
-      "venueSlug": "cruceros-portmany",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/ba2803de-5379-42c5-9750-51fd479cf87e.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/99a4caba-bf0a-40f9-b5c4-bc99b1e84b5e.jpg",
-      "eventLogo": "https://admin.clubtickets.com/images/event/5ae70c69c99aa.jpg",
-      "eventId": 183,
-      "venueId": 43
-    },
-    {
-      "id": 168305,
-      "date": "2026-09-15",
-      "name": "",
-      "lineUp": "",
-      "prices": "24 € - 52 €",
-      "lowestAvailablePrice": 24,
-      "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/santa-eularia-ferry/santa-eulalia-formentera-ferry/2026-09-15?aff=CT219",
-      "eventName": "Santa Eulalia - Formentera Ferry",
-      "eventSlug": "santa-eulalia-formentera-ferry",
-      "venueName": "Santa Eularia Ferry",
-      "venueSlug": "santa-eularia-ferry",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/acd422f8-d406-4272-80e5-c6a63bc75908.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/e2ab1c49-8e9b-4923-a23b-0a14e7077c72.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/55049b31-ff58-40cc-bc26-f5f648a3e4db.jpg",
-      "eventId": 2021,
-      "venueId": 326
-    },
-    {
       "id": 173354,
       "date": "2026-09-15",
       "name": "",
@@ -25452,44 +25114,6 @@
       "venueId": 326
     },
     {
-      "id": 173439,
-      "date": "2026-09-15",
-      "name": "",
-      "lineUp": "",
-      "prices": "42 € - 114 €",
-      "lowestAvailablePrice": 42,
-      "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/santa-eularia-ferry/formentera-experience-by-santa-eularia-ferry/2026-09-15?aff=CT219",
-      "eventName": "Formentera Experience by Santa Eularia Ferry",
-      "eventSlug": "formentera-experience-by-santa-eularia-ferry",
-      "venueName": "Santa Eularia Ferry",
-      "venueSlug": "santa-eularia-ferry",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/acd422f8-d406-4272-80e5-c6a63bc75908.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/event/6a3a4b4c654e0.jpg",
-      "eventLogo": "https://media.clubtickets.com/event/6a3a49461b49d.jpg",
-      "eventId": 2160,
-      "venueId": 326
-    },
-    {
-      "id": 169341,
-      "date": "2026-09-15",
-      "name": "",
-      "lineUp": "",
-      "prices": "69.5 € - 139 €",
-      "lowestAvailablePrice": 69.5,
-      "affLink": "https://www.clubtickets.com/fr/boat/excursiones-ibiza/excursion-es-vedra-formentera/2026-09-15?aff=CT219",
-      "eventName": "Excursión Es Vedrà + Formentera",
-      "eventSlug": "excursion-es-vedra-formentera",
-      "venueName": "Excursiones Ibiza",
-      "venueSlug": "excursiones-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/03ed4ca9-700a-4e5f-b248-6d0f6d41e585.jpg",
-      "venueLogo": "",
-      "eventCover": "https://admin.clubtickets.com/images/event/5d11f24132082288151999.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d558d5b7-a81c-4370-9248-95b2845c781f.jpg",
-      "eventId": 1031,
-      "venueId": 177
-    },
-    {
       "id": 170206,
       "date": "2026-09-15",
       "name": "",
@@ -25507,25 +25131,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/5291266d-f6d6-493f-ab93-7f427cc55748.png",
       "eventId": 1724,
       "venueId": 299
-    },
-    {
-      "id": 171849,
-      "date": "2026-09-15",
-      "name": "",
-      "lineUp": "",
-      "prices": "175 € - 250 €",
-      "lowestAvailablePrice": 175,
-      "affLink": "https://www.clubtickets.com/fr/activities/into-the-island/into-the-island-combo-tour/2026-09-15?aff=CT219",
-      "eventName": "Into the Island - Boat, 4x4 & Es Vedrà Sunset Adventure",
-      "eventSlug": "into-the-island-combo-tour",
-      "venueName": "INTO THE ISLAND",
-      "venueSlug": "into-the-island",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/8a51fbbc-b02c-4f57-983b-8e9f8845a565.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/abcddf1f-e627-428c-90d9-200e73b0983c.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/4b42ff26-906a-4e5f-90b4-e3faa359d649.png",
-      "eventId": 2133,
-      "venueId": 291
     },
     {
       "id": 162499,
@@ -25984,25 +25589,6 @@
       "venueId": 33
     },
     {
-      "id": 164291,
-      "date": "2026-09-16",
-      "name": "",
-      "lineUp": "",
-      "prices": "130 €",
-      "lowestAvailablePrice": 130,
-      "affLink": "https://www.clubtickets.com/fr/activities/emove-ibiza/electric-motorbike-tour/2026-09-16?aff=CT219",
-      "eventName": "Electric Motocross Tour",
-      "eventSlug": "electric-motorbike-tour",
-      "venueName": "Emove Ibiza",
-      "venueSlug": "emove-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/9c0d4515-7211-455f-aeeb-093fb5dbfb45.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/a9760c2b-fd5c-4983-8795-a7b833c23eb8.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/e401a3cf-374e-4edb-865b-820b29cc5ad9.png",
-      "eventId": 1827,
-      "venueId": 61
-    },
-    {
       "id": 164542,
       "date": "2026-09-16",
       "name": "",
@@ -26058,44 +25644,6 @@
       "eventLogo": "https://admin.clubtickets.com/images/event/5ae70c69c99aa.jpg",
       "eventId": 183,
       "venueId": 43
-    },
-    {
-      "id": 167389,
-      "date": "2026-09-16",
-      "name": "",
-      "lineUp": "",
-      "prices": "110 € - 160 €",
-      "lowestAvailablePrice": 110,
-      "affLink": "https://www.clubtickets.com/fr/activities/take-off/barco-con-juguetes-acuaticos-de-lujo/2026-09-16?aff=CT219",
-      "eventName": "Luxury Water Toys Boat Experience",
-      "eventSlug": "barco-con-juguetes-acuaticos-de-lujo",
-      "venueName": "TAKE OFF",
-      "venueSlug": "take-off",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/61bddca3-8503-416d-b9db-fc8f1857ed04.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/44755cd4-acf0-4fc9-9715-9976c4ddffd3.png",
-      "eventLogo": "https://admin.clubtickets.com/images/event/62517ee3b9c83308172689.jpeg",
-      "eventId": 1509,
-      "venueId": 31
-    },
-    {
-      "id": 168701,
-      "date": "2026-09-16",
-      "name": "",
-      "lineUp": "",
-      "prices": "110 € - 320 €",
-      "lowestAvailablePrice": 110,
-      "affLink": "https://www.clubtickets.com/fr/activities/ibiza-jet-ski-beach/jet-ski-san-antonio-ibiza-jet-ski-beach/2026-09-16?aff=CT219",
-      "eventName": "Jet Ski in San Antonio - Ibiza Jet Ski Beach",
-      "eventSlug": "jet-ski-san-antonio-ibiza-jet-ski-beach",
-      "venueName": "Ibiza Jet Ski Beach - Jetski",
-      "venueSlug": "ibiza-jet-ski-beach",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/19228359-8778-4cd7-8574-21196a76d7c2.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/a841142d-3afb-471a-a1b9-ff8632a5bf16.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/f141e1f7-ed17-43bb-8a4f-0614199aba21.png",
-      "eventId": 2056,
-      "venueId": 329
     },
     {
       "id": 172063,
@@ -26210,25 +25758,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/4b42ff26-906a-4e5f-90b4-e3faa359d649.png",
       "eventId": 2133,
       "venueId": 291
-    },
-    {
-      "id": 170828,
-      "date": "2026-09-16",
-      "name": "",
-      "lineUp": "",
-      "prices": "195 € - 360 €",
-      "lowestAvailablePrice": 195,
-      "affLink": "https://www.clubtickets.com/fr/activities/ibiza-buggy-adventure/ibiza-buggy-adventure/2026-09-16?aff=CT219",
-      "eventName": "Ibiza Buggy Adventure from San Antonio",
-      "eventSlug": "ibiza-buggy-adventure",
-      "venueName": "Ibiza Buggy Adventure",
-      "venueSlug": "ibiza-buggy-adventure",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/c7c8aada-a1b3-4e54-a5d2-71b88a6e27e5.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/9972aac5-d5f9-4eae-8492-6977544c8316.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/6fa2c7f9-9051-4c7a-887a-480dc0da551d.png",
-      "eventId": 1451,
-      "venueId": 265
     },
     {
       "id": 165121,
@@ -26438,25 +25967,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/738278c8-051e-4984-97d4-b7bdf0953c4c.jpg",
       "eventId": 1990,
       "venueId": 127
-    },
-    {
-      "id": 164822,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "30 € - 59.99 €",
-      "lowestAvailablePrice": 30,
-      "affLink": "https://www.clubtickets.com/fr/boat/the-beach-hopper/beach-hopper-daytime/2026-09-17?aff=CT219",
-      "eventName": "The Beach Hopper Daytime",
-      "eventSlug": "beach-hopper-daytime",
-      "venueName": "The Beach Hopper",
-      "venueSlug": "the-beach-hopper",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/8afbbb03-026b-4125-bbf2-a1b54da7465e.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/6f67d0e3-d578-4ce9-80cf-fc82d0e883af.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/85d0660d-b33a-44b3-b521-b58d83a2ed9c.png",
-      "eventId": 1709,
-      "venueId": 338
     },
     {
       "id": 172693,
@@ -26839,25 +26349,6 @@
       "venueId": 43
     },
     {
-      "id": 168906,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "45 € - 80 €",
-      "lowestAvailablePrice": 45,
-      "affLink": "https://www.clubtickets.com/fr/boat/salvador/salvador-boat-day-trip/2026-09-17?aff=CT219",
-      "eventName": "Salvador Day Boat Trip",
-      "eventSlug": "salvador-boat-day-trip",
-      "venueName": "Salvador",
-      "venueSlug": "salvador",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/4842ed0e-0c11-4ee2-8ba6-b12541789a6f.webp",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/4b61b36e-de7e-4123-a2b4-71357766dcdd.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/85871ea7-e762-44c0-94e2-62725cf84e8c.png",
-      "eventId": 685,
-      "venueId": 137
-    },
-    {
       "id": 169095,
       "date": "2026-09-17",
       "name": "",
@@ -26875,25 +26366,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/99a8e1da-74eb-4bd2-b17d-4da0b4a31a82.png",
       "eventId": 1347,
       "venueId": 137
-    },
-    {
-      "id": 167176,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "70 € - 100 €",
-      "lowestAvailablePrice": 70,
-      "affLink": "https://www.clubtickets.com/fr/activities/take-off/speed-boat-adventure/2026-09-17?aff=CT219",
-      "eventName": "Cave and Beach Hopping Boat Tour",
-      "eventSlug": "speed-boat-adventure",
-      "venueName": "TAKE OFF",
-      "venueSlug": "take-off",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/61bddca3-8503-416d-b9db-fc8f1857ed04.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/b2dd5c1e-02d1-4774-9be4-8cf6c209fed2.png",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d9acf73d-47b2-49fb-8031-8c1bf86c185b.jpg",
-      "eventId": 151,
-      "venueId": 31
     },
     {
       "id": 167390,
@@ -27143,25 +26615,6 @@
       "venueId": 265
     },
     {
-      "id": 171001,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "90 € - 130 €",
-      "lowestAvailablePrice": 90,
-      "affLink": "https://www.clubtickets.com/fr/activities/ibiza-buggy-adventure/ibiza-buggy-adventure-quad-tours/2026-09-17?aff=CT219",
-      "eventName": "Ibiza Quad Adventure from San Antonio",
-      "eventSlug": "ibiza-buggy-adventure-quad-tours",
-      "venueName": "Ibiza Buggy Adventure",
-      "venueSlug": "ibiza-buggy-adventure",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/c7c8aada-a1b3-4e54-a5d2-71b88a6e27e5.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/c2108f2c-dae1-4ea2-b71a-2aa36e015080.png",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/a2296eed-bef6-4968-8bf1-bdae28842ef9.png",
-      "eventId": 1745,
-      "venueId": 265
-    },
-    {
       "id": 165122,
       "date": "2026-09-17",
       "name": "",
@@ -27179,25 +26632,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/1f05098d-c697-4f8f-967b-86c31d7c5ce1.jpg",
       "eventId": 1455,
       "venueId": 267
-    },
-    {
-      "id": 171207,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "75 €",
-      "lowestAvailablePrice": 75,
-      "affLink": "https://www.clubtickets.com/fr/activities/sup-paradise-ibiza/3h-boat-trip-with-paddle-surf-lesson-snorkeling/2026-09-17?aff=CT219",
-      "eventName": "3h Boat Trip with Paddle Surf Lesson - Snorkeling",
-      "eventSlug": "3h-boat-trip-with-paddle-surf-lesson-snorkeling",
-      "venueName": "SUP Paradise Ibiza",
-      "venueSlug": "sup-paradise-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/c4f0ae94-1459-4d39-9f9a-54a39bec4b04.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/ecc04bb2-b3f3-4e12-b83f-9ae1a36fc814.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d588388a-1c49-4a56-9602-c587745f344b.png",
-      "eventId": 2061,
-      "venueId": 332
     },
     {
       "id": 171342,
@@ -27298,7 +26732,7 @@
       "id": 173903,
       "date": "2026-09-18",
       "name": "",
-      "lineUp": "",
+      "lineUp": "Janoo Molly D Yalla Habebe Tinovcc",
       "prices": "30 €",
       "lowestAvailablePrice": 30,
       "affLink": "https://www.clubtickets.com/fr/clubbing/playa-soleil/meraki-nuage-supper-club/2026-09-18?aff=CT219",
@@ -27356,8 +26790,8 @@
       "date": "2026-09-18",
       "name": "",
       "lineUp": "Major League DJz Djeff B2B Fiona Kraft Jonathan Kaspar Sama",
-      "prices": "40 €",
-      "lowestAvailablePrice": 40,
+      "prices": "35 € - 45 €",
+      "lowestAvailablePrice": 35,
       "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/major-league-djz/2026-09-18?aff=CT219",
       "eventName": "Major League DJz Presents Echoes of Tomorrow",
       "eventSlug": "major-league-djz",
@@ -28363,8 +27797,8 @@
       "date": "2026-09-19",
       "name": "",
       "lineUp": "Claptone Pete Tong Alexander Som Artche",
-      "prices": "40 € - 45 €",
-      "lowestAvailablePrice": 40,
+      "prices": "35 € - 45 €",
+      "lowestAvailablePrice": 35,
       "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/claptone-the-masquerade/2026-09-19?aff=CT219",
       "eventName": "Claptone: The Masquerade",
       "eventSlug": "claptone-the-masquerade",
@@ -28438,7 +27872,7 @@
       "id": 171030,
       "date": "2026-09-19",
       "name": "Pikes Presents x Bugged Out!",
-      "lineUp": "Garden Stage (18:00 - 23:00) HAAi Pikes Resident DJs More TBA Club (23:00 - 04:00) Lineup TBA Pikes Resident DJs",
+      "lineUp": "Garden Stage (18:00 - 23:00) HAAi B2B Young Marco Special Guest Mina Forest (18:00 - 22:45) hosted by Defex: Flashbaxx (Live PA) Defex Federico Grazzini Milou Teatro (23:00 - 04:00) James Lavelle Andy Baxter",
       "prices": "29.5 € - 51 €",
       "lowestAvailablePrice": 29.5,
       "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza/pikes-presents/2026-09-19?aff=CT219",
@@ -31117,7 +30551,7 @@
       "id": 164599,
       "date": "2026-09-22",
       "name": "Pikes Presents... at 528: Hot Chip",
-      "lineUp": "Garden Stage (18:00 - 23:00) Hot Chip (DJ Set) Crazy P (DJ Set) Pikes Resident DJs Club (23:00 - 04:00) Justin Robertson Pikes Resident DJs",
+      "lineUp": "Garden Stage (18:00 - 23:00) Hot Chip (DJ Set) Crazy P (DJ Set) AKA Jay Forest (18:00 - 22:45) hosted by Openlab: Mick Wilson Zlata Teatro (23:00 - 04:00) Justin Robertson Camila Ramirez",
       "prices": "29.5 € - 51 €",
       "lowestAvailablePrice": 29.5,
       "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza/pikes-presents/2026-09-22?aff=CT219",
@@ -33966,7 +33400,7 @@
     {
       "id": 170685,
       "date": "2026-09-25",
-      "name": "",
+      "name": "Hot Creations Closing Party",
       "lineUp": "",
       "prices": "70 €",
       "lowestAvailablePrice": 70,
@@ -37634,7 +37068,7 @@
       "id": 164600,
       "date": "2026-09-29",
       "name": "Pikes Presents... at 528: Basement Jaxx",
-      "lineUp": "Garden Stage (18:00 - 23:00) Basement Jaxx (DJ Set) Pikes Resident DJs More TBA Club (23:00 - 04:00) Special Guests TBA Pikes Resident DJs",
+      "lineUp": "Garden Stage (18:00 - 23:00) Basement Jaxx (DJ Set) Leftfield (DJ Set) S/A/M Forest (18:00 - 22:45) Quantum Disco (JR Hartley &amp; Sadeedo) Teatro (23:00 - 04:00) Chaos in The CBD Lilli Kelly",
       "prices": "29.5 € - 51 €",
       "lowestAvailablePrice": 29.5,
       "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza/pikes-presents/2026-09-29?aff=CT219",
@@ -38522,6 +37956,25 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/72214a81-6436-44fb-ae9b-ff6278db9126.jpg",
       "eventId": 1179,
       "venueId": 19
+    },
+    {
+      "id": 173922,
+      "date": "2026-09-30",
+      "name": "",
+      "lineUp": "",
+      "prices": "30 € - 35 €",
+      "lowestAvailablePrice": 30,
+      "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/trip/2026-09-30?aff=CT219",
+      "eventName": "TRIP",
+      "eventSlug": "trip",
+      "venueName": "Chinois Ibiza",
+      "venueSlug": "club-chinois-ibiza",
+      "venueCover": "https://media.clubtickets.com/migrated/venue/fe051ad4-d5b2-49ba-afff-ba2b3b347096.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/4ba10e8f-b7af-4e4f-b4d8-80235cb63324.png",
+      "eventCover": "https://media.clubtickets.com/migrated/event/f8149d5e-1a54-4e01-8575-cf9c9acdef49.jpg",
+      "eventLogo": "https://media.clubtickets.com/migrated/event/32eb3f62-af1a-4214-adbf-f5b82c13ef3d.jpg",
+      "eventId": 1683,
+      "venueId": 273
     },
     {
       "id": 171071,
@@ -42176,8 +41629,8 @@
       "date": "2026-10-04",
       "name": "",
       "lineUp": "Bedouin Guy Gerber Nandu",
-      "prices": "40 € - 50 €",
-      "lowestAvailablePrice": 40,
+      "prices": "35 € - 45 €",
+      "lowestAvailablePrice": 35,
       "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/bedouin-presents-saga/2026-10-04?aff=CT219",
       "eventName": "Bedouin Presents Saga",
       "eventSlug": "bedouin-presents-saga",
@@ -43600,7 +43053,7 @@
       "id": 164601,
       "date": "2026-10-06",
       "name": "Pikes Presents... at 528: Closing Party",
-      "lineUp": "Garden Stage (18:00 - 23:00) Layo &amp; Bushwacka! Pikes Resident DJs Club (23:00 - 04:00) Special Guests TBA Pikes Resident DJs",
+      "lineUp": "Garden Stage (18:00 - 23:00) Layo &amp; Bushwacka! Daniel Avery Pikes Resident DJs Forest (18:00 - 22:45) hosted by Openlab Teatro (23:00 - 04:00) Jennifer Loveless Pikes Resident DJs",
       "prices": "29.5 € - 51 €",
       "lowestAvailablePrice": 29.5,
       "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza/pikes-presents/2026-10-06?aff=CT219",
@@ -45950,6 +45403,25 @@
       "eventCover": "https://media.clubtickets.com/migrated/event/34aef238-4355-4970-bbcb-eb324acd45b7.jpg",
       "eventLogo": "https://media.clubtickets.com/migrated/event/43f945c6-d96c-484c-86bf-bd23eef637bd.png",
       "eventId": 33,
+      "venueId": 19
+    },
+    {
+      "id": 173921,
+      "date": "2026-10-09",
+      "name": "",
+      "lineUp": "Todd Terry Majestic O Beach Resident DJs Helena Logah (live violinist) Piano Galligan (live pianist) Albert Bace (live percussion)",
+      "prices": "30 € - 40 €",
+      "lowestAvailablePrice": 30,
+      "affLink": "https://www.clubtickets.com/fr/clubbing/o-beach-ibiza/clasico-ibiza/2026-10-09?aff=CT219",
+      "eventName": "Clasico Ibiza - Then & Now",
+      "eventSlug": "clasico-ibiza",
+      "venueName": "O Beach Ibiza",
+      "venueSlug": "o-beach-ibiza",
+      "venueCover": "https://media.clubtickets.com/venue/6a9931fff0b2e.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/e65f2e55-376a-4301-a4c7-64b94f17eca5.png",
+      "eventCover": "https://media.clubtickets.com/event/6aa906958a760.png",
+      "eventLogo": "https://media.clubtickets.com/event/6aa9068210457.png",
+      "eventId": 2183,
       "venueId": 19
     },
     {
@@ -49409,6 +48881,25 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/9d8a0923-15fd-41ec-a48a-e9bf25aa2b94.png",
       "eventId": 2132,
       "venueId": 339
+    },
+    {
+      "id": 173923,
+      "date": "2026-10-14",
+      "name": "",
+      "lineUp": "",
+      "prices": "30 € - 35 €",
+      "lowestAvailablePrice": 30,
+      "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/trip/2026-10-14?aff=CT219",
+      "eventName": "TRIP",
+      "eventSlug": "trip",
+      "venueName": "Chinois Ibiza",
+      "venueSlug": "club-chinois-ibiza",
+      "venueCover": "https://media.clubtickets.com/migrated/venue/fe051ad4-d5b2-49ba-afff-ba2b3b347096.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/4ba10e8f-b7af-4e4f-b4d8-80235cb63324.png",
+      "eventCover": "https://media.clubtickets.com/migrated/event/f8149d5e-1a54-4e01-8575-cf9c9acdef49.jpg",
+      "eventLogo": "https://media.clubtickets.com/migrated/event/32eb3f62-af1a-4214-adbf-f5b82c13ef3d.jpg",
+      "eventId": 1683,
+      "venueId": 273
     },
     {
       "id": 171073,
@@ -55225,6 +54716,25 @@
       "venueId": 339
     },
     {
+      "id": 173924,
+      "date": "2026-10-24",
+      "name": "",
+      "lineUp": "",
+      "prices": "30 € - 35 €",
+      "lowestAvailablePrice": 30,
+      "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/trip/2026-10-24?aff=CT219",
+      "eventName": "TRIP",
+      "eventSlug": "trip",
+      "venueName": "Chinois Ibiza",
+      "venueSlug": "club-chinois-ibiza",
+      "venueCover": "https://media.clubtickets.com/migrated/venue/fe051ad4-d5b2-49ba-afff-ba2b3b347096.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/4ba10e8f-b7af-4e4f-b4d8-80235cb63324.png",
+      "eventCover": "https://media.clubtickets.com/migrated/event/f8149d5e-1a54-4e01-8575-cf9c9acdef49.jpg",
+      "eventLogo": "https://media.clubtickets.com/migrated/event/32eb3f62-af1a-4214-adbf-f5b82c13ef3d.jpg",
+      "eventId": 1683,
+      "venueId": 273
+    },
+    {
       "id": 166536,
       "date": "2026-10-24",
       "name": "",
@@ -59272,6 +58782,25 @@
       "venueId": 339
     },
     {
+      "id": 173925,
+      "date": "2026-11-01",
+      "name": "",
+      "lineUp": "",
+      "prices": "30 € - 35 €",
+      "lowestAvailablePrice": 30,
+      "affLink": "https://www.clubtickets.com/fr/clubbing/club-chinois-ibiza/trip/2026-11-01?aff=CT219",
+      "eventName": "TRIP",
+      "eventSlug": "trip",
+      "venueName": "Chinois Ibiza",
+      "venueSlug": "club-chinois-ibiza",
+      "venueCover": "https://media.clubtickets.com/migrated/venue/fe051ad4-d5b2-49ba-afff-ba2b3b347096.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/4ba10e8f-b7af-4e4f-b4d8-80235cb63324.png",
+      "eventCover": "https://media.clubtickets.com/migrated/event/f8149d5e-1a54-4e01-8575-cf9c9acdef49.jpg",
+      "eventLogo": "https://media.clubtickets.com/migrated/event/32eb3f62-af1a-4214-adbf-f5b82c13ef3d.jpg",
+      "eventId": 1683,
+      "venueId": 273
+    },
+    {
       "id": 161953,
       "date": "2026-11-01",
       "name": "",
@@ -60276,6 +59805,15 @@
       "href": "/club-tickets/o-beach-ibiza/lovejuice"
     },
     {
+      "id": 2183,
+      "name": "Clasico Ibiza - Then & Now",
+      "slug": "clasico-ibiza",
+      "image": "https://media.clubtickets.com/event/6aa906958a760.png",
+      "venueName": "O Beach Ibiza",
+      "venueSlug": "o-beach-ibiza",
+      "href": "/club-tickets/o-beach-ibiza/clasico-ibiza"
+    },
+    {
       "id": 1747,
       "name": "El Kiddo",
       "slug": "el-kiddo",
@@ -60301,6 +59839,15 @@
       "venueName": "Chinois Ibiza",
       "venueSlug": "club-chinois-ibiza",
       "href": "/club-tickets/club-chinois-ibiza/la-troya"
+    },
+    {
+      "id": 1683,
+      "name": "TRIP",
+      "slug": "trip",
+      "image": "https://media.clubtickets.com/migrated/event/f8149d5e-1a54-4e01-8575-cf9c9acdef49.jpg",
+      "venueName": "Chinois Ibiza",
+      "venueSlug": "club-chinois-ibiza",
+      "href": "/club-tickets/club-chinois-ibiza/trip"
     },
     {
       "id": 1933,
@@ -60562,15 +60109,6 @@
       "venueName": "SWAG",
       "venueSlug": "swag",
       "href": "/club-tickets/swag/xcandalous"
-    },
-    {
-      "id": 263,
-      "name": "Safari",
-      "slug": "safari",
-      "image": "https://media.clubtickets.com/migrated/event/14140776-a5e4-4993-bbb9-08a78a366e63.jpg",
-      "venueName": "SWAG",
-      "venueSlug": "swag",
-      "href": "/club-tickets/swag/safari"
     },
     {
       "id": 643,
@@ -61113,5 +60651,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-09-14T20:58:48.267Z"
+  "lastUpdated": "2026-09-15T10:06:58.964Z"
 }
