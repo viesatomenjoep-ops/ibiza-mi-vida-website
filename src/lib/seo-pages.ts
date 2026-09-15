@@ -407,8 +407,30 @@ export function detailMetadata(
   // Prefer the decorated title, fall back to the bare name when the decoration
   // is what pushes it over the limit — losing " — Ibiza" costs nothing, losing
   // half the event name costs the reader the thing they searched for.
-  const decorated = `${clean}${opts.suffix ? ` ${opts.suffix}` : ' — Ibiza'}`
-  const title = fitTitle(decorated.length <= TITLE_MAX - BRAND_SUFFIX_LENGTH ? decorated : clean)
+  //
+  // Behalve wanneer de aanroeper zélf een suffix meegeeft. Die is er om déze
+  // route te onderscheiden van een andere met dezelfde naam, en dan is hij niet
+  // gratis om te laten vallen — hij is het enige verschil. Dat ging hier mis:
+  // de ClubTickets-feed voert "San Antonio - Cala Salada ferry boat" zowel als
+  // artiest als als event op, allebei 35 tekens, dus bij allebei viel de
+  // decoratie weg en hielden we twee eigen URL's over met exact dezelfde titel
+  // — precies wat `check:onpage` afvangt en wat Google laat kiezen welke van de
+  // twee hij weggooit. Is er een expliciete suffix, dan wijkt de naam.
+  const suffix = opts.suffix ? ` ${opts.suffix}` : ' — Ibiza'
+  const room = TITLE_MAX - BRAND_SUFFIX_LENGTH
+  let title: string
+  if (`${clean}${suffix}`.length <= room) {
+    title = `${clean}${suffix}`
+  } else if (opts.suffix) {
+    // -1 voor het beletselteken dat truncateAtWord erachter zet. De ondergrens
+    // houdt een onleesbaar restje tegen: is er voor de naam minder dan twaalf
+    // tekens over, dan zegt de suffix meer dan de snipper ervoor en valt hij
+    // alsnog weg.
+    const forName = room - suffix.length - 1
+    title = forName >= 12 ? `${truncateAtWord(clean, forName)}${suffix}` : fitTitle(clean)
+  } else {
+    title = fitTitle(clean)
+  }
 
   const rawDesc = (opts.description || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
   // Never cut mid-word. The old `.slice(0, 160)` produced descriptions ending
