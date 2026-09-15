@@ -19,6 +19,12 @@
  *   node scripts/indexnow-ping.mjs --on-deploy         # no-op unless this is a
  *                                                      # Vercel production build
  *
+ * Every submission is streamed: one request per URL, never a batched
+ * `urlList` POST. Bing's Webmaster Tools grades a host on which of the two it
+ * sees and warns when it only ever gets batches — a batch carries one
+ * timestamp for the whole group, so it says nothing about when each page
+ * actually changed.
+ *
  * Run it after `npm run sync-clubtickets`, when the event data has actually
  * changed. Pinging unchanged URLs is pointless and gets a host throttled —
  * which is the whole reason the explicit changed-URL forms above exist: a
@@ -178,11 +184,13 @@ async function main() {
 
   let { urls, source } = await collectUrls()
 
-  // IndexNow accepts at most 10,000 URLs per request.
+  // Streaming has no per-request list to overflow, but 10,000 submissions in
+  // one run is a sign something is wrong (a sitemap loop, a duplicated feed)
+  // rather than a site that genuinely changed that much, so the cap stays.
   const deduped = [...new Set(urls)]
   urls = deduped.slice(0, 10000)
   if (deduped.length > urls.length) {
-    console.warn(`IndexNow: ${deduped.length} URLs exceeds the 10,000 per-request limit; submitting the first 10,000.`)
+    console.warn(`IndexNow: ${deduped.length} URLs is more than the 10,000 this run will submit; taking the first 10,000.`)
   }
 
   if (!urls.length) {
@@ -190,92 +198,71 @@ async function main() {
     return
   }
 
-  const payload = {
-    host: HOST,
-    key: KEY,
-    keyLocation: `${SITE}/${KEY}.txt`,
-    urlList: urls,
-  }
-
   if (dryRun) {
     console.log(`IndexNow DRY RUN — ${urls.length} URLs from ${source}, nothing submitted.`)
-    console.log(`  endpoint:    POST https://api.indexnow.org/IndexNow`)
+    console.log(`  mode:        streaming (one GET per URL, no urlList batch)`)
+    console.log(`  endpoint:    GET https://api.indexnow.org/IndexNow?url=…&key=…`)
     console.log(`  host:        ${HOST}`)
     console.log(`  keyLocation: ${SITE}/${KEY}.txt`)
     for (const url of urls) console.log(`  - ${url}`)
     return
   }
 
-  // Bing recommends Streaming mode: URLs submitted individually in real-time,
-  // preventing "Batch mode" warnings and server congestion.
-  // For sets <= 250 URLs (key pages and changed routes), stream each URL individually via GET.
-  // For very large sitemaps, chunk them into batches of 50.
-  if (urls.length <= 250) {
-    console.log(`Streaming ${urls.length} URLs individually to Bing IndexNow (${source})…`)
-    const CONCURRENCY = 5
-    let success = 0
-    let failed = 0
+  // Streaming, always — never a batched `urlList` POST.
+  //
+  // IndexNow has two shapes. The POST with a `urlList` submits a group in one
+  // request; the GET with a single `url` submits one. Bing's Webmaster Tools
+  // grades a host on which it sees and warns "IndexNow is in batch mode",
+  // because a batch tells it nothing about *when* each URL changed — it arrives
+  // as a wall of work with one timestamp. Streaming is the mode it asks for.
+  //
+  // This used to stream only small sets and fall back to 50-URL POSTs above
+  // 250, which meant the one submission that covers everything (--sitemap, and
+  // the postbuild ping once the site outgrew 250 URLs) was still a batch, and
+  // the warning stayed. There is no size at which batching becomes correct, so
+  // there is no threshold left: every URL goes as its own request.
+  //
+  // Five at a time keeps it polite and still finishes a full sitemap in
+  // seconds. A single URL failing is not the run failing — Bing accepts the
+  // rest, and the summary line says how many landed.
+  const CONCURRENCY = 5
+  const keyLocation = `${SITE}/${KEY}.txt`
+  let ok = 0
+  const failures = []
 
-    for (let i = 0; i < urls.length; i += CONCURRENCY) {
-      const slice = urls.slice(i, i + CONCURRENCY)
-      await Promise.all(
-        slice.map(async (u) => {
-          const endpoint = `https://www.bing.com/indexnow?url=${encodeURIComponent(u)}&key=${KEY}&keyLocation=${encodeURIComponent(`${SITE}/${KEY}.txt`)}`
-          try {
-            const res = await fetch(endpoint)
-            if (res.status === 200 || res.status === 202) {
-              success++
-            } else {
-              failed++
-              console.warn(`  IndexNow HTTP ${res.status} for ${u}`)
-            }
-          } catch (err) {
-            failed++
-            console.warn(`  IndexNow error for ${u}:`, err.message)
-          }
-        })
-      )
-      if (i + CONCURRENCY < urls.length) {
-        await new Promise((resolve) => setTimeout(resolve, 50))
-      }
-    }
-    console.log(`IndexNow Streaming complete: ${success}/${urls.length} URLs streamed individually to Bing (0 batch).`)
-    return
+  console.log(`IndexNow: streaming ${urls.length} URLs individually (${source})…`)
+
+  for (let i = 0; i < urls.length; i += CONCURRENCY) {
+    await Promise.all(
+      urls.slice(i, i + CONCURRENCY).map(async (u) => {
+        const endpoint =
+          `https://api.indexnow.org/IndexNow?url=${encodeURIComponent(u)}` +
+          `&key=${KEY}&keyLocation=${encodeURIComponent(keyLocation)}`
+        try {
+          const res = await fetch(endpoint, { signal: AbortSignal.timeout(10000) })
+          if (res.status === 200 || res.status === 202) ok++
+          else failures.push(`HTTP ${res.status} — ${u}`)
+        } catch (err) {
+          failures.push(`${err.message} — ${u}`)
+        }
+      })
+    )
+    if (i + CONCURRENCY < urls.length) await new Promise((r) => setTimeout(r, 50))
   }
 
-  const CHUNK_SIZE = 50
-  const chunks = []
-  for (let i = 0; i < urls.length; i += CHUNK_SIZE) {
-    chunks.push(urls.slice(i, i + CHUNK_SIZE))
+  console.log(`IndexNow: ${ok}/${urls.length} URLs accepted (streaming, no batch submission).`)
+
+  if (failures.length) {
+    // Show a handful rather than every line: a key that is still validating
+    // fails all of them identically, and the first few say so just as well.
+    for (const line of failures.slice(0, 5)) console.warn(`  IndexNow: ${line}`)
+    if (failures.length > 5) console.warn(`  IndexNow: …and ${failures.length - 5} more.`)
   }
 
-  console.log(`Streaming ${urls.length} URLs to IndexNow (${source}) across ${chunks.length} batch(es)…`)
-
-  for (let idx = 0; idx < chunks.length; idx++) {
-    const chunk = chunks[idx]
-    const payload = {
-      host: HOST,
-      key: KEY,
-      keyLocation: `${SITE}/${KEY}.txt`,
-      urlList: chunk,
-    }
-
-    const res = await fetch('https://api.indexnow.org/IndexNow', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json; charset=utf-8' },
-      body: JSON.stringify(payload),
-    })
-
-    if (res.status === 200 || res.status === 202) {
-      console.log(`  [${idx + 1}/${chunks.length}] OK (${res.status}) — ${chunk.length} URLs streamed.`)
-    } else {
-      throw new Error(`IndexNow returned ${res.status}: ${await res.text()}`)
-    }
-
-    if (idx < chunks.length - 1) {
-      await new Promise((resolve) => setTimeout(resolve, 300))
-    }
-  }
+  // Every URL failing is a real problem (a revoked key, a network policy), not
+  // a stray 429. Outside --on-deploy that deserves an exit code; the catch at
+  // the bottom keeps a deploy green regardless.
+  if (ok === 0) throw new Error(`no URL was accepted (${failures.length} failed).`)
 }
 
 /**
