@@ -1,3 +1,4 @@
+import { optImg } from '@/lib/img'
 import Image from 'next/image'
 import Link from 'next/link'
 import { MapPin, ArrowLeft, Check, Info, Camera, HelpCircle, Ticket, Clock, Music, Sparkles, Navigation, AlertCircle, Utensils, Anchor, Waves } from 'lucide-react'
@@ -424,18 +425,35 @@ export function EventDetailPage({ club, eventDates, eventSlug, locale, basePath,
             Op desktop is de breedte begrensd: een 3:2-plaat over de volle
             1920px zou 1280 pixels hoog worden. Zo blijft de hoogte in de
             hand en staat de plaat gecentreerd. */}
-        <div className="mx-auto w-full max-w-[560px] overflow-hidden rounded-b-[28px] bg-neutral-100 md:max-w-[880px] md:rounded-[28px]">
+        {/* `w-fit` en niet `w-full`: de wikkel krimpt mee met de plaat, dus een
+            vierkante flyer krijgt geen grijze balken naast zich. Dat was de
+            reden dat hier eerder een vaste verhouding stond, en dat hoeft niet
+            als de wikkel zich naar het beeld voegt in plaats van andersom. */}
+        <div className="mx-auto w-fit max-w-full overflow-hidden rounded-b-[28px] bg-neutral-100 md:max-w-[880px] md:rounded-[28px]">
           {eventCover && (
             /* eslint-disable-next-line @next/next/no-img-element -- next/image
                vraagt om vaste afmetingen of `fill`; hier is de hele bedoeling
                juist dat het beeld zijn eigen hoogte bepaalt. */
             <img
-              src={eventCover}
+              /* Stond hier als kale partner-URL: geen formaatconversie, geen
+                 breedtebegrenzing, geen srcset. Een bron van 300x300 werd dus
+                 uitgerekt naar 880 pixels breed — dát is de onscherpte die
+                 gemeld is — en een grote bron werd in volle resolutie geladen
+                 voor een vak van hooguit 880. optImg() haalt hem door dezelfde
+                 optimalisatie als de rest van de site. */
+              src={optImg(eventCover, 880, 82)}
+              srcSet={[560, 880, 1200].map(w => `${optImg(eventCover, w, 82)} ${w}w`).join(', ')}
+              sizes="(max-width: 768px) 100vw, 880px"
               alt={eventName}
               // De hero staat boven de vouw, dus geen lazy loading.
               loading="eager"
               decoding="async"
-              className="block h-auto w-full"
+              /* De hoogtegrens is er voor de vierkante flyers. Zonder grens
+                 werd een vierkant logo 880 bij 880: een volledig scherm met
+                 één wordmark erop, waarna de bezoeker moet scrollen om te
+                 zien wélk event dit is. `w-auto` erbij zodat het beeld zijn
+                 verhouding houdt wanneer de hoogte de begrenzing wordt. */
+              className="block h-auto max-h-[min(68vh,520px)] w-auto max-w-full"
             />
           )}
         </div>
