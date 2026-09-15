@@ -222,8 +222,24 @@ export function cloudinaryImage(publicId: string, opts: ImageOptions = {}): stri
  * (f_auto/q_auto). Zo leunt elke paginaweergave niet op de bandbreedte van de
  * partner en krijgt de bezoeker WebP/AVIF in plaats van de ruwe JPEG.
  */
+/**
+ * `q_auto:good` en `e_sharpen:60` en niet het kale `q_auto`.
+ *
+ * De vlootfoto's van de broker zijn brede scheepsfoto's: veel lucht, veel
+ * water, lange zachte overgangen. Precies het materiaal waar `q_auto` (dat
+ * zichzelf op `q_auto:eco`-achtige waarden mag instellen) banding en vlekken
+ * in de lucht achterlaat, en die zie je juist op een kaart van 300px breed.
+ * `q_auto:good` legt een bodem onder de kwaliteit; de bestanden worden
+ * daarmee iets groter, maar dit zijn kaartfoto's van een paar tiende van een
+ * megapixel, geen hero's.
+ *
+ * `e_sharpen` is er omdat elke kaartfoto flink verkleind wordt (bron ~1200px
+ * → kaart ~300px) en elke verkleining vervaagt. Cloudinary scherpt niet uit
+ * zichzelf na het schalen. 60 is mild: genoeg om de reling en de horizon
+ * terug te geven, niet zoveel dat er randjes om de romp komen.
+ */
 export function cloudinaryFetchRemote(absoluteUrl: string, width = 1400): string {
-  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/fetch/f_auto,q_auto,c_limit,w_${width}/${encodeURI(absoluteUrl)}`
+  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/fetch/f_auto,q_auto:good,c_limit,w_${width},e_sharpen:60/${encodeURI(absoluteUrl)}`
 }
 
 export function cloudinaryFetchImage(localPath: string, width = 1400): string {

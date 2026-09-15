@@ -59,6 +59,15 @@ const L = {
   liveAt: T('Live stand {t}', 'Live status {t}', 'Live-Stand {t}', 'Estado en vivo {t}', 'État en direct {t}'),
 }
 
+/** Eén label per soort, zodat de knop en de keuzelijst niet uit elkaar lopen. */
+const SOORT_LABEL: Record<Exclude<BoatSoort, 'all'>, L5> = {
+  yacht: L.jacht,
+  motorboat: L.motorboot,
+  catamaran: L.catamaran,
+  jetski: L.jetski,
+  boat: L.boot,
+}
+
 const fill = (s: string, k: string, v: string | number) => s.replace(`{${k}}`, String(v))
 
 /**
@@ -84,7 +93,7 @@ const fill = (s: string, k: string, v: string | number) => s.replace(`{${k}}`, S
 export function FleetFilterBar({
   locale, marinas, priceMin, priceMax, paxMax,
   date, setDate, dateRange, onlyAvailable, setOnlyAvailable, liveStamp,
-  minPax, setMinPax, minPrice, setMinPrice, maxPrice, setMaxPrice, resultCount, marina, setMarina, soort, setSoort, sort, setSort,
+  minPax, setMinPax, minPrice, setMinPrice, maxPrice, setMaxPrice, resultCount, marina, setMarina, soort, setSoort, soorten, sort, setSort,
   onClear, activeCount,
 }: {
   locale: string
@@ -101,6 +110,8 @@ export function FleetFilterBar({
   resultCount: number
   marina: string; setMarina: (m: string) => void
   soort: BoatSoort; setSoort: (s: BoatSoort) => void
+  /** Alleen de soorten die in de vloot voorkomen — zie FLEET_CATEGORIES. */
+  soorten: readonly Exclude<BoatSoort, 'all'>[]
   sort: SortKey; setSort: (s: SortKey) => void
   onClear: () => void; activeCount: number
 }) {
@@ -207,7 +218,7 @@ export function FleetFilterBar({
           {segment('marina', <MapPin size={17} />, t(L.depart, locale),
             marina === 'all' ? t(L.allMarinas, locale) : marina, marina !== 'all')}
           {segment('soort', <Ship size={17} />, t(L.soort, locale),
-            soort === 'yacht' ? t(L.jacht, locale) : soort === 'motorboat' ? t(L.motorboot, locale) : soort === 'catamaran' ? t(L.catamaran, locale) : soort === 'jetski' ? t(L.jetski, locale) : soort === 'boat' ? t(L.boot, locale) : t(L.alleSoorten, locale),
+            soort === 'all' ? t(L.alleSoorten, locale) : t(SOORT_LABEL[soort], locale),
             soort !== 'all')}
           {segment('sort', <ArrowUpDown size={17} />, t(L.sort, locale),
             sort === 'price-asc' ? t(L.sortAsc, locale) : sort === 'price-desc' ? t(L.sortDesc, locale) : t(L.sortDefault, locale),
@@ -263,7 +274,7 @@ export function FleetFilterBar({
           {pil('marina', <MapPin size={15} />, t(L.depart, locale),
             marina === 'all' ? t(L.allMarinas, locale) : marina, marina !== 'all')}
           {pil('soort', <Ship size={15} />, t(L.soort, locale),
-            soort === 'yacht' ? t(L.jacht, locale) : soort === 'motorboat' ? t(L.motorboot, locale) : soort === 'catamaran' ? t(L.catamaran, locale) : soort === 'jetski' ? t(L.jetski, locale) : soort === 'boat' ? t(L.boot, locale) : t(L.alleSoorten, locale),
+            soort === 'all' ? t(L.alleSoorten, locale) : t(SOORT_LABEL[soort], locale),
             soort !== 'all')}
           {pil('sort', <ArrowUpDown size={15} />, t(L.sort, locale),
             sort === 'price-asc' ? t(L.sortAsc, locale) : sort === 'price-desc' ? t(L.sortDesc, locale) : t(L.sortDefault, locale),
@@ -396,7 +407,10 @@ export function FleetFilterBar({
 
             {open === 'soort' && (
               <div className="flex flex-col gap-1">
-                {([['all', L.alleSoorten], ['yacht', L.jacht], ['motorboat', L.motorboot], ['catamaran', L.catamaran], ['jetski', L.jetski], ['boat', L.boot]] as [BoatSoort, L5][]).map(([k, lab]) => (
+                {/* Alleen de soorten die er zijn. Stond hier als vaste lijst
+                    van zes, waarvan Catamaran en Jetski op deze vloot altijd
+                    nul resultaten gaven. */}
+                {(([['all', L.alleSoorten], ...soorten.map(k => [k, SOORT_LABEL[k]])] as [BoatSoort, L5][])).map(([k, lab]) => (
                   <button key={k} type="button" onClick={() => { setSoort(k); sluit() }} className={keuze(soort === k)}>
                     {t(lab, locale)}
                     {soort === k && <Check size={14} />}
