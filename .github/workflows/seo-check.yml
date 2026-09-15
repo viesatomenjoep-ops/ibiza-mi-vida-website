@@ -14,8 +14,17 @@ name: SEO checks
 #
 #  - pull_request: block a merge that breaks the markup. The original reason
 #    this suite exists.
-#  - push to main: commits land on main directly here, both from people and
-#    from the nightly data job. Without this trigger the suite never sees the
+#  - push to main AND master: commits land on the production line directly
+#    here, both from people and from the nightly data job. BEIDE branches
+#    staan er bewust in. Op 2026-09-15 is main de bedoelde hoofdbranch, maar
+#    de GitHub-default en de Vercel Production Branch staan nog op master, en
+#    die twee schakelaars zitten buiten de repo. Zolang dat zo is, gaat de
+#    dagelijkse agenda-sync naar master en zou een trigger op alleen main de
+#    suite nooit meer draaien op de lijn die daadwerkelijk live gaat — een
+#    stille blinde vlek precies op de branch die het meest verandert.
+#    Beide noemen kost niets: de branches worden gelijk gehouden, dus in het
+#    ergste geval draait de suite twee keer op dezelfde boom. Haal master hier
+#    pas weg als hij echt is opgeheven. Without this trigger the suite never sees the
 #    main line at all — it only ever judged branches that happened to go
 #    through a PR.
 #  - schedule: the pages are built from data that changes underneath them.
@@ -30,7 +39,7 @@ name: SEO checks
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, master]
   schedule:
     - cron: '40 6 * * *'
   workflow_dispatch:
