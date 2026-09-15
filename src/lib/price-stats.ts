@@ -1,4 +1,4 @@
-import { getVenues, getAllDates } from '@/lib/clubtickets'
+import { getVenues, getAllDates, getDataLastUpdated } from '@/lib/clubtickets'
 // Parser en mediaan staan in een eigen bestand omdat season-stats.ts er ook
 // uit rekent. Twee kopieën van dezelfde parser is hoe twee pagina's uit
 // dezelfde feed op verschillende bedragen uitkomen.
@@ -116,6 +116,19 @@ export interface PriceStats {
   /** ISO date of the earliest and latest event in the dataset. */
   from: string
   to: string
+  /**
+   * De dag waarop deze cijfers gemeten zijn (ISO, YYYY-MM-DD).
+   *
+   * Niet hetzelfde als `from`/`to`: die zeggen welke periode de data beslaat,
+   * dit zegt wanneer we gekeken hebben. Voor een cijfer dat geciteerd moet
+   * kunnen worden is dat het verschil tussen "over 15 september tot 30 oktober"
+   * en "gemeten op 15 september" — alleen het tweede maakt het getal
+   * naslaanbaar, want de agenda van morgen geeft een andere mediaan. Komt uit
+   * `lastUpdated` van de partnerfeed, dezelfde bron waar de sitemap zijn
+   * `lastModified` uit haalt; ontbreekt die, dan staat er niets in plaats van
+   * een gegokte datum.
+   */
+  measuredAt?: string
   /** Total dated events with a price. */
   total: number
 }
@@ -126,7 +139,11 @@ const MIN_DATES = 10
 
 
 export async function getPriceStats(locale: string): Promise<PriceStats | null> {
-  const [venues, dates] = await Promise.all([getVenues(locale), getAllDates(locale)])
+  const [venues, dates, gemeten] = await Promise.all([
+    getVenues(locale),
+    getAllDates(locale),
+    getDataLastUpdated(locale),
+  ])
   if (!venues.length || !dates.length) return null
 
   const typeOf = new Map(venues.map(v => [v.slug, (v as any).type?.slug || '']))
@@ -265,6 +282,11 @@ export async function getPriceStats(locale: string): Promise<PriceStats | null> 
       .filter((c): c is CategoryPrice => c !== null),
     from: days[0] || '',
     to: days[days.length - 1] || '',
+    // Alleen de kalenderdag, niet het tijdstip: de feed ververst meermaals per
+    // dag en een zichtbare tijd suggereert een precisie die het cijfer niet
+    // heeft. `toISOString` mag hier wél — dit is een tijdstempel uit de bron,
+    // geen "vandaag" die per tijdzone verschilt.
+    measuredAt: gemeten ? gemeten.toISOString().slice(0, 10) : undefined,
     total: priced.length,
   }
 }
