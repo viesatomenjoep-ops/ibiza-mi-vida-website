@@ -40,6 +40,17 @@ export function DatasetJsonLd({
   observations,
   /** Eén zin over hoe het gemeten is. */
   technique,
+  /**
+   * ISO yyyy-mm-dd: de dag waarop de cijfers gemeten zijn.
+   *
+   * `temporalCoverage` zegt welke periode de data beslaat; dit zegt wanneer
+   * er gekeken is. Voor een dataset die zichzelf herberekent zijn dat twee
+   * verschillende dingen, en zonder het tweede is een geciteerd getal niet
+   * naslaanbaar: de agenda van volgende week geeft een andere mediaan.
+   * Optioneel — ontbreekt de datum, dan blijft het veld weg in plaats van
+   * "nu" te claimen, wat precies het signaal is dat Google leert negeren.
+   */
+  measuredAt,
 }: {
   locale: Locale
   path: string
@@ -50,6 +61,7 @@ export function DatasetJsonLd({
   variable: string
   observations: number
   technique: string
+  measuredAt?: string
 }) {
   if (!from || !to || !observations) return null
 
@@ -65,6 +77,7 @@ export function DatasetJsonLd({
     creator: { '@id': `${SITE_URL}/#organization` },
     publisher: { '@id': `${SITE_URL}/#organization` },
     temporalCoverage: `${from}/${to}`,
+    ...(measuredAt ? { dateModified: measuredAt } : {}),
     spatialCoverage: {
       '@type': 'Place',
       name: 'Ibiza, Balearic Islands, Spain',
