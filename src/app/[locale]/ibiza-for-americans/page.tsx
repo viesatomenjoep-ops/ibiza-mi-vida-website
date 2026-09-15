@@ -61,6 +61,11 @@ export default async function IbizaForAmericansPage() {
   const ns = US_NONSTOP[0]
   const boatLow = fleet?.cheapest.price.low ?? null
   const clubMedian = prices?.clubMedian ?? null
+  // De lead draagt een VANAF-prijs, niet de mediaan: "een mediaan van €32 per
+  // nacht" leest als een tarief dat wij rekenen en is preciezer dan een
+  // openingsalinea aankan. De mediaan blijft in de FAQ staan, waar de vraag
+  // "is Ibiza duur" er wél om vraagt, en in de tabel op de itinerary.
+  const clubFrom = prices?.clubMin ?? null
 
   const faqs: Faq[] = [
     {
@@ -124,9 +129,9 @@ export default async function IbizaForAmericansPage() {
                   ? `Getting here takes about eight hours nonstop from ${ns.from.city} with ${ns.airline}, or one connection from everywhere else in the US.`
                   : 'Getting here takes one connection, 11 to 13 hours from New York via Madrid or Barcelona.'}
               {' '}No visa is needed for a US passport.
-              {clubMedian ? ` Club entry runs a median of ${eurUsd(clubMedian, fx)} a night` : ''}
-              {boatLow ? `${clubMedian ? ' and' : ''} a private boat day starts at ${eurUsd(boatLow, fx)}` : ''}
-              {clubMedian || boatLow ? '.' : ''}
+              {clubFrom ? ` Club tickets start from around €${clubFrom}` : ''}
+              {boatLow ? `${clubFrom ? ', and' : ' '} a private boat day from ${eurUsd(boatLow, fx)}` : ''}
+              {clubFrom || boatLow ? ' — split between six or eight people, the boat is the best value on the island.' : ''}
               {' '}Everything is booked in English over WhatsApp with someone who lives on the island.
             </p>
             <p className="mt-4">
@@ -183,7 +188,10 @@ export default async function IbizaForAmericansPage() {
           },
           {
             name: 'Money',
-            body: `Euros, contactless cards nearly everywhere, tax included in the price. ${prices ? `Club entry ranges from €${prices.clubMin} to €${prices.clubMax} for the cheapest ticket, median ${eurUsd(prices.clubMedian, fx)}.` : ''} Tip lightly; nobody expects 20 percent.`,
+            // Vanaf-prijs, geen bereik met twee uitersten: "van €15 tot €175
+            // voor het goedkoopste ticket" is een zin die je twee keer moet
+            // lezen. De mediaan en het volledige bereik staan op /ibiza-prices.
+            body: `Euros, contactless cards nearly everywhere, tax included in the price. ${prices ? `Club tickets start from around €${prices.clubMin}, with headline nights well above that.` : ''} Tip lightly; nobody expects 20 percent.`,
           },
           {
             name: 'The night',
