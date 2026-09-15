@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { LocationImage } from '@/components/locations/LocationImage'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -89,7 +88,9 @@ export async function generateMetadata({ params }: { params: { slug: string; loc
     // The intro rather than the tagline: it gives detailMetadata enough text to
     // fill a 158-character snippet instead of a half-empty one-liner.
     description: location.intro[l],
-    image: location.imageUrl || undefined,
+    // Geen image: de locatiefoto's waren AI-gegenereerd en zijn verwijderd.
+    // Een AI-beeld als `image` van een echte plek meegeven aan een deelkaart
+    // of aan structured data is een voorstelling van zaken die niet klopt.
     suffix: location.island === 'formentera' ? '— Formentera' : '— Ibiza',
   })
 }
@@ -104,7 +105,6 @@ function placeSchema(location: LocationData, l: Locale) {
     description: location.intro[l],
     url: `${SITE_URL}/${l}/locations/${location.slug}`,
     inLanguage: l,
-    ...(location.imageUrl ? { image: `${SITE_URL}${location.imageUrl}` } : {}),
     touristType: location.goodFor[l],
     containedInPlace: {
       '@type': 'Place',
@@ -160,30 +160,30 @@ export default function LocationPage({ params }: { params: { slug: string; local
           zie de uitleg in EventDetailPage.tsx. Zonder deze marge schuift de
           sinds vanavond vaste, ondoorzichtige navigatiebalk over het
           bovenste stuk van de locatiefoto en de titel heen. */}
-      <section className="relative mt-[var(--nav-h)] h-[50vh] min-h-[400px] w-full bg-slate-900">
-        <LocationImage
-          src={location.imageUrl}
-          name={location.name}
-          sizes="100vw"
-          priority
-          className="opacity-70"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+      {/* Kop.
+          Was een halfschermse foto met witte tekst over een donkere gradient.
+          Die foto was AI-gegenereerd, en bij de plaatsen zonder foto bleef er
+          een zwart vlak over — twee redenen om hem weg te halen. Wat er nu
+          staat is typografisch en licht.
 
-        <div className="absolute inset-0 z-10 mx-auto flex max-w-7xl flex-col justify-end px-4 pb-16 md:px-8">
+          pt-[calc(var(--nav-h)+…)]: dit is het eerste element van de pagina en
+          .site-header staat `position:fixed` zonder globale compensatie. Nooit
+          een vast getal; --nav-h is de enige bron. */}
+      <section className="border-b border-black/5 bg-white">
+        <div className="mx-auto max-w-5xl px-4 pb-12 pt-[calc(var(--nav-h)+40px)] md:px-8">
           <Link
             href={`${base}/locations`}
-            className="mb-6 inline-flex w-fit items-center gap-2 text-white/80 transition-colors hover:text-white"
+            className="mb-6 inline-flex w-fit items-center gap-2 text-sm font-semibold text-neutral-500 transition-colors hover:text-neutral-900"
           >
             <ArrowLeft size={16} /> {LBL.back[l]}
           </Link>
-          <div className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-[#00A698]">
-            <MapPin size={18} /> {islandLabel}
+          <div className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-gold">
+            <MapPin size={16} /> {islandLabel}
           </div>
-          <h1 className="mb-4 font-serif text-5xl font-bold text-white drop-shadow-md md:text-7xl">
+          <h1 className="font-serif text-4xl font-black tracking-tight text-neutral-900 md:text-6xl">
             {location.name}
           </h1>
-          <p className="max-w-2xl font-sans text-xl font-light text-white/90">{location.tagline[l]}</p>
+          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-neutral-600">{location.tagline[l]}</p>
         </div>
       </section>
 
@@ -285,16 +285,10 @@ export default function LocationPage({ params }: { params: { slug: string; local
               <Link
                 key={loc.slug}
                 href={`${base}/locations/${loc.slug}`}
-                className="group relative flex h-48 flex-col justify-end overflow-hidden rounded-2xl bg-ibiza-mint p-4 text-neutral-900"
+                className="flex flex-col gap-1.5 rounded-2xl border border-black/10 bg-neutral-50 p-5 text-neutral-900 transition-colors hover:border-gold hover:bg-white"
               >
-                <LocationImage
-                  src={loc.imageUrl}
-                  name={loc.name}
-                  sizes="(max-width: 640px) 100vw, 25vw"
-                  className="transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
-                <h3 className="relative z-10 text-lg font-bold text-white">{loc.name}</h3>
+                <h3 className="font-serif text-lg font-black leading-tight">{loc.name}</h3>
+                <p className="text-sm leading-relaxed text-neutral-600">{loc.tagline[l]}</p>
               </Link>
             ))}
           </div>

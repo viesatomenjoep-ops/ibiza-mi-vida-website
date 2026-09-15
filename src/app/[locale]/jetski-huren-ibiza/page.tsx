@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
+import { JetSkiOperators } from '@/components/water/JetSkiOperators'
 import { HubHero, ChoiceCards, PriceTable, ItemGrid, ProseSection, InternalLinks, Breadcrumbs, type Crumb } from '@/components/hub/HubSections'
 import { FaqAccordion, type Faq } from '@/components/hub/FaqAccordion'
 import { TrustBlock } from '@/components/hub/TrustBlock'
@@ -88,7 +89,7 @@ const FAQS: Faq[] = [
   },
 ]
 
-export default function JetskiHurenIbizaPage() {
+export default async function JetskiHurenIbizaPage() {
   return (
     <>
       <SchemaMarkup
@@ -128,6 +129,12 @@ export default function JetskiHurenIbizaPage() {
           </>
         }
       />
+
+      {/* Boekroute. Stond er niet: de keuzekaarten hieronder wijzen naar
+          /boats en /boat-party, dus na het lezen was er nergens te klikken.
+          Dit blok komt uit de ClubTickets-feed en linkt naar onze eigen
+          venuepagina, die de boekknop draagt. */}
+      <JetSkiOperators locale={LOCALE} />
 
       <ChoiceCards
         heading="Begeleide tocht of zelf varen"
