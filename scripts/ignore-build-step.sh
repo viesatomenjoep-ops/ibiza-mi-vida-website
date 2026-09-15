@@ -6,7 +6,9 @@
 
 echo "🔍 Vercel build-controle gestart..."
 
-# 1. Schakel preview deployments uit: alleen bouwen op productie (master branch)
+# 1. Schakel preview deployments uit: alleen bouwen op productie. Welke branch
+#    productie is, staat in het Vercel-dashboard (Settings → Git → Production
+#    Branch) en hoort `main` te zijn — zie CLAUDE.md, "main is de hoofdbranch".
 if [ "$VERCEL_ENV" != "production" ]; then
   echo "🛑 Preview deployment overgeslagen op branch '$VERCEL_GIT_COMMIT_REF' (bespaart Vercel build-minuten)."
   exit 0

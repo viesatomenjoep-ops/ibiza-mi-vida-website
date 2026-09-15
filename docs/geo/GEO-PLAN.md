@@ -51,6 +51,7 @@ dezelfde instructie ontstaat:
 
 | # | Actie | Tijd | Waar | Status |
 | --- | --- | --- | --- | --- |
+| 0 | GitHub default branch én Vercel Production Branch op `main` | 5 min | §6.0 | ☐ |
 | 1 | Vercel: controleer `NEXT_PUBLIC_SITE_URL`, zet `GOOGLE_PLACES_API_KEY` + `GOOGLE_PLACE_ID` | 15 min | §6.1 | ☐ |
 | 2 | Google Search Console domain property + sitemap | 20 min | `docs/search-setup.md` | ☐ |
 | 3 | Bing Webmaster Tools (import uit GSC) | 10 min | `docs/search-setup.md` §2 | ☐ |
@@ -227,6 +228,20 @@ Firewall dat die regels uit staan. Het `curl -A`-commando hierboven is de test.
 Er is **geen bestand om te uploaden**. `robots.txt`, `sitemap.xml`, `llms.txt`
 en `llms-full.txt` worden door Next.js gegenereerd en bij elke deploy vanzelf
 geserveerd. Wat je in Vercel en bij Google doet, zijn instellingen.
+
+### 6.0 Hoofdbranch: `main`
+
+De code staat nu op `main` én `master` (identiek). Twee instellingen buiten de
+repo bepalen welke daarvan telt, en allebei moeten op `main`:
+
+1. GitHub → repository **Settings → General → Default branch** → `main`.
+   Anders checken de geplande workflows (agenda-sync drie keer per dag,
+   AI-zichtbaarheid) nog `master` uit en committen ze daarheen.
+2. Vercel → project **Settings → Git → Production Branch** → `main`.
+   Anders bouwt productie een branch die niet meer beweegt.
+
+Daarna niets meer naar `master` pushen. De oude geschiedenis staat op
+`backup/master-before-2026-09-15`.
 
 ### 6.1 Vercel → Settings → Environment Variables (Production)
 

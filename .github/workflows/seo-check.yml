@@ -14,13 +14,13 @@ name: SEO checks
 #
 #  - pull_request: block a merge that breaks the markup. The original reason
 #    this suite exists.
-#  - push to master: commits land on master directly here, both from people and
+#  - push to main: commits land on main directly here, both from people and
 #    from the nightly data job. Without this trigger the suite never sees the
 #    main line at all — it only ever judged branches that happened to go
 #    through a PR.
 #  - schedule: the pages are built from data that changes underneath them.
 #    price-snapshot.yml rewrites the agenda and prices every morning and pushes
-#    straight to master, and the dynamic routes read partner APIs at request
+#    straight to main, and the dynamic routes read partner APIs at request
 #    time. An Offer that loses its price or an AggregateRating that drops to
 #    zero reviews is a data failure, not a code failure, so no push has to
 #    happen for it to appear. 06:40 UTC is after that job finishes (it starts
@@ -30,7 +30,7 @@ name: SEO checks
 on:
   pull_request:
   push:
-    branches: [master]
+    branches: [main]
   schedule:
     - cron: '40 6 * * *'
   workflow_dispatch:
