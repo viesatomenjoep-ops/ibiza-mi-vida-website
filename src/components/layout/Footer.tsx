@@ -202,7 +202,7 @@ export function Footer({ rating = null, clubLogos = [] }: {
             { href: '/en/ibiza-for-americans', label: 'Ibiza for Americans' },
             { href: '/en/flights-to-ibiza-from-usa', label: 'Flights from the US' },
             { href: '/en/ibiza-travel-requirements-us-citizens', label: 'Entry requirements' },
-            { href: '/en/luxury-ibiza-itinerary-5-days', label: '5-day luxury itinerary' },
+            { href: '/en/luxury-ibiza-itinerary-5-days', label: 'Planning a 5-day trip' },
             { href: pathFor('vip-transfer', 'en'), label: 'VIP transfer with a driver' },
           ],
         }]

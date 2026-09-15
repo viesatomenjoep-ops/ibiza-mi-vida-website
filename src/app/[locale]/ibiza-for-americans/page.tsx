@@ -161,11 +161,11 @@ export default async function IbizaForAmericansPage() {
             cta: 'What you need',
           },
           {
-            title: '5-day luxury itinerary',
-            meta: 'Yacht day · beach club · two club nights · the north',
-            body: 'One big thing a day, timed for a US arrival and departure, with what each part costs in euros and dollars.',
+            title: 'Planning and costs',
+            meta: 'Booking order · jet lag · when to come · real prices',
+            body: 'What each of five days is for, what to book first, and what the water, the clubs and a car actually cost.',
             href: 'luxury-ibiza-itinerary-5-days',
-            cta: 'See the plan',
+            cta: 'How to plan it',
           },
         ]}
       />
