@@ -1031,7 +1031,7 @@
           "endIsDefined": false,
           "startAtNextDay": false,
           "endAtNextDay": false,
-          "description": "Chinois Presents... 2026!<br />\r\n<p>Chinois biedt, naast zijn wekelijkse residenties, het hele jaar door andere speciale evenementen aan met zeer specifieke data buiten de wekelijkse residenties.</p><br><br />\r\n<p class=\"tdfocus-1789148825599\"><b>10 oktober</b> - Meneito: Alex Martini, Pikabboy, Sexky B2B Tonificado, Maru Bravo.</p><br />\r\n<br />\r\n<p><b>16 oktober</b> - Come to Butch.</p><br />\r\n<br />\r\n<br><br />\r\nTickets voor Chinois Presents... 2026<br />\r\n<p class=\"tdfocus-1742398607486\">Tickets voor Chinois Presents zijn nu te koop vanaf slechts 25€. Koop je tickets nu online en bespaar geld en tijd.</p><br />\r\n<br><br />\r\n<p>Club: Chinois</p>",
+          "description": "Chinois Presents... 2026!<br />\r\n<p>Chinois biedt, naast zijn wekelijkse residenties, het hele jaar door andere speciale evenementen aan met zeer specifieke data buiten de wekelijkse residenties.</p><br><br />\r\n<p class=\"tdfocus-1789148825599\"><b>10 oktober</b> - Meneito: Alex Martini, Pikabboy, Sexky B2B Tonificado, Maru Bravo.</p><br />\r\n<br />\r\n<p><b>16 oktober</b> - Come to Butch.</p><br />\r\n<p><b>31 oktober</b> - Halloween: Cuartero, Melon Bomb, Manu Gonzalez, Lau.</p><br />\r\n<br />\r\n<br />\r\n<br><br />\r\nTickets voor Chinois Presents... 2026<br />\r\n<p class=\"tdfocus-1742398607486\">Tickets voor Chinois Presents zijn nu te koop vanaf slechts 25€. Koop je tickets nu online en bespaar geld en tijd.</p><br />\r\n<br><br />\r\n<p>Club: Chinois</p>",
           "requirements": "<p class=\"tdfocus-1744192919224\">Hartelijk dank voor het kiezen van Chinois Ibiza, en onthoud dat:</p><br />\r\n<p class=\"tdfocus-1744192928620\">- Chinois Ibiza is voor personen ouder dan 18 jaar. Minderjarigen mogen niet naar binnen. Alle bezoekers moeten originele en geldige documentatie bij zich hebben.</p><br />\r\n<p>- Line-ups en sessietijden kunnen veranderen.</p><br />\r\n<p>- Herintrede is niet toegestaan.</p><br />\r\n<p><b>- KLEDINGVOORSCHRIFT:</b> stijlvolle casual dresscode. We verzoeken heren vriendelijk om zich te houden aan ons beleid van het dragen van lange broeken. Sportkleding en open schoenen zijn niet toegestaan in de locatie. Houd er rekening mee dat de locatie het recht behoudt om toegang te weigeren, en toegang is naar goeddunken van het deurteam op de avond zelf.</p>",
           "affLink": "https://www.clubtickets.com/nl/clubbing/club-chinois-ibiza/chinois-presents?aff=CT219",
           "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/273/event/1591?locale=nl"
@@ -6124,9 +6124,18 @@
           "prices": "30 € - 35 €",
           "lowestAvailablePrice": 30,
           "affLink": "https://www.clubtickets.com/nl/clubbing/club-chinois-ibiza/chinois-presents/2026-10-16?aff=CT219"
+        },
+        {
+          "id": 173935,
+          "date": "2026-10-31",
+          "name": "Halloween",
+          "lineUp": "<p class=\"tdfocus-1789564723996\">Cuartero</p><p class=\"tdfocus-1789564723996\">Melon Bomb</p><p class=\"tdfocus-1789564723996\">Manu Gonzalez</p><p class=\"tdfocus-1789564723996\">Lau</p>",
+          "prices": "30 € - 35 €",
+          "lowestAvailablePrice": 30,
+          "affLink": "https://www.clubtickets.com/nl/clubbing/club-chinois-ibiza/chinois-presents/2026-10-31?aff=CT219"
         }
       ],
-      "description": "Chinois Presents... 2026!<br />\r\n<p>Chinois biedt, naast zijn wekelijkse residenties, het hele jaar door andere speciale evenementen aan met zeer specifieke data buiten de wekelijkse residenties.</p><br><br />\r\n<p class=\"tdfocus-1789148825599\"><b>10 oktober</b> - Meneito: Alex Martini, Pikabboy, Sexky B2B Tonificado, Maru Bravo.</p><br />\r\n<br />\r\n<p><b>16 oktober</b> - Come to Butch.</p><br />\r\n<br />\r\n<br><br />\r\nTickets voor Chinois Presents... 2026<br />\r\n<p class=\"tdfocus-1742398607486\">Tickets voor Chinois Presents zijn nu te koop vanaf slechts 25€. Koop je tickets nu online en bespaar geld en tijd.</p><br />\r\n<br><br />\r\n<p>Club: Chinois</p>",
+      "description": "Chinois Presents... 2026!<br />\r\n<p>Chinois biedt, naast zijn wekelijkse residenties, het hele jaar door andere speciale evenementen aan met zeer specifieke data buiten de wekelijkse residenties.</p><br><br />\r\n<p class=\"tdfocus-1789148825599\"><b>10 oktober</b> - Meneito: Alex Martini, Pikabboy, Sexky B2B Tonificado, Maru Bravo.</p><br />\r\n<br />\r\n<p><b>16 oktober</b> - Come to Butch.</p><br />\r\n<p><b>31 oktober</b> - Halloween: Cuartero, Melon Bomb, Manu Gonzalez, Lau.</p><br /><br /><br><br />\r\nTickets voor Chinois Presents... 2026<br />\r\n<p class=\"tdfocus-1742398607486\">Tickets voor Chinois Presents zijn nu te koop vanaf slechts 25€. Koop je tickets nu online en bespaar geld en tijd.</p><br />\r\n<br><br />\r\n<p>Club: Chinois</p>",
       "requirements": "<p class=\"tdfocus-1744192919224\">Hartelijk dank voor het kiezen van Chinois Ibiza, en onthoud dat:</p><br />\r\n<p class=\"tdfocus-1744192928620\">- Chinois Ibiza is voor personen ouder dan 18 jaar. Minderjarigen mogen niet naar binnen. Alle bezoekers moeten originele en geldige documentatie bij zich hebben.</p><br />\r\n<p>- Line-ups en sessietijden kunnen veranderen.</p><br />\r\n<p>- Herintrede is niet toegestaan.</p><br />\r\n<p><b>- KLEDINGVOORSCHRIFT:</b> stijlvolle casual dresscode. We verzoeken heren vriendelijk om zich te houden aan ons beleid van het dragen van lange broeken. Sportkleding en open schoenen zijn niet toegestaan in de locatie. Houd er rekening mee dat de locatie het recht behoudt om toegang te weigeren, en toegang is naar goeddunken van het deurteam op de avond zelf.</p>",
       "type": {
         "id": 1,
@@ -6873,8 +6882,8 @@
           "date": "2026-09-16",
           "name": "",
           "lineUp": "",
-          "prices": "32 € - 48 €",
-          "lowestAvailablePrice": 32,
+          "prices": "48 €",
+          "lowestAvailablePrice": 48,
           "affLink": "https://www.clubtickets.com/nl/clubbing/ibiza-rocks/bingo-brunch/2026-09-16?aff=CT219"
         },
         {
@@ -7414,8 +7423,8 @@
           "date": "2026-09-16",
           "name": "Temptations",
           "lineUp": "",
-          "prices": "25 € - 30 €",
-          "lowestAvailablePrice": 25,
+          "prices": "30 €",
+          "lowestAvailablePrice": 30,
           "affLink": "https://www.clubtickets.com/nl/clubbing/es-paradis/es-paradis-presents/2026-09-16?aff=CT219"
         },
         {
@@ -7646,8 +7655,8 @@
           "date": "2026-09-17",
           "name": "",
           "lineUp": "",
-          "prices": "35 € - 40 €",
-          "lowestAvailablePrice": 35,
+          "prices": "40 €",
+          "lowestAvailablePrice": 40,
           "affLink": "https://www.clubtickets.com/nl/clubbing/es-paradis/bubbles-es-paradis/2026-09-17?aff=CT219"
         },
         {
@@ -8009,8 +8018,8 @@
           "date": "2026-09-24",
           "name": "",
           "lineUp": "<p>Paul Van Dyk</p><p>Aly &amp; Fila</p><p>Alex M.O.R.P.H.</p><p>Brian Kearney</p><p>Ciaran Mcauley</p><p>David Forbes</p><p>Fuenka</p><p>Anunnakis</p><p><br></p><p><b>One More Time Presents</b></p><p>Seb Fontaine</p><p>Edele Andaya</p><p>Stephen Kirkwood</p><p>ITE DJ's</p><p>+ Special Guests</p>",
-          "prices": "",
-          "lowestAvailablePrice": null,
+          "prices": "56 €",
+          "lowestAvailablePrice": 56,
           "affLink": "https://www.clubtickets.com/nl/clubbing/528-ibiza/shine-ibiza/2026-09-24?aff=CT219"
         }
       ],
@@ -8566,8 +8575,8 @@
           "date": "2026-10-02",
           "name": "",
           "lineUp": "",
-          "prices": "15 € - 20 €",
-          "lowestAvailablePrice": 15,
+          "prices": "20 €",
+          "lowestAvailablePrice": 20,
           "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-10-02?aff=CT219"
         },
         {
@@ -8575,8 +8584,8 @@
           "date": "2026-10-09",
           "name": "",
           "lineUp": "",
-          "prices": "15 € - 20 €",
-          "lowestAvailablePrice": 15,
+          "prices": "20 €",
+          "lowestAvailablePrice": 20,
           "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-10-09?aff=CT219"
         },
         {
@@ -8584,8 +8593,8 @@
           "date": "2026-10-16",
           "name": "",
           "lineUp": "",
-          "prices": "15 € - 20 €",
-          "lowestAvailablePrice": 15,
+          "prices": "20 €",
+          "lowestAvailablePrice": 20,
           "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-10-16?aff=CT219"
         },
         {
@@ -8593,8 +8602,8 @@
           "date": "2026-10-23",
           "name": "",
           "lineUp": "",
-          "prices": "15 € - 20 €",
-          "lowestAvailablePrice": 15,
+          "prices": "20 €",
+          "lowestAvailablePrice": 20,
           "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-10-23?aff=CT219"
         },
         {
@@ -8602,9 +8611,45 @@
           "date": "2026-10-30",
           "name": "Deseo - Halloween Edition",
           "lineUp": "",
-          "prices": "15 € - 20 €",
-          "lowestAvailablePrice": 15,
+          "prices": "20 €",
+          "lowestAvailablePrice": 20,
           "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-10-30?aff=CT219"
+        },
+        {
+          "id": 173931,
+          "date": "2026-11-06",
+          "name": "",
+          "lineUp": "",
+          "prices": "20 €",
+          "lowestAvailablePrice": 20,
+          "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-11-06?aff=CT219"
+        },
+        {
+          "id": 173932,
+          "date": "2026-11-13",
+          "name": "",
+          "lineUp": "",
+          "prices": "20 €",
+          "lowestAvailablePrice": 20,
+          "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-11-13?aff=CT219"
+        },
+        {
+          "id": 173933,
+          "date": "2026-11-20",
+          "name": "",
+          "lineUp": "",
+          "prices": "20 €",
+          "lowestAvailablePrice": 20,
+          "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-11-20?aff=CT219"
+        },
+        {
+          "id": 173934,
+          "date": "2026-11-27",
+          "name": "",
+          "lineUp": "",
+          "prices": "20 €",
+          "lowestAvailablePrice": 20,
+          "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-11-27?aff=CT219"
         }
       ],
       "description": "Deseo at Baloo Ibiza 2026<br />\r\n<p class=\"tdfocus-1784025583326\">Deseo heeft een nieuw thuis... en het begint in stijl.</p><br />\r\n<p class=\"tdfocus-1784025994765\">Elke vrijdag vanaf 17 juli transformeert Baloo Ibiza in het DESEO-universum, een feest waar reggaeton, latin tech en de heetste ritmes de overhand nemen zoals geen andere nacht op het eiland.</p><br><br />\r\nTickets Deseo at Baloo Ibiza 2026<br />\r\n<p>Tickets zijn nu te koop. Koop de jouwe nu!</p><br><br />\r\n<p><b>Club</b>: Baloo Ibiza</p>",
@@ -8651,6 +8696,15 @@
           "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/baloo-presents/2026-09-16?aff=CT219"
         },
         {
+          "id": 173929,
+          "date": "2026-09-19",
+          "name": "Origen",
+          "lineUp": "",
+          "prices": "15 € - 20 €",
+          "lowestAvailablePrice": 15,
+          "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/baloo-presents/2026-09-19?aff=CT219"
+        },
+        {
           "id": 173688,
           "date": "2026-09-20",
           "name": "",
@@ -8658,6 +8712,15 @@
           "prices": "15 € - 20 €",
           "lowestAvailablePrice": 15,
           "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/baloo-presents/2026-09-20?aff=CT219"
+        },
+        {
+          "id": 173930,
+          "date": "2026-09-27",
+          "name": "Juseph | Live Showcase",
+          "lineUp": "",
+          "prices": "15 € - 20 €",
+          "lowestAvailablePrice": 15,
+          "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/baloo-presents/2026-09-27?aff=CT219"
         }
       ],
       "description": "Baloo Presents... bij Baloo Ibiza 2026<br />\r\n<p>Baloo Ibiza opent elke week zijn deuren voor een seizoen vol muziek, energie en een geweldige sfeer. Op dinsdag, woensdag, zaterdag en zondag komt Baloo Nights tot leven, het hart van een van de meest levendige cocktailbars en clubs van Ibiza, waar de muziek en het publiek altijd centraal staan.</p><br />\r\n<p>Maar sommige avonden zijn anders.</p><br />\r\n<p><br></p><br />\r\n<br />\r\nTickets voor Baloo Presents... bij Baloo Ibiza 2026<br />\r\n<p>Tickets zijn nu verkrijgbaar. Bestel ze voordat ze uitverkocht zijn!</p><br><br />\r\n<p><b>Club</b>: Baloo Ibiza</p>",
@@ -9268,15 +9331,6 @@
       },
       "dates": [
         {
-          "id": 172692,
-          "date": "2026-09-16",
-          "name": "",
-          "lineUp": "",
-          "prices": "7 € - 12 €",
-          "lowestAvailablePrice": 7,
-          "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/barco-a-formentera-ulises-cat/cala-salada-boat/2026-09-16?aff=CT219"
-        },
-        {
           "id": 172693,
           "date": "2026-09-17",
           "name": "",
@@ -9572,15 +9626,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/27?locale=nl"
       },
       "dates": [
-        {
-          "id": 166498,
-          "date": "2026-09-16",
-          "name": "",
-          "lineUp": "",
-          "prices": "22 € - 45 €",
-          "lowestAvailablePrice": 22,
-          "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/barco-a-formentera-ulises-cat/ulises-cat-barco-a-formentera/2026-09-16?aff=CT219"
-        },
         {
           "id": 166499,
           "date": "2026-09-17",
@@ -10398,15 +10443,6 @@
       },
       "dates": [
         {
-          "id": 166652,
-          "date": "2026-09-16",
-          "name": "",
-          "lineUp": "",
-          "prices": "100 €",
-          "lowestAvailablePrice": 100,
-          "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/barco-a-formentera-ulises-cat/brunch-on-the-boat/2026-09-16?aff=CT219"
-        },
-        {
           "id": 166653,
           "date": "2026-09-17",
           "name": "",
@@ -11204,15 +11240,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/69?locale=nl"
       },
       "dates": [
-        {
-          "id": 161174,
-          "date": "2026-09-16",
-          "name": "",
-          "lineUp": "",
-          "prices": "25 € - 69 €",
-          "lowestAvailablePrice": 25,
-          "affLink": "https://www.clubtickets.com/nl/boat/float-your-boat/beach-cruise-sunset/2026-09-16?aff=CT219"
-        },
         {
           "id": 161175,
           "date": "2026-09-17",
@@ -13751,15 +13778,6 @@
       },
       "dates": [
         {
-          "id": 161907,
-          "date": "2026-09-16",
-          "name": "",
-          "lineUp": "",
-          "prices": "9 € - 15 €",
-          "lowestAvailablePrice": 9,
-          "affLink": "https://www.clubtickets.com/nl/activities/cova-de-can-marca/cova-de-can-marca/2026-09-16?aff=CT219"
-        },
-        {
           "id": 161908,
           "date": "2026-09-17",
           "name": "",
@@ -14470,15 +14488,6 @@
       },
       "dates": [
         {
-          "id": 164083,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "",
-          "prices": "195 € - 360 €",
-          "lowestAvailablePrice": 195,
-          "affLink": "https://www.clubtickets.com/nl/activities/emove-ibiza/buggy-tour/2026-09-18?aff=CT219"
-        },
-        {
           "id": 164084,
           "date": "2026-09-19",
           "name": "",
@@ -14846,15 +14855,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/61?locale=nl"
       },
       "dates": [
-        {
-          "id": 163873,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "",
-          "prices": "130 € - 175 €",
-          "lowestAvailablePrice": 130,
-          "affLink": "https://www.clubtickets.com/nl/activities/emove-ibiza/quad-tour/2026-09-18?aff=CT219"
-        },
         {
           "id": 163874,
           "date": "2026-09-19",
@@ -16148,15 +16148,6 @@
       },
       "dates": [
         {
-          "id": 163084,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "45 € - 100 €",
-          "lowestAvailablePrice": 45,
-          "affLink": "https://www.clubtickets.com/nl/activities/excursiones/formentera-tour/2026-09-17?aff=CT219"
-        },
-        {
           "id": 163085,
           "date": "2026-09-20",
           "name": "",
@@ -17339,15 +17330,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/137?locale=nl"
       },
       "dates": [
-        {
-          "id": 169096,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "",
-          "prices": "45 € - 80 €",
-          "lowestAvailablePrice": 45,
-          "affLink": "https://www.clubtickets.com/nl/boat/salvador/salvador-boat-sunset-trip/2026-09-18?aff=CT219"
-        },
         {
           "id": 169097,
           "date": "2026-09-19",
@@ -18624,15 +18606,6 @@
       },
       "dates": [
         {
-          "id": 168492,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "",
-          "prices": "30 € - 80 €",
-          "lowestAvailablePrice": 30,
-          "affLink": "https://www.clubtickets.com/nl/boat/lady-virginia-boat/lady-virginia-boat-trip/2026-09-18?aff=CT219"
-        },
-        {
           "id": 168493,
           "date": "2026-09-19",
           "name": "",
@@ -19485,15 +19458,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/325?locale=nl"
       },
       "dates": [
-        {
-          "id": 172064,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "120 € - 299 €",
-          "lowestAvailablePrice": 120,
-          "affLink": "https://www.clubtickets.com/nl/activities/blue-coral-ibiza/jetski-tours-with-blue-coral/2026-09-17?aff=CT219"
-        },
         {
           "id": 172065,
           "date": "2026-09-18",
@@ -20365,15 +20329,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/326?locale=nl"
       },
       "dates": [
-        {
-          "id": 173355,
-          "date": "2026-09-16",
-          "name": "",
-          "lineUp": "",
-          "prices": "9 € - 34 €",
-          "lowestAvailablePrice": 9,
-          "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/santa-eularia-ferry/shuttle-ferry-ibiza-es-canar/2026-09-16?aff=CT219"
-        },
         {
           "id": 173356,
           "date": "2026-09-17",
@@ -24420,8 +24375,8 @@
       "date": "2026-09-16",
       "name": "",
       "lineUp": "",
-      "prices": "32 € - 48 €",
-      "lowestAvailablePrice": 32,
+      "prices": "48 €",
+      "lowestAvailablePrice": 48,
       "affLink": "https://www.clubtickets.com/nl/clubbing/ibiza-rocks/bingo-brunch/2026-09-16?aff=CT219",
       "eventName": "Bingo Brunch",
       "eventSlug": "bingo-brunch",
@@ -24458,8 +24413,8 @@
       "date": "2026-09-16",
       "name": "Temptations",
       "lineUp": "",
-      "prices": "25 € - 30 €",
-      "lowestAvailablePrice": 25,
+      "prices": "30 €",
+      "lowestAvailablePrice": 30,
       "affLink": "https://www.clubtickets.com/nl/clubbing/es-paradis/es-paradis-presents/2026-09-16?aff=CT219",
       "eventName": "Es Paradis Presents...",
       "eventSlug": "es-paradis-presents",
@@ -24511,82 +24466,6 @@
       "venueId": 324
     },
     {
-      "id": 172692,
-      "date": "2026-09-16",
-      "name": "",
-      "lineUp": "",
-      "prices": "7 € - 12 €",
-      "lowestAvailablePrice": 7,
-      "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/barco-a-formentera-ulises-cat/cala-salada-boat/2026-09-16?aff=CT219",
-      "eventName": "San Antonio - Cala Salada ferry boat",
-      "eventSlug": "cala-salada-boat",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/7edaa55a-0787-4a11-9c62-acfd1a97f2ac.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/fa8952f1-2642-45cc-b75d-6aa96ab8ac0f.jpg",
-      "eventId": 351,
-      "venueId": 27
-    },
-    {
-      "id": 166498,
-      "date": "2026-09-16",
-      "name": "",
-      "lineUp": "",
-      "prices": "22 € - 45 €",
-      "lowestAvailablePrice": 22,
-      "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/barco-a-formentera-ulises-cat/ulises-cat-barco-a-formentera/2026-09-16?aff=CT219",
-      "eventName": "Ferry Figueretas & Playa d'en Bossa - Formentera",
-      "eventSlug": "ulises-cat-barco-a-formentera",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/c4b23ab8-744a-42e2-bf91-57260740906e.jpg",
-      "eventLogo": "https://media.clubtickets.com/event/6a8428fd0224b.png",
-      "eventId": 117,
-      "venueId": 27
-    },
-    {
-      "id": 166652,
-      "date": "2026-09-16",
-      "name": "",
-      "lineUp": "",
-      "prices": "100 €",
-      "lowestAvailablePrice": 100,
-      "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/barco-a-formentera-ulises-cat/brunch-on-the-boat/2026-09-16?aff=CT219",
-      "eventName": "Brunch on the boat",
-      "eventSlug": "brunch-on-the-boat",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/03bd838b-6728-4daa-9a63-9bd4fcb16ce8.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/4b915ffc-a061-4d5b-8fe6-8bef75ba96e1.jpg",
-      "eventId": 1577,
-      "venueId": 27
-    },
-    {
-      "id": 161174,
-      "date": "2026-09-16",
-      "name": "",
-      "lineUp": "",
-      "prices": "25 € - 69 €",
-      "lowestAvailablePrice": 25,
-      "affLink": "https://www.clubtickets.com/nl/boat/float-your-boat/beach-cruise-sunset/2026-09-16?aff=CT219",
-      "eventName": "FYB Beach Cruise Sunset",
-      "eventSlug": "beach-cruise-sunset",
-      "venueName": "Float Your Boat",
-      "venueSlug": "float-your-boat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/1b0b64f2-f8d9-4182-a8b3-b1095ff02a4c.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/d2c5b9d9-bf01-45b2-9634-1e0b1888f873.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/1fb2cc37-3696-42b1-bf74-208c733537b9.jpg",
-      "eventId": 857,
-      "venueId": 69
-    },
-    {
       "id": 173084,
       "date": "2026-09-16",
       "name": "",
@@ -24625,25 +24504,6 @@
       "venueId": 289
     },
     {
-      "id": 161907,
-      "date": "2026-09-16",
-      "name": "",
-      "lineUp": "",
-      "prices": "9 € - 15 €",
-      "lowestAvailablePrice": 9,
-      "affLink": "https://www.clubtickets.com/nl/activities/cova-de-can-marca/cova-de-can-marca/2026-09-16?aff=CT219",
-      "eventName": "Can Marçà Cave Tour",
-      "eventSlug": "cova-de-can-marca",
-      "venueName": "Cova de Can Marça",
-      "venueSlug": "cova-de-can-marca",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/bb53d716-08ef-44ed-8dcb-4b0a12e1a32e.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/d50c7416-bda1-4f1f-83c4-5049c9752b37.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/bff01adc-3ab5-4d0a-b680-74b49d806d9b.png",
-      "eventId": 155,
-      "venueId": 33
-    },
-    {
       "id": 164542,
       "date": "2026-09-16",
       "name": "",
@@ -24661,25 +24521,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/9acfdef0-6f33-4787-bfe3-81c43c5ecfa9.png",
       "eventId": 2094,
       "venueId": 61
-    },
-    {
-      "id": 173355,
-      "date": "2026-09-16",
-      "name": "",
-      "lineUp": "",
-      "prices": "9 € - 34 €",
-      "lowestAvailablePrice": 9,
-      "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/santa-eularia-ferry/shuttle-ferry-ibiza-es-canar/2026-09-16?aff=CT219",
-      "eventName": "Shuttle Ferry Ibiza - Santa Eularia - Es Canar",
-      "eventSlug": "shuttle-ferry-ibiza-es-canar",
-      "venueName": "Santa Eularia Ferry",
-      "venueSlug": "santa-eularia-ferry",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/acd422f8-d406-4272-80e5-c6a63bc75908.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/2808f99d-982e-4653-9a7d-53575c8d115e.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/0eeb52e4-d3f4-4090-9ca6-adb1119b7419.jpg",
-      "eventId": 2022,
-      "venueId": 326
     },
     {
       "id": 170207,
@@ -24838,8 +24679,8 @@
       "date": "2026-09-17",
       "name": "",
       "lineUp": "",
-      "prices": "35 € - 40 €",
-      "lowestAvailablePrice": 35,
+      "prices": "40 €",
+      "lowestAvailablePrice": 40,
       "affLink": "https://www.clubtickets.com/nl/clubbing/es-paradis/bubbles-es-paradis/2026-09-17?aff=CT219",
       "eventName": "Bubbles",
       "eventSlug": "bubbles-es-paradis",
@@ -25176,25 +25017,6 @@
       "venueId": 61
     },
     {
-      "id": 163084,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "45 € - 100 €",
-      "lowestAvailablePrice": 45,
-      "affLink": "https://www.clubtickets.com/nl/activities/excursiones/formentera-tour/2026-09-17?aff=CT219",
-      "eventName": "Formentera Tour",
-      "eventSlug": "formentera-tour",
-      "venueName": "Excursiones Al Sabini",
-      "venueSlug": "excursiones",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/b98392d7-323d-483e-aed6-a3f3f20832e5.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/dc14331e-4794-4e68-ac44-1b06649ff996.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d2e7e634-c16e-44ff-987b-759a7df2f5c0.jpg",
-      "eventId": 1365,
-      "venueId": 55
-    },
-    {
       "id": 170522,
       "date": "2026-09-17",
       "name": "",
@@ -25212,25 +25034,6 @@
       "eventLogo": "https://admin.clubtickets.com/images/event/5ae70c69c99aa.jpg",
       "eventId": 183,
       "venueId": 43
-    },
-    {
-      "id": 172064,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "120 € - 299 €",
-      "lowestAvailablePrice": 120,
-      "affLink": "https://www.clubtickets.com/nl/activities/blue-coral-ibiza/jetski-tours-with-blue-coral/2026-09-17?aff=CT219",
-      "eventName": "Jet Ski Tours with Blue Coral",
-      "eventSlug": "jetski-tours-with-blue-coral",
-      "venueName": "Blue Coral Ibiza - Jetski",
-      "venueSlug": "blue-coral-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/4d0bcd10-7f62-4198-9a15-b9af51df50af.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/bec0fa0f-b74a-49b9-9667-89cb69eff686.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/35661a56-d8ca-48b7-b034-06334c8c69c8.png",
-      "eventId": 2012,
-      "venueId": 325
     },
     {
       "id": 168307,
@@ -25879,44 +25682,6 @@
       "venueId": 33
     },
     {
-      "id": 164083,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "",
-      "prices": "195 € - 360 €",
-      "lowestAvailablePrice": 195,
-      "affLink": "https://www.clubtickets.com/nl/activities/emove-ibiza/buggy-tour/2026-09-18?aff=CT219",
-      "eventName": "Big Buggy Tour",
-      "eventSlug": "buggy-tour",
-      "venueName": "Emove Ibiza",
-      "venueSlug": "emove-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/9c0d4515-7211-455f-aeeb-093fb5dbfb45.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/021ad7c1-8692-4b65-b372-e6d4a06386f9.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/efae8fc9-e4aa-42c6-b820-59fd753560d9.png",
-      "eventId": 223,
-      "venueId": 61
-    },
-    {
-      "id": 163873,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "",
-      "prices": "130 € - 175 €",
-      "lowestAvailablePrice": 130,
-      "affLink": "https://www.clubtickets.com/nl/activities/emove-ibiza/quad-tour/2026-09-18?aff=CT219",
-      "eventName": "Quad Tour",
-      "eventSlug": "quad-tour",
-      "venueName": "Emove Ibiza",
-      "venueSlug": "emove-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/9c0d4515-7211-455f-aeeb-093fb5dbfb45.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/8de5c380-00f5-4f22-8b83-9d30a93466a4.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d371750b-ba92-486d-b98d-08f93d0f7cd1.png",
-      "eventId": 221,
-      "venueId": 61
-    },
-    {
       "id": 164293,
       "date": "2026-09-18",
       "name": "",
@@ -25974,25 +25739,6 @@
       "venueId": 43
     },
     {
-      "id": 169096,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "",
-      "prices": "45 € - 80 €",
-      "lowestAvailablePrice": 45,
-      "affLink": "https://www.clubtickets.com/nl/boat/salvador/salvador-boat-sunset-trip/2026-09-18?aff=CT219",
-      "eventName": "Salvador Sunset Trip",
-      "eventSlug": "salvador-boat-sunset-trip",
-      "venueName": "Salvador",
-      "venueSlug": "salvador",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/4842ed0e-0c11-4ee2-8ba6-b12541789a6f.webp",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/b165c6ff-ca98-43e1-86fb-d41950a3c914.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/99a8e1da-74eb-4bd2-b17d-4da0b4a31a82.png",
-      "eventId": 1347,
-      "venueId": 137
-    },
-    {
       "id": 167391,
       "date": "2026-09-18",
       "name": "",
@@ -26010,25 +25756,6 @@
       "eventLogo": "https://admin.clubtickets.com/images/event/62517ee3b9c83308172689.jpeg",
       "eventId": 1509,
       "venueId": 31
-    },
-    {
-      "id": 168492,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "",
-      "prices": "30 € - 80 €",
-      "lowestAvailablePrice": 30,
-      "affLink": "https://www.clubtickets.com/nl/boat/lady-virginia-boat/lady-virginia-boat-trip/2026-09-18?aff=CT219",
-      "eventName": "Lady Virginia Boat Trip",
-      "eventSlug": "lady-virginia-boat-trip",
-      "venueName": "Lady Virginia Boat",
-      "venueSlug": "lady-virginia-boat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/b9e3521a-bdb4-43a4-b2aa-192aa6905a5e.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/fd3e112d-b0f7-44e7-9ea6-bf0f5e72552c.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d3053fa2-825a-400a-adbf-03777b03ea21.png",
-      "eventId": 2058,
-      "venueId": 330
     },
     {
       "id": 168703,
@@ -26542,6 +26269,25 @@
       "eventLogo": "https://media.clubtickets.com/event/6a3e42816744c.png",
       "eventId": 2161,
       "venueId": 305
+    },
+    {
+      "id": 173929,
+      "date": "2026-09-19",
+      "name": "Origen",
+      "lineUp": "",
+      "prices": "15 € - 20 €",
+      "lowestAvailablePrice": 15,
+      "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/baloo-presents/2026-09-19?aff=CT219",
+      "eventName": "Baloo Presents...",
+      "eventSlug": "baloo-presents",
+      "venueName": "Baloo Ibiza",
+      "venueSlug": "baloo",
+      "venueCover": "https://media.clubtickets.com/venue/6a7db375401c3.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/87c30ee5-5601-46dc-94c1-5f16b899a8e4.png",
+      "eventCover": "https://media.clubtickets.com/event/6a42351177f88.jpg",
+      "eventLogo": "https://media.clubtickets.com/event/6a42352868902.png",
+      "eventId": 2162,
+      "venueId": 324
     },
     {
       "id": 165573,
@@ -31089,8 +30835,8 @@
       "date": "2026-09-24",
       "name": "",
       "lineUp": "Paul Van Dyk Aly &amp; Fila Alex M.O.R.P.H. Brian Kearney Ciaran Mcauley David Forbes Fuenka Anunnakis One More Time Presents Seb Fontaine Edele Andaya Stephen Kirkwood ITE DJ's + Special Guests",
-      "prices": "",
-      "lowestAvailablePrice": null,
+      "prices": "56 €",
+      "lowestAvailablePrice": 56,
       "affLink": "https://www.clubtickets.com/nl/clubbing/528-ibiza/shine-ibiza/2026-09-24?aff=CT219",
       "eventName": "SHINE Ibiza",
       "eventSlug": "shine-ibiza",
@@ -34123,6 +33869,25 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/ec27a8e6-545a-4215-af88-e2f156f09190.png",
       "eventId": 71,
       "venueId": 20
+    },
+    {
+      "id": 173930,
+      "date": "2026-09-27",
+      "name": "Juseph | Live Showcase",
+      "lineUp": "",
+      "prices": "15 € - 20 €",
+      "lowestAvailablePrice": 15,
+      "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/baloo-presents/2026-09-27?aff=CT219",
+      "eventName": "Baloo Presents...",
+      "eventSlug": "baloo-presents",
+      "venueName": "Baloo Ibiza",
+      "venueSlug": "baloo",
+      "venueCover": "https://media.clubtickets.com/venue/6a7db375401c3.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/87c30ee5-5601-46dc-94c1-5f16b899a8e4.png",
+      "eventCover": "https://media.clubtickets.com/event/6a42351177f88.jpg",
+      "eventLogo": "https://media.clubtickets.com/event/6a42352868902.png",
+      "eventId": 2162,
+      "venueId": 324
     },
     {
       "id": 165581,
@@ -38499,8 +38264,8 @@
       "date": "2026-10-02",
       "name": "",
       "lineUp": "",
-      "prices": "15 € - 20 €",
-      "lowestAvailablePrice": 15,
+      "prices": "20 €",
+      "lowestAvailablePrice": 20,
       "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-10-02?aff=CT219",
       "eventName": "Deseo",
       "eventSlug": "deseo",
@@ -44123,8 +43888,8 @@
       "date": "2026-10-09",
       "name": "",
       "lineUp": "",
-      "prices": "15 € - 20 €",
-      "lowestAvailablePrice": 15,
+      "prices": "20 €",
+      "lowestAvailablePrice": 20,
       "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-10-09?aff=CT219",
       "eventName": "Deseo",
       "eventSlug": "deseo",
@@ -49063,8 +48828,8 @@
       "date": "2026-10-16",
       "name": "",
       "lineUp": "",
-      "prices": "15 € - 20 €",
-      "lowestAvailablePrice": 15,
+      "prices": "20 €",
+      "lowestAvailablePrice": 20,
       "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-10-16?aff=CT219",
       "eventName": "Deseo",
       "eventSlug": "deseo",
@@ -52844,8 +52609,8 @@
       "date": "2026-10-23",
       "name": "",
       "lineUp": "",
-      "prices": "15 € - 20 €",
-      "lowestAvailablePrice": 15,
+      "prices": "20 €",
+      "lowestAvailablePrice": 20,
       "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-10-23?aff=CT219",
       "eventName": "Deseo",
       "eventSlug": "deseo",
@@ -56416,8 +56181,8 @@
       "date": "2026-10-30",
       "name": "Deseo - Halloween Edition",
       "lineUp": "",
-      "prices": "15 € - 20 €",
-      "lowestAvailablePrice": 15,
+      "prices": "20 €",
+      "lowestAvailablePrice": 20,
       "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-10-30?aff=CT219",
       "eventName": "Deseo",
       "eventSlug": "deseo",
@@ -56923,6 +56688,25 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/9d8a0923-15fd-41ec-a48a-e9bf25aa2b94.png",
       "eventId": 2132,
       "venueId": 339
+    },
+    {
+      "id": 173935,
+      "date": "2026-10-31",
+      "name": "Halloween",
+      "lineUp": "Cuartero Melon Bomb Manu Gonzalez Lau",
+      "prices": "30 € - 35 €",
+      "lowestAvailablePrice": 30,
+      "affLink": "https://www.clubtickets.com/nl/clubbing/club-chinois-ibiza/chinois-presents/2026-10-31?aff=CT219",
+      "eventName": "Chinois Presents...",
+      "eventSlug": "chinois-presents",
+      "venueName": "Chinois Ibiza",
+      "venueSlug": "club-chinois-ibiza",
+      "venueCover": "https://media.clubtickets.com/migrated/venue/fe051ad4-d5b2-49ba-afff-ba2b3b347096.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/4ba10e8f-b7af-4e4f-b4d8-80235cb63324.png",
+      "eventCover": "https://media.clubtickets.com/migrated/event/c92b5a1d-9be4-4911-99a4-63c26d00a599.jpg",
+      "eventLogo": "https://media.clubtickets.com/migrated/event/293049fc-dd2a-4f17-a899-778f255a811a.png",
+      "eventId": 1591,
+      "venueId": 273
     },
     {
       "id": 171943,
@@ -57552,6 +57336,25 @@
       "venueId": 33
     },
     {
+      "id": 173931,
+      "date": "2026-11-06",
+      "name": "",
+      "lineUp": "",
+      "prices": "20 €",
+      "lowestAvailablePrice": 20,
+      "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-11-06?aff=CT219",
+      "eventName": "Deseo",
+      "eventSlug": "deseo",
+      "venueName": "Baloo Ibiza",
+      "venueSlug": "baloo",
+      "venueCover": "https://media.clubtickets.com/venue/6a7db375401c3.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/87c30ee5-5601-46dc-94c1-5f16b899a8e4.png",
+      "eventCover": "https://media.clubtickets.com/migrated/event/f59e9155-3140-47be-bbcc-3fe14dbf9261.jpg",
+      "eventLogo": "https://media.clubtickets.com/event/6a5613ec1d85f.png",
+      "eventId": 2153,
+      "venueId": 324
+    },
+    {
       "id": 161958,
       "date": "2026-11-06",
       "name": "",
@@ -57683,6 +57486,25 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/bff01adc-3ab5-4d0a-b680-74b49d806d9b.png",
       "eventId": 155,
       "venueId": 33
+    },
+    {
+      "id": 173932,
+      "date": "2026-11-13",
+      "name": "",
+      "lineUp": "",
+      "prices": "20 €",
+      "lowestAvailablePrice": 20,
+      "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-11-13?aff=CT219",
+      "eventName": "Deseo",
+      "eventSlug": "deseo",
+      "venueName": "Baloo Ibiza",
+      "venueSlug": "baloo",
+      "venueCover": "https://media.clubtickets.com/venue/6a7db375401c3.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/87c30ee5-5601-46dc-94c1-5f16b899a8e4.png",
+      "eventCover": "https://media.clubtickets.com/migrated/event/f59e9155-3140-47be-bbcc-3fe14dbf9261.jpg",
+      "eventLogo": "https://media.clubtickets.com/event/6a5613ec1d85f.png",
+      "eventId": 2153,
+      "venueId": 324
     },
     {
       "id": 161965,
@@ -57818,6 +57640,25 @@
       "venueId": 33
     },
     {
+      "id": 173933,
+      "date": "2026-11-20",
+      "name": "",
+      "lineUp": "",
+      "prices": "20 €",
+      "lowestAvailablePrice": 20,
+      "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-11-20?aff=CT219",
+      "eventName": "Deseo",
+      "eventSlug": "deseo",
+      "venueName": "Baloo Ibiza",
+      "venueSlug": "baloo",
+      "venueCover": "https://media.clubtickets.com/venue/6a7db375401c3.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/87c30ee5-5601-46dc-94c1-5f16b899a8e4.png",
+      "eventCover": "https://media.clubtickets.com/migrated/event/f59e9155-3140-47be-bbcc-3fe14dbf9261.jpg",
+      "eventLogo": "https://media.clubtickets.com/event/6a5613ec1d85f.png",
+      "eventId": 2153,
+      "venueId": 324
+    },
+    {
       "id": 161972,
       "date": "2026-11-20",
       "name": "",
@@ -57949,6 +57790,25 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/bff01adc-3ab5-4d0a-b680-74b49d806d9b.png",
       "eventId": 155,
       "venueId": 33
+    },
+    {
+      "id": 173934,
+      "date": "2026-11-27",
+      "name": "",
+      "lineUp": "",
+      "prices": "20 €",
+      "lowestAvailablePrice": 20,
+      "affLink": "https://www.clubtickets.com/nl/clubbing/baloo/deseo/2026-11-27?aff=CT219",
+      "eventName": "Deseo",
+      "eventSlug": "deseo",
+      "venueName": "Baloo Ibiza",
+      "venueSlug": "baloo",
+      "venueCover": "https://media.clubtickets.com/venue/6a7db375401c3.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/87c30ee5-5601-46dc-94c1-5f16b899a8e4.png",
+      "eventCover": "https://media.clubtickets.com/migrated/event/f59e9155-3140-47be-bbcc-3fe14dbf9261.jpg",
+      "eventLogo": "https://media.clubtickets.com/event/6a5613ec1d85f.png",
+      "eventId": 2153,
+      "venueId": 324
     },
     {
       "id": 161979,
@@ -59307,5 +59167,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-09-16T09:59:16.278Z"
+  "lastUpdated": "2026-09-16T15:26:52.228Z"
 }
