@@ -57,11 +57,18 @@ export function HeroRatingBadge({ rating, total, url, locale }: HeroRating & { l
   )
 
   return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="pointer-events-auto mt-6 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-black/35 px-4 py-2 text-white backdrop-blur-sm transition-colors hover:border-white/45 hover:bg-black/50"
+    // Geen <a> meer: deze pil linkte naar het Google-profiel en die doorklik
+    // is er op verzoek van de eigenaar uit. De sterren en het Google-logo
+    // blijven — het logo zegt waar het cijfer vandaan komt, en vijf sterren
+    // zonder bron is een zwakkere bewering dan vijf sterren mét.
+    //
+    // Een <span> en geen <a> zonder href: dat laatste blijft in de
+    // toegankelijkheidsboom een link die niets doet. `hover:`-klassen zijn
+    // weg, want er valt niets meer te klikken en een pil die oplicht zonder
+    // ergens heen te gaan belooft iets wat er niet is.
+    <span
+      className="pointer-events-none mt-6 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-black/35 px-4 py-2 text-white backdrop-blur-sm"
+      role="img"
       aria-label={(A11Y[locale] || A11Y.en)(nf.format(rating), total)}
     >
       {/* Alleen de sterren, geen cijfer en geen aantal -- op verzoek. De
@@ -85,6 +92,6 @@ export function HeroRatingBadge({ rating, total, url, locale }: HeroRating & { l
       <span aria-hidden className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-white">
         <GoogleGMark size={13} />
       </span>
-    </a>
+    </span>
   )
 }

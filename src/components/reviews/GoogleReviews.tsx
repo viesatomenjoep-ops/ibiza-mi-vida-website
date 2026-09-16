@@ -36,6 +36,16 @@ const ON_GOOGLE: T = L(
   'reseñas en Google',
   'avis sur Google',
 )
+/**
+ * Niet meer in beeld: de knop die hiermee naar het Bedrijfsprofiel linkte is
+ * op verzoek van de eigenaar verwijderd. De sterren blijven staan, en de
+ * reviewkaarten eronder tonen nog steeds echte auteurs en teksten uit dezelfde
+ * bron — de herkomst is dus zichtbaar, alleen niet meer aanklikbaar.
+ *
+ * De vertalingen blijven staan omdat de knop een keuze is en geen fout: zetten
+ * we hem terug, dan staat de tekst er in vijf talen klaar in plaats van dat
+ * iemand hem opnieuw moet laten vertalen.
+ */
 const READ_ALL: T = L(
   'Lees alle reviews op Google',
   'Read all reviews on Google',
@@ -108,7 +118,12 @@ export async function GoogleReviews({ locale }: { locale: string }) {
   return (
     <section className="mb-14 border-y border-black/5 bg-neutral-50 py-14">
       <div className="mx-auto max-w-5xl px-4">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        {/* Stond als twee kolommen met de knop "Lees alle reviews op Google"
+            rechts; die knop is er op verzoek uit (zie READ_ALL hieronder).
+            Zonder tweede kolom heeft een justify-between-rij niets meer te
+            verdelen, dus die is ook weg — anders houd je een lege helft over
+            die op smalle schermen als witruimte onder de sterren landt. */}
+        <div>
           <div>
             <h2 className="font-serif text-2xl font-black tracking-tight text-neutral-900 md:text-3xl">
               {HEADING[l]}
@@ -120,14 +135,6 @@ export async function GoogleReviews({ locale }: { locale: string }) {
               <Stars rating={data.rating} label={`${ratingLabel} ${OUT_OF[l]} — ${data.total} ${ON_GOOGLE[l]}`} />
             </div>
           </div>
-          <a
-            href={data.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-black/10 bg-white px-5 py-2.5 text-xs font-black uppercase tracking-widest text-neutral-900 transition-colors hover:border-gold/50 sm:self-auto"
-          >
-            {READ_ALL[l]} <span aria-hidden>→</span>
-          </a>
         </div>
 
         <ul className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
