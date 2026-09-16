@@ -159,6 +159,18 @@ weken, dus doe dit rustig en volledig.
   actief, en actieve profielen ranken beter.
 - Upload 2–3 nieuwe foto's
 
+**De beste wekelijkse post die je hebt: de gemeten prijzen.** Dit document is
+geschreven voordat `/ibiza-prices` bestond. Die pagina meet nu de entreeprijs
+over honderden gedateerde clubavonden, met methode en meetdatum erbij — en dat
+is precies het soort concrete, controleerbare mededeling waar een lokale
+zoekmachine én een antwoordmachine iets mee kan. Een post als *"Deze week: de
+mediane clubentree op Ibiza staat op €X, gemeten over N avonden bij Y clubs"*
+met een link naar de pagina is veel sterker dan "boek nu je tickets".
+
+Haal de cijfers vlak vóór het posten van de pagina zelf; die herrekent zichzelf
+en een getal van vorige maand klopt niet meer. Zie `docs/geo/PRICE-INDEX-PITCH.md`
+voor dezelfde cijfers en dezelfde waarschuwing.
+
 **Reviews — de belangrijkste doorlopende taak:**
 - Vraag na élke geslaagde boeking om een review. Het beste moment is direct
   erna, via de WhatsApp-conversatie die al loopt.
@@ -177,6 +189,11 @@ vraag-antwoordparen die AI-modellen oppikken. Begin met:
 - *Do I need a licence to rent a boat in Ibiza?*
 - *How long does the ferry to Formentera take?*
 - *Can you arrange club entry for a group?*
+- *How much does it cost to get into a club in Ibiza?* — en beantwoord die met
+  het gemeten cijfer van `/ibiza-prices`, niet met een schatting. Dat is de
+  enige vraag in dit rijtje waar je een getal met een methode achter hebt, en
+  daarmee de enige waar je antwoord aantoonbaar beter is dan dat van een
+  concurrent.
 
 ## 10. Consistentie — de stille killer
 
