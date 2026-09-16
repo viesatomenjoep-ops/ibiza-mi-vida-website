@@ -68,13 +68,11 @@ export async function TrustBlock({
         {reviews && reviews.total > 0 && (
           <p className="mt-8 text-[15px] text-neutral-700">
             <span aria-hidden className="text-gold">★</span>{' '}
-            {reviews.url ? (
-              <a href={reviews.url} target="_blank" rel="noopener" className="text-neutral-900 underline underline-offset-2">
-                {RATING[l](reviews.rating, reviews.total)}
-              </a>
-            ) : (
-              RATING[l](reviews.rating, reviews.total)
-            )}
+            {/* Stond hier als link naar het Bedrijfsprofiel. Die doorklik is
+                er op verzoek van de eigenaar uit, net als bij de sterren in
+                de hero en de footer — laat je hem hier staan, dan linkt een
+                zin wél door terwijl de sterren ernaast dat niet meer doen. */}
+            {RATING[l](reviews.rating, reviews.total)}
           </p>
         )}
 
