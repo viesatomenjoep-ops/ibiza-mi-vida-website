@@ -75,6 +75,58 @@ const LBL = {
   formentera: L('Formentera', 'Formentera', 'Formentera', 'Formentera', 'Formentera'),
 }
 
+/**
+ * Titelsuffix dat meegroeit met de lengte van de plaatsnaam.
+ *
+ * De titel was `{naam} — Ibiza`, en dat belooft niets. Search Console laat zien
+ * waarom dat telt: `/locations/es-canar` had 67 vertoningen en nul klikken,
+ * `/locations/playa-den-bossa` 22 en nul. Vertoningen genoeg dus — alleen geen
+ * reden om te klikken. Vergelijk de venuepagina's, die wél zeggen wat je krijgt
+ * ("Line-up, Events & Tickets") en daar niet op vastlopen.
+ *
+ * Eén vaste suffix kan niet: `fitTitle()` kapt op 44 tekens (60 min de 16 van
+ * " | Ibiza mi vida") en de namen lopen van "Es Canar" tot
+ * "Santa Gertrudis de Fruitera". Daarom een lijst van lang naar kort, waarbij
+ * de eerste die past wint en de kale eilandnaam de bodem is — precies de
+ * huidige titel, dus een lange naam wordt nooit slechter dan nu.
+ *
+ * Wat de suffix belooft, levert de pagina ook: er staat een sectie "wat je hier
+ * doet", feiten, voor wie het geschikt is en een eerlijk nadeel. Een titel die
+ * meer belooft dan de pagina heeft, is dezelfde fout als schema zonder
+ * zichtbare tegenhanger.
+ */
+const TITLE_TAILS: Record<Locale, (island: string) => string[]> = {
+  nl: (i) => [`— ${i}: wat je er doet`, `— ${i}`],
+  en: (i) => [`— ${i}: What to Do & Know`, `— ${i}: What to Do`, `— ${i}`],
+  de: (i) => [`— ${i}: Was man hier macht`, `— ${i}`],
+  es: (i) => [`— ${i}: qué hacer y saber`, `— ${i}: qué hacer`, `— ${i}`],
+  fr: (i) => [`— ${i}: que faire et voir`, `— ${i}: que faire`, `— ${i}`],
+}
+
+/** 60 min de 16 tekens die de layout er als " | Ibiza mi vida" achter plakt. */
+const TITLE_ROOM = 44
+
+/**
+ * De naam zonder de officiële variant tussen haakjes, alleen voor de titel.
+ *
+ * Vier plaatsen dragen er een: "San Antonio (Sant Antoni de Portmany)" is 37
+ * tekens, en dan is de titel op vóór er iets nuttigs in staat — live werd het
+ * "San Antonio (Sant Antoni de… — Ibiza", waar de afkapping precies op de
+ * naamvariant viel die niemand intikt. Zoekers typen "san antonio ibiza".
+ *
+ * Alleen de titel: de H1, de lopende tekst en het `Place`-schema houden de
+ * volledige naam, want daar is de officiële variant wél juist en is er ruimte
+ * voor.
+ */
+const shortName = (name: string) => name.replace(/\s*\([^)]*\)\s*/g, ' ').trim()
+
+function titleTail(name: string, island: string, l: Locale): string {
+  // -1 voor de spatie die detailMetadata tussen naam en suffix zet.
+  const room = TITLE_ROOM - name.length - 1
+  const tails = TITLE_TAILS[l](island)
+  return tails.find((t) => t.length <= room) ?? tails[tails.length - 1]
+}
+
 export function generateStaticParams() {
   return locations.map((loc) => ({ slug: loc.slug }))
 }
@@ -83,7 +135,8 @@ export async function generateMetadata({ params }: { params: { slug: string; loc
   const location = getLocationBySlug(params.slug)
   if (!location) return staticMetadata(params.locale, 'locations', 'Ibiza Locations')
   const l = (LOCALES as readonly string[]).includes(params.locale) ? (params.locale as Locale) : DEFAULT_LOCALE
-  return detailMetadata(params.locale, `locations/${params.slug}`, location.name, {
+  const titelNaam = shortName(location.name)
+  return detailMetadata(params.locale, `locations/${params.slug}`, titelNaam, {
     // `intro` is a localized object now — pass the string, not the object.
     // The intro rather than the tagline: it gives detailMetadata enough text to
     // fill a 158-character snippet instead of a half-empty one-liner.
@@ -91,7 +144,11 @@ export async function generateMetadata({ params }: { params: { slug: string; loc
     // Geen image: de locatiefoto's waren AI-gegenereerd en zijn verwijderd.
     // Een AI-beeld als `image` van een echte plek meegeven aan een deelkaart
     // of aan structured data is een voorstelling van zaken die niet klopt.
-    suffix: location.island === 'formentera' ? '— Formentera' : '— Ibiza',
+    suffix: titleTail(
+      titelNaam,
+      location.island === 'formentera' ? LBL.formentera[l] : LBL.ibiza[l],
+      l,
+    ),
   })
 }
 
