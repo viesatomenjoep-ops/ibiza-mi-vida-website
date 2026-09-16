@@ -109,13 +109,11 @@ export async function Proof({ locale }: { locale: string }) {
         {hasRating && reviews && (
           <p className="mt-6 text-[15px] text-neutral-700">
             <span aria-hidden className="text-gold">★</span>{' '}
-            {reviews.url ? (
-              <a href={reviews.url} target="_blank" rel="noopener" className="text-neutral-900 underline underline-offset-2">
-                {RATING[l](reviews.rating)}
-              </a>
-            ) : (
-              RATING[l](reviews.rating)
-            )}
+            {/* Stond hier als link naar het Bedrijfsprofiel. Die doorklik is
+                er op verzoek van de eigenaar uit, net als bij de sterren in
+                de hero en de footer — laat je hem hier staan, dan linkt een
+                zin wél door terwijl de sterren ernaast dat niet meer doen. */}
+            {RATING[l](reviews.rating)}
           </p>
         )}
       </div>
