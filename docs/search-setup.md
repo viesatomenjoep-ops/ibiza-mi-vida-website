@@ -52,6 +52,9 @@ keer.
 
       Laat bestaande TXT-records op `@` staan (SPF, DMARC): een domein mag
       meerdere TXT-records hebben, en het verwijderen van SPF breekt e-mail.
+      De DNS van dit domein staat bij **Vercel** (Domains → ibizamivida.com →
+      DNS Records), niet bij de registrar; de mailrecords die in dezelfde zone
+      staan zijn vastgelegd in `docs/dns-mail.md`.
 - [ ] **1.5** Wacht op propagatie en controleer:
       ```bash
       dig +short TXT ibizamivida.com | grep google-site-verification
