@@ -8,6 +8,7 @@ import { sailingForLocation } from '@/lib/location-sailing'
 import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
 import { breadcrumbListSchema, homeLabel, sectionLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { DEFAULT_LOCALE, LOCALES, SITE_URL, type Locale } from '@/lib/seo'
+import { PlaceNextStep } from '@/components/locations/PlaceNextStep'
 
 /**
  * Kop en tussenzin van het vaarblok, in vijf talen.
@@ -175,7 +176,7 @@ function placeSchema(location: LocationData, l: Locale) {
   }
 }
 
-export default function LocationPage({ params }: { params: { slug: string; locale: string } }) {
+export default async function LocationPage({ params }: { params: { slug: string; locale: string } }) {
   const location = getLocationBySlug(params.slug)
 
   if (!location) {
@@ -332,6 +333,14 @@ export default function LocationPage({ params }: { params: { slug: string; local
           <p className="mt-4 leading-relaxed text-neutral-800">{location.honestNote[l]}</p>
         </div>
       </section>
+
+      {/* De vervolgstap. Stond hier niet, en dat was het hele probleem: in
+          <main> stonden vijf links en dat waren "terug naar alle plaatsen" plus
+          vier andere plaatspagina's. Wie via Google op een plaatsnaam binnenkwam
+          kon dus alleen zijwaarts of weg — geen agenda, geen ticket, geen boot.
+          Dit blok staat bewust vóór "andere plekken": eerst iets om te boeken,
+          dan pas de zijstap. */}
+      <PlaceNextStep locale={l} island={location.island} placeName={location.name} />
 
       {/* Related */}
       {related.length > 0 && (
