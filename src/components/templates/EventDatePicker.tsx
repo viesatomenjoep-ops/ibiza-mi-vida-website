@@ -22,6 +22,20 @@ const PICK_LABEL: Record<string, string> = {
 const CLEAR_LABEL: Record<string, string> = {
   nl: 'Alle datums', en: 'All dates', de: 'Alle Termine', es: 'Todas las fechas', fr: 'Toutes les dates',
 }
+const PREV_PAGE_LABEL: Record<string, string> = {
+  nl: 'Vorige', en: 'Previous', de: 'Zurück', es: 'Anterior', fr: 'Précédent',
+}
+const NEXT_PAGE_LABEL: Record<string, string> = {
+  nl: 'Volgende', en: 'Next', de: 'Weiter', es: 'Siguiente', fr: 'Suivant',
+}
+const PAGE_OF_LABEL: Record<string, (page: number, total: number) => string> = {
+  nl: (p, t) => `${p} van ${t}`,
+  en: (p, t) => `${p} of ${t}`,
+  de: (p, t) => `${p} von ${t}`,
+  es: (p, t) => `${p} de ${t}`,
+  fr: (p, t) => `${p} sur ${t}`,
+}
+const DATES_PER_PAGE = 5
 type Locale = typeof enUS
 
 export interface PickerDate {
@@ -100,11 +114,27 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
   const [pickerOpen, setPickerOpen] = useState(false)
   const availableDates = useMemo(() => Array.from(new Set(upcoming.map(d => d.date))), [upcoming])
 
+  // "Alle datums" / "Show all dates" used to just clear activeDay, which fell
+  // back to whatever week was already active — for a weekly residency that's
+  // one date, not "all dates". This is the real all-dates view: every upcoming
+  // date for the event, paginated instead of dumped in one long list.
+  const [showAllDates, setShowAllDates] = useState(false)
+  const [page, setPage] = useState(0)
+  const totalPages = Math.max(1, Math.ceil(upcoming.length / DATES_PER_PAGE))
+
   // Picking a date from the month grid also has to move the week strip, or the
   // strip would still be showing a different week than the results below it.
+  // Both "All dates" buttons call this with iso=null; that now means "show the
+  // paginated all-dates view", not "clear back to the current week".
   const chooseDate = useCallback((iso: string | null) => {
     setActiveDay(iso)
-    if (iso) setWeekStart(format(startOfWeek(parseISO(iso), { weekStartsOn: 1 }), 'yyyy-MM-dd'))
+    if (iso) {
+      setShowAllDates(false)
+      setWeekStart(format(startOfWeek(parseISO(iso), { weekStartsOn: 1 }), 'yyyy-MM-dd'))
+    } else {
+      setShowAllDates(true)
+      setPage(0)
+    }
   }, [])
 
   const monday = useCallback((dt: Date) => startOfWeek(dt, { weekStartsOn: 1 }), [])
@@ -123,13 +153,14 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
   const shiftWeek = (dir: number) => {
     const nx = format(addDays(parseISO(weekStart), dir * 7), 'yyyy-MM-dd')
     if (nx < firstMonday || nx > lastMonday) return
-    setWeekStart(nx); setActiveDay(null)
+    setWeekStart(nx); setActiveDay(null); setShowAllDates(false)
   }
 
-  const visible = useMemo(
-    () => upcoming.filter(d => (activeDay ? d.date === activeDay : d.date >= weekStart && d.date <= weekEnd)),
-    [upcoming, activeDay, weekStart, weekEnd]
-  )
+  const visible = useMemo(() => {
+    if (activeDay) return upcoming.filter(d => d.date === activeDay)
+    if (showAllDates) return upcoming.slice(page * DATES_PER_PAGE, page * DATES_PER_PAGE + DATES_PER_PAGE)
+    return upcoming.filter(d => d.date >= weekStart && d.date <= weekEnd)
+  }, [upcoming, activeDay, showAllDates, page, weekStart, weekEnd])
 
   const bcp = ({ en: 'en-GB', nl: 'nl-NL', de: 'de-DE', es: 'es-ES', fr: 'fr-FR' } as Record<string, string>)[locale] || 'en-GB'
   const capMonth = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
@@ -193,7 +224,7 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
         // een telefoon viel dat niet op omdat het scherm zelf de begrenzing
         // was; op desktop leest het als een kaart die niet af is. Een vaste
         // leesbreedte, gecentreerd, geeft op elk scherm dezelfde verhouding.
-        <div key={activeDay || weekStart} className="mx-auto flex w-full max-w-5xl flex-col gap-3">
+        <div key={activeDay || (showAllDates ? `all-${page}` : weekStart)} className="mx-auto flex w-full max-w-5xl flex-col gap-3">
           <style>{`@keyframes dpSlide{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}`}</style>
           {visible.map((dateObj, idx) => {
             const line = formatLineUp(dateObj.lineUp)
@@ -257,6 +288,34 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
         </div>
       )}
 
+      {/* Pager for the "All dates" view — five at a time instead of one long
+          list, since a resident act can have 30+ upcoming dates. */}
+      {showAllDates && totalPages > 1 && (
+        <div className="mx-auto flex w-full max-w-5xl items-center justify-center gap-4">
+          <button
+            type="button"
+            onClick={() => setPage(p => Math.max(0, p - 1))}
+            disabled={page === 0}
+            aria-label={PREV_PAGE_LABEL[locale] || PREV_PAGE_LABEL.en}
+            className="inline-flex items-center gap-1 rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-black uppercase tracking-widest text-neutral-900 transition-colors hover:border-ibiza-green hover:text-ibiza-green disabled:opacity-30 disabled:hover:border-black/15 disabled:hover:text-neutral-900"
+          >
+            {PREV_PAGE_LABEL[locale] || PREV_PAGE_LABEL.en}
+          </button>
+          <span className="text-xs font-bold uppercase tracking-widest text-black/50">
+            {(PAGE_OF_LABEL[locale] || PAGE_OF_LABEL.en)(page + 1, totalPages)}
+          </span>
+          <button
+            type="button"
+            onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+            disabled={page >= totalPages - 1}
+            aria-label={NEXT_PAGE_LABEL[locale] || NEXT_PAGE_LABEL.en}
+            className="inline-flex items-center gap-1 rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-black uppercase tracking-widest text-neutral-900 transition-colors hover:border-ibiza-green hover:text-ibiza-green disabled:opacity-30 disabled:hover:border-black/15 disabled:hover:text-neutral-900"
+          >
+            {NEXT_PAGE_LABEL[locale] || NEXT_PAGE_LABEL.en}
+          </button>
+        </div>
+      )}
+
       {/* Hier stond een lege <div className="h-36" /> "zodat de vaste dock de
           laatste tegel niet bedekt". Dat werkte niet en kostte wel ruimte: de
           dock kleeft aan de onderkant van het SCHERM, niet aan het einde van
@@ -272,7 +331,10 @@ export function EventDatePicker({ dates, eventName, eventCover, locale, labels: 
         weekStart={weekStart}
         setWeekStart={setWeekStart}
         activeDay={activeDay}
-        setActiveDay={setActiveDay}
+        // Picking a day from the dock exits the paginated all-dates view —
+        // it wraps the raw setter so that state doesn't linger and make the
+        // pager reappear if the visitor later clears the day again.
+        setActiveDay={(iso: string | null) => { setShowAllDates(false); setActiveDay(iso) }}
         locale={locale}
         imageFor={() => eventCover}
       />
