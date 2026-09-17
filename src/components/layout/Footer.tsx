@@ -282,7 +282,11 @@ export function Footer({ rating = null, clubLogos = [] }: {
                 aria-expanded={shown(g.id)}
                 onClick={() => setOpen(p => ({ ...p, [g.id]: !p[g.id] }))}
               >
-                <h3>{g.title}</h3>
+                {/* h2, geen h3: de footer staat op élke pagina en een pagina
+                    zonder eigen h2 (zoals /clubs en /activities) sprong daardoor
+                    van h1 naar h3. Een kolomkop is een sectie van de footer, dus
+                    h2 is hier ook semantisch de juiste keuze. */}
+                <h2>{g.title}</h2>
                 <ChevronDown size={18} className="foot-chev" style={{ transform: shown(g.id) ? 'rotate(180deg)' : 'none' }} />
               </button>
               {shown(g.id) && (
