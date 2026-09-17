@@ -34,6 +34,30 @@ const REVALIDATE_SECONDS = 900 // 15 min — beschikbaarheid verandert per boeki
 const TIMEOUT_MS = 3500 // zie getLiveFleet: een trage partner mag de pagina niet ophouden.
 
 /**
+ * Hoe oud een momentopname mag zijn voordat we hem niet meer "live" noemen.
+ *
+ * Op 16-09-2026 meldde `check:live` dat `/api/fleet-live` een `generatedAt` van
+ * 191 minuten teruggaf. De oorzaak zit in de datacache: `next: { revalidate }`
+ * serveert de oude waarde door zolang het verversen blijft mislukken, en dat
+ * kan uren duren zonder dat er iets fout lijkt te gaan. De code keek niet naar
+ * de leeftijd, dus de bootkaarten toonden "Beschikbaar" met een tijdstempel van
+ * drie uur geleden — precies zo stellig als een verse stand. Een boot die om
+ * vier uur geboekt werd, stond om zeven uur nog als vrij op de pagina.
+ *
+ * Zestig minuten is vier gemiste verversingen (REVALIDATE_SECONDS is 900): geen
+ * hikje meer, maar een storing. Daarboven valt de live laag weg en staan de
+ * statische prijsbanden er alleen — dezelfde uitkomst als wanneer de partner
+ * onbereikbaar is, en dat is de juiste: geen stand is beter dan een stand die
+ * niet waar is.
+ *
+ * `MAX_FEED_AGE_MIN` in `scripts/live-check.mjs` staat op 180 en blijft daar.
+ * Die twee horen niet gelijk te zijn: de code stopt met beweren, de check slaat
+ * later alarm. Wél gekoppeld: zodra dit de laag laat vallen geeft
+ * `/api/fleet-live` een 503, en dáár faalt de check al op.
+ */
+const MAX_AGE_MS = 60 * 60 * 1000
+
+/**
  * Waarom een log en niet stilte: de live laag valt weg zónder dat er iets
  * kapot lijkt — de pagina rendert gewoon door met de statische banden. Precies
  * daarom merkte niemand het als de koppeling eruit lag. Deze regel staat in de
@@ -127,6 +151,20 @@ export async function getLiveFleet(): Promise<LiveFleet | null> {
     const data = (await res.json()) as ApiResponse
     if (!data?.boats?.length || !data.generatedAt) {
       waarschuw('antwoord zonder boats[] of generatedAt')
+      return null
+    }
+
+    // Een oude momentopname is geen live stand. Zie MAX_AGE_MS hierboven: de
+    // datacache kan een mislukte verversing urenlang doorserveren, en dan staat
+    // er "Beschikbaar" onder een boot die allang weg is.
+    const gemaakt = Date.parse(data.generatedAt)
+    if (!Number.isFinite(gemaakt)) {
+      waarschuw(`onleesbare generatedAt: ${data.generatedAt}`)
+      return null
+    }
+    const oudMin = Math.round((Date.now() - gemaakt) / 60000)
+    if (Date.now() - gemaakt > MAX_AGE_MS) {
+      waarschuw(`stand is ${oudMin} min oud (grens ${MAX_AGE_MS / 60000}) — live laag valt weg`)
       return null
     }
 
