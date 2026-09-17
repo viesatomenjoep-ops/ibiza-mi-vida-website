@@ -8,6 +8,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 import { getVenues, getAllDates } from '@/lib/clubtickets';
 import { agendaCopy } from '@/lib/agenda-i18n';
 import WaterAgendaClient, { WaterAgendaEvent, WaterAgendaVenue } from '@/components/boats/WaterAgendaClient';
+import { BreadcrumbJsonLd, homeLabel } from '@/components/seo/BreadcrumbJsonLd';
+import { crumbLabel } from '@/lib/breadcrumb-labels';
 import { ibizaToday } from '@/lib/date-label';
 
 export const revalidate = 3600;
@@ -57,15 +59,21 @@ export default async function Page({ params }: { params: { locale: string } }) {
 
   const C = agendaCopy('shuttle-ferry', params.locale);
   return (
-    <WaterAgendaClient
-      today={todayStr}
-      locale={params.locale}
-      basePath="shuttle-ferry"
-      kicker={C.kicker}
-      title={C.title}
-      subtitle={C.subtitle}
-      events={events}
-      venues={venues}
-    />
+    <>
+      <BreadcrumbJsonLd
+        locale={params.locale}
+        items={[{ name: homeLabel(params.locale), path: '' }, { name: crumbLabel('shuttle-ferry', params.locale) }]}
+      />
+      <WaterAgendaClient
+        today={todayStr}
+        locale={params.locale}
+        basePath="shuttle-ferry"
+        kicker={C.kicker}
+        title={C.title}
+        subtitle={C.subtitle}
+        events={events}
+        venues={venues}
+      />
+    </>
   );
 }
