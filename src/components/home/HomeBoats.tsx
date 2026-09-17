@@ -29,7 +29,10 @@ export function HomeBoats({ todayStr, locale = 'nl', base }: { todayStr: string;
     .filter((b, i, a) => a.findIndex(x => x.image === b.image) === i)
     .slice(0, 12)
     .map(b => ({
-      href: `${base}/private-boat-charters#boat-${b.slug}`,
+      // De bootpagina zelf, niet een anker op de vlootpagina. Dat anker laadde
+      // alle 94 kaarten met de hele filterbalk om daarna naar één kaart te
+      // scrollen — de zwaarste pagina van de site voor één product.
+      href: `${base}/private-boat-charters/${b.slug}`,
       image: b.image,
       title: b.name ? `${b.model} · ${b.name}` : b.model,
       venue: b.marina,
