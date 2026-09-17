@@ -4100,8 +4100,8 @@
           "date": "2026-10-02",
           "name": "",
           "lineUp": "<p>Calvin Harris</p><p>MK</p><p>LF System</p><p>Siân Owen<br></p>",
-          "prices": "175 € - 600 €",
-          "lowestAvailablePrice": 175,
+          "prices": "185 € - 600 €",
+          "lowestAvailablePrice": 185,
           "affLink": "https://www.clubtickets.com/es/clubbing/ushuaia-ibiza/calvin-harris/2026-10-02?aff=CT219"
         }
       ],
@@ -4162,8 +4162,8 @@
           "date": "2026-10-03",
           "name": "",
           "lineUp": "<p>Franky Rizardo</p><p>Nic Fanciulli B2B Sosa</p><p>Bontan B2B Rafael</p><p>Ranger Trucco B2B Robbie Doherty</p><p>Meeshy</p><p>Raul Rodriguez</p><p><br></p>",
-          "prices": "55 € - 320 €",
-          "lowestAvailablePrice": 55,
+          "prices": "65 € - 320 €",
+          "lowestAvailablePrice": 65,
           "affLink": "https://www.clubtickets.com/es/clubbing/ushuaia-ibiza/ants/2026-10-03?aff=CT219"
         }
       ],
@@ -4356,8 +4356,8 @@
           "date": "2026-09-19",
           "name": "",
           "lineUp": "<p><b>THEATRE</b></p><p>Black Coffee</p><p>Anotr</p><p>Laolu</p><p><br></p><p><b>CLUB ROOM - Más Tiempo</b></p><p>East End Dubs</p><p>Locklead</p><p>Delilah</p><p>Djammin B2B Ossie</p>",
-          "prices": "125 € - 1000 €",
-          "lowestAvailablePrice": 125,
+          "prices": "65 € - 1000 €",
+          "lowestAvailablePrice": 65,
           "affLink": "https://www.clubtickets.com/es/clubbing/hi-ibiza/black-coffee/2026-09-19?aff=CT219"
         },
         {
@@ -6165,7 +6165,7 @@
           "id": 173922,
           "date": "2026-09-30",
           "name": "",
-          "lineUp": "",
+          "lineUp": "<p>Traumer</p><p>Margaret Dygas</p><p>Maher Daniel</p><p>Mau BB</p>",
           "prices": "30 € - 35 €",
           "lowestAvailablePrice": 30,
           "affLink": "https://www.clubtickets.com/es/clubbing/club-chinois-ibiza/trip/2026-09-30?aff=CT219"
@@ -6263,10 +6263,19 @@
           "id": 162321,
           "date": "2026-10-10",
           "name": "Claptone: The Masquerade - Closing Party",
-          "lineUp": "<p>Claptone</p><p>Franky Wah </p><p> Crusy</p><p>  Andrea Lane B2B Dario Nunez</p>",
+          "lineUp": "<p><br></p>",
           "prices": "25 € - 30 €",
           "lowestAvailablePrice": 25,
           "affLink": "https://www.clubtickets.com/es/clubbing/club-chinois-ibiza/claptone-the-masquerade/2026-10-10?aff=CT219"
+        },
+        {
+          "id": 173936,
+          "date": "2026-10-11",
+          "name": "Claptone: The Masquerade - Closing Party",
+          "lineUp": "<p class=\"tdfocus-1789641098597\">Claptone</p><p class=\"tdfocus-1789641098597\">    Franky Wah</p><p class=\"tdfocus-1789641098597\">    Crusy</p><p class=\"tdfocus-1789641098597\">    Andrea Lane B2B Dario Nunez<br></p>",
+          "prices": "40 € - 45 €",
+          "lowestAvailablePrice": 40,
+          "affLink": "https://www.clubtickets.com/es/clubbing/club-chinois-ibiza/claptone-the-masquerade/2026-10-11?aff=CT219"
         }
       ],
       "description": "Claptone trae The Masquerade de nuevo a Chinois esta temporada 2026<br />\r\n<p class=\"tdfocus-1768386775463\">El enmascarado Claptone regresa con su concepto The Masquerade un verano más a Chinois Ibiza con una residencia de 22 sábados consecutivos desde el16 de mayo al 10 de octubre.</p><p class=\"tdfocus-1768386775463\">En palabras del propio Claptone:\"Ibiza es tierra sagrada para los amantes de la música electrónica y siempre ocupará un lugar especial en mi corazón, ya que es un lugar donde la gente se une para celebrar la vida a través del sonido. Estoy entusiasmado de volver a Chinois para esta segunda temporada en 2026; el espacio posee una energía sin igual y una atmósfera sofisticada que complementa a la perfección la esencia de The Masquerade\".</p><p>Adéntrate en un mundo de misterio y encantamiento en Claptone: The Masquerade. Conocido por su icónica máscara dorada, <b>Claptone</b> ofrece una experiencia inolvidable en la pista de baile, fusionando deep house, tech house y cautivadores beats. Esta fiesta única combina música de clase mundial con visuales hipnotizantes, creando una atmósfera envolvente donde la multitud se convierte en parte de la magia. Con un line-up de DJs de renombre y un aura de intriga, The Masquerade te invita a perderte en la música y dejar que la máscara revele los secretos de la noche. Prepárate para una experiencia inolvidable.</p><br />\r\n<br><br />\r\nLine-up Claptone: The Masquerade en Chinois Ibiza<br />\r\n<p class=\"tdfocus-1741088914759\">Claptone estará acompañado todos los sábados a lo largo de la temporada por una cuidada selección de artistas invitados. Entre los momentos destacados: Deep Dish, Nora En Pure, Faithless, 2ManyDJs, Pete Tong, The Blessed Madonna, Solardo y A-Trak, junto a un completo elenco semanal de artistas que abarca los mejores nombres del house y la música electrónica, desde la apertura hasta el cierre.</p><br><br />\r\nEntradas Claptone: The Masquerade en Chinois Ibiza<br />\r\n<p class=\"tdfocus-1754046639140\">¡Las entradas están ya a la venta desde 30 euros!</p><br><br />\r\n<p><b>Club: </b>Chinois Ibiza</p>",
@@ -8893,15 +8902,6 @@
       },
       "dates": [
         {
-          "id": 164823,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "",
-          "prices": "30 € - 59.99 €",
-          "lowestAvailablePrice": 30,
-          "affLink": "https://www.clubtickets.com/es/boat/the-beach-hopper/beach-hopper-daytime/2026-09-18?aff=CT219"
-        },
-        {
           "id": 164824,
           "date": "2026-09-19",
           "name": "",
@@ -9206,15 +9206,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/27?locale=es"
       },
       "dates": [
-        {
-          "id": 172693,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "7 € - 12 €",
-          "lowestAvailablePrice": 7,
-          "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/cala-salada-boat/2026-09-17?aff=CT219"
-        },
         {
           "id": 172694,
           "date": "2026-09-18",
@@ -10292,15 +10283,6 @@
       },
       "dates": [
         {
-          "id": 166653,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "100 €",
-          "lowestAvailablePrice": 100,
-          "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/brunch-on-the-boat/2026-09-17?aff=CT219"
-        },
-        {
           "id": 166654,
           "date": "2026-09-18",
           "name": "",
@@ -11081,15 +11063,6 @@
       },
       "dates": [
         {
-          "id": 161175,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "25 € - 69 €",
-          "lowestAvailablePrice": 25,
-          "affLink": "https://www.clubtickets.com/es/boat/float-your-boat/beach-cruise-sunset/2026-09-17?aff=CT219"
-        },
-        {
           "id": 161177,
           "date": "2026-09-19",
           "name": "",
@@ -11869,15 +11842,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/75?locale=es"
       },
       "dates": [
-        {
-          "id": 165648,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "<p>Resident DJs</p><p>Live Performances</p>",
-          "prices": "65 € - 95 €",
-          "lowestAvailablePrice": 65,
-          "affLink": "https://www.clubtickets.com/es/boat/pukka-up/pukka-up/2026-09-17?aff=CT219"
-        },
         {
           "id": 165649,
           "date": "2026-09-19",
@@ -12964,15 +12928,6 @@
       },
       "dates": [
         {
-          "id": 163529,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "23 € - 45 €",
-          "lowestAvailablePrice": 23,
-          "affLink": "https://www.clubtickets.com/es/boat/capitan-nemo/excursion-es-vedra/2026-09-17?aff=CT219"
-        },
-        {
           "id": 163531,
           "date": "2026-09-22",
           "name": "",
@@ -13581,15 +13536,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/33?locale=es"
       },
       "dates": [
-        {
-          "id": 161908,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "9 € - 15 €",
-          "lowestAvailablePrice": 9,
-          "affLink": "https://www.clubtickets.com/es/activities/cova-de-can-marca/cova-de-can-marca/2026-09-17?aff=CT219"
-        },
         {
           "id": 161909,
           "date": "2026-09-18",
@@ -14292,15 +14238,6 @@
       },
       "dates": [
         {
-          "id": 164084,
-          "date": "2026-09-19",
-          "name": "",
-          "lineUp": "",
-          "prices": "195 € - 360 €",
-          "lowestAvailablePrice": 195,
-          "affLink": "https://www.clubtickets.com/es/activities/emove-ibiza/buggy-tour/2026-09-19?aff=CT219"
-        },
-        {
           "id": 164085,
           "date": "2026-09-21",
           "name": "",
@@ -14659,15 +14596,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/61?locale=es"
       },
       "dates": [
-        {
-          "id": 163874,
-          "date": "2026-09-19",
-          "name": "",
-          "lineUp": "",
-          "prices": "130 € - 175 €",
-          "lowestAvailablePrice": 130,
-          "affLink": "https://www.clubtickets.com/es/activities/emove-ibiza/quad-tour/2026-09-19?aff=CT219"
-        },
         {
           "id": 163875,
           "date": "2026-09-21",
@@ -16077,15 +16005,6 @@
       },
       "dates": [
         {
-          "id": 162868,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "",
-          "prices": "99 € - 115 €",
-          "lowestAvailablePrice": 99,
-          "affLink": "https://www.clubtickets.com/es/activities/excursiones/jeep-safari-north-tour/2026-09-20?aff=CT219"
-        },
-        {
           "id": 162869,
           "date": "2026-09-21",
           "name": "",
@@ -17098,15 +17017,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/137?locale=es"
       },
       "dates": [
-        {
-          "id": 169097,
-          "date": "2026-09-19",
-          "name": "",
-          "lineUp": "",
-          "prices": "45 € - 80 €",
-          "lowestAvailablePrice": 45,
-          "affLink": "https://www.clubtickets.com/es/boat/salvador/salvador-boat-sunset-trip/2026-09-19?aff=CT219"
-        },
         {
           "id": 169098,
           "date": "2026-09-20",
@@ -18356,15 +18266,6 @@
       },
       "dates": [
         {
-          "id": 168493,
-          "date": "2026-09-19",
-          "name": "",
-          "lineUp": "",
-          "prices": "30 € - 80 €",
-          "lowestAvailablePrice": 30,
-          "affLink": "https://www.clubtickets.com/es/boat/lady-virginia-boat/lady-virginia-boat-trip/2026-09-19?aff=CT219"
-        },
-        {
           "id": 168494,
           "date": "2026-09-20",
           "name": "",
@@ -19199,15 +19100,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/325?locale=es"
       },
       "dates": [
-        {
-          "id": 172065,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "",
-          "prices": "120 € - 299 €",
-          "lowestAvailablePrice": 120,
-          "affLink": "https://www.clubtickets.com/es/activities/blue-coral-ibiza/jetski-tours-with-blue-coral/2026-09-18?aff=CT219"
-        },
         {
           "id": 172066,
           "date": "2026-09-19",
@@ -20061,15 +19953,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/326?locale=es"
       },
       "dates": [
-        {
-          "id": 173356,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "9 € - 34 €",
-          "lowestAvailablePrice": 9,
-          "affLink": "https://www.clubtickets.com/es/formentera-day-trip/santa-eularia-ferry/shuttle-ferry-ibiza-es-canar/2026-09-17?aff=CT219"
-        },
         {
           "id": 173357,
           "date": "2026-09-18",
@@ -24055,82 +23938,6 @@
       "venueId": 127
     },
     {
-      "id": 172693,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "7 € - 12 €",
-      "lowestAvailablePrice": 7,
-      "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/cala-salada-boat/2026-09-17?aff=CT219",
-      "eventName": "San Antonio - Cala Salada ferry boat",
-      "eventSlug": "cala-salada-boat",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/7edaa55a-0787-4a11-9c62-acfd1a97f2ac.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/fa8952f1-2642-45cc-b75d-6aa96ab8ac0f.jpg",
-      "eventId": 351,
-      "venueId": 27
-    },
-    {
-      "id": 166653,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "100 €",
-      "lowestAvailablePrice": 100,
-      "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/brunch-on-the-boat/2026-09-17?aff=CT219",
-      "eventName": "Brunch on the boat",
-      "eventSlug": "brunch-on-the-boat",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/03bd838b-6728-4daa-9a63-9bd4fcb16ce8.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/4b915ffc-a061-4d5b-8fe6-8bef75ba96e1.jpg",
-      "eventId": 1577,
-      "venueId": 27
-    },
-    {
-      "id": 161175,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "25 € - 69 €",
-      "lowestAvailablePrice": 25,
-      "affLink": "https://www.clubtickets.com/es/boat/float-your-boat/beach-cruise-sunset/2026-09-17?aff=CT219",
-      "eventName": "FYB Beach Cruise Sunset",
-      "eventSlug": "beach-cruise-sunset",
-      "venueName": "Float Your Boat",
-      "venueSlug": "float-your-boat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/1b0b64f2-f8d9-4182-a8b3-b1095ff02a4c.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/d2c5b9d9-bf01-45b2-9634-1e0b1888f873.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/1fb2cc37-3696-42b1-bf74-208c733537b9.jpg",
-      "eventId": 857,
-      "venueId": 69
-    },
-    {
-      "id": 165648,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "Resident DJs Live Performances",
-      "prices": "65 € - 95 €",
-      "lowestAvailablePrice": 65,
-      "affLink": "https://www.clubtickets.com/es/boat/pukka-up/pukka-up/2026-09-17?aff=CT219",
-      "eventName": "Pukka Up Boat Party",
-      "eventSlug": "pukka-up",
-      "venueName": "Pukka Up",
-      "venueSlug": "pukka-up",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/946564fc-8588-4e36-865d-0e0cddb3772d.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/cb9710fb-64cc-44e7-a6c5-a839944789af.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/993aa8d6-d005-4014-ae6d-4d29dbb9ee98.png",
-      "eventId": 283,
-      "venueId": 75
-    },
-    {
       "id": 173085,
       "date": "2026-09-17",
       "name": "",
@@ -24169,44 +23976,6 @@
       "venueId": 289
     },
     {
-      "id": 163529,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "23 € - 45 €",
-      "lowestAvailablePrice": 23,
-      "affLink": "https://www.clubtickets.com/es/boat/capitan-nemo/excursion-es-vedra/2026-09-17?aff=CT219",
-      "eventName": "San Antonio to Es Vedrà Boat Trip - Sunset",
-      "eventSlug": "excursion-es-vedra",
-      "venueName": "Capitan Nemo",
-      "venueSlug": "capitan-nemo",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/48eacaee-81ba-4a83-9578-a04af92c87ee.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/70d9fcc3-5832-45a1-b873-57d0c0dda5f1.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/c3cd83e4-7034-44c8-97a0-819c91df09c6.png",
-      "eventId": 527,
-      "venueId": 109
-    },
-    {
-      "id": 161908,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "9 € - 15 €",
-      "lowestAvailablePrice": 9,
-      "affLink": "https://www.clubtickets.com/es/activities/cova-de-can-marca/cova-de-can-marca/2026-09-17?aff=CT219",
-      "eventName": "Can Marçà Cave Tour",
-      "eventSlug": "cova-de-can-marca",
-      "venueName": "Cova de Can Marça",
-      "venueSlug": "cova-de-can-marca",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/bb53d716-08ef-44ed-8dcb-4b0a12e1a32e.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/d50c7416-bda1-4f1f-83c4-5049c9752b37.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/bff01adc-3ab5-4d0a-b680-74b49d806d9b.png",
-      "eventId": 155,
-      "venueId": 33
-    },
-    {
       "id": 164543,
       "date": "2026-09-17",
       "name": "",
@@ -24224,25 +23993,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/9acfdef0-6f33-4787-bfe3-81c43c5ecfa9.png",
       "eventId": 2094,
       "venueId": 61
-    },
-    {
-      "id": 173356,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "9 € - 34 €",
-      "lowestAvailablePrice": 9,
-      "affLink": "https://www.clubtickets.com/es/formentera-day-trip/santa-eularia-ferry/shuttle-ferry-ibiza-es-canar/2026-09-17?aff=CT219",
-      "eventName": "Shuttle Ferry Ibiza - Santa Eularia - Es Canar",
-      "eventSlug": "shuttle-ferry-ibiza-es-canar",
-      "venueName": "Santa Eularia Ferry",
-      "venueSlug": "santa-eularia-ferry",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/acd422f8-d406-4272-80e5-c6a63bc75908.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/2808f99d-982e-4653-9a7d-53575c8d115e.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/0eeb52e4-d3f4-4090-9ca6-adb1119b7419.jpg",
-      "eventId": 2022,
-      "venueId": 326
     },
     {
       "id": 170208,
@@ -24530,25 +24280,6 @@
       "venueId": 304
     },
     {
-      "id": 164823,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "",
-      "prices": "30 € - 59.99 €",
-      "lowestAvailablePrice": 30,
-      "affLink": "https://www.clubtickets.com/es/boat/the-beach-hopper/beach-hopper-daytime/2026-09-18?aff=CT219",
-      "eventName": "The Beach Hopper Daytime",
-      "eventSlug": "beach-hopper-daytime",
-      "venueName": "The Beach Hopper",
-      "venueSlug": "the-beach-hopper",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/8afbbb03-026b-4125-bbf2-a1b54da7465e.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/6f67d0e3-d578-4ce9-80cf-fc82d0e883af.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/85d0660d-b33a-44b3-b521-b58d83a2ed9c.png",
-      "eventId": 1709,
-      "venueId": 338
-    },
-    {
       "id": 172694,
       "date": "2026-09-18",
       "name": "",
@@ -24796,25 +24527,6 @@
       "venueId": 43
     },
     {
-      "id": 172065,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "",
-      "prices": "120 € - 299 €",
-      "lowestAvailablePrice": 120,
-      "affLink": "https://www.clubtickets.com/es/activities/blue-coral-ibiza/jetski-tours-with-blue-coral/2026-09-18?aff=CT219",
-      "eventName": "Jet Ski Tours with Blue Coral",
-      "eventSlug": "jetski-tours-with-blue-coral",
-      "venueName": "Blue Coral Ibiza - Jetski",
-      "venueSlug": "blue-coral-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/4d0bcd10-7f62-4198-9a15-b9af51df50af.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/bec0fa0f-b74a-49b9-9667-89cb69eff686.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/35661a56-d8ca-48b7-b034-06334c8c69c8.png",
-      "eventId": 2012,
-      "venueId": 325
-    },
-    {
       "id": 168308,
       "date": "2026-09-18",
       "name": "",
@@ -24971,8 +24683,8 @@
       "date": "2026-09-19",
       "name": "",
       "lineUp": "THEATRE Black Coffee Anotr Laolu CLUB ROOM - Más Tiempo East End Dubs Locklead Delilah Djammin B2B Ossie",
-      "prices": "125 € - 1000 €",
-      "lowestAvailablePrice": 125,
+      "prices": "65 € - 1000 €",
+      "lowestAvailablePrice": 65,
       "affLink": "https://www.clubtickets.com/es/clubbing/hi-ibiza/black-coffee/2026-09-19?aff=CT219",
       "eventName": "Black Coffee",
       "eventSlug": "black-coffee",
@@ -25537,44 +25249,6 @@
       "venueId": 33
     },
     {
-      "id": 164084,
-      "date": "2026-09-19",
-      "name": "",
-      "lineUp": "",
-      "prices": "195 € - 360 €",
-      "lowestAvailablePrice": 195,
-      "affLink": "https://www.clubtickets.com/es/activities/emove-ibiza/buggy-tour/2026-09-19?aff=CT219",
-      "eventName": "Big Buggy Tour",
-      "eventSlug": "buggy-tour",
-      "venueName": "Emove Ibiza",
-      "venueSlug": "emove-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/9c0d4515-7211-455f-aeeb-093fb5dbfb45.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/021ad7c1-8692-4b65-b372-e6d4a06386f9.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/efae8fc9-e4aa-42c6-b820-59fd753560d9.png",
-      "eventId": 223,
-      "venueId": 61
-    },
-    {
-      "id": 163874,
-      "date": "2026-09-19",
-      "name": "",
-      "lineUp": "",
-      "prices": "130 € - 175 €",
-      "lowestAvailablePrice": 130,
-      "affLink": "https://www.clubtickets.com/es/activities/emove-ibiza/quad-tour/2026-09-19?aff=CT219",
-      "eventName": "Quad Tour",
-      "eventSlug": "quad-tour",
-      "venueName": "Emove Ibiza",
-      "venueSlug": "emove-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/9c0d4515-7211-455f-aeeb-093fb5dbfb45.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/8de5c380-00f5-4f22-8b83-9d30a93466a4.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d371750b-ba92-486d-b98d-08f93d0f7cd1.png",
-      "eventId": 221,
-      "venueId": 61
-    },
-    {
       "id": 164294,
       "date": "2026-09-19",
       "name": "",
@@ -25651,25 +25325,6 @@
       "venueId": 43
     },
     {
-      "id": 169097,
-      "date": "2026-09-19",
-      "name": "",
-      "lineUp": "",
-      "prices": "45 € - 80 €",
-      "lowestAvailablePrice": 45,
-      "affLink": "https://www.clubtickets.com/es/boat/salvador/salvador-boat-sunset-trip/2026-09-19?aff=CT219",
-      "eventName": "Salvador Sunset Trip",
-      "eventSlug": "salvador-boat-sunset-trip",
-      "venueName": "Salvador",
-      "venueSlug": "salvador",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/4842ed0e-0c11-4ee2-8ba6-b12541789a6f.webp",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/b165c6ff-ca98-43e1-86fb-d41950a3c914.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/99a8e1da-74eb-4bd2-b17d-4da0b4a31a82.png",
-      "eventId": 1347,
-      "venueId": 137
-    },
-    {
       "id": 167392,
       "date": "2026-09-19",
       "name": "",
@@ -25687,25 +25342,6 @@
       "eventLogo": "https://admin.clubtickets.com/images/event/62517ee3b9c83308172689.jpeg",
       "eventId": 1509,
       "venueId": 31
-    },
-    {
-      "id": 168493,
-      "date": "2026-09-19",
-      "name": "",
-      "lineUp": "",
-      "prices": "30 € - 80 €",
-      "lowestAvailablePrice": 30,
-      "affLink": "https://www.clubtickets.com/es/boat/lady-virginia-boat/lady-virginia-boat-trip/2026-09-19?aff=CT219",
-      "eventName": "Lady Virginia Boat Trip",
-      "eventSlug": "lady-virginia-boat-trip",
-      "venueName": "Lady Virginia Boat",
-      "venueSlug": "lady-virginia-boat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/b9e3521a-bdb4-43a4-b2aa-192aa6905a5e.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/fd3e112d-b0f7-44e7-9ea6-bf0f5e72552c.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d3053fa2-825a-400a-adbf-03777b03ea21.png",
-      "eventId": 2058,
-      "venueId": 330
     },
     {
       "id": 168704,
@@ -26465,25 +26101,6 @@
       "eventCover": "https://media.clubtickets.com/migrated/event/dc14331e-4794-4e68-ac44-1b06649ff996.jpg",
       "eventLogo": "https://media.clubtickets.com/migrated/event/d2e7e634-c16e-44ff-987b-759a7df2f5c0.jpg",
       "eventId": 1365,
-      "venueId": 55
-    },
-    {
-      "id": 162868,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "",
-      "prices": "99 € - 115 €",
-      "lowestAvailablePrice": 99,
-      "affLink": "https://www.clubtickets.com/es/activities/excursiones/jeep-safari-north-tour/2026-09-20?aff=CT219",
-      "eventName": "Jeep Safari North Tour",
-      "eventSlug": "jeep-safari-north-tour",
-      "venueName": "Excursiones Al Sabini",
-      "venueSlug": "excursiones",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/b98392d7-323d-483e-aed6-a3f3f20832e5.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/702e3022-8060-4eaa-8610-8136d98be9d4.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/9020a225-7649-4f6b-88b6-4da9d7e5d105.jpg",
-      "eventId": 1457,
       "venueId": 55
     },
     {
@@ -35173,7 +34790,7 @@
       "id": 173922,
       "date": "2026-09-30",
       "name": "",
-      "lineUp": "",
+      "lineUp": "Traumer Margaret Dygas Maher Daniel Mau BB",
       "prices": "30 € - 35 €",
       "lowestAvailablePrice": 30,
       "affLink": "https://www.clubtickets.com/es/clubbing/club-chinois-ibiza/trip/2026-09-30?aff=CT219",
@@ -36960,8 +36577,8 @@
       "date": "2026-10-02",
       "name": "",
       "lineUp": "Calvin Harris MK LF System Siân Owen",
-      "prices": "175 € - 600 €",
-      "lowestAvailablePrice": 175,
+      "prices": "185 € - 600 €",
+      "lowestAvailablePrice": 185,
       "affLink": "https://www.clubtickets.com/es/clubbing/ushuaia-ibiza/calvin-harris/2026-10-02?aff=CT219",
       "eventName": "Calvin Harris",
       "eventSlug": "calvin-harris",
@@ -37910,8 +37527,8 @@
       "date": "2026-10-03",
       "name": "",
       "lineUp": "Franky Rizardo Nic Fanciulli B2B Sosa Bontan B2B Rafael Ranger Trucco B2B Robbie Doherty Meeshy Raul Rodriguez",
-      "prices": "55 € - 320 €",
-      "lowestAvailablePrice": 55,
+      "prices": "65 € - 320 €",
+      "lowestAvailablePrice": 65,
       "affLink": "https://www.clubtickets.com/es/clubbing/ushuaia-ibiza/ants/2026-10-03?aff=CT219",
       "eventName": "ANTS",
       "eventSlug": "ants",
@@ -43514,7 +43131,7 @@
       "id": 162321,
       "date": "2026-10-10",
       "name": "Claptone: The Masquerade - Closing Party",
-      "lineUp": "Claptone Franky Wah Crusy Andrea Lane B2B Dario Nunez",
+      "lineUp": "",
       "prices": "25 € - 30 €",
       "lowestAvailablePrice": 25,
       "affLink": "https://www.clubtickets.com/es/clubbing/club-chinois-ibiza/claptone-the-masquerade/2026-10-10?aff=CT219",
@@ -44250,6 +43867,25 @@
       "eventLogo": "https://media.clubtickets.com/event/6a9820c142160.png",
       "eventId": 359,
       "venueId": 19
+    },
+    {
+      "id": 173936,
+      "date": "2026-10-11",
+      "name": "Claptone: The Masquerade - Closing Party",
+      "lineUp": "Claptone Franky Wah Crusy Andrea Lane B2B Dario Nunez",
+      "prices": "40 € - 45 €",
+      "lowestAvailablePrice": 40,
+      "affLink": "https://www.clubtickets.com/es/clubbing/club-chinois-ibiza/claptone-the-masquerade/2026-10-11?aff=CT219",
+      "eventName": "Claptone: The Masquerade",
+      "eventSlug": "claptone-the-masquerade",
+      "venueName": "Chinois Ibiza",
+      "venueSlug": "club-chinois-ibiza",
+      "venueCover": "https://media.clubtickets.com/migrated/venue/fe051ad4-d5b2-49ba-afff-ba2b3b347096.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/4ba10e8f-b7af-4e4f-b4d8-80235cb63324.png",
+      "eventCover": "https://media.clubtickets.com/migrated/event/9cbc2ea2-5cec-4af1-9438-c364a3cdc278.jpg",
+      "eventLogo": "https://media.clubtickets.com/migrated/event/c5e22afd-acbe-4406-a8d2-6374aab3e5b1.jpg",
+      "eventId": 1933,
+      "venueId": 273
     },
     {
       "id": 164846,
@@ -57987,5 +57623,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-09-17T10:01:52.953Z"
+  "lastUpdated": "2026-09-17T15:33:29.747Z"
 }
