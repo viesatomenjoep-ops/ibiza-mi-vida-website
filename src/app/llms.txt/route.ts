@@ -57,6 +57,7 @@ Last updated: ${new Date().toISOString().split('T')[0]} (regenerated daily from 
 - [Artists](${SITE_URL}/en/artists): which DJs and residencies play where, with dates.
 - [Who is playing this week](${SITE_URL}/en/this-week): the next seven nights as plain text — DJ, venue, line-up and price per night, rebuilt hourly.
 - [Private boat charters](${SITE_URL}/en/private-boat-charters): yachts and motorboats, with or without captain, from marinas around Ibiza.
+- Every boat in that fleet has its own page at ${SITE_URL}/en/private-boat-charters/<slug>, with capacity, marina, day rates per season and today's availability.
 - [Boat parties](${SITE_URL}/en/boat-party) and [boat trips](${SITE_URL}/en/boat-trip): organised day and sunset trips.
 - [Formentera ferry](${SITE_URL}/en/ferry-formentera): day trips and crossings to Formentera.
 - [Activities](${SITE_URL}/en/activities), [tours](${SITE_URL}/en/tours) and [water sports](${SITE_URL}/en/water-sports): buggies, jet skis, excursions and island experiences.

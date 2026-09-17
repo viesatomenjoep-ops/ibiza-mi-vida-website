@@ -1,7 +1,7 @@
 'use client';
 
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -16,13 +16,14 @@ import { FavouriteButton } from '@/components/boats/FavouriteButton';
 import { FleetFilterBar, type SortKey } from '@/components/boats/FleetFilterBar';
 import { getFavourites, onFavouritesChange, toggleFavourite } from '@/lib/boat-favourites';
 import { FleetSteps, PAX_STEPS, BUDGET_STEPS } from '@/components/boats/FleetSteps';
+import { scrollSectionIntoView } from '@/lib/scroll-to-section';
 
 /**
- * Hoeveel kaarten je in één keer te zien krijgt, en in welke volgorde de
- * categorieën aan de beurt zijn bij het samenstellen van die selectie.
- * Op moduleniveau zodat ze niet per render opnieuw ontstaan.
+ * Hoeveel kaarten er per pagina staan, en in welke volgorde de categorieën aan
+ * de beurt zijn bij het samenstellen van de eerste pagina. Op moduleniveau
+ * zodat ze niet per render opnieuw ontstaan.
  */
-const SHORTLIST = 12;
+const PAGE_SIZE = 20;
 const CAT_ORDER: FleetCategory[] = ['yacht', 'motorboat', 'catamaran', 'jetski', 'boat'];
 
 /** WhatsApp business number (digits only). */
@@ -105,9 +106,13 @@ interface FleetLabels {
   noResults: string;
   enlarge: string;
   boatsCount: (n: number) => string;
-  /** Knop onder de selectie: "Toon alle 94 boten". */
-  showAll: (n: number) => string;
-  showAllNote: string;
+  /* Pager onder de vloot. */
+  pagePrev: string;
+  pageNext: string;
+  /** "21–40 van 94 boten" */
+  pageShowing: (from: number, to: number, total: number) => string;
+  /** Voorleeslabel op een paginaknop. */
+  pageGoto: (n: number) => string;
 }
 
 const FLEET_I18N: Record<string, FleetLabels> = {
@@ -141,8 +146,10 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'No yachts match your search.',
     enlarge: 'Enlarge photo',
     boatsCount: (n) => `${n} ${n === 1 ? 'yacht' : 'yachts'}`,
-    showAll: (n) => `Show all ${n} boats`,
-    showAllNote: 'The first twelve span the fleet — every type, cheapest first. The rest are already on this page.',
+    pagePrev: 'Previous',
+    pageNext: 'Next',
+    pageShowing: (f, t, n) => `Showing ${f}–${t} of ${n} boats`,
+    pageGoto: (n) => `Go to page ${n}`,
   },
   nl: {
     title: 'Private Boot Charters Ibiza',
@@ -174,8 +181,10 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'Geen jachten gevonden voor je zoekopdracht.',
     enlarge: 'Foto vergroten',
     boatsCount: (n) => `${n} ${n === 1 ? 'jacht' : 'jachten'}`,
-    showAll: (n) => `Toon alle ${n} boten`,
-    showAllNote: 'De eerste twaalf spannen de vloot op — elke soort, goedkoopste eerst. De rest staat al op deze pagina.',
+    pagePrev: 'Vorige',
+    pageNext: 'Volgende',
+    pageShowing: (f, t, n) => `Boot ${f}–${t} van ${n}`,
+    pageGoto: (n) => `Ga naar pagina ${n}`,
   },
   de: {
     title: 'Private Bootscharter Ibiza',
@@ -207,8 +216,10 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'Keine Yachten für Ihre Suche gefunden.',
     enlarge: 'Foto vergrößern',
     boatsCount: (n) => `${n} ${n === 1 ? 'Yacht' : 'Yachten'}`,
-    showAll: (n) => `Alle ${n} Boote zeigen`,
-    showAllNote: 'Die ersten zwölf decken die ganze Flotte ab — jede Art, günstigste zuerst. Der Rest steht bereits auf dieser Seite.',
+    pagePrev: 'Zurück',
+    pageNext: 'Weiter',
+    pageShowing: (f, t, n) => `Boot ${f}–${t} von ${n}`,
+    pageGoto: (n) => `Zu Seite ${n}`,
   },
   es: {
     title: 'Chárter de Barcos Privados en Ibiza',
@@ -240,8 +251,10 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'Ningún yate coincide con tu búsqueda.',
     enlarge: 'Ampliar foto',
     boatsCount: (n) => `${n} ${n === 1 ? 'yate' : 'yates'}`,
-    showAll: (n) => `Ver los ${n} barcos`,
-    showAllNote: 'Los primeros doce abarcan toda la flota — cada tipo, del más barato al más caro. El resto ya está en esta página.',
+    pagePrev: 'Anterior',
+    pageNext: 'Siguiente',
+    pageShowing: (f, t, n) => `Barcos ${f}–${t} de ${n}`,
+    pageGoto: (n) => `Ir a la página ${n}`,
   },
   fr: {
     title: 'Location de Bateaux Privés à Ibiza',
@@ -273,8 +286,10 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'Aucun yacht ne correspond à votre recherche.',
     enlarge: 'Agrandir la photo',
     boatsCount: (n) => `${n} ${n === 1 ? 'yacht' : 'yachts'}`,
-    showAll: (n) => `Voir les ${n} bateaux`,
-    showAllNote: 'Les douze premiers couvrent toute la flotte — chaque type, du moins cher au plus cher. Le reste est déjà sur cette page.',
+    pagePrev: 'Précédent',
+    pageNext: 'Suivant',
+    pageShowing: (f, t, n) => `Bateaux ${f}–${t} sur ${n}`,
+    pageGoto: (n) => `Aller à la page ${n}`,
   },
 };
 
@@ -400,8 +415,14 @@ function BoatCard({ boat, T, locale, live, date, season, hidden = false }: {
         <div className="mb-0.5 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-black/60">
           <MapPin size={11} className="text-ibiza-green" /> {boat.marina}
         </div>
+        {/* De naam is de link naar de bootpagina. De foto blijft het dossier
+            openen (dat was hij altijd al), maar zonder deze link had de vloot
+            geen enkele interne verwijzing naar de 94 detailpagina's — ze
+            zouden dan alleen via de sitemap te vinden zijn. */}
         <h3 className="font-serif text-base font-bold leading-tight text-black">
-          {boat.model}{boat.name && <span className="text-ibiza-green"> {boat.name}</span>}
+          <Link href={`/${locale}/private-boat-charters/${boat.slug}`} className="hover:text-ibiza-green">
+            {boat.model}{boat.name && <span className="text-ibiza-green"> {boat.name}</span>}
+          </Link>
         </h3>
 
         {/* Live beschikbaarheid voor de gekozen datum — alleen wanneer de
@@ -457,6 +478,74 @@ function BoatCard({ boat, T, locale, live, date, season, hidden = false }: {
         </a>
       </div>
     </article>
+  );
+}
+
+/**
+ * Pager onder de vloot.
+ *
+ * Nummers in plaats van alleen vorige/volgende: met vijf pagina's wil iemand
+ * die de goedkope boten zoekt in één klik naar achteren kunnen, niet vier keer
+ * "volgende". Bij meer dan zeven pagina's schuift het venster mee en vallen de
+ * tussenliggende nummers weg als "…" — de eerste en de laatste blijven altijd
+ * staan, want dat zijn de twee uitersten die je in één klik wilt bereiken.
+ */
+function Pager({ T, page, pageCount, from, to, total, onGo }: {
+  T: FleetLabels; page: number; pageCount: number;
+  from: number; to: number; total: number;
+  onGo: (n: number) => void;
+}) {
+  // Passen alle nummers, laat ze dan allemaal staan. Met de hele vloot zijn er
+  // vijf pagina's; die inkorten tot "1 2 … 5" verstopt pagina 3 achter een
+  // beletselteken terwijl er ruimte zat is.
+  const VENSTER_VANAF = 7;
+  const nummers: (number | 'gap')[] = [];
+  for (let n = 1; n <= pageCount; n++) {
+    const houden = pageCount <= VENSTER_VANAF || n === 1 || n === pageCount || Math.abs(n - page) <= 1;
+    if (houden) nummers.push(n);
+    else if (nummers[nummers.length - 1] !== 'gap') nummers.push('gap');
+  }
+  const knop = 'grid h-10 min-w-10 place-items-center rounded-full px-3 text-sm font-bold transition-colors';
+  return (
+    <nav className="mt-8 flex flex-col items-center gap-3" aria-label={T.boatsCount(total)}>
+      <div className="flex flex-wrap items-center justify-center gap-1.5">
+        <button
+          type="button"
+          onClick={() => onGo(page - 1)}
+          disabled={page <= 1}
+          className={`${knop} border border-black/15 bg-white text-black hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:bg-white disabled:hover:text-black`}
+        >
+          {T.pagePrev}
+        </button>
+        {nummers.map((n, i) =>
+          n === 'gap' ? (
+            <span key={`gap-${i}`} aria-hidden className="px-1 text-sm text-black/40">…</span>
+          ) : (
+            <button
+              key={n}
+              type="button"
+              onClick={() => onGo(n)}
+              aria-label={T.pageGoto(n)}
+              aria-current={n === page ? 'page' : undefined}
+              className={`${knop} ${n === page
+                ? 'bg-black text-white'
+                : 'border border-black/15 bg-white text-black hover:bg-black hover:text-white'}`}
+            >
+              {n}
+            </button>
+          ),
+        )}
+        <button
+          type="button"
+          onClick={() => onGo(page + 1)}
+          disabled={page >= pageCount}
+          className={`${knop} border border-black/15 bg-white text-black hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:bg-white disabled:hover:text-black`}
+        >
+          {T.pageNext}
+        </button>
+      </div>
+      <p className="text-sm text-black/55">{T.pageShowing(from, to, total)}</p>
+    </nav>
   );
 }
 
@@ -521,16 +610,14 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
   // smooth: die animatie zou met de volgende controle wedijveren), stopt na
   // twee opeenvolgende goede metingen — wie zelf scrolt wordt hooguit even
   // gecorrigeerd, daarna nooit meer.
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const id = window.location.hash.slice(1);
-    if (!id) return;
+  const scrollNaarAnker = useCallback((id: string) => {
+    if (typeof window === 'undefined' || !id) return () => {};
     let goed = 0;
     let beurten = 0;
     const iv = setInterval(() => {
       beurten++;
       const el = document.getElementById(id);
-      if (el) {
+      if (el && !el.hasAttribute('hidden')) {
         const top = el.getBoundingClientRect().top;
         const inBeeld = top >= -60 && top <= Math.max(200, window.innerHeight * 0.4);
         if (inBeeld) goed++;
@@ -540,6 +627,7 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
     }, 400);
     return () => clearInterval(iv);
   }, []);
+  useEffect(() => scrollNaarAnker(window.location.hash.slice(1)), [scrollNaarAnker]);
   const isPriceActive = maxPrice < PRICE_MAX;
   const pricePct = ((maxPrice - PRICE_MIN) / (PRICE_MAX - PRICE_MIN)) * 100;
 
@@ -599,7 +687,7 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
   //
   // De keuze hieronder is een ronde langs de categorieën in plaats van een
   // kop van de lijst: eerst de goedkoopste jachten, motorboot, catamaran en
-  // jetski, dan de tweede van elk, enzovoort. Zo spant de eerste rij de hele
+  // jetski, dan de tweede van elk, enzovoort. Zo spant de eerste pagina de hele
   // vloot op — prijs én soort — in plaats van één hoek ervan. Boten die op de
   // gekozen datum vrij zijn gaan voor; er valt niets te kiezen aan een boot
   // die bezet is.
@@ -608,7 +696,7 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
   // Date.now, anders rendert React de hele pagina na hydration opnieuw (zie
   // CLAUDE.md). De rest van de vloot blijft gewoon in de HTML staan — een
   // crawler zonder JavaScript hoort alle 94 te zien — maar staat op `hidden`
-  // tot je de knop gebruikt.
+  // tot je die pagina opent.
   const shortlistSlugs = useMemo(() => {
     const vrij = (b: Boat) => {
       if (!live || !date || !dateInRange) return true;
@@ -632,14 +720,14 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
         a.slug.localeCompare(b.slug));
     }
     const keuze: string[] = [];
-    for (let ronde = 0; keuze.length < SHORTLIST; ronde++) {
+    for (let ronde = 0; keuze.length < PAGE_SIZE; ronde++) {
       let gepakt = false;
       for (const cat of CAT_ORDER) {
         const b = perCat.get(cat)?.[ronde];
         if (!b) continue;
         keuze.push(b.slug);
         gepakt = true;
-        if (keuze.length >= SHORTLIST) break;
+        if (keuze.length >= PAGE_SIZE) break;
       }
       if (!gepakt) break;
     }
@@ -648,19 +736,76 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
 
   // Eerst de selectie, dan de rest — in de DOM staan ze allebei.
   const geordend = useMemo(() => {
-    if (filtered.length <= SHORTLIST) return filtered;
+    if (filtered.length <= PAGE_SIZE) return filtered;
     return [
       ...filtered.filter(b => shortlistSlugs.has(b.slug)),
       ...filtered.filter(b => !shortlistSlugs.has(b.slug)),
     ];
   }, [filtered, shortlistSlugs]);
 
-  const [showAll, setShowAll] = useState(false);
-  const verborgen = showAll ? 0 : Math.max(0, geordend.length - SHORTLIST);
-  // Een nieuwe filterkeuze is een nieuwe vraag, dus weer een selectie in
-  // plaats van de hele lijst die van de vorige vraag nog openstond.
+  // ── Paginering ────────────────────────────────────────────────────────────
+  //
+  // Hier stond één knop "toon alle 94": daarna stonden alle kaarten tegelijk in
+  // beeld, en dat was precies de muur die de selectie moest voorkomen. Twintig
+  // per pagina houdt de lijst overzichtelijk én scheelt werk in de browser —
+  // een kaart buiten de huidige pagina krijgt `hidden`, dus de browser lay-out
+  // hem niet en zijn foto (loading="lazy") wordt niet opgehaald.
+  //
+  // Wat NIET verandert: alle boten staan in de HTML. Een crawler zonder
+  // JavaScript hoort de hele vloot te zien; welke pagina open staat is een
+  // weergavekeuze, geen inhoudelijke. Kaarten uit de lijst weglaten zou dat
+  // breken.
+  const [page, setPage] = useState(1);
+  const pageCount = Math.max(1, Math.ceil(geordend.length / PAGE_SIZE));
+  // Een filter dat de lijst korter maakt kan de huidige pagina wegnemen; dan
+  // stond er een lege grid met een pager die naar niets wees.
+  const huidigePagina = Math.min(page, pageCount);
+  const pageStart = (huidigePagina - 1) * PAGE_SIZE;
+  const pageEnd = Math.min(pageStart + PAGE_SIZE, geordend.length);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+
+  // Een nieuwe filterkeuze is een nieuwe vraag, dus terug naar pagina 1 in
+  // plaats van pagina 4 van de vorige vraag.
   const filterSig = `${category}|${marina}|${minPax}|${minPrice}|${maxPrice}|${search}|${onlyAvailable}|${sort}`;
-  useEffect(() => { setShowAll(false); }, [filterSig]);
+  useEffect(() => { setPage(1); }, [filterSig]);
+
+  // Een oude deeplink (#boat-<slug>) kan naar een boot wijzen die nu op
+  // pagina 3 staat. Zonder deze stap opent de pagina op 1, staat die kaart op
+  // `hidden` en scrollt de browser naar niets. Eén keer bij binnenkomst: wie
+  // daarna zelf bladert moet niet teruggesleept worden.
+  const hashRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const naarHash = () => {
+      const h = window.location.hash;
+      // Dezelfde hash niet twee keer: dit effect draait ook opnieuw wanneer
+      // `geordend` verandert (een filter, de live laag die binnenkomt), en dan
+      // hoort de bezoeker niet terug te springen naar de boot uit de link.
+      if (!h.startsWith('#boat-') || h === hashRef.current) return;
+      const i = geordend.findIndex(b => b.slug === h.slice('#boat-'.length));
+      if (i < 0) return;
+      hashRef.current = h;
+      setPage(Math.floor(i / PAGE_SIZE) + 1);
+      // De browser scrollt zelf bij een hashwissel, maar de kaart stond op dat
+      // moment nog op `hidden` — dus die scroll landde op niets. Opnieuw, zodra
+      // de juiste pagina open staat.
+      scrollNaarAnker(h.slice(1));
+    };
+    naarHash();
+    // Een link naar #boat-… op de pagina zelf is géén nieuwe navigatie: React
+    // blijft staan en er draait geen mount-effect. Zonder deze luisteraar bleef
+    // je op pagina 1 kijken naar een kaart die op pagina 5 staat.
+    window.addEventListener('hashchange', naarHash);
+    return () => window.removeEventListener('hashchange', naarHash);
+  }, [geordend, scrollNaarAnker]);
+
+  // Bladeren zet je bovenaan de vloot neer; anders sta je na een klik op "2"
+  // nog steeds onderaan te kijken naar kaarten die net vervangen zijn.
+  // scrollSectionIntoView rekent de vaste kop mee — nooit een vast getal.
+  const gaNaarPagina = useCallback((n: number) => {
+    setPage(n);
+    scrollSectionIntoView(gridRef.current);
+  }, []);
 
   // Actieve filters tellen voor de wis-knop. `date` telt niet mee: die staat
   // altijd op vandaag en is geen filter tot je "alleen beschikbaar" aanzet.
@@ -792,7 +937,7 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
       <section className="mx-auto max-w-7xl px-4 pb-10 pt-6">
         {filtered.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div ref={gridRef} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {geordend.map((boat, i) => (
                 <BoatCard
                   key={boat.slug}
@@ -806,21 +951,20 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
                      hele vloot hoort in de HTML te staan, ook voor een crawler
                      die geen JavaScript draait. Wat hier gebeurt is een
                      weergavekeuze, geen inhoudelijke. */
-                  hidden={!showAll && i >= SHORTLIST}
+                  hidden={i < pageStart || i >= pageEnd}
                 />
               ))}
             </div>
-            {verborgen > 0 && (
-              <div className="mt-8 text-center">
-                <button
-                  type="button"
-                  onClick={() => setShowAll(true)}
-                  className="inline-flex items-center gap-2 rounded-full border-2 border-black bg-white px-8 py-4 text-sm font-bold text-black transition-colors hover:bg-black hover:text-white"
-                >
-                  {T.showAll(geordend.length)}
-                </button>
-                <p className="mx-auto mt-3 max-w-md text-sm text-black/55">{T.showAllNote}</p>
-              </div>
+            {pageCount > 1 && (
+              <Pager
+                T={T}
+                page={huidigePagina}
+                pageCount={pageCount}
+                from={pageStart + 1}
+                to={pageEnd}
+                total={geordend.length}
+                onGo={gaNaarPagina}
+              />
             )}
           </>
         ) : (

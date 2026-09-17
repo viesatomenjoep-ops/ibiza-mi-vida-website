@@ -4,6 +4,7 @@ import { getVenues, getAllEvents, getArtists, getDataLastUpdated, getArtistsWith
 import { eventBasePath } from '@/lib/event-path'
 import { publishableMonths } from '@/lib/month-pages'
 import { locations } from '@/lib/locations'
+import { FLEET } from '@/data/fleet'
 import { ROUTE_SLUGS, localesFor, type RouteKey } from '@/lib/route-slugs'
 
 export const revalidate = 86400 // rebuild the sitemap at most once a day
@@ -200,6 +201,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // so ask the same helper the route uses rather than listing all twelve.
     for (const loc of locations) {
       if (loc.slug) routes.push(...entriesFor(`/locations/${loc.slug}`, 0.5, 'monthly'))
+    }
+    // De 94 bootpagina's. Slugs zijn taalonafhankelijk en de vloot staat in de
+    // repo, dus dit hangt niet aan de partner-API — valt die weg, dan staan de
+    // pagina's er nog steeds (met de statische prijsbanden). Weekly: de
+    // beschikbaarheid beweegt dagelijks, maar de pagina-inhoud zelf (specs,
+    // banden, dossier) verandert pas bij een vlootwissel.
+    for (const b of FLEET) {
+      routes.push(...entriesFor(`/private-boat-charters/${b.slug}`, 0.6, 'weekly'))
     }
     for (const m of await publishableMonths(DEFAULT_LOCALE)) {
       routes.push(...entriesFor(`/ibiza-in/${m}`, 0.7, 'daily', dataDate))
