@@ -137,7 +137,11 @@ export default async function Page() {
   // structured-data-richtlijnen verbieden. De laatste kruimel is de huidige
   // pagina en draagt daarom geen pad.
   const crumbs: Crumb[] = [
-    { name: 'Home', path: `/${LOCALE}` },
+    // path: '' en niet `/${LOCALE}` — Breadcrumbs én SchemaMarkup plakken de
+    // taalcode er zelf voor, dus dit maakte `/en/en`, en dat is een 404. Zowel
+    // in het zichtbare kruimelpad als in de BreadcrumbList, en Google gooit een
+    // pad weg waarvan het `item` niet bestaat.
+    { name: 'Home', path: '' },
     { name: 'VIP transfers' },
   ]
 
