@@ -160,9 +160,9 @@ export default function ClubsClient({ venues, translations, locale }: ClubsClien
                   </span>
 
                   {/* Title */}
-                  <h3 className="font-serif text-3xl font-bold leading-tight text-white group-hover:text-ibiza-green transition-colors duration-300">
+                  <h2 className="font-serif text-3xl font-bold leading-tight text-white group-hover:text-ibiza-green transition-colors duration-300">
                     {venue.name}
-                  </h3>
+                  </h2>
 
                   {/* Description snippet if exists */}
                   {venue.description && (

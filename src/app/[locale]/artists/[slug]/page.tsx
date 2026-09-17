@@ -426,7 +426,7 @@ export default async function ArtistPage({ params }: Props) {
                     <div className="text-black text-xs font-bold tracking-wider uppercase mb-1" suppressHydrationWarning>
                       {format(parseLocalDate(date.date), 'EEE d MMM', { locale: localeObj })}
                     </div>
-                    <h3 className="text-lg md:text-xl font-bold truncate text-black mb-1">{date.eventName || date.name}</h3>
+                    <h2 className="text-lg md:text-xl font-bold truncate text-black mb-1">{date.eventName || date.name}</h2>
                     <div className="text-sm font-bold text-neutral-800 flex items-center gap-1">
                       <MapPin size={14} className="text-neutral-500" /> {date.venueName}
                       {date.vanafPrijs ? (
