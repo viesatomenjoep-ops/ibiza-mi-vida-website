@@ -14,11 +14,12 @@
  *   4. every <img> has a non-empty alt (or an explicit alt="" if decorative,
  *      which is valid and is treated as intentional)
  *   5. no heading level is skipped (h1 → h3 with no h2)
+ *   6. no internal link doubles the locale prefix (/en/en/…)
  *
  * Usage: npm run check:onpage   [CHECK_ROUTES=… CHECK_BASE_URL=…]
  */
 
-import { Report, get, onBase, mapLimit, routesToCheck, tagText, metaContent, allTagText, c } from './seo-check/lib.mjs'
+import { Report, get, onBase, mapLimit, routesToCheck, tagText, metaContent, allTagText, LOCALES, c } from './seo-check/lib.mjs'
 
 const report = new Report('onpage')
 
@@ -105,6 +106,24 @@ async function main() {
         break
       }
       previous = level
+    }
+
+    // 6. dubbele taalprefix in een interne link
+    //
+    // `/en/en/car-rental-ibiza` is een 404, en staat hij in een BreadcrumbList
+    // dan gooit Google het hele kruimelpad weg. Deze fout stond al twee keer in
+    // CLAUDE.md als regel en kwam daarna tóch terug op twee andere plekken: één
+    // keer als `path: \`/${LOCALE}\`` in een kruimel, één keer doordat een
+    // component `/${l}/` plakte voor een pad dat de taalcode al had. Een regel
+    // die je twee keer opschrijft en die twee keer terugkomt, hoort een check
+    // te zijn.
+    const dubbel = new Set()
+    for (const m of html.matchAll(/href="(\/[a-z]{2}\/[^"#?]*)"/g)) {
+      const delen = m[1].split('/').filter(Boolean)
+      if (LOCALES.includes(delen[0]) && LOCALES.includes(delen[1])) dubbel.add(m[1])
+    }
+    for (const href of [...dubbel].sort()) {
+      report.fail(where, `Internal link doubles the locale prefix: ${href}`)
     }
   })
 
