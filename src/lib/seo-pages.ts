@@ -380,7 +380,15 @@ export function detailMetadata(
     title = fitTitle(clean)
   }
 
-  const rawDesc = (opts.description || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+  const schoon = (opts.description || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+  // Een "omschrijving" zonder één letter of cijfer is er geen. De feed levert
+  // voor een paar venues letterlijk `<p>-</p>` en `<p>.<br></p>`; die vielen
+  // hier door als tekst, waarna er alleen nog de generieke aanvulzinnen
+  // overbleven — en dus twee verschillende URL's met exact dezelfde meta
+  // description. Zo'n pagina hoort de terugval met zijn eigen naam te krijgen.
+  // Geen \p{L}: het tsconfig-target laat de u-vlag niet toe. Een bereik dat de
+  // vijf talen van deze site dekt (incl. accenten en ñ/ü) volstaat hier.
+  const rawDesc = /[0-9A-Za-z\u00C0-\u024F]/.test(schoon) ? schoon : ''
   // Never cut mid-word. The old `.slice(0, 160)` produced descriptions ending
   // in fragments like "Met de gr", which is what Google actually printed in the
   // results — and a snippet that stops mid-word is one nobody clicks.
