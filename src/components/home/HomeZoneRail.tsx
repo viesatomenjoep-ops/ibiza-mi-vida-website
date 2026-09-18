@@ -4,6 +4,22 @@ import { useEffect, useRef, useState, type RefObject } from 'react'
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 import { optImg } from '@/lib/img'
 import { addDays, dayPickerParts, fmtShortDate, monthOnlyLabel, monthYearLabel } from '@/lib/date-label'
+import { Reveal } from '@/components/ui/Reveal'
+
+/**
+ * De kleur van de wereld die ná deze komt, per sectie-id.
+ *
+ * Vier vellen in vier tinten lazen als vier losse pagina's: elke sectie stopte
+ * hard in zijn eigen kleur, en pas dan schoof het volgende vel binnen. Nu
+ * gloeit de kleur van de volgende wereld al op in de onderste helft van de
+ * huidige, zodat je oog weet wat er komt vóór je er bent. De laatste wereld
+ * heeft geen opvolger en houdt zijn eigen kleur.
+ */
+const NEXT_ZONE_BG: Record<string, string> = {
+  'zone-events': 'var(--zone-bg-boats)',
+  'zone-water': 'var(--zone-bg-island)',
+  'zone-island': 'var(--zone-bg-water)',
+}
 
 type L5 = Record<string, string>
 const T = (nl: string, en: string, de: string, es: string, fr: string): L5 => ({ nl, en, de, es, fr })
@@ -321,7 +337,7 @@ export function HomeZoneRail({
 
          Meer opvulling onderaan (pb-16 -> pb-24, sm 84 -> 104px): de inhoud
          stond te dicht op de rand waar het volgende vel binnenschuift. */
-      className="flex min-h-[calc((100svh-var(--nav-h-min))*1.15+48px)] scroll-mt-[var(--nav-h-min)] flex-col justify-center pb-24 pt-10 sm:pb-[104px] sm:pt-[68px]"
+      className="relative flex min-h-[calc((100svh-var(--nav-h-min))*1.15+48px)] scroll-mt-[var(--nav-h-min)] flex-col justify-center pb-24 pt-10 sm:pb-[104px] sm:pt-[68px]"
       style={{
         // Geen `position` hier. Die stond op 'relative' en een inline stijl wint
         // van een klasse, dus de `sticky` uit className deed niets -- gemeten:
@@ -341,6 +357,20 @@ export function HomeZoneRail({
           background: `radial-gradient(60% 50% at ${glow.x} ${glow.y}, ${glow.color}, transparent 70%)`,
         }}
       />
+      {/* De kleur van de volgende wereld loopt hier al in: onderste 45% van
+          de sectie, van niets naar de volgende tint. Niet tot 100% dekkend,
+          zodat de afgeronde rand van het volgende vel nog nét te zien is --
+          het blijft een stapel, maar zonder harde naad. Puur CSS. */}
+      {NEXT_ZONE_BG[id] && (
+        <div
+          aria-hidden
+          style={{
+            position: 'absolute', left: 0, right: 0, bottom: 0, height: '45%', pointerEvents: 'none',
+            background: `linear-gradient(180deg, transparent 0%, ${NEXT_ZONE_BG[id]} 100%)`,
+            opacity: 0.9,
+          }}
+        />
+      )}
 
       {/* Kop: alleen de categorienaam, zodat het beeld eronder meteen in
           zicht komt. De omschrijvende zin ("Elke clubnacht van het seizoen,
@@ -348,7 +378,7 @@ export function HomeZoneRail({
           bij alle vier de werelden het beeld een halve schermhoogte naar
           beneden, terwijl de kaarten eronder in een oogopslag laten zien
           waar de sectie over gaat. */}
-      <div className="relative mx-auto max-w-[1180px] px-6">
+      <Reveal y={16} className="relative mx-auto max-w-[1180px] px-6">
         <div className="mx-auto max-w-[720px] text-center">
           <span className="block font-sans text-[10px] font-extrabold uppercase tracking-[0.26em]" style={{ color: kickerColor }}>
             {kicker}
@@ -357,7 +387,7 @@ export function HomeZoneRail({
             {title}
           </h2>
         </div>
-      </div>
+      </Reveal>
 
       {/* Een gecentreerde container om de rail heen, in plaats van opvulling
           ín de rail.
@@ -495,7 +525,7 @@ export function HomeZoneRail({
           stond eerst een kop, een zin, een knop, een maandbalk en zeven
           dagknoppen: op een telefoon ruim een schermhoogte voordat je ook
           maar een beeld zag. */}
-      <div className="relative mx-auto mt-9 max-w-[1180px] px-6">
+      <Reveal y={16} delay={120} className="relative mx-auto mt-9 max-w-[1180px] px-6">
         <div className="mx-auto flex w-full max-w-[688px] flex-col items-center gap-5">
           {/* Bladerpijlen van de kaartrail, met de knop naar de agenda ertussen.
               Die knop stond onderaan de sectie, onder de dagtegels; op verzoek
@@ -625,7 +655,7 @@ export function HomeZoneRail({
             })}
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }
