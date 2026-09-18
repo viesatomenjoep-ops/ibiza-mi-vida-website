@@ -1031,7 +1031,7 @@
           "endIsDefined": false,
           "startAtNextDay": false,
           "endAtNextDay": false,
-          "description": "Chinois Presents... 2026!<br />\r\n<p>Chinois biedt, naast zijn wekelijkse residenties, het hele jaar door andere speciale evenementen aan met zeer specifieke data buiten de wekelijkse residenties.</p><br><br />\r\n<p class=\"tdfocus-1789148825599\"><b>16 oktober</b><span> - Come to Butch.</span></p><br />\r\n<p><b>31 oktober</b> - Halloween: Cuartero, Melon Bomb, Manu Gonzalez, Lau.</p><br />\r\n<br />\r\n<br />\r\n<br><br />\r\nTickets voor Chinois Presents... 2026<br />\r\n<p class=\"tdfocus-1742398607486\">Tickets voor Chinois Presents zijn nu te koop vanaf slechts 25€. Koop je tickets nu online en bespaar geld en tijd.</p><br />\r\n<br><br />\r\n<p>Club: Chinois</p>",
+          "description": "Chinois Presents... 2026!<br />\r\n<p>Chinois biedt, naast zijn wekelijkse residenties, het hele jaar door andere speciale evenementen aan met zeer specifieke data buiten de wekelijkse residenties.</p><br><br />\r\n<p><b>10 oktober</b> - Meneito: Alex Martini, Pikkaboy, Sexky b2b Tonificado, Maru Bravo.</p><br />\r\n<p><b>16 oktober</b> - Come to Butch.</p><br />\r\n<p><b>31 oktober</b> - Halloween: Cuartero, Melon Bomb, Manu Gonzalez, Lau.</p><br />\r\n<br />\r\n<br><br />\r\nTickets voor Chinois Presents... 2026<br />\r\n<p class=\"tdfocus-1742398607486\">Tickets voor Chinois Presents zijn nu te koop vanaf slechts 25€. Koop je tickets nu online en bespaar geld en tijd.</p><br />\r\n<br><br />\r\n<p>Club: Chinois</p>",
           "requirements": "<p class=\"tdfocus-1744192919224\">Hartelijk dank voor het kiezen van Chinois Ibiza, en onthoud dat:</p><br />\r\n<p class=\"tdfocus-1744192928620\">- Chinois Ibiza is voor personen ouder dan 18 jaar. Minderjarigen mogen niet naar binnen. Alle bezoekers moeten originele en geldige documentatie bij zich hebben.</p><br />\r\n<p>- Line-ups en sessietijden kunnen veranderen.</p><br />\r\n<p>- Herintrede is niet toegestaan.</p><br />\r\n<p><b>- KLEDINGVOORSCHRIFT:</b> stijlvolle casual dresscode. We verzoeken heren vriendelijk om zich te houden aan ons beleid van het dragen van lange broeken. Sportkleding en open schoenen zijn niet toegestaan in de locatie. Houd er rekening mee dat de locatie het recht behoudt om toegang te weigeren, en toegang is naar goeddunken van het deurteam op de avond zelf.</p>",
           "affLink": "https://www.clubtickets.com/nl/clubbing/club-chinois-ibiza/chinois-presents?aff=CT219",
           "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/273/event/1591?locale=nl"
@@ -1955,7 +1955,7 @@
           "endIsDefined": false,
           "startAtNextDay": false,
           "endAtNextDay": false,
-          "description": "<br />\r\n  :root{<br />\r\n    --blue:#cce7ff;<br />\r\n    --ink:#0f172a;<br />\r\n    --muted:#667085;<br />\r\n    --brand:#b0eed0;<br />\r\n  }<br />\r\n<br />\r\n  .included-row{<br />\r\n    display:flex; flex-wrap:nowrap; gap:.6rem; overflow-x:auto;<br />\r\n    padding:.4rem .1rem; margin:.25rem 0 1rem 0; scroll-snap-type:x proximity;<br />\r\n  }<br />\r\n  .included-row::-webkit-scrollbar{ display:none; }<br />\r\n<br />\r\n  .chip{<br />\r\n    flex:0 0 auto; scroll-snap-align:start; display:inline-flex; align-items:center; gap:.55rem;<br />\r\n    padding:.55rem .9rem; border-radius:10px; font-weight:600; font-size:.9rem; line-height:1.05;<br />\r\n    background:transparent; border:1.5px solid var(--blue); white-space:nowrap; color:inherit;<br />\r\n  }<br />\r\n<br />\r\n  .icon{<br />\r\n    width:28px; height:28px; border-radius:50%; display:grid; place-items:center;<br />\r\n    background:var(--blue); color:#000; flex-shrink:0;<br />\r\n  }<br />\r\n<br />\r\n  .icon svg{<br />\r\n    width:20px;<br />\r\n    height:20px;<br />\r\n  }<br />\r\n<br />\r\n  .icon svg.heroicon{<br />\r\n    fill:none;<br />\r\n    stroke:currentColor;<br />\r\n    stroke-width:1.7;<br />\r\n    stroke-linecap:round;<br />\r\n    stroke-linejoin:round;<br />\r\n    vector-effect:non-scaling-stroke;<br />\r\n  }<br />\r\n<br />\r\n  .icon svg.drink-icon,<br />\r\n  .icon svg.food-icon{<br />\r\n    width:18px;<br />\r\n    height:18px;<br />\r\n    fill:currentColor;<br />\r\n    stroke:none;<br />\r\n  }<br />\r\n<br />\r\n  .icon svg.snorkel-icon{<br />\r\n    width:20px;<br />\r\n    height:20px;<br />\r\n    fill:currentColor;<br />\r\n    stroke:none;<br />\r\n  }<br />\r\n<br />\r\n  .icon svg.music-icon{<br />\r\n    width:21px;<br />\r\n    height:21px;<br />\r\n  }<br />\r\n<br />\r\n  .trip-ticket{<br />\r\n    display:grid;<br />\r\n    grid-template-columns:1fr;<br />\r\n    gap:.45rem;<br />\r\n    background:linear-gradient(135deg, #eefcf4 0%, #b0eed0 100%);<br />\r\n    border:1px solid rgba(21,21,21,.06);<br />\r\n    border-radius:14px;<br />\r\n    padding:1rem 1rem .95rem;<br />\r\n    margin:.2rem 0 1.1rem 0;<br />\r\n    box-shadow:0 6px 18px rgba(21,21,21,.06);<br />\r\n  }<br />\r\n<br />\r\n  .trip-ticket .eyebrow{<br />\r\n    font-size:.78rem;<br />\r\n    font-weight:700;<br />\r\n    text-transform:uppercase;<br />\r\n    letter-spacing:.04em;<br />\r\n    color:#2f6b4f;<br />\r\n  }<br />\r\n<br />\r\n  .trip-ticket .main{<br />\r\n    font-size:1.15rem;<br />\r\n    font-weight:800;<br />\r\n    color:#151515;<br />\r\n    line-height:1.2;<br />\r\n  }<br />\r\n<br />\r\n  .trip-ticket .meta{<br />\r\n    display:flex;<br />\r\n    flex-wrap:wrap;<br />\r\n    gap:.5rem .7rem;<br />\r\n    margin-top:.1rem;<br />\r\n  }<br />\r\n<br />\r\n  .trip-ticket .meta span{<br />\r\n    background:rgba(255,255,255,.78);<br />\r\n    border-radius:999px;<br />\r\n    padding:.38rem .7rem;<br />\r\n    font-size:.9rem;<br />\r\n    font-weight:600;<br />\r\n    color:#151515;<br />\r\n    border:1px solid rgba(21,21,21,.05);<br />\r\n  }<br />\r\n<br />\r\n  .detalles{ margin:1rem 0; }<br />\r\n  .detalles summary{ list-style:none; cursor:pointer; display:inline-block; }<br />\r\n  .detalles summary::-webkit-details-marker{ display:none; }<br />\r\n<br />\r\n  .pill{<br />\r\n    display:inline-flex;<br />\r\n    align-items:center;<br />\r\n    gap:.6em;<br />\r\n    background:var(--blue);<br />\r\n    color:#000;<br />\r\n    padding:.4em .8em;<br />\r\n    border-radius:6px;<br />\r\n    line-height:1.1;<br />\r\n  }<br />\r\n<br />\r\n  .pill::after{<br />\r\n    content:\"+\";<br />\r\n    width:1.3em;<br />\r\n    height:1.3em;<br />\r\n    border-radius:50%;<br />\r\n    background:rgba(255,255,255,.55);<br />\r\n    color:#000;<br />\r\n    font-weight:700;<br />\r\n    font-size:.9em;<br />\r\n    display:grid;<br />\r\n    place-items:center;<br />\r\n  }<br />\r\n<br />\r\n  details[open] .pill::after{ content:\"–\"; }<br />\r\n<br />\r\n  .contenido{<br />\r\n    margin-top:.6em;<br />\r\n    margin-left:.2em;<br />\r\n    animation:fadeIn .25s ease;<br />\r\n  }<br />\r\n<br />\r\n  @keyframes fadeIn{<br />\r\n    from{opacity:0; transform:translateY(-4px)}<br />\r\n    to{opacity:1; transform:translateY(0)}<br />\r\n  }<br />\r\n<br />\r\n  .cubiculo-lista{<br />\r\n    display:flex;<br />\r\n    flex-direction:column;<br />\r\n    gap:.45em;<br />\r\n  }<br />\r\n<br />\r\n  .cubiculo{<br />\r\n    background:#bbc0f9;<br />\r\n    border:1px solid rgba(0,0,0,.05);<br />\r\n    border-radius:10px;<br />\r\n    padding:.6em .9em;<br />\r\n    font:inherit;<br />\r\n    color:inherit;<br />\r\n    line-height:inherit;<br />\r\n  }<br />\r\n<br />\r\n  .mapa-destacado{<br />\r\n    background:var(--blue);<br />\r\n    color:#000;<br />\r\n    border-radius:8px;<br />\r\n    padding:.6em .9em;<br />\r\n    font-size:.95em;<br />\r\n    line-height:1.4;<br />\r\n    margin-top:.6em;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block{<br />\r\n    --line:#bbc0f9;<br />\r\n    --dot:#151515;<br />\r\n    position:relative;<br />\r\n    padding:8px 4px 4px 4px;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block *{ box-sizing:border-box; }<br />\r\n<br />\r\n  .itinerary-block .title{<br />\r\n    margin:0 0 .6rem 12px;<br />\r\n    color:var(--ink);<br />\r\n    font-size:1.2rem;<br />\r\n    font-weight:700;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .list{<br />\r\n    position:relative;<br />\r\n    display:grid;<br />\r\n    grid-template-columns:56px 1fr;<br />\r\n    row-gap:26px;<br />\r\n    padding:18px 0;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .line{<br />\r\n    position:absolute;<br />\r\n    left:28px;<br />\r\n    transform:translateX(-3px);<br />\r\n    border-left:6px dotted var(--line);<br />\r\n    top:18px;<br />\r\n    height:0;<br />\r\n    pointer-events:none;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .item{ display:contents; }<br />\r\n  .itinerary-block .cell-left{ grid-column:1; position:relative; }<br />\r\n<br />\r\n  .itinerary-block .icon-wrap{<br />\r\n    width:36px;<br />\r\n    height:36px;<br />\r\n    border-radius:50%;<br />\r\n    background:#fff;<br />\r\n    border:3px solid var(--line);<br />\r\n    margin-left:10px;<br />\r\n    box-shadow:0 2px 4px rgba(0,0,0,.05);<br />\r\n    display:flex;<br />\r\n    align-items:center;<br />\r\n    justify-content:center;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .badge{<br />\r\n    width:26px;<br />\r\n    height:26px;<br />\r\n    border-radius:50%;<br />\r\n    background:var(--dot);<br />\r\n    color:#fff;<br />\r\n    display:flex;<br />\r\n    align-items:center;<br />\r\n    justify-content:center;<br />\r\n    line-height:0;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .badge svg{<br />\r\n    width:15px;<br />\r\n    height:15px;<br />\r\n    display:block;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .cell-right{ grid-column:2; }<br />\r\n<br />\r\n  .itinerary-block .h{<br />\r\n    font-weight:800;<br />\r\n    color:var(--dot);<br />\r\n    margin:0 0 .1rem 0;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .sub{<br />\r\n    color:#637587;<br />\r\n    margin:0 0 .35rem 0;<br />\r\n    font-size:.94rem;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .cta{<br />\r\n    display:flex;<br />\r\n    flex-wrap:wrap;<br />\r\n    gap:.45rem .7rem;<br />\r\n    margin-bottom:.1rem;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .cta a{<br />\r\n    text-decoration:underline;<br />\r\n    font-weight:600;<br />\r\n    color:var(--dot);<br />\r\n  }<br />\r\n<br />\r\n  .detalles summary,<br />\r\n  .detalles summary *{<br />\r\n    outline:none!important;<br />\r\n    box-shadow:none!important;<br />\r\n    -webkit-box-shadow:none!important;<br />\r\n    -webkit-tap-highlight-color:transparent;<br />\r\n  }<br />\r\n<br />\r\n  .detalles summary:focus,<br />\r\n  .detalles summary:focus-visible,<br />\r\n  .detalles summary:active,<br />\r\n  .detalles summary:focus-within,<br />\r\n  .detalles[open]>summary:focus,<br />\r\n  .detalles[open]>summary:focus-visible,<br />\r\n  .detalles summary:focus-visible>.pill,<br />\r\n  .detalles summary:focus>.pill{<br />\r\n    outline:none!important;<br />\r\n    box-shadow:none!important;<br />\r\n    -webkit-box-shadow:none!important;<br />\r\n  }<br />\r\n<br />\r\n  .detalles summary::-moz-focus-inner{ border:0!important; }<br />\r\n<br />\r\n  @media (min-width: 900px){<br />\r\n    .cubiculo-mapa{<br />\r\n      max-width:760px;<br />\r\n      margin-left:auto;<br />\r\n      margin-right:auto;<br />\r\n    }<br />\r\n<br />\r\n    .included-row{<br />\r\n      flex-wrap:wrap;<br />\r\n      overflow-x:visible;<br />\r\n      gap:.6rem .7rem;<br />\r\n    }<br />\r\n<br />\r\n    .chip{<br />\r\n      margin-bottom:.2rem;<br />\r\n    }<br />\r\n<br />\r\n    .trip-ticket{<br />\r\n      padding:1.45rem 1.6rem 1.35rem;<br />\r\n      border-radius:20px;<br />\r\n      margin:.45rem 0 1.5rem 0;<br />\r\n      gap:.8rem;<br />\r\n    }<br />\r\n<br />\r\n    .trip-ticket .eyebrow{<br />\r\n      font-size:.9rem;<br />\r\n    }<br />\r\n<br />\r\n    .trip-ticket .main{<br />\r\n      font-size:1.7rem;<br />\r\n      line-height:1.15;<br />\r\n      max-width:900px;<br />\r\n    }<br />\r\n<br />\r\n    .trip-ticket .meta{<br />\r\n      gap:.7rem .8rem;<br />\r\n      margin-top:.2rem;<br />\r\n    }<br />\r\n<br />\r\n    .trip-ticket .meta span{<br />\r\n      font-size:1rem;<br />\r\n      padding:.52rem .95rem;<br />\r\n    }<br />\r\n  }<br />\r\n<br />\r\n<br />\r\n<div class=\"included-row\" aria-label=\"What’s included\"><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br />\r\n    <br />\r\n      <br />\r\n    <br />\r\n  </span>Tot 9 u</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br />\r\n    <br />\r\n      <br />\r\n    <br />\r\n  </span>Open bar</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br />\r\n    <br />\r\n      <br />\r\n      <br />\r\n    <br />\r\n  </span>Lunch inbegrepen</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br />\r\n    <br />\r\n      <br />\r\n    <br />\r\n  </span>Muziek &amp; zonnedek</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br />\r\n    <br />\r\n      <br />\r\n      <br />\r\n    <br />\r\n  </span>Vanuit Playa d'en Bossa</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br />\r\n    <br />\r\n      <br />\r\n      <br />\r\n    <br />\r\n  </span>Vrije tijd in Formentera</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br />\r\n    <br />\r\n      <br />\r\n    <br />\r\n  </span>Watersporten</span><br />\r\n<br />\r\n</div><br />\r\n<br />\r\n<div class=\"trip-ticket\"><br />\r\n  <div class=\"eyebrow\">Formentera bootexcursie</div><br />\r\n  <div class=\"main\">The Formentera Cruise · Vanuit Playa d'en Bossa</div><br />\r\n  <div class=\"meta\"><br />\r\n    <span>Check-in 8:45 AM</span><br />\r\n    <span>9:15 AM – 7:00 PM</span><br />\r\n    <span>Vrije tijd in Formentera</span><br />\r\n  </div><br />\r\n</div><br />\r\n<br />\r\nOver de bootexcursie<br />\r\n<p><br />\r\n  Vertrek vanuit <b>Playa d'en Bossa</b> van <b>9:15 AM tot </b><b>7:00 PM</b>, en geniet van een all-inclusive bootdag in <b>Formentera</b>: twee zwemstops bij <b>Ses Illetes</b> en <b>Espalmador</b>, watertoys aan boord, eten en drinken inbegrepen, en vrije tijd om het eiland op je eigen tempo te verkennen.<br />\r\n</p><br />\r\n<br />\r\n<br><br />\r\n<br />\r\nAlle informatie over The Formentera Cruise<br />\r\n<br />\r\n<br />\r\n  Wat is inbegrepen?<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"cubiculo-lista\"><br />\r\n      <div class=\"cubiculo\">Boottocht van <b>9:15 AM tot </b><b>7:00 PM</b>.</div><br />\r\n      <div class=\"cubiculo\">Welkom muffin.</div><br />\r\n      <div class=\"cubiculo\"><b>Lunch aan boord:</b> geroosterde kip met pastasalade, vegan salade en fruit.</div><br />\r\n      <div class=\"cubiculo\"><b>Dranken aan boord:</b> water, zelfgemaakte sangria, bier en frisdranken.</div><br />\r\n      <div class=\"cubiculo\"><b>2 zwemstops:</b> Illetes en Espalmador.</div><br />\r\n      <div class=\"cubiculo\"><b>Watersporten:</b> paddle surf, snorkelen en drijvers.</div><br />\r\n      <div class=\"cubiculo\"><b>Vrije tijd in Formentera</b> tot 6 uur.</div><br />\r\n      <div class=\"cubiculo\">Zonnedek en muziek aan boord.</div><br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n<br />\r\n<br />\r\n  Ontmoetingspunt<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"cubiculo-lista\"><br />\r\n      <div class=\"cubiculo\"><br />\r\n        Playa d'en Bossa Pier, naast Happiness bar. Open kaart.<br />\r\n      </div><br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n<br />\r\n<br />\r\n  Check-in &amp; vertrek<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"cubiculo-lista\"><br />\r\n      <div class=\"cubiculo\"><b>Check-in:</b> 8:45 AM.</div><br />\r\n      <div class=\"cubiculo\"><b>Vertrek:</b> 9:15 AM vanuit <b>Playa d'en Bossa</b>.</div><br />\r\n      <div class=\"cubiculo\"><b>Terugkeer:</b> vanuit Formentera om 7:00 PM.</div><br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n<br />\r\n<br />\r\n  Reisroute<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"itinerary-block\" id=\"itBlock\" aria-label=\"Tour itinerary\"><br />\r\n      <div class=\"title\">Visualiseer je route</div><br />\r\n<br />\r\n      <div class=\"list\" id=\"itList\"><br />\r\n        <div class=\"line\" id=\"itLine\" aria-hidden=\"true\"></div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">Vertrekpunt</div><br />\r\n            <p class=\"sub\">Playa d'en Bossa Pier</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">Espalmador</div><br />\r\n            <p class=\"sub\">30 minuten zwemstop.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">Ses Illetes</div><br />\r\n            <p class=\"sub\">60 minuten zwemstop.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">1:00 PM · Haven van La Savina, Formentera</div><br />\r\n            <p class=\"sub\">Aankomst en vrije tijd op het eiland tot 6:30 PM.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">7:00 PM · Terugkeer naar Ibiza, Playa d'en Bossa</div><br />\r\n            <p class=\"sub\">Einde van de tour.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n      </div><br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n<br />\r\n<br />\r\n  (function(){<br />\r\n    function recalc(){<br />\r\n      const list = document.getElementById('itList');<br />\r\n      const line = document.getElementById('itLine');<br />\r\n      if(!list || !line) return;<br />\r\n<br />\r\n      const icons = list.querySelectorAll('.icon-wrap');<br />\r\n      if(icons.length < 2) { line.style.height = '0px'; return; }<br />\r\n<br />\r\n      const first = icons[0].getBoundingClientRect();<br />\r\n      const last  = icons[icons.length-1].getBoundingClientRect();<br />\r\n      const box   = list.getBoundingClientRect();<br />\r\n<br />\r\n      const y1 = (first.top - box.top) + first.height/2;<br />\r\n      const y2 = (last.top  - box.top) + last.height/2;<br />\r\n      line.style.top = y1 + 'px';<br />\r\n      line.style.height = Math.max(0, y2 - y1) + 'px';<br />\r\n    }<br />\r\n    window.addEventListener('load', () => setTimeout(recalc, 0), { once:true });<br />\r\n    window.addEventListener('resize', recalc);<br />\r\n    document.querySelectorAll('.detalles').forEach(d => d.addEventListener('toggle', recalc));<br />\r\n    const listEl = document.getElementById('itList');<br />\r\n    if(listEl) new MutationObserver(recalc).observe(listEl, {subtree:true, childList:true});<br />\r\n  })();<br />\r\n",
+          "description": "<br />\r\n  :root{<br />\r\n    --blue:#cce7ff;<br />\r\n    --ink:#0f172a;<br />\r\n    --muted:#667085;<br />\r\n    --brand:#b0eed0;<br />\r\n  }<br />\r\n<br />\r\n  .included-row{<br />\r\n    display:flex; flex-wrap:nowrap; gap:.6rem; overflow-x:auto;<br />\r\n    padding:.4rem .1rem; margin:.25rem 0 1rem 0; scroll-snap-type:x proximity;<br />\r\n  }<br />\r\n  .included-row::-webkit-scrollbar{ display:none; }<br />\r\n<br />\r\n  .chip{<br />\r\n    flex:0 0 auto; scroll-snap-align:start; display:inline-flex; align-items:center; gap:.55rem;<br />\r\n    padding:.55rem .9rem; border-radius:10px; font-weight:600; font-size:.9rem; line-height:1.05;<br />\r\n    background:transparent; border:1.5px solid var(--blue); white-space:nowrap; color:inherit;<br />\r\n  }<br />\r\n<br />\r\n  .icon{<br />\r\n    width:28px; height:28px; border-radius:50%; display:grid; place-items:center;<br />\r\n    background:var(--blue); color:#000; flex-shrink:0;<br />\r\n  }<br />\r\n<br />\r\n  .icon svg{<br />\r\n    width:20px;<br />\r\n    height:20px;<br />\r\n  }<br />\r\n<br />\r\n  .icon svg.heroicon{<br />\r\n    fill:none;<br />\r\n    stroke:currentColor;<br />\r\n    stroke-width:1.7;<br />\r\n    stroke-linecap:round;<br />\r\n    stroke-linejoin:round;<br />\r\n    vector-effect:non-scaling-stroke;<br />\r\n  }<br />\r\n<br />\r\n  .icon svg.drink-icon,<br />\r\n  .icon svg.food-icon{<br />\r\n    width:18px;<br />\r\n    height:18px;<br />\r\n    fill:currentColor;<br />\r\n    stroke:none;<br />\r\n  }<br />\r\n<br />\r\n  .icon svg.snorkel-icon{<br />\r\n    width:20px;<br />\r\n    height:20px;<br />\r\n    fill:currentColor;<br />\r\n    stroke:none;<br />\r\n  }<br />\r\n<br />\r\n  .icon svg.music-icon{<br />\r\n    width:21px;<br />\r\n    height:21px;<br />\r\n  }<br />\r\n<br />\r\n  .trip-ticket{<br />\r\n    display:grid;<br />\r\n    grid-template-columns:1fr;<br />\r\n    gap:.45rem;<br />\r\n    background:linear-gradient(135deg, #eefcf4 0%, #b0eed0 100%);<br />\r\n    border:1px solid rgba(21,21,21,.06);<br />\r\n    border-radius:14px;<br />\r\n    padding:1rem 1rem .95rem;<br />\r\n    margin:.2rem 0 1.1rem 0;<br />\r\n    box-shadow:0 6px 18px rgba(21,21,21,.06);<br />\r\n  }<br />\r\n<br />\r\n  .trip-ticket .eyebrow{<br />\r\n    font-size:.78rem;<br />\r\n    font-weight:700;<br />\r\n    text-transform:uppercase;<br />\r\n    letter-spacing:.04em;<br />\r\n    color:#2f6b4f;<br />\r\n  }<br />\r\n<br />\r\n  .trip-ticket .main{<br />\r\n    font-size:1.15rem;<br />\r\n    font-weight:800;<br />\r\n    color:#151515;<br />\r\n    line-height:1.2;<br />\r\n  }<br />\r\n<br />\r\n  .trip-ticket .meta{<br />\r\n    display:flex;<br />\r\n    flex-wrap:wrap;<br />\r\n    gap:.5rem .7rem;<br />\r\n    margin-top:.1rem;<br />\r\n  }<br />\r\n<br />\r\n  .trip-ticket .meta span{<br />\r\n    background:rgba(255,255,255,.78);<br />\r\n    border-radius:999px;<br />\r\n    padding:.38rem .7rem;<br />\r\n    font-size:.9rem;<br />\r\n    font-weight:600;<br />\r\n    color:#151515;<br />\r\n    border:1px solid rgba(21,21,21,.05);<br />\r\n  }<br />\r\n<br />\r\n  .detalles{ margin:1rem 0; }<br />\r\n  .detalles summary{ list-style:none; cursor:pointer; display:inline-block; }<br />\r\n  .detalles summary::-webkit-details-marker{ display:none; }<br />\r\n<br />\r\n  .pill{<br />\r\n    display:inline-flex;<br />\r\n    align-items:center;<br />\r\n    gap:.6em;<br />\r\n    background:var(--blue);<br />\r\n    color:#000;<br />\r\n    padding:.4em .8em;<br />\r\n    border-radius:6px;<br />\r\n    line-height:1.1;<br />\r\n  }<br />\r\n<br />\r\n  .pill::after{<br />\r\n    content:\"+\";<br />\r\n    width:1.3em;<br />\r\n    height:1.3em;<br />\r\n    border-radius:50%;<br />\r\n    background:rgba(255,255,255,.55);<br />\r\n    color:#000;<br />\r\n    font-weight:700;<br />\r\n    font-size:.9em;<br />\r\n    display:grid;<br />\r\n    place-items:center;<br />\r\n  }<br />\r\n<br />\r\n  details[open] .pill::after{ content:\"–\"; }<br />\r\n<br />\r\n  .contenido{<br />\r\n    margin-top:.6em;<br />\r\n    margin-left:.2em;<br />\r\n    animation:fadeIn .25s ease;<br />\r\n  }<br />\r\n<br />\r\n  @keyframes fadeIn{<br />\r\n    from{opacity:0; transform:translateY(-4px)}<br />\r\n    to{opacity:1; transform:translateY(0)}<br />\r\n  }<br />\r\n<br />\r\n  .cubiculo-lista{<br />\r\n    display:flex;<br />\r\n    flex-direction:column;<br />\r\n    gap:.45em;<br />\r\n  }<br />\r\n<br />\r\n  .cubiculo{<br />\r\n    background:#bbc0f9;<br />\r\n    border:1px solid rgba(0,0,0,.05);<br />\r\n    border-radius:10px;<br />\r\n    padding:.6em .9em;<br />\r\n    font:inherit;<br />\r\n    color:inherit;<br />\r\n    line-height:inherit;<br />\r\n  }<br />\r\n<br />\r\n  .mapa-destacado{<br />\r\n    background:var(--blue);<br />\r\n    color:#000;<br />\r\n    border-radius:8px;<br />\r\n    padding:.6em .9em;<br />\r\n    font-size:.95em;<br />\r\n    line-height:1.4;<br />\r\n    margin-top:.6em;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block{<br />\r\n    --line:#bbc0f9;<br />\r\n    --dot:#151515;<br />\r\n    position:relative;<br />\r\n    padding:8px 4px 4px 4px;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block *{ box-sizing:border-box; }<br />\r\n<br />\r\n  .itinerary-block .title{<br />\r\n    margin:0 0 .6rem 12px;<br />\r\n    color:var(--ink);<br />\r\n    font-size:1.2rem;<br />\r\n    font-weight:700;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .list{<br />\r\n    position:relative;<br />\r\n    display:grid;<br />\r\n    grid-template-columns:56px 1fr;<br />\r\n    row-gap:26px;<br />\r\n    padding:18px 0;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .line{<br />\r\n    position:absolute;<br />\r\n    left:28px;<br />\r\n    transform:translateX(-3px);<br />\r\n    border-left:6px dotted var(--line);<br />\r\n    top:18px;<br />\r\n    height:0;<br />\r\n    pointer-events:none;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .item{ display:contents; }<br />\r\n  .itinerary-block .cell-left{ grid-column:1; position:relative; }<br />\r\n<br />\r\n  .itinerary-block .icon-wrap{<br />\r\n    width:36px;<br />\r\n    height:36px;<br />\r\n    border-radius:50%;<br />\r\n    background:#fff;<br />\r\n    border:3px solid var(--line);<br />\r\n    margin-left:10px;<br />\r\n    box-shadow:0 2px 4px rgba(0,0,0,.05);<br />\r\n    display:flex;<br />\r\n    align-items:center;<br />\r\n    justify-content:center;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .badge{<br />\r\n    width:26px;<br />\r\n    height:26px;<br />\r\n    border-radius:50%;<br />\r\n    background:var(--dot);<br />\r\n    color:#fff;<br />\r\n    display:flex;<br />\r\n    align-items:center;<br />\r\n    justify-content:center;<br />\r\n    line-height:0;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .badge svg{<br />\r\n    width:15px;<br />\r\n    height:15px;<br />\r\n    display:block;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .cell-right{ grid-column:2; }<br />\r\n<br />\r\n  .itinerary-block .h{<br />\r\n    font-weight:800;<br />\r\n    color:var(--dot);<br />\r\n    margin:0 0 .1rem 0;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .sub{<br />\r\n    color:#637587;<br />\r\n    margin:0 0 .35rem 0;<br />\r\n    font-size:.94rem;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .cta{<br />\r\n    display:flex;<br />\r\n    flex-wrap:wrap;<br />\r\n    gap:.45rem .7rem;<br />\r\n    margin-bottom:.1rem;<br />\r\n  }<br />\r\n<br />\r\n  .itinerary-block .cta a{<br />\r\n    text-decoration:underline;<br />\r\n    font-weight:600;<br />\r\n    color:var(--dot);<br />\r\n  }<br />\r\n<br />\r\n  .detalles summary,<br />\r\n  .detalles summary *{<br />\r\n    outline:none!important;<br />\r\n    box-shadow:none!important;<br />\r\n    -webkit-box-shadow:none!important;<br />\r\n    -webkit-tap-highlight-color:transparent;<br />\r\n  }<br />\r\n<br />\r\n  .detalles summary:focus,<br />\r\n  .detalles summary:focus-visible,<br />\r\n  .detalles summary:active,<br />\r\n  .detalles summary:focus-within,<br />\r\n  .detalles[open]>summary:focus,<br />\r\n  .detalles[open]>summary:focus-visible,<br />\r\n  .detalles summary:focus-visible>.pill,<br />\r\n  .detalles summary:focus>.pill{<br />\r\n    outline:none!important;<br />\r\n    box-shadow:none!important;<br />\r\n    -webkit-box-shadow:none!important;<br />\r\n  }<br />\r\n<br />\r\n  .detalles summary::-moz-focus-inner{ border:0!important; }<br />\r\n<br />\r\n  @media (min-width: 900px){<br />\r\n    .cubiculo-mapa{<br />\r\n      max-width:760px;<br />\r\n      margin-left:auto;<br />\r\n      margin-right:auto;<br />\r\n    }<br />\r\n<br />\r\n    .included-row{<br />\r\n      flex-wrap:wrap;<br />\r\n      overflow-x:visible;<br />\r\n      gap:.6rem .7rem;<br />\r\n    }<br />\r\n<br />\r\n    .chip{<br />\r\n      margin-bottom:.2rem;<br />\r\n    }<br />\r\n<br />\r\n    .trip-ticket{<br />\r\n      padding:1.45rem 1.6rem 1.35rem;<br />\r\n      border-radius:20px;<br />\r\n      margin:.45rem 0 1.5rem 0;<br />\r\n      gap:.8rem;<br />\r\n    }<br />\r\n<br />\r\n    .trip-ticket .eyebrow{<br />\r\n      font-size:.9rem;<br />\r\n    }<br />\r\n<br />\r\n    .trip-ticket .main{<br />\r\n      font-size:1.7rem;<br />\r\n      line-height:1.15;<br />\r\n      max-width:900px;<br />\r\n    }<br />\r\n<br />\r\n    .trip-ticket .meta{<br />\r\n      gap:.7rem .8rem;<br />\r\n      margin-top:.2rem;<br />\r\n    }<br />\r\n<br />\r\n    .trip-ticket .meta span{<br />\r\n      font-size:1rem;<br />\r\n      padding:.52rem .95rem;<br />\r\n    }<br />\r\n  }<br />\r\n<br />\r\n<br />\r\n<div class=\"included-row\" aria-label=\"What’s included\"><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br />\r\n    <br />\r\n      <br />\r\n    <br />\r\n  </span>Tot 9 uur</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br />\r\n    <br />\r\n      <br />\r\n    <br />\r\n  </span>Open bar</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br />\r\n    <br />\r\n      <br />\r\n      <br />\r\n    <br />\r\n  </span>Lunch inbegrepen</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br />\r\n    <br />\r\n      <br />\r\n    <br />\r\n  </span>Muziek &amp; zonnedek</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br />\r\n    <br />\r\n      <br />\r\n      <br />\r\n    <br />\r\n  </span>Vanaf Playa d'en Bossa</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br />\r\n    <br />\r\n      <br />\r\n      <br />\r\n    <br />\r\n  </span>Vrije tijd in Formentera</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br />\r\n    <br />\r\n      <br />\r\n    <br />\r\n  </span>Watersporten</span><br />\r\n<br />\r\n</div><br />\r\n<br />\r\n<div class=\"trip-ticket\"><br />\r\n  <div class=\"eyebrow\">Formentera bootexcursie</div><br />\r\n  <div class=\"main\">De Formentera Cruise · Vanaf Playa d'en Bossa</div><br />\r\n  <div class=\"meta\"><br />\r\n    <span>Check-in 8:45 AM</span><br />\r\n    <span>9:15 AM – 6:00 PM</span><br />\r\n    <span>Vrije tijd in Formentera</span><br />\r\n  </div><br />\r\n</div><br />\r\n<br />\r\nOver de bootexcursie<br />\r\n<p><br />\r\n  Vertrek vanuit <b>Playa d'en Bossa</b> van <b>9:15 AM tot </b><b>6:00 PM</b>, en geniet van een all-inclusive bootdag in <b>Formentera</b>: twee zwemstops bij <b>Ses Illetes</b> en <b>Espalmador</b>, watertoys aan boord, eten en drinken inbegrepen, en vrije tijd om het eiland in je eigen tempo te verkennen.<br />\r\n</p><br />\r\n<br />\r\n<br><br />\r\n<br />\r\nAlle informatie over De Formentera Cruise<br />\r\n<br />\r\n<br />\r\n  Wat is inbegrepen?<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"cubiculo-lista\"><br />\r\n      <div class=\"cubiculo\">Boottocht van <b>9:15 AM tot 6</b><b>:00 PM</b>.</div><br />\r\n      <div class=\"cubiculo\">Welkomstmuffin.</div><br />\r\n      <div class=\"cubiculo\"><b>Lunch aan boord:</b> geroosterde kip met pastasalade, veganistische salade en fruit.</div><br />\r\n      <div class=\"cubiculo\"><b>Drankjes aan boord:</b> water, zelfgemaakte sangria, bier en frisdranken.</div><br />\r\n      <div class=\"cubiculo\"><b>2 zwemstops:</b> Illetes en Espalmador.</div><br />\r\n      <div class=\"cubiculo\"><b>Watersporten:</b> paddle surf, snorkelen en drijvers.</div><br />\r\n      <div class=\"cubiculo\"><b>Vrije tijd in Formentera</b> tot 6 uur.</div><br />\r\n      <div class=\"cubiculo\">Zonnedek en muziek aan boord.</div><br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n<br />\r\n<br />\r\n  Ontmoetingspunt<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"cubiculo-lista\"><br />\r\n      <div class=\"cubiculo\"><br />\r\n        Playa d'en Bossa Pier, naast Happiness bar. Open kaart.<br />\r\n      </div><br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n<br />\r\n<br />\r\n  Check-in &amp; vertrek<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"cubiculo-lista\"><br />\r\n      <div class=\"cubiculo\"><b>Check-in:</b> 8:45 AM.</div><br />\r\n      <div class=\"cubiculo\"><b>Vertrek:</b> 9:15 AM vanaf <b>Playa d'en Bossa</b>.</div><br />\r\n      <div class=\"cubiculo\"><b>Terugkeer:</b> vanuit Formentera om 6:00 PM.</div><br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n<br />\r\n<br />\r\n  Reisroute<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"itinerary-block\" id=\"itBlock\" aria-label=\"Tour itinerary\"><br />\r\n      <div class=\"title\">Visualiseer je route</div><br />\r\n<br />\r\n      <div class=\"list\" id=\"itList\"><br />\r\n        <div class=\"line\" id=\"itLine\" aria-hidden=\"true\"></div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">Vertrekpunt</div><br />\r\n            <p class=\"sub\">Playa d'en Bossa Pier</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">Espalmador</div><br />\r\n            <p class=\"sub\">30 minuten zwemstop.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">Ses Illetes</div><br />\r\n            <p class=\"sub\">60 minuten zwemstop.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">1:00 PM · Haven van La Savina, Formentera</div><br />\r\n            <p class=\"sub\">Aankomst en vrije tijd op het eiland tot 6:30 PM.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">6:00 PM · Terugkeer naar Ibiza, Playa d'en Bossa</div><br />\r\n            <p class=\"sub\">Einde van de tour.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n      </div><br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n<br />\r\n<br />\r\n  (function(){<br />\r\n    function recalc(){<br />\r\n      const list = document.getElementById('itList');<br />\r\n      const line = document.getElementById('itLine');<br />\r\n      if(!list || !line) return;<br />\r\n<br />\r\n      const icons = list.querySelectorAll('.icon-wrap');<br />\r\n      if(icons.length < 2) { line.style.height = '0px'; return; }<br />\r\n<br />\r\n      const first = icons[0].getBoundingClientRect();<br />\r\n      const last  = icons[icons.length-1].getBoundingClientRect();<br />\r\n      const box   = list.getBoundingClientRect();<br />\r\n<br />\r\n      const y1 = (first.top - box.top) + first.height/2;<br />\r\n      const y2 = (last.top  - box.top) + last.height/2;<br />\r\n      line.style.top = y1 + 'px';<br />\r\n      line.style.height = Math.max(0, y2 - y1) + 'px';<br />\r\n    }<br />\r\n    window.addEventListener('load', () => setTimeout(recalc, 0), { once:true });<br />\r\n    window.addEventListener('resize', recalc);<br />\r\n    document.querySelectorAll('.detalles').forEach(d => d.addEventListener('toggle', recalc));<br />\r\n    const listEl = document.getElementById('itList');<br />\r\n    if(listEl) new MutationObserver(recalc).observe(listEl, {subtree:true, childList:true});<br />\r\n  })();<br />\r\n",
           "requirements": "<p class=\"tdfocus-1749055807826\"><b>- Deze voucher moet worden ingewisseld voor een ticket </b>bij de <b>Aquabus-balie opPlaya d'en Bossa Pier</b>om 8:45 uur. Zie kaart</p><br />\r\n<p>- <b>Plaats:</b>Aquabus-balie op Playa d'en Bossa Pier - Carrer de la Punta (naast Happiness bar) Zie kaart</p><br />\r\n<p><b>- Vertrek boot 09:15 uur</b></p>",
           "affLink": "https://www.clubtickets.com/nl/boat/the-formentera-cruise/the-formentera-cruise?aff=CT219",
           "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/307/event/1778?locale=nl"
@@ -3830,15 +3830,6 @@
       },
       "dates": [
         {
-          "id": 165206,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "<p><b>Main Room</b></p><p>Adriatique</p><p>Maceo Plex</p><p>Son of Son</p><p>Hardt Antoine</p><p>Stassy</p><p><br></p><p><b>Wild Comet</b></p><p>Marino Canal</p><p>Read The News</p><p><br></p><p><b>The Bunker</b></p><p>Be.Lanuit</p>",
-          "prices": "50 € - 400 €",
-          "lowestAvailablePrice": 50,
-          "affLink": "https://www.clubtickets.com/nl/clubbing/unvrs-ibiza/adriatique-presents-x/2026-09-17?aff=CT219"
-        },
-        {
           "id": 165207,
           "date": "2026-09-24",
           "name": "",
@@ -4023,15 +4014,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/13?locale=nl"
       },
       "dates": [
-        {
-          "id": 162409,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "<p>Martin Garrix</p><p>The Magician</p><p>Low Steppa</p><p>Megisto</p>",
-          "prices": "85 € - 250 €",
-          "lowestAvailablePrice": 85,
-          "affLink": "https://www.clubtickets.com/nl/clubbing/ushuaia-ibiza/martin-garrix/2026-09-17?aff=CT219"
-        },
         {
           "id": 162410,
           "date": "2026-09-24",
@@ -4572,15 +4554,6 @@
       },
       "dates": [
         {
-          "id": 164346,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "<p><b>Theatre</b></p><p>Hugel</p><p>Amémé</p><p>David Tort</p><p>Nautik</p><p>--</p><p><b>Club Room</b></p><p>Miss Monique</p><p>Benny Benassi</p><p>Volkoder</p>",
-          "prices": "65 € - 500 €",
-          "lowestAvailablePrice": 65,
-          "affLink": "https://www.clubtickets.com/nl/clubbing/hi-ibiza/hugel/2026-09-17?aff=CT219"
-        },
-        {
           "id": 164347,
           "date": "2026-09-24",
           "name": "",
@@ -4952,15 +4925,6 @@
       },
       "dates": [
         {
-          "id": 171095,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "<p class=\"tdfocus-1780474622697\">Aaron Sevilla </p><p class=\"tdfocus-1780474622697\">   Claudia León</p><p class=\"tdfocus-1780474622697\">Fkmana</p><p class=\"tdfocus-1780474622697\">Mutt&amp;Dee</p>",
-          "prices": "20 € - 35 €",
-          "lowestAvailablePrice": 20,
-          "affLink": "https://www.clubtickets.com/nl/clubbing/playa-soleil/afrodise-moots/2026-09-17?aff=CT219"
-        },
-        {
           "id": 171096,
           "date": "2026-09-24",
           "name": "",
@@ -5313,15 +5277,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/19?locale=nl"
       },
       "dates": [
-        {
-          "id": 160667,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "<p>DJ Cameo</p><p> Jamie Love</p><p> Lucy Jane</p><p> Parris Taylor</p><p> Sam Dungate</p><p>Juliet Thurbz<br></p><p> Albert Bace (live percussion)<br></p>",
-          "prices": "25 € - 35 €",
-          "lowestAvailablePrice": 25,
-          "affLink": "https://www.clubtickets.com/nl/clubbing/o-beach-ibiza/ocean-pool-party/2026-09-18?aff=CT219"
-        },
         {
           "id": 160668,
           "date": "2026-09-25",
@@ -6046,6 +6001,15 @@
       },
       "dates": [
         {
+          "id": 173937,
+          "date": "2026-10-10",
+          "name": "Meneito: Alex Martini, Pikkaboy, Sexky B2B Tonificado, Maru Bravo",
+          "lineUp": "",
+          "prices": "25 € - 30 €",
+          "lowestAvailablePrice": 25,
+          "affLink": "https://www.clubtickets.com/nl/clubbing/club-chinois-ibiza/chinois-presents/2026-10-10?aff=CT219"
+        },
+        {
           "id": 173873,
           "date": "2026-10-16",
           "name": "Come To Butch",
@@ -6064,7 +6028,7 @@
           "affLink": "https://www.clubtickets.com/nl/clubbing/club-chinois-ibiza/chinois-presents/2026-10-31?aff=CT219"
         }
       ],
-      "description": "Chinois Presents... 2026!<br />\r\n<p>Chinois biedt, naast zijn wekelijkse residenties, het hele jaar door andere speciale evenementen aan met zeer specifieke data buiten de wekelijkse residenties.</p><br><br />\r\n<p class=\"tdfocus-1789148825599\"><b>16 oktober</b><span> - Come to Butch.</span></p><br />\r\n<p><b>31 oktober</b> - Halloween: Cuartero, Melon Bomb, Manu Gonzalez, Lau.</p><br /><br /><br><br />\r\nTickets voor Chinois Presents... 2026<br />\r\n<p class=\"tdfocus-1742398607486\">Tickets voor Chinois Presents zijn nu te koop vanaf slechts 25€. Koop je tickets nu online en bespaar geld en tijd.</p><br />\r\n<br><br />\r\n<p>Club: Chinois</p>",
+      "description": "Chinois Presents... 2026!<br />\r\n<p>Chinois biedt, naast zijn wekelijkse residenties, het hele jaar door andere speciale evenementen aan met zeer specifieke data buiten de wekelijkse residenties.</p><br><br />\r\n<p><b>10 oktober</b> - Meneito: Alex Martini, Pikkaboy, Sexky b2b Tonificado, Maru Bravo.</p><br />\r\n<p><b>16 oktober</b> - Come to Butch.</p><br />\r\n<p><b>31 oktober</b> - Halloween: Cuartero, Melon Bomb, Manu Gonzalez, Lau.</p><br />\r\n<br />\r\n<br><br />\r\nTickets voor Chinois Presents... 2026<br />\r\n<p class=\"tdfocus-1742398607486\">Tickets voor Chinois Presents zijn nu te koop vanaf slechts 25€. Koop je tickets nu online en bespaar geld en tijd.</p><br />\r\n<br><br />\r\n<p>Club: Chinois</p>",
       "requirements": "<p class=\"tdfocus-1744192919224\">Hartelijk dank voor het kiezen van Chinois Ibiza, en onthoud dat:</p><br />\r\n<p class=\"tdfocus-1744192928620\">- Chinois Ibiza is voor personen ouder dan 18 jaar. Minderjarigen mogen niet naar binnen. Alle bezoekers moeten originele en geldige documentatie bij zich hebben.</p><br />\r\n<p>- Line-ups en sessietijden kunnen veranderen.</p><br />\r\n<p>- Herintrede is niet toegestaan.</p><br />\r\n<p><b>- KLEDINGVOORSCHRIFT:</b> stijlvolle casual dresscode. We verzoeken heren vriendelijk om zich te houden aan ons beleid van het dragen van lange broeken. Sportkleding en open schoenen zijn niet toegestaan in de locatie. Houd er rekening mee dat de locatie het recht behoudt om toegang te weigeren, en toegang is naar goeddunken van het deurteam op de avond zelf.</p>",
       "type": {
         "id": 1,
@@ -6417,15 +6381,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/273?locale=nl"
       },
       "dates": [
-        {
-          "id": 160623,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "<p>Darius Syrossian</p><p><span>Deetron</span><br></p><p><span>Harry Romero</span><span class=\"tdfocus-1779798850904\">B2B</span><span>Cinthie</span></p><p><span>Lil Louis</span><br></p><p><span>Manu Gonzalez</span><br></p><p><br></p>",
-          "prices": "70 €",
-          "lowestAvailablePrice": 70,
-          "affLink": "https://www.clubtickets.com/nl/clubbing/club-chinois-ibiza/defected/2026-09-17?aff=CT219"
-        },
         {
           "id": 160624,
           "date": "2026-09-24",
@@ -7553,15 +7508,6 @@
       },
       "dates": [
         {
-          "id": 165957,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "40 €",
-          "lowestAvailablePrice": 40,
-          "affLink": "https://www.clubtickets.com/nl/clubbing/es-paradis/bubbles-es-paradis/2026-09-17?aff=CT219"
-        },
-        {
           "id": 165958,
           "date": "2026-09-24",
           "name": "",
@@ -8047,15 +7993,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/18?locale=nl"
       },
       "dates": [
-        {
-          "id": 172559,
-          "date": "2026-09-17",
-          "name": "",
-          "lineUp": "",
-          "prices": "20 € - 50 €",
-          "lowestAvailablePrice": 20,
-          "affLink": "https://www.clubtickets.com/nl/clubbing/swag/xcandalous/2026-09-17?aff=CT219"
-        },
         {
           "id": 170598,
           "date": "2026-09-18",
@@ -8848,7 +8785,7 @@
           "affLink": "https://www.clubtickets.com/nl/boat/the-formentera-cruise/the-formentera-cruise/2026-10-04?aff=CT219"
         }
       ],
-      "description": "<br /><br /><div class=\"included-row\" aria-label=\"What’s included\"><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br /><br /></span>Tot 9 u</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br /><br /></span>Open bar</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br /><br /></span>Lunch inbegrepen</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br /><br /></span>Muziek &amp; zonnedek</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br /><br /></span>Vanuit Playa d'en Bossa</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br /><br /></span>Vrije tijd in Formentera</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br /><br /></span>Watersporten</span><br />\r\n<br />\r\n</div><br />\r\n<br />\r\n<div class=\"trip-ticket\"><br />\r\n  <div class=\"eyebrow\">Formentera bootexcursie</div><br />\r\n  <div class=\"main\">The Formentera Cruise · Vanuit Playa d'en Bossa</div><br />\r\n  <div class=\"meta\"><br />\r\n    <span>Check-in 8:45 AM</span><br />\r\n    <span>9:15 AM – 7:00 PM</span><br />\r\n    <span>Vrije tijd in Formentera</span><br />\r\n  </div><br />\r\n</div><br />\r\n<br />\r\nOver de bootexcursie<br />\r\n<p><br />\r\n  Vertrek vanuit <b>Playa d'en Bossa</b> van <b>9:15 AM tot </b><b>7:00 PM</b>, en geniet van een all-inclusive bootdag in <b>Formentera</b>: twee zwemstops bij <b>Ses Illetes</b> en <b>Espalmador</b>, watertoys aan boord, eten en drinken inbegrepen, en vrije tijd om het eiland op je eigen tempo te verkennen.<br />\r\n</p><br />\r\n<br />\r\n<br><br />\r\n<br />\r\nAlle informatie over The Formentera Cruise<br /><br />Wat is inbegrepen?<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"cubiculo-lista\"><br />\r\n      <div class=\"cubiculo\">Boottocht van <b>9:15 AM tot </b><b>7:00 PM</b>.</div><br />\r\n      <div class=\"cubiculo\">Welkom muffin.</div><br />\r\n      <div class=\"cubiculo\"><b>Lunch aan boord:</b> geroosterde kip met pastasalade, vegan salade en fruit.</div><br />\r\n      <div class=\"cubiculo\"><b>Dranken aan boord:</b> water, zelfgemaakte sangria, bier en frisdranken.</div><br />\r\n      <div class=\"cubiculo\"><b>2 zwemstops:</b> Illetes en Espalmador.</div><br />\r\n      <div class=\"cubiculo\"><b>Watersporten:</b> paddle surf, snorkelen en drijvers.</div><br />\r\n      <div class=\"cubiculo\"><b>Vrije tijd in Formentera</b> tot 6 uur.</div><br />\r\n      <div class=\"cubiculo\">Zonnedek en muziek aan boord.</div><br />\r\n    </div><br />\r\n  </div><br /><br />Ontmoetingspunt<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"cubiculo-lista\"><br />\r\n      <div class=\"cubiculo\"><br />\r\n        Playa d'en Bossa Pier, naast Happiness bar. Open kaart.<br />\r\n      </div><br />\r\n    </div><br />\r\n  </div><br /><br />Check-in &amp; vertrek<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"cubiculo-lista\"><br />\r\n      <div class=\"cubiculo\"><b>Check-in:</b> 8:45 AM.</div><br />\r\n      <div class=\"cubiculo\"><b>Vertrek:</b> 9:15 AM vanuit <b>Playa d'en Bossa</b>.</div><br />\r\n      <div class=\"cubiculo\"><b>Terugkeer:</b> vanuit Formentera om 7:00 PM.</div><br />\r\n    </div><br />\r\n  </div><br /><br />Reisroute<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"itinerary-block\" id=\"itBlock\" aria-label=\"Tour itinerary\"><br />\r\n      <div class=\"title\">Visualiseer je route</div><br />\r\n<br />\r\n      <div class=\"list\" id=\"itList\"><br />\r\n        <div class=\"line\" id=\"itLine\" aria-hidden=\"true\"></div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">Vertrekpunt</div><br />\r\n            <p class=\"sub\">Playa d'en Bossa Pier</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">Espalmador</div><br />\r\n            <p class=\"sub\">30 minuten zwemstop.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">Ses Illetes</div><br />\r\n            <p class=\"sub\">60 minuten zwemstop.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">1:00 PM · Haven van La Savina, Formentera</div><br />\r\n            <p class=\"sub\">Aankomst en vrije tijd op het eiland tot 6:30 PM.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">7:00 PM · Terugkeer naar Ibiza, Playa d'en Bossa</div><br />\r\n            <p class=\"sub\">Einde van de tour.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n      </div><br />\r\n    </div><br />\r\n  </div><br /><br />const last  = icons[icons.length-1].getBoundingClientRect();<br />\r\n      const box   = list.getBoundingClientRect();<br />\r\n<br />",
+      "description": "<br /><br /><div class=\"included-row\" aria-label=\"What’s included\"><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br /><br /></span>Tot 9 uur</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br /><br /></span>Open bar</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br /><br /></span>Lunch inbegrepen</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br /><br /></span>Muziek &amp; zonnedek</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br /><br /></span>Vanaf Playa d'en Bossa</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br /><br /></span>Vrije tijd in Formentera</span><br />\r\n<br />\r\n  <span class=\"chip\"><span class=\"icon\"><br /><br /></span>Watersporten</span><br />\r\n<br />\r\n</div><br />\r\n<br />\r\n<div class=\"trip-ticket\"><br />\r\n  <div class=\"eyebrow\">Formentera bootexcursie</div><br />\r\n  <div class=\"main\">De Formentera Cruise · Vanaf Playa d'en Bossa</div><br />\r\n  <div class=\"meta\"><br />\r\n    <span>Check-in 8:45 AM</span><br />\r\n    <span>9:15 AM – 6:00 PM</span><br />\r\n    <span>Vrije tijd in Formentera</span><br />\r\n  </div><br />\r\n</div><br />\r\n<br />\r\nOver de bootexcursie<br />\r\n<p><br />\r\n  Vertrek vanuit <b>Playa d'en Bossa</b> van <b>9:15 AM tot </b><b>6:00 PM</b>, en geniet van een all-inclusive bootdag in <b>Formentera</b>: twee zwemstops bij <b>Ses Illetes</b> en <b>Espalmador</b>, watertoys aan boord, eten en drinken inbegrepen, en vrije tijd om het eiland in je eigen tempo te verkennen.<br />\r\n</p><br />\r\n<br />\r\n<br><br />\r\n<br />\r\nAlle informatie over De Formentera Cruise<br /><br />Wat is inbegrepen?<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"cubiculo-lista\"><br />\r\n      <div class=\"cubiculo\">Boottocht van <b>9:15 AM tot 6</b><b>:00 PM</b>.</div><br />\r\n      <div class=\"cubiculo\">Welkomstmuffin.</div><br />\r\n      <div class=\"cubiculo\"><b>Lunch aan boord:</b> geroosterde kip met pastasalade, veganistische salade en fruit.</div><br />\r\n      <div class=\"cubiculo\"><b>Drankjes aan boord:</b> water, zelfgemaakte sangria, bier en frisdranken.</div><br />\r\n      <div class=\"cubiculo\"><b>2 zwemstops:</b> Illetes en Espalmador.</div><br />\r\n      <div class=\"cubiculo\"><b>Watersporten:</b> paddle surf, snorkelen en drijvers.</div><br />\r\n      <div class=\"cubiculo\"><b>Vrije tijd in Formentera</b> tot 6 uur.</div><br />\r\n      <div class=\"cubiculo\">Zonnedek en muziek aan boord.</div><br />\r\n    </div><br />\r\n  </div><br /><br />Ontmoetingspunt<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"cubiculo-lista\"><br />\r\n      <div class=\"cubiculo\"><br />\r\n        Playa d'en Bossa Pier, naast Happiness bar. Open kaart.<br />\r\n      </div><br />\r\n    </div><br />\r\n  </div><br /><br />Check-in &amp; vertrek<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"cubiculo-lista\"><br />\r\n      <div class=\"cubiculo\"><b>Check-in:</b> 8:45 AM.</div><br />\r\n      <div class=\"cubiculo\"><b>Vertrek:</b> 9:15 AM vanaf <b>Playa d'en Bossa</b>.</div><br />\r\n      <div class=\"cubiculo\"><b>Terugkeer:</b> vanuit Formentera om 6:00 PM.</div><br />\r\n    </div><br />\r\n  </div><br /><br />Reisroute<br />\r\n  <div class=\"contenido\"><br />\r\n    <div class=\"itinerary-block\" id=\"itBlock\" aria-label=\"Tour itinerary\"><br />\r\n      <div class=\"title\">Visualiseer je route</div><br />\r\n<br />\r\n      <div class=\"list\" id=\"itList\"><br />\r\n        <div class=\"line\" id=\"itLine\" aria-hidden=\"true\"></div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">Vertrekpunt</div><br />\r\n            <p class=\"sub\">Playa d'en Bossa Pier</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">Espalmador</div><br />\r\n            <p class=\"sub\">30 minuten zwemstop.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">Ses Illetes</div><br />\r\n            <p class=\"sub\">60 minuten zwemstop.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">1:00 PM · Haven van La Savina, Formentera</div><br />\r\n            <p class=\"sub\">Aankomst en vrije tijd op het eiland tot 6:30 PM.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n        <div class=\"item\"><br />\r\n          <div class=\"cell-left\"><br />\r\n            <div class=\"icon-wrap\"><br />\r\n              <div class=\"badge\" aria-hidden=\"true\"><br />\r\n                <br />\r\n              </div><br />\r\n            </div><br />\r\n          </div><br />\r\n          <div class=\"cell-right\"><br />\r\n            <div class=\"h\">6:00 PM · Terugkeer naar Ibiza, Playa d'en Bossa</div><br />\r\n            <p class=\"sub\">Einde van de tour.</p><br />\r\n            <div class=\"cta\"><br />\r\n              Bekijk locatie<br />\r\n            </div><br />\r\n          </div><br />\r\n        </div><br />\r\n<br />\r\n      </div><br />\r\n    </div><br />\r\n  </div><br /><br />const last  = icons[icons.length-1].getBoundingClientRect();<br />\r\n      const box   = list.getBoundingClientRect();<br />\r\n<br />",
       "requirements": "<p class=\"tdfocus-1749055807826\"><b>- Deze voucher moet worden ingewisseld voor een ticket </b>bij de <b>Aquabus-balie opPlaya d'en Bossa Pier</b>om 8:45 uur. Zie kaart</p><br />\r\n<p>- <b>Plaats:</b>Aquabus-balie op Playa d'en Bossa Pier - Carrer de la Punta (naast Happiness bar) Zie kaart</p><br />\r\n<p><b>- Vertrek boot 09:15 uur</b></p>",
       "type": {
         "id": 2,
@@ -8882,15 +8819,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/338?locale=nl"
       },
       "dates": [
-        {
-          "id": 164824,
-          "date": "2026-09-19",
-          "name": "",
-          "lineUp": "",
-          "prices": "30 € - 59.99 €",
-          "lowestAvailablePrice": 30,
-          "affLink": "https://www.clubtickets.com/nl/boat/the-beach-hopper/beach-hopper-daytime/2026-09-19?aff=CT219"
-        },
         {
           "id": 164825,
           "date": "2026-09-20",
@@ -9906,15 +9834,6 @@
       },
       "dates": [
         {
-          "id": 166785,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "",
-          "prices": "150 €",
-          "lowestAvailablePrice": 150,
-          "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/barco-a-formentera-ulises-cat/excursion-calas-de-formentera/2026-09-18?aff=CT219"
-        },
-        {
           "id": 166786,
           "date": "2026-09-19",
           "name": "",
@@ -10479,6 +10398,15 @@
           "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/barco-a-formentera-ulises-cat/aftersun/2026-09-22?aff=CT219"
         },
         {
+          "id": 173938,
+          "date": "2026-09-24",
+          "name": "",
+          "lineUp": "",
+          "prices": "80 €",
+          "lowestAvailablePrice": 80,
+          "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/barco-a-formentera-ulises-cat/aftersun/2026-09-24?aff=CT219"
+        },
+        {
           "id": 166925,
           "date": "2026-09-25",
           "name": "",
@@ -10612,15 +10540,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/69?locale=nl"
       },
       "dates": [
-        {
-          "id": 160976,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "",
-          "prices": "25 € - 69 €",
-          "lowestAvailablePrice": 25,
-          "affLink": "https://www.clubtickets.com/nl/boat/float-your-boat/beach-cruise-daytime/2026-09-18?aff=CT219"
-        },
         {
           "id": 160977,
           "date": "2026-09-19",
@@ -11921,15 +11840,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/75?locale=nl"
       },
       "dates": [
-        {
-          "id": 169200,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "",
-          "prices": "75 €",
-          "lowestAvailablePrice": 75,
-          "affLink": "https://www.clubtickets.com/nl/boat/pukka-up/a-day-in-paradise-ibiza/2026-09-18?aff=CT219"
-        },
         {
           "id": 169201,
           "date": "2026-09-20",
@@ -13293,15 +13203,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/109?locale=nl"
       },
       "dates": [
-        {
-          "id": 163447,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "",
-          "prices": "23 € - 45 €",
-          "lowestAvailablePrice": 23,
-          "affLink": "https://www.clubtickets.com/nl/boat/capitan-nemo/excursion-es-vedra-capitan-nemo/2026-09-18?aff=CT219"
-        },
         {
           "id": 163448,
           "date": "2026-09-20",
@@ -14919,15 +14820,6 @@
       },
       "dates": [
         {
-          "id": 164294,
-          "date": "2026-09-19",
-          "name": "",
-          "lineUp": "",
-          "prices": "130 €",
-          "lowestAvailablePrice": 130,
-          "affLink": "https://www.clubtickets.com/nl/activities/emove-ibiza/electric-motorbike-tour/2026-09-19?aff=CT219"
-        },
-        {
           "id": 164295,
           "date": "2026-09-21",
           "name": "",
@@ -15286,15 +15178,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/61?locale=nl"
       },
       "dates": [
-        {
-          "id": 164542,
-          "date": "2026-09-16",
-          "name": "",
-          "lineUp": "",
-          "prices": "240 € - 360 €",
-          "lowestAvailablePrice": 240,
-          "affLink": "https://www.clubtickets.com/nl/activities/emove-ibiza/vintage-car-tour/2026-09-16?aff=CT219"
-        },
         {
           "id": 164543,
           "date": "2026-09-17",
@@ -16326,15 +16209,6 @@
       },
       "dates": [
         {
-          "id": 170523,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "",
-          "prices": "22 € - 44 €",
-          "lowestAvailablePrice": 22,
-          "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/cruceros-portmany/formentera/2026-09-18?aff=CT219"
-        },
-        {
           "id": 170524,
           "date": "2026-09-19",
           "name": "",
@@ -16576,15 +16450,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/137?locale=nl"
       },
       "dates": [
-        {
-          "id": 168909,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "",
-          "prices": "45 € - 80 €",
-          "lowestAvailablePrice": 45,
-          "affLink": "https://www.clubtickets.com/nl/boat/salvador/salvador-boat-day-trip/2026-09-20?aff=CT219"
-        },
         {
           "id": 168910,
           "date": "2026-09-21",
@@ -17394,15 +17259,6 @@
       },
       "dates": [
         {
-          "id": 167179,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "",
-          "prices": "70 € - 100 €",
-          "lowestAvailablePrice": 70,
-          "affLink": "https://www.clubtickets.com/nl/activities/take-off/speed-boat-adventure/2026-09-20?aff=CT219"
-        },
-        {
           "id": 167180,
           "date": "2026-09-21",
           "name": "",
@@ -17806,15 +17662,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/31?locale=nl"
       },
       "dates": [
-        {
-          "id": 167392,
-          "date": "2026-09-19",
-          "name": "",
-          "lineUp": "",
-          "prices": "110 € - 160 €",
-          "lowestAvailablePrice": 110,
-          "affLink": "https://www.clubtickets.com/nl/activities/take-off/barco-con-juguetes-acuaticos-de-lujo/2026-09-19?aff=CT219"
-        },
         {
           "id": 167393,
           "date": "2026-09-20",
@@ -18641,15 +18488,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/329?locale=nl"
       },
       "dates": [
-        {
-          "id": 168704,
-          "date": "2026-09-19",
-          "name": "",
-          "lineUp": "",
-          "prices": "110 € - 320 €",
-          "lowestAvailablePrice": 110,
-          "affLink": "https://www.clubtickets.com/nl/activities/ibiza-jet-ski-beach/jet-ski-san-antonio-ibiza-jet-ski-beach/2026-09-19?aff=CT219"
-        },
         {
           "id": 168705,
           "date": "2026-09-20",
@@ -19486,15 +19324,6 @@
       },
       "dates": [
         {
-          "id": 168308,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "",
-          "prices": "24 € - 52 €",
-          "lowestAvailablePrice": 24,
-          "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/santa-eularia-ferry/santa-eulalia-formentera-ferry/2026-09-18?aff=CT219"
-        },
-        {
           "id": 168309,
           "date": "2026-09-19",
           "name": "",
@@ -20204,15 +20033,6 @@
       },
       "dates": [
         {
-          "id": 169344,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "",
-          "prices": "69.5 € - 139 €",
-          "lowestAvailablePrice": 69.5,
-          "affLink": "https://www.clubtickets.com/nl/boat/excursiones-ibiza/excursion-es-vedra-formentera/2026-09-18?aff=CT219"
-        },
-        {
           "id": 169345,
           "date": "2026-09-19",
           "name": "",
@@ -20665,8 +20485,8 @@
           "date": "2026-09-20",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-20?aff=CT219"
         },
         {
@@ -20674,8 +20494,8 @@
           "date": "2026-09-21",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-21?aff=CT219"
         },
         {
@@ -20683,8 +20503,8 @@
           "date": "2026-09-22",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-22?aff=CT219"
         },
         {
@@ -20692,8 +20512,8 @@
           "date": "2026-09-23",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-23?aff=CT219"
         },
         {
@@ -20701,8 +20521,8 @@
           "date": "2026-09-24",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-24?aff=CT219"
         },
         {
@@ -20710,8 +20530,8 @@
           "date": "2026-09-25",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-25?aff=CT219"
         },
         {
@@ -20719,8 +20539,8 @@
           "date": "2026-09-26",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-26?aff=CT219"
         },
         {
@@ -20728,8 +20548,8 @@
           "date": "2026-09-27",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-27?aff=CT219"
         },
         {
@@ -20737,8 +20557,8 @@
           "date": "2026-09-28",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-28?aff=CT219"
         },
         {
@@ -20746,8 +20566,8 @@
           "date": "2026-09-29",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-29?aff=CT219"
         },
         {
@@ -20755,8 +20575,8 @@
           "date": "2026-09-30",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-30?aff=CT219"
         },
         {
@@ -20764,8 +20584,8 @@
           "date": "2026-10-01",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-01?aff=CT219"
         },
         {
@@ -20773,8 +20593,8 @@
           "date": "2026-10-02",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-02?aff=CT219"
         },
         {
@@ -20782,8 +20602,8 @@
           "date": "2026-10-03",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-03?aff=CT219"
         },
         {
@@ -20791,8 +20611,8 @@
           "date": "2026-10-04",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-04?aff=CT219"
         },
         {
@@ -20800,8 +20620,8 @@
           "date": "2026-10-05",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-05?aff=CT219"
         },
         {
@@ -20809,8 +20629,8 @@
           "date": "2026-10-06",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-06?aff=CT219"
         },
         {
@@ -20818,8 +20638,8 @@
           "date": "2026-10-07",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-07?aff=CT219"
         },
         {
@@ -20827,8 +20647,8 @@
           "date": "2026-10-08",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-08?aff=CT219"
         },
         {
@@ -20836,8 +20656,8 @@
           "date": "2026-10-09",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-09?aff=CT219"
         },
         {
@@ -20845,8 +20665,8 @@
           "date": "2026-10-10",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-10?aff=CT219"
         },
         {
@@ -20854,8 +20674,8 @@
           "date": "2026-10-11",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-11?aff=CT219"
         },
         {
@@ -20863,8 +20683,8 @@
           "date": "2026-10-12",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-12?aff=CT219"
         },
         {
@@ -20872,8 +20692,8 @@
           "date": "2026-10-13",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-13?aff=CT219"
         },
         {
@@ -20881,8 +20701,8 @@
           "date": "2026-10-14",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-14?aff=CT219"
         },
         {
@@ -20890,8 +20710,8 @@
           "date": "2026-10-15",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-15?aff=CT219"
         },
         {
@@ -20899,8 +20719,8 @@
           "date": "2026-10-16",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-16?aff=CT219"
         },
         {
@@ -20908,8 +20728,8 @@
           "date": "2026-10-17",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-17?aff=CT219"
         },
         {
@@ -20917,8 +20737,8 @@
           "date": "2026-10-18",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-18?aff=CT219"
         },
         {
@@ -20926,8 +20746,8 @@
           "date": "2026-10-19",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-19?aff=CT219"
         },
         {
@@ -20935,8 +20755,8 @@
           "date": "2026-10-20",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-20?aff=CT219"
         },
         {
@@ -20944,8 +20764,8 @@
           "date": "2026-10-21",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-21?aff=CT219"
         },
         {
@@ -20953,8 +20773,8 @@
           "date": "2026-10-22",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-22?aff=CT219"
         },
         {
@@ -20962,8 +20782,8 @@
           "date": "2026-10-23",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-23?aff=CT219"
         },
         {
@@ -20971,8 +20791,8 @@
           "date": "2026-10-24",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-24?aff=CT219"
         },
         {
@@ -20980,8 +20800,8 @@
           "date": "2026-10-25",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-25?aff=CT219"
         },
         {
@@ -20989,8 +20809,8 @@
           "date": "2026-10-26",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-26?aff=CT219"
         },
         {
@@ -20998,8 +20818,8 @@
           "date": "2026-10-27",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-27?aff=CT219"
         },
         {
@@ -21007,8 +20827,8 @@
           "date": "2026-10-28",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-28?aff=CT219"
         },
         {
@@ -21016,8 +20836,8 @@
           "date": "2026-10-29",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-29?aff=CT219"
         },
         {
@@ -21025,8 +20845,8 @@
           "date": "2026-10-30",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-30?aff=CT219"
         },
         {
@@ -21034,8 +20854,8 @@
           "date": "2026-10-31",
           "name": "",
           "lineUp": "",
-          "prices": "155 €",
-          "lowestAvailablePrice": 155,
+          "prices": "130 €",
+          "lowestAvailablePrice": 130,
           "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-31?aff=CT219"
         }
       ],
@@ -21073,15 +20893,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/291?locale=nl"
       },
       "dates": [
-        {
-          "id": 171852,
-          "date": "2026-09-18",
-          "name": "",
-          "lineUp": "",
-          "prices": "175 € - 250 €",
-          "lowestAvailablePrice": 175,
-          "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island-combo-tour/2026-09-18?aff=CT219"
-        },
         {
           "id": 171853,
           "date": "2026-09-19",
@@ -21801,15 +21612,6 @@
       },
       "dates": [
         {
-          "id": 170831,
-          "date": "2026-09-19",
-          "name": "",
-          "lineUp": "",
-          "prices": "195 € - 360 €",
-          "lowestAvailablePrice": 195,
-          "affLink": "https://www.clubtickets.com/nl/activities/ibiza-buggy-adventure/ibiza-buggy-adventure/2026-09-19?aff=CT219"
-        },
-        {
           "id": 170832,
           "date": "2026-09-20",
           "name": "",
@@ -22078,15 +21880,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/265?locale=nl"
       },
       "dates": [
-        {
-          "id": 171004,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "",
-          "prices": "90 € - 130 €",
-          "lowestAvailablePrice": 90,
-          "affLink": "https://www.clubtickets.com/nl/activities/ibiza-buggy-adventure/ibiza-buggy-adventure-quad-tours/2026-09-20?aff=CT219"
-        },
         {
           "id": 171005,
           "date": "2026-09-21",
@@ -23685,158 +23478,6 @@
   ],
   "dates": [
     {
-      "id": 165206,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "Main Room Adriatique Maceo Plex Son of Son Hardt Antoine Stassy Wild Comet Marino Canal Read The News The Bunker Be.Lanuit",
-      "prices": "50 € - 400 €",
-      "lowestAvailablePrice": 50,
-      "affLink": "https://www.clubtickets.com/nl/clubbing/unvrs-ibiza/adriatique-presents-x/2026-09-17?aff=CT219",
-      "eventName": "Adriatique presents X",
-      "eventSlug": "adriatique-presents-x",
-      "venueName": "[UNVRS]",
-      "venueSlug": "unvrs-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/0422eef8-99ea-42a1-9749-1b31f95914d9.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/940302ac-ef06-46bf-b76a-91d3b092b184.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/48034437-f596-4917-89cb-8242fa1bb59e.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/37949a57-07ef-43a2-94b2-9c0127d634bc.jpg",
-      "eventId": 2102,
-      "venueId": 319
-    },
-    {
-      "id": 162409,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "Martin Garrix The Magician Low Steppa Megisto",
-      "prices": "85 € - 250 €",
-      "lowestAvailablePrice": 85,
-      "affLink": "https://www.clubtickets.com/nl/clubbing/ushuaia-ibiza/martin-garrix/2026-09-17?aff=CT219",
-      "eventName": "Martin Garrix at Ushuaïa Ibiza",
-      "eventSlug": "martin-garrix",
-      "venueName": "Ushuaïa Ibiza",
-      "venueSlug": "ushuaia-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/5496b122-d166-40ad-81eb-9b59b38d3107.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/dcadf125-c566-4cd4-9c6f-8726a139ac01.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/32b4e1a9-d3e5-425b-900c-7cf0bb88bd39.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/288b2d22-2af0-4be6-919f-afcd0a8068a6.jpg",
-      "eventId": 8,
-      "venueId": 13
-    },
-    {
-      "id": 164346,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "Theatre Hugel Amémé David Tort Nautik -- Club Room Miss Monique Benny Benassi Volkoder",
-      "prices": "65 € - 500 €",
-      "lowestAvailablePrice": 65,
-      "affLink": "https://www.clubtickets.com/nl/clubbing/hi-ibiza/hugel/2026-09-17?aff=CT219",
-      "eventName": "Hugel Presents Make The Girls Dance",
-      "eventSlug": "hugel",
-      "venueName": "Hï Ibiza",
-      "venueSlug": "hi-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/f0d09f3c-cc99-4c9b-9f40-78bd925985c4.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/f158734e-05d3-42b6-9499-25c2acc00633.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/2e1f3f8f-93c5-4637-84ee-737f211e251c.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/1ffd5c24-f02f-4bd3-82fd-fbfa6a87b79e.jpg",
-      "eventId": 1935,
-      "venueId": 12
-    },
-    {
-      "id": 171095,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "Aaron Sevilla Claudia León Fkmana Mutt&amp;Dee",
-      "prices": "20 € - 35 €",
-      "lowestAvailablePrice": 20,
-      "affLink": "https://www.clubtickets.com/nl/clubbing/playa-soleil/afrodise-moots/2026-09-17?aff=CT219",
-      "eventName": "AFRODISE & MOOTS",
-      "eventSlug": "afrodise-moots",
-      "venueName": "Playa Soleil",
-      "venueSlug": "playa-soleil",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/a061f731-e6be-47ad-827e-bfc8d8e566c8.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/9b43e0da-8603-49a6-a17c-9d2ead7cae0a.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/18df357d-0335-4dcc-997a-d507cf56df47.png",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/4ec5d7b3-d53b-4c41-bb12-5f548c1bb7b5.png",
-      "eventId": 2131,
-      "venueId": 306
-    },
-    {
-      "id": 160623,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "Darius Syrossian Deetron Harry Romero B2B Cinthie Lil Louis Manu Gonzalez",
-      "prices": "70 €",
-      "lowestAvailablePrice": 70,
-      "affLink": "https://www.clubtickets.com/nl/clubbing/club-chinois-ibiza/defected/2026-09-17?aff=CT219",
-      "eventName": "Defected",
-      "eventSlug": "defected",
-      "venueName": "Chinois Ibiza",
-      "venueSlug": "club-chinois-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/fe051ad4-d5b2-49ba-afff-ba2b3b347096.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/4ba10e8f-b7af-4e4f-b4d8-80235cb63324.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/e1a7f719-36c3-44b1-8566-b10f290dd77c.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/55dcd42d-f052-4391-a3bb-094ce82397a8.jpg",
-      "eventId": 2081,
-      "venueId": 273
-    },
-    {
-      "id": 165957,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "40 €",
-      "lowestAvailablePrice": 40,
-      "affLink": "https://www.clubtickets.com/nl/clubbing/es-paradis/bubbles-es-paradis/2026-09-17?aff=CT219",
-      "eventName": "Bubbles",
-      "eventSlug": "bubbles-es-paradis",
-      "venueName": "Es Paradis",
-      "venueSlug": "es-paradis",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/f143f717-bbc5-4eda-a93b-d82597f55c1c.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/fbd02806-7ceb-42cd-87c4-552cce61b934.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/df63b49c-2ee3-40d5-8983-681599bc86db.png",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/2aca2a39-bfcc-4e48-9e0b-98c92269daf7.png",
-      "eventId": 1799,
-      "venueId": 20
-    },
-    {
-      "id": 172559,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "20 € - 50 €",
-      "lowestAvailablePrice": 20,
-      "affLink": "https://www.clubtickets.com/nl/clubbing/swag/xcandalous/2026-09-17?aff=CT219",
-      "eventName": "Xcandalous",
-      "eventSlug": "xcandalous",
-      "venueName": "SWAG",
-      "venueSlug": "swag",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/260722ca-4371-4a1d-bc29-0c868d77e919.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/316e7daa-4045-48f5-89c7-dae1a79c0518.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/8bb9f53c-2f11-4f4c-b597-2345d0513fbd.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/1a8864a0-6b2e-41e8-bda9-8dceb61bfe3c.png",
-      "eventId": 261,
-      "venueId": 18
-    },
-    {
-      "id": 164543,
-      "date": "2026-09-17",
-      "name": "",
-      "lineUp": "",
-      "prices": "240 € - 360 €",
-      "lowestAvailablePrice": 240,
-      "affLink": "https://www.clubtickets.com/nl/activities/emove-ibiza/vintage-car-tour/2026-09-17?aff=CT219",
-      "eventName": "Retro Tour by Mehari or Kate",
-      "eventSlug": "vintage-car-tour",
-      "venueName": "Emove Ibiza",
-      "venueSlug": "emove-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/9c0d4515-7211-455f-aeeb-093fb5dbfb45.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/c8f09ebb-3771-4533-b2f5-ca604afea4c1.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/9acfdef0-6f33-4787-bfe3-81c43c5ecfa9.png",
-      "eventId": 2094,
-      "venueId": 61
-    },
-    {
       "id": 160684,
       "date": "2026-09-18",
       "name": "",
@@ -23930,25 +23571,6 @@
       "eventLogo": "https://media.clubtickets.com/event/6a9fe91626a9b.png",
       "eventId": 2180,
       "venueId": 306
-    },
-    {
-      "id": 160667,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "DJ Cameo Jamie Love Lucy Jane Parris Taylor Sam Dungate Juliet Thurbz Albert Bace (live percussion)",
-      "prices": "25 € - 35 €",
-      "lowestAvailablePrice": 25,
-      "affLink": "https://www.clubtickets.com/nl/clubbing/o-beach-ibiza/ocean-pool-party/2026-09-18?aff=CT219",
-      "eventName": "O Beach Pool Party",
-      "eventSlug": "ocean-pool-party",
-      "venueName": "O Beach Ibiza",
-      "venueSlug": "o-beach-ibiza",
-      "venueCover": "https://media.clubtickets.com/venue/6a9931fff0b2e.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/e65f2e55-376a-4301-a4c7-64b94f17eca5.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/34aef238-4355-4970-bbcb-eb324acd45b7.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/43f945c6-d96c-484c-86bf-bd23eef637bd.png",
-      "eventId": 33,
-      "venueId": 19
     },
     {
       "id": 166957,
@@ -24141,25 +23763,6 @@
       "venueId": 27
     },
     {
-      "id": 166785,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "",
-      "prices": "150 €",
-      "lowestAvailablePrice": 150,
-      "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/barco-a-formentera-ulises-cat/excursion-calas-de-formentera/2026-09-18?aff=CT219",
-      "eventName": "Calas de Formentera boat trip",
-      "eventSlug": "excursion-calas-de-formentera",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/ce5b7d6e-8cbd-41a0-8bad-7fb8a364c62f.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/9db15df8-63b1-4904-8c2f-5ddf3cbb9c94.png",
-      "eventId": 1093,
-      "venueId": 27
-    },
-    {
       "id": 166654,
       "date": "2026-09-18",
       "name": "",
@@ -24196,44 +23799,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/e2abb19c-582e-4ab7-8eca-689de09a47ca.png",
       "eventId": 1779,
       "venueId": 27
-    },
-    {
-      "id": 160976,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "",
-      "prices": "25 € - 69 €",
-      "lowestAvailablePrice": 25,
-      "affLink": "https://www.clubtickets.com/nl/boat/float-your-boat/beach-cruise-daytime/2026-09-18?aff=CT219",
-      "eventName": "FYB Beach Cruise Daytime",
-      "eventSlug": "beach-cruise-daytime",
-      "venueName": "Float Your Boat",
-      "venueSlug": "float-your-boat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/1b0b64f2-f8d9-4182-a8b3-b1095ff02a4c.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/a12ed151-b36e-4918-ae02-50e97bb0ffcc.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/2ad0df2b-5b8a-4f40-9afc-9073adc5e18b.jpg",
-      "eventId": 855,
-      "venueId": 69
-    },
-    {
-      "id": 169200,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "",
-      "prices": "75 €",
-      "lowestAvailablePrice": 75,
-      "affLink": "https://www.clubtickets.com/nl/boat/pukka-up/a-day-in-paradise-ibiza/2026-09-18?aff=CT219",
-      "eventName": "A Day in Paradise Ibiza",
-      "eventSlug": "a-day-in-paradise-ibiza",
-      "venueName": "Pukka Up",
-      "venueSlug": "pukka-up",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/946564fc-8588-4e36-865d-0e0cddb3772d.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/11d865df-f715-45ef-9e8e-76376c050f5b.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/5a7484ea-ed45-4d6b-85bd-ede5fbf9cef5.png",
-      "eventId": 1777,
-      "venueId": 75
     },
     {
       "id": 173086,
@@ -24274,25 +23839,6 @@
       "venueId": 289
     },
     {
-      "id": 163447,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "",
-      "prices": "23 € - 45 €",
-      "lowestAvailablePrice": 23,
-      "affLink": "https://www.clubtickets.com/nl/boat/capitan-nemo/excursion-es-vedra-capitan-nemo/2026-09-18?aff=CT219",
-      "eventName": "San Antonio to Es Vedrà Boat Trip - Daytime",
-      "eventSlug": "excursion-es-vedra-capitan-nemo",
-      "venueName": "Capitan Nemo",
-      "venueSlug": "capitan-nemo",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/48eacaee-81ba-4a83-9578-a04af92c87ee.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/01187ecc-57e9-4c80-939b-1407c4b965bf.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/412e1310-f8db-42c9-b231-1d90de31dba2.png",
-      "eventId": 1811,
-      "venueId": 109
-    },
-    {
       "id": 161909,
       "date": "2026-09-18",
       "name": "",
@@ -24331,44 +23877,6 @@
       "venueId": 61
     },
     {
-      "id": 170523,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "",
-      "prices": "22 € - 44 €",
-      "lowestAvailablePrice": 22,
-      "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/cruceros-portmany/formentera/2026-09-18?aff=CT219",
-      "eventName": "San Antonio - Formentera",
-      "eventSlug": "formentera",
-      "venueName": "Cruceros Portmany",
-      "venueSlug": "cruceros-portmany",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/ba2803de-5379-42c5-9750-51fd479cf87e.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/99a4caba-bf0a-40f9-b5c4-bc99b1e84b5e.jpg",
-      "eventLogo": "https://admin.clubtickets.com/images/event/5ae70c69c99aa.jpg",
-      "eventId": 183,
-      "venueId": 43
-    },
-    {
-      "id": 168308,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "",
-      "prices": "24 € - 52 €",
-      "lowestAvailablePrice": 24,
-      "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/santa-eularia-ferry/santa-eulalia-formentera-ferry/2026-09-18?aff=CT219",
-      "eventName": "Santa Eulalia - Formentera Ferry",
-      "eventSlug": "santa-eulalia-formentera-ferry",
-      "venueName": "Santa Eularia Ferry",
-      "venueSlug": "santa-eularia-ferry",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/acd422f8-d406-4272-80e5-c6a63bc75908.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/e2ab1c49-8e9b-4923-a23b-0a14e7077c72.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/55049b31-ff58-40cc-bc26-f5f648a3e4db.jpg",
-      "eventId": 2021,
-      "venueId": 326
-    },
-    {
       "id": 173357,
       "date": "2026-09-18",
       "name": "",
@@ -24388,25 +23896,6 @@
       "venueId": 326
     },
     {
-      "id": 169344,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "",
-      "prices": "69.5 € - 139 €",
-      "lowestAvailablePrice": 69.5,
-      "affLink": "https://www.clubtickets.com/nl/boat/excursiones-ibiza/excursion-es-vedra-formentera/2026-09-18?aff=CT219",
-      "eventName": "Excursión Es Vedrà + Formentera",
-      "eventSlug": "excursion-es-vedra-formentera",
-      "venueName": "Excursiones Ibiza",
-      "venueSlug": "excursiones-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/03ed4ca9-700a-4e5f-b248-6d0f6d41e585.jpg",
-      "venueLogo": "",
-      "eventCover": "https://admin.clubtickets.com/images/event/5d11f24132082288151999.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d558d5b7-a81c-4370-9248-95b2845c781f.jpg",
-      "eventId": 1031,
-      "venueId": 177
-    },
-    {
       "id": 170209,
       "date": "2026-09-18",
       "name": "",
@@ -24424,25 +23913,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/5291266d-f6d6-493f-ab93-7f427cc55748.png",
       "eventId": 1724,
       "venueId": 299
-    },
-    {
-      "id": 171852,
-      "date": "2026-09-18",
-      "name": "",
-      "lineUp": "",
-      "prices": "175 € - 250 €",
-      "lowestAvailablePrice": 175,
-      "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island-combo-tour/2026-09-18?aff=CT219",
-      "eventName": "Into the Island - Boat, 4x4 & Es Vedrà Sunset Adventure",
-      "eventSlug": "into-the-island-combo-tour",
-      "venueName": "INTO THE ISLAND",
-      "venueSlug": "into-the-island",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/8a51fbbc-b02c-4f57-983b-8e9f8845a565.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/abcddf1f-e627-428c-90d9-200e73b0983c.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/4b42ff26-906a-4e5f-90b4-e3faa359d649.png",
-      "eventId": 2133,
-      "venueId": 291
     },
     {
       "id": 162229,
@@ -24749,25 +24219,6 @@
       "venueId": 307
     },
     {
-      "id": 164824,
-      "date": "2026-09-19",
-      "name": "",
-      "lineUp": "",
-      "prices": "30 € - 59.99 €",
-      "lowestAvailablePrice": 30,
-      "affLink": "https://www.clubtickets.com/nl/boat/the-beach-hopper/beach-hopper-daytime/2026-09-19?aff=CT219",
-      "eventName": "The Beach Hopper Daytime",
-      "eventSlug": "beach-hopper-daytime",
-      "venueName": "The Beach Hopper",
-      "venueSlug": "the-beach-hopper",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/8afbbb03-026b-4125-bbf2-a1b54da7465e.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/6f67d0e3-d578-4ce9-80cf-fc82d0e883af.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/85d0660d-b33a-44b3-b521-b58d83a2ed9c.png",
-      "eventId": 1709,
-      "venueId": 338
-    },
-    {
       "id": 172695,
       "date": "2026-09-19",
       "name": "",
@@ -25053,25 +24504,6 @@
       "venueId": 33
     },
     {
-      "id": 164294,
-      "date": "2026-09-19",
-      "name": "",
-      "lineUp": "",
-      "prices": "130 €",
-      "lowestAvailablePrice": 130,
-      "affLink": "https://www.clubtickets.com/nl/activities/emove-ibiza/electric-motorbike-tour/2026-09-19?aff=CT219",
-      "eventName": "Electric Motocross Tour",
-      "eventSlug": "electric-motorbike-tour",
-      "venueName": "Emove Ibiza",
-      "venueSlug": "emove-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/9c0d4515-7211-455f-aeeb-093fb5dbfb45.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/a9760c2b-fd5c-4983-8795-a7b833c23eb8.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/e401a3cf-374e-4edb-865b-820b29cc5ad9.png",
-      "eventId": 1827,
-      "venueId": 61
-    },
-    {
       "id": 164545,
       "date": "2026-09-19",
       "name": "",
@@ -25127,44 +24559,6 @@
       "eventLogo": "https://admin.clubtickets.com/images/event/5ae70c69c99aa.jpg",
       "eventId": 183,
       "venueId": 43
-    },
-    {
-      "id": 167392,
-      "date": "2026-09-19",
-      "name": "",
-      "lineUp": "",
-      "prices": "110 € - 160 €",
-      "lowestAvailablePrice": 110,
-      "affLink": "https://www.clubtickets.com/nl/activities/take-off/barco-con-juguetes-acuaticos-de-lujo/2026-09-19?aff=CT219",
-      "eventName": "Luxury Water Toys Boat Experience",
-      "eventSlug": "barco-con-juguetes-acuaticos-de-lujo",
-      "venueName": "TAKE OFF",
-      "venueSlug": "take-off",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/61bddca3-8503-416d-b9db-fc8f1857ed04.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/44755cd4-acf0-4fc9-9715-9976c4ddffd3.png",
-      "eventLogo": "https://admin.clubtickets.com/images/event/62517ee3b9c83308172689.jpeg",
-      "eventId": 1509,
-      "venueId": 31
-    },
-    {
-      "id": 168704,
-      "date": "2026-09-19",
-      "name": "",
-      "lineUp": "",
-      "prices": "110 € - 320 €",
-      "lowestAvailablePrice": 110,
-      "affLink": "https://www.clubtickets.com/nl/activities/ibiza-jet-ski-beach/jet-ski-san-antonio-ibiza-jet-ski-beach/2026-09-19?aff=CT219",
-      "eventName": "Jet Ski in San Antonio - Ibiza Jet Ski Beach",
-      "eventSlug": "jet-ski-san-antonio-ibiza-jet-ski-beach",
-      "venueName": "Ibiza Jet Ski Beach - Jetski",
-      "venueSlug": "ibiza-jet-ski-beach",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/19228359-8778-4cd7-8574-21196a76d7c2.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/a841142d-3afb-471a-a1b9-ff8632a5bf16.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/f141e1f7-ed17-43bb-8a4f-0614199aba21.png",
-      "eventId": 2056,
-      "venueId": 329
     },
     {
       "id": 172066,
@@ -25279,25 +24673,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/4b42ff26-906a-4e5f-90b4-e3faa359d649.png",
       "eventId": 2133,
       "venueId": 291
-    },
-    {
-      "id": 170831,
-      "date": "2026-09-19",
-      "name": "",
-      "lineUp": "",
-      "prices": "195 € - 360 €",
-      "lowestAvailablePrice": 195,
-      "affLink": "https://www.clubtickets.com/nl/activities/ibiza-buggy-adventure/ibiza-buggy-adventure/2026-09-19?aff=CT219",
-      "eventName": "Ibiza Buggy Adventure from San Antonio",
-      "eventSlug": "ibiza-buggy-adventure",
-      "venueName": "Ibiza Buggy Adventure",
-      "venueSlug": "ibiza-buggy-adventure",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/c7c8aada-a1b3-4e54-a5d2-71b88a6e27e5.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/9972aac5-d5f9-4eae-8492-6977544c8316.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/6fa2c7f9-9051-4c7a-887a-480dc0da551d.png",
-      "eventId": 1451,
-      "venueId": 265
     },
     {
       "id": 165124,
@@ -25851,25 +25226,6 @@
       "venueId": 55
     },
     {
-      "id": 168909,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "",
-      "prices": "45 € - 80 €",
-      "lowestAvailablePrice": 45,
-      "affLink": "https://www.clubtickets.com/nl/boat/salvador/salvador-boat-day-trip/2026-09-20?aff=CT219",
-      "eventName": "Salvador Day Boat Trip",
-      "eventSlug": "salvador-boat-day-trip",
-      "venueName": "Salvador",
-      "venueSlug": "salvador",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/4842ed0e-0c11-4ee2-8ba6-b12541789a6f.webp",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/4b61b36e-de7e-4123-a2b4-71357766dcdd.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/85871ea7-e762-44c0-94e2-62725cf84e8c.png",
-      "eventId": 685,
-      "venueId": 137
-    },
-    {
       "id": 169098,
       "date": "2026-09-20",
       "name": "",
@@ -25887,25 +25243,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/99a8e1da-74eb-4bd2-b17d-4da0b4a31a82.png",
       "eventId": 1347,
       "venueId": 137
-    },
-    {
-      "id": 167179,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "",
-      "prices": "70 € - 100 €",
-      "lowestAvailablePrice": 70,
-      "affLink": "https://www.clubtickets.com/nl/activities/take-off/speed-boat-adventure/2026-09-20?aff=CT219",
-      "eventName": "Cave and Beach Hopping Boat Tour",
-      "eventSlug": "speed-boat-adventure",
-      "venueName": "TAKE OFF",
-      "venueSlug": "take-off",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/61bddca3-8503-416d-b9db-fc8f1857ed04.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/b2dd5c1e-02d1-4774-9be4-8cf6c209fed2.png",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d9acf73d-47b2-49fb-8031-8c1bf86c185b.jpg",
-      "eventId": 151,
-      "venueId": 31
     },
     {
       "id": 167393,
@@ -26045,8 +25382,8 @@
       "date": "2026-09-20",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-20?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -26114,25 +25451,6 @@
       "eventCover": "https://media.clubtickets.com/migrated/event/9972aac5-d5f9-4eae-8492-6977544c8316.jpg",
       "eventLogo": "https://media.clubtickets.com/migrated/event/6fa2c7f9-9051-4c7a-887a-480dc0da551d.png",
       "eventId": 1451,
-      "venueId": 265
-    },
-    {
-      "id": 171004,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "",
-      "prices": "90 € - 130 €",
-      "lowestAvailablePrice": 90,
-      "affLink": "https://www.clubtickets.com/nl/activities/ibiza-buggy-adventure/ibiza-buggy-adventure-quad-tours/2026-09-20?aff=CT219",
-      "eventName": "Ibiza Quad Adventure from San Antonio",
-      "eventSlug": "ibiza-buggy-adventure-quad-tours",
-      "venueName": "Ibiza Buggy Adventure",
-      "venueSlug": "ibiza-buggy-adventure",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/c7c8aada-a1b3-4e54-a5d2-71b88a6e27e5.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/c2108f2c-dae1-4ea2-b71a-2aa36e015080.png",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/a2296eed-bef6-4968-8bf1-bdae28842ef9.png",
-      "eventId": 1745,
       "venueId": 265
     },
     {
@@ -26824,8 +26142,8 @@
       "date": "2026-09-21",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-21?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -27736,8 +27054,8 @@
       "date": "2026-09-22",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-22?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -28724,8 +28042,8 @@
       "date": "2026-09-23",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-23?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -29211,6 +28529,25 @@
       "eventCover": "https://media.clubtickets.com/migrated/event/03bd838b-6728-4daa-9a63-9bd4fcb16ce8.jpg",
       "eventLogo": "https://media.clubtickets.com/migrated/event/4b915ffc-a061-4d5b-8fe6-8bef75ba96e1.jpg",
       "eventId": 1577,
+      "venueId": 27
+    },
+    {
+      "id": 173938,
+      "date": "2026-09-24",
+      "name": "",
+      "lineUp": "",
+      "prices": "80 €",
+      "lowestAvailablePrice": 80,
+      "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/barco-a-formentera-ulises-cat/aftersun/2026-09-24?aff=CT219",
+      "eventName": "Sunset boat excursion with DJ",
+      "eventSlug": "aftersun",
+      "venueName": "Ulises Cat - Sea Experience",
+      "venueSlug": "barco-a-formentera-ulises-cat",
+      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
+      "venueLogo": "",
+      "eventCover": "https://media.clubtickets.com/migrated/event/9a4a0927-b212-4c9e-a0ae-f99e3f7f9f39.png",
+      "eventLogo": "https://media.clubtickets.com/migrated/event/e2abb19c-582e-4ab7-8eca-689de09a47ca.png",
+      "eventId": 1779,
       "venueId": 27
     },
     {
@@ -29731,8 +29068,8 @@
       "date": "2026-09-24",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-24?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -30757,8 +30094,8 @@
       "date": "2026-09-25",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-25?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -31802,8 +31139,8 @@
       "date": "2026-09-26",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-26?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -32600,8 +31937,8 @@
       "date": "2026-09-27",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-27?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -33360,8 +32697,8 @@
       "date": "2026-09-28",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-28?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -34272,8 +33609,8 @@
       "date": "2026-09-29",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-29?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -35260,8 +34597,8 @@
       "date": "2026-09-30",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-09-30?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -36134,8 +35471,8 @@
       "date": "2026-10-01",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-01?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -37084,8 +36421,8 @@
       "date": "2026-10-02",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-02?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -38015,8 +37352,8 @@
       "date": "2026-10-03",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-03?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -38718,8 +38055,8 @@
       "date": "2026-10-04",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-04?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -39440,8 +38777,8 @@
       "date": "2026-10-05",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-05?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -40200,8 +39537,8 @@
       "date": "2026-10-06",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-06?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -41036,8 +40373,8 @@
       "date": "2026-10-07",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-07?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -41815,8 +41152,8 @@
       "date": "2026-10-08",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-08?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -42651,8 +41988,8 @@
       "date": "2026-10-09",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-09?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -42873,6 +42210,25 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/7a13f548-3649-447b-b021-2275b8332ce7.png",
       "eventId": 1753,
       "venueId": 19
+    },
+    {
+      "id": 173937,
+      "date": "2026-10-10",
+      "name": "Meneito: Alex Martini, Pikkaboy, Sexky B2B Tonificado, Maru Bravo",
+      "lineUp": "",
+      "prices": "25 € - 30 €",
+      "lowestAvailablePrice": 25,
+      "affLink": "https://www.clubtickets.com/nl/clubbing/club-chinois-ibiza/chinois-presents/2026-10-10?aff=CT219",
+      "eventName": "Chinois Presents...",
+      "eventSlug": "chinois-presents",
+      "venueName": "Chinois Ibiza",
+      "venueSlug": "club-chinois-ibiza",
+      "venueCover": "https://media.clubtickets.com/migrated/venue/fe051ad4-d5b2-49ba-afff-ba2b3b347096.jpg",
+      "venueLogo": "https://media.clubtickets.com/migrated/venue/4ba10e8f-b7af-4e4f-b4d8-80235cb63324.png",
+      "eventCover": "https://media.clubtickets.com/migrated/event/c92b5a1d-9be4-4911-99a4-63c26d00a599.jpg",
+      "eventLogo": "https://media.clubtickets.com/migrated/event/293049fc-dd2a-4f17-a899-778f255a811a.png",
+      "eventId": 1591,
+      "venueId": 273
     },
     {
       "id": 162321,
@@ -43449,8 +42805,8 @@
       "date": "2026-10-10",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-10?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -44057,8 +43413,8 @@
       "date": "2026-10-11",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-11?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -44684,8 +44040,8 @@
       "date": "2026-10-12",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-12?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -45349,8 +44705,8 @@
       "date": "2026-10-13",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-13?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -46109,8 +45465,8 @@
       "date": "2026-10-14",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-14?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -46831,8 +46187,8 @@
       "date": "2026-10-15",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-15?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -47515,8 +46871,8 @@
       "date": "2026-10-16",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-16?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -48123,8 +47479,8 @@
       "date": "2026-10-17",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-17?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -48560,8 +47916,8 @@
       "date": "2026-10-18",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-18?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -49054,8 +48410,8 @@
       "date": "2026-10-19",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-19?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -49567,8 +48923,8 @@
       "date": "2026-10-20",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-20?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -50156,8 +49512,8 @@
       "date": "2026-10-21",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-21?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -50707,8 +50063,8 @@
       "date": "2026-10-22",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-22?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -51258,8 +50614,8 @@
       "date": "2026-10-23",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-23?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -51828,8 +51184,8 @@
       "date": "2026-10-24",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-24?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -52227,8 +51583,8 @@
       "date": "2026-10-25",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-25?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -52683,8 +52039,8 @@
       "date": "2026-10-26",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-26?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -53177,8 +52533,8 @@
       "date": "2026-10-27",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-27?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -53747,8 +53103,8 @@
       "date": "2026-10-28",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-28?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -54279,8 +53635,8 @@
       "date": "2026-10-29",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-29?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -54811,8 +54167,8 @@
       "date": "2026-10-30",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-30?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -55362,8 +54718,8 @@
       "date": "2026-10-31",
       "name": "",
       "lineUp": "",
-      "prices": "155 €",
-      "lowestAvailablePrice": 155,
+      "prices": "130 €",
+      "lowestAvailablePrice": 130,
       "affLink": "https://www.clubtickets.com/nl/activities/into-the-island/into-the-island/2026-10-31?aff=CT219",
       "eventName": "4x4 Safari Ibiza Tour by Into the Island",
       "eventSlug": "into-the-island",
@@ -57370,5 +56726,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-09-17T20:23:49.791Z"
+  "lastUpdated": "2026-09-18T09:48:48.642Z"
 }
