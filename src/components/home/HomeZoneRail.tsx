@@ -331,13 +331,17 @@ export function HomeZoneRail({
          (een inline stijl wint van de klasse) en geen enkele voorouder mag
          overflow hidden of auto hebben.
 
-         De factor 1,15 maakt de secties 15% hoger dan het scherm. Precies
-         passend voelde gedrongen (de kleuren volgden elkaar te snel op), 30%
-         bleek te ruim -- je zat te lang in dezelfde kleur. Hier tussenin.
+         De factor stond op 1,15 (15% hoger dan het scherm) omdat precies
+         passend gedrongen voelde: de kleuren volgden elkaar te snel op. Dat
+         bezwaar is weg sinds de kleur van de volgende wereld al in de
+         onderste helft oploopt (NEXT_ZONE_BG) -- er ís geen harde kleurwissel
+         meer om af te remmen. Wat overbleef was een lege strook van een half
+         scherm tussen de dagkiezer en het volgende vel, en die is op verzoek
+         van de eigenaar weg: de sectie is nu precies de schermhoogte.
 
          Meer opvulling onderaan (pb-16 -> pb-24, sm 84 -> 104px): de inhoud
          stond te dicht op de rand waar het volgende vel binnenschuift. */
-      className="relative flex min-h-[calc((100svh-var(--nav-h-min))*1.15+48px)] scroll-mt-[var(--nav-h-min)] flex-col justify-center pb-24 pt-10 sm:pb-[104px] sm:pt-[68px]"
+      className="relative flex min-h-[calc((100svh-var(--nav-h-min))+48px)] scroll-mt-[var(--nav-h-min)] flex-col justify-center pb-20 pt-10 sm:pb-[96px] sm:pt-[68px]"
       style={{
         // Geen `position` hier. Die stond op 'relative' en een inline stijl wint
         // van een klasse, dus de `sticky` uit className deed niets -- gemeten:
