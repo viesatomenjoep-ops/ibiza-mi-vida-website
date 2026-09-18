@@ -147,8 +147,8 @@ function useDragScroll(ref: RefObject<HTMLDivElement>) {
  */
 function TagDot({ color, label }: { color: string; label: string }) {
   return (
-    <span className="inline-flex min-w-0 items-center gap-1.5 text-[11px] font-semibold">
-      <span aria-hidden className="inline-block h-2 w-2 shrink-0 rounded-full" style={{ background: color }} />
+    <span className="inline-flex min-w-0 items-center gap-1.5 text-[12px] font-semibold sm:text-[13px]">
+      <span aria-hidden className="inline-block h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: color }} />
       <span className="truncate">{label}</span>
     </span>
   )
@@ -172,11 +172,11 @@ function PriceTag({ price, locale, size }: { price?: string; locale: string; siz
   return (
     <span className="flex shrink-0 flex-col items-end whitespace-nowrap leading-none">
       {price && (
-        <span className={`mb-0.5 text-[9px] ${size === 'lg' ? 'text-white/70' : 'text-black/55'}`}>
+        <span className={`mb-0.5 text-[11px] font-semibold ${size === 'lg' ? 'text-white/80' : 'text-black/55'}`}>
           {t(L.from, locale)}
         </span>
       )}
-      <span className={`font-display font-extrabold leading-none ${size === 'lg' ? 'text-[16px] sm:text-[21px]' : 'text-[15px]'}`}>
+      <span className={`font-display font-extrabold leading-none ${size === 'lg' ? 'text-[clamp(20px,5.6vw,26px)] sm:text-[24px]' : 'text-[15px]'}`}>
         {price || t(L.onRequest, locale)}
       </span>
     </span>
@@ -423,7 +423,7 @@ export function HomeZoneRail({
                  aantal. Op desktop stond hier clamp(300px,88vw,560px): dat gaf
                  kaarten van 560px en dus twee in beeld, met de derde half
                  afgesneden. */
-              className="group relative flex min-h-[218px] flex-col justify-end overflow-hidden rounded-[22px] bg-[#141414] p-3 text-white shadow-[0_16px_36px_-16px_rgba(0,0,0,.22)] transition-transform duration-[350ms] [transition-timing-function:cubic-bezier(.2,.8,.2,1)] [animation:imvHomeZoneFade_.5s_ease_both] hover:-translate-y-1 sm:min-h-[208px] sm:p-4"
+              className="group relative flex min-h-[248px] flex-col justify-end overflow-hidden rounded-[22px] bg-[#141414] p-3.5 text-white shadow-[0_16px_36px_-16px_rgba(0,0,0,.22)] transition-transform duration-[350ms] [transition-timing-function:cubic-bezier(.2,.8,.2,1)] [animation:imvHomeZoneFade_.5s_ease_both] hover:-translate-y-1 sm:min-h-[208px] sm:p-4"
               style={{ scrollSnapAlign: 'start' }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -438,9 +438,13 @@ export function HomeZoneRail({
               {/* Het verloop draagt de leesbaarheid van de tekst eronder. Bijna
                   doorzichtig aan de bovenkant zodat het beeld heel blijft, en
                   stevig onderin waar de titel en de prijs staan. */}
-              <div className="pointer-events-none absolute inset-0" style={{ background: 'linear-gradient(180deg,rgba(0,0,0,.05) 25%,rgba(0,0,0,.8) 100%)' }} />
+              {/* Onderste helft echt donker. Met .8 op 100% en bijna niets
+                  daarboven stond "Privéboot" en de haven wit op een witte
+                  bimini (Cap Camarat) -- onleesbaar. Vanaf 30% loopt het nu op
+                  naar .9, en de tekst krijgt een lichte schaduw als bodem. */}
+              <div className="pointer-events-none absolute inset-0" style={{ background: 'linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.55) 58%,rgba(0,0,0,.9) 100%)' }} />
               <span
-                className="absolute left-2.5 top-2.5 rounded-full px-1.5 py-1 font-sans text-[9px] font-bold leading-none sm:left-3 sm:top-3 sm:px-2.5 sm:py-1.5 sm:text-[10px]"
+                className="absolute left-3 top-3 rounded-full px-2.5 py-1.5 font-sans text-[12px] font-bold leading-none sm:px-3 sm:py-2 sm:text-[13px]"
                 style={{ background: accent, color: accentInk }}
               >
                 {fmtShortDate(day.iso, locale)}
@@ -453,7 +457,7 @@ export function HomeZoneRail({
                   {t(L.featured, locale)}
                 </span>
               )}
-              <div className="relative flex flex-col gap-1.5">
+              <div className="relative flex flex-col gap-2 [text-shadow:0_1px_2px_rgba(0,0,0,.6)]">
                 {/* Overal op twee regels afgekapt. Een titel als "Jamie Jones
                     presents Paradise: Starship Eden" liep op een smalle kaart
                     over vier regels en duwde samen met het verloop het hele
@@ -464,11 +468,11 @@ export function HomeZoneRail({
 
                     De maat volgt de kaart mee: 30px op een kaart van 560px was
                     passend, op 271px niet meer. */}
-                <strong className="line-clamp-2 font-display text-[clamp(13px,3.4vw,21px)] font-extrabold leading-[1.08] tracking-[-0.02em] md:text-[15px] lg:text-[17px]" style={{ textWrap: 'balance' as any }}>
+                <strong className="line-clamp-2 font-display text-[clamp(16px,4.3vw,22px)] font-extrabold leading-[1.08] tracking-[-0.02em] md:text-[17px] lg:text-[19px]" style={{ textWrap: 'balance' as any }}>
                   {c.title}
                 </strong>
                 {(c.venue || c.time) && (
-                  <span className="line-clamp-1 text-[10px] text-white/80 sm:line-clamp-none sm:text-[11px]">
+                  <span className="line-clamp-1 text-[12px] font-medium text-white/90 sm:line-clamp-none sm:text-[13px]">
                     {c.venue}{c.venue && c.time ? ' \u00b7 ' : ''}{c.time}
                   </span>
                 )}
@@ -507,16 +511,16 @@ export function HomeZoneRail({
               type="button"
               aria-label={t(L.previous, locale)}
               onClick={() => scrollByCard(-1)}
-              className="grid h-10 w-10 flex-none place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-11 md:w-11"
+              className="grid h-11 w-11 flex-none place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-12 md:w-12"
               style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
               onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
               onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
             >
-              <ChevronLeft className="h-4 w-4 md:h-5 md:w-5" strokeWidth={2.5} aria-hidden />
+              <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" strokeWidth={2.5} aria-hidden />
             </button>
             <a
               href={ctaHref}
-              className="inline-flex min-w-0 items-center justify-center gap-2 truncate rounded-full px-3.5 py-2.5 font-sans text-[10px] font-extrabold uppercase tracking-[0.14em] transition-colors duration-200 sm:px-[18px] sm:tracking-[0.18em]"
+              className="inline-flex min-w-0 items-center justify-center gap-2 truncate rounded-full px-5 py-3 font-sans text-[12px] font-extrabold uppercase tracking-[0.14em] transition-colors duration-200 sm:px-6 sm:py-3.5 sm:text-[13px] sm:tracking-[0.18em]"
               style={{ background: accent, color: accentInk, boxShadow: `0 18px 40px -18px ${accent}cc` }}
               onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
               onMouseLeave={e => { e.currentTarget.style.background = accent; e.currentTarget.style.color = accentInk }}
@@ -527,12 +531,12 @@ export function HomeZoneRail({
               type="button"
               aria-label={t(L.next, locale)}
               onClick={() => scrollByCard(1)}
-              className="grid h-10 w-10 flex-none place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-11 md:w-11"
+              className="grid h-11 w-11 flex-none place-items-center rounded-full border-[1.5px] transition-colors duration-200 md:h-12 md:w-12"
               style={{ borderColor: arrowBorder, background: arrowBg, color: arrowColor }}
               onMouseEnter={e => { e.currentTarget.style.background = dark ? '#fff' : '#141414'; e.currentTarget.style.color = dark ? '#141414' : '#fff' }}
               onMouseLeave={e => { e.currentTarget.style.background = arrowBg; e.currentTarget.style.color = arrowColor }}
             >
-              <ChevronRight className="h-4 w-4 md:h-5 md:w-5" strokeWidth={2.5} aria-hidden />
+              <ChevronRight className="h-5 w-5 md:h-6 md:w-6" strokeWidth={2.5} aria-hidden />
             </button>
           </div>
 
@@ -615,7 +619,7 @@ export function HomeZoneRail({
                   }}
                 >
                   <span className="font-display text-[clamp(14px,4.3vw,26px)] font-black leading-none tracking-[0.01em]">{num}</span>
-                  <span className={`font-sans text-[clamp(8px,1.9vw,10px)] font-semibold uppercase leading-none tracking-[0.06em] ${on ? 'text-white/90' : 'opacity-60'}`}>{weekday}</span>
+                  <span className={`font-sans text-[clamp(10px,2.4vw,12px)] font-bold uppercase leading-none tracking-[0.06em] ${on ? 'text-white/90' : 'opacity-70'}`}>{weekday}</span>
                 </button>
               )
             })}
