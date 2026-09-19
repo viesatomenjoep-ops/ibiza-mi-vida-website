@@ -10,7 +10,7 @@ import {
   startOfDay, eachDayOfInterval, parseISO, isToday, isTomorrow,
 } from 'date-fns'
 import { nl, enUS, de, es, fr } from 'date-fns/locale'
-import { MapPin, Calendar } from 'lucide-react'
+import { MapPin, Calendar, ChevronDown, SlidersHorizontal, X } from 'lucide-react'
 import type { PickerEvent } from '@/lib/picker-event'
 import { optImg } from '@/lib/img'
 import { eventBasePath } from '@/lib/event-path'
@@ -82,12 +82,15 @@ const T_I18N: Record<string, {
   day: string; week: string; month: string; year: string; whole: (p: string) => string;
   events: (n: number) => string; noEvents: string; loading: string; tickets: string; view: string; lineupMore: string;
   today: string; tomorrow: string; upcoming: string;
+  allVenues: string; searchArtist: string; anyBudget: string; upToPrice: (v: number) => string;
+  clearFilters: string; noMatchFiltered: string;
+  filters: string; close: string; club: string; artist: string; budget: string; showResults: (n: number) => string;
 }> = {
-  en: { title: 'Ibiza club calendar 2026', sub: 'Discover what’s on across Ibiza — slide through the dates and grab your tickets.', day: 'Day', week: 'Week', month: 'Month', year: 'Year', whole: p => `All ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, loading: 'Loading the calendar…', noEvents: 'No events for this selection.', tickets: 'Tickets', view: 'View', lineupMore: 'more', today: 'Today', tomorrow: 'Tomorrow', upcoming: 'All upcoming events' },
-  nl: { title: 'Ibiza clubagenda 2026', sub: 'Ontdek wat er speelt op Ibiza — schuif door de data en scoor je tickets.', day: 'Dag', week: 'Week', month: 'Maand', year: 'Jaar', whole: p => `Hele ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, loading: 'Agenda laden…', noEvents: 'Geen events voor deze selectie.', tickets: 'Tickets', view: 'Bekijk', lineupMore: 'meer', today: 'Vandaag', tomorrow: 'Morgen', upcoming: 'Alle aankomende events' },
-  de: { title: 'Ibiza Clubkalender 2026', sub: 'Entdecke, was auf Ibiza los ist — wische durch die Daten und sichere dir deine Tickets.', day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', whole: p => `Ganze ${p}`, events: n => `${n} ${n === 1 ? 'Event' : 'Events'}`, loading: 'Kalender wird geladen…', noEvents: 'Keine Events für diese Auswahl.', tickets: 'Tickets', view: 'Ansehen', lineupMore: 'mehr', today: 'Heute', tomorrow: 'Morgen', upcoming: 'Alle kommenden Events' },
-  es: { title: 'Agenda de clubs Ibiza 2026', sub: 'Descubre qué hay en Ibiza — desliza por las fechas y consigue tus entradas.', day: 'Día', week: 'Semana', month: 'Mes', year: 'Año', whole: p => `Todo el/la ${p}`, events: n => `${n} ${n === 1 ? 'evento' : 'eventos'}`, loading: 'Cargando la agenda…', noEvents: 'No hay eventos para esta selección.', tickets: 'Entradas', view: 'Ver', lineupMore: 'más', today: 'Hoy', tomorrow: 'Mañana', upcoming: 'Todos los próximos eventos' },
-  fr: { title: 'Agenda des clubs Ibiza 2026', sub: 'Découvrez ce qui se passe à Ibiza — faites défiler les dates et prenez vos billets.', day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Année', whole: p => `Tout le/la ${p}`, events: n => `${n} ${n === 1 ? 'événement' : 'événements'}`, loading: 'Chargement de l’agenda…', noEvents: 'Aucun événement pour cette sélection.', tickets: 'Billets', view: 'Voir', lineupMore: 'plus', today: 'Aujourd’hui', tomorrow: 'Demain', upcoming: 'Tous les événements à venir' },
+  en: { title: 'Ibiza club calendar 2026', sub: 'Discover what’s on across Ibiza — slide through the dates and grab your tickets.', day: 'Day', week: 'Week', month: 'Month', year: 'Year', whole: p => `All ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, loading: 'Loading the calendar…', noEvents: 'No events for this selection.', tickets: 'Tickets', view: 'View', lineupMore: 'more', today: 'Today', tomorrow: 'Tomorrow', upcoming: 'All upcoming events', allVenues: 'All clubs', searchArtist: 'Search an artist…', anyBudget: 'Any budget', upToPrice: v => `Up to €${v}`, clearFilters: 'Clear filters', noMatchFiltered: 'No events match your filters.', filters: 'Filters', close: 'Close', club: 'Club', artist: 'Artist', budget: 'Budget', showResults: n => `Show ${n} ${n === 1 ? 'event' : 'events'}` },
+  nl: { title: 'Ibiza clubagenda 2026', sub: 'Ontdek wat er speelt op Ibiza — schuif door de data en scoor je tickets.', day: 'Dag', week: 'Week', month: 'Maand', year: 'Jaar', whole: p => `Hele ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, loading: 'Agenda laden…', noEvents: 'Geen events voor deze selectie.', tickets: 'Tickets', view: 'Bekijk', lineupMore: 'meer', today: 'Vandaag', tomorrow: 'Morgen', upcoming: 'Alle aankomende events', allVenues: 'Alle clubs', searchArtist: 'Zoek een artiest…', anyBudget: 'Elk budget', upToPrice: v => `Tot €${v}`, clearFilters: 'Filters wissen', noMatchFiltered: 'Geen events gevonden voor deze filters.', filters: 'Filters', close: 'Sluiten', club: 'Club', artist: 'Artiest', budget: 'Budget', showResults: n => `Toon ${n} ${n === 1 ? 'event' : 'events'}` },
+  de: { title: 'Ibiza Clubkalender 2026', sub: 'Entdecke, was auf Ibiza los ist — wische durch die Daten und sichere dir deine Tickets.', day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', whole: p => `Ganze ${p}`, events: n => `${n} ${n === 1 ? 'Event' : 'Events'}`, loading: 'Kalender wird geladen…', noEvents: 'Keine Events für diese Auswahl.', tickets: 'Tickets', view: 'Ansehen', lineupMore: 'mehr', today: 'Heute', tomorrow: 'Morgen', upcoming: 'Alle kommenden Events', allVenues: 'Alle Clubs', searchArtist: 'Künstler suchen…', anyBudget: 'Jedes Budget', upToPrice: v => `Bis €${v}`, clearFilters: 'Filter zurücksetzen', noMatchFiltered: 'Keine Events für diese Filter.', filters: 'Filter', close: 'Schließen', club: 'Club', artist: 'Künstler', budget: 'Budget', showResults: n => `${n} Event${n === 1 ? '' : 's'} anzeigen` },
+  es: { title: 'Agenda de clubs Ibiza 2026', sub: 'Descubre qué hay en Ibiza — desliza por las fechas y consigue tus entradas.', day: 'Día', week: 'Semana', month: 'Mes', year: 'Año', whole: p => `Todo el/la ${p}`, events: n => `${n} ${n === 1 ? 'evento' : 'eventos'}`, loading: 'Cargando la agenda…', noEvents: 'No hay eventos para esta selección.', tickets: 'Entradas', view: 'Ver', lineupMore: 'más', today: 'Hoy', tomorrow: 'Mañana', upcoming: 'Todos los próximos eventos', allVenues: 'Todos los clubs', searchArtist: 'Buscar un artista…', anyBudget: 'Cualquier presupuesto', upToPrice: v => `Hasta €${v}`, clearFilters: 'Borrar filtros', noMatchFiltered: 'Ningún evento coincide con tus filtros.', filters: 'Filtros', close: 'Cerrar', club: 'Club', artist: 'Artista', budget: 'Presupuesto', showResults: n => `Ver ${n} ${n === 1 ? 'evento' : 'eventos'}` },
+  fr: { title: 'Agenda des clubs Ibiza 2026', sub: 'Découvrez ce qui se passe à Ibiza — faites défiler les dates et prenez vos billets.', day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Année', whole: p => `Tout le/la ${p}`, events: n => `${n} ${n === 1 ? 'événement' : 'événements'}`, loading: 'Chargement de l’agenda…', noEvents: 'Aucun événement pour cette sélection.', tickets: 'Billets', view: 'Voir', lineupMore: 'plus', today: 'Aujourd’hui', tomorrow: 'Demain', upcoming: 'Tous les événements à venir', allVenues: 'Tous les clubs', searchArtist: 'Rechercher un artiste…', anyBudget: 'Tout budget', upToPrice: v => `Jusqu'à €${v}`, clearFilters: 'Effacer les filtres', noMatchFiltered: 'Aucun événement ne correspond à vos filtres.', filters: 'Filtres', close: 'Fermer', club: 'Club', artist: 'Artiste', budget: 'Budget', showResults: n => `Voir ${n} ${n === 1 ? 'événement' : 'événements'}` },
 }
 const getLoc = (l: string) => ({ nl, de, es, fr, en: enUS } as Record<string, Locale>)[l] || enUS
 type Locale = typeof enUS
@@ -97,10 +100,20 @@ function priceFrom(prices?: string): string | null {
   const m = prices.match(/\d+([.,]\d+)?/)
   return m ? `€${m[0].replace(',', '.').replace(/\.00$/, '')}` : null
 }
+/** Zelfde regex als priceFrom(), maar als getal — voor het prijsfilter. */
+function priceFromNumber(prices?: string): number | null {
+  if (!prices) return null
+  const m = prices.match(/\d+([.,]\d+)?/)
+  return m ? parseFloat(m[0].replace(',', '.')) : null
+}
 function lineupArtists(lineUp?: string): string[] {
   if (!lineUp) return []
   const txt = lineUp.replace(/<[^>]+>/g, ' ').replace(/\b(MAIN ROOM|THE BUNKER|CLUB ROOM|TERRACE|ROOM \d)\b/gi, ' ')
-  return txt.replace(/\s+/g, ' ').trim().split(/[,\-–|]/).map(s => s.trim()).filter(s => s.length > 1)
+  return txt.replace(/\s+/g, ' ').trim().split(/[,\-–|]/)
+    // Sommige feeds zetten een starttijd voor het stukje line-up, bijv.
+    // "23:00) Richie Hawtin" — dat hoort niet bij de artiestennaam.
+    .map(s => s.trim().replace(/^\d{1,2}:\d{2}\)\s*/, '').trim())
+    .filter(s => s.length > 1)
 }
 
 /**
@@ -141,6 +154,77 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
 
   const [period, setPeriod] = useState<Period>('week')
   const [activeDay, setActiveDay] = useState<string | null>(null)
+
+  // ── Filters: venue, artist, budget ─────────────────────────────────────
+  // Alle drie parsen uit data die deze component toch al binnenkrijgt — geen
+  // nieuwe fetch, geen nieuw veld. Ze staan los van period/activeDay: wie op
+  // een club filtert en dan van week naar maand bladert, wil die club
+  // aanhouden, niet opnieuw kiezen.
+  const [venueFilter, setVenueFilter] = useState<string>('all')
+  const [artistQuery, setArtistQuery] = useState('')
+  const [maxPrice, setMaxPrice] = useState<number | null>(null)
+
+  // Eigen dropdown voor de club-kiezer in plaats van een kale <select> — de
+  // rest van de filterrij (chips, zoekvak) is al custom gestyled, en een
+  // systeem-dropdown ertussen valt uit de toon. Sluit op een klik erbuiten of
+  // Escape, zoals DatePickerModal elders op de site.
+  const [venueOpen, setVenueOpen] = useState(false)
+  const venueDropdownRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (!venueOpen) return
+    const onClick = (e: MouseEvent) => {
+      if (venueDropdownRef.current && !venueDropdownRef.current.contains(e.target as Node)) setVenueOpen(false)
+    }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setVenueOpen(false) }
+    document.addEventListener('mousedown', onClick)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onClick)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [venueOpen])
+
+  // Zelfde patroon voor het artiestenveld: een intikvak dat ook een lijst met
+  // de artiesten uit dit venster opent (gefilterd op wat je typt) — sneller
+  // dan een kale dropdown bij honderden namen, maar je kunt nog steeds
+  // bladeren zonder een naam te hoeven kennen.
+  const [artistOpen, setArtistOpen] = useState(false)
+  const artistDropdownRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (!artistOpen) return
+    const onClick = (e: MouseEvent) => {
+      if (artistDropdownRef.current && !artistDropdownRef.current.contains(e.target as Node)) setArtistOpen(false)
+    }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setArtistOpen(false) }
+    document.addEventListener('mousedown', onClick)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onClick)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [artistOpen])
+
+  // ── Mobiel filtermenu ──────────────────────────────────────────────────
+  // Op mobiel is er geen ruimte voor de filterrij naast elkaar (dat werd drie
+  // regels vol pillen); die staat op mobiel verborgen en een vast knopje
+  // rechts opent dezelfde filters in een sheet — zelfde chrome als
+  // DatePickerModal: focus, Escape sluit, achtergrond niet scrollbaar.
+  const [filterModalOpen, setFilterModalOpen] = useState(false)
+  const filterModalRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (!filterModalOpen) return
+    const prevFocus = document.activeElement as HTMLElement | null
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { e.stopPropagation(); setFilterModalOpen(false) } }
+    document.addEventListener('keydown', onKey)
+    const body = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    filterModalRef.current?.focus()
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = body
+      prevFocus?.focus?.()
+    }
+  }, [filterModalOpen])
 
   /**
    * De agenda voorbij wat de server meestuurde.
@@ -190,6 +274,81 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
     () => events.filter(e => hoortErbij(mode, venueOf(e)?.type_slug || '') && e.date >= todayStr),
     [events, todayStr, mode]
   )
+
+  // ── Filter opties, afgeleid van wat er ook echt staat ────────────────────
+  // Venues uit clubEvents zelf, niet uit allVenues: anders biedt de kiezer een
+  // club aan met nul events in het geladen venster — een dode optie.
+  const venueOptions = useMemo(() => {
+    const seen = new Map<string, string>()
+    clubEvents.forEach(e => {
+      const slug = e.ct_venues?.slug
+      if (slug && !seen.has(slug)) seen.set(slug, e.ct_venues?.name || venueOf(e)?.name || slug)
+    })
+    return Array.from(seen.entries()).sort((a, b) => a[1].localeCompare(b[1]))
+  }, [clubEvents])
+  const venueLabel = venueFilter === 'all' ? T.allVenues : (venueOptions.find(([slug]) => slug === venueFilter)?.[1] || T.allVenues)
+
+  // Het artiestenfilter alleen tonen als er in dit venster ook echt een
+  // line-up gepubliceerd staat — op de activiteitenagenda (boottochten,
+  // tours) is dat vrijwel nooit zo, en een zoekvak dat nooit iets kan vinden
+  // is geen filter.
+  const hasAnyLineup = useMemo(
+    () => clubEvents.some(e => lineupArtists(e.lineUp).length > 0),
+    [clubEvents]
+  )
+  // Alle artiesten die in dit venster op een line-up staan, dubbelen eruit op
+  // naam (niet op hoofdletters — dezelfde artiest komt met wisselende casing
+  // uit de feed), gesorteerd. Bron voor de dropdown onder het zoekvak.
+  const artistOptions = useMemo(() => {
+    const seen = new Map<string, string>() // lowercase -> weergavenaam (eerste keer gezien)
+    clubEvents.forEach(e => {
+      lineupArtists(e.lineUp).forEach(name => {
+        const key = name.toLowerCase()
+        if (!seen.has(key)) seen.set(key, name)
+      })
+    })
+    return Array.from(seen.values()).sort((a, b) => a.localeCompare(b))
+  }, [clubEvents])
+  // Wat de dropdown toont: alles bij een leeg zoekveld, anders alleen de
+  // namen die matchen — begrensd op 50 zodat het paneel niet honderden rijen
+  // lang wordt bij een seizoen met veel line-ups.
+  const artistSuggestions = useMemo(() => {
+    const q = artistQuery.trim().toLowerCase()
+    const list = q ? artistOptions.filter(a => a.toLowerCase().includes(q)) : artistOptions
+    return list.slice(0, 50)
+  }, [artistOptions, artistQuery])
+
+  // Bereik van de prijsslider: de echte min/max van dit venster, afgerond op
+  // hele tientallen — 5€ te ruim aan weerskanten is beter dan een slider die
+  // precies op de goedkoopste avond begint en bij de duurste ophoudt zonder
+  // speling om te zien dat dat de grens is.
+  const priceBounds = useMemo(() => {
+    const vals = clubEvents.map(e => priceFromNumber(e.prices)).filter((v): v is number => v != null)
+    if (!vals.length) return null
+    return { min: Math.floor(Math.min(...vals) / 10) * 10, max: Math.ceil(Math.max(...vals) / 10) * 10 }
+  }, [clubEvents])
+  // "Alle budgetten" = de schuif helemaal rechts; alleen dan is er geen filter.
+  const sliderValue = maxPrice ?? priceBounds?.max ?? 0
+  const pricePct = priceBounds && priceBounds.max > priceBounds.min
+    ? ((sliderValue - priceBounds.min) / (priceBounds.max - priceBounds.min)) * 100
+    : 100
+
+  const filteredEvents = useMemo(() => {
+    if (venueFilter === 'all' && !artistQuery.trim() && maxPrice == null) return clubEvents
+    const q = artistQuery.trim().toLowerCase()
+    return clubEvents.filter(e => {
+      const matchVenue = venueFilter === 'all' || e.ct_venues?.slug === venueFilter
+      const matchArtist = !q || lineupArtists(e.lineUp).some(a => a.toLowerCase().includes(q))
+      const price = priceFromNumber(e.prices)
+      const matchPrice = maxPrice == null || price == null || price <= maxPrice
+      return matchVenue && matchArtist && matchPrice
+    })
+  }, [clubEvents, venueFilter, artistQuery, maxPrice])
+
+  const activeFilterCount = (venueFilter !== 'all' ? 1 : 0) + (artistQuery.trim() ? 1 : 0) + (maxPrice != null ? 1 : 0)
+  const clearFilters = useCallback(() => {
+    setVenueFilter('all'); setArtistQuery(''); setMaxPrice(null)
+  }, [])
 
   // Date range for the current period
   const { rangeStart, rangeEnd, stripDays, showStrip } = useMemo(() => {
@@ -257,9 +416,11 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
     setActiveDay(p === 'day' ? todayStr : null)
   }, [todayStr])
 
+  // Telt filteredEvents, niet clubEvents: anders belooft het dock een dag met
+  // events die de gefilterde lijst eronder dan als leeg laat zien.
   const countForDay = useCallback((ds: string) => {
-    return clubEvents.filter(e => e.date === ds).length
-  }, [clubEvents])
+    return filteredEvents.filter(e => e.date === ds).length
+  }, [filteredEvents])
 
   // Fixed bottom week dock (blurred event photos) — day-select filters the list
   const listRef = useRef<HTMLDivElement>(null)
@@ -277,7 +438,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
   }, [activeDay])
 
   // Tiles: all upcoming events, or just the day picked in the dock
-  const rangeEvents = activeDay ? clubEvents.filter(e => e.date === activeDay) : clubEvents
+  const rangeEvents = activeDay ? filteredEvents.filter(e => e.date === activeDay) : filteredEvents
 
   // Grouped by date — shuffled per day, with the biggest clubs favoured toward the
   // top (in random order among themselves), so it's never always "Universe first".
@@ -339,7 +500,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
             <h1 className="text-4xl md:text-7xl font-black font-serif text-black leading-tight uppercase m-0 tracking-tight drop-shadow-sm">
               {heading || T.title}
             </h1>
-            <p className="hidden md:block font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-2">
+            <p className="hidden md:block font-sans text-base md:text-lg text-neutral-600 max-w-2xl mx-auto mt-5">
               {sub || T.sub}
             </p>
           </div>
@@ -347,10 +508,162 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
       </section>
 
 
-      <div ref={listRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 32px)', minHeight: activeDay ? 'calc(100svh - var(--nav-h))' : undefined }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-40">
+      <div ref={listRef} style={{ scrollMarginTop: 'calc(var(--nav-h) + 32px)', minHeight: activeDay ? 'calc(100svh - var(--nav-h))' : undefined }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-40 pt-8">
 
         {/* Scroll-down cue — appears once a day is picked in the dock */}
         {activeDay && <ScrollCue className="mb-2" />}
+
+        {/* ── Filters: venue, artist, budget ──────────────────────────────
+            Los van de dagkiezer eronder: wie op een club filtert en dan door
+            de weken bladert wil die club aanhouden. Het artiestenveld staat
+            er alleen als er in dit venster ook echt een line-up gepubliceerd
+            is (zie hasAnyLineup) — op de activiteitenagenda is dat zo goed
+            als nooit, en een zoekvak dat nooit iets vindt is geen filter. */}
+        {/* dangerouslySetInnerHTML en niet <style>{`…`}</style>: die laatste
+            vorm laat React de CSS-tekst als gewone child-tekst behandelen
+            (HTML-escaped tijdens SSR, bijv. bootpagina's -> bootpagina&#x27;s),
+            en dat gaf een text-content mismatch bij hydration -- exact de
+            fout die elders op deze site "the entire root will switch to
+            client rendering" veroorzaakte. FleetShowcase.tsx gebruikt om
+            dezelfde reden ook dangerouslySetInnerHTML voor zijn <style>. */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          .cal-range { -webkit-appearance: none; appearance: none; height: 6px; border-radius: 9999px; outline: none; cursor: pointer; background: transparent; }
+          .cal-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 9999px; background: #fff; border: 3px solid #000; box-shadow: 0 2px 6px rgba(0,0,0,0.25); cursor: grab; transition: transform .15s ease; margin-top: -8px; }
+          .cal-range::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.12); }
+          .cal-range::-webkit-slider-runnable-track { height: 6px; border-radius: 9999px; }
+          .cal-range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 9999px; background: #fff; border: 3px solid #000; box-shadow: 0 2px 6px rgba(0,0,0,0.25); cursor: grab; }
+          .cal-range::-moz-range-track { height: 6px; border-radius: 9999px; background: transparent; }
+        ` }} />
+        {/* Op mobiel drie regels pillen -- verborgen tot sm; daar staat de
+            vaste filterknop + sheet (zie onder de WeekDockBar) voor in de
+            plaats. */}
+        <div className="mb-5 hidden flex-wrap items-center gap-2 sm:flex">
+          {/* Club — eigen dropdown in plaats van een systeem-<select>, zodat hij
+              bij de rest van de filterrij past. */}
+          <div ref={venueDropdownRef} className="relative">
+            <button
+              type="button"
+              onClick={() => setVenueOpen(o => !o)}
+              aria-haspopup="listbox"
+              aria-expanded={venueOpen}
+              // border-solid is nodig naast border: de site heeft een globale
+              // `button { border: none }`-reset (border-style: none), en
+              // border-width rekent zich terug naar 0 zodra border-style
+              // "none" wint — ook als een andere regel border-width: 1px zet.
+              // Op een <div> of <input> speelt dit niet, alleen op <button>.
+              className={`inline-flex items-center gap-1.5 rounded-full border border-solid px-4 py-2 text-xs font-bold transition-colors ${venueFilter !== 'all' ? 'border-ibiza-green bg-ibiza-green text-white' : 'border-black/15 bg-white text-black hover:border-ibiza-green'}`}
+            >
+              <span className="max-w-[10rem] truncate">{venueLabel}</span>
+              <ChevronDown size={14} className={`shrink-0 transition-transform ${venueOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {venueOpen && (
+              <div role="listbox" aria-label={T.allVenues} className="absolute left-0 top-[calc(100%+6px)] z-30 max-h-72 w-60 overflow-y-auto rounded-2xl border border-black/10 bg-white p-1.5 shadow-xl">
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={venueFilter === 'all'}
+                  onClick={() => { setVenueFilter('all'); setVenueOpen(false) }}
+                  className={`block w-full rounded-xl px-3 py-2 text-left text-xs font-bold transition-colors ${venueFilter === 'all' ? 'bg-ibiza-green text-white' : 'text-black hover:bg-black/5'}`}
+                >
+                  {T.allVenues}
+                </button>
+                {venueOptions.map(([slug, name]) => (
+                  <button
+                    key={slug}
+                    type="button"
+                    role="option"
+                    aria-selected={venueFilter === slug}
+                    onClick={() => { setVenueFilter(slug); setVenueOpen(false) }}
+                    className={`block w-full truncate rounded-xl px-3 py-2 text-left text-xs font-bold transition-colors ${venueFilter === slug ? 'bg-ibiza-green text-white' : 'text-black hover:bg-black/5'}`}
+                  >
+                    {name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {hasAnyLineup && (
+            <div ref={artistDropdownRef} className="relative">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={artistQuery}
+                  onChange={e => { setArtistQuery(e.target.value); setArtistOpen(true) }}
+                  onFocus={() => setArtistOpen(true)}
+                  placeholder={T.searchArtist}
+                  aria-label={T.searchArtist}
+                  role="combobox"
+                  aria-expanded={artistOpen}
+                  aria-haspopup="listbox"
+                  aria-controls="calendar-artist-listbox"
+                  className="w-44 rounded-full border border-black/15 bg-white py-2 pl-4 pr-8 text-xs font-semibold text-black outline-none transition-colors placeholder:text-black/40 hover:border-ibiza-green focus:border-ibiza-green sm:w-56"
+                />
+                {artistQuery && (
+                  <button
+                    type="button"
+                    onClick={() => { setArtistQuery(''); setArtistOpen(false) }}
+                    aria-label={T.clearFilters}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-black/40 hover:text-black"
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+              {/* Dropdown met de artiesten uit dit venster, gefilterd op wat je
+                  typt — geen aparte knop, het zoekvak zelf opent hem. */}
+              {artistOpen && artistSuggestions.length > 0 && (
+                <div id="calendar-artist-listbox" role="listbox" aria-label={T.searchArtist} className="absolute left-0 top-[calc(100%+6px)] z-30 max-h-72 w-44 overflow-y-auto rounded-2xl border border-black/10 bg-white p-1.5 shadow-xl sm:w-56">
+                  {artistSuggestions.map(name => (
+                    <button
+                      key={name}
+                      type="button"
+                      role="option"
+                      aria-selected={artistQuery === name}
+                      onClick={() => { setArtistQuery(name); setArtistOpen(false) }}
+                      className={`block w-full truncate rounded-xl px-3 py-2 text-left text-xs font-bold transition-colors ${artistQuery === name ? 'bg-ibiza-green text-white' : 'text-black hover:bg-black/5'}`}
+                    >
+                      {name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Budget — schuif in plaats van pillen. Helemaal rechts = geen filter. */}
+          {priceBounds && priceBounds.max > priceBounds.min && (
+            <div className="flex min-w-[190px] flex-1 items-center gap-3 rounded-full border border-black/15 bg-white py-2 pl-4 pr-3 sm:max-w-[16rem]">
+              <span className="shrink-0 whitespace-nowrap text-xs font-bold text-black">
+                {maxPrice == null ? T.anyBudget : T.upToPrice(maxPrice)}
+              </span>
+              <input
+                type="range"
+                className="cal-range flex-1"
+                style={{ background: `linear-gradient(to right, #000 ${pricePct}%, #e5e5e5 ${pricePct}%)` }}
+                min={priceBounds.min}
+                max={priceBounds.max}
+                step={5}
+                value={sliderValue}
+                onChange={e => {
+                  const v = Number(e.target.value)
+                  setMaxPrice(v >= (priceBounds?.max ?? 0) ? null : v)
+                }}
+                aria-label={T.anyBudget}
+              />
+            </div>
+          )}
+
+          {activeFilterCount > 0 && (
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="text-xs font-bold uppercase tracking-widest text-ibiza-green hover:underline"
+            >
+              {T.clearFilters}
+            </button>
+          )}
+        </div>
 
         {/* ── Section label (Deals-of-the-Day style) ── */}
         <div className="mb-8 flex items-center justify-between border-b border-black/10 pb-4">
@@ -377,9 +690,21 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
             <p className="font-semibold text-base">{T.loading}</p>
           </div>
         ) : totalCount === 0 ? (
+          /* Twee verschillende "niets" — het onderscheid maakt uit: geen
+             programma die avond is een feit over Ibiza, een leeg filter is
+             "zet je zoekopdracht ruimer" en verdient een uitweg. */
           <div className="col-span-full text-center py-20 text-black/60 bg-black/5 rounded-3xl border border-black/10">
             <Calendar className="w-12 h-12 mx-auto mb-4 opacity-30 text-ibiza-green" />
-            <p className="font-semibold text-base">{T.noEvents}</p>
+            <p className="font-semibold text-base">{activeFilterCount > 0 ? T.noMatchFiltered : T.noEvents}</p>
+            {activeFilterCount > 0 && (
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="mt-4 inline-flex items-center rounded-full border-2 border-black bg-white px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-black transition-colors hover:bg-black hover:text-white"
+              >
+                {T.clearFilters}
+              </button>
+            )}
           </div>
         ) : (
           <div className="flex flex-col gap-12">
@@ -498,6 +823,161 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
           imageFor={(iso) => imgByDate.get(iso) || ''}
           imagePool={imagePool}
         />
+      )}
+
+      {/* Mobiel: vaste filterknop rechts, halverwege het scherm (niet
+          onderin -- daar zit de weekdock al). Opent dezelfde drie filters
+          als de rij hierboven, maar als sheet. Badge toont hoeveel filters
+          al aanstaan. */}
+      <button
+        type="button"
+        onClick={() => setFilterModalOpen(true)}
+        aria-label={T.filters}
+        // border-solid om dezelfde reden als de club-pil hierboven: de
+        // globale `button { border:none }`-reset wint anders van border-width.
+        // bottom-[130px] en niet top-1/2: op het midden van het scherm viel
+        // de knop over een kaart heen (prijsbadge eronder), en verschoof
+        // steeds naar iets anders zodra je scrolde. Onderin zit al de vaste
+        // weekdock (111px hoog); 130px erboven is boven die dock met marge.
+        className="fixed bottom-[130px] right-4 z-[60] grid h-14 w-14 place-items-center rounded-full border border-solid border-black/10 bg-black text-white shadow-lg transition-transform hover:scale-105 sm:hidden"
+      >
+        <SlidersHorizontal size={20} />
+        {activeFilterCount > 0 && (
+          <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-ibiza-green text-[10px] font-black text-white ring-2 ring-white">
+            {activeFilterCount}
+          </span>
+        )}
+      </button>
+
+      {/* Filtermenu als sheet -- zelfde chrome als DatePickerModal (focus,
+          Escape sluit, achtergrond niet scrollbaar; zie het effect hierboven). */}
+      {filterModalOpen && (
+        <div
+          className="fixed inset-0 z-[90] flex items-end justify-center bg-black/60 backdrop-blur-sm sm:hidden"
+          onClick={() => setFilterModalOpen(false)}
+          role="presentation"
+        >
+          <div
+            ref={filterModalRef}
+            tabIndex={-1}
+            role="dialog"
+            aria-modal="true"
+            aria-label={T.filters}
+            onClick={(e) => e.stopPropagation()}
+            className="max-h-[85svh] w-full overflow-y-auto rounded-t-3xl bg-white p-5 text-black shadow-2xl outline-none"
+            style={{ paddingBottom: 'max(20px, env(safe-area-inset-bottom))' }}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="font-serif text-xl font-black tracking-tight">{T.filters}</h2>
+              <button
+                type="button"
+                onClick={() => setFilterModalOpen(false)}
+                aria-label={T.close}
+                className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-solid border-black/15 bg-white text-black transition-colors hover:bg-neutral-100"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Club — als pillenrij in plaats van een geneste dropdown: in
+                een sheet is er al ruimte, en dat scheelt een extra tik. */}
+            <div className="mt-6">
+              <div className="mb-2 text-xs font-black uppercase tracking-widest text-black/50">{T.club}</div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => setVenueFilter('all')}
+                  className={`rounded-full border border-solid px-3.5 py-2 text-xs font-bold transition-colors ${venueFilter === 'all' ? 'border-ibiza-green bg-ibiza-green text-white' : 'border-black/15 bg-white text-black'}`}
+                >
+                  {T.allVenues}
+                </button>
+                {venueOptions.map(([slug, name]) => (
+                  <button
+                    key={slug}
+                    type="button"
+                    onClick={() => setVenueFilter(slug)}
+                    className={`rounded-full border border-solid px-3.5 py-2 text-xs font-bold transition-colors ${venueFilter === slug ? 'border-ibiza-green bg-ibiza-green text-white' : 'border-black/15 bg-white text-black'}`}
+                  >
+                    {name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {hasAnyLineup && (
+              <div className="mt-6">
+                <div className="mb-2 text-xs font-black uppercase tracking-widest text-black/50">{T.artist}</div>
+                <input
+                  type="text"
+                  value={artistQuery}
+                  onChange={e => setArtistQuery(e.target.value)}
+                  placeholder={T.searchArtist}
+                  aria-label={T.searchArtist}
+                  className="w-full rounded-full border border-solid border-black/15 bg-white px-4 py-2.5 text-sm font-semibold text-black outline-none placeholder:text-black/40 focus:border-ibiza-green"
+                />
+                {/* Alleen suggesties tonen zodra er getypt is — niet meteen
+                    alle namen uit dit venster, dat is een muur van pillen
+                    voordat je iets hebt ingetikt. */}
+                {artistQuery.trim() && artistSuggestions.length > 0 && (
+                  <div className="mt-2 flex max-h-40 flex-wrap gap-1.5 overflow-y-auto">
+                    {artistSuggestions.map(name => (
+                      <button
+                        key={name}
+                        type="button"
+                        onClick={() => setArtistQuery(name)}
+                        className={`rounded-full border border-solid px-3 py-1.5 text-[11px] font-bold transition-colors ${artistQuery === name ? 'border-ibiza-green bg-ibiza-green text-white' : 'border-black/15 bg-white text-black'}`}
+                      >
+                        {name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {priceBounds && priceBounds.max > priceBounds.min && (
+              <div className="mt-6">
+                <div className="mb-2 flex items-center justify-between text-xs font-black uppercase tracking-widest text-black/50">
+                  <span>{T.budget}</span>
+                  <span className="text-black normal-case tracking-normal">{maxPrice == null ? T.anyBudget : T.upToPrice(maxPrice)}</span>
+                </div>
+                <input
+                  type="range"
+                  className="cal-range w-full"
+                  style={{ background: `linear-gradient(to right, #000 ${pricePct}%, #e5e5e5 ${pricePct}%)` }}
+                  min={priceBounds.min}
+                  max={priceBounds.max}
+                  step={5}
+                  value={sliderValue}
+                  onChange={e => {
+                    const v = Number(e.target.value)
+                    setMaxPrice(v >= (priceBounds?.max ?? 0) ? null : v)
+                  }}
+                  aria-label={T.anyBudget}
+                />
+              </div>
+            )}
+
+            <div className="mt-8 flex items-center gap-4">
+              {activeFilterCount > 0 && (
+                <button
+                  type="button"
+                  onClick={clearFilters}
+                  className="text-xs font-bold uppercase tracking-widest text-ibiza-green hover:underline"
+                >
+                  {T.clearFilters}
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => setFilterModalOpen(false)}
+                className="ml-auto inline-flex items-center justify-center rounded-full bg-black px-6 py-3 text-sm font-black text-white transition-colors hover:brightness-95"
+              >
+                {T.showResults(rangeEvents.length)}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )
