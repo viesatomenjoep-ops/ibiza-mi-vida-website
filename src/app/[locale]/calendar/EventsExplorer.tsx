@@ -85,12 +85,13 @@ const T_I18N: Record<string, {
   allVenues: string; searchArtist: string; anyBudget: string; upToPrice: (v: number) => string;
   clearFilters: string; noMatchFiltered: string;
   filters: string; close: string; club: string; artist: string; budget: string; showResults: (n: number) => string;
+  clearArtist: string;
 }> = {
-  en: { title: 'Ibiza club calendar 2026', sub: 'Discover what’s on across Ibiza — slide through the dates and grab your tickets.', day: 'Day', week: 'Week', month: 'Month', year: 'Year', whole: p => `All ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, loading: 'Loading the calendar…', noEvents: 'No events for this selection.', tickets: 'Tickets', view: 'View', lineupMore: 'more', today: 'Today', tomorrow: 'Tomorrow', upcoming: 'All upcoming events', allVenues: 'All clubs', searchArtist: 'Search an artist…', anyBudget: 'Any budget', upToPrice: v => `Up to €${v}`, clearFilters: 'Clear filters', noMatchFiltered: 'No events match your filters.', filters: 'Filters', close: 'Close', club: 'Club', artist: 'Artist', budget: 'Budget', showResults: n => `Show ${n} ${n === 1 ? 'event' : 'events'}` },
-  nl: { title: 'Ibiza clubagenda 2026', sub: 'Ontdek wat er speelt op Ibiza — schuif door de data en scoor je tickets.', day: 'Dag', week: 'Week', month: 'Maand', year: 'Jaar', whole: p => `Hele ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, loading: 'Agenda laden…', noEvents: 'Geen events voor deze selectie.', tickets: 'Tickets', view: 'Bekijk', lineupMore: 'meer', today: 'Vandaag', tomorrow: 'Morgen', upcoming: 'Alle aankomende events', allVenues: 'Alle clubs', searchArtist: 'Zoek een artiest…', anyBudget: 'Elk budget', upToPrice: v => `Tot €${v}`, clearFilters: 'Filters wissen', noMatchFiltered: 'Geen events gevonden voor deze filters.', filters: 'Filters', close: 'Sluiten', club: 'Club', artist: 'Artiest', budget: 'Budget', showResults: n => `Toon ${n} ${n === 1 ? 'event' : 'events'}` },
-  de: { title: 'Ibiza Clubkalender 2026', sub: 'Entdecke, was auf Ibiza los ist — wische durch die Daten und sichere dir deine Tickets.', day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', whole: p => `Ganze ${p}`, events: n => `${n} ${n === 1 ? 'Event' : 'Events'}`, loading: 'Kalender wird geladen…', noEvents: 'Keine Events für diese Auswahl.', tickets: 'Tickets', view: 'Ansehen', lineupMore: 'mehr', today: 'Heute', tomorrow: 'Morgen', upcoming: 'Alle kommenden Events', allVenues: 'Alle Clubs', searchArtist: 'Künstler suchen…', anyBudget: 'Jedes Budget', upToPrice: v => `Bis €${v}`, clearFilters: 'Filter zurücksetzen', noMatchFiltered: 'Keine Events für diese Filter.', filters: 'Filter', close: 'Schließen', club: 'Club', artist: 'Künstler', budget: 'Budget', showResults: n => `${n} Event${n === 1 ? '' : 's'} anzeigen` },
-  es: { title: 'Agenda de clubs Ibiza 2026', sub: 'Descubre qué hay en Ibiza — desliza por las fechas y consigue tus entradas.', day: 'Día', week: 'Semana', month: 'Mes', year: 'Año', whole: p => `Todo el/la ${p}`, events: n => `${n} ${n === 1 ? 'evento' : 'eventos'}`, loading: 'Cargando la agenda…', noEvents: 'No hay eventos para esta selección.', tickets: 'Entradas', view: 'Ver', lineupMore: 'más', today: 'Hoy', tomorrow: 'Mañana', upcoming: 'Todos los próximos eventos', allVenues: 'Todos los clubs', searchArtist: 'Buscar un artista…', anyBudget: 'Cualquier presupuesto', upToPrice: v => `Hasta €${v}`, clearFilters: 'Borrar filtros', noMatchFiltered: 'Ningún evento coincide con tus filtros.', filters: 'Filtros', close: 'Cerrar', club: 'Club', artist: 'Artista', budget: 'Presupuesto', showResults: n => `Ver ${n} ${n === 1 ? 'evento' : 'eventos'}` },
-  fr: { title: 'Agenda des clubs Ibiza 2026', sub: 'Découvrez ce qui se passe à Ibiza — faites défiler les dates et prenez vos billets.', day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Année', whole: p => `Tout le/la ${p}`, events: n => `${n} ${n === 1 ? 'événement' : 'événements'}`, loading: 'Chargement de l’agenda…', noEvents: 'Aucun événement pour cette sélection.', tickets: 'Billets', view: 'Voir', lineupMore: 'plus', today: 'Aujourd’hui', tomorrow: 'Demain', upcoming: 'Tous les événements à venir', allVenues: 'Tous les clubs', searchArtist: 'Rechercher un artiste…', anyBudget: 'Tout budget', upToPrice: v => `Jusqu'à €${v}`, clearFilters: 'Effacer les filtres', noMatchFiltered: 'Aucun événement ne correspond à vos filtres.', filters: 'Filtres', close: 'Fermer', club: 'Club', artist: 'Artiste', budget: 'Budget', showResults: n => `Voir ${n} ${n === 1 ? 'événement' : 'événements'}` },
+  en: { title: 'Ibiza club calendar 2026', sub: 'Discover what’s on across Ibiza — slide through the dates and grab your tickets.', day: 'Day', week: 'Week', month: 'Month', year: 'Year', whole: p => `All ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, loading: 'Loading the calendar…', noEvents: 'No events for this selection.', tickets: 'Tickets', view: 'View', lineupMore: 'more', today: 'Today', tomorrow: 'Tomorrow', upcoming: 'All upcoming events', allVenues: 'All clubs', searchArtist: 'Search an artist…', anyBudget: 'Any budget', upToPrice: v => `Up to €${v}`, clearFilters: 'Clear filters', noMatchFiltered: 'No events match your filters.', filters: 'Filters', close: 'Close', club: 'Club', artist: 'Artist', budget: 'Budget', showResults: n => `Show ${n} ${n === 1 ? 'event' : 'events'}`, clearArtist: 'Clear artist' },
+  nl: { title: 'Ibiza clubagenda 2026', sub: 'Ontdek wat er speelt op Ibiza — schuif door de data en scoor je tickets.', day: 'Dag', week: 'Week', month: 'Maand', year: 'Jaar', whole: p => `Hele ${p}`, events: n => `${n} ${n === 1 ? 'event' : 'events'}`, loading: 'Agenda laden…', noEvents: 'Geen events voor deze selectie.', tickets: 'Tickets', view: 'Bekijk', lineupMore: 'meer', today: 'Vandaag', tomorrow: 'Morgen', upcoming: 'Alle aankomende events', allVenues: 'Alle clubs', searchArtist: 'Zoek een artiest…', anyBudget: 'Elk budget', upToPrice: v => `Tot €${v}`, clearFilters: 'Filters wissen', noMatchFiltered: 'Geen events gevonden voor deze filters.', filters: 'Filters', close: 'Sluiten', club: 'Club', artist: 'Artiest', budget: 'Budget', showResults: n => `Toon ${n} ${n === 1 ? 'event' : 'events'}`, clearArtist: 'Artiest wissen' },
+  de: { title: 'Ibiza Clubkalender 2026', sub: 'Entdecke, was auf Ibiza los ist — wische durch die Daten und sichere dir deine Tickets.', day: 'Tag', week: 'Woche', month: 'Monat', year: 'Jahr', whole: p => `Ganze ${p}`, events: n => `${n} ${n === 1 ? 'Event' : 'Events'}`, loading: 'Kalender wird geladen…', noEvents: 'Keine Events für diese Auswahl.', tickets: 'Tickets', view: 'Ansehen', lineupMore: 'mehr', today: 'Heute', tomorrow: 'Morgen', upcoming: 'Alle kommenden Events', allVenues: 'Alle Clubs', searchArtist: 'Künstler suchen…', anyBudget: 'Jedes Budget', upToPrice: v => `Bis €${v}`, clearFilters: 'Filter zurücksetzen', noMatchFiltered: 'Keine Events für diese Filter.', filters: 'Filter', close: 'Schließen', club: 'Club', artist: 'Künstler', budget: 'Budget', showResults: n => `${n} Event${n === 1 ? '' : 's'} anzeigen`, clearArtist: 'Künstler löschen' },
+  es: { title: 'Agenda de clubs Ibiza 2026', sub: 'Descubre qué hay en Ibiza — desliza por las fechas y consigue tus entradas.', day: 'Día', week: 'Semana', month: 'Mes', year: 'Año', whole: p => `Todo el/la ${p}`, events: n => `${n} ${n === 1 ? 'evento' : 'eventos'}`, loading: 'Cargando la agenda…', noEvents: 'No hay eventos para esta selección.', tickets: 'Entradas', view: 'Ver', lineupMore: 'más', today: 'Hoy', tomorrow: 'Mañana', upcoming: 'Todos los próximos eventos', allVenues: 'Todos los clubs', searchArtist: 'Buscar un artista…', anyBudget: 'Cualquier presupuesto', upToPrice: v => `Hasta €${v}`, clearFilters: 'Borrar filtros', noMatchFiltered: 'Ningún evento coincide con tus filtros.', filters: 'Filtros', close: 'Cerrar', club: 'Club', artist: 'Artista', budget: 'Presupuesto', showResults: n => `Ver ${n} ${n === 1 ? 'evento' : 'eventos'}`, clearArtist: 'Borrar artista' },
+  fr: { title: 'Agenda des clubs Ibiza 2026', sub: 'Découvrez ce qui se passe à Ibiza — faites défiler les dates et prenez vos billets.', day: 'Jour', week: 'Semaine', month: 'Mois', year: 'Année', whole: p => `Tout le/la ${p}`, events: n => `${n} ${n === 1 ? 'événement' : 'événements'}`, loading: 'Chargement de l’agenda…', noEvents: 'Aucun événement pour cette sélection.', tickets: 'Billets', view: 'Voir', lineupMore: 'plus', today: 'Aujourd’hui', tomorrow: 'Demain', upcoming: 'Tous les événements à venir', allVenues: 'Tous les clubs', searchArtist: 'Rechercher un artiste…', anyBudget: 'Tout budget', upToPrice: v => `Jusqu'à €${v}`, clearFilters: 'Effacer les filtres', noMatchFiltered: 'Aucun événement ne correspond à vos filtres.', filters: 'Filtres', close: 'Fermer', club: 'Club', artist: 'Artiste', budget: 'Budget', showResults: n => `Voir ${n} ${n === 1 ? 'événement' : 'événements'}`, clearArtist: 'Effacer l’artiste' },
 }
 const getLoc = (l: string) => ({ nl, de, es, fr, en: enUS } as Record<string, Locale>)[l] || enUS
 type Locale = typeof enUS
@@ -603,7 +604,7 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
                   <button
                     type="button"
                     onClick={() => { setArtistQuery(''); setArtistOpen(false) }}
-                    aria-label={T.clearFilters}
+                    aria-label={T.clearArtist}
                     className="absolute right-2.5 top-1/2 -translate-y-1/2 text-black/40 hover:text-black"
                   >
                     ×
@@ -907,24 +908,39 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
             {hasAnyLineup && (
               <div className="mt-6">
                 <div className="mb-2 text-xs font-black uppercase tracking-widest text-black/50">{T.artist}</div>
-                <input
-                  type="text"
-                  value={artistQuery}
-                  onChange={e => setArtistQuery(e.target.value)}
-                  // Het toetsenbord schuift op mobiel over dit veld heen: de
-                  // sheet zit vast (`fixed`) met een eigen scroll, en de
-                  // browser scrollt een focused input dan niet betrouwbaar
-                  // vanzelf in beeld. Zelf scrollen zodra het toetsenbord
-                  // er is (de vertraging is voor de animatie, anders meten
-                  // we de hoogte van vóórdat het scherm kromp).
-                  onFocus={e => {
-                    const el = e.currentTarget
-                    setTimeout(() => el.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300)
-                  }}
-                  placeholder={T.searchArtist}
-                  aria-label={T.searchArtist}
-                  className="w-full rounded-full border border-solid border-black/15 bg-white px-4 py-2.5 text-sm font-semibold text-black outline-none placeholder:text-black/40 focus:border-ibiza-green"
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={artistQuery}
+                    onChange={e => setArtistQuery(e.target.value)}
+                    // Het toetsenbord schuift op mobiel over dit veld heen: de
+                    // sheet zit vast (`fixed`) met een eigen scroll, en de
+                    // browser scrollt een focused input dan niet betrouwbaar
+                    // vanzelf in beeld. Zelf scrollen zodra het toetsenbord
+                    // er is (de vertraging is voor de animatie, anders meten
+                    // we de hoogte van vóórdat het scherm kromp).
+                    onFocus={e => {
+                      const el = e.currentTarget
+                      setTimeout(() => el.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300)
+                    }}
+                    placeholder={T.searchArtist}
+                    aria-label={T.searchArtist}
+                    className="w-full rounded-full border border-solid border-black/15 bg-white py-2.5 pl-4 pr-9 text-sm font-semibold text-black outline-none placeholder:text-black/40 focus:border-ibiza-green"
+                  />
+                  {/* Om een gekozen artiest kwijt te raken zonder alles met de
+                      hand weg te typen -- zelfde kruisje als bij de desktop-
+                      combobox hierboven. */}
+                  {artistQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setArtistQuery('')}
+                      aria-label={T.clearArtist}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-black/40 hover:text-black"
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
                 {/* Alleen suggesties tonen zodra er getypt is — niet meteen
                     alle namen uit dit venster, dat is een muur van pillen
                     voordat je iets hebt ingetikt. */}
