@@ -911,6 +911,16 @@ export default function EventsExplorer({ events: initialEvents, allVenues, local
                   type="text"
                   value={artistQuery}
                   onChange={e => setArtistQuery(e.target.value)}
+                  // Het toetsenbord schuift op mobiel over dit veld heen: de
+                  // sheet zit vast (`fixed`) met een eigen scroll, en de
+                  // browser scrollt een focused input dan niet betrouwbaar
+                  // vanzelf in beeld. Zelf scrollen zodra het toetsenbord
+                  // er is (de vertraging is voor de animatie, anders meten
+                  // we de hoogte van vóórdat het scherm kromp).
+                  onFocus={e => {
+                    const el = e.currentTarget
+                    setTimeout(() => el.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300)
+                  }}
                   placeholder={T.searchArtist}
                   aria-label={T.searchArtist}
                   className="w-full rounded-full border border-solid border-black/15 bg-white px-4 py-2.5 text-sm font-semibold text-black outline-none placeholder:text-black/40 focus:border-ibiza-green"
