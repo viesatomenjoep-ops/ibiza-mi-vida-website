@@ -1508,23 +1508,6 @@
           "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/315/event/2044?locale=fr"
         },
         {
-          "id": 2068,
-          "name": "Electric Ibiza at 528 Presents...",
-          "slug": "electric-ibiza-at-528-presents",
-          "logo": "https://media.clubtickets.com/migrated/event/8ba12b54-da8c-464e-a073-384dd66f1884.png",
-          "cover": "https://media.clubtickets.com/migrated/event/9e66554e-5cde-4c30-b0b1-78bfd38ccd37.png",
-          "whitelogo": "",
-          "startAt": "17:00",
-          "endAt": "02:00",
-          "endIsDefined": true,
-          "startAtNextDay": false,
-          "endAtNextDay": true,
-          "description": "Electric Ibiza présente...<br />\r\n<p>Le promoteur Electric Ibiza organisera une série d'événements au sein du lieu en plein air 528 Ibiza, à San Antonio, durant la saison 2026.</p><br><br />\r\n<br />\r\n<p><b>13 septembre</b> - Nexup.</p><br />\r\n<p><b>20 septembre</b> - Kaluki.</p><br />\r\n<p><b>27 septembre</b> - Bass Jamz: The Arcade.</p><br><br />\r\n<br />\r\nBillets pour Electric Ibiza présente... à 528 Ibiza<br />\r\n<p>Les billets sont désormais en vente, ne manquez pas ça.</p><br />\r\n<br><br />\r\n<p><b>Club :</b>528 Ibiza<br></p>",
-          "requirements": "<p class=\"tdfocus-1722619210600\">- Tous les assistants doivent présenter une pièce d'identité valide et originale.</p><p class=\"tdfocus-1722619210600\"></p><p class=\"tdfocus-1722619210600\">- 528 Ibiza applique une politique réservée aux plus de 18 ans. Toute personne de moins de 18 ans se verra refuser l'entrée.</p><p class=\"tdfocus-1722619210600\">- Les programmations et les horaires peuvent être modifiés.</p><p class=\"tdfocus-1722619210600\">- Pas de réadmission autorisée, une fois que vous quittez le lieu, vous devrez payer à nouveau pour entrer.</p><p class=\"tdfocus-1722619210600\">- Les billets ne sont pas remboursables.</p><p class=\"tdfocus-1722619210600\">- Pas de code vestimentaire strict, mais veuillez faire un effort.</p>",
-          "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza/electric-ibiza-at-528-presents?aff=CT219",
-          "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/315/event/2068?locale=fr"
-        },
-        {
           "id": 2078,
           "name": "SHINE Ibiza",
           "slug": "shine-ibiza",
@@ -1582,7 +1565,7 @@
         "slug": "clubbing"
       },
       "description": "<p>Situé entre les collines pittoresques de Benimussa, au milieu de terres agricoles vierges, de vergers de citronniers et avec des vues élevées sur le célèbre coucher de soleil au loin, 528 Ibiza est une toile vierge impressionnante qui invite à projeter quelque chose de magique dessus.</p><br><br />\r\n<p>Le lieu (anciennement Benimussa Park) est le cadre parfait pour les événements les plus exclusifs de l'île, accessibles uniquement à quelques privilégiés. Il se compose de 3 zones distinctes :</p><br><p><b>- Jardin :</b> La zone extérieure qui comprend des bars, des jardins, ainsi que son amphithéâtre renommé où se déroulent les fêtes.</p><p><b>- Terrasse :</b> L'endroit idéal pour se détendre, reprendre des forces et poursuivre la fête.</p><p><b>- Théâtre :</b> La zone intérieure, rénovée en 2021, où sont organisés des événements privés et des dîners de gala.</p>",
-      "activeEvents": 7,
+      "activeEvents": 6,
       "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza?aff=CT219",
       "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/315?locale=fr",
       "cleanDescription": "<p>Situé entre les collines pittoresques de Benimussa, au milieu de terres agricoles vierges, de vergers de citronniers et avec des vues élevées sur le célèbre coucher de soleil au loin, 528 Ibiza est une toile vierge impressionnante qui invite à projeter quelque chose de magique dessus.</p><br><br />\r\n<p>Le lieu (anciennement Benimussa Park) est le cadre parfait pour les événements les plus exclusifs de l'île, accessibles uniquement à quelques privilégiés. Il se compose de 3 zones distinctes :</p><br><p><b>- Jardin :</b> La zone extérieure qui comprend des bars, des jardins, ainsi que son amphithéâtre renommé où se déroulent les fêtes.</p><p><b>- Terrasse :</b> L'endroit idéal pour se détendre, reprendre des forces et poursuivre la fête.</p><p><b>- Théâtre :</b> La zone intérieure, rénovée en 2021, où sont organisés des événements privés et des dîners de gala.</p>"
@@ -1631,23 +1614,6 @@
           "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/127/event/1021?locale=fr"
         },
         {
-          "id": 1806,
-          "name": "Travieso",
-          "slug": "travieso",
-          "logo": "https://media.clubtickets.com/migrated/event/a93453d0-d56a-4504-a6ab-b7a786360503.jpg",
-          "cover": "https://media.clubtickets.com/migrated/event/231fdafb-8f22-41b9-962c-2619a3a4d2dc.jpg",
-          "whitelogo": "",
-          "startAt": "23:55",
-          "endAt": "05:00",
-          "endIsDefined": true,
-          "startAtNextDay": false,
-          "endAtNextDay": true,
-          "description": "Travieso, chaque dimanche à Lío Ibiza 2026<br />\r\n<p>Chaque dimanche, Travieso transforme Lío en la piste de danse la plus ludique et insouciante d'Ibiza, clôturant la semaine avec un mélange vibrant de Latin House, Reggaeton et de classiques de la danse qui font du bien. Du <b>17 mai au 20 septembre</b>, cette fête devient la manière ultime de terminer la semaine avec une énergie pure, de la couleur et du rythme.</p><br />\r\n<br />\r\n<p>L'atmosphère est synonyme de liberté—pas d'horloges, pas de stress—juste des rythmes irrésistibles et du plaisir sans filtre. Travieso est fait pour ceux qui veulent danser sans limites et célébrer la vie avec un grand sourire et un verre à la main.</p><br><br />\r\n<br />\r\nLineup Travieso à Lío Ibiza 2026<br />\r\n<p>Chaque session mettra en vedette une distribution tournante de DJ énergiques et de performeurs apportant une saveur latine et un esprit estival sur scène. Attendez-vous à des rythmes chauds, des hymnes de fête et une foule prête à danser du début à la fin.</p><br><br />\r\n<br />\r\nBillets Travieso à Lío Ibiza 2026<br />\r\n<p class=\"tdfocus-1744353674549\">Les billets sont maintenant disponibles à partir de seulement 40€. Ne le manquez pas !</p><br><br />\r\n<br />\r\n<p><b>Club :Lío Ibiza</b></p><p></p>",
-          "requirements": "<div><span>Entrée interdite à toutes les personnes de moins de 18 ans.</span></div><div><span>Entrée interdite à toutes les personnes ne respectant pas les normes de tenue et de comportement acceptées par Lío, comme indiqué ci-dessous.</span></div><div><span><b>Aucune personne ne sera admise à Lío dans les conditions suivantes :</b></span></div><div><span>- Toute personne sous l'influence de l'alcool ou de toute substance narcotique.</span></div><div><span>- Toute personne présentant un comportement violent ou désordonné.</span></div><div><span class=\"tdfocus-1750334025076\">- Personnes en tenue de plage, y compris maillots de bain, shorts, sandales de plage ou Birkenstocks, torses découverts ou hommes portant des débardeurs.</span></div><div><span>- Personnes en tenue de sport active, y compris pantalons de survêtement, sweat-shirts, chaussures de sport ou couvre-chefs.</span></div><div><span>- Personnes présentant une apparence négligée ou sale.</span></div><div><span>- Personnes portant des shorts.</span></div><div><span>- Ouvert de minuit jusqu'à l'heure de fermeture.</span></div><div><span>Pour des raisons de sécurité, personne n'est autorisé à entrer dans les locaux avec un sac, un sac à dos, un paquet ou une mallette. Les sacs à main pour dames sont la seule exception et ceux-ci seront inspectés par le personnel de sécurité avant l'admission.</span></div><div><span>Il est obligatoire de présenter des documents d'identification : passeport, permis de conduire ou autre document avec photographie. LES COPIES NE SONT PAS AUTORISÉES.</span></div>",
-          "affLink": "https://www.clubtickets.com/fr/clubbing/lio/travieso?aff=CT219",
-          "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/127/event/1806?locale=fr"
-        },
-        {
           "id": 1990,
           "name": "TIEMPO by Nomis",
           "slug": "tiempo",
@@ -1688,7 +1654,7 @@
         "slug": "clubbing"
       },
       "description": "Informations sur Lío Ibiza<br><br />\r\n<p>Lío Ibiza n'est ni un restaurant, ni un club, ni un cabaret, c'est tout à la fois ! Une expérience 360°.</p><br><br />\r\n<p>Lío Club Ibiza est une véritable expérience, ce n'est pas un hasard si ce restaurant cabaret est devenu l'un des lieux les plus exclusifs du monde.</p><br><br />\r\n<p>Depuis son ouverture, il est devenu un incontournable de la vie nocturne de l'île. Lío est le lieu des gens beaux, sophistiqués, rempli de VIP et de célébrités. C'est un point de rencontre pour des acteurs, des chanteurs ou des sportifs, tels que Leonardo DiCaprio, Sean Penn ou Michael Jordan.</p><br><br />\r\n<p>À Lío Ibiza, vous trouverez :</p><br />\r\n<br />\r\n  <p>Une offre gastronomique délicieuse et sélecte pour savourer un dîner</p><br />\r\n  <p>Des spectacles incroyables de cabaret, des acrobaties, des performances musicales... avec la particularité que les spectateurs interagissent constamment avec les artistes</p><br />\r\n  <p>Des vues uniques sur Dalt Vila depuis la première ligne du port maritime</p><br />\r\n  <p>Et bien sûr, les fêtes les plus amusantes d'Ibiza jusqu'à l'aube.</p><br />\r\n<br><br />\r\n<p>Lío Club Ibiza dispose de installations luxueuses, décorées avec un goût remarquable. Il y a aussi une piscine à l'intérieur. Que ce soit pour prendre un verre ou dîner en profitant du spectacle complet, Lío Ibiza est un lieu unique à découvrir.</p><br><br />\r\n<br />\r\nLa discothèque à Lío Ibiza<br><br />\r\n<p>Les soirées à la discothèque Lío commencent généralement à 1h du matin, et lors de la saison passée, nous avons pu trouver des fêtes avec le DJ Sebastián Gamboa, sa fête Vintage et d'autres événements avec des DJs célèbres comme 2ManyDJs, Felix Da Housecat, Idris Elba, Cathy Guetta… Une offre festive pour toutes les nuits de l'été.</p>",
-      "activeEvents": 5,
+      "activeEvents": 4,
       "affLink": "https://www.clubtickets.com/fr/clubbing/lio?aff=CT219",
       "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/127?locale=fr",
       "cleanDescription": "Informations sur Lío Ibiza<br><br />\r\n<p>Lío Ibiza n'est ni un restaurant, ni un club, ni un cabaret, c'est tout à la fois ! Une expérience 360°.</p><br><br />\r\n<p>Lío Club Ibiza est une véritable expérience, ce n'est pas un hasard si ce restaurant cabaret est devenu l'un des lieux les plus exclusifs du monde.</p><br><br />\r\n<p>Depuis son ouverture, il est devenu un incontournable de la vie nocturne de l'île. Lío est le lieu des gens beaux, sophistiqués, rempli de VIP et de célébrités. C'est un point de rencontre pour des acteurs, des chanteurs ou des sportifs, tels que Leonardo DiCaprio, Sean Penn ou Michael Jordan.</p><br><br />\r\n<p>À Lío Ibiza, vous trouverez :</p><br />\r\n<br />\r\n  <p>Une offre gastronomique délicieuse et sélecte pour savourer un dîner</p><br />\r\n  <p>Des spectacles incroyables de cabaret, des acrobaties, des performances musicales... avec la particularité que les spectateurs interagissent constamment avec les artistes</p><br />\r\n  <p>Des vues uniques sur Dalt Vila depuis la première ligne du port maritime</p><br />\r\n  <p>Et bien sûr, les fêtes les plus amusantes d'Ibiza jusqu'à l'aube.</p><br />\r\n<br><br />\r\n<p>Lío Club Ibiza dispose de installations luxueuses, décorées avec un goût remarquable. Il y a aussi une piscine à l'intérieur. Que ce soit pour prendre un verre ou dîner en profitant du spectacle complet, Lío Ibiza est un lieu unique à découvrir.</p><br><br />\r\n<br />\r\nLa discothèque à Lío Ibiza<br><br />\r\n<p>Les soirées à la discothèque Lío commencent généralement à 1h du matin, et lors de la saison passée, nous avons pu trouver des fêtes avec le DJ Sebastián Gamboa, sa fête Vintage et d'autres événements avec des DJs célèbres comme 2ManyDJs, Felix Da Housecat, Idris Elba, Cathy Guetta… Une offre festive pour toutes les nuits de l'été.</p>"
@@ -3300,8 +3266,8 @@
           "date": "2026-10-04",
           "name": "",
           "lineUp": "<p><b>MAIN ROOM</b></p><p>Carl Cox</p><p>(All Night Long)</p><p><br></p><p> </p><p><b>    WILD COMET </b></p><p>Melon Bomb</p>",
-          "prices": "50 € - 350 €",
-          "lowestAvailablePrice": 50,
+          "prices": "75 € - 350 €",
+          "lowestAvailablePrice": 75,
           "affLink": "https://www.clubtickets.com/fr/clubbing/unvrs-ibiza/carl-cox/2026-10-04?aff=CT219"
         }
       ],
@@ -6359,15 +6325,6 @@
       },
       "dates": [
         {
-          "id": 163629,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "<p class=\"tdfocus-1784724054098\">DJ Spoony </p><p class=\"tdfocus-1784724054098\"> Shortee Blitz</p><p class=\"tdfocus-1784724054098\">  DJ Policy</p><p class=\"tdfocus-1784724054098\">  Lewis Bones<br></p>",
-          "prices": "48 €",
-          "lowestAvailablePrice": 48,
-          "affLink": "https://www.clubtickets.com/fr/clubbing/ibiza-rocks/r-b-affair/2026-09-20?aff=CT219"
-        },
-        {
           "id": 163630,
           "date": "2026-09-27",
           "name": "R&B Affair Closing Party",
@@ -7394,50 +7351,6 @@
       "venueLogo": "https://media.clubtickets.com/migrated/venue/022d4fd1-185c-4185-9dc1-73cf7b53c11c.png"
     },
     {
-      "id": 2068,
-      "name": "Electric Ibiza at 528 Presents...",
-      "slug": "electric-ibiza-at-528-presents",
-      "logo": "https://media.clubtickets.com/migrated/event/8ba12b54-da8c-464e-a073-384dd66f1884.png",
-      "cover": "https://media.clubtickets.com/migrated/event/9e66554e-5cde-4c30-b0b1-78bfd38ccd37.png",
-      "whitelogo": "",
-      "startAt": "17:00",
-      "endAt": "02:00",
-      "endIsDefined": true,
-      "startAtNextDay": false,
-      "endAtNextDay": true,
-      "venue": {
-        "id": 315,
-        "name": "528 Ibiza",
-        "slug": "528-ibiza",
-        "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza?aff=CT219",
-        "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/315?locale=fr"
-      },
-      "dates": [
-        {
-          "id": 173251,
-          "date": "2026-09-20",
-          "name": "Kaluki",
-          "lineUp": "<p class=\"tdfocus-1789037087984\"><b>Garden (17:00-23:00) </b></p><p class=\"tdfocus-1789037087984\"> Teedee</p><p class=\"tdfocus-1789037087984\"><span class=\"tdfocus-1789037095321\">Tommy Phillips </span></p><p class=\"tdfocus-1789037087984\"><span class=\"tdfocus-1789037095321\"> Jamie Fielding </span></p><p class=\"tdfocus-1789037087984\"><span class=\"tdfocus-1789037095321\"> Kitty Hall </span></p><p class=\"tdfocus-1789037087984\"><span class=\"tdfocus-1789037095321\"> Pirate Copy </span></p><p class=\"tdfocus-1789037087984\"><span class=\"tdfocus-1789037095321\"> Molly D </span></p><p class=\"tdfocus-1789037087984\"><span class=\"tdfocus-1789037095321\"><br></span></p><p class=\"tdfocus-1789037087984\"><span class=\"tdfocus-1789037095321\"><b>Club (23:00-Close)</b></span></p><p class=\"tdfocus-1789037087984\"><span class=\"tdfocus-1789037095321\">  Jamie Fielding </span></p><p class=\"tdfocus-1789037087984\"><span class=\"tdfocus-1789037095321\"> Pirate Copy</span></p>",
-          "prices": "",
-          "lowestAvailablePrice": null,
-          "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza/electric-ibiza-at-528-presents/2026-09-20?aff=CT219"
-        }
-      ],
-      "description": "Electric Ibiza présente...<br />\r\n<p>Le promoteur Electric Ibiza organisera une série d'événements au sein du lieu en plein air 528 Ibiza, à San Antonio, durant la saison 2026.</p><br><br />\r\n<br />\r\n<p><b>13 septembre</b> - Nexup.</p><br />\r\n<p><b>20 septembre</b> - Kaluki.</p><br />\r\n<p><b>27 septembre</b> - Bass Jamz: The Arcade.</p><br><br />\r\n<br />\r\nBillets pour Electric Ibiza présente... à 528 Ibiza<br />\r\n<p>Les billets sont désormais en vente, ne manquez pas ça.</p><br />\r\n<br><br />\r\n<p><b>Club :</b>528 Ibiza<br></p>",
-      "requirements": "<p class=\"tdfocus-1722619210600\">- Tous les assistants doivent présenter une pièce d'identité valide et originale.</p><p class=\"tdfocus-1722619210600\"></p><p class=\"tdfocus-1722619210600\">- 528 Ibiza applique une politique réservée aux plus de 18 ans. Toute personne de moins de 18 ans se verra refuser l'entrée.</p><p class=\"tdfocus-1722619210600\">- Les programmations et les horaires peuvent être modifiés.</p><p class=\"tdfocus-1722619210600\">- Pas de réadmission autorisée, une fois que vous quittez le lieu, vous devrez payer à nouveau pour entrer.</p><p class=\"tdfocus-1722619210600\">- Les billets ne sont pas remboursables.</p><p class=\"tdfocus-1722619210600\">- Pas de code vestimentaire strict, mais veuillez faire un effort.</p>",
-      "type": {
-        "id": 1,
-        "name": "Clubbing",
-        "slug": "clubbing"
-      },
-      "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza/electric-ibiza-at-528-presents?aff=CT219",
-      "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/315/event/2068?locale=fr",
-      "venueName": "528 Ibiza",
-      "venueSlug": "528-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/3184ecd6-a8fc-4c3f-ae57-91d3e334168a.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/022d4fd1-185c-4185-9dc1-73cf7b53c11c.png"
-    },
-    {
       "id": 2078,
       "name": "SHINE Ibiza",
       "slug": "shine-ibiza",
@@ -7670,50 +7583,6 @@
       },
       "affLink": "https://www.clubtickets.com/fr/clubbing/lio/toy-room?aff=CT219",
       "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/127/event/1021?locale=fr",
-      "venueName": "Lío",
-      "venueSlug": "lio",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/93706cd7-e1b6-4276-80bb-ddb6b1e48ba7.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/3338d173-1353-4dbe-84f8-cf6eacbf46c2.png"
-    },
-    {
-      "id": 1806,
-      "name": "Travieso",
-      "slug": "travieso",
-      "logo": "https://media.clubtickets.com/migrated/event/a93453d0-d56a-4504-a6ab-b7a786360503.jpg",
-      "cover": "https://media.clubtickets.com/migrated/event/231fdafb-8f22-41b9-962c-2619a3a4d2dc.jpg",
-      "whitelogo": "",
-      "startAt": "23:55",
-      "endAt": "05:00",
-      "endIsDefined": true,
-      "startAtNextDay": false,
-      "endAtNextDay": true,
-      "venue": {
-        "id": 127,
-        "name": "Lío",
-        "slug": "lio",
-        "affLink": "https://www.clubtickets.com/fr/clubbing/lio?aff=CT219",
-        "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/127?locale=fr"
-      },
-      "dates": [
-        {
-          "id": 169926,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "",
-          "prices": "40 €",
-          "lowestAvailablePrice": 40,
-          "affLink": "https://www.clubtickets.com/fr/clubbing/lio/travieso/2026-09-20?aff=CT219"
-        }
-      ],
-      "description": "Travieso, chaque dimanche à Lío Ibiza 2026<br />\r\n<p>Chaque dimanche, Travieso transforme Lío en la piste de danse la plus ludique et insouciante d'Ibiza, clôturant la semaine avec un mélange vibrant de Latin House, Reggaeton et de classiques de la danse qui font du bien. Du <b>17 mai au 20 septembre</b>, cette fête devient la manière ultime de terminer la semaine avec une énergie pure, de la couleur et du rythme.</p><br />\r\n<br />\r\n<p>L'atmosphère est synonyme de liberté—pas d'horloges, pas de stress—juste des rythmes irrésistibles et du plaisir sans filtre. Travieso est fait pour ceux qui veulent danser sans limites et célébrer la vie avec un grand sourire et un verre à la main.</p><br><br />\r\n<br />\r\nLineup Travieso à Lío Ibiza 2026<br />\r\n<p>Chaque session mettra en vedette une distribution tournante de DJ énergiques et de performeurs apportant une saveur latine et un esprit estival sur scène. Attendez-vous à des rythmes chauds, des hymnes de fête et une foule prête à danser du début à la fin.</p><br><br />\r\n<br />\r\nBillets Travieso à Lío Ibiza 2026<br />\r\n<p class=\"tdfocus-1744353674549\">Les billets sont maintenant disponibles à partir de seulement 40€. Ne le manquez pas !</p><br><br />\r\n<br />\r\n<p><b>Club :Lío Ibiza</b></p><p></p>",
-      "requirements": "<div><span>Entrée interdite à toutes les personnes de moins de 18 ans.</span></div><div><span>Entrée interdite à toutes les personnes ne respectant pas les normes de tenue et de comportement acceptées par Lío, comme indiqué ci-dessous.</span></div><div><span><b>Aucune personne ne sera admise à Lío dans les conditions suivantes :</b></span></div><div><span>- Toute personne sous l'influence de l'alcool ou de toute substance narcotique.</span></div><div><span>- Toute personne présentant un comportement violent ou désordonné.</span></div><div><span class=\"tdfocus-1750334025076\">- Personnes en tenue de plage, y compris maillots de bain, shorts, sandales de plage ou Birkenstocks, torses découverts ou hommes portant des débardeurs.</span></div><div><span>- Personnes en tenue de sport active, y compris pantalons de survêtement, sweat-shirts, chaussures de sport ou couvre-chefs.</span></div><div><span>- Personnes présentant une apparence négligée ou sale.</span></div><div><span>- Personnes portant des shorts.</span></div><div><span>- Ouvert de minuit jusqu'à l'heure de fermeture.</span></div><div><span>Pour des raisons de sécurité, personne n'est autorisé à entrer dans les locaux avec un sac, un sac à dos, un paquet ou une mallette. Les sacs à main pour dames sont la seule exception et ceux-ci seront inspectés par le personnel de sécurité avant l'admission.</span></div><div><span>Il est obligatoire de présenter des documents d'identification : passeport, permis de conduire ou autre document avec photographie. LES COPIES NE SONT PAS AUTORISÉES.</span></div>",
-      "type": {
-        "id": 1,
-        "name": "Clubbing",
-        "slug": "clubbing"
-      },
-      "affLink": "https://www.clubtickets.com/fr/clubbing/lio/travieso?aff=CT219",
-      "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/127/event/1806?locale=fr",
       "venueName": "Lío",
       "venueSlug": "lio",
       "venueCover": "https://media.clubtickets.com/migrated/venue/93706cd7-e1b6-4276-80bb-ddb6b1e48ba7.jpg",
@@ -8352,15 +8221,6 @@
           "prices": "30 € - 59.99 €",
           "lowestAvailablePrice": 30,
           "affLink": "https://www.clubtickets.com/fr/boat/the-beach-hopper/beach-hopper-daytime/2026-09-29?aff=CT219"
-        },
-        {
-          "id": 164835,
-          "date": "2026-09-30",
-          "name": "",
-          "lineUp": "",
-          "prices": "30 € - 59.99 €",
-          "lowestAvailablePrice": 30,
-          "affLink": "https://www.clubtickets.com/fr/boat/the-beach-hopper/beach-hopper-daytime/2026-09-30?aff=CT219"
         },
         {
           "id": 164836,
@@ -9688,15 +9548,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/27?locale=fr"
       },
       "dates": [
-        {
-          "id": 166923,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "",
-          "prices": "80 €",
-          "lowestAvailablePrice": 80,
-          "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/barco-a-formentera-ulises-cat/aftersun/2026-09-20?aff=CT219"
-        },
         {
           "id": 166924,
           "date": "2026-09-22",
@@ -11589,15 +11440,6 @@
       },
       "dates": [
         {
-          "id": 161516,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "",
-          "prices": "27.5 € - 55 €",
-          "lowestAvailablePrice": 27.5,
-          "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/balearia/balearia/2026-09-20?aff=CT219"
-        },
-        {
           "id": 161517,
           "date": "2026-09-21",
           "name": "",
@@ -12583,15 +12425,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/33?locale=fr"
       },
       "dates": [
-        {
-          "id": 161911,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "",
-          "prices": "9 € - 15 €",
-          "lowestAvailablePrice": 9,
-          "affLink": "https://www.clubtickets.com/fr/activities/cova-de-can-marca/cova-de-can-marca/2026-09-20?aff=CT219"
-        },
         {
           "id": 161912,
           "date": "2026-09-21",
@@ -13607,15 +13440,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/61?locale=fr"
       },
       "dates": [
-        {
-          "id": 163876,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "130 € - 175 €",
-          "lowestAvailablePrice": 130,
-          "affLink": "https://www.clubtickets.com/fr/activities/emove-ibiza/quad-tour/2026-09-22?aff=CT219"
-        },
         {
           "id": 163877,
           "date": "2026-09-23",
@@ -14944,15 +14768,6 @@
       },
       "dates": [
         {
-          "id": 162871,
-          "date": "2026-09-23",
-          "name": "",
-          "lineUp": "",
-          "prices": "99 € - 115 €",
-          "lowestAvailablePrice": 99,
-          "affLink": "https://www.clubtickets.com/fr/activities/excursiones/jeep-safari-north-tour/2026-09-23?aff=CT219"
-        },
-        {
           "id": 162872,
           "date": "2026-09-24",
           "name": "",
@@ -15893,15 +15708,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/137?locale=fr"
       },
       "dates": [
-        {
-          "id": 169100,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "45 € - 80 €",
-          "lowestAvailablePrice": 45,
-          "affLink": "https://www.clubtickets.com/fr/boat/salvador/salvador-boat-sunset-trip/2026-09-22?aff=CT219"
-        },
         {
           "id": 169101,
           "date": "2026-09-23",
@@ -17851,15 +17657,6 @@
       },
       "dates": [
         {
-          "id": 172068,
-          "date": "2026-09-21",
-          "name": "",
-          "lineUp": "",
-          "prices": "120 € - 299 €",
-          "lowestAvailablePrice": 120,
-          "affLink": "https://www.clubtickets.com/fr/activities/blue-coral-ibiza/jetski-tours-with-blue-coral/2026-09-21?aff=CT219"
-        },
-        {
           "id": 172069,
           "date": "2026-09-22",
           "name": "",
@@ -19331,15 +19128,6 @@
       },
       "dates": [
         {
-          "id": 171690,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "130 €",
-          "lowestAvailablePrice": 130,
-          "affLink": "https://www.clubtickets.com/fr/activities/into-the-island/into-the-island/2026-09-22?aff=CT219"
-        },
-        {
           "id": 171691,
           "date": "2026-09-23",
           "name": "",
@@ -20130,15 +19918,6 @@
       },
       "dates": [
         {
-          "id": 165888,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "100 € - 320 €",
-          "lowestAvailablePrice": 100,
-          "affLink": "https://www.clubtickets.com/fr/activities/es-vedra-charter/jet-ski-es-vedra-charter/2026-09-22?aff=CT219"
-        },
-        {
           "id": 165889,
           "date": "2026-09-23",
           "name": "",
@@ -20901,15 +20680,6 @@
       },
       "dates": [
         {
-          "id": 165126,
-          "date": "2026-09-21",
-          "name": "",
-          "lineUp": "",
-          "prices": "65 € - 175 €",
-          "lowestAvailablePrice": 65,
-          "affLink": "https://www.clubtickets.com/fr/activities/enjoy-water-sports-jetski/enjoy-water-sports-jet-ski-tour/2026-09-21?aff=CT219"
-        },
-        {
           "id": 165127,
           "date": "2026-09-22",
           "name": "",
@@ -21502,15 +21272,6 @@
       },
       "dates": [
         {
-          "id": 171345,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "95 €",
-          "lowestAvailablePrice": 95,
-          "affLink": "https://www.clubtickets.com/fr/activities/sup-paradise-ibiza/2h-sunset-boat-trip-with-paddle-surf-lesson/2026-09-22?aff=CT219"
-        },
-        {
           "id": 171346,
           "date": "2026-09-23",
           "name": "",
@@ -21797,15 +21558,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/339?locale=fr"
       },
       "dates": [
-        {
-          "id": 171513,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "<p><br></p>",
-          "prices": "70 €",
-          "lowestAvailablePrice": 70,
-          "affLink": "https://www.clubtickets.com/fr/boat/chilli-pepper-boats/chilli-pepper-boat/2026-09-22?aff=CT219"
-        },
         {
           "id": 171514,
           "date": "2026-09-23",
@@ -22251,25 +22003,6 @@
       "venueId": 273
     },
     {
-      "id": 163629,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "DJ Spoony Shortee Blitz DJ Policy Lewis Bones",
-      "prices": "48 €",
-      "lowestAvailablePrice": 48,
-      "affLink": "https://www.clubtickets.com/fr/clubbing/ibiza-rocks/r-b-affair/2026-09-20?aff=CT219",
-      "eventName": "R&B Affair",
-      "eventSlug": "r-b-affair",
-      "venueName": "Ibiza Rocks",
-      "venueSlug": "ibiza-rocks",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/7a4bb1b1-e01e-4533-9be8-ba6173a605bd.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/e73571a9-2343-4005-b32e-5088721c2112.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/a8bc3f0b-14c3-4f14-aa0b-f734ac99165a.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/76939d0f-4dfb-4107-9575-cd5f6a503247.png",
-      "eventId": 1929,
-      "venueId": 16
-    },
-    {
       "id": 173888,
       "date": "2026-09-20",
       "name": "Locked",
@@ -22308,44 +22041,6 @@
       "venueId": 20
     },
     {
-      "id": 173251,
-      "date": "2026-09-20",
-      "name": "Kaluki",
-      "lineUp": "Garden (17:00-23:00) Teedee Tommy Phillips Jamie Fielding Kitty Hall Pirate Copy Molly D Club (23:00-Close) Jamie Fielding Pirate Copy",
-      "prices": "",
-      "lowestAvailablePrice": null,
-      "affLink": "https://www.clubtickets.com/fr/clubbing/528-ibiza/electric-ibiza-at-528-presents/2026-09-20?aff=CT219",
-      "eventName": "Electric Ibiza at 528 Presents...",
-      "eventSlug": "electric-ibiza-at-528-presents",
-      "venueName": "528 Ibiza",
-      "venueSlug": "528-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/3184ecd6-a8fc-4c3f-ae57-91d3e334168a.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/022d4fd1-185c-4185-9dc1-73cf7b53c11c.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/9e66554e-5cde-4c30-b0b1-78bfd38ccd37.png",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/8ba12b54-da8c-464e-a073-384dd66f1884.png",
-      "eventId": 2068,
-      "venueId": 315
-    },
-    {
-      "id": 169926,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "",
-      "prices": "40 €",
-      "lowestAvailablePrice": 40,
-      "affLink": "https://www.clubtickets.com/fr/clubbing/lio/travieso/2026-09-20?aff=CT219",
-      "eventName": "Travieso",
-      "eventSlug": "travieso",
-      "venueName": "Lío",
-      "venueSlug": "lio",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/93706cd7-e1b6-4276-80bb-ddb6b1e48ba7.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/3338d173-1353-4dbe-84f8-cf6eacbf46c2.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/231fdafb-8f22-41b9-962c-2619a3a4d2dc.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/a93453d0-d56a-4504-a6ab-b7a786360503.jpg",
-      "eventId": 1806,
-      "venueId": 127
-    },
-    {
       "id": 173688,
       "date": "2026-09-20",
       "name": "",
@@ -22365,25 +22060,6 @@
       "venueId": 324
     },
     {
-      "id": 166923,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "",
-      "prices": "80 €",
-      "lowestAvailablePrice": 80,
-      "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/barco-a-formentera-ulises-cat/aftersun/2026-09-20?aff=CT219",
-      "eventName": "Sunset boat excursion with DJ",
-      "eventSlug": "aftersun",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/9a4a0927-b212-4c9e-a0ae-f99e3f7f9f39.png",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/e2abb19c-582e-4ab7-8eca-689de09a47ca.png",
-      "eventId": 1779,
-      "venueId": 27
-    },
-    {
       "id": 173088,
       "date": "2026-09-20",
       "name": "",
@@ -22401,44 +22077,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/8df37c9e-af55-48a4-805b-2672e97509b4.png",
       "eventId": 1035,
       "venueId": 77
-    },
-    {
-      "id": 161516,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "",
-      "prices": "27.5 € - 55 €",
-      "lowestAvailablePrice": 27.5,
-      "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/balearia/balearia/2026-09-20?aff=CT219",
-      "eventName": "Ibiza puerto - Formentera | Balearia",
-      "eventSlug": "balearia",
-      "venueName": "Balearia",
-      "venueSlug": "balearia",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/244db92f-fcc7-4ab6-a547-b1e9cab4800f.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/b7fffde5-4cbc-4ab8-aa54-9b609dc4ae87.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/14f31c3b-0b11-4bb5-a1a5-51d0c82aaae6.jpg",
-      "eventId": 1641,
-      "venueId": 289
-    },
-    {
-      "id": 161911,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "",
-      "prices": "9 € - 15 €",
-      "lowestAvailablePrice": 9,
-      "affLink": "https://www.clubtickets.com/fr/activities/cova-de-can-marca/cova-de-can-marca/2026-09-20?aff=CT219",
-      "eventName": "Can Marçà Cave Tour",
-      "eventSlug": "cova-de-can-marca",
-      "venueName": "Cova de Can Marça",
-      "venueSlug": "cova-de-can-marca",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/bb53d716-08ef-44ed-8dcb-4b0a12e1a32e.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/d50c7416-bda1-4f1f-83c4-5049c9752b37.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/bff01adc-3ab5-4d0a-b680-74b49d806d9b.png",
-      "eventId": 155,
-      "venueId": 33
     },
     {
       "id": 164716,
@@ -22840,25 +22478,6 @@
       "venueId": 43
     },
     {
-      "id": 172068,
-      "date": "2026-09-21",
-      "name": "",
-      "lineUp": "",
-      "prices": "120 € - 299 €",
-      "lowestAvailablePrice": 120,
-      "affLink": "https://www.clubtickets.com/fr/activities/blue-coral-ibiza/jetski-tours-with-blue-coral/2026-09-21?aff=CT219",
-      "eventName": "Jet Ski Tours with Blue Coral",
-      "eventSlug": "jetski-tours-with-blue-coral",
-      "venueName": "Blue Coral Ibiza - Jetski",
-      "venueSlug": "blue-coral-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/4d0bcd10-7f62-4198-9a15-b9af51df50af.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/bec0fa0f-b74a-49b9-9667-89cb69eff686.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/35661a56-d8ca-48b7-b034-06334c8c69c8.png",
-      "eventId": 2012,
-      "venueId": 325
-    },
-    {
       "id": 168311,
       "date": "2026-09-21",
       "name": "",
@@ -22914,25 +22533,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/4b42ff26-906a-4e5f-90b4-e3faa359d649.png",
       "eventId": 2133,
       "venueId": 291
-    },
-    {
-      "id": 165126,
-      "date": "2026-09-21",
-      "name": "",
-      "lineUp": "",
-      "prices": "65 € - 175 €",
-      "lowestAvailablePrice": 65,
-      "affLink": "https://www.clubtickets.com/fr/activities/enjoy-water-sports-jetski/enjoy-water-sports-jet-ski-tour/2026-09-21?aff=CT219",
-      "eventName": "Jet Ski - Playa d'en Bossa",
-      "eventSlug": "enjoy-water-sports-jet-ski-tour",
-      "venueName": "Enjoy Water Sports - JetSki",
-      "venueSlug": "enjoy-water-sports-jetski",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/cf530551-a6b4-4972-a291-667f0a100cef.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/a8396945-e836-4cb9-877e-f9299c3a5272.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/1f05098d-c697-4f8f-967b-86c31d7c5ce1.jpg",
-      "eventId": 1455,
-      "venueId": 267
     },
     {
       "id": 165162,
@@ -23315,25 +22915,6 @@
       "venueId": 33
     },
     {
-      "id": 163876,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "130 € - 175 €",
-      "lowestAvailablePrice": 130,
-      "affLink": "https://www.clubtickets.com/fr/activities/emove-ibiza/quad-tour/2026-09-22?aff=CT219",
-      "eventName": "Quad Tour",
-      "eventSlug": "quad-tour",
-      "venueName": "Emove Ibiza",
-      "venueSlug": "emove-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/9c0d4515-7211-455f-aeeb-093fb5dbfb45.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/8de5c380-00f5-4f22-8b83-9d30a93466a4.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d371750b-ba92-486d-b98d-08f93d0f7cd1.png",
-      "eventId": 221,
-      "venueId": 61
-    },
-    {
       "id": 164296,
       "date": "2026-09-22",
       "name": "",
@@ -23408,25 +22989,6 @@
       "eventLogo": "https://admin.clubtickets.com/images/event/5ae70c69c99aa.jpg",
       "eventId": 183,
       "venueId": 43
-    },
-    {
-      "id": 169100,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "45 € - 80 €",
-      "lowestAvailablePrice": 45,
-      "affLink": "https://www.clubtickets.com/fr/boat/salvador/salvador-boat-sunset-trip/2026-09-22?aff=CT219",
-      "eventName": "Salvador Sunset Trip",
-      "eventSlug": "salvador-boat-sunset-trip",
-      "venueName": "Salvador",
-      "venueSlug": "salvador",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/4842ed0e-0c11-4ee2-8ba6-b12541789a6f.webp",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/b165c6ff-ca98-43e1-86fb-d41950a3c914.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/99a8e1da-74eb-4bd2-b17d-4da0b4a31a82.png",
-      "eventId": 1347,
-      "venueId": 137
     },
     {
       "id": 167395,
@@ -23562,25 +23124,6 @@
       "venueId": 299
     },
     {
-      "id": 171690,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "130 €",
-      "lowestAvailablePrice": 130,
-      "affLink": "https://www.clubtickets.com/fr/activities/into-the-island/into-the-island/2026-09-22?aff=CT219",
-      "eventName": "4x4 Safari Ibiza Tour by Into the Island",
-      "eventSlug": "into-the-island",
-      "venueName": "INTO THE ISLAND",
-      "venueSlug": "into-the-island",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/8a51fbbc-b02c-4f57-983b-8e9f8845a565.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/13d7f806-6396-421a-95dd-4979bc7f5825.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/3d250388-fba1-44cd-8012-58b1c08c4ae7.png",
-      "eventId": 1643,
-      "venueId": 291
-    },
-    {
       "id": 171856,
       "date": "2026-09-22",
       "name": "",
@@ -23598,25 +23141,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/4b42ff26-906a-4e5f-90b4-e3faa359d649.png",
       "eventId": 2133,
       "venueId": 291
-    },
-    {
-      "id": 165888,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "100 € - 320 €",
-      "lowestAvailablePrice": 100,
-      "affLink": "https://www.clubtickets.com/fr/activities/es-vedra-charter/jet-ski-es-vedra-charter/2026-09-22?aff=CT219",
-      "eventName": "Jet Ski in San Antonio - Es Vedra Charter",
-      "eventSlug": "jet-ski-es-vedra-charter",
-      "venueName": "Es Vedra Charter - Jetski",
-      "venueSlug": "es-vedra-charter",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/890720a1-2f12-4cbc-8cd6-ab4b39201290.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/dafa34a2-87da-491b-8ddc-1ad139458c69.jpg",
-      "eventLogo": "https://admin.clubtickets.com/images/event/62861e6c483c6153854228.png",
-      "eventId": 1579,
-      "venueId": 277
     },
     {
       "id": 170834,
@@ -23655,44 +23179,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/1f05098d-c697-4f8f-967b-86c31d7c5ce1.jpg",
       "eventId": 1455,
       "venueId": 267
-    },
-    {
-      "id": 171345,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "95 €",
-      "lowestAvailablePrice": 95,
-      "affLink": "https://www.clubtickets.com/fr/activities/sup-paradise-ibiza/2h-sunset-boat-trip-with-paddle-surf-lesson/2026-09-22?aff=CT219",
-      "eventName": "2h Sunset Boat Trip with Paddle Surf Lesson",
-      "eventSlug": "2h-sunset-boat-trip-with-paddle-surf-lesson",
-      "venueName": "SUP Paradise Ibiza",
-      "venueSlug": "sup-paradise-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/c4f0ae94-1459-4d39-9f9a-54a39bec4b04.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/ef0cd7fa-256c-403a-a956-5db85620cb06.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/3908f2e5-97e0-4f77-ad02-8ee4abe81623.png",
-      "eventId": 2062,
-      "venueId": 332
-    },
-    {
-      "id": 171513,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "70 €",
-      "lowestAvailablePrice": 70,
-      "affLink": "https://www.clubtickets.com/fr/boat/chilli-pepper-boats/chilli-pepper-boat/2026-09-22?aff=CT219",
-      "eventName": "Chilli Pepper Ibiza Boat",
-      "eventSlug": "chilli-pepper-boat",
-      "venueName": "Chilli Pepper Boats",
-      "venueSlug": "chilli-pepper-boats",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/cc8917ce-b63e-4c5d-8537-f6cdfcf53be2.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/afeb9d56-aa8d-4f34-a2d0-a8a32bf874c6.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/9d8a0923-15fd-41ec-a48a-e9bf25aa2b94.png",
-      "eventId": 2132,
-      "venueId": 339
     },
     {
       "id": 162500,
@@ -24262,25 +23748,6 @@
       "eventCover": "https://media.clubtickets.com/migrated/event/811ef712-df0c-4eb2-b1e8-c36d9e6661aa.jpg",
       "eventLogo": "https://media.clubtickets.com/migrated/event/ccff0cb4-4483-473b-a057-bc33b2ab2235.jpg",
       "eventId": 201,
-      "venueId": 55
-    },
-    {
-      "id": 162871,
-      "date": "2026-09-23",
-      "name": "",
-      "lineUp": "",
-      "prices": "99 € - 115 €",
-      "lowestAvailablePrice": 99,
-      "affLink": "https://www.clubtickets.com/fr/activities/excursiones/jeep-safari-north-tour/2026-09-23?aff=CT219",
-      "eventName": "Jeep Safari North Tour",
-      "eventSlug": "jeep-safari-north-tour",
-      "venueName": "Excursiones Al Sabini",
-      "venueSlug": "excursiones",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/b98392d7-323d-483e-aed6-a3f3f20832e5.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/702e3022-8060-4eaa-8610-8136d98be9d4.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/9020a225-7649-4f6b-88b6-4da9d7e5d105.jpg",
-      "eventId": 1457,
       "venueId": 55
     },
     {
@@ -30459,25 +29926,6 @@
       "venueId": 307
     },
     {
-      "id": 164835,
-      "date": "2026-09-30",
-      "name": "",
-      "lineUp": "",
-      "prices": "30 € - 59.99 €",
-      "lowestAvailablePrice": 30,
-      "affLink": "https://www.clubtickets.com/fr/boat/the-beach-hopper/beach-hopper-daytime/2026-09-30?aff=CT219",
-      "eventName": "The Beach Hopper Daytime",
-      "eventSlug": "beach-hopper-daytime",
-      "venueName": "The Beach Hopper",
-      "venueSlug": "the-beach-hopper",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/8afbbb03-026b-4125-bbf2-a1b54da7465e.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/6f67d0e3-d578-4ce9-80cf-fc82d0e883af.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/85d0660d-b33a-44b3-b521-b58d83a2ed9c.png",
-      "eventId": 1709,
-      "venueId": 338
-    },
-    {
       "id": 172706,
       "date": "2026-09-30",
       "name": "",
@@ -33978,8 +33426,8 @@
       "date": "2026-10-04",
       "name": "",
       "lineUp": "MAIN ROOM Carl Cox (All Night Long) WILD COMET Melon Bomb",
-      "prices": "50 € - 350 €",
-      "lowestAvailablePrice": 50,
+      "prices": "75 € - 350 €",
+      "lowestAvailablePrice": 75,
       "affLink": "https://www.clubtickets.com/fr/clubbing/unvrs-ibiza/carl-cox/2026-10-04?aff=CT219",
       "eventName": "Carl Cox",
       "eventSlug": "carl-cox",
@@ -52606,15 +52054,6 @@
       "href": "/club-tickets/528-ibiza/pikes-presents"
     },
     {
-      "id": 2068,
-      "name": "Electric Ibiza at 528 Presents...",
-      "slug": "electric-ibiza-at-528-presents",
-      "image": "https://media.clubtickets.com/migrated/event/9e66554e-5cde-4c30-b0b1-78bfd38ccd37.png",
-      "venueName": "528 Ibiza",
-      "venueSlug": "528-ibiza",
-      "href": "/club-tickets/528-ibiza/electric-ibiza-at-528-presents"
-    },
-    {
       "id": 2078,
       "name": "SHINE Ibiza",
       "slug": "shine-ibiza",
@@ -52658,15 +52097,6 @@
       "venueName": "Lío",
       "venueSlug": "lio",
       "href": "/club-tickets/lio/toy-room"
-    },
-    {
-      "id": 1806,
-      "name": "Travieso",
-      "slug": "travieso",
-      "image": "https://media.clubtickets.com/migrated/event/231fdafb-8f22-41b9-962c-2619a3a4d2dc.jpg",
-      "venueName": "Lío",
-      "venueSlug": "lio",
-      "href": "/club-tickets/lio/travieso"
     },
     {
       "id": 1990,
@@ -53164,5 +52594,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-09-20T14:42:33.519Z"
+  "lastUpdated": "2026-09-20T19:33:00.307Z"
 }
