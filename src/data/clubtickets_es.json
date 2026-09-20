@@ -3283,7 +3283,7 @@
           "date": "2026-09-20",
           "name": "",
           "lineUp": "<p><b>MAIN ROOM</b></p><p>Carl Cox</p><p>Dennis Cruz</p><p> Loco Dice</p><p> Mita Gami</p><p> Karretero</p><p>Pauza</p><p><br></p><p> </p><p><b>    WILD COMET </b></p><p>Melon Bomb</p>",
-          "prices": "50 € - 250 €",
+          "prices": "50 € - 90 €",
           "lowestAvailablePrice": 50,
           "affLink": "https://www.clubtickets.com/es/clubbing/unvrs-ibiza/carl-cox/2026-09-20?aff=CT219"
         },
@@ -4148,7 +4148,7 @@
           "date": "2026-09-20",
           "name": "",
           "lineUp": "<p>Hugel</p><p>Jonas Blue</p><p>Themba</p><p>Ochok</p><p>Mili</p>",
-          "prices": "50 € - 400 €",
+          "prices": "50 €",
           "lowestAvailablePrice": 50,
           "affLink": "https://www.clubtickets.com/es/clubbing/ushuaia-ibiza/hugel/2026-09-20?aff=CT219"
         }
@@ -6364,8 +6364,8 @@
           "date": "2026-09-20",
           "name": "",
           "lineUp": "<p class=\"tdfocus-1784724054098\">DJ Spoony </p><p class=\"tdfocus-1784724054098\"> Shortee Blitz</p><p class=\"tdfocus-1784724054098\">  DJ Policy</p><p class=\"tdfocus-1784724054098\">  Lewis Bones<br></p>",
-          "prices": "32 € - 48 €",
-          "lowestAvailablePrice": 32,
+          "prices": "48 €",
+          "lowestAvailablePrice": 48,
           "affLink": "https://www.clubtickets.com/es/clubbing/ibiza-rocks/r-b-affair/2026-09-20?aff=CT219"
         },
         {
@@ -8069,15 +8069,6 @@
       },
       "dates": [
         {
-          "id": 167516,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "",
-          "prices": "69 € - 110 €",
-          "lowestAvailablePrice": 69,
-          "affLink": "https://www.clubtickets.com/es/boat/ibiza-cruise-crush/ibiza-cruise-crush/2026-09-20?aff=CT219"
-        },
-        {
           "id": 167517,
           "date": "2026-09-25",
           "name": "",
@@ -8570,15 +8561,6 @@
       },
       "dates": [
         {
-          "id": 172696,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "",
-          "prices": "7 € - 12 €",
-          "lowestAvailablePrice": 7,
-          "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/cala-salada-boat/2026-09-20?aff=CT219"
-        },
-        {
           "id": 172697,
           "date": "2026-09-21",
           "name": "",
@@ -8838,15 +8820,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/27?locale=es"
       },
       "dates": [
-        {
-          "id": 166502,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "",
-          "prices": "22 € - 45 €",
-          "lowestAvailablePrice": 22,
-          "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/ulises-cat-barco-a-formentera/2026-09-20?aff=CT219"
-        },
         {
           "id": 166503,
           "date": "2026-09-21",
@@ -9565,15 +9538,6 @@
       },
       "dates": [
         {
-          "id": 166656,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "",
-          "prices": "100 €",
-          "lowestAvailablePrice": 100,
-          "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/brunch-on-the-boat/2026-09-20?aff=CT219"
-        },
-        {
           "id": 166657,
           "date": "2026-09-23",
           "name": "",
@@ -10290,15 +10254,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/69?locale=es"
       },
       "dates": [
-        {
-          "id": 161178,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "",
-          "prices": "25 € - 69 €",
-          "lowestAvailablePrice": 25,
-          "affLink": "https://www.clubtickets.com/es/boat/float-your-boat/beach-cruise-sunset/2026-09-20?aff=CT219"
-        },
         {
           "id": 161179,
           "date": "2026-09-21",
@@ -13312,15 +13267,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/61?locale=es"
       },
       "dates": [
-        {
-          "id": 164086,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "195 € - 360 €",
-          "lowestAvailablePrice": 195,
-          "affLink": "https://www.clubtickets.com/es/activities/emove-ibiza/buggy-tour/2026-09-22?aff=CT219"
-        },
         {
           "id": 164087,
           "date": "2026-09-23",
@@ -17125,15 +17071,6 @@
       },
       "dates": [
         {
-          "id": 168496,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "30 € - 80 €",
-          "lowestAvailablePrice": 30,
-          "affLink": "https://www.clubtickets.com/es/boat/lady-virginia-boat/lady-virginia-boat-trip/2026-09-22?aff=CT219"
-        },
-        {
           "id": 168497,
           "date": "2026-09-23",
           "name": "",
@@ -18722,15 +18659,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/326?locale=es"
       },
       "dates": [
-        {
-          "id": 173359,
-          "date": "2026-09-20",
-          "name": "",
-          "lineUp": "",
-          "prices": "9 € - 34 €",
-          "lowestAvailablePrice": 9,
-          "affLink": "https://www.clubtickets.com/es/formentera-day-trip/santa-eularia-ferry/shuttle-ferry-ibiza-es-canar/2026-09-20?aff=CT219"
-        },
         {
           "id": 173360,
           "date": "2026-09-21",
@@ -22252,7 +22180,7 @@
       "date": "2026-09-20",
       "name": "",
       "lineUp": "MAIN ROOM Carl Cox Dennis Cruz Loco Dice Mita Gami Karretero Pauza WILD COMET Melon Bomb",
-      "prices": "50 € - 250 €",
+      "prices": "50 € - 90 €",
       "lowestAvailablePrice": 50,
       "affLink": "https://www.clubtickets.com/es/clubbing/unvrs-ibiza/carl-cox/2026-09-20?aff=CT219",
       "eventName": "Carl Cox",
@@ -22271,7 +22199,7 @@
       "date": "2026-09-20",
       "name": "",
       "lineUp": "Hugel Jonas Blue Themba Ochok Mili",
-      "prices": "50 € - 400 €",
+      "prices": "50 €",
       "lowestAvailablePrice": 50,
       "affLink": "https://www.clubtickets.com/es/clubbing/ushuaia-ibiza/hugel/2026-09-20?aff=CT219",
       "eventName": "Hugel presents Make the Girls Dance",
@@ -22328,8 +22256,8 @@
       "date": "2026-09-20",
       "name": "",
       "lineUp": "DJ Spoony Shortee Blitz DJ Policy Lewis Bones",
-      "prices": "32 € - 48 €",
-      "lowestAvailablePrice": 32,
+      "prices": "48 €",
+      "lowestAvailablePrice": 48,
       "affLink": "https://www.clubtickets.com/es/clubbing/ibiza-rocks/r-b-affair/2026-09-20?aff=CT219",
       "eventName": "R&B Affair",
       "eventSlug": "r-b-affair",
@@ -22438,82 +22366,6 @@
       "venueId": 324
     },
     {
-      "id": 167516,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "",
-      "prices": "69 € - 110 €",
-      "lowestAvailablePrice": 69,
-      "affLink": "https://www.clubtickets.com/es/boat/ibiza-cruise-crush/ibiza-cruise-crush/2026-09-20?aff=CT219",
-      "eventName": "Cruise Crush Boat Party",
-      "eventSlug": "ibiza-cruise-crush",
-      "venueName": "Ibiza Cruise Crush",
-      "venueSlug": "ibiza-cruise-crush",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/98649d0b-34b9-463e-939b-91184c1013a4.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/bc02a257-7d26-496a-96e9-a6c827c99c11.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/b6a359cd-c4e9-4f8f-88c5-8622337ef55c.png",
-      "eventId": 1761,
-      "venueId": 304
-    },
-    {
-      "id": 172696,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "",
-      "prices": "7 € - 12 €",
-      "lowestAvailablePrice": 7,
-      "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/cala-salada-boat/2026-09-20?aff=CT219",
-      "eventName": "San Antonio - Cala Salada ferry boat",
-      "eventSlug": "cala-salada-boat",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/7edaa55a-0787-4a11-9c62-acfd1a97f2ac.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/fa8952f1-2642-45cc-b75d-6aa96ab8ac0f.jpg",
-      "eventId": 351,
-      "venueId": 27
-    },
-    {
-      "id": 166502,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "",
-      "prices": "22 € - 45 €",
-      "lowestAvailablePrice": 22,
-      "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/ulises-cat-barco-a-formentera/2026-09-20?aff=CT219",
-      "eventName": "Ferry Figueretas & Playa d'en Bossa - Formentera",
-      "eventSlug": "ulises-cat-barco-a-formentera",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/c4b23ab8-744a-42e2-bf91-57260740906e.jpg",
-      "eventLogo": "https://media.clubtickets.com/event/6a8428fd0224b.png",
-      "eventId": 117,
-      "venueId": 27
-    },
-    {
-      "id": 166656,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "",
-      "prices": "100 €",
-      "lowestAvailablePrice": 100,
-      "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/brunch-on-the-boat/2026-09-20?aff=CT219",
-      "eventName": "Brunch on the boat",
-      "eventSlug": "brunch-on-the-boat",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/03bd838b-6728-4daa-9a63-9bd4fcb16ce8.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/4b915ffc-a061-4d5b-8fe6-8bef75ba96e1.jpg",
-      "eventId": 1577,
-      "venueId": 27
-    },
-    {
       "id": 166923,
       "date": "2026-09-20",
       "name": "",
@@ -22531,25 +22383,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/e2abb19c-582e-4ab7-8eca-689de09a47ca.png",
       "eventId": 1779,
       "venueId": 27
-    },
-    {
-      "id": 161178,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "",
-      "prices": "25 € - 69 €",
-      "lowestAvailablePrice": 25,
-      "affLink": "https://www.clubtickets.com/es/boat/float-your-boat/beach-cruise-sunset/2026-09-20?aff=CT219",
-      "eventName": "FYB Beach Cruise Sunset",
-      "eventSlug": "beach-cruise-sunset",
-      "venueName": "Float Your Boat",
-      "venueSlug": "float-your-boat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/1b0b64f2-f8d9-4182-a8b3-b1095ff02a4c.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/d2c5b9d9-bf01-45b2-9634-1e0b1888f873.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/1fb2cc37-3696-42b1-bf74-208c733537b9.jpg",
-      "eventId": 857,
-      "venueId": 69
     },
     {
       "id": 173088,
@@ -22607,25 +22440,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/bff01adc-3ab5-4d0a-b680-74b49d806d9b.png",
       "eventId": 155,
       "venueId": 33
-    },
-    {
-      "id": 173359,
-      "date": "2026-09-20",
-      "name": "",
-      "lineUp": "",
-      "prices": "9 € - 34 €",
-      "lowestAvailablePrice": 9,
-      "affLink": "https://www.clubtickets.com/es/formentera-day-trip/santa-eularia-ferry/shuttle-ferry-ibiza-es-canar/2026-09-20?aff=CT219",
-      "eventName": "Shuttle Ferry Ibiza - Santa Eularia - Es Canar",
-      "eventSlug": "shuttle-ferry-ibiza-es-canar",
-      "venueName": "Santa Eularia Ferry",
-      "venueSlug": "santa-eularia-ferry",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/acd422f8-d406-4272-80e5-c6a63bc75908.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/2808f99d-982e-4653-9a7d-53575c8d115e.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/0eeb52e4-d3f4-4090-9ca6-adb1119b7419.jpg",
-      "eventId": 2022,
-      "venueId": 326
     },
     {
       "id": 164716,
@@ -23502,25 +23316,6 @@
       "venueId": 33
     },
     {
-      "id": 164086,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "195 € - 360 €",
-      "lowestAvailablePrice": 195,
-      "affLink": "https://www.clubtickets.com/es/activities/emove-ibiza/buggy-tour/2026-09-22?aff=CT219",
-      "eventName": "Big Buggy Tour",
-      "eventSlug": "buggy-tour",
-      "venueName": "Emove Ibiza",
-      "venueSlug": "emove-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/9c0d4515-7211-455f-aeeb-093fb5dbfb45.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/021ad7c1-8692-4b65-b372-e6d4a06386f9.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/efae8fc9-e4aa-42c6-b820-59fd753560d9.png",
-      "eventId": 223,
-      "venueId": 61
-    },
-    {
       "id": 163876,
       "date": "2026-09-22",
       "name": "",
@@ -23652,25 +23447,6 @@
       "eventLogo": "https://admin.clubtickets.com/images/event/62517ee3b9c83308172689.jpeg",
       "eventId": 1509,
       "venueId": 31
-    },
-    {
-      "id": 168496,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "30 € - 80 €",
-      "lowestAvailablePrice": 30,
-      "affLink": "https://www.clubtickets.com/es/boat/lady-virginia-boat/lady-virginia-boat-trip/2026-09-22?aff=CT219",
-      "eventName": "Lady Virginia Boat Trip",
-      "eventSlug": "lady-virginia-boat-trip",
-      "venueName": "Lady Virginia Boat",
-      "venueSlug": "lady-virginia-boat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/b9e3521a-bdb4-43a4-b2aa-192aa6905a5e.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/fd3e112d-b0f7-44e7-9ea6-bf0f5e72552c.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d3053fa2-825a-400a-adbf-03777b03ea21.png",
-      "eventId": 2058,
-      "venueId": 330
     },
     {
       "id": 168707,
@@ -53389,5 +53165,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-09-20T09:50:43.835Z"
+  "lastUpdated": "2026-09-20T14:42:33.518Z"
 }
