@@ -3875,7 +3875,7 @@
           "date": "2026-09-25",
           "name": "",
           "lineUp": "<p>Calvin Harris</p><p>MK</p><p>Storm Mollison</p><p>Siân Owen<br></p>",
-          "prices": "145 € - 600 €",
+          "prices": "145 €",
           "lowestAvailablePrice": 145,
           "affLink": "https://www.clubtickets.com/nl/clubbing/ushuaia-ibiza/calvin-harris/2026-09-25?aff=CT219"
         },
@@ -4020,15 +4020,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/13?locale=nl"
       },
       "dates": [
-        {
-          "id": 163565,
-          "date": "2026-09-21",
-          "name": "",
-          "lineUp": "<p>David Guetta</p><p>Fedde Le Grand</p><p>MYD</p><p>  Paul Reynolds</p><p><br></p><p><br></p>",
-          "prices": "120 €",
-          "lowestAvailablePrice": 120,
-          "affLink": "https://www.clubtickets.com/nl/clubbing/ushuaia-ibiza/f-me-im-famous/2026-09-21?aff=CT219"
-        },
         {
           "id": 163566,
           "date": "2026-09-28",
@@ -6325,15 +6316,6 @@
       },
       "dates": [
         {
-          "id": 163697,
-          "date": "2026-09-21",
-          "name": "",
-          "lineUp": "<p>Ibiza Rocks Resident DJs</p>",
-          "prices": "48 €",
-          "lowestAvailablePrice": 48,
-          "affLink": "https://www.clubtickets.com/nl/clubbing/ibiza-rocks/nothing-new/2026-09-21?aff=CT219"
-        },
-        {
           "id": 163698,
           "date": "2026-09-28",
           "name": "Nothing New with Robin S. - Closing Party",
@@ -6651,15 +6633,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/20?locale=nl"
       },
       "dates": [
-        {
-          "id": 173733,
-          "date": "2026-09-21",
-          "name": "",
-          "lineUp": "",
-          "prices": "35 €",
-          "lowestAvailablePrice": 35,
-          "affLink": "https://www.clubtickets.com/nl/clubbing/es-paradis/fiesta-del-agua-water-party/2026-09-21?aff=CT219"
-        },
         {
           "id": 165985,
           "date": "2026-09-26",
@@ -7865,15 +7838,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/307?locale=nl"
       },
       "dates": [
-        {
-          "id": 165577,
-          "date": "2026-09-23",
-          "name": "",
-          "lineUp": "",
-          "prices": "39.99 € - 79.99 €",
-          "lowestAvailablePrice": 39.99,
-          "affLink": "https://www.clubtickets.com/nl/boat/the-formentera-cruise/the-formentera-cruise/2026-09-23?aff=CT219"
-        },
         {
           "id": 165578,
           "date": "2026-09-24",
@@ -10822,15 +10786,6 @@
       },
       "dates": [
         {
-          "id": 173089,
-          "date": "2026-09-21",
-          "name": "",
-          "lineUp": "",
-          "prices": "5 € - 15 €",
-          "lowestAvailablePrice": 5,
-          "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/aquabus/beach-city-boat-ibiza-figueretas-playa-den-bossa/2026-09-21?aff=CT219"
-        },
-        {
           "id": 173090,
           "date": "2026-09-22",
           "name": "",
@@ -11225,15 +11180,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/289?locale=nl"
       },
       "dates": [
-        {
-          "id": 161517,
-          "date": "2026-09-21",
-          "name": "",
-          "lineUp": "",
-          "prices": "27.5 € - 55 €",
-          "lowestAvailablePrice": 27.5,
-          "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/balearia/balearia/2026-09-21?aff=CT219"
-        },
         {
           "id": 161518,
           "date": "2026-09-22",
@@ -21480,25 +21426,6 @@
       "venueId": 319
     },
     {
-      "id": 163565,
-      "date": "2026-09-21",
-      "name": "",
-      "lineUp": "David Guetta Fedde Le Grand MYD Paul Reynolds",
-      "prices": "120 €",
-      "lowestAvailablePrice": 120,
-      "affLink": "https://www.clubtickets.com/nl/clubbing/ushuaia-ibiza/f-me-im-famous/2026-09-21?aff=CT219",
-      "eventName": "F*** Me I'm Famous! by David Guetta",
-      "eventSlug": "f-me-im-famous",
-      "venueName": "Ushuaïa Ibiza",
-      "venueSlug": "ushuaia-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/5496b122-d166-40ad-81eb-9b59b38d3107.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/dcadf125-c566-4cd4-9c6f-8726a139ac01.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/fc0a0330-e916-45f3-a900-d585fc1fd696.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/bd4a259c-1e8a-4f2a-ab65-c7a816156849.jpg",
-      "eventId": 1511,
-      "venueId": 13
-    },
-    {
       "id": 162427,
       "date": "2026-09-21",
       "name": "",
@@ -21535,82 +21462,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/6366b2a5-fd6f-4f78-a20d-872b60e1c877.png",
       "eventId": 1665,
       "venueId": 273
-    },
-    {
-      "id": 163697,
-      "date": "2026-09-21",
-      "name": "",
-      "lineUp": "Ibiza Rocks Resident DJs",
-      "prices": "48 €",
-      "lowestAvailablePrice": 48,
-      "affLink": "https://www.clubtickets.com/nl/clubbing/ibiza-rocks/nothing-new/2026-09-21?aff=CT219",
-      "eventName": "Nothing New",
-      "eventSlug": "nothing-new",
-      "venueName": "Ibiza Rocks",
-      "venueSlug": "ibiza-rocks",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/7a4bb1b1-e01e-4533-9be8-ba6173a605bd.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/e73571a9-2343-4005-b32e-5088721c2112.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/acdd8ccd-9372-4e87-9677-5edbe579d3af.webp",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/00830045-0c10-44ce-a216-3267a940ccda.jpg",
-      "eventId": 2093,
-      "venueId": 16
-    },
-    {
-      "id": 173733,
-      "date": "2026-09-21",
-      "name": "",
-      "lineUp": "",
-      "prices": "35 €",
-      "lowestAvailablePrice": 35,
-      "affLink": "https://www.clubtickets.com/nl/clubbing/es-paradis/fiesta-del-agua-water-party/2026-09-21?aff=CT219",
-      "eventName": "Fiesta del Agua - Water Party",
-      "eventSlug": "fiesta-del-agua-water-party",
-      "venueName": "Es Paradis",
-      "venueSlug": "es-paradis",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/f143f717-bbc5-4eda-a93b-d82597f55c1c.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/fbd02806-7ceb-42cd-87c4-552cce61b934.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/7d73008c-c2ae-4119-936a-e354325f47b2.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/dc791d8f-82db-47e3-8c58-24c4b27eba47.png",
-      "eventId": 61,
-      "venueId": 20
-    },
-    {
-      "id": 173089,
-      "date": "2026-09-21",
-      "name": "",
-      "lineUp": "",
-      "prices": "5 € - 15 €",
-      "lowestAvailablePrice": 5,
-      "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/aquabus/beach-city-boat-ibiza-figueretas-playa-den-bossa/2026-09-21?aff=CT219",
-      "eventName": "Beach City Boat (Ibiza city - Playa d'en Bossa)",
-      "eventSlug": "beach-city-boat-ibiza-figueretas-playa-den-bossa",
-      "venueName": "Aquabus",
-      "venueSlug": "aquabus",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/fe6d5ae5-7420-4e7e-af01-0f657a311c3a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/3f9fff1e-1555-4a8e-a628-5de62535560c.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/8df37c9e-af55-48a4-805b-2672e97509b4.png",
-      "eventId": 1035,
-      "venueId": 77
-    },
-    {
-      "id": 161517,
-      "date": "2026-09-21",
-      "name": "",
-      "lineUp": "",
-      "prices": "27.5 € - 55 €",
-      "lowestAvailablePrice": 27.5,
-      "affLink": "https://www.clubtickets.com/nl/formentera-day-trip/balearia/balearia/2026-09-21?aff=CT219",
-      "eventName": "Ibiza puerto - Formentera | Balearia",
-      "eventSlug": "balearia",
-      "venueName": "Balearia",
-      "venueSlug": "balearia",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/244db92f-fcc7-4ab6-a547-b1e9cab4800f.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/b7fffde5-4cbc-4ab8-aa54-9b609dc4ae87.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/14f31c3b-0b11-4bb5-a1a5-51d0c82aaae6.jpg",
-      "eventId": 1641,
-      "venueId": 289
     },
     {
       "id": 164546,
@@ -22314,25 +22165,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/ab3bc520-7b1d-491f-a8d4-bf4cc92044a3.jpg",
       "eventId": 1021,
       "venueId": 127
-    },
-    {
-      "id": 165577,
-      "date": "2026-09-23",
-      "name": "",
-      "lineUp": "",
-      "prices": "39.99 € - 79.99 €",
-      "lowestAvailablePrice": 39.99,
-      "affLink": "https://www.clubtickets.com/nl/boat/the-formentera-cruise/the-formentera-cruise/2026-09-23?aff=CT219",
-      "eventName": "The Formentera Cruise",
-      "eventSlug": "the-formentera-cruise",
-      "venueName": "The Formentera Cruise",
-      "venueSlug": "the-formentera-cruise",
-      "venueCover": "https://media.clubtickets.com/venue/6a60daca07a13.JPG",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/b2315d5e-1d9c-4903-95cd-8cdb743e36b2.jpg",
-      "eventCover": "https://media.clubtickets.com/event/6a60da41d12e9.JPG",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/80d40267-b224-4aca-89c4-a86dcbedf348.png",
-      "eventId": 1778,
-      "venueId": 307
     },
     {
       "id": 164828,
@@ -23859,7 +23691,7 @@
       "date": "2026-09-25",
       "name": "",
       "lineUp": "Calvin Harris MK Storm Mollison Siân Owen",
-      "prices": "145 € - 600 €",
+      "prices": "145 €",
       "lowestAvailablePrice": 145,
       "affLink": "https://www.clubtickets.com/nl/clubbing/ushuaia-ibiza/calvin-harris/2026-09-25?aff=CT219",
       "eventName": "Calvin Harris",
@@ -51273,5 +51105,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-09-21T17:05:15.846Z"
+  "lastUpdated": "2026-09-21T21:08:38.913Z"
 }
