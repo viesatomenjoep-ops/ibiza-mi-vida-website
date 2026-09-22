@@ -54,6 +54,7 @@ export type RouteKey =
   | 'dress-code'
   | 'getting-around'
   | 'concierge'
+  | 'es-vedra-trip'
 
 type SlugSet = Record<Locale, string>
 
@@ -235,6 +236,19 @@ export const ROUTE_SLUGS: Record<RouteKey, SlugSet> = {
     fr: 'conciergerie-ibiza',
     es: 'conserjeria-ibiza',
   },
+  // De Es Vedrà + Formentera-dagtocht (Clubtickets-feed, venue excursiones-
+  // ibiza). Keyword-slugs, geen merknaam: mensen zoeken de tocht, niet de
+  // rederij. De ES-slug is bewust identiek aan de detail-slug in de feed —
+  // dat is gewoon hoe je dit in het Spaans zegt; het pad verschilt
+  // (/es/excursion-... vs /es/boat-trip/excursiones-ibiza/excursion-...),
+  // dus er botst niets.
+  'es-vedra-trip': {
+    en: 'es-vedra-formentera-boat-trip',
+    nl: 'boottocht-es-vedra-formentera',
+    de: 'bootstour-es-vedra-formentera',
+    fr: 'excursion-bateau-es-vedra-formentera',
+    es: 'excursion-es-vedra-formentera',
+  },
 }
 
 /**
@@ -337,6 +351,11 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   // taal geschreven en niet vertaald, dus het hreflang-cluster verwijst naar
   // vijf pagina's die alle vijf renderen.
   concierge: ['en', 'nl', 'de', 'es', 'fr'],
+  // Alle vijf vanaf dag één: EsVedraTripPage + es-vedra-trip-copy.ts, één
+  // routebestand per slug. De feiten (vertrek, inbegrepen, prijzen, data)
+  // komen per taal uit de Clubtickets-feed zelf; de copy is per taal
+  // geschreven.
+  'es-vedra-trip': ['en', 'nl', 'de', 'es', 'fr'],
 }
 
 /** The locales a route is published in. */

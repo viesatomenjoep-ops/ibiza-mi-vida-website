@@ -782,5 +782,74 @@ export const PAGE_FAQ: Record<string, FaqItem[]> = {
       ),
     },
   ],
+
+  // Alle antwoorden komen uit de Clubtickets-feed voor dit event (vertrek,
+  // check-in, inbegrepen, kinderen) — zie es-vedra-trip-copy.ts voor de bron.
+  'es-vedra-trip': [
+    {
+      q: L(
+        'Waar vertrekt de Es Vedrà + Formentera-boottocht en hoe laat moet ik er zijn?',
+        'Where does the Es Vedrà + Formentera boat trip leave from, and when do I need to be there?',
+        'Wo startet die Bootstour Es Vedrà + Formentera und wann muss ich da sein?',
+        '¿De dónde sale la excursión Es Vedrà + Formentera y a qué hora tengo que estar?',
+        'D’où part l’excursion Es Vedrà + Formentera et à quelle heure faut-il arriver ?',
+      ),
+      a: L(
+        'De boot vertrekt om 10:00 vanuit de haven van San Antonio. Je checkt uiterlijk 30 minuten vóór vertrek in bij de balie van Excursiones Ibiza op de boulevard van San Antonio, waar je je voucher omruilt voor een instapkaart. Kom op tijd — de boot wacht niet.',
+        'The boat leaves at 10:00 AM from San Antonio Port. Check in no later than 30 minutes before departure at the Excursiones Ibiza desk on the San Antonio promenade, where you exchange your voucher for a boarding ticket. Arrive on time — the boat does not wait.',
+        'Das Boot legt um 10:00 Uhr im Hafen von San Antonio ab. Du checkst spätestens 30 Minuten vor Abfahrt am Schalter von Excursiones Ibiza an der Promenade von San Antonio ein und tauschst dort deinen Voucher gegen die Bordkarte. Sei pünktlich — das Boot wartet nicht.',
+        'El barco sale a las 10:00 del puerto de San Antonio. Haz el check-in como muy tarde 30 minutos antes de la salida en el mostrador de Excursiones Ibiza en el paseo de San Antonio, donde cambias tu bono por la tarjeta de embarque. Llega puntual — el barco no espera.',
+        'Le bateau part à 10 h du port de San Antonio. Présentez-vous au plus tard 30 minutes avant le départ au comptoir Excursiones Ibiza sur la promenade de San Antonio, où vous échangez votre bon contre une carte d’embarquement. Soyez à l’heure — le bateau n’attend pas.',
+      ),
+    },
+    {
+      q: L(
+        'Wat is er bij de prijs van deze dagtocht inbegrepen?',
+        'What is included in the price of this day trip?',
+        'Was ist im Preis dieser Tagestour enthalten?',
+        '¿Qué incluye el precio de esta excursión de un día?',
+        'Que comprend le prix de cette excursion à la journée ?',
+      ),
+      a: L(
+        'De tocht van ongeveer 11 uur is all-in aan boord: ontbijt (koffie, sap en gebak), paella als lunch — aan boord bereid — een middagsnack op de terugweg en drankjes gedurende de hele dag. Ook gedeelde snorkel- en paddleboarduitrusting en de ankerstop met zwemmen bij S’Espalmador horen erbij. Wat je op Formentera zelf doet tijdens de vrije tijd, is voor eigen rekening.',
+        'The roughly 11-hour trip is all-in on board: breakfast (coffee, juice and pastries), paella for lunch — prepared on board — an afternoon snack on the way back and drinks throughout the day. Shared snorkelling and paddle board equipment and the anchor-and-swim stop at S’Espalmador are included too. Whatever you do on Formentera during the free time is at your own expense.',
+        'Die rund 11-stündige Tour ist an Bord all-inclusive: Frühstück (Kaffee, Saft und Gebäck), Paella als Mittagessen — an Bord zubereitet — ein Nachmittagssnack auf der Rückfahrt und Getränke den ganzen Tag. Auch die Schnorchel- und Paddleboard-Ausrüstung zum Teilen und der Ankerstopp mit Baden bei S’Espalmador sind inklusive. Was du auf Formentera in der freien Zeit unternimmst, zahlst du selbst.',
+        'La travesía de unas 11 horas es todo incluido a bordo: desayuno (café, zumo y bollería), paella de comida — preparada a bordo — merienda en el viaje de vuelta y bebidas durante todo el día. También incluye el equipo compartido de snorkel y paddle surf y el fondeo con baño en S’Espalmador. Lo que hagas en Formentera durante el tiempo libre corre de tu cuenta.',
+        'L’excursion d’environ 11 heures est tout compris à bord : petit-déjeuner (café, jus et viennoiseries), paella au déjeuner — préparée à bord — goûter sur le retour et boissons toute la journée. Le matériel de snorkeling et de paddle à partager ainsi que le mouillage avec baignade à S’Espalmador sont également inclus. Ce que vous faites à Formentera pendant le temps libre reste à votre charge.',
+      ),
+    },
+    {
+      q: L(
+        'Betalen kinderen mee op deze boottocht?',
+        'Do children pay on this boat trip?',
+        'Zahlen Kinder auf dieser Bootstour?',
+        '¿Los niños pagan en esta excursión en barco?',
+        'Les enfants paient-ils sur cette excursion en bateau ?',
+      ),
+      a: L(
+        'Kinderen van 0 t/m 6 jaar varen gratis mee. Voor oudere kinderen geldt het kindertarief dat je bij het boeken per datum ziet staan.',
+        'Children aged 0 to 6 travel free. Older children pay the child rate shown per date when you book.',
+        'Kinder von 0 bis 6 Jahren fahren kostenlos mit. Ältere Kinder zahlen den Kindertarif, der beim Buchen pro Termin angezeigt wird.',
+        'Los niños de 0 a 6 años viajan gratis. Los mayores pagan la tarifa infantil que aparece por fecha al reservar.',
+        'Les enfants de 0 à 6 ans voyagent gratuitement. Les plus grands paient le tarif enfant affiché par date au moment de la réservation.',
+      ),
+    },
+    {
+      q: L(
+        'Hoe laat ben ik terug op Ibiza?',
+        'What time am I back on Ibiza?',
+        'Wann bin ich zurück auf Ibiza?',
+        '¿A qué hora estoy de vuelta en Ibiza?',
+        'À quelle heure suis-je de retour à Ibiza ?',
+      ),
+      a: L(
+        'De terugkomst in San Antonio is rond 21:00, afhankelijk van het moment van zonsondergang — de terugvaart is er bewust op gepland dat je die vanaf het water ziet.',
+        'You are back in San Antonio around 9:00 PM, depending on sunset time — the return leg is deliberately timed so you watch the sunset from the water.',
+        'Zurück in San Antonio bist du gegen 21:00 Uhr, je nach Sonnenuntergang — die Rückfahrt ist bewusst so gelegt, dass du ihn vom Wasser aus siehst.',
+        'La vuelta a San Antonio es sobre las 21:00, según la hora de la puesta de sol — el regreso está pensado para que la veas desde el agua.',
+        'Le retour à San Antonio se fait vers 21 h, selon l’heure du coucher du soleil — le trajet retour est prévu pour que vous l’admiriez depuis la mer.',
+      ),
+    },
+  ],
 }
 

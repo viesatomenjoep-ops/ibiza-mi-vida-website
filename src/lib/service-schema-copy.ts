@@ -138,5 +138,25 @@ export const SERVICE_COPY: Record<string, ServiceCopy> = {
       'Excursions en bateau organisées et sorties à la journée à Ibiza et vers Formentera : croisières côtières, snorkeling dans les criques et couchers de soleil face à Es Vedrà. En billet ou charter privé.',
     ),
   },
+  // Alle feiten hieronder komen uit de Clubtickets-feed voor dit event
+  // (excursion-es-vedra-formentera): vertrek 10:00 San Antonio, ±11 uur,
+  // eten/drinken aan boord, S'Espalmador + Formentera. Zie es-vedra-trip-copy.ts.
+  'es-vedra-trip': {
+    serviceType: 'Boat tour',
+    name: L(
+      'Boottocht Es Vedrà + Formentera',
+      'Es Vedrà + Formentera boat trip',
+      'Bootstour Es Vedrà + Formentera',
+      'Excursión Es Vedrà + Formentera',
+      'Excursion en bateau Es Vedrà + Formentera',
+    ),
+    description: L(
+      'Dagtocht van ongeveer 11 uur per traditionele Ibicenco-boot: om 10:00 vanuit San Antonio langs Es Vedrà, ankeren en zwemmen bij S’Espalmador en vrije tijd op Formentera, terug met de zonsondergang. Ontbijt, paella, middagsnack en drankjes aan boord inbegrepen.',
+      'Full-day trip of around 11 hours on a traditional Ibizan boat: from San Antonio at 10:00 AM past Es Vedrà, an anchor-and-swim stop at S’Espalmador and free time on Formentera, returning with the sunset. Breakfast, paella, an afternoon snack and drinks on board included.',
+      'Ganztagestour von rund 11 Stunden auf einem traditionellen ibizenkischen Boot: um 10:00 Uhr ab San Antonio vorbei an Es Vedrà, Anker- und Badestopp bei S’Espalmador und freie Zeit auf Formentera, zurück mit dem Sonnenuntergang. Frühstück, Paella, Nachmittagssnack und Getränke an Bord inklusive.',
+      'Excursión de día completo de unas 11 horas en un barco tradicional ibicenco: a las 10:00 desde San Antonio frente a Es Vedrà, fondeo y baño en S’Espalmador y tiempo libre en Formentera, con vuelta al atardecer. Desayuno, paella, merienda y bebidas a bordo incluidos.',
+      'Excursion à la journée d’environ 11 heures sur un bateau traditionnel ibicenco : départ de San Antonio à 10 h, passage devant Es Vedrà, mouillage et baignade à S’Espalmador et temps libre à Formentera, retour au coucher du soleil. Petit-déjeuner, paella, goûter et boissons à bord compris.',
+    ),
+  },
 }
 

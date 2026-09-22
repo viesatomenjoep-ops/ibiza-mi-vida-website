@@ -28,6 +28,7 @@ export const BREADCRUMB_LABELS: Record<string, T> = {
   'private-boat-charters': L('Privéboot huren', 'Private boat charters', 'Privatboot mieten', 'Alquiler de barcos privados', 'Bateaux privés'),
   'ferry-formentera': L('Ferry Formentera', 'Formentera ferry', 'Fähre Formentera', 'Ferry Formentera', 'Ferry Formentera'),
   'water-sports': L('Watersport', 'Water sports', 'Wassersport', 'Deportes acuáticos', 'Sports nautiques'),
+  'es-vedra-trip': L('Es Vedrà + Formentera', 'Es Vedrà + Formentera', 'Es Vedrà + Formentera', 'Es Vedrà + Formentera', 'Es Vedrà + Formentera'),
   faq: L('Veelgestelde vragen', 'FAQ', 'FAQ', 'Preguntas frecuentes', 'FAQ'),
 }
 
