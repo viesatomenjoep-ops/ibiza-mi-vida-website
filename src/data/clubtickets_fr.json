@@ -3875,7 +3875,7 @@
           "date": "2026-10-02",
           "name": "",
           "lineUp": "<p>Calvin Harris</p><p>MK</p><p>LF System</p><p>Siân Owen<br></p>",
-          "prices": "195 € - 600 €",
+          "prices": "195 € - 700 €",
           "lowestAvailablePrice": 195,
           "affLink": "https://www.clubtickets.com/fr/clubbing/ushuaia-ibiza/calvin-harris/2026-10-02?aff=CT219"
         }
@@ -4272,7 +4272,7 @@
           "date": "2026-09-24",
           "name": "",
           "lineUp": "<p><b>Theatre</b></p><p>Hugel</p><p>Moojo</p><p>Juany Bravo B2B Grossomoddo</p><p>--</p><p><b>Club Room</b></p><p>Miss Monique</p><p>Adam Beyer</p><p>Son of Son</p>",
-          "prices": "65 € - 500 €",
+          "prices": "65 € - 550 €",
           "lowestAvailablePrice": 65,
           "affLink": "https://www.clubtickets.com/fr/clubbing/hi-ibiza/hugel/2026-09-24?aff=CT219"
         }
@@ -6095,15 +6095,6 @@
       },
       "dates": [
         {
-          "id": 163380,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "48 €",
-          "lowestAvailablePrice": 48,
-          "affLink": "https://www.clubtickets.com/fr/clubbing/ibiza-rocks/poolside-sessions/2026-09-22?aff=CT219"
-        },
-        {
           "id": 163381,
           "date": "2026-09-29",
           "name": "Ibiza Rocks Pool Party Closing Party",
@@ -6367,15 +6358,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/10?locale=fr"
       },
       "dates": [
-        {
-          "id": 173897,
-          "date": "2026-09-22",
-          "name": "Nocturna ",
-          "lineUp": "",
-          "prices": "20 €",
-          "lowestAvailablePrice": 20,
-          "affLink": "https://www.clubtickets.com/fr/clubbing/eden-ibiza/eden-nights/2026-09-22?aff=CT219"
-        },
         {
           "id": 173898,
           "date": "2026-09-24",
@@ -10705,15 +10687,6 @@
       },
       "dates": [
         {
-          "id": 173090,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "5 € - 15 €",
-          "lowestAvailablePrice": 5,
-          "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/aquabus/beach-city-boat-ibiza-figueretas-playa-den-bossa/2026-09-22?aff=CT219"
-        },
-        {
           "id": 173091,
           "date": "2026-09-23",
           "name": "",
@@ -11099,15 +11072,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/289?locale=fr"
       },
       "dates": [
-        {
-          "id": 161518,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "27.5 € - 55 €",
-          "lowestAvailablePrice": 27.5,
-          "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/balearia/balearia/2026-09-22?aff=CT219"
-        },
         {
           "id": 161519,
           "date": "2026-09-23",
@@ -18141,15 +18105,6 @@
       },
       "dates": [
         {
-          "id": 170211,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "10 € - 19 €",
-          "lowestAvailablePrice": 10,
-          "affLink": "https://www.clubtickets.com/fr/activities/bibo-park-ibiza/bibo-park-ibiza/2026-09-22?aff=CT219"
-        },
-        {
           "id": 170212,
           "date": "2026-09-23",
           "name": "",
@@ -18445,15 +18400,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/291?locale=fr"
       },
       "dates": [
-        {
-          "id": 171692,
-          "date": "2026-09-24",
-          "name": "",
-          "lineUp": "",
-          "prices": "130 €",
-          "lowestAvailablePrice": 130,
-          "affLink": "https://www.clubtickets.com/fr/activities/into-the-island/into-the-island/2026-09-24?aff=CT219"
-        },
         {
           "id": 171693,
           "date": "2026-09-25",
@@ -19208,15 +19154,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/277?locale=fr"
       },
       "dates": [
-        {
-          "id": 165890,
-          "date": "2026-09-24",
-          "name": "",
-          "lineUp": "",
-          "prices": "100 € - 320 €",
-          "lowestAvailablePrice": 100,
-          "affLink": "https://www.clubtickets.com/fr/activities/es-vedra-charter/jet-ski-es-vedra-charter/2026-09-24?aff=CT219"
-        },
         {
           "id": 165891,
           "date": "2026-09-25",
@@ -20482,15 +20419,6 @@
       },
       "dates": [
         {
-          "id": 171347,
-          "date": "2026-09-24",
-          "name": "",
-          "lineUp": "",
-          "prices": "95 €",
-          "lowestAvailablePrice": 95,
-          "affLink": "https://www.clubtickets.com/fr/activities/sup-paradise-ibiza/2h-sunset-boat-trip-with-paddle-surf-lesson/2026-09-24?aff=CT219"
-        },
-        {
           "id": 171348,
           "date": "2026-09-25",
           "name": "",
@@ -20759,15 +20687,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/339?locale=fr"
       },
       "dates": [
-        {
-          "id": 171515,
-          "date": "2026-09-24",
-          "name": "",
-          "lineUp": "<p><br></p>",
-          "prices": "70 €",
-          "lowestAvailablePrice": 70,
-          "affLink": "https://www.clubtickets.com/fr/boat/chilli-pepper-boats/chilli-pepper-boat/2026-09-24?aff=CT219"
-        },
         {
           "id": 171516,
           "date": "2026-09-25",
@@ -21157,44 +21076,6 @@
       "venueId": 12
     },
     {
-      "id": 163380,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "48 €",
-      "lowestAvailablePrice": 48,
-      "affLink": "https://www.clubtickets.com/fr/clubbing/ibiza-rocks/poolside-sessions/2026-09-22?aff=CT219",
-      "eventName": "Ibiza Rocks Pool Party",
-      "eventSlug": "poolside-sessions",
-      "venueName": "Ibiza Rocks",
-      "venueSlug": "ibiza-rocks",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/7a4bb1b1-e01e-4533-9be8-ba6173a605bd.jpg",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/e73571a9-2343-4005-b32e-5088721c2112.png",
-      "eventCover": "https://media.clubtickets.com/migrated/event/fdc24a6f-45ab-4438-a823-48a6c2191024.png",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/2053ea43-4f40-4453-9fb6-feb9b05821be.png",
-      "eventId": 1513,
-      "venueId": 16
-    },
-    {
-      "id": 173897,
-      "date": "2026-09-22",
-      "name": "Nocturna",
-      "lineUp": "",
-      "prices": "20 €",
-      "lowestAvailablePrice": 20,
-      "affLink": "https://www.clubtickets.com/fr/clubbing/eden-ibiza/eden-nights/2026-09-22?aff=CT219",
-      "eventName": "Eden Presents",
-      "eventSlug": "eden-nights",
-      "venueName": "Eden Ibiza",
-      "venueSlug": "eden-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/a000462c-7413-4565-b6be-9eb1c031cfd0.webp",
-      "venueLogo": "https://media.clubtickets.com/migrated/venue/64a47a76-b2e0-4d80-86de-f2a6d201b322.png",
-      "eventCover": "https://admin.clubtickets.com/images/event/59b2b6f3ad83e.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/51c3e1bf-1d22-4858-be01-961dc60b8686.png",
-      "eventId": 56,
-      "venueId": 10
-    },
-    {
       "id": 167468,
       "date": "2026-09-22",
       "name": "Euphoria",
@@ -21233,44 +21114,6 @@
       "venueId": 315
     },
     {
-      "id": 173090,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "5 € - 15 €",
-      "lowestAvailablePrice": 5,
-      "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/aquabus/beach-city-boat-ibiza-figueretas-playa-den-bossa/2026-09-22?aff=CT219",
-      "eventName": "Beach City Boat (Ibiza city - Playa d'en Bossa)",
-      "eventSlug": "beach-city-boat-ibiza-figueretas-playa-den-bossa",
-      "venueName": "Aquabus",
-      "venueSlug": "aquabus",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/fe6d5ae5-7420-4e7e-af01-0f657a311c3a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/3f9fff1e-1555-4a8e-a628-5de62535560c.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/8df37c9e-af55-48a4-805b-2672e97509b4.png",
-      "eventId": 1035,
-      "venueId": 77
-    },
-    {
-      "id": 161518,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "27.5 € - 55 €",
-      "lowestAvailablePrice": 27.5,
-      "affLink": "https://www.clubtickets.com/fr/formentera-day-trip/balearia/balearia/2026-09-22?aff=CT219",
-      "eventName": "Ibiza puerto - Formentera | Balearia",
-      "eventSlug": "balearia",
-      "venueName": "Balearia",
-      "venueSlug": "balearia",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/244db92f-fcc7-4ab6-a547-b1e9cab4800f.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/b7fffde5-4cbc-4ab8-aa54-9b609dc4ae87.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/14f31c3b-0b11-4bb5-a1a5-51d0c82aaae6.jpg",
-      "eventId": 1641,
-      "venueId": 289
-    },
-    {
       "id": 164547,
       "date": "2026-09-22",
       "name": "",
@@ -21288,25 +21131,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/9acfdef0-6f33-4787-bfe3-81c43c5ecfa9.png",
       "eventId": 2094,
       "venueId": 61
-    },
-    {
-      "id": 170211,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "10 € - 19 €",
-      "lowestAvailablePrice": 10,
-      "affLink": "https://www.clubtickets.com/fr/activities/bibo-park-ibiza/bibo-park-ibiza/2026-09-22?aff=CT219",
-      "eventName": "BIBO Park Ibiza",
-      "eventSlug": "bibo-park-ibiza",
-      "venueName": "BIBO Park Ibiza",
-      "venueSlug": "bibo-park-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/bff828c6-a140-4d36-994b-30510ea4d102.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/63f840db-ea85-409c-8388-78c2558588e8.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/5291266d-f6d6-493f-ab93-7f427cc55748.png",
-      "eventId": 1724,
-      "venueId": 299
     },
     {
       "id": 162500,
@@ -21921,7 +21745,7 @@
       "date": "2026-09-24",
       "name": "",
       "lineUp": "Theatre Hugel Moojo Juany Bravo B2B Grossomoddo -- Club Room Miss Monique Adam Beyer Son of Son",
-      "prices": "65 € - 500 €",
+      "prices": "65 € - 550 €",
       "lowestAvailablePrice": 65,
       "affLink": "https://www.clubtickets.com/fr/clubbing/hi-ibiza/hugel/2026-09-24?aff=CT219",
       "eventName": "Hugel Presents Make The Girls Dance",
@@ -22601,25 +22425,6 @@
       "venueId": 299
     },
     {
-      "id": 171692,
-      "date": "2026-09-24",
-      "name": "",
-      "lineUp": "",
-      "prices": "130 €",
-      "lowestAvailablePrice": 130,
-      "affLink": "https://www.clubtickets.com/fr/activities/into-the-island/into-the-island/2026-09-24?aff=CT219",
-      "eventName": "4x4 Safari Ibiza Tour by Into the Island",
-      "eventSlug": "into-the-island",
-      "venueName": "INTO THE ISLAND",
-      "venueSlug": "into-the-island",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/8a51fbbc-b02c-4f57-983b-8e9f8845a565.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/13d7f806-6396-421a-95dd-4979bc7f5825.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/3d250388-fba1-44cd-8012-58b1c08c4ae7.png",
-      "eventId": 1643,
-      "venueId": 291
-    },
-    {
       "id": 171858,
       "date": "2026-09-24",
       "name": "",
@@ -22637,25 +22442,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/4b42ff26-906a-4e5f-90b4-e3faa359d649.png",
       "eventId": 2133,
       "venueId": 291
-    },
-    {
-      "id": 165890,
-      "date": "2026-09-24",
-      "name": "",
-      "lineUp": "",
-      "prices": "100 € - 320 €",
-      "lowestAvailablePrice": 100,
-      "affLink": "https://www.clubtickets.com/fr/activities/es-vedra-charter/jet-ski-es-vedra-charter/2026-09-24?aff=CT219",
-      "eventName": "Jet Ski in San Antonio - Es Vedra Charter",
-      "eventSlug": "jet-ski-es-vedra-charter",
-      "venueName": "Es Vedra Charter - Jetski",
-      "venueSlug": "es-vedra-charter",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/890720a1-2f12-4cbc-8cd6-ab4b39201290.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/dafa34a2-87da-491b-8ddc-1ad139458c69.jpg",
-      "eventLogo": "https://admin.clubtickets.com/images/event/62861e6c483c6153854228.png",
-      "eventId": 1579,
-      "venueId": 277
     },
     {
       "id": 170836,
@@ -22694,44 +22480,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/1f05098d-c697-4f8f-967b-86c31d7c5ce1.jpg",
       "eventId": 1455,
       "venueId": 267
-    },
-    {
-      "id": 171347,
-      "date": "2026-09-24",
-      "name": "",
-      "lineUp": "",
-      "prices": "95 €",
-      "lowestAvailablePrice": 95,
-      "affLink": "https://www.clubtickets.com/fr/activities/sup-paradise-ibiza/2h-sunset-boat-trip-with-paddle-surf-lesson/2026-09-24?aff=CT219",
-      "eventName": "2h Sunset Boat Trip with Paddle Surf Lesson",
-      "eventSlug": "2h-sunset-boat-trip-with-paddle-surf-lesson",
-      "venueName": "SUP Paradise Ibiza",
-      "venueSlug": "sup-paradise-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/c4f0ae94-1459-4d39-9f9a-54a39bec4b04.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/ef0cd7fa-256c-403a-a956-5db85620cb06.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/3908f2e5-97e0-4f77-ad02-8ee4abe81623.png",
-      "eventId": 2062,
-      "venueId": 332
-    },
-    {
-      "id": 171515,
-      "date": "2026-09-24",
-      "name": "",
-      "lineUp": "",
-      "prices": "70 €",
-      "lowestAvailablePrice": 70,
-      "affLink": "https://www.clubtickets.com/fr/boat/chilli-pepper-boats/chilli-pepper-boat/2026-09-24?aff=CT219",
-      "eventName": "Chilli Pepper Ibiza Boat",
-      "eventSlug": "chilli-pepper-boat",
-      "venueName": "Chilli Pepper Boats",
-      "venueSlug": "chilli-pepper-boats",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/cc8917ce-b63e-4c5d-8537-f6cdfcf53be2.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/afeb9d56-aa8d-4f34-a2d0-a8a32bf874c6.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/9d8a0923-15fd-41ec-a48a-e9bf25aa2b94.png",
-      "eventId": 2132,
-      "venueId": 339
     },
     {
       "id": 160685,
@@ -29160,7 +28908,7 @@
       "date": "2026-10-02",
       "name": "",
       "lineUp": "Calvin Harris MK LF System Siân Owen",
-      "prices": "195 € - 600 €",
+      "prices": "195 € - 700 €",
       "lowestAvailablePrice": 195,
       "affLink": "https://www.clubtickets.com/fr/clubbing/ushuaia-ibiza/calvin-harris/2026-10-02?aff=CT219",
       "eventName": "Calvin Harris",
@@ -50190,5 +49938,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-09-22T15:32:01.756Z"
+  "lastUpdated": "2026-09-22T20:15:39.033Z"
 }
