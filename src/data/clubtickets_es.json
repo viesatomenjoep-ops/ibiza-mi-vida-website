@@ -2539,7 +2539,7 @@
           "endIsDefined": true,
           "startAtNextDay": false,
           "endAtNextDay": false,
-          "description": "<br />\r\n  .sv{<br />\r\n    --lavender:#bbc0f9; --mint:#b0eed0; --blue:#cce7ff; --ink:#151515;<br />\r\n    --accent:var(--lavender); --accent-ink:#151515;<br />\r\n    --accent-soft:color-mix(in srgb,var(--accent) 38%,white);<br />\r\n    --mint-soft:color-mix(in srgb,var(--mint) 45%,white);<br />\r\n    --blue-soft:color-mix(in srgb,var(--blue) 55%,white);<br />\r\n    --surface:#fff; --surface-2:#f4f5f7;<br />\r\n    --text:#151515; --text-2:#5b5d66; --text-3:#8a8d96;<br />\r\n    --border:#e7e7ea; --hairline:#efeff1;<br />\r\n    --r-card:22px; --r-inner:16px; --r-chip:999px;<br />\r\n    --shadow-card:0 1px 2px rgba(21,21,21,.04),0 8px 28px rgba(21,21,21,.06);<br />\r\n    --shadow-pop:0 18px 50px rgba(21,21,21,.14);<br />\r\n    --brand:var(--mint); --brand-deep:#1f6b4c; --blue-deep:#205f8f;<br />\r\n    --lilac:var(--lavender); --lilac-deep:#3b3e9e;<br />\r\n    --muted:var(--text-3); --soft:var(--surface-2); --card:var(--surface); --hair:var(--border);<br />\r\n    font-family:inherit; color:var(--text); line-height:1.55; letter-spacing:-.005em;<br />\r\n    container-type:inline-size; max-width:1180px; margin-inline:auto;<br />\r\n  }<br />\r\n  /* cuadradito de icono de cabecera (waiting room) */<br />\r\n  .sv .lbl{ min-width:0; }<br />\r\n  .sv .ic{ width:30px; height:30px; flex:none; border-radius:9px; display:grid; place-items:center; background:var(--accent-soft); color:var(--text); }<br />\r\n  .sv .ic svg{ width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n  .sv *{ box-sizing:border-box; }<br />\r\n<br />\r\n  /* ===== CHIPS ===== */<br />\r\n  .sv .chips-row{ display:flex; flex-wrap:nowrap; gap:.6rem; overflow-x:auto; padding:.4rem .1rem; margin:0 0 1.1rem; scroll-snap-type:x proximity; }<br />\r\n  .sv .chips-row::-webkit-scrollbar{ display:none; }<br />\r\n  .sv .chip{ flex:0 0 auto; scroll-snap-align:start; display:inline-flex; align-items:center; gap:.6rem; padding:.5rem .95rem .5rem .5rem; border-radius:var(--r-chip); font-weight:600; font-size:.92rem; background:var(--surface); border:1px solid var(--border); box-shadow:var(--shadow-card); white-space:nowrap; color:var(--text); }<br />\r\n  .sv .chip .ci{ width:30px; height:30px; border-radius:50%; display:grid; place-items:center; background:var(--blue-soft); flex-shrink:0; }<br />\r\n  .sv .chip .ci svg{ width:18px; height:18px; fill:none; stroke:var(--ink); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n  .sv .chip .ci svg.food-icon{ width:16px; height:16px; fill:var(--ink); stroke:none; }<br />\r\n  @container (min-width:900px){<br />\r\n    .sv .chips-row{ flex-wrap:wrap; overflow-x:visible; gap:.7rem; }<br />\r\n    .sv .chip{ padding:.6rem 1.15rem .6rem .6rem; }<br />\r\n    .sv .chip .ci{ width:34px; height:34px; } .sv .chip .ci svg{ width:19px; height:19px; }<br />\r\n  }<br />\r\n<br />\r\n  /* ===== TÍTULOS UNIFICADOS (dos tonos) ===== */<br />\r\n  .sv details.acc > summary,<br />\r\n  .sv details.route > summary,<br />\r\n  .sv .sec{ font-weight:600; font-size:1.3rem; letter-spacing:-.025em; }<br />\r\n  .sv em{ font-style:normal; color:var(--text-3); }<br />\r\n<br />\r\n  /* ===== TEXTO ===== */<br />\r\n  .sv .about{ color:var(--text-2); max-width:62ch; margin:0 0 1.4rem; font-size:1rem; line-height:1.62; text-wrap:pretty; }<br />\r\n  .sv .about b{ color:var(--text); font-weight:600; }<br />\r\n<br />\r\n  /* ===== TARJETA PRINCIPAL (lila corporativo) ===== */<br />\r\n  .sv .quick{ background:var(--lavender); border:1px solid var(--lavender); border-radius:var(--r-card); padding:1.05rem 1.3rem 1.1rem; margin:0 0 1.3rem; box-shadow:var(--shadow-card); }<br />\r\n  .sv .qk{ font-size:.68rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--lilac-deep); margin:0 0 .4rem; }<br />\r\n  .sv .qrow{ display:flex; align-items:baseline; justify-content:space-between; gap:.8rem; padding:.45rem 0; font-size:.95rem; border-top:1px solid rgba(21,21,21,.12); }<br />\r\n  .sv .qrow:first-of-type{ border-top:0; }<br />\r\n  .sv .qrow .w{ color:#33357a; font-weight:500; white-space:nowrap; }<br />\r\n  .sv .qrow .h{ font-weight:700; white-space:nowrap; font-variant-numeric:tabular-nums; color:var(--ink); }<br />\r\n  .sv .qgo{ display:flex; align-items:center; gap:.55rem; margin-top:.75rem; padding-top:.75rem; border-top:1px dashed rgba(21,21,21,.22); font-size:.92rem; color:var(--ink); }<br />\r\n  .sv .qgo b{ font-weight:600; }<br />\r\n  .sv .qi{ width:28px; height:28px; flex:none; border-radius:9px; display:grid; place-items:center; background:rgba(255,255,255,.7); color:var(--lilac-deep); }<br />\r\n  .sv .qi svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n<br />\r\n  /* ===== HORARIOS (desplegable) ===== */<br />\r\n  .sv .sched{ padding:.2rem 1.4rem 1.3rem; }<br />\r\n  .sv .srow{ display:flex; align-items:baseline; justify-content:space-between; gap:.8rem; padding:.5rem 0; font-size:.95rem; border-top:1px solid var(--hairline); }<br />\r\n  .sv .srow:first-child{ border-top:0; }<br />\r\n  .sv .srow .w{ color:var(--text-2); white-space:nowrap; }<br />\r\n  .sv .srow .h{ font-weight:600; white-space:nowrap; font-variant-numeric:tabular-nums; }<br />\r\n  .sv .snote{ margin:.7rem 0 0; font-size:.86rem; color:var(--text-2); }<br />\r\n<br />\r\n  /* ===== INCLUYE (desplegable) + HORARIO ===== */<br />\r\n  .sv details.acc{ background:var(--surface); border:1px solid var(--border); border-radius:var(--r-card); overflow:hidden; margin-bottom:.7rem; box-shadow:var(--shadow-card); }<br />\r\n  .sv details.acc > summary{ list-style:none; cursor:pointer; display:flex; align-items:center; gap:.65rem; padding:1.15rem 1.4rem; -webkit-tap-highlight-color:transparent; }<br />\r\n  .sv details.acc > summary::-webkit-details-marker{ display:none; }<br />\r\n  .sv details.acc > summary:focus,.sv details.acc > summary:focus-visible{ outline:none; }<br />\r\n  .sv details.acc > summary .chev{ margin-left:auto; width:11px; height:11px; border-right:2px solid var(--muted); border-bottom:2px solid var(--muted); transform:translateY(-2px) rotate(45deg); transition:transform .25s ease; }<br />\r\n  .sv details.acc[open] > summary .chev{ transform:translateY(2px) rotate(-135deg); }<br />\r\n  .sv .panel{ border:1px solid var(--hair); border-radius:18px; padding:1.4rem 1.5rem; margin-bottom:1.6rem; }<br />\r\n  .sv .panel .ovl{ font-size:.7rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 1rem; }<br />\r\n  .sv .inc{ list-style:none; margin:0; padding:0 1.4rem 1.4rem; display:grid; gap:.7rem; }<br />\r\n  .sv .inc li{ display:flex; align-items:flex-start; gap:.65rem; font-weight:500; }<br />\r\n  .sv .inc svg{ width:19px; height:19px; flex:0 0 auto; margin-top:.15rem; fill:none; stroke:var(--brand-deep); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n  .sv .panel.sch{ background:var(--soft); border-color:transparent; }<br />\r\n  .sv .sr{ display:flex; align-items:baseline; justify-content:space-between; gap:.8rem; padding:.62rem 0; border-top:1px solid var(--hair); }<br />\r\n  .sv .sr:first-of-type{ border-top:0; }<br />\r\n  .sv .sr .w{ color:var(--muted); white-space:nowrap; } .sv .sr .h{ font-weight:700; white-space:nowrap; }<br />\r\n<br />\r\n  /* ===== ITINERARIO (línea de tiempo) ===== */<br />\r\n  .sv details.acc.trip{ margin-bottom:.7rem; }<br />\r\n  .sv details.acc.know-acc{ margin-bottom:1.6rem; }<br />\r\n  .sv .tl{ list-style:none; margin:0; padding:.2rem 1.4rem 1.5rem; display:grid; gap:0; }<br />\r\n  .sv .tl__i{ position:relative; display:grid; grid-template-columns:auto 1fr; gap:1rem; padding-bottom:1.35rem; }<br />\r\n  .sv .tl__i:last-child{ padding-bottom:0; }<br />\r\n  .sv .tl__i::before{ content:\"\"; position:absolute; left:21px; top:48px; z-index:0; bottom:-2px; width:2px; background:repeating-linear-gradient(180deg,var(--border) 0 6px,transparent 6px 12px); }<br />\r\n  .sv .tl__i:last-child::before{ display:none; }<br />\r\n  .sv .tl__n{ position:relative; z-index:1; width:44px; height:44px; border-radius:50%; display:grid; place-items:center; background:var(--surface); border:1px solid var(--border); box-shadow:var(--shadow-card); color:var(--text); }<br />\r\n  .sv .tl__n svg{ width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n  .sv .tl__i:nth-child(4) .tl__n{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }<br />\r\n  .sv .tl__c{ min-width:0; padding:.1rem 0 0; }<br />\r\n  .sv .tl__t{ display:block; font-size:.74rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-2); }<br />\r\n  .sv .tl__c h4{ font-weight:600; font-size:1.04rem; line-height:1.22; letter-spacing:-.025em; margin:.2rem 0 .3rem; }<br />\r\n  .sv .tl__c p{ margin:0; font-size:.92rem; color:var(--text-2); text-wrap:pretty; }<br />\r\n  .sv .tl__m{ display:inline-flex; align-items:center; gap:.35rem; margin-top:.6rem; font-size:.84rem; font-weight:600; color:var(--lilac-deep); text-decoration:none; }<br />\r\n  .sv .tl__m:hover{ text-decoration:underline; text-underline-offset:2px; }<br />\r\n  .sv .tl__m svg{ width:13px; height:13px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n  .sv .tl__p{ display:flex; flex-wrap:wrap; gap:.45rem; margin-top:.75rem; }<br />\r\n  .sv .tl__p a{ text-decoration:none; font-size:.82rem; font-weight:600; color:var(--lilac-deep); background:color-mix(in srgb,var(--accent) 16%,white); border-radius:var(--r-chip); padding:.36rem .8rem; transition:background .15s ease; }<br />\r\n  .sv .tl__p a:hover{ background:color-mix(in srgb,var(--accent) 30%,white); }<br />\r\n<br />\r\n  /* ===== LO QUE NECESITAS SABER ===== */<br />\r\n  .sv .block{ margin-bottom:1.6rem; }<br />\r\n  .sv .sec{ margin:0 0 1.3rem; display:flex; align-items:center; gap:.65rem; }<br />\r\n  .sv .sec em{ font-style:normal; color:var(--text-3); }<br />\r\n  .sv .know{ padding:.2rem 1.5rem 1.6rem; }<br />\r\n  .sv .facts{ display:grid; grid-template-columns:1fr 1fr; gap:1.3rem 2rem; }<br />\r\n  .sv .fact{ display:flex; gap:.8rem; align-items:flex-start; }<br />\r\n  .sv .fact .fic{ width:40px; height:40px; flex:0 0 auto; border-radius:12px; display:grid; place-items:center; background:var(--blue-soft); }<br />\r\n  .sv .fact .fic svg{ width:21px; height:21px; fill:none; stroke:var(--ink); stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n  .sv .fact .ft{ font-size:.74rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-2); }<br />\r\n  .sv .fact .fv{ font-size:.98rem; margin-top:.2rem; color:var(--text-2); }<br />\r\n  .sv .fact .fv a{ color:var(--lilac-deep); font-weight:600; }<br />\r\n<br />\r\n  /* ===== SUNSET ===== */<br />\r\n  .sv .sunset{ display:flex; align-items:center; gap:1.1rem; background:var(--ink); border:1px solid var(--ink); border-radius:var(--r-card); padding:1.4rem 1.6rem; color:#fff; text-decoration:none; box-shadow:var(--shadow-card); transition:transform .2s ease, box-shadow .2s ease; }<br />\r\n  .sv .sunset:hover{ transform:translateY(-2px); box-shadow:var(--shadow-pop); }<br />\r\n  .sv .sunset .sun{ width:46px; height:46px; flex:0 0 auto; border-radius:12px; background:#f3aa66; display:grid; place-items:center; }<br />\r\n  .sv .sunset .sun svg{ width:24px; height:24px; fill:none; stroke:var(--ink); stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n  .sv .sunset .body{ flex:1; }<br />\r\n  .sv .sunset .lab{ display:block; font-size:.7rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.62); }<br />\r\n  .sv .sunset .ttl{ display:block; font-weight:600; font-size:clamp(1.15rem,3cqw,1.45rem); letter-spacing:-.03em; margin-top:.25rem; }<br />\r\n  .sv .sunset .go{ flex:0 0 auto; width:44px; height:44px; border-radius:50%; background:var(--accent); display:grid; place-items:center; transition:transform .2s ease; }<br />\r\n  .sv .sunset:hover .go{ transform:translateX(4px); }<br />\r\n  .sv .sunset .go svg{ width:20px; height:20px; fill:none; stroke:var(--accent-ink); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n<br />\r\n  @container (max-width:720px){<br />\r\n    .sv .cols{ grid-template-columns:1fr; }<br />\r\n    .sv .facts{ grid-template-columns:1fr; }<br />\r\n    .sv .sched{ padding:.2rem 1.1rem 1.1rem; }<br />\r\n    .sv .tl{ padding:.2rem 1rem 1.2rem; }<br />\r\n    .sv .know{ padding:.2rem 1.1rem 1.3rem; }<br />\r\n    .sv .tl__i{ gap:.9rem; }<br />\r\n    .sv .tl__n{ width:40px; height:40px; }<br />\r\n    .sv .tl__n svg{ width:18px; height:18px; }<br />\r\n    .sv .tl__i::before{ left:19px; top:44px; }<br />\r\n  }<br />\r\n<br />\r\n<br />\r\n<div class=\"sv\"><br />\r\n<br />\r\n  <br />\r\n  <div class=\"chips-row\" aria-label=\"Qué incluye\"><br />\r\n    <span class=\"chip\"><span class=\"ci\"></span>Excursión de 3 h</span><br />\r\n    <span class=\"chip\"><span class=\"ci\"></span>Bebidas incluidas</span><br />\r\n    <span class=\"chip\"><span class=\"ci\"></span>Fruta fresca y snacks</span><br />\r\n    <span class=\"chip\"><span class=\"ci\"></span>Ruta por la costa oeste</span><br />\r\n    <span class=\"chip\"><span class=\"ci\"></span>Snorkel, kayak y paddle surf</span><br />\r\n    <span class=\"chip\"><span class=\"ci\"></span>Música a bordo</span><br />\r\n  </div><br />\r\n<br />\r\n  <br />\r\n  <div class=\"quick\"><br />\r\n    <div class=\"qk\">Horario de salida y regreso</div><br />\r\n    <div class=\"qrow\"><span class=\"w\">Abril – Agosto</span><span class=\"h\">14:00 – 17:00</span></div><br />\r\n    <div class=\"qrow\"><span class=\"w\">1 – 15 Septiembre</span><span class=\"h\">13:30 – 16:30</span></div><br />\r\n    <div class=\"qrow\"><span class=\"w\">Desde 16 Septiembre</span><span class=\"h\">13:00 – 16:00</span></div><br />\r\n    <div class=\"qgo\"><span class=\"qi\"></span>Salida desde el <b>Puerto de San Antonio</b></div><br />\r\n  </div><br />\r\n<br />\r\n  <br />\r\n  <p class=\"about\"><b>Excursión en barco por la costa oeste de Ibiza</b> para descubrir algunas de las mejores calas y playas de la isla, como <b>Cala Bassa</b>, <b>Cala Conta</b> e <b>Islas Margarita</b>. Navega con el <b>barco Salvador</b>, con salidas desde <b>San Antonio</b>, y disfruta de una <b>excursión de 3 horas con bebidas, snacks y deportes acuáticos incluidos</b>.</p><br />\r\n<br />\r\n  <br />\r\n  <br />\r\n    <span class=\"ic\" aria-hidden=\"true\"></span><span class=\"lbl\">Qué incluye</span><span class=\"chev\" aria-hidden=\"true\"></span><br />\r\n    <br />\r\n      Excursión de 3 horas<br />\r\n      Bebidas (cerveza, sangría, cava, vino, refrescos)<br />\r\n      Fruta fresca y snacks<br />\r\n      Snorkel, kayak y paddle surf<br />\r\n      Música a bordo<br />\r\n    <br />\r\n  <br />\r\n<br />\r\n  <br />\r\n  <br />\r\n    <span class=\"ic\" aria-hidden=\"true\"></span><span class=\"lbl\">Tu itinerario</span><span class=\"chev\" aria-hidden=\"true\"></span><br />\r\n    <br />\r\n      <br />\r\n        <span class=\"tl__n\"></span><br />\r\n        <div class=\"tl__c\"><br />\r\n          <span class=\"tl__t\">30 min antes</span><br />\r\n          Check-in en el puerto<br />\r\n          <p>Preséntate en la caseta de Salvador, en el Puerto de San Antonio, media hora antes de zarpar.</p><br />\r\n          Ver punto de encuentro<br />\r\n        </div><br />\r\n      <br />\r\n      <br />\r\n        <span class=\"tl__n\"></span><br />\r\n        <div class=\"tl__c\"><br />\r\n          <span class=\"tl__t\">Salida</span><br />\r\n          Zarpamos hacia la costa oeste<br />\r\n          <p>La hora varía según la temporada: 14:00 de abril a agosto, 13:30 en la primera quincena de septiembre y 13:00 a partir del 16.</p><br />\r\n        </div><br />\r\n      <br />\r\n      <br />\r\n        <span class=\"tl__n\"></span><br />\r\n        <div class=\"tl__c\"><br />\r\n          <span class=\"tl__t\">Navegación</span><br />\r\n          Cala Bassa, Cala Conta y Ses Margalides<br />\r\n          <p>Costeamos algunas de las mejores calas de la isla y los islotes del arco natural de Ses Margalides.</p><br />\r\n          <div class=\"tl__p\"><br />\r\n            Cala Bassa<br />\r\n            Cala Conta<br />\r\n            Ses Margalides<br />\r\n          </div><br />\r\n        </div><br />\r\n      <br />\r\n      <br />\r\n        <span class=\"tl__n\"></span><br />\r\n        <div class=\"tl__c\"><br />\r\n          <span class=\"tl__t\">Parada · lo mejor del día</span><br />\r\n          Baño, snorkel, kayak y paddle surf<br />\r\n          <p>Fondeamos para darte tiempo en el agua. Barra libre de bebidas, fruta fresca y snacks a bordo.</p><br />\r\n        </div><br />\r\n      <br />\r\n      <br />\r\n        <span class=\"tl__n\"></span><br />\r\n        <div class=\"tl__c\"><br />\r\n          <span class=\"tl__t\">3 h después</span><br />\r\n          Regreso a San Antonio<br />\r\n          <p>Volvemos al mismo punto de salida, justo a tiempo para el atardecer en el puerto.</p><br />\r\n        </div><br />\r\n      <br />\r\n    <br />\r\n  <br />\r\n<br />\r\n  <br />\r\n  <br />\r\n  <br />\r\n    <span class=\"ic\" aria-hidden=\"true\"></span><span class=\"lbl\">Horarios por temporada</span><span class=\"chev\" aria-hidden=\"true\"></span><br />\r\n    <div class=\"sched\"><br />\r\n      <div class=\"srow\"><span class=\"w\">Abril – Agosto</span><span class=\"h\">14:00 – 17:00</span></div><br />\r\n      <div class=\"srow\"><span class=\"w\">1 – 15 Septiembre</span><span class=\"h\">13:30 – 16:30</span></div><br />\r\n      <div class=\"srow\"><span class=\"w\">Desde 16 Septiembre</span><span class=\"h\">13:00 – 16:00</span></div><br />\r\n      <p class=\"snote\">Salida y regreso desde el Puerto de San Antonio. Check-in 30 minutos antes.</p><br />\r\n    </div><br />\r\n  <br />\r\n<br />\r\n  <br />\r\n    <span class=\"ic\" aria-hidden=\"true\"></span><span class=\"lbl\">Lo que necesitas saber</span><span class=\"chev\" aria-hidden=\"true\"></span><br />\r\n    <div class=\"know\"><br />\r\n      <div class=\"facts\"><br />\r\n        <div class=\"fact\"><br />\r\n          <span class=\"fic\"></span><br />\r\n          <div><br />\r\n            <div class=\"ft\">Punto de salida</div><br />\r\n            <div class=\"fv\">Puerto de San Antonio, caseta de Salvador →</div><br />\r\n          </div><br />\r\n        </div><br />\r\n        <div class=\"fact\"><br />\r\n          <span class=\"fic\"></span><br />\r\n          <div><br />\r\n            <div class=\"ft\">Check-in</div><br />\r\n            <div class=\"fv\">30 minutos antes de la salida. Llega con antelación para evitar retrasos.</div><br />\r\n          </div><br />\r\n        </div><br />\r\n        <div class=\"fact\"><br />\r\n          <span class=\"fic\"></span><br />\r\n          <div><br />\r\n            <div class=\"ft\">Recomendado</div><br />\r\n            <div class=\"fv\">Para todas las edades.</div><br />\r\n          </div><br />\r\n        </div><br />\r\n      </div><br />\r\n    </div><br />\r\n  <br />\r\n<br />\r\n  <br />\r\n  <br />\r\n    <span class=\"sun\" aria-hidden=\"true\"></span><br />\r\n    <span class=\"body\"><br />\r\n      <span class=\"lab\">¿Prefieres una opción por la tarde?</span><br />\r\n      <span class=\"ttl\">Salvador Sunset Trip</span><br />\r\n    </span><br />\r\n    <span class=\"go\" aria-hidden=\"true\"></span><br />\r\n  <br />\r\n<br />\r\n</div>",
+          "description": "<br />\r\n.sa{--ink:#141414;--paper:#f2f0ec;--soft:#fff;--lav:#bbc0f9;--mint:#b0eed0;--blue:#cce7ff;--mut:#6f6d68;<br />\r\nfont-family:inherit;color:var(--ink);line-height:1.45;container-type:inline-size;max-width:1240px;margin-inline:auto}<br />\r\n.sa *{box-sizing:border-box}<br />\r\n.sa a{color:inherit;text-decoration:none}<br />\r\n<br />\r\n/* TARJETAS-DATO */<br />\r\n.sa .stats{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:0}<br />\r\n.sa .st{background:var(--soft);border-radius:24px;padding:1rem 1.1rem 1.05rem;min-width:0}<br />\r\n.sa .st .si{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--blue)}<br />\r\n.sa .st .si svg{width:18px;height:18px;fill:none;stroke:var(--ink);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}<br />\r\n.sa .st b{display:block;margin-top:.7rem;font-size:1.65rem;font-weight:600;letter-spacing:-.04em;line-height:1}<br />\r\n.sa .st em{display:block;font-style:normal;margin-top:.15rem;font-size:.78rem;color:var(--mut)}<br />\r\n.sa .st.wide{grid-column:1/-1;display:flex;align-items:center;gap:.85rem}<br />\r\n.sa .st.wide b{margin:0;font-size:1.05rem;letter-spacing:-.02em}<br />\r\n.sa .st.wide em{margin-top:.1rem}<br />\r\n.sa .st.dark{background:var(--ink);color:#fff}<br />\r\n.sa .st.dark em{color:rgba(255,255,255,.6)}<br />\r\n.sa .st.dark .si{background:rgba(255,255,255,.14)}<br />\r\n.sa .st.dark .si svg{stroke:#fff}<br />\r\n<br />\r\n/* HORARIOS */<br />\r\n.sa .sched{background:var(--lav);border-radius:24px;padding:1.05rem 1.2rem 1.1rem;margin-top:.7rem}<br />\r\n.sa .sched h3{margin:0 0 .5rem;font-size:.66rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#33357a}<br />\r\n.sa .sr{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;padding:.45rem 0;border-top:1px solid rgba(20,20,20,.14)}<br />\r\n.sa .sr:first-of-type{border-top:0}<br />\r\n.sa .sr span{font-size:.9rem;color:#33357a}<br />\r\n.sa .sr b{font-weight:600;font-size:1rem;font-variant-numeric:tabular-nums}<br />\r\n<br />\r\n/* SECCIÓN */<br />\r\n.sa .sec{margin-top:1.8rem}<br />\r\n.sa .sh{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin:0 0 .85rem}<br />\r\n.sa .sh h2{margin:0;font-size:1.45rem;font-weight:600;letter-spacing:-.035em}<br />\r\n.sa .sh em{font-style:normal;font-size:.72rem;color:var(--mut)}<br />\r\n.sa .lede{margin:.1rem 0 0;color:var(--mut);font-size:.98rem;line-height:1.6;max-width:60ch}<br />\r\n.sa .lede b{color:var(--ink);font-weight:600}<br />\r\n<br />\r\n/* INCLUYE */<br />\r\n.sa .inc{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}<br />\r\n.sa .inc div{display:flex;align-items:center;gap:.6rem;background:var(--soft);border-radius:18px;padding:.75rem .9rem;font-size:.88rem;font-weight:600}<br />\r\n.sa .inc svg{width:16px;height:16px;flex:none;fill:none;stroke:#1f6b4c;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}<br />\r\n<br />\r\n/* ITINERARIO carrusel */<br />\r\n.sa .rail{display:flex;gap:.7rem;overflow-x:auto;padding:.2rem .1rem .5rem;scroll-snap-type:x mandatory}<br />\r\n.sa .rail::-webkit-scrollbar{display:none}<br />\r\n.sa .card{flex:0 0 78%;max-width:300px;scroll-snap-align:start;position:relative;border-radius:24px;overflow:hidden;min-height:310px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;isolation:isolate}<br />\r\n.sa .card .ph{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;display:block}<br />\r\n.sa .card .noimg{display:grid;place-items:center;background:#d9dde2}<br />\r\n.sa .card .noimg span{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#7e848c;text-align:center;padding:0 1rem}<br />\r\n.sa .card .sc{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(8,10,14,.12) 30%,rgba(8,10,14,.85) 100%)}<br />\r\n.sa .card .num{position:absolute;top:.8rem;left:.8rem;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.9);color:var(--ink);display:grid;place-items:center;font-size:.76rem;font-weight:600}<br />\r\n.sa .card .cb{padding:1rem;display:flex;flex-direction:column;gap:.35rem}<br />\r\n.sa .card .ct{font-size:.66rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.72)}<br />\r\n.sa .card h4{margin:0;font-size:1.15rem;font-weight:600;letter-spacing:-.03em;line-height:1.1}<br />\r\n.sa .card p{margin:0;font-size:.84rem;color:rgba(255,255,255,.82);line-height:1.4}<br />\r\n.sa .card.flat{background:var(--mint);color:var(--ink)}<br />\r\n.sa .card.flat .ct{color:#1f6b4c}<br />\r\n.sa .card.flat p{color:#2c4a3c}<br />\r\n.sa .card.flat .num{background:var(--ink);color:#fff}<br />\r\n<br />\r\n/* SABER */<br />\r\n.sa .know{display:grid;grid-template-columns:1fr;gap:.55rem}<br />\r\n.sa .kn{background:var(--soft);border-radius:20px;padding:.9rem 1.05rem;display:flex;gap:.8rem;align-items:flex-start}<br />\r\n.sa .kn .ki{width:34px;height:34px;flex:none;border-radius:11px;background:var(--mint);display:grid;place-items:center}<br />\r\n.sa .kn .ki svg{width:18px;height:18px;fill:none;stroke:var(--ink);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}<br />\r\n.sa .kn em{display:block;font-style:normal;font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}<br />\r\n.sa .kn p{margin:.2rem 0 0;font-size:.92rem}<br />\r\n.sa .kn a{font-weight:600;border-bottom:1.5px solid rgba(20,20,20,.3)}<br />\r\n<br />\r\n/* CTA */<br />\r\n.sa .cta{display:flex;align-items:center;gap:1rem;background:var(--ink);color:#fff;border-radius:26px;padding:1.2rem 1.3rem;margin-top:1.8rem}<br />\r\n.sa .cta .cb{flex:1;min-width:0}<br />\r\n.sa .cta em{display:block;font-style:normal;font-size:.66rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6)}<br />\r\n.sa .cta b{display:block;margin-top:.25rem;font-size:1.35rem;font-weight:600;letter-spacing:-.035em}<br />\r\n.sa .cta i{width:50px;height:50px;flex:none;border-radius:50%;background:var(--lav);color:var(--ink);display:grid;place-items:center;transition:transform .2s}<br />\r\n.sa .cta:hover i{transform:translateX(4px)}<br />\r\n.sa .cta i svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}<br />\r\n<br />\r\n@container (min-width:780px){<br />\r\n  .sa .stats{grid-template-columns:repeat(4,1fr)}<br />\r\n  .sa .st.wide{grid-column:span 2}<br />\r\n  .sa .sched{display:grid;grid-template-columns:auto 1fr 1fr 1fr;align-items:center;gap:0 1.6rem}<br />\r\n  .sa .sched h3{margin:0;max-width:7rem}<br />\r\n  .sa .sr{border-top:0;flex-direction:column;align-items:flex-start;gap:.1rem;padding:0}<br />\r\n  .sa .inc{grid-template-columns:repeat(3,1fr)}<br />\r\n  .sa .card{flex:0 0 calc(33.333% - .47rem);max-width:none}<br />\r\n  .sa .know{grid-template-columns:repeat(3,1fr)}<br />\r\n  .sa .sh h2{font-size:1.8rem}<br />\r\n}<br />\r\n<br />\r\n<br />\r\n<div class=\"sa\"><br />\r\n  <div class=\"stats\"><br />\r\n    <div class=\"st\"><br />\r\n      <span class=\"si\"></span><br />\r\n      <b>3 h</b>De navegación<br />\r\n    </div><br />\r\n    <div class=\"st dark\"><br />\r\n      <span class=\"si\"></span><br />\r\n      <b>Barra libre</b>Cerveza, sangría, cava<br />\r\n    </div><br />\r\n    <div class=\"st wide\"><br />\r\n      <span class=\"si\"></span><br />\r\n      <div><b>Snorkel, kayak y paddle surf</b>Incluidos en la parada de baño</div><br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n  <div class=\"sched\"><br />\r\n    Horarios<br />\r\n    <div class=\"sr\"><span>Abril – Agosto</span><b>14:00 – 17:00</b></div><br />\r\n    <div class=\"sr\"><span>1 – 15 Septiembre</span><b>13:30 – 16:30</b></div><br />\r\n    <div class=\"sr\"><span>Desde 16 Sept.</span><b>13:00 – 16:00</b></div><br />\r\n  </div><br />\r\n<br />\r\n  <div class=\"sec\"><br />\r\n    <div class=\"sh\">La excursión</div><br />\r\n    <p class=\"lede\"><b>Tres horas navegando la costa oeste de Ibiza</b> para descubrir Cala Bassa, Cala Conta y las Islas Margarita, con salida desde el Puerto de San Antonio. Bebidas, fruta fresca y deportes acuáticos incluidos.</p><br />\r\n  </div><br />\r\n<br />\r\n  <div class=\"sec\"><br />\r\n    <div class=\"sh\">Qué incluye</div><br />\r\n    <div class=\"inc\"><br />\r\n      <div>Excursión de 3 horas</div><br />\r\n      <div>Bebidas y refrescos</div><br />\r\n      <div>Fruta fresca y snacks</div><br />\r\n      <div>Snorkel, kayak, paddle</div><br />\r\n      <div>Música a bordo</div><br />\r\n      <div>Todas las edades</div><br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n  <div class=\"sec\"><br />\r\n    <div class=\"sh\">ItinerarioDesliza →</div><br />\r\n    <div class=\"rail\"><br />\r\n      <br />\r\n        <div class=\"ph noimg\"><span>Puerto de San Antonio</span></div><br />\r\n        <div class=\"sc\"></div><span class=\"num\">1</span><br />\r\n        <div class=\"cb\"><span class=\"ct\">30 min antes</span>Check-in<p>Caseta de Salvador, Puerto de San Antonio.</p></div><br />\r\n      <br />\r\n      <br />\r\n        <br />\r\n        <div class=\"sc\"></div><span class=\"num\">2</span><br />\r\n        <div class=\"cb\"><span class=\"ct\">Salida</span>Zarpamos<p>Rumbo a la costa oeste de la isla.</p></div><br />\r\n      <br />\r\n      <br />\r\n        <div class=\"ph noimg\"><span>Cala Bassa / Cala Conta</span></div><br />\r\n        <div class=\"sc\"></div><span class=\"num\">3</span><br />\r\n        <div class=\"cb\"><span class=\"ct\">Navegación</span>Cala Bassa &amp; Conta<p>Arena blanca y agua turquesa.</p></div><br />\r\n      <br />\r\n      <br />\r\n        <span class=\"num\">4</span><br />\r\n        <div class=\"cb\"><span class=\"ct\">Lo mejor del día</span>Baño y deportes<p>Fondeamos para darte tiempo en el agua: snorkel, kayak y paddle surf, con barra libre y snacks a bordo.</p></div><br />\r\n      <br />\r\n      <br />\r\n        <div class=\"ph noimg\"><span>Ses Margalides</span></div><br />\r\n        <div class=\"sc\"></div><span class=\"num\">5</span><br />\r\n        <div class=\"cb\"><span class=\"ct\">Regreso</span>Ses Margalides<p>El arco natural y vuelta a puerto.</p></div><br />\r\n      <br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n  <div class=\"sec\"><br />\r\n    <div class=\"sh\">Necesitas saber</div><br />\r\n    <div class=\"know\"><br />\r\n      <div class=\"kn\"><span class=\"ki\"></span><div>Punto de salida<p>Puerto de San Antonio</p></div></div><br />\r\n      <div class=\"kn\"><span class=\"ki\"></span><div>Check-in<p>30 minutos antes de la salida.</p></div></div><br />\r\n      <div class=\"kn\"><span class=\"ki\"></span><div>Recomendado<p>Para todas las edades.</p></div></div><br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n  <br />\r\n    <div class=\"cb\">¿Prefieres la tarde?<b>Salvador Sunset Trip</b></div><br />\r\n    <br />\r\n  <br />\r\n</div>",
           "requirements": "<p>- <b>Excursión de 3h</b>:<br />\r\n  de abril a agosto de 14:00 a 17:00 · del 1 al 15 de septiembre de 13:30 a 16:30 · desde el 16 de septiembre de 13:00 a 16:00<br><br />\r\n- <b>Punto de encuentro</b>: puerto de San Antonio, caseta de Salvador frente a la rotonda del Huevo<br />\r\n  (Ver mapa)<br><br />\r\n- <b>Hora de check-in</b>: 30 min antes de la salida<br />\r\n  (importante: llega con antelación para evitar retrasos)<br></p>",
           "affLink": "https://www.clubtickets.com/es/boat/salvador/salvador-boat-day-trip?aff=CT219",
           "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/137/event/685?locale=es"
@@ -3444,8 +3444,8 @@
           "date": "2026-10-10",
           "name": "",
           "lineUp": "<p><b>Main Room</b></p><p>Adriatique</p><p>Dennis Cruz</p><p>East End Dubs</p><p>Mochakk</p><p>Rafael</p><p>The Martinez Brothers</p><p>WhoMadeWho (Hybrid DJ Set)</p><p>Special Guest</p><p><br></p><p><b>Wild Comet</b></p><p>Bender</p><p>Dennis Quin</p><p>Kamma</p><p>Mr Belt &amp; Wizol</p><p>Mella Dee</p><p><br></p><p><b>The Bunker</b></p><p>Discoliscious</p><p>Melon Bomb</p>",
-          "prices": "90 € - 100 €",
-          "lowestAvailablePrice": 90,
+          "prices": "95 € - 105 €",
+          "lowestAvailablePrice": 95,
           "affLink": "https://www.clubtickets.com/es/clubbing/unvrs-ibiza/unvrs-ibiza-closing-party/2026-10-10?aff=CT219"
         }
       ],
@@ -7720,8 +7720,8 @@
           "date": "2026-09-24",
           "name": "Masonic x Diaz Collective",
           "lineUp": "<p>Ayrton Da Silva</p><p>Junior Diaz</p><p>Clement</p><p>Viajo</p>",
-          "prices": "15 € - 20 €",
-          "lowestAvailablePrice": 15,
+          "prices": "10.8 € - 16.2 €",
+          "lowestAvailablePrice": 10.8,
           "affLink": "https://www.clubtickets.com/es/clubbing/baloo/baloo-presents/2026-09-24?aff=CT219"
         },
         {
@@ -8224,15 +8224,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/27?locale=es"
       },
       "dates": [
-        {
-          "id": 172698,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "7 € - 12 €",
-          "lowestAvailablePrice": 7,
-          "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/cala-salada-boat/2026-09-22?aff=CT219"
-        },
         {
           "id": 172699,
           "date": "2026-09-23",
@@ -9309,15 +9300,6 @@
       },
       "dates": [
         {
-          "id": 166924,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "80 €",
-          "lowestAvailablePrice": 80,
-          "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/aftersun/2026-09-22?aff=CT219"
-        },
-        {
           "id": 173938,
           "date": "2026-09-24",
           "name": "",
@@ -9846,15 +9828,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/69?locale=es"
       },
       "dates": [
-        {
-          "id": 161180,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "25 € - 69 €",
-          "lowestAvailablePrice": 25,
-          "affLink": "https://www.clubtickets.com/es/boat/float-your-boat/beach-cruise-sunset/2026-09-22?aff=CT219"
-        },
         {
           "id": 161181,
           "date": "2026-09-23",
@@ -10484,15 +10457,6 @@
       },
       "dates": [
         {
-          "id": 161261,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "49 €",
-          "lowestAvailablePrice": 49,
-          "affLink": "https://www.clubtickets.com/es/boat/float-your-boat/ibiza-sunset-experience/2026-09-22?aff=CT219"
-        },
-        {
           "id": 161262,
           "date": "2026-09-26",
           "name": "",
@@ -10572,15 +10536,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/75?locale=es"
       },
       "dates": [
-        {
-          "id": 165650,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "<p>Resident DJs</p><p>Live Performances</p>",
-          "prices": "65 € - 95 €",
-          "lowestAvailablePrice": 65,
-          "affLink": "https://www.clubtickets.com/es/boat/pukka-up/pukka-up/2026-09-22?aff=CT219"
-        },
         {
           "id": 165651,
           "date": "2026-09-24",
@@ -11541,15 +11496,6 @@
       },
       "dates": [
         {
-          "id": 163531,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "23 € - 45 €",
-          "lowestAvailablePrice": 23,
-          "affLink": "https://www.clubtickets.com/es/boat/capitan-nemo/excursion-es-vedra/2026-09-22?aff=CT219"
-        },
-        {
           "id": 163532,
           "date": "2026-09-24",
           "name": "",
@@ -12104,15 +12050,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/33?locale=es"
       },
       "dates": [
-        {
-          "id": 161913,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "9 € - 15 €",
-          "lowestAvailablePrice": 9,
-          "affLink": "https://www.clubtickets.com/es/activities/cova-de-can-marca/cova-de-can-marca/2026-09-22?aff=CT219"
-        },
         {
           "id": 161914,
           "date": "2026-09-23",
@@ -12770,15 +12707,6 @@
       },
       "dates": [
         {
-          "id": 164088,
-          "date": "2026-09-24",
-          "name": "",
-          "lineUp": "",
-          "prices": "195 € - 360 €",
-          "lowestAvailablePrice": 195,
-          "affLink": "https://www.clubtickets.com/es/activities/emove-ibiza/buggy-tour/2026-09-24?aff=CT219"
-        },
-        {
           "id": 164089,
           "date": "2026-09-25",
           "name": "",
@@ -13101,15 +13029,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/61?locale=es"
       },
       "dates": [
-        {
-          "id": 163878,
-          "date": "2026-09-24",
-          "name": "",
-          "lineUp": "",
-          "prices": "130 € - 175 €",
-          "lowestAvailablePrice": 130,
-          "affLink": "https://www.clubtickets.com/es/activities/emove-ibiza/quad-tour/2026-09-24?aff=CT219"
-        },
         {
           "id": 163879,
           "date": "2026-09-25",
@@ -14125,15 +14044,6 @@
       },
       "dates": [
         {
-          "id": 162964,
-          "date": "2026-09-23",
-          "name": "",
-          "lineUp": "",
-          "prices": "35 € - 70 €",
-          "lowestAvailablePrice": 35,
-          "affLink": "https://www.clubtickets.com/es/activities/excursiones/ibiza-bus-tour/2026-09-23?aff=CT219"
-        },
-        {
           "id": 162965,
           "date": "2026-09-26",
           "name": "",
@@ -14392,15 +14302,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/55?locale=es"
       },
       "dates": [
-        {
-          "id": 162873,
-          "date": "2026-09-25",
-          "name": "",
-          "lineUp": "",
-          "prices": "99 € - 115 €",
-          "lowestAvailablePrice": 99,
-          "affLink": "https://www.clubtickets.com/es/activities/excursiones/jeep-safari-north-tour/2026-09-25?aff=CT219"
-        },
         {
           "id": 162874,
           "date": "2026-09-27",
@@ -15245,7 +15146,7 @@
           "affLink": "https://www.clubtickets.com/es/boat/salvador/salvador-boat-day-trip/2026-10-31?aff=CT219"
         }
       ],
-      "description": "<br />\r\n  .sv .lbl{ min-width:0; }<br />\r\n  .sv .ic{ width:30px; height:30px; flex:none; border-radius:9px; display:grid; place-items:center; background:var(--accent-soft); color:var(--text); }<br />\r\n  .sv .ic svg{ width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n<br />\r\n  .sv .chips-row{ display:flex; flex-wrap:nowrap; gap:.6rem; overflow-x:auto; padding:.4rem .1rem; margin:0 0 1.1rem; scroll-snap-type:x proximity; }<br />\r\n  .sv .chip .ci{ width:30px; height:30px; border-radius:50%; display:grid; place-items:center; background:var(--blue-soft); flex-shrink:0; }<br />\r\n  .sv .chip .ci svg{ width:18px; height:18px; fill:none; stroke:var(--ink); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n  .sv .chip .ci svg.food-icon{ width:16px; height:16px; fill:var(--ink); stroke:none; }<br />\r\n  @container (min-width:900px){<br />\r\n    .sv .chips-row{ flex-wrap:wrap; overflow-x:visible; gap:.7rem; }<br />\r\n    .sv .chip .ci{ width:34px; height:34px; } .sv .chip .ci svg{ width:19px; height:19px; }<br />\r\n<br />\r\n  .sv .sec{ font-weight:600; font-size:1.3rem; letter-spacing:-.025em; }<br />\r\n  .sv em{ font-style:normal; color:var(--text-3); }<br />\r\n<br />\r\n  .sv .about{ color:var(--text-2); max-width:62ch; margin:0 0 1.4rem; font-size:1rem; line-height:1.62; text-wrap:pretty; }<br />\r\n  .sv .about b{ color:var(--text); font-weight:600; }<br />\r\n<br />\r\n  .sv .quick{ background:var(--lavender); border:1px solid var(--lavender); border-radius:var(--r-card); padding:1.05rem 1.3rem 1.1rem; margin:0 0 1.3rem; box-shadow:var(--shadow-card); }<br />\r\n  .sv .qk{ font-size:.68rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--lilac-deep); margin:0 0 .4rem; }<br />\r\n  .sv .qrow{ display:flex; align-items:baseline; justify-content:space-between; gap:.8rem; padding:.45rem 0; font-size:.95rem; border-top:1px solid rgba(21,21,21,.12); }<br />\r\n  .sv .qrow:first-of-type{ border-top:0; }<br />\r\n  .sv .qrow .w{ color:#33357a; font-weight:500; white-space:nowrap; }<br />\r\n  .sv .qrow .h{ font-weight:700; white-space:nowrap; font-variant-numeric:tabular-nums; color:var(--ink); }<br />\r\n  .sv .qgo{ display:flex; align-items:center; gap:.55rem; margin-top:.75rem; padding-top:.75rem; border-top:1px dashed rgba(21,21,21,.22); font-size:.92rem; color:var(--ink); }<br />\r\n  .sv .qgo b{ font-weight:600; }<br />\r\n  .sv .qi{ width:28px; height:28px; flex:none; border-radius:9px; display:grid; place-items:center; background:rgba(255,255,255,.7); color:var(--lilac-deep); }<br />\r\n  .sv .qi svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n<br />\r\n  .sv .sched{ padding:.2rem 1.4rem 1.3rem; }<br />\r\n  .sv .srow{ display:flex; align-items:baseline; justify-content:space-between; gap:.8rem; padding:.5rem 0; font-size:.95rem; border-top:1px solid var(--hairline); }<br />\r\n  .sv .srow:first-child{ border-top:0; }<br />\r\n  .sv .srow .w{ color:var(--text-2); white-space:nowrap; }<br />\r\n  .sv .srow .h{ font-weight:600; white-space:nowrap; font-variant-numeric:tabular-nums; }<br />\r\n  .sv .snote{ margin:.7rem 0 0; font-size:.86rem; color:var(--text-2); }<br />\r\n<br />\r\n  .sv details.acc{ background:var(--surface); border:1px solid var(--border); border-radius:var(--r-card); overflow:hidden; margin-bottom:.7rem; box-shadow:var(--shadow-card); }<br />\r\n  .sv details.acc > summary:focus,.sv details.acc > summary:focus-visible{ outline:none; }<br />\r\n  .sv details.acc > summary .chev{ margin-left:auto; width:11px; height:11px; border-right:2px solid var(--muted); border-bottom:2px solid var(--muted); transform:translateY(-2px) rotate(45deg); transition:transform .25s ease; }<br />\r\n  .sv details.acc[open] > summary .chev{ transform:translateY(2px) rotate(-135deg); }<br />\r\n  .sv .panel{ border:1px solid var(--hair); border-radius:18px; padding:1.4rem 1.5rem; margin-bottom:1.6rem; }<br />\r\n  .sv .panel .ovl{ font-size:.7rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 1rem; }<br />\r\n  .sv .inc{ list-style:none; margin:0; padding:0 1.4rem 1.4rem; display:grid; gap:.7rem; }<br />\r\n  .sv .inc li{ display:flex; align-items:flex-start; gap:.65rem; font-weight:500; }<br />\r\n  .sv .inc svg{ width:19px; height:19px; flex:0 0 auto; margin-top:.15rem; fill:none; stroke:var(--brand-deep); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n  .sv .panel.sch{ background:var(--soft); border-color:transparent; }<br />\r\n  .sv .sr{ display:flex; align-items:baseline; justify-content:space-between; gap:.8rem; padding:.62rem 0; border-top:1px solid var(--hair); }<br />\r\n  .sv .sr:first-of-type{ border-top:0; }<br />\r\n  .sv .sr .w{ color:var(--muted); white-space:nowrap; } .sv .sr .h{ font-weight:700; white-space:nowrap; }<br />\r\n<br />\r\n  .sv details.acc.trip{ margin-bottom:.7rem; }<br />\r\n  .sv details.acc.know-acc{ margin-bottom:1.6rem; }<br />\r\n  .sv .tl{ list-style:none; margin:0; padding:.2rem 1.4rem 1.5rem; display:grid; gap:0; }<br />\r\n  .sv .tl__i{ position:relative; display:grid; grid-template-columns:auto 1fr; gap:1rem; padding-bottom:1.35rem; }<br />\r\n  .sv .tl__i:last-child{ padding-bottom:0; }<br />\r\n  .sv .tl__i::before{ content:\"\"; position:absolute; left:21px; top:48px; z-index:0; bottom:-2px; width:2px; background:repeating-linear-gradient(180deg,var(--border) 0 6px,transparent 6px 12px); }<br />\r\n  .sv .tl__i:last-child::before{ display:none; }<br />\r\n  .sv .tl__n{ position:relative; z-index:1; width:44px; height:44px; border-radius:50%; display:grid; place-items:center; background:var(--surface); border:1px solid var(--border); box-shadow:var(--shadow-card); color:var(--text); }<br />\r\n  .sv .tl__n svg{ width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n  .sv .tl__i:nth-child(4) .tl__n{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }<br />\r\n  .sv .tl__c{ min-width:0; padding:.1rem 0 0; }<br />\r\n  .sv .tl__t{ display:block; font-size:.74rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-2); }<br />\r\n  .sv .tl__c h4{ font-weight:600; font-size:1.04rem; line-height:1.22; letter-spacing:-.025em; margin:.2rem 0 .3rem; }<br />\r\n  .sv .tl__c p{ margin:0; font-size:.92rem; color:var(--text-2); text-wrap:pretty; }<br />\r\n  .sv .tl__m{ display:inline-flex; align-items:center; gap:.35rem; margin-top:.6rem; font-size:.84rem; font-weight:600; color:var(--lilac-deep); text-decoration:none; }<br />\r\n  .sv .tl__m:hover{ text-decoration:underline; text-underline-offset:2px; }<br />\r\n  .sv .tl__m svg{ width:13px; height:13px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n  .sv .tl__p{ display:flex; flex-wrap:wrap; gap:.45rem; margin-top:.75rem; }<br />\r\n  .sv .tl__p a{ text-decoration:none; font-size:.82rem; font-weight:600; color:var(--lilac-deep); background:color-mix(in srgb,var(--accent) 16%,white); border-radius:var(--r-chip); padding:.36rem .8rem; transition:background .15s ease; }<br />\r\n  .sv .tl__p a:hover{ background:color-mix(in srgb,var(--accent) 30%,white); }<br />\r\n<br />\r\n  .sv .block{ margin-bottom:1.6rem; }<br />\r\n  .sv .sec{ margin:0 0 1.3rem; display:flex; align-items:center; gap:.65rem; }<br />\r\n  .sv .sec em{ font-style:normal; color:var(--text-3); }<br />\r\n  .sv .know{ padding:.2rem 1.5rem 1.6rem; }<br />\r\n  .sv .facts{ display:grid; grid-template-columns:1fr 1fr; gap:1.3rem 2rem; }<br />\r\n  .sv .fact{ display:flex; gap:.8rem; align-items:flex-start; }<br />\r\n  .sv .fact .fic{ width:40px; height:40px; flex:0 0 auto; border-radius:12px; display:grid; place-items:center; background:var(--blue-soft); }<br />\r\n  .sv .fact .fic svg{ width:21px; height:21px; fill:none; stroke:var(--ink); stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n  .sv .fact .ft{ font-size:.74rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-2); }<br />\r\n  .sv .fact .fv{ font-size:.98rem; margin-top:.2rem; color:var(--text-2); }<br />\r\n  .sv .fact .fv a{ color:var(--lilac-deep); font-weight:600; }<br />\r\n<br />\r\n  .sv .sunset{ display:flex; align-items:center; gap:1.1rem; background:var(--ink); border:1px solid var(--ink); border-radius:var(--r-card); padding:1.4rem 1.6rem; color:#fff; text-decoration:none; box-shadow:var(--shadow-card); transition:transform .2s ease, box-shadow .2s ease; }<br />\r\n  .sv .sunset:hover{ transform:translateY(-2px); box-shadow:var(--shadow-pop); }<br />\r\n  .sv .sunset .sun{ width:46px; height:46px; flex:0 0 auto; border-radius:12px; background:#f3aa66; display:grid; place-items:center; }<br />\r\n  .sv .sunset .sun svg{ width:24px; height:24px; fill:none; stroke:var(--ink); stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n  .sv .sunset .body{ flex:1; }<br />\r\n  .sv .sunset .lab{ display:block; font-size:.7rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.62); }<br />\r\n  .sv .sunset .ttl{ display:block; font-weight:600; font-size:clamp(1.15rem,3cqw,1.45rem); letter-spacing:-.03em; margin-top:.25rem; }<br />\r\n  .sv .sunset .go{ flex:0 0 auto; width:44px; height:44px; border-radius:50%; background:var(--accent); display:grid; place-items:center; transition:transform .2s ease; }<br />\r\n  .sv .sunset:hover .go{ transform:translateX(4px); }<br />\r\n  .sv .sunset .go svg{ width:20px; height:20px; fill:none; stroke:var(--accent-ink); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }<br />\r\n<br />\r\n  @container (max-width:720px){<br />\r\n    .sv .cols{ grid-template-columns:1fr; }<br />\r\n    .sv .facts{ grid-template-columns:1fr; }<br />\r\n    .sv .sched{ padding:.2rem 1.1rem 1.1rem; }<br />\r\n    .sv .tl{ padding:.2rem 1rem 1.2rem; }<br />\r\n    .sv .know{ padding:.2rem 1.1rem 1.3rem; }<br />\r\n    .sv .tl__i{ gap:.9rem; }<br />\r\n    .sv .tl__n{ width:40px; height:40px; }<br />\r\n    .sv .tl__n svg{ width:18px; height:18px; }<br />\r\n    .sv .tl__i::before{ left:19px; top:44px; }<br /><br /><div class=\"sv\"><br /><br /><div class=\"chips-row\" aria-label=\"Qué incluye\"><br />\r\n    <span class=\"chip\"><span class=\"ci\"></span>Excursión de 3 h</span><br />\r\n    <span class=\"chip\"><span class=\"ci\"></span>Bebidas incluidas</span><br />\r\n    <span class=\"chip\"><span class=\"ci\"></span>Fruta fresca y snacks</span><br />\r\n    <span class=\"chip\"><span class=\"ci\"></span>Ruta por la costa oeste</span><br />\r\n    <span class=\"chip\"><span class=\"ci\"></span>Snorkel, kayak y paddle surf</span><br />\r\n    <span class=\"chip\"><span class=\"ci\"></span>Música a bordo</span><br />\r\n  </div><br /><br /><div class=\"quick\"><br />\r\n    <div class=\"qk\">Horario de salida y regreso</div><br />\r\n    <div class=\"qrow\"><span class=\"w\">Abril – Agosto</span><span class=\"h\">14:00 – 17:00</span></div><br />\r\n    <div class=\"qrow\"><span class=\"w\">1 – 15 Septiembre</span><span class=\"h\">13:30 – 16:30</span></div><br />\r\n    <div class=\"qrow\"><span class=\"w\">Desde 16 Septiembre</span><span class=\"h\">13:00 – 16:00</span></div><br />\r\n    <div class=\"qgo\"><span class=\"qi\"></span>Salida desde el <b>Puerto de San Antonio</b></div><br />\r\n  </div><br /><br /><p class=\"about\"><b>Excursión en barco por la costa oeste de Ibiza</b> para descubrir algunas de las mejores calas y playas de la isla, como <b>Cala Bassa</b>, <b>Cala Conta</b> e <b>Islas Margarita</b>. Navega con el <b>barco Salvador</b>, con salidas desde <b>San Antonio</b>, y disfruta de una <b>excursión de 3 horas con bebidas, snacks y deportes acuáticos incluidos</b>.</p><br /><br /><span class=\"ic\" aria-hidden=\"true\"></span><span class=\"lbl\">Qué incluye</span><span class=\"chev\" aria-hidden=\"true\"></span><br />\r\n    <br />\r\n      Excursión de 3 horas<br />\r\n      Bebidas (cerveza, sangría, cava, vino, refrescos)<br />\r\n      Fruta fresca y snacks<br />\r\n      Snorkel, kayak y paddle surf<br />\r\n      Música a bordo<br /><br /><span class=\"ic\" aria-hidden=\"true\"></span><span class=\"lbl\">Tu itinerario</span><span class=\"chev\" aria-hidden=\"true\"></span><br /><br /><span class=\"tl__n\"></span><br />\r\n        <div class=\"tl__c\"><br />\r\n          <span class=\"tl__t\">30 min antes</span><br />\r\n          Check-in en el puerto<br />\r\n          <p>Preséntate en la caseta de Salvador, en el Puerto de San Antonio, media hora antes de zarpar.</p><br />\r\n          Ver punto de encuentro<br />\r\n        </div><br /><br /><span class=\"tl__n\"></span><br />\r\n        <div class=\"tl__c\"><br />\r\n          <span class=\"tl__t\">Salida</span><br />\r\n          Zarpamos hacia la costa oeste<br />\r\n          <p>La hora varía según la temporada: 14:00 de abril a agosto, 13:30 en la primera quincena de septiembre y 13:00 a partir del 16.</p><br />\r\n        </div><br /><br /><span class=\"tl__n\"></span><br />\r\n        <div class=\"tl__c\"><br />\r\n          <span class=\"tl__t\">Navegación</span><br />\r\n          Cala Bassa, Cala Conta y Ses Margalides<br />\r\n          <p>Costeamos algunas de las mejores calas de la isla y los islotes del arco natural de Ses Margalides.</p><br />\r\n          <div class=\"tl__p\"><br />\r\n            Cala Bassa<br />\r\n            Cala Conta<br />\r\n            Ses Margalides<br />\r\n          </div><br />\r\n        </div><br /><br /><span class=\"tl__n\"></span><br />\r\n        <div class=\"tl__c\"><br />\r\n          <span class=\"tl__t\">Parada · lo mejor del día</span><br />\r\n          Baño, snorkel, kayak y paddle surf<br />\r\n          <p>Fondeamos para darte tiempo en el agua. Barra libre de bebidas, fruta fresca y snacks a bordo.</p><br />\r\n        </div><br /><br /><span class=\"tl__n\"></span><br />\r\n        <div class=\"tl__c\"><br />\r\n          <span class=\"tl__t\">3 h después</span><br />\r\n          Regreso a San Antonio<br />\r\n          <p>Volvemos al mismo punto de salida, justo a tiempo para el atardecer en el puerto.</p><br />\r\n        </div><br /><br /><span class=\"ic\" aria-hidden=\"true\"></span><span class=\"lbl\">Horarios por temporada</span><span class=\"chev\" aria-hidden=\"true\"></span><br />\r\n    <div class=\"sched\"><br />\r\n      <div class=\"srow\"><span class=\"w\">Abril – Agosto</span><span class=\"h\">14:00 – 17:00</span></div><br />\r\n      <div class=\"srow\"><span class=\"w\">1 – 15 Septiembre</span><span class=\"h\">13:30 – 16:30</span></div><br />\r\n      <div class=\"srow\"><span class=\"w\">Desde 16 Septiembre</span><span class=\"h\">13:00 – 16:00</span></div><br />\r\n      <p class=\"snote\">Salida y regreso desde el Puerto de San Antonio. Check-in 30 minutos antes.</p><br />\r\n    </div><br /><br /><span class=\"ic\" aria-hidden=\"true\"></span><span class=\"lbl\">Lo que necesitas saber</span><span class=\"chev\" aria-hidden=\"true\"></span><br />\r\n    <div class=\"know\"><br />\r\n      <div class=\"facts\"><br />\r\n        <div class=\"fact\"><br />\r\n          <span class=\"fic\"></span><br />\r\n          <div><br />\r\n            <div class=\"ft\">Punto de salida</div><br />\r\n            <div class=\"fv\">Puerto de San Antonio, caseta de Salvador →</div><br />\r\n          </div><br />\r\n        </div><br />\r\n        <div class=\"fact\"><br />\r\n          <span class=\"fic\"></span><br />\r\n          <div><br />\r\n            <div class=\"ft\">Check-in</div><br />\r\n            <div class=\"fv\">30 minutos antes de la salida. Llega con antelación para evitar retrasos.</div><br />\r\n          </div><br />\r\n        </div><br />\r\n        <div class=\"fact\"><br />\r\n          <span class=\"fic\"></span><br />\r\n          <div><br />\r\n            <div class=\"ft\">Recomendado</div><br />\r\n            <div class=\"fv\">Para todas las edades.</div><br />\r\n          </div><br />\r\n        </div><br />\r\n      </div><br />\r\n    </div><br /><br /><span class=\"sun\" aria-hidden=\"true\"></span><br />\r\n    <span class=\"body\"><br />\r\n      <span class=\"lab\">¿Prefieres una opción por la tarde?</span><br />\r\n      <span class=\"ttl\">Salvador Sunset Trip</span><br />\r\n    </span><br />\r\n    <span class=\"go\" aria-hidden=\"true\"></span><br /><br /></div>",
+      "description": "<br />\r\n.sa{--ink:#141414;--paper:#f2f0ec;--soft:#fff;--lav:#bbc0f9;--mint:#b0eed0;--blue:#cce7ff;--mut:#6f6d68;<br />\r\n.sa a{color:inherit;text-decoration:none}<br />\r\n<br />\r\n.sa .stats{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:0}<br />\r\n.sa .st{background:var(--soft);border-radius:24px;padding:1rem 1.1rem 1.05rem;min-width:0}<br />\r\n.sa .st .si{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--blue)}<br />\r\n.sa .st .si svg{width:18px;height:18px;fill:none;stroke:var(--ink);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}<br />\r\n.sa .st b{display:block;margin-top:.7rem;font-size:1.65rem;font-weight:600;letter-spacing:-.04em;line-height:1}<br />\r\n.sa .st em{display:block;font-style:normal;margin-top:.15rem;font-size:.78rem;color:var(--mut)}<br />\r\n.sa .st.wide{grid-column:1/-1;display:flex;align-items:center;gap:.85rem}<br />\r\n.sa .st.wide b{margin:0;font-size:1.05rem;letter-spacing:-.02em}<br />\r\n.sa .st.wide em{margin-top:.1rem}<br />\r\n.sa .st.dark{background:var(--ink);color:#fff}<br />\r\n.sa .st.dark em{color:rgba(255,255,255,.6)}<br />\r\n.sa .st.dark .si{background:rgba(255,255,255,.14)}<br />\r\n.sa .st.dark .si svg{stroke:#fff}<br />\r\n<br />\r\n.sa .sched{background:var(--lav);border-radius:24px;padding:1.05rem 1.2rem 1.1rem;margin-top:.7rem}<br />\r\n.sa .sched h3{margin:0 0 .5rem;font-size:.66rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#33357a}<br />\r\n.sa .sr{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;padding:.45rem 0;border-top:1px solid rgba(20,20,20,.14)}<br />\r\n.sa .sr:first-of-type{border-top:0}<br />\r\n.sa .sr span{font-size:.9rem;color:#33357a}<br />\r\n.sa .sr b{font-weight:600;font-size:1rem;font-variant-numeric:tabular-nums}<br />\r\n<br />\r\n.sa .sec{margin-top:1.8rem}<br />\r\n.sa .sh{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin:0 0 .85rem}<br />\r\n.sa .sh h2{margin:0;font-size:1.45rem;font-weight:600;letter-spacing:-.035em}<br />\r\n.sa .sh em{font-style:normal;font-size:.72rem;color:var(--mut)}<br />\r\n.sa .lede{margin:.1rem 0 0;color:var(--mut);font-size:.98rem;line-height:1.6;max-width:60ch}<br />\r\n.sa .lede b{color:var(--ink);font-weight:600}<br />\r\n<br />\r\n.sa .inc{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}<br />\r\n.sa .inc div{display:flex;align-items:center;gap:.6rem;background:var(--soft);border-radius:18px;padding:.75rem .9rem;font-size:.88rem;font-weight:600}<br />\r\n.sa .inc svg{width:16px;height:16px;flex:none;fill:none;stroke:#1f6b4c;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}<br />\r\n<br />\r\n.sa .rail{display:flex;gap:.7rem;overflow-x:auto;padding:.2rem .1rem .5rem;scroll-snap-type:x mandatory}<br />\r\n.sa .card{flex:0 0 78%;max-width:300px;scroll-snap-align:start;position:relative;border-radius:24px;overflow:hidden;min-height:310px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;isolation:isolate}<br />\r\n.sa .card .ph{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;display:block}<br />\r\n.sa .card .noimg{display:grid;place-items:center;background:#d9dde2}<br />\r\n.sa .card .noimg span{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#7e848c;text-align:center;padding:0 1rem}<br />\r\n.sa .card .sc{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(8,10,14,.12) 30%,rgba(8,10,14,.85) 100%)}<br />\r\n.sa .card .num{position:absolute;top:.8rem;left:.8rem;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.9);color:var(--ink);display:grid;place-items:center;font-size:.76rem;font-weight:600}<br />\r\n.sa .card .cb{padding:1rem;display:flex;flex-direction:column;gap:.35rem}<br />\r\n.sa .card .ct{font-size:.66rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.72)}<br />\r\n.sa .card h4{margin:0;font-size:1.15rem;font-weight:600;letter-spacing:-.03em;line-height:1.1}<br />\r\n.sa .card p{margin:0;font-size:.84rem;color:rgba(255,255,255,.82);line-height:1.4}<br />\r\n.sa .card.flat{background:var(--mint);color:var(--ink)}<br />\r\n.sa .card.flat .ct{color:#1f6b4c}<br />\r\n.sa .card.flat p{color:#2c4a3c}<br />\r\n.sa .card.flat .num{background:var(--ink);color:#fff}<br />\r\n<br />\r\n.sa .know{display:grid;grid-template-columns:1fr;gap:.55rem}<br />\r\n.sa .kn{background:var(--soft);border-radius:20px;padding:.9rem 1.05rem;display:flex;gap:.8rem;align-items:flex-start}<br />\r\n.sa .kn .ki{width:34px;height:34px;flex:none;border-radius:11px;background:var(--mint);display:grid;place-items:center}<br />\r\n.sa .kn .ki svg{width:18px;height:18px;fill:none;stroke:var(--ink);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}<br />\r\n.sa .kn em{display:block;font-style:normal;font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}<br />\r\n.sa .kn p{margin:.2rem 0 0;font-size:.92rem}<br />\r\n.sa .kn a{font-weight:600;border-bottom:1.5px solid rgba(20,20,20,.3)}<br />\r\n<br />\r\n.sa .cta{display:flex;align-items:center;gap:1rem;background:var(--ink);color:#fff;border-radius:26px;padding:1.2rem 1.3rem;margin-top:1.8rem}<br />\r\n.sa .cta .cb{flex:1;min-width:0}<br />\r\n.sa .cta em{display:block;font-style:normal;font-size:.66rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6)}<br />\r\n.sa .cta b{display:block;margin-top:.25rem;font-size:1.35rem;font-weight:600;letter-spacing:-.035em}<br />\r\n.sa .cta i{width:50px;height:50px;flex:none;border-radius:50%;background:var(--lav);color:var(--ink);display:grid;place-items:center;transition:transform .2s}<br />\r\n.sa .cta:hover i{transform:translateX(4px)}<br />\r\n.sa .cta i svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}<br />\r\n<br />\r\n@container (min-width:780px){<br />\r\n  .sa .stats{grid-template-columns:repeat(4,1fr)}<br />\r\n  .sa .st.wide{grid-column:span 2}<br />\r\n  .sa .sched{display:grid;grid-template-columns:auto 1fr 1fr 1fr;align-items:center;gap:0 1.6rem}<br />\r\n  .sa .sched h3{margin:0;max-width:7rem}<br />\r\n  .sa .sr{border-top:0;flex-direction:column;align-items:flex-start;gap:.1rem;padding:0}<br />\r\n  .sa .inc{grid-template-columns:repeat(3,1fr)}<br />\r\n  .sa .card{flex:0 0 calc(33.333% - .47rem);max-width:none}<br />\r\n  .sa .know{grid-template-columns:repeat(3,1fr)}<br />\r\n  .sa .sh h2{font-size:1.8rem}<br /><br /><div class=\"sa\"><br />\r\n  <div class=\"stats\"><br />\r\n    <div class=\"st\"><br />\r\n      <span class=\"si\"></span><br />\r\n      <b>3 h</b>De navegación<br />\r\n    </div><br />\r\n    <div class=\"st dark\"><br />\r\n      <span class=\"si\"></span><br />\r\n      <b>Barra libre</b>Cerveza, sangría, cava<br />\r\n    </div><br />\r\n    <div class=\"st wide\"><br />\r\n      <span class=\"si\"></span><br />\r\n      <div><b>Snorkel, kayak y paddle surf</b>Incluidos en la parada de baño</div><br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n  <div class=\"sched\"><br />\r\n    Horarios<br />\r\n    <div class=\"sr\"><span>Abril – Agosto</span><b>14:00 – 17:00</b></div><br />\r\n    <div class=\"sr\"><span>1 – 15 Septiembre</span><b>13:30 – 16:30</b></div><br />\r\n    <div class=\"sr\"><span>Desde 16 Sept.</span><b>13:00 – 16:00</b></div><br />\r\n  </div><br />\r\n<br />\r\n  <div class=\"sec\"><br />\r\n    <div class=\"sh\">La excursión</div><br />\r\n    <p class=\"lede\"><b>Tres horas navegando la costa oeste de Ibiza</b> para descubrir Cala Bassa, Cala Conta y las Islas Margarita, con salida desde el Puerto de San Antonio. Bebidas, fruta fresca y deportes acuáticos incluidos.</p><br />\r\n  </div><br />\r\n<br />\r\n  <div class=\"sec\"><br />\r\n    <div class=\"sh\">Qué incluye</div><br />\r\n    <div class=\"inc\"><br />\r\n      <div>Excursión de 3 horas</div><br />\r\n      <div>Bebidas y refrescos</div><br />\r\n      <div>Fruta fresca y snacks</div><br />\r\n      <div>Snorkel, kayak, paddle</div><br />\r\n      <div>Música a bordo</div><br />\r\n      <div>Todas las edades</div><br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n  <div class=\"sec\"><br />\r\n    <div class=\"sh\">ItinerarioDesliza →</div><br />\r\n    <div class=\"rail\"><br />\r\n      <br />\r\n        <div class=\"ph noimg\"><span>Puerto de San Antonio</span></div><br />\r\n        <div class=\"sc\"></div><span class=\"num\">1</span><br />\r\n        <div class=\"cb\"><span class=\"ct\">30 min antes</span>Check-in<p>Caseta de Salvador, Puerto de San Antonio.</p></div><br /><br /><div class=\"sc\"></div><span class=\"num\">2</span><br />\r\n        <div class=\"cb\"><span class=\"ct\">Salida</span>Zarpamos<p>Rumbo a la costa oeste de la isla.</p></div><br /><br /><div class=\"ph noimg\"><span>Cala Bassa / Cala Conta</span></div><br />\r\n        <div class=\"sc\"></div><span class=\"num\">3</span><br />\r\n        <div class=\"cb\"><span class=\"ct\">Navegación</span>Cala Bassa &amp; Conta<p>Arena blanca y agua turquesa.</p></div><br /><br /><span class=\"num\">4</span><br />\r\n        <div class=\"cb\"><span class=\"ct\">Lo mejor del día</span>Baño y deportes<p>Fondeamos para darte tiempo en el agua: snorkel, kayak y paddle surf, con barra libre y snacks a bordo.</p></div><br /><br /><div class=\"ph noimg\"><span>Ses Margalides</span></div><br />\r\n        <div class=\"sc\"></div><span class=\"num\">5</span><br />\r\n        <div class=\"cb\"><span class=\"ct\">Regreso</span>Ses Margalides<p>El arco natural y vuelta a puerto.</p></div><br />\r\n      <br />\r\n    </div><br />\r\n  </div><br />\r\n<br />\r\n  <div class=\"sec\"><br />\r\n    <div class=\"sh\">Necesitas saber</div><br />\r\n    <div class=\"know\"><br />\r\n      <div class=\"kn\"><span class=\"ki\"></span><div>Punto de salida<p>Puerto de San Antonio</p></div></div><br />\r\n      <div class=\"kn\"><span class=\"ki\"></span><div>Check-in<p>30 minutos antes de la salida.</p></div></div><br />\r\n      <div class=\"kn\"><span class=\"ki\"></span><div>Recomendado<p>Para todas las edades.</p></div></div><br />\r\n    </div><br />\r\n  </div><br /><br /><div class=\"cb\">¿Prefieres la tarde?<b>Salvador Sunset Trip</b></div><br /><br /></div>",
       "requirements": "<p>- <b>Excursión de 3h</b>:<br />\r\n  de abril a agosto de 14:00 a 17:00 · del 1 al 15 de septiembre de 13:30 a 16:30 · desde el 16 de septiembre de 13:00 a 16:00<br><br />\r\n- <b>Punto de encuentro</b>: puerto de San Antonio, caseta de Salvador frente a la rotonda del Huevo<br />\r\n  (Ver mapa)<br><br />\r\n- <b>Hora de check-in</b>: 30 min antes de la salida<br />\r\n  (importante: llega con antelación para evitar retrasos)<br></p>",
       "type": {
         "id": 2,
@@ -15279,15 +15180,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/137?locale=es"
       },
       "dates": [
-        {
-          "id": 169102,
-          "date": "2026-09-24",
-          "name": "",
-          "lineUp": "",
-          "prices": "45 € - 80 €",
-          "lowestAvailablePrice": 45,
-          "affLink": "https://www.clubtickets.com/es/boat/salvador/salvador-boat-sunset-trip/2026-09-24?aff=CT219"
-        },
         {
           "id": 169103,
           "date": "2026-09-25",
@@ -16402,15 +16294,6 @@
       },
       "dates": [
         {
-          "id": 168498,
-          "date": "2026-09-24",
-          "name": "",
-          "lineUp": "",
-          "prices": "30 € - 80 €",
-          "lowestAvailablePrice": 30,
-          "affLink": "https://www.clubtickets.com/es/boat/lady-virginia-boat/lady-virginia-boat-trip/2026-09-24?aff=CT219"
-        },
-        {
           "id": 168499,
           "date": "2026-09-25",
           "name": "",
@@ -17155,15 +17038,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/325?locale=es"
       },
       "dates": [
-        {
-          "id": 172070,
-          "date": "2026-09-23",
-          "name": "",
-          "lineUp": "",
-          "prices": "120 € - 299 €",
-          "lowestAvailablePrice": 120,
-          "affLink": "https://www.clubtickets.com/es/activities/blue-coral-ibiza/jetski-tours-with-blue-coral/2026-09-23?aff=CT219"
-        },
         {
           "id": 172071,
           "date": "2026-09-24",
@@ -17927,15 +17801,6 @@
         "apiEndpoint": "https://admin.clubtickets.com/api/affiliate/80aac9f0b1a44b63060b083f3813271a/get/venue/326?locale=es"
       },
       "dates": [
-        {
-          "id": 173361,
-          "date": "2026-09-22",
-          "name": "",
-          "lineUp": "",
-          "prices": "9 € - 34 €",
-          "lowestAvailablePrice": 9,
-          "affLink": "https://www.clubtickets.com/es/formentera-day-trip/santa-eularia-ferry/shuttle-ferry-ibiza-es-canar/2026-09-22?aff=CT219"
-        },
         {
           "id": 173362,
           "date": "2026-09-23",
@@ -21378,101 +21243,6 @@
       "venueId": 315
     },
     {
-      "id": 172698,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "7 € - 12 €",
-      "lowestAvailablePrice": 7,
-      "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/cala-salada-boat/2026-09-22?aff=CT219",
-      "eventName": "San Antonio - Cala Salada ferry boat",
-      "eventSlug": "cala-salada-boat",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/7edaa55a-0787-4a11-9c62-acfd1a97f2ac.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/fa8952f1-2642-45cc-b75d-6aa96ab8ac0f.jpg",
-      "eventId": 351,
-      "venueId": 27
-    },
-    {
-      "id": 166924,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "80 €",
-      "lowestAvailablePrice": 80,
-      "affLink": "https://www.clubtickets.com/es/formentera-day-trip/barco-a-formentera-ulises-cat/aftersun/2026-09-22?aff=CT219",
-      "eventName": "Sunset boat excursion with DJ",
-      "eventSlug": "aftersun",
-      "venueName": "Ulises Cat - Sea Experience",
-      "venueSlug": "barco-a-formentera-ulises-cat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/570254f3-fea0-46ff-8ea6-4a0d254eb28a.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/9a4a0927-b212-4c9e-a0ae-f99e3f7f9f39.png",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/e2abb19c-582e-4ab7-8eca-689de09a47ca.png",
-      "eventId": 1779,
-      "venueId": 27
-    },
-    {
-      "id": 161180,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "25 € - 69 €",
-      "lowestAvailablePrice": 25,
-      "affLink": "https://www.clubtickets.com/es/boat/float-your-boat/beach-cruise-sunset/2026-09-22?aff=CT219",
-      "eventName": "FYB Beach Cruise Sunset",
-      "eventSlug": "beach-cruise-sunset",
-      "venueName": "Float Your Boat",
-      "venueSlug": "float-your-boat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/1b0b64f2-f8d9-4182-a8b3-b1095ff02a4c.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/d2c5b9d9-bf01-45b2-9634-1e0b1888f873.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/1fb2cc37-3696-42b1-bf74-208c733537b9.jpg",
-      "eventId": 857,
-      "venueId": 69
-    },
-    {
-      "id": 161261,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "49 €",
-      "lowestAvailablePrice": 49,
-      "affLink": "https://www.clubtickets.com/es/boat/float-your-boat/ibiza-sunset-experience/2026-09-22?aff=CT219",
-      "eventName": "Float Your Boat - Sunset Party Cruise",
-      "eventSlug": "ibiza-sunset-experience",
-      "venueName": "Float Your Boat",
-      "venueSlug": "float-your-boat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/1b0b64f2-f8d9-4182-a8b3-b1095ff02a4c.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/04f5ac1d-dacb-4126-9410-d815d4738f47.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/52da55e9-93d3-4d6c-850d-54448af65627.png",
-      "eventId": 1617,
-      "venueId": 69
-    },
-    {
-      "id": 165650,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "Resident DJs Live Performances",
-      "prices": "65 € - 95 €",
-      "lowestAvailablePrice": 65,
-      "affLink": "https://www.clubtickets.com/es/boat/pukka-up/pukka-up/2026-09-22?aff=CT219",
-      "eventName": "Pukka Up Boat Party",
-      "eventSlug": "pukka-up",
-      "venueName": "Pukka Up",
-      "venueSlug": "pukka-up",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/946564fc-8588-4e36-865d-0e0cddb3772d.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/cb9710fb-64cc-44e7-a6c5-a839944789af.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/993aa8d6-d005-4014-ae6d-4d29dbb9ee98.png",
-      "eventId": 283,
-      "venueId": 75
-    },
-    {
       "id": 173090,
       "date": "2026-09-22",
       "name": "",
@@ -21511,44 +21281,6 @@
       "venueId": 289
     },
     {
-      "id": 163531,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "23 € - 45 €",
-      "lowestAvailablePrice": 23,
-      "affLink": "https://www.clubtickets.com/es/boat/capitan-nemo/excursion-es-vedra/2026-09-22?aff=CT219",
-      "eventName": "San Antonio to Es Vedrà Boat Trip - Sunset",
-      "eventSlug": "excursion-es-vedra",
-      "venueName": "Capitan Nemo",
-      "venueSlug": "capitan-nemo",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/48eacaee-81ba-4a83-9578-a04af92c87ee.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/70d9fcc3-5832-45a1-b873-57d0c0dda5f1.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/c3cd83e4-7034-44c8-97a0-819c91df09c6.png",
-      "eventId": 527,
-      "venueId": 109
-    },
-    {
-      "id": 161913,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "9 € - 15 €",
-      "lowestAvailablePrice": 9,
-      "affLink": "https://www.clubtickets.com/es/activities/cova-de-can-marca/cova-de-can-marca/2026-09-22?aff=CT219",
-      "eventName": "Can Marçà Cave Tour",
-      "eventSlug": "cova-de-can-marca",
-      "venueName": "Cova de Can Marça",
-      "venueSlug": "cova-de-can-marca",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/bb53d716-08ef-44ed-8dcb-4b0a12e1a32e.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/d50c7416-bda1-4f1f-83c4-5049c9752b37.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/bff01adc-3ab5-4d0a-b680-74b49d806d9b.png",
-      "eventId": 155,
-      "venueId": 33
-    },
-    {
       "id": 164547,
       "date": "2026-09-22",
       "name": "",
@@ -21566,25 +21298,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/9acfdef0-6f33-4787-bfe3-81c43c5ecfa9.png",
       "eventId": 2094,
       "venueId": 61
-    },
-    {
-      "id": 173361,
-      "date": "2026-09-22",
-      "name": "",
-      "lineUp": "",
-      "prices": "9 € - 34 €",
-      "lowestAvailablePrice": 9,
-      "affLink": "https://www.clubtickets.com/es/formentera-day-trip/santa-eularia-ferry/shuttle-ferry-ibiza-es-canar/2026-09-22?aff=CT219",
-      "eventName": "Shuttle Ferry Ibiza - Santa Eularia - Es Canar",
-      "eventSlug": "shuttle-ferry-ibiza-es-canar",
-      "venueName": "Santa Eularia Ferry",
-      "venueSlug": "santa-eularia-ferry",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/acd422f8-d406-4272-80e5-c6a63bc75908.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/2808f99d-982e-4653-9a7d-53575c8d115e.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/0eeb52e4-d3f4-4090-9ca6-adb1119b7419.jpg",
-      "eventId": 2022,
-      "venueId": 326
     },
     {
       "id": 170211,
@@ -22062,25 +21775,6 @@
       "venueId": 61
     },
     {
-      "id": 162964,
-      "date": "2026-09-23",
-      "name": "",
-      "lineUp": "",
-      "prices": "35 € - 70 €",
-      "lowestAvailablePrice": 35,
-      "affLink": "https://www.clubtickets.com/es/activities/excursiones/ibiza-bus-tour/2026-09-23?aff=CT219",
-      "eventName": "Ibiza Island tour by bus + Hippy Market visit",
-      "eventSlug": "ibiza-bus-tour",
-      "venueName": "Excursiones Al Sabini",
-      "venueSlug": "excursiones",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/b98392d7-323d-483e-aed6-a3f3f20832e5.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/811ef712-df0c-4eb2-b1e8-c36d9e6661aa.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/ccff0cb4-4483-473b-a057-bc33b2ab2235.jpg",
-      "eventId": 201,
-      "venueId": 55
-    },
-    {
       "id": 170527,
       "date": "2026-09-23",
       "name": "",
@@ -22098,25 +21792,6 @@
       "eventLogo": "https://admin.clubtickets.com/images/event/5ae70c69c99aa.jpg",
       "eventId": 183,
       "venueId": 43
-    },
-    {
-      "id": 172070,
-      "date": "2026-09-23",
-      "name": "",
-      "lineUp": "",
-      "prices": "120 € - 299 €",
-      "lowestAvailablePrice": 120,
-      "affLink": "https://www.clubtickets.com/es/activities/blue-coral-ibiza/jetski-tours-with-blue-coral/2026-09-23?aff=CT219",
-      "eventName": "Jet Ski Tours with Blue Coral",
-      "eventSlug": "jetski-tours-with-blue-coral",
-      "venueName": "Blue Coral Ibiza - Jetski",
-      "venueSlug": "blue-coral-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/4d0bcd10-7f62-4198-9a15-b9af51df50af.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/bec0fa0f-b74a-49b9-9667-89cb69eff686.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/35661a56-d8ca-48b7-b034-06334c8c69c8.png",
-      "eventId": 2012,
-      "venueId": 325
     },
     {
       "id": 168313,
@@ -22427,8 +22102,8 @@
       "date": "2026-09-24",
       "name": "Masonic x Diaz Collective",
       "lineUp": "Ayrton Da Silva Junior Diaz Clement Viajo",
-      "prices": "15 € - 20 €",
-      "lowestAvailablePrice": 15,
+      "prices": "10.8 € - 16.2 €",
+      "lowestAvailablePrice": 10.8,
       "affLink": "https://www.clubtickets.com/es/clubbing/baloo/baloo-presents/2026-09-24?aff=CT219",
       "eventName": "Baloo Presents...",
       "eventSlug": "baloo-presents",
@@ -22746,44 +22421,6 @@
       "venueId": 33
     },
     {
-      "id": 164088,
-      "date": "2026-09-24",
-      "name": "",
-      "lineUp": "",
-      "prices": "195 € - 360 €",
-      "lowestAvailablePrice": 195,
-      "affLink": "https://www.clubtickets.com/es/activities/emove-ibiza/buggy-tour/2026-09-24?aff=CT219",
-      "eventName": "Big Buggy Tour",
-      "eventSlug": "buggy-tour",
-      "venueName": "Emove Ibiza",
-      "venueSlug": "emove-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/9c0d4515-7211-455f-aeeb-093fb5dbfb45.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/021ad7c1-8692-4b65-b372-e6d4a06386f9.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/efae8fc9-e4aa-42c6-b820-59fd753560d9.png",
-      "eventId": 223,
-      "venueId": 61
-    },
-    {
-      "id": 163878,
-      "date": "2026-09-24",
-      "name": "",
-      "lineUp": "",
-      "prices": "130 € - 175 €",
-      "lowestAvailablePrice": 130,
-      "affLink": "https://www.clubtickets.com/es/activities/emove-ibiza/quad-tour/2026-09-24?aff=CT219",
-      "eventName": "Quad Tour",
-      "eventSlug": "quad-tour",
-      "venueName": "Emove Ibiza",
-      "venueSlug": "emove-ibiza",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/9c0d4515-7211-455f-aeeb-093fb5dbfb45.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/8de5c380-00f5-4f22-8b83-9d30a93466a4.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d371750b-ba92-486d-b98d-08f93d0f7cd1.png",
-      "eventId": 221,
-      "venueId": 61
-    },
-    {
       "id": 164298,
       "date": "2026-09-24",
       "name": "",
@@ -22860,25 +22497,6 @@
       "venueId": 43
     },
     {
-      "id": 169102,
-      "date": "2026-09-24",
-      "name": "",
-      "lineUp": "",
-      "prices": "45 € - 80 €",
-      "lowestAvailablePrice": 45,
-      "affLink": "https://www.clubtickets.com/es/boat/salvador/salvador-boat-sunset-trip/2026-09-24?aff=CT219",
-      "eventName": "Salvador Sunset Trip",
-      "eventSlug": "salvador-boat-sunset-trip",
-      "venueName": "Salvador",
-      "venueSlug": "salvador",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/4842ed0e-0c11-4ee2-8ba6-b12541789a6f.webp",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/b165c6ff-ca98-43e1-86fb-d41950a3c914.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/99a8e1da-74eb-4bd2-b17d-4da0b4a31a82.png",
-      "eventId": 1347,
-      "venueId": 137
-    },
-    {
       "id": 167397,
       "date": "2026-09-24",
       "name": "",
@@ -22896,25 +22514,6 @@
       "eventLogo": "https://admin.clubtickets.com/images/event/62517ee3b9c83308172689.jpeg",
       "eventId": 1509,
       "venueId": 31
-    },
-    {
-      "id": 168498,
-      "date": "2026-09-24",
-      "name": "",
-      "lineUp": "",
-      "prices": "30 € - 80 €",
-      "lowestAvailablePrice": 30,
-      "affLink": "https://www.clubtickets.com/es/boat/lady-virginia-boat/lady-virginia-boat-trip/2026-09-24?aff=CT219",
-      "eventName": "Lady Virginia Boat Trip",
-      "eventSlug": "lady-virginia-boat-trip",
-      "venueName": "Lady Virginia Boat",
-      "venueSlug": "lady-virginia-boat",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/b9e3521a-bdb4-43a4-b2aa-192aa6905a5e.png",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/fd3e112d-b0f7-44e7-9ea6-bf0f5e72552c.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/d3053fa2-825a-400a-adbf-03777b03ea21.png",
-      "eventId": 2058,
-      "venueId": 330
     },
     {
       "id": 168709,
@@ -23770,25 +23369,6 @@
       "eventLogo": "https://media.clubtickets.com/migrated/event/9acfdef0-6f33-4787-bfe3-81c43c5ecfa9.png",
       "eventId": 2094,
       "venueId": 61
-    },
-    {
-      "id": 162873,
-      "date": "2026-09-25",
-      "name": "",
-      "lineUp": "",
-      "prices": "99 € - 115 €",
-      "lowestAvailablePrice": 99,
-      "affLink": "https://www.clubtickets.com/es/activities/excursiones/jeep-safari-north-tour/2026-09-25?aff=CT219",
-      "eventName": "Jeep Safari North Tour",
-      "eventSlug": "jeep-safari-north-tour",
-      "venueName": "Excursiones Al Sabini",
-      "venueSlug": "excursiones",
-      "venueCover": "https://media.clubtickets.com/migrated/venue/b98392d7-323d-483e-aed6-a3f3f20832e5.jpg",
-      "venueLogo": "",
-      "eventCover": "https://media.clubtickets.com/migrated/event/702e3022-8060-4eaa-8610-8136d98be9d4.jpg",
-      "eventLogo": "https://media.clubtickets.com/migrated/event/9020a225-7649-4f6b-88b6-4da9d7e5d105.jpg",
-      "eventId": 1457,
-      "venueId": 55
     },
     {
       "id": 170529,
@@ -36126,8 +35706,8 @@
       "date": "2026-10-10",
       "name": "",
       "lineUp": "Main Room Adriatique Dennis Cruz East End Dubs Mochakk Rafael The Martinez Brothers WhoMadeWho (Hybrid DJ Set) Special Guest Wild Comet Bender Dennis Quin Kamma Mr Belt &amp; Wizol Mella Dee The Bunker Discoliscious Melon Bomb",
-      "prices": "90 € - 100 €",
-      "lowestAvailablePrice": 90,
+      "prices": "95 € - 105 €",
+      "lowestAvailablePrice": 95,
       "affLink": "https://www.clubtickets.com/es/clubbing/unvrs-ibiza/unvrs-ibiza-closing-party/2026-10-10?aff=CT219",
       "eventName": "[UNVRS] Closing Party",
       "eventSlug": "unvrs-ibiza-closing-party",
@@ -50639,5 +50219,5 @@
       "href": "/club-tickets/chilli-pepper-boats/chilli-pepper-boat"
     }
   ],
-  "lastUpdated": "2026-09-22T10:00:06.192Z"
+  "lastUpdated": "2026-09-22T15:32:01.755Z"
 }
