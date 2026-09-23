@@ -29,6 +29,12 @@ export interface TripPageCopy {
   pageKey: string
   bylineTopic: string
   title: T
+  /**
+   * Meta description, per taal 140–160 tekens (de onpage-check dwingt dat
+   * af). Bewust een eigen veld en niet SERVICE_COPY.description: die tekst
+   * beschrijft de dienst voor structured data en mag uitgebreider zijn.
+   */
+  metaDescription: T
   intro: T
   introSecond?: T
   /** Eén sectie per feed-event, in deze volgorde. */
@@ -52,16 +58,15 @@ const OG_LOCALE: Record<Locale, string> = {
 }
 
 export function tripPageMetadata(copy: TripPageCopy, locale: Locale): Metadata {
-  const sc = SERVICE_COPY[copy.pageKey]!
   return {
     title: copy.title[locale],
-    description: sc.description[locale],
+    description: copy.metaDescription[locale],
     alternates: localizedAlternates(copy.routeKey, locale),
     openGraph: {
       type: 'website',
       siteName: SITE_NAME,
       title: copy.title[locale],
-      description: sc.description[locale],
+      description: copy.metaDescription[locale],
       locale: OG_LOCALE[locale],
       images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: copy.title[locale] }],
     },

@@ -29,6 +29,14 @@ export const FLOAT_YOUR_BOAT: TripPageCopy = {
     'Float Your Boat Ibiza',
     'Float Your Boat Ibiza',
   ),
+  // Per taal gemeten: 140–160 tekens (onpage-check).
+  metaDescription: L(
+    'Drie tochten van Float Your Boat vanuit San Antonio: sunset party cruise met O Beach-entree, zesuurs beach cruise en de rustige Cala Salada-route.',
+    'Three Float Your Boat trips out of San Antonio: a sunset party cruise with O Beach entry, a six-hour beach cruise and the calm Cala Salada route.',
+    'Drei Float-Your-Boat-Touren ab San Antonio: Sunset Party Cruise mit O-Beach-Eintritt, sechsstündige Beach Cruise und die ruhige Cala-Salada-Route.',
+    'Tres salidas de Float Your Boat desde San Antonio: sunset party cruise con entrada a O Beach, beach cruise de seis horas y la ruta de Cala Salada.',
+    'Trois sorties Float Your Boat depuis San Antonio : sunset party cruise avec entrée à O Beach, beach cruise de six heures et la route de Cala Salada.',
+  ),
   intro: L(
     'Float Your Boat vaart vanuit San Antonio drie heel verschillende tochten: een sunset party cruise, een zesuurs beach cruise langs Cala Bassa en Cala Conta, en de rustigere Cala Salada-route noordwaarts. Zelfde rederij, drie snelheden — hieronder staan ze alle drie, met hun eigen agenda.',
     'Float Your Boat runs three very different trips out of San Antonio: a sunset party cruise, a six-hour beach cruise along Cala Bassa and Cala Conta, and the calmer Cala Salada route heading north. Same operator, three speeds — all three are below, each with its own calendar.',

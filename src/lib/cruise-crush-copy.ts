@@ -28,6 +28,14 @@ export const CRUISE_CRUSH: TripPageCopy = {
     'Cruise Crush boat party Ibiza',
     'Cruise Crush boat party Ibiza',
   ),
+  // Per taal gemeten: 140–160 tekens (onpage-check).
+  metaDescription: L(
+    'Cruise Crush: drie uur boat party vanaf Playa d’en Bossa met open bar en DJ aan boord, op maandag-, vrijdag- en zondagmiddag van eind mei tot oktober.',
+    'Cruise Crush: a three-hour boat party from Playa d’en Bossa with an open bar and a DJ on board, on Mon, Fri and Sun afternoons from late May to October.',
+    'Cruise Crush: drei Stunden Boat Party ab Playa d’en Bossa mit Open Bar und DJ an Bord — montags, freitags und sonntags von Ende Mai bis Ende Oktober.',
+    'Cruise Crush: boat party de tres horas desde Playa d’en Bossa con barra libre y DJ a bordo, lunes, viernes y domingos de finales de mayo a octubre.',
+    'Cruise Crush : trois heures de boat party depuis Playa d’en Bossa avec open bar et DJ à bord, les lundis, vendredis et dimanches de fin mai à octobre.',
+  ),
   intro: L(
     'Cruise Crush is de boat party vanaf Playa d’en Bossa: drie uur op het water met open bar en een DJ aan boord, op maandag, vrijdag en zondagmiddag. Het seizoen loopt van eind mei tot en met oktober.',
     'Cruise Crush is the boat party out of Playa d’en Bossa: three hours on the water with an open bar and a DJ on board, on Monday, Friday and Sunday afternoons. The season runs from late May through October.',

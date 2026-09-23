@@ -35,16 +35,17 @@ const OG_LOCALE: Record<Locale, string> = {
 }
 
 export function esVedraTripMetadata(locale: Locale): Metadata {
-  const sc = SERVICE_COPY[PAGE_KEY]!
   return {
     title: C.title[locale],
-    description: sc.description[locale],
+    // Eigen korte meta description (140–160 tekens, onpage-check) — de
+    // SERVICE_COPY-tekst is bewust uitgebreider en is voor structured data.
+    description: C.metaDescription[locale],
     alternates: localizedAlternates(ROUTE_KEY, locale),
     openGraph: {
       type: 'website',
       siteName: SITE_NAME,
       title: C.title[locale],
-      description: sc.description[locale],
+      description: C.metaDescription[locale],
       locale: OG_LOCALE[locale],
       images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: C.title[locale] }],
     },

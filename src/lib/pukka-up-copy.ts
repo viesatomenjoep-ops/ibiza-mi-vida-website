@@ -29,6 +29,14 @@ export const PUKKA_UP: TripPageCopy = {
     'Pukka Up boat party Ibiza',
     'Pukka Up boat party Ibiza',
   ),
+  // Per taal gemeten: 140–160 tekens (onpage-check).
+  metaDescription: L(
+    'Pukka Up boat party vanuit San Antonio op di, do en za: pre-party, drie uur varen rond zonsondergang, drie drankjes, DJ en live performance aan boord.',
+    'Pukka Up boat party from San Antonio on Tue, Thu and Sat: a pre-party, three hours around sunset, three drinks, a DJ and a live performance on board.',
+    'Pukka Up Boat Party ab San Antonio di, do und sa: Pre-Party am Kai, drei Stunden rund um den Sonnenuntergang, drei Getränke, DJ und Live-Act an Bord.',
+    'Boat party de Pukka Up desde San Antonio los martes, jueves y sábados: pre-fiesta, tres horas al atardecer, tres bebidas, DJ y directo a bordo.',
+    'Boat party Pukka Up depuis San Antonio les mar, jeu et sam : pré-soirée, trois heures au coucher du soleil, trois boissons, DJ et live à bord.',
+  ),
   intro: L(
     'Pukka Up vaart al jaren de bekendste boat party vanuit San Antonio: een pre-party aan de kade en daarna drie uur varen terwijl de zon zakt, met drie drankjes, een DJ en live performance aan boord — op dinsdag, donderdag en zaterdag.',
     'Pukka Up has long run the best-known boat party out of San Antonio: a pre-party on the quay, then three hours on the water as the sun goes down, with three drinks, a DJ and a live performance on board — Tuesdays, Thursdays and Saturdays.',

@@ -26,6 +26,14 @@ export const CALAS_TRIP: TripPageCopy = {
     'Excursión Calas de Formentera',
     'Excursion Calas de Formentera',
   ),
+  // Per taal gemeten: 140–160 tekens (onpage-check).
+  metaDescription: L(
+    'Hele dag per boot van Playa d’en Bossa naar Formentera: ontbijt aan boord, zwemstop, vrije tijd en een slotcruise langs Illetas met eten en DJ.',
+    'A full day by boat from Playa d’en Bossa to Formentera: breakfast on board, a swim stop, free time and a final cruise past Illetas with food and a DJ.',
+    'Ein ganzer Tag per Boot von Playa d’en Bossa nach Formentera: Frühstück an Bord, Badestopp, freie Zeit und eine Abschluss-Cruise mit Essen und DJ.',
+    'Un día entero en barco de Playa d’en Bossa a Formentera: desayuno a bordo, parada para el baño, tiempo libre y crucero final por Illetas con DJ.',
+    'Une journée en bateau de Playa d’en Bossa à Formentera : petit-déjeuner à bord, baignade, temps libre et croisière finale le long d’Illetas avec DJ.',
+  ),
   intro: L(
     'De uitgebreidste manier om Formentera te doen zonder eigen boot: een hele dag vanaf Playa d’en Bossa, met ontbijt aan boord op de heenweg, een zwemstop, vrije tijd op het eiland en als afsluiter een cruise langs de kust van Illetas en Espalmador — met eten, drankjes en een DJ aan boord.',
     'The most complete way to do Formentera without your own boat: a full day from Playa d’en Bossa, with breakfast on board on the way out, a swim stop, free time on the island and, to finish, a cruise along the coast of Illetas and Espalmador — with food, drinks and a DJ on board.',

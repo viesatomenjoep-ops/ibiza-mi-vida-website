@@ -22,6 +22,8 @@ const L = (nl: string, en: string, de: string, es: string, fr: string): T => ({ 
 export interface EsVedraTripCopy {
   kicker: T
   title: T
+  /** Per taal 140–160 tekens — de onpage-check dwingt dat af. */
+  metaDescription: T
   intro: T
   introSecond: T
   includedHeading: T
@@ -46,6 +48,13 @@ export const ES_VEDRA_TRIP: EsVedraTripCopy = {
     'Bootstour Es Vedrà + Formentera',
     'Excursión Es Vedrà + Formentera',
     'Excursion en bateau Es Vedrà + Formentera',
+  ),
+  metaDescription: L(
+    'Dagtocht van ±11 uur per Ibicenco-boot: om 10:00 vanuit San Antonio langs Es Vedrà, zwemmen bij S’Espalmador en vrije tijd op Formentera. All-in aan boord.',
+    'A full-day trip of some 11 hours by Ibizan boat: from San Antonio past Es Vedrà, a swim at S’Espalmador and free time on Formentera. All-in on board.',
+    'Ganztagestour von rund 11 Stunden per Boot: ab San Antonio vorbei an Es Vedrà, Baden bei S’Espalmador und freie Zeit auf Formentera. All-in an Bord.',
+    'Excursión de unas 11 horas en barco ibicenco: desde San Antonio frente a Es Vedrà, baño en S’Espalmador y tiempo libre en Formentera. Todo incluido.',
+    'Excursion d’environ 11 heures en bateau ibicenco : de San Antonio devant Es Vedrà, baignade à S’Espalmador et temps libre à Formentera. Tout compris.',
   ),
   intro: L(
     'Eén dag, de twee mooiste stukken zee rond Ibiza: langs de zuidwestkust naar de rots Es Vedrà, ankeren en zwemmen bij S’Espalmador, en vrije tijd op Formentera voordat je met de zonsondergang terugvaart. Je vaart op een traditionele Ibicenco-boot van Excursiones Ibiza, gebouwd op het eiland zelf.',
