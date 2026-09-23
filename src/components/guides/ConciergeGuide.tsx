@@ -85,7 +85,12 @@ export function ConciergeGuide({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <SchemaMarkup locale={locale} breadcrumbs={crumbs} faqs={faqs} />
+      <SchemaMarkup
+        locale={locale}
+        page={{ path: slugFor(ROUTE_KEY, locale), dateModified: contentUpdated(PAGE_KEY) }}
+        breadcrumbs={crumbs}
+        faqs={faqs}
+      />
       <ServiceSchema
         name={sc.name[locale]}
         description={sc.description[locale]}

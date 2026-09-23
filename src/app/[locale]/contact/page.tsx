@@ -3,10 +3,12 @@ import Link from 'next/link'
 import { Phone, Globe, Clock } from 'lucide-react'
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon'
 import { staticMetadata } from '@/lib/seo-pages'
-import { DEFAULT_LOCALE, LOCALES, SITE_URL, SITE_NAME, type Locale } from '@/lib/seo'
-import { FOUNDER, FOUNDER_ID, founderNode } from '@/lib/team'
+import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
+import { FOUNDER } from '@/lib/team'
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
-import { breadcrumbListSchema, homeLabel } from '@/components/seo/BreadcrumbJsonLd'
+import { contentUpdated } from '@/lib/content-dates'
+import { homeLabel } from '@/components/seo/BreadcrumbJsonLd'
+import { SchemaMarkup } from '@/components/seo/SchemaMarkup'
 
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
   return staticMetadata(params.locale, 'contact')
@@ -115,41 +117,7 @@ export default function ContactPage({ params }: { params: { locale: string } }) 
   // Same digits, formatted for humans.
   const telDisplay = '+34 657 639 800'
 
-  const schema = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      founderNode(),
-      {
-        '@type': 'ContactPage',
-        '@id': `${SITE_URL}/${l}/contact#page`,
-        url: `${SITE_URL}/${l}/contact`,
-        name: TITLE[l],
-        description: INTRO[l],
-        inLanguage: l,
-        isPartOf: { '@id': `${SITE_URL}/#website` },
-        about: { '@id': `${SITE_URL}/#organization` },
-      },
-      {
-        '@type': 'Organization',
-        '@id': `${SITE_URL}/#organization`,
-        name: SITE_NAME,
-        url: SITE_URL,
-        founder: { '@id': FOUNDER_ID },
-        contactPoint: {
-          '@type': 'ContactPoint',
-          contactType: 'customer service',
-          telephone: tel,
-          availableLanguage: FOUNDER.languageTags,
-          areaServed: ['ES'],
-        },
-        areaServed: [
-          { '@type': 'Place', name: 'Ibiza, Spain' },
-          { '@type': 'Place', name: 'Formentera, Spain' },
-        ],
-      },
-      breadcrumbListSchema([{ name: homeLabel(l), path: '' }, { name: TITLE[l] }], l),
-    ],
-  }
+  const crumbs = [{ name: homeLabel(l), path: '' }, { name: TITLE[l] }]
 
   const cards = [
     { Icon: Clock, t: TIME_TITLE[l], d: TIME_DESC[l] },
@@ -159,7 +127,22 @@ export default function ContactPage({ params }: { params: { locale: string } }) 
 
   return (
     <main className="bg-white text-neutral-900">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      {/* Organization (with its ContactPoint) + Person + ContactPage, from the
+          shared node functions so the contact details here match every other
+          page byte for byte. */}
+      <SchemaMarkup
+        locale={l}
+        organization
+        founder
+        breadcrumbs={crumbs}
+        page={{
+          type: 'ContactPage',
+          path: 'contact',
+          name: TITLE[l],
+          description: INTRO[l],
+          dateModified: contentUpdated('contact'),
+        }}
+      />
 
       <section className="mx-auto max-w-3xl px-4 pb-12 pt-[calc(var(--nav-h)+48px)] text-center">
         <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-gold">{KICKER[l]}</p>

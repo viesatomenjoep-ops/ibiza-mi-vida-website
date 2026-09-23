@@ -100,7 +100,7 @@ export function HomeTonight({
                     src={e.image}
                     alt={e.eventName}
                     fill
-                    sizes="(max-width: 768px) 70vw, 260px"
+                    sizes="(max-width: 768px) 100vw, 260px"
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.07]"
                   />
                 ) : (

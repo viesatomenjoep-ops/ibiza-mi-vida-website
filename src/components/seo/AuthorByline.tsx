@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { MessageCircle } from 'lucide-react'
-import { FOUNDER, founderNode } from '@/lib/team'
+import { FOUNDER, founderNode, founderExperience } from '@/lib/team'
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 
@@ -76,6 +76,9 @@ export function AuthorByline({
             {FOUNDER.name} <span className="font-sans text-sm font-semibold text-black/60">· {FOUNDER.role[l]}</span>
           </p>
           <p className="mt-2 text-[15px] leading-relaxed text-neutral-600">{FOUNDER.bio[l]}</p>
+          {/* The experience claim, computed from ON_ISLAND_SINCE — never a typed
+              number of years, which would be true for one season. */}
+          <p className="mt-1.5 text-[14px] font-semibold leading-relaxed text-neutral-800">{founderExperience(l)}</p>
           <p className="mt-2 text-xs text-black/60">{FOUNDER.languages.join(' · ')}</p>
           <div className="mt-4 flex flex-wrap items-center gap-3">
             <a

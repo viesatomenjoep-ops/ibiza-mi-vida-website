@@ -119,7 +119,17 @@ export class Report {
               'Regenerate with `npm run check:seo -- --update-baseline` after FIXING issues, ' +
               'never to silence a new one. See docs/search-setup.md.',
             generated: new Date().toISOString().slice(0, 10),
-            known: [...new Set([...this.baseline, ...this.failures.map((f) => f.key)])].sort(),
+            // Alleen de sleutels van DEZE check vervangen: het bestand is
+            // gedeeld, dus de andere checks houden hun schuld. Verenigen met de
+            // oude lijst (wat hier stond) liet een opgeloste fout er eeuwig in
+            // staan — dan kan de lijst per definitie niet krimpen, en dat is
+            // precies wat er van hem gevraagd wordt.
+            known: [
+              ...new Set([
+                ...[...this.baseline].filter((k) => !k.startsWith(`${this.name}|`)),
+                ...this.failures.map((f) => f.key),
+              ]),
+            ].sort(),
           },
           null,
           2,

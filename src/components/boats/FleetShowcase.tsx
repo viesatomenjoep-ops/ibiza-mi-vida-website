@@ -1,20 +1,30 @@
 'use client';
 
 import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
   Search, MessageCircle, Anchor, Ship, Waves, Percent, Users, Ruler,
   MapPin, X, Check, Euro, Lock, LockOpen, SlidersHorizontal,
 } from 'lucide-react';
-import { FLEET, FLEET_FROM_PRICE, dossierHref, type Boat, type FleetCategory } from '@/data/fleet';
+import { FLEET, FLEET_CATEGORIES, FLEET_FROM_PRICE, dossierHref, type Boat, type FleetCategory } from '@/data/fleet';
 import { priceForDate, statusForDate, seasonForDate, ibizaToday, liveStampTime, type LiveFleet } from '@/lib/yacht-broker';
 import { FileText, CalendarDays } from 'lucide-react';
 import { BackButton } from '@/components/ui/BackButton';
 import { FavouriteButton } from '@/components/boats/FavouriteButton';
 import { FleetFilterBar, type SortKey } from '@/components/boats/FleetFilterBar';
 import { getFavourites, onFavouritesChange, toggleFavourite } from '@/lib/boat-favourites';
+import { FleetSteps, PAX_STEPS, BUDGET_STEPS } from '@/components/boats/FleetSteps';
+import { scrollSectionIntoView } from '@/lib/scroll-to-section';
+
+/**
+ * Hoeveel kaarten er per pagina staan, en in welke volgorde de categorieën aan
+ * de beurt zijn bij het samenstellen van de eerste pagina. Op moduleniveau
+ * zodat ze niet per render opnieuw ontstaan.
+ */
+const PAGE_SIZE = 20;
+const CAT_ORDER: FleetCategory[] = ['yacht', 'motorboat', 'catamaran', 'jetski', 'boat'];
 
 /** WhatsApp business number (digits only). */
 const WHATSAPP = WHATSAPP_NUMBER;
@@ -96,6 +106,13 @@ interface FleetLabels {
   noResults: string;
   enlarge: string;
   boatsCount: (n: number) => string;
+  /* Pager onder de vloot. */
+  pagePrev: string;
+  pageNext: string;
+  /** "21–40 van 94 boten" */
+  pageShowing: (from: number, to: number, total: number) => string;
+  /** Voorleeslabel op een paginaknop. */
+  pageGoto: (n: number) => string;
 }
 
 const FLEET_I18N: Record<string, FleetLabels> = {
@@ -129,6 +146,10 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'No yachts match your search.',
     enlarge: 'Enlarge photo',
     boatsCount: (n) => `${n} ${n === 1 ? 'yacht' : 'yachts'}`,
+    pagePrev: 'Previous',
+    pageNext: 'Next',
+    pageShowing: (f, t, n) => `Showing ${f}–${t} of ${n} boats`,
+    pageGoto: (n) => `Go to page ${n}`,
   },
   nl: {
     title: 'Private Boot Charters Ibiza',
@@ -160,6 +181,10 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'Geen jachten gevonden voor je zoekopdracht.',
     enlarge: 'Foto vergroten',
     boatsCount: (n) => `${n} ${n === 1 ? 'jacht' : 'jachten'}`,
+    pagePrev: 'Vorige',
+    pageNext: 'Volgende',
+    pageShowing: (f, t, n) => `Boot ${f}–${t} van ${n}`,
+    pageGoto: (n) => `Ga naar pagina ${n}`,
   },
   de: {
     title: 'Private Bootscharter Ibiza',
@@ -191,6 +216,10 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'Keine Yachten für Ihre Suche gefunden.',
     enlarge: 'Foto vergrößern',
     boatsCount: (n) => `${n} ${n === 1 ? 'Yacht' : 'Yachten'}`,
+    pagePrev: 'Zurück',
+    pageNext: 'Weiter',
+    pageShowing: (f, t, n) => `Boot ${f}–${t} von ${n}`,
+    pageGoto: (n) => `Zu Seite ${n}`,
   },
   es: {
     title: 'Chárter de Barcos Privados en Ibiza',
@@ -222,6 +251,10 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'Ningún yate coincide con tu búsqueda.',
     enlarge: 'Ampliar foto',
     boatsCount: (n) => `${n} ${n === 1 ? 'yate' : 'yates'}`,
+    pagePrev: 'Anterior',
+    pageNext: 'Siguiente',
+    pageShowing: (f, t, n) => `Barcos ${f}–${t} de ${n}`,
+    pageGoto: (n) => `Ir a la página ${n}`,
   },
   fr: {
     title: 'Location de Bateaux Privés à Ibiza',
@@ -253,6 +286,10 @@ const FLEET_I18N: Record<string, FleetLabels> = {
     noResults: 'Aucun yacht ne correspond à votre recherche.',
     enlarge: 'Agrandir la photo',
     boatsCount: (n) => `${n} ${n === 1 ? 'yacht' : 'yachts'}`,
+    pagePrev: 'Précédent',
+    pageNext: 'Suivant',
+    pageShowing: (f, t, n) => `Bateaux ${f}–${t} sur ${n}`,
+    pageGoto: (n) => `Aller à la page ${n}`,
   },
 };
 
@@ -272,8 +309,10 @@ function waLink(boat: Boat, T: FleetLabels, date?: string | null) {
 }
 
 // ── Boat advertisement card ─────────────────────────────────────────────────────
-function BoatCard({ boat, T, locale, live, date, season }: {
+function BoatCard({ boat, T, locale, live, date, season, hidden = false }: {
   boat: Boat; T: FleetLabels; locale: string;
+  /** Wel in de HTML, niet in beeld — zie de grid in FleetShowcase. */
+  hidden?: boolean;
   /* Live gegevens voor deze boot, of null zolang de feed niet geladen/bereikbaar is. */
   live: { days: Record<string, 'booked' | 'option'>; price: Partial<Record<'low'|'mid'|'high'|'top', number>> | null; priceBands: { from: string; to: string; price: number }[] | null } | null;
   date: string | null; season: 'low'|'mid'|'high'|'top';
@@ -311,7 +350,7 @@ function BoatCard({ boat, T, locale, live, date, season }: {
     : band === 'mid' ? (boat.category === 'motorboat' ? T.seasonMidNoteCompact : T.seasonMidNote)
     : T.seasonLowNote;
   return (
-    <article id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="fleet-card group relative flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
+    <article hidden={hidden} id={`boat-${boat.slug}`} style={{ scrollMarginTop: 'calc(var(--nav-h) + 6px)' }} className="fleet-card group relative flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-ibiza-green hover:shadow-2xl target:ring-2 target:ring-ibiza-green">
       {/* Foto → rechtstreeks het dossier, zie dossierHref() in data/fleet.ts.
           Een gewone <a> en geen <Link>: dit is een bestand, geen route, dus
           client-side navigatie heeft er niets te zoeken. Zelfde tabblad,
@@ -321,15 +360,20 @@ function BoatCard({ boat, T, locale, live, date, season }: {
         className="relative block aspect-[4/3] w-full overflow-hidden"
         aria-label={`${T.dossier} — ${boat.model} ${boat.name ?? ''}`}
       >
-        {/* Gewone <img> met een srcset van drie Cloudinary-breedtes — zie
+        {/* Gewone <img> met een srcset van vier Cloudinary-breedtes — zie
             FLEET in src/data/fleet.ts voor waarom niet next/image. lazy +
-            async: 94 foto's mogen nooit de eerste paint ophouden. */}
+            async: 94 foto's mogen nooit de eerste paint ophouden.
+            `sizes`: de kaart is ~320px breed in de vierkoloms-grid
+            (max-w-7xl), een derde tussen 1024 en 1280, de helft op tablet en
+            volle breedte op een telefoon. Stond op "25vw" voor álles boven
+            1024px, dus op een breed scherm koos de browser een veel grotere
+            foto dan nodig en op 1100px een te kleine. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={boat.image}
           srcSet={boat.imageSet}
           alt={`${boat.model} ${boat.name}`}
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          sizes="(min-width: 1280px) 320px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           loading="lazy"
           decoding="async"
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
@@ -371,8 +415,14 @@ function BoatCard({ boat, T, locale, live, date, season }: {
         <div className="mb-0.5 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-black/60">
           <MapPin size={11} className="text-ibiza-green" /> {boat.marina}
         </div>
+        {/* De naam is de link naar de bootpagina. De foto blijft het dossier
+            openen (dat was hij altijd al), maar zonder deze link had de vloot
+            geen enkele interne verwijzing naar de 94 detailpagina's — ze
+            zouden dan alleen via de sitemap te vinden zijn. */}
         <h3 className="font-serif text-base font-bold leading-tight text-black">
-          {boat.model}{boat.name && <span className="text-ibiza-green"> {boat.name}</span>}
+          <Link href={`/${locale}/private-boat-charters/${boat.slug}`} className="hover:text-ibiza-green">
+            {boat.model}{boat.name && <span className="text-ibiza-green"> {boat.name}</span>}
+          </Link>
         </h3>
 
         {/* Live beschikbaarheid voor de gekozen datum — alleen wanneer de
@@ -428,6 +478,74 @@ function BoatCard({ boat, T, locale, live, date, season }: {
         </a>
       </div>
     </article>
+  );
+}
+
+/**
+ * Pager onder de vloot.
+ *
+ * Nummers in plaats van alleen vorige/volgende: met vijf pagina's wil iemand
+ * die de goedkope boten zoekt in één klik naar achteren kunnen, niet vier keer
+ * "volgende". Bij meer dan zeven pagina's schuift het venster mee en vallen de
+ * tussenliggende nummers weg als "…" — de eerste en de laatste blijven altijd
+ * staan, want dat zijn de twee uitersten die je in één klik wilt bereiken.
+ */
+function Pager({ T, page, pageCount, from, to, total, onGo }: {
+  T: FleetLabels; page: number; pageCount: number;
+  from: number; to: number; total: number;
+  onGo: (n: number) => void;
+}) {
+  // Passen alle nummers, laat ze dan allemaal staan. Met de hele vloot zijn er
+  // vijf pagina's; die inkorten tot "1 2 … 5" verstopt pagina 3 achter een
+  // beletselteken terwijl er ruimte zat is.
+  const VENSTER_VANAF = 7;
+  const nummers: (number | 'gap')[] = [];
+  for (let n = 1; n <= pageCount; n++) {
+    const houden = pageCount <= VENSTER_VANAF || n === 1 || n === pageCount || Math.abs(n - page) <= 1;
+    if (houden) nummers.push(n);
+    else if (nummers[nummers.length - 1] !== 'gap') nummers.push('gap');
+  }
+  const knop = 'grid h-10 min-w-10 place-items-center rounded-full px-3 text-sm font-bold transition-colors';
+  return (
+    <nav className="mt-8 flex flex-col items-center gap-3" aria-label={T.boatsCount(total)}>
+      <div className="flex flex-wrap items-center justify-center gap-1.5">
+        <button
+          type="button"
+          onClick={() => onGo(page - 1)}
+          disabled={page <= 1}
+          className={`${knop} border border-black/15 bg-white text-black hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:bg-white disabled:hover:text-black`}
+        >
+          {T.pagePrev}
+        </button>
+        {nummers.map((n, i) =>
+          n === 'gap' ? (
+            <span key={`gap-${i}`} aria-hidden className="px-1 text-sm text-black/40">…</span>
+          ) : (
+            <button
+              key={n}
+              type="button"
+              onClick={() => onGo(n)}
+              aria-label={T.pageGoto(n)}
+              aria-current={n === page ? 'page' : undefined}
+              className={`${knop} ${n === page
+                ? 'bg-black text-white'
+                : 'border border-black/15 bg-white text-black hover:bg-black hover:text-white'}`}
+            >
+              {n}
+            </button>
+          ),
+        )}
+        <button
+          type="button"
+          onClick={() => onGo(page + 1)}
+          disabled={page >= pageCount}
+          className={`${knop} border border-black/15 bg-white text-black hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:bg-white disabled:hover:text-black`}
+        >
+          {T.pageNext}
+        </button>
+      </div>
+      <p className="text-sm text-black/55">{T.pageShowing(from, to, total)}</p>
+    </nav>
   );
 }
 
@@ -492,16 +610,14 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
   // smooth: die animatie zou met de volgende controle wedijveren), stopt na
   // twee opeenvolgende goede metingen — wie zelf scrolt wordt hooguit even
   // gecorrigeerd, daarna nooit meer.
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const id = window.location.hash.slice(1);
-    if (!id) return;
+  const scrollNaarAnker = useCallback((id: string) => {
+    if (typeof window === 'undefined' || !id) return () => {};
     let goed = 0;
     let beurten = 0;
     const iv = setInterval(() => {
       beurten++;
       const el = document.getElementById(id);
-      if (el) {
+      if (el && !el.hasAttribute('hidden')) {
         const top = el.getBoundingClientRect().top;
         const inBeeld = top >= -60 && top <= Math.max(200, window.innerHeight * 0.4);
         if (inBeeld) goed++;
@@ -511,6 +627,7 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
     }, 400);
     return () => clearInterval(iv);
   }, []);
+  useEffect(() => scrollNaarAnker(window.location.hash.slice(1)), [scrollNaarAnker]);
   const isPriceActive = maxPrice < PRICE_MAX;
   const pricePct = ((maxPrice - PRICE_MIN) / (PRICE_MAX - PRICE_MIN)) * 100;
 
@@ -543,6 +660,152 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
         : sort === 'price-desc' ? b.price.low - a.price.low
         : 0);
   }, [search, marina, category, minPrice, maxPrice, minPax, sort, onlyAvailable, dateInRange, live, date]);
+
+  // ── De drie stappen boven de vloot ────────────────────────────────────────
+  //
+  // De chips zetten dezelfde state als de filterbalk en lezen hem ook weer
+  // terug: één waarheid, twee ingangen. Wie in de balk een eigen bedrag of
+  // een eigen aantal invult valt buiten elke chip — dan staat er geen chip
+  // aan in plaats van een chip die iets anders belooft dan het filter doet.
+  const paxStep = PAX_STEPS.find(s => s.min === minPax)?.key ?? '';
+  const setPaxStep = useCallback((k: string) => {
+    setMinPax(PAX_STEPS.find(s => s.key === k)?.min ?? 0);
+  }, []);
+  const budgetStep =
+    BUDGET_STEPS.find(s => (s.min ?? PRICE_MIN) === minPrice && (s.max ?? PRICE_MAX) === maxPrice)?.key ?? '';
+  const setBudgetStep = useCallback((k: string) => {
+    const s = BUDGET_STEPS.find(x => x.key === k);
+    setMinPrice(s?.min ?? PRICE_MIN);
+    setMaxPrice(s?.max ?? PRICE_MAX);
+  }, []);
+
+  // ── Wat je in één keer te zien krijgt ─────────────────────────────────────
+  //
+  // Alle 94 kaarten tegelijk was de klacht, en terecht: de eerste twintig zijn
+  // superjachten van vijf cijfers, dus wie een dagboot zoekt scrolt langs een
+  // prijsklasse waar hij niet voor kwam en denkt dat de vloot niet voor hem is.
+  //
+  // De keuze hieronder is een ronde langs de categorieën in plaats van een
+  // kop van de lijst: eerst de goedkoopste jachten, motorboot, catamaran en
+  // jetski, dan de tweede van elk, enzovoort. Zo spant de eerste pagina de hele
+  // vloot op — prijs én soort — in plaats van één hoek ervan. Boten die op de
+  // gekozen datum vrij zijn gaan voor; er valt niets te kiezen aan een boot
+  // die bezet is.
+  //
+  // Deterministisch, want dit rendert server-side: geen Math.random en geen
+  // Date.now, anders rendert React de hele pagina na hydration opnieuw (zie
+  // CLAUDE.md). De rest van de vloot blijft gewoon in de HTML staan — een
+  // crawler zonder JavaScript hoort alle 94 te zien — maar staat op `hidden`
+  // tot je die pagina opent.
+  const shortlistSlugs = useMemo(() => {
+    const vrij = (b: Boat) => {
+      if (!live || !date || !dateInRange) return true;
+      const lb = live.boats[b.brokerKey];
+      return !lb || statusForDate(lb, date) === 'free';
+    };
+    const perCat = new Map<string, Boat[]>();
+    for (const b of filtered) {
+      const lijst = perCat.get(b.category) ?? [];
+      lijst.push(b);
+      perCat.set(b.category, lijst);
+    }
+    // Binnen een categorie: vrij vóór bezet, daarna op prijs van laag naar
+    // hoog. Stabiel bij gelijke prijs door op slug te sorteren.
+    for (const cat of CAT_ORDER) {
+      const lijst = perCat.get(cat);
+      if (!lijst) continue;
+      lijst.sort((a: Boat, b: Boat) =>
+        Number(vrij(b)) - Number(vrij(a)) ||
+        a.price.low - b.price.low ||
+        a.slug.localeCompare(b.slug));
+    }
+    const keuze: string[] = [];
+    for (let ronde = 0; keuze.length < PAGE_SIZE; ronde++) {
+      let gepakt = false;
+      for (const cat of CAT_ORDER) {
+        const b = perCat.get(cat)?.[ronde];
+        if (!b) continue;
+        keuze.push(b.slug);
+        gepakt = true;
+        if (keuze.length >= PAGE_SIZE) break;
+      }
+      if (!gepakt) break;
+    }
+    return new Set(keuze);
+  }, [filtered, live, date, dateInRange]);
+
+  // Eerst de selectie, dan de rest — in de DOM staan ze allebei.
+  const geordend = useMemo(() => {
+    if (filtered.length <= PAGE_SIZE) return filtered;
+    return [
+      ...filtered.filter(b => shortlistSlugs.has(b.slug)),
+      ...filtered.filter(b => !shortlistSlugs.has(b.slug)),
+    ];
+  }, [filtered, shortlistSlugs]);
+
+  // ── Paginering ────────────────────────────────────────────────────────────
+  //
+  // Hier stond één knop "toon alle 94": daarna stonden alle kaarten tegelijk in
+  // beeld, en dat was precies de muur die de selectie moest voorkomen. Twintig
+  // per pagina houdt de lijst overzichtelijk én scheelt werk in de browser —
+  // een kaart buiten de huidige pagina krijgt `hidden`, dus de browser lay-out
+  // hem niet en zijn foto (loading="lazy") wordt niet opgehaald.
+  //
+  // Wat NIET verandert: alle boten staan in de HTML. Een crawler zonder
+  // JavaScript hoort de hele vloot te zien; welke pagina open staat is een
+  // weergavekeuze, geen inhoudelijke. Kaarten uit de lijst weglaten zou dat
+  // breken.
+  const [page, setPage] = useState(1);
+  const pageCount = Math.max(1, Math.ceil(geordend.length / PAGE_SIZE));
+  // Een filter dat de lijst korter maakt kan de huidige pagina wegnemen; dan
+  // stond er een lege grid met een pager die naar niets wees.
+  const huidigePagina = Math.min(page, pageCount);
+  const pageStart = (huidigePagina - 1) * PAGE_SIZE;
+  const pageEnd = Math.min(pageStart + PAGE_SIZE, geordend.length);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+
+  // Een nieuwe filterkeuze is een nieuwe vraag, dus terug naar pagina 1 in
+  // plaats van pagina 4 van de vorige vraag.
+  const filterSig = `${category}|${marina}|${minPax}|${minPrice}|${maxPrice}|${search}|${onlyAvailable}|${sort}`;
+  useEffect(() => { setPage(1); }, [filterSig]);
+
+  // Een oude deeplink (#boat-<slug>) kan naar een boot wijzen die nu op
+  // pagina 3 staat. Zonder deze stap opent de pagina op 1, staat die kaart op
+  // `hidden` en scrollt de browser naar niets. Eén keer bij binnenkomst: wie
+  // daarna zelf bladert moet niet teruggesleept worden.
+  const hashRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const naarHash = () => {
+      const h = window.location.hash;
+      // Dezelfde hash niet twee keer: dit effect draait ook opnieuw wanneer
+      // `geordend` verandert (een filter, de live laag die binnenkomt), en dan
+      // hoort de bezoeker niet terug te springen naar de boot uit de link.
+      if (!h.startsWith('#boat-') || h === hashRef.current) return;
+      const i = geordend.findIndex(b => b.slug === h.slice('#boat-'.length));
+      if (i < 0) return;
+      hashRef.current = h;
+      setPage(Math.floor(i / PAGE_SIZE) + 1);
+      // De browser scrollt zelf bij een hashwissel, maar de kaart stond op dat
+      // moment nog op `hidden` — dus die scroll landde op niets. Opnieuw, zodra
+      // de juiste pagina open staat.
+      scrollNaarAnker(h.slice(1));
+    };
+    naarHash();
+    // Een link naar #boat-… op de pagina zelf is géén nieuwe navigatie: React
+    // blijft staan en er draait geen mount-effect. Zonder deze luisteraar bleef
+    // je op pagina 1 kijken naar een kaart die op pagina 5 staat.
+    window.addEventListener('hashchange', naarHash);
+    return () => window.removeEventListener('hashchange', naarHash);
+  }, [geordend, scrollNaarAnker]);
+
+  // Bladeren zet je bovenaan de vloot neer; anders sta je na een klik op "2"
+  // nog steeds onderaan te kijken naar kaarten die net vervangen zijn.
+  // scrollSectionIntoView rekent de vaste kop mee — nooit een vast getal.
+  const gaNaarPagina = useCallback((n: number) => {
+    setPage(n);
+    scrollSectionIntoView(gridRef.current);
+  }, []);
 
   // Actieve filters tellen voor de wis-knop. `date` telt niet mee: die staat
   // altijd op vandaag en is geen filter tot je "alleen beschikbaar" aanzet.
@@ -599,16 +862,24 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
           </span>
           <h1 className="text-5xl md:text-7xl font-black font-serif text-white leading-tight uppercase m-0 tracking-tight drop-shadow-lg">{T.title}</h1>
           <p className="font-sans text-base md:text-lg text-white/90 max-w-2xl mx-auto mt-1 drop-shadow">{T.subtitle}</p>
-          {/* Category selector — sits directly on the image */}
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <FilterTab active={category === 'all'} onClick={() => setCategory('all')}>{T.catAll}</FilterTab>
-            <FilterTab active={category === 'yacht'} onClick={() => setCategory('yacht')}>{T.catYacht}</FilterTab>
-            <FilterTab active={category === 'motorboat'} onClick={() => setCategory('motorboat')}>{T.catMotorboat}</FilterTab>
-            <FilterTab active={category === 'catamaran'} onClick={() => setCategory('catamaran')}>{T.catCatamaran}</FilterTab>
-            <FilterTab active={category === 'jetski'} onClick={() => setCategory('jetski')}>{T.catJetski}</FilterTab>
-          </div>
         </div>
       </section>
+
+      {/* De soortkeuze stond als pillenrij op de herofoto. Die is nu stap 1
+          hieronder: twee plekken om hetzelfde te kiezen, waarvan de ene pas
+          bestaat als je scrolt, is precies hoe een bezoeker de helft van de
+          vloot mist. */}
+      <FleetSteps
+        locale={locale}
+        soorten={FLEET_CATEGORIES}
+        category={category}
+        setCategory={setCategory}
+        paxStep={paxStep}
+        setPaxStep={setPaxStep}
+        budgetStep={budgetStep}
+        setBudgetStep={setBudgetStep}
+        resultCount={filtered.length}
+      />
 
       {/* Filterbalk in Airbnb-stijl. Verving een brede budgetschuif plus een
           losse datumbalk die samen het halve scherm vulden — zie
@@ -638,6 +909,7 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
            het was een filter dat niemand kon bedienen. */
         soort={category}
         setSoort={setCategory}
+        soorten={FLEET_CATEGORIES}
         sort={sort}
         setSort={setSort}
         onClear={wisFilters}
@@ -664,19 +936,37 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
       {/* Grid */}
       <section className="mx-auto max-w-7xl px-4 pb-10 pt-6">
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filtered.map(boat => (
-              <BoatCard
-                key={boat.slug}
-                boat={boat}
+          <>
+            <div ref={gridRef} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {geordend.map((boat, i) => (
+                <BoatCard
+                  key={boat.slug}
+                  boat={boat}
+                  T={T}
+                  locale={locale}
+                  live={dateInRange ? (live!.boats[boat.brokerKey] ?? null) : null}
+                  date={date}
+                  season={live?.season ?? 'mid'}
+                  /* Het `hidden`-attribuut en niet uit de lijst weglaten: de
+                     hele vloot hoort in de HTML te staan, ook voor een crawler
+                     die geen JavaScript draait. Wat hier gebeurt is een
+                     weergavekeuze, geen inhoudelijke. */
+                  hidden={i < pageStart || i >= pageEnd}
+                />
+              ))}
+            </div>
+            {pageCount > 1 && (
+              <Pager
                 T={T}
-                locale={locale}
-                live={dateInRange ? (live!.boats[boat.brokerKey] ?? null) : null}
-                date={date}
-                season={live?.season ?? 'mid'}
+                page={huidigePagina}
+                pageCount={pageCount}
+                from={pageStart + 1}
+                to={pageEnd}
+                total={geordend.length}
+                onGo={gaNaarPagina}
               />
-            ))}
-          </div>
+            )}
+          </>
         ) : (
           <div className="rounded-3xl border border-black/10 bg-neutral-50 py-20 text-center text-black/60">{T.noResults}</div>
         )}
@@ -743,18 +1033,5 @@ export default function FleetShowcase({ locale = 'nl', initialLive = null, initi
       </section>
 
     </div>
-  );
-}
-
-function FilterTab({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`rounded-full px-6 py-3 text-sm font-bold transition-all duration-200 md:text-base ${
-        active ? 'bg-ibiza-green text-white shadow-sm' : 'bg-neutral-100 text-black/70 hover:bg-neutral-200 hover:text-black'
-      }`}
-    >
-      {children}
-    </button>
   );
 }

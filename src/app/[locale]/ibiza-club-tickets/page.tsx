@@ -157,7 +157,7 @@ const QUEUE = [
 export default function IbizaClubTicketsPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} />
+      <SchemaMarkup locale={LOCALE} page={{ path: 'ibiza-club-tickets', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} />
       <Breadcrumbs items={CRUMBS} locale={LOCALE} />
 
       <HubHero

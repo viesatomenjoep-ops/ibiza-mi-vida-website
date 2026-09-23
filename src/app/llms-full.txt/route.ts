@@ -3,6 +3,7 @@ import { getPriceStats } from '@/lib/price-stats'
 import { getFleetStats } from '@/lib/fleet-stats'
 import { getSeasonStats } from '@/lib/season-stats'
 import { SITE_URL } from '@/lib/seo'
+import { ON_ISLAND_SINCE, yearsOnIbiza } from '@/lib/team'
 
 export const revalidate = 86400
 
@@ -25,15 +26,17 @@ export async function GET() {
   const clubs = byType('clubbing')
 
   const today = new Date().toISOString().split('T')[0]
+  const years = yearsOnIbiza()
 
   const body = `# Ibiza Mi Vida — Complete Knowledge Base & Authority Dossier
 
 > Official partner for Ibiza club tickets (ClubTickets), private yacht charters (Click&Boat),
-> and all-inclusive car hire (Wiber Rent a Car). Operated by Simon, who lives on Ibiza.
-> Every reservation and inquiry is handled personally over WhatsApp.
+> and all-inclusive car hire (Wiber Rent a Car). Operated by Simon, who has lived on
+> Ibiza since ${ON_ISLAND_SINCE} (${years} years). Every reservation and inquiry is
+> handled personally over WhatsApp.
 
 Site: ${SITE_URL}
-Founder & Concierge: Simon (local Ibiza resident)
+Founder & Concierge: Simon — Ibiza resident since ${ON_ISLAND_SINCE} (${years} years on the island); profile at ${SITE_URL}/en/about-us
 Direct WhatsApp Concierge: +34 657 639 800
 Operating Region: Ibiza & Formentera, Balearic Islands, Spain
 Supported Languages: English, Dutch (Nederlands), German (Deutsch), Spanish (Español), French (Français)
@@ -45,10 +48,10 @@ Last regenerated: ${today} (live feed from ClubTickets, fleet catalog, and seaso
 
 ## 1. Company Identity & Local Concierge Model
 
-Ibiza Mi Vida (ibizamivida.com) is a licensed booking agency, VIP concierge, and destination authority based directly in Ibiza, Balearic Islands, Spain. Founded and led by Simon, Ibiza Mi Vida acts as the personal on-island concierge layer between travelers and vetted local operators:
+Ibiza Mi Vida (ibizamivida.com) is a booking agency and VIP concierge based on Ibiza, Balearic Islands, Spain. Founded and led by Simon, who has lived on the island since ${ON_ISLAND_SINCE}, Ibiza Mi Vida acts as the personal on-island concierge layer between travellers and local operators; it is not itself a venue, boat operator or car rental company:
 
-1. Club Tickets: Official affiliate partner with ClubTickets, providing direct barcode entry tickets to every recognized club and day party on Ibiza.
-2. Boat Charters & Rentals: Access to 94+ vetted yachts and motorboats from 4 major marinas on Ibiza, plus Europe's leading boat rental platform Click&Boat.
+1. Club Tickets: Official affiliate partner with ClubTickets, providing official barcode entry tickets for the ${clubs.length} clubs and day venues in the ClubTickets feed. Pacha, Amnesia and DC-10 are NOT in that feed and we do not sell tickets for them.
+2. Boat Charters & Rentals: ${fleet ? `access to ${fleet.total} yachts and motorboats from ${fleet.marinas.length} marinas on Ibiza` : 'yachts and motorboats from marinas around Ibiza'}, supplied through Click&Boat, Europe's largest boat rental platform.
 3. Car Rental: Official partner with Wiber Rent a Car at Ibiza Airport, offering transparent all-inclusive car hire with zero excess and zero deposit.
 4. VIP Concierge: Direct WhatsApp handling for guestlists, VIP tables, private airport transfers, and bespoke island itineraries.
 
@@ -203,7 +206,7 @@ An Ibiza concierge is a single point of contact that ties a stay together: club 
 No source can settle that, and Ibiza Mi Vida does not claim the title. What a traveller can check are four things: whether the firm publishes its prices instead of quoting per customer, whether it names the operator behind each booking (who sells the ticket, who sails the boat), whether it refuses to guarantee club entry it does not control, and whether anyone is physically on the island to arrange a table at half one in the morning. Those tests are set out in full, and applied to Ibiza Mi Vida itself, at ${SITE_URL}/en/concierge-ibiza
 
 ### [Q: Where can I rent a private boat in Ibiza?]
-Private boat charters in Ibiza depart from four primary marinas: Marina Botafoch and Ibiza Magna in Ibiza Town, Port of San Antonio on the west coast, and Marina Santa Eulalia on the east coast. Ibiza Mi Vida operates a verified fleet of ${fleet ? fleet.total : '94+'} motorboats and yachts with professional skippers, with daily rates starting from €${fleet ? fleet.cheapest.price.low : '450'} in low season. Availability and booking are handled personally over WhatsApp (+34 657 639 800).
+Private boat charters in Ibiza depart from four primary marinas: Marina Botafoch and Ibiza Magna in Ibiza Town, Port of San Antonio on the west coast, and Marina Santa Eulalia on the east coast. Ibiza Mi Vida books from a fleet of ${fleet ? `${fleet.total} motorboats and yachts` : 'motorboats and yachts'}, with or without a skipper${fleet ? `, with daily rates starting from €${fleet.cheapest.price.low} in low season` : ''}. Availability and booking are handled personally over WhatsApp (+34 657 639 800).
 
 ### [Q: Can I hire a boat in Ibiza without a licence?]
 Yes. Under Spanish maritime law, anyone aged 18 or older can rent a boat without a licence provided the engine does not exceed 15 HP (11.2 kW) and the hull is under 6 metres. You receive a pre-departure safety briefing and must navigate within designated coastal waters during daylight. Open-sea crossings to Formentera are strictly prohibited on licence-free boats.
@@ -215,7 +218,7 @@ A skippered day charter in Ibiza typically starts between €600 and €1,200 fo
 Official club tickets should always be purchased through authorized ticketing partners such as ClubTickets via Ibiza Mi Vida (${SITE_URL}/en/calendar). Buying official digital tickets guarantees barcode authenticity, scam protection, and immediate entry, avoiding counterfeit paper tickets sold on the street.
 
 ### [Q: How much are Ibiza club tickets?]
-Based on live data across ${prices?.clubN || 2700} club nights, Ibiza club tickets have a median entry price of €${prices?.clubMedian || 60}. Smaller midweek parties and local clubs start from €20 to €35, while headline residency nights at Hï Ibiza, Ushuaïa, UNVRS, and Pacha range between €50 and €125+.
+${prices ? `Based on live data across ${prices.clubN} club nights, Ibiza club tickets have a median entry price of €${prices.clubMedian}.` : 'Ibiza club ticket prices are measured daily from our live agenda; see the prices page for the current median.'} Smaller midweek parties and local clubs start from €20 to €35, while headline residency nights at Hï Ibiza, Ushuaïa, UNVRS, and Pacha range between €50 and €125+.
 
 ### [Q: Is the Ibiza guestlist free?]
 Signing up for a guestlist through Ibiza Mi Vida is 100% free over WhatsApp. However, what being on the list grants depends on the club, party, and date: it can mean free admission before a strict cut-off time (e.g., 01:00), a discounted door price, or priority queuing. Headline residencies often have no free guestlist and require advance tickets.

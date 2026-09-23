@@ -59,7 +59,7 @@ const FAQS: Faq[] = [
 export default function BoatHireNoLicencePage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'boat-hire-ibiza-no-licence', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Licence-free boat hire in Ibiza',
         description: 'Boat hire in Ibiza without a licence: up to 15 hp, hull under six metres, drivers aged 18 and over.',
         brand: 'Click&Boat', price, path: 'boat-hire-ibiza-no-licence',

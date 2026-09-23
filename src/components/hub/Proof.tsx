@@ -1,5 +1,6 @@
-import { PROOF } from '@/lib/proof'
+import { PROOF, TICKETS_TODAY } from '@/lib/proof'
 import { getGoogleReviews } from '@/lib/google-reviews'
+import { ibizaToday } from '@/lib/date-label'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 
 /**
@@ -31,12 +32,19 @@ const HEADING: Record<Locale, string> = {
   fr: 'Pourquoi réserver chez nous',
 }
 
-const SOLD_FOR: Record<Locale, string> = {
-  nl: 'Dit seizoen verkochten we onder meer tickets voor',
-  en: 'Shows we have sold tickets for this season',
-  de: 'Shows, für die wir diese Saison Tickets verkauft haben',
-  es: 'Shows para los que hemos vendido entradas esta temporada',
-  fr: 'Événements pour lesquels nous avons vendu des billets cette saison',
+/**
+ * "Vandaag al X tickets geboekt via ons." Rendert alleen met een echt getal
+ * uit `TICKETS_TODAY`, en alleen op de dag waarvoor dat getal geldt — een
+ * teller van gisteren die "vandaag" zegt is een onware mededeling, ook als
+ * het getal zelf klopte. Zie de toelichting in src/lib/proof.ts voor waarom
+ * hier nooit een geschat of willekeurig getal in mag.
+ */
+const TODAY: Record<Locale, string> = {
+  nl: 'tickets vandaag via ons geboekt',
+  en: 'tickets booked through us today',
+  de: 'Tickets heute über uns gebucht',
+  es: 'entradas reservadas hoy con nosotros',
+  fr: 'billets réservés chez nous aujourd’hui',
 }
 
 const TICKETS: Record<Locale, string> = {
@@ -47,28 +55,49 @@ const TICKETS: Record<Locale, string> = {
   fr: 'billets vendus cette saison',
 }
 
-const RATING: Record<Locale, (r: number, n: number) => string> = {
-  nl: (r, n) => `${r} van 5 op Google, uit ${n} beoordelingen`,
-  en: (r, n) => `${r} out of 5 on Google, from ${n} reviews`,
-  de: (r, n) => `${r} von 5 bei Google, aus ${n} Bewertungen`,
-  es: (r, n) => `${r} sobre 5 en Google, de ${n} reseñas`,
-  fr: (r, n) => `${r} sur 5 sur Google, sur ${n} avis`,
+/**
+ * Het cijfer zonder het aantal beoordelingen.
+ *
+ * Het aantal stond er wel ("uit 7 beoordelingen") en is er op verzoek uit: bij
+ * een jong profiel werkt een laag aantal tegen het cijfer in. Het getal is
+ * daarmee niet verstopt — de regel linkt naar het Bedrijfsprofiel, waar het
+ * aantal gewoon staat, en `reviewCount` blijft in de AggregateRating-markup
+ * staan omdat Google dat veld vereist en het waar is. Alleen de zin noemt het
+ * niet meer.
+ */
+const RATING: Record<Locale, (r: number) => string> = {
+  nl: (r) => `${r} van 5 op Google`,
+  en: (r) => `${r} out of 5 on Google`,
+  de: (r) => `${r} von 5 bei Google`,
+  es: (r) => `${r} sobre 5 en Google`,
+  fr: (r) => `${r} sur 5 sur Google`,
 }
 
 export async function Proof({ locale }: { locale: string }) {
   const l = (LOCALES as readonly string[]).includes(locale) ? (locale as Locale) : DEFAULT_LOCALE
   const reviews = await getGoogleReviews()
 
-  const hasArtists = PROOF.soldFor.length > 0
   const hasTickets = typeof PROOF.ticketsSold === 'number' && PROOF.ticketsSold > 0
   const hasRating = reviews !== null && reviews.total > 0
+  // Ibiza-dag, geen UTC-dag: tussen middernacht en 02:00 wijkt UTC een dag af
+  // en zou de teller van gisteren als "vandaag" blijven staan.
+  const today = TICKETS_TODAY && TICKETS_TODAY.count > 0 && TICKETS_TODAY.date === ibizaToday()
+    ? TICKETS_TODAY
+    : null
 
-  if (!hasArtists && !hasTickets && !hasRating) return null
+  if (!hasTickets && !hasRating && !today) return null
 
   return (
     <section className="border-t border-black/5 bg-neutral-50 py-14 text-neutral-900">
       <div className="mx-auto max-w-4xl px-4">
         <h2 className="font-serif text-2xl font-black tracking-tight md:text-3xl">{HEADING[l]}</h2>
+
+        {today && (
+          <p className="mt-5 font-serif text-xl font-black text-neutral-900">
+            {today.count.toLocaleString(l)}{' '}
+            <span className="text-[15px] font-normal text-neutral-600">{TODAY[l]}</span>
+          </p>
+        )}
 
         {hasTickets && (
           <p className="mt-5 font-serif text-xl font-black text-neutral-900">
@@ -77,29 +106,14 @@ export async function Proof({ locale }: { locale: string }) {
           </p>
         )}
 
-        {hasArtists && (
-          <div className="mt-6">
-            <h3 className="text-[13px] font-semibold uppercase tracking-widest text-neutral-500">{SOLD_FOR[l]}</h3>
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {PROOF.soldFor.map((name) => (
-                <li key={name} className="rounded-full border border-black/10 bg-white px-4 py-1.5 text-[14px] font-medium text-neutral-900">
-                  {name}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
         {hasRating && reviews && (
           <p className="mt-6 text-[15px] text-neutral-700">
             <span aria-hidden className="text-gold">★</span>{' '}
-            {reviews.url ? (
-              <a href={reviews.url} target="_blank" rel="noopener" className="text-neutral-900 underline underline-offset-2">
-                {RATING[l](reviews.rating, reviews.total)}
-              </a>
-            ) : (
-              RATING[l](reviews.rating, reviews.total)
-            )}
+            {/* Stond hier als link naar het Bedrijfsprofiel. Die doorklik is
+                er op verzoek van de eigenaar uit, net als bij de sterren in
+                de hero en de footer — laat je hem hier staan, dan linkt een
+                zin wél door terwijl de sterren ernaast dat niet meer doen. */}
+            {RATING[l](reviews.rating)}
           </p>
         )}
       </div>

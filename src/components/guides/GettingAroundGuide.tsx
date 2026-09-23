@@ -6,7 +6,7 @@ import { WhatsAppCta } from '@/components/hub/WhatsAppCta'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { MAP_CLUBS } from '@/data/ibiza-map-clubs'
 import { venuePagePublished } from '@/lib/pending-venues'
-import { localizedAlternates, pathFor, localesFor, type RouteKey } from '@/lib/route-slugs'
+import { localizedAlternates, slugFor, pathFor, localesFor, type RouteKey } from '@/lib/route-slugs'
 import { contentUpdated } from '@/lib/content-dates'
 import { SITE_NAME, type Locale } from '@/lib/seo'
 import * as C from '@/lib/getting-around-copy'
@@ -97,7 +97,12 @@ export function GettingAroundGuide({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <SchemaMarkup locale={locale} breadcrumbs={crumbs} faqs={faqs} />
+      <SchemaMarkup
+        locale={locale}
+        page={{ path: slugFor('getting-around', locale), dateModified: contentUpdated(PAGE_KEY) }}
+        breadcrumbs={crumbs}
+        faqs={faqs}
+      />
       <Breadcrumbs items={crumbs} locale={locale} />
 
       <HubHero

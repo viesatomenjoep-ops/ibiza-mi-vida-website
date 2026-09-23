@@ -138,7 +138,13 @@ export function PartnerDossier({
               {cta}
             </AffiliateLink>
             <Link
-              href={`/${l}/${pillarPath.replace(/^\//, '')}`}
+              /* Een pad dat met '/' begint is al compleet, taalprefix en al —
+                 dezelfde regel als in InternalLinks. `pathFor()` levert precies
+                 die vorm, dus de slash eraf halen en er zelf `/${l}/` voor
+                 plakken maakte er `/en/en/car-rental-ibiza` van: een 404 op de
+                 enige link die van dit partnerdossier terug naar de pillar
+                 wijst, in alle vijf de talen. */
+              href={pillarPath.startsWith('/') ? pillarPath : `/${l}/${pillarPath}`}
               className="rounded-full px-1 py-1 text-[14px] font-semibold text-white underline underline-offset-4 outline-none transition-colors hover:text-gold-soft focus-visible:ring-2 focus-visible:ring-gold-soft"
             >
               {pillarLabel} →

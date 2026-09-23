@@ -187,7 +187,17 @@ const RAW_FLEET: Boat[] = [
  * had). Drie breedtes rechtstreeks van Cloudinary volstaan: de kaart is
  * 100vw op mobiel, 50vw op tablet, 25vw op desktop.
  */
-const CARD_WIDTHS = [480, 768, 1024];
+/**
+ * 640 als bodem en 1440 als top, niet 480–1024.
+ *
+ * De kaart is ~300px breed op desktop en 100vw op een telefoon. Op een scherm
+ * met dubbele pixeldichtheid — wat elke telefoon en de meeste laptops zijn —
+ * vraagt dat om 600 tot 800 echte pixels, en op een 3x-telefoon om ruim 1100.
+ * De oude reeks stopte bij 1024, dus daarboven werd er opgerekt: dát is de
+ * zachtheid die op de kaarten te zien was. `c_limit` schaalt nooit op, dus
+ * een bron die kleiner is dan 1440 kost hier niets extra.
+ */
+const CARD_WIDTHS = [640, 960, 1280, 1440];
 export const FLEET: Boat[] = RAW_FLEET.map(b => ({
   ...b,
   image: cloudinaryFetchRemote(b.image),
@@ -195,6 +205,21 @@ export const FLEET: Boat[] = RAW_FLEET.map(b => ({
 }));
 
 export const FLEET_FROM_PRICE = Math.min(...FLEET.map(b => b.price.low));
+
+/**
+ * De soorten die in deze vloot echt voorkomen, in de volgorde waarin ze
+ * getoond worden.
+ *
+ * De vlootpagina bood Catamaran en Jetski als filter aan terwijl er geen
+ * enkele catamaran en geen enkele jetski in de vloot zit: twee knoppen die
+ * gegarandeerd "geen boten gevonden" opleverden, op de commercieel
+ * belangrijkste pagina van de site. Afleiden en niet opschrijven, zodat een
+ * vlootwissel de knoppenrij vanzelf meeneemt in plaats van er stil naast te
+ * gaan lopen.
+ */
+const CATEGORY_ORDER: FleetCategory[] = ['yacht', 'motorboat', 'catamaran', 'jetski', 'boat'];
+export const FLEET_CATEGORIES: FleetCategory[] =
+  CATEGORY_ORDER.filter(c => FLEET.some(b => b.category === c));
 
 /**
  * Waar een klik op een boot heen gaat: het dossier zelf.

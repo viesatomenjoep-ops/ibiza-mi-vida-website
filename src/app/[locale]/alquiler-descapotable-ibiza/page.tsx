@@ -60,7 +60,7 @@ const FAQS: Faq[] = [
 export default function AlquilerDescapotablePage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'alquiler-descapotable-ibiza', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Alquiler de descapotable en Ibiza',
         description: 'Alquiler de descapotable en Ibiza para las carreteras del oeste y del norte, todo incluido con Wiber Rent a Car.',
         brand: 'Wiber Rent a Car', price: null, path: 'alquiler-descapotable-ibiza',

@@ -4,6 +4,7 @@ import { getVenues, getAllEvents, getArtists, getDataLastUpdated, getArtistsWith
 import { eventBasePath } from '@/lib/event-path'
 import { publishableMonths } from '@/lib/month-pages'
 import { locations } from '@/lib/locations'
+import { FLEET } from '@/data/fleet'
 import { ROUTE_SLUGS, localesFor, type RouteKey } from '@/lib/route-slugs'
 
 export const revalidate = 86400 // rebuild the sitemap at most once a day
@@ -154,6 +155,12 @@ const LOCALIZED_ROUTES: { key: RouteKey; priority: number; changeFrequency: Meta
   { key: 'pukka-up', priority: 0.7, changeFrequency: 'weekly' },
   { key: 'float-your-boat', priority: 0.7, changeFrequency: 'weekly' },
   { key: 'cruise-crush', priority: 0.6, changeFrequency: 'weekly' },
+  // Amerikaans cluster, alleen /en. Weekly voor de vluchtenpagina: de
+  // nonstop-status en de wisselkoers veranderen; monthly voor de rest.
+  { key: 'us-hub', priority: 0.8, changeFrequency: 'weekly' },
+  { key: 'us-flights', priority: 0.8, changeFrequency: 'weekly' },
+  { key: 'us-requirements', priority: 0.7, changeFrequency: 'monthly' },
+  { key: 'us-itinerary', priority: 0.7, changeFrequency: 'monthly' },
   // BEWUST AFWEZIG: 'pacha-venue', 'amnesia-venue' en 'dc10-venue'. Die drie
   // pagina's zijn geschreven maar 404'en nog (src/lib/pending-venues.ts) tot het
   // akkoord met de clubs rond is. Een URL in de sitemap die 404't is een
@@ -203,6 +210,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // so ask the same helper the route uses rather than listing all twelve.
     for (const loc of locations) {
       if (loc.slug) routes.push(...entriesFor(`/locations/${loc.slug}`, 0.5, 'monthly'))
+    }
+    // De 94 bootpagina's. Slugs zijn taalonafhankelijk en de vloot staat in de
+    // repo, dus dit hangt niet aan de partner-API — valt die weg, dan staan de
+    // pagina's er nog steeds (met de statische prijsbanden). Weekly: de
+    // beschikbaarheid beweegt dagelijks, maar de pagina-inhoud zelf (specs,
+    // banden, dossier) verandert pas bij een vlootwissel.
+    for (const b of FLEET) {
+      routes.push(...entriesFor(`/private-boat-charters/${b.slug}`, 0.6, 'weekly'))
     }
     for (const m of await publishableMonths(DEFAULT_LOCALE)) {
       routes.push(...entriesFor(`/ibiza-in/${m}`, 0.7, 'daily', dataDate))

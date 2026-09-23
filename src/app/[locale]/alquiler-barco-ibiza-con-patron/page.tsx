@@ -67,7 +67,7 @@ const FAQS: Faq[] = [
 export default function AlquilerBarcoConPatronPage() {
   return (
     <>
-      <SchemaMarkup locale={LOCALE} breadcrumbs={CRUMBS} faqs={FAQS} product={{
+      <SchemaMarkup locale={LOCALE} page={{ path: 'alquiler-barco-ibiza-con-patron', dateModified: contentUpdated(PAGE_KEY) }} breadcrumbs={CRUMBS} faqs={FAQS} product={{
         name: 'Alquiler de barco en Ibiza con patrón',
         description: 'Chárteres de día con patrón en Ibiza desde puertos de toda la isla, con patrones locales que trabajan en varios idiomas.',
         brand: 'Click&Boat', price: precio, path: 'alquiler-barco-ibiza-con-patron',

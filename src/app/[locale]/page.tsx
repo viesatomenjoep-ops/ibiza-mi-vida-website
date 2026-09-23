@@ -5,6 +5,7 @@ import { getDictionary } from '@/lib/dictionary'
 import HomePageClient from './HomePageClient'
 import { HomeJsonLd } from '@/components/seo/HomeJsonLd'
 import { RentalsSection } from '@/components/hub/RentalsSection'
+import { HomeUsBand } from '@/components/home/HomeUsBand'
 import { HomeFaq } from '@/components/home/HomeFaq'
 import { pageMetadata, DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 import { HOME_TITLE, HOME_DESC } from '@/lib/seo-pages'
@@ -178,7 +179,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
       price: b.price.low,
       priceLabel: '/dag',
       dateLabel: dLabel(todayStr),
-      href: `/${params.locale}/private-boat-charters#boat-${b.slug}`,
+      href: `/${params.locale}/private-boat-charters/${b.slug}`,
     })),
   }
 
@@ -253,6 +254,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
       rentalsSlot={<RentalsSection locale={params.locale} />}
       reviewsSlot={<><GoogleReviews locale={params.locale} /><ReviewSchema /></>}
       faqSlot={<HomeFaq locale={params.locale} />}
+      usSlot={<HomeUsBand locale={params.locale} />}
     />
     </>
   )

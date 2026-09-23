@@ -47,7 +47,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { ChevronDown } from 'lucide-react'
-import { slugFor } from '@/lib/route-slugs'
+import { slugFor, localesFor, pathFor, type RouteKey } from '@/lib/route-slugs'
 import { CRUMB_SELF as CONCIERGE_LABEL } from '@/lib/concierge-copy'
 import { DEFAULT_LOCALE, LOCALES as SEO_LOCALES, type Locale } from '@/lib/seo'
 
@@ -67,6 +67,31 @@ const LOCALES = [
   { code: 'fr' },
 ]
 
+/**
+ * Labels voor de voetlinks die geen sleutel in de woordenboeken hebben.
+ *
+ * De footer is de enige plek waar een aantal pagina's site-breed gelinkt
+ * wordt; zonder deze regels blijven ze wezen. Vijf talen per regel, want de
+ * footer rendert in alle vijf en een Engelse term in een Nederlandse kolom
+ * leest als een vergeten vertaling.
+ */
+type FootLabel = Record<Locale, string>
+const F = (nl: string, en: string, de: string, es: string, fr: string): FootLabel => ({ nl, en, de, es, fr })
+
+const LBL = {
+  transportTitle: F('Huren & vervoer', 'Rental & transport', 'Mieten & Transport', 'Alquiler y transporte', 'Location & transport'),
+  clubTickets: F('Clubtickets Ibiza', 'Ibiza club tickets', 'Ibiza Clubtickets', 'Entradas discotecas Ibiza', 'Billets clubs Ibiza'),
+  boatNoLicence: F('Boot huren zonder vaarbewijs', 'Boat hire without a licence', 'Boot mieten ohne Führerschein', 'Alquiler de barco sin titulación', 'Location de bateau sans permis'),
+  boatSkipper: F('Boot huren met schipper', 'Boat rental with a skipper', 'Boot mieten mit Skipper', 'Alquiler de barco con patrón', 'Location de bateau avec skipper'),
+  jetSki: F('Jetski huren', 'Jet ski rental', 'Jetski mieten', 'Alquiler de motos de agua', 'Location de jet ski'),
+  carAirport: F('Auto huren luchthaven', 'Car rental at the airport', 'Mietwagen Flughafen', 'Alquiler de coches aeropuerto', 'Location de voiture aéroport'),
+  convertible: F('Cabrio huren', 'Convertible rental', 'Cabrio mieten', 'Alquiler de descapotable', 'Location de cabriolet'),
+  airportTransfer: F('Luchthaventransfer', 'Airport transfer', 'Flughafentransfer', 'Traslado aeropuerto', 'Transfert aéroport'),
+  gettingAround: F('Vervoer op Ibiza', 'Getting around Ibiza', 'Fortbewegung auf Ibiza', 'Cómo moverse por Ibiza', 'Se déplacer à Ibiza'),
+  nightlife: F('Uitgaansgids Ibiza', 'Ibiza nightlife guide', 'Ibiza Nachtleben-Guide', 'Guía de vida nocturna', 'Guide de la vie nocturne'),
+  dressCode: F('Dresscode clubs', 'Ibiza club dress code', 'Dresscode für Clubs', 'Código de vestimenta', 'Dress code des clubs'),
+} as const
+
 export function Footer({ rating = null, clubLogos = [] }: {
   rating?: GoogleRating | null
   /** Witte clublogo's uit de ClubTickets-feed; zie layout.tsx. */
@@ -79,14 +104,37 @@ export function Footer({ rating = null, clubLogos = [] }: {
   const t = dicts[currentLocale.code] || dicts['en']
   const l: Locale = (SEO_LOCALES as readonly string[]).includes(currentLocale.code) ? (currentLocale.code as Locale) : DEFAULT_LOCALE
 
+  /**
+   * Pad naar een route met een eigen slug per taal.
+   *
+   * `slugFor()` alleen lezen levert een link op naar een pagina die in deze
+   * taal misschien niet rendert — dat is geen 404 maar een 301, en linkwaarde
+   * die door een omleiding gaat verdampt onderweg. `localesFor()` zegt welke
+   * talen de route écht dragen; draagt deze taal hem niet, dan wijzen we
+   * rechtstreeks naar de taal die hem wel heeft (volledig pad, mét prefix).
+   */
+  const loc = (key: RouteKey): string => {
+    const talen = localesFor(key)
+    if (talen.includes(l)) return `${base}/${slugFor(key, l)}`
+    return pathFor(key, talen.includes(DEFAULT_LOCALE) ? DEFAULT_LOCALE : talen[0])
+  }
+
   const groups = [
     {
       id: 'events',
       title: t.nav_events_tickets || 'Events & Tickets',
       links: [
-        { href: `${base}/artists`, label: t.nav_artists || 'Artiesten' },
+        // De agenda stond nergens in de footer terwijl het de drukst bezochte
+        // pagina van de site is, en /this-week, de prijs- en seizoenspagina
+        // hadden site-breed geen enkele link.
+        { href: `${base}/calendar`, label: t.nav_club_calendar || 'Ibiza Club Calendar' },
+        { href: `${base}/this-week`, label: t.nav_this_week || 'Deze week' },
+        { href: loc('club-tickets-hub'), label: LBL.clubTickets[l] },
         { href: `${base}/club-tickets`, label: t.nav_club_tickets || 'Club Tickets' },
         { href: `${base}/clubs`, label: t.nav_clubs_ibiza || 'Clubs Ibiza' },
+        { href: `${base}/artists`, label: t.nav_artists || 'Artiesten' },
+        { href: `${base}/guestlist`, label: t.nav_guestlist || 'Guestlist' },
+        { href: `${base}/package-deals`, label: t.nav_packages || 'Package deals' },
       ],
     },
     {
@@ -95,6 +143,9 @@ export function Footer({ rating = null, clubLogos = [] }: {
       links: [
         { href: `${base}/boats`, label: t.nav_boats_hub || 'Ibiza per boot' },
         { href: `${base}/private-boat-charters`, label: t.nav_private_charters || 'Private Boat Charters' },
+        { href: loc('boat-no-licence'), label: LBL.boatNoLicence[l] },
+        { href: loc('boat-with-skipper'), label: LBL.boatSkipper[l] },
+        { href: loc('jet-ski-rental'), label: LBL.jetSki[l] },
         { href: `${base}/boat-party`, label: t.nav_boat_party || 'Boat Parties' },
         { href: `${base}/shuttle-ferry`, label: t.nav_shuttle_ferry || 'Shuttle Ferry' },
         { href: `${base}/ferry-formentera`, label: t.nav_ferry_formentera || 'Ferry Ibiza – Formentera' },
@@ -107,13 +158,55 @@ export function Footer({ rating = null, clubLogos = [] }: {
         { href: `${base}/activities`, label: t.nav_activities || 'Activities' },
         { href: `${base}/water-sports`, label: t.nav_water_sports || 'Water Sports' },
         { href: `${base}/beach-clubs`, label: t.nav_beach_clubs || 'Beach Clubs' },
-        { href: `${base}/${slugFor('car-rental', l)}`, label: t.nav_car_rental || 'Car Rental Ibiza' },
-        { href: `${base}/guestlist`, label: t.nav_guestlist || 'Guestlist' },
-        { href: `${base}/package-deals`, label: t.nav_packages || 'Package deals' },
         { href: `${base}/tips`, label: t.nav_tips || 'Ibiza Tips' },
         { href: `${base}/locations`, label: t.nav_locations || 'Gebieden op Ibiza' },
       ],
     },
+    {
+      // Nieuw: huren en vervoer stonden verspreid of nergens. De vier
+      // autoroutes en de transferpagina's hadden samen één footerlink.
+      id: 'transport',
+      title: LBL.transportTitle[l],
+      links: [
+        { href: loc('car-rental'), label: t.nav_car_rental || 'Car Rental Ibiza' },
+        { href: loc('car-rental-airport'), label: LBL.carAirport[l] },
+        { href: loc('convertible-rental'), label: LBL.convertible[l] },
+        { href: loc('airport-transfer'), label: LBL.airportTransfer[l] },
+        { href: loc('getting-around'), label: LBL.gettingAround[l] },
+      ],
+    },
+    {
+      // Nieuw: de gidsen en de gemeten prijspagina's. Dit is de content waar
+      // een antwoordmachine uit citeert en die tot nu toe alleen vanaf een
+      // enkele zusterpagina gelinkt werd.
+      id: 'guides',
+      title: t.footer_guides || 'Ibiza Guides',
+      links: [
+        { href: loc('nightlife-guide'), label: LBL.nightlife[l] },
+        { href: loc('dress-code'), label: LBL.dressCode[l] },
+        { href: `${base}/ibiza-prices`, label: t.nav_prices || 'Wat kost Ibiza?' },
+        { href: `${base}/ibiza-season`, label: t.nav_season || 'Wanneer sluit Ibiza?' },
+      ],
+    },
+    // Alleen op /en: het Amerikaanse cluster. Deze vier pagina's bestaan
+    // uitsluitend in het Engels (ROUTE_LOCALES = ['en']) en zijn geschreven
+    // voor één publiek; ze in de Nederlandse of Duitse footer zetten levert
+    // een link naar inhoud in een andere taal op. Op de Engelse site is dit
+    // wél de plek: een voetlink staat op élke pagina en is daarmee het
+    // sterkste interne signaal dat dit cluster kan krijgen.
+    ...(l === 'en'
+      ? [{
+          id: 'usa',
+          title: 'Travelling from the US',
+          links: [
+            { href: '/en/ibiza-for-americans', label: 'Ibiza for Americans' },
+            { href: '/en/flights-to-ibiza-from-usa', label: 'Flights from the US' },
+            { href: '/en/ibiza-travel-requirements-us-citizens', label: 'Entry requirements' },
+            { href: '/en/luxury-ibiza-itinerary-5-days', label: 'Planning a 5-day trip' },
+            { href: pathFor('vip-transfer', 'en'), label: 'VIP transfer with a driver' },
+          ],
+        }]
+      : []),
     {
       // E-E-A-T: About and Contact had ZERO internal links anywhere on the
       // site, so the two pages Google's quality guidelines look at to decide
@@ -189,7 +282,11 @@ export function Footer({ rating = null, clubLogos = [] }: {
                 aria-expanded={shown(g.id)}
                 onClick={() => setOpen(p => ({ ...p, [g.id]: !p[g.id] }))}
               >
-                <h3>{g.title}</h3>
+                {/* h2, geen h3: de footer staat op élke pagina en een pagina
+                    zonder eigen h2 (zoals /clubs en /activities) sprong daardoor
+                    van h1 naar h3. Een kolomkop is een sectie van de footer, dus
+                    h2 is hier ook semantisch de juiste keuze. */}
+                <h2>{g.title}</h2>
                 <ChevronDown size={18} className="foot-chev" style={{ transform: shown(g.id) ? 'rotate(180deg)' : 'none' }} />
               </button>
               {shown(g.id) && (

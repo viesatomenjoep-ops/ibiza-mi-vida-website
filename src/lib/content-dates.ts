@@ -30,8 +30,10 @@ export const CONTENT_UPDATED: Record<string, string> = {
   // gratis?" met de drie uitkomsten en de deurprijs erbij.
   guestlist: '2026-09-07',
   'package-deals': '2026-08-31',
-  // Both rebuilt from scratch, replacing placeholder boilerplate.
-  'about-us': '2026-08-30',
+  // Both rebuilt from scratch, replacing placeholder boilerplate. 15-09: de
+  // about-pagina kreeg Simons verblijfsduur (sinds 2021, berekend) en de
+  // zichtbare expertiselijst die `knowsAbout` in het schema spiegelt.
+  'about-us': '2026-09-15',
   contact: '2026-08-30',
   // Keyword pillar pages, written from scratch.
   'boat-rental-ibiza': '2026-09-04',
@@ -53,6 +55,13 @@ export const CONTENT_UPDATED: Record<string, string> = {
   'amnesia-ibiza': '2026-09-07',
   'dc10-ibiza': '2026-09-07',
   'ibiza-airport-transfer': '2026-09-07',
+  // Het Amerikaanse cluster, nieuw geschreven. Eén datum voor de hub en de
+  // drie spokes; de vluchtenpagina krijgt een eigen bump zodra de
+  // nonstop-status in us-travel.ts verandert.
+  'ibiza-for-americans': '2026-09-15',
+  'flights-to-ibiza-from-usa': '2026-09-15',
+  'ibiza-travel-requirements-us-citizens': '2026-09-15',
+  'luxury-ibiza-itinerary-5-days': '2026-09-15',
   // Gidsen, nieuw geschreven.
   'ibiza-nightlife': '2026-09-07',
   'ibiza-club-dress-code': '2026-09-07',

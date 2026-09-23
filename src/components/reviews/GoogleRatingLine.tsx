@@ -59,15 +59,20 @@ export function GoogleRatingLine({
   const filled = Math.floor(rating)
 
   return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      // text-neutral-700 staat op de <a> zelf en niet op een ouder: globals.css
-      // heeft `a{color:var(--white)}`, een regel die de link direct raakt, en
-      // een geërfde kleur verliest daar altijd van. Zonder dit wordt dit
-      // #faf3f5 op wit — gemeten 1.09:1, oftewel onzichtbaar.
-      className={`inline-flex items-center gap-2 text-neutral-700 transition-colors hover:text-neutral-900 ${className}`}
+    // Geen <a> meer: de sterren linkten naar het Bedrijfsprofiel en die
+    // doorklik is er op verzoek van de eigenaar uit. Een <span> en geen <a>
+    // zonder href — dat laatste laat het element in de toegankelijkheidsboom
+    // nog als link staan terwijl er niets gebeurt, en dat is verwarrender dan
+    // gewone tekst. De aria-label blijft: die draagt het precieze cijfer en
+    // het aantal, en dat is de volledige bewering voor wie met een schermlezer
+    // leest.
+    //
+    // De kleurregel die hier stond ging over globals.css `a{color:var(--white)}`
+    // en is daarmee vervallen; text-neutral-700 blijft staan omdat de sectie
+    // eromheen licht is.
+    <span
+      className={`inline-flex items-center gap-2 text-neutral-700 ${className}`}
+      role="img"
       aria-label={(A11Y[locale] || A11Y.en)(shown, total)}
     >
       {/* Alleen de sterren, geen cijfer en geen aantal -- op verzoek. Het
@@ -80,6 +85,6 @@ export function GoogleRatingLine({
           <Star key={i} size={13} className={i < filled ? 'fill-gold text-gold' : 'text-neutral-300'} />
         ))}
       </span>
-    </a>
+    </span>
   )
 }

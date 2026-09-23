@@ -11,7 +11,7 @@ import { getVenues } from '@/lib/clubtickets'
 import { longDate } from '@/lib/date-label'
 import { MAP_CLUBS } from '@/data/ibiza-map-clubs'
 import { ctBrowseLink } from '@/lib/ct-link'
-import { localizedAlternates, pathFor, localesFor, type RouteKey } from '@/lib/route-slugs'
+import { localizedAlternates, slugFor, pathFor, localesFor, type RouteKey } from '@/lib/route-slugs'
 import { contentUpdated } from '@/lib/content-dates'
 import { SITE_NAME, type Locale } from '@/lib/seo'
 import * as C from '@/lib/nightlife-copy'
@@ -151,7 +151,12 @@ export async function NightlifeGuide({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <SchemaMarkup locale={locale} breadcrumbs={crumbs} faqs={faqs} />
+      <SchemaMarkup
+        locale={locale}
+        page={{ path: slugFor('nightlife-guide', locale), dateModified: contentUpdated(PAGE_KEY) }}
+        breadcrumbs={crumbs}
+        faqs={faqs}
+      />
       <Breadcrumbs items={crumbs} locale={locale} />
 
       <HubHero

@@ -136,7 +136,9 @@ export async function GET(request: Request) {
         type: 'Location',
         title: l.name,
         subtitle: l.tagline[sl],
-        image: l.imageUrl || null,
+        // Locaties hebben geen beeld meer: de foto's waren AI-gegenereerd en
+        // zijn verwijderd. Het zoekresultaat valt terug op tekst.
+        image: null,
         url: `/${locale}/locations/${l.slug}`
       });
     });

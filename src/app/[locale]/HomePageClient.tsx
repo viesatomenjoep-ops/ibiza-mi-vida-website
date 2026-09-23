@@ -69,6 +69,8 @@ interface HomePageProps {
   reviewsSlot?: React.ReactNode;
   /** Server-gerenderde FAQ: als import stond hij mét 127 kB faq-content in de clientbundle. */
   faqSlot?: React.ReactNode;
+  /** Engelse homepage: de band naar het Amerikaanse cluster. null in elke andere taal. */
+  usSlot?: React.ReactNode;
   locale?: string;
   translations?: any;
   featuredClubs?: any[];
@@ -87,7 +89,7 @@ interface HomePageProps {
   rating?: HeroRating | null;
 }
 
-export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, tonightStr = '', todayStr = '', rating = null, rentalsSlot = null, reviewsSlot = null, faqSlot = null }: HomePageProps) {
+export default function HomePageClient({ locale = 'nl', translations = {}, featuredClubs = [], clubDays = [], experienceDays = [], pickerEvents = [], deals, allVenues = [], liveByClub = {}, tonightStr = '', todayStr = '', rating = null, rentalsSlot = null, reviewsSlot = null, faqSlot = null, usSlot = null }: HomePageProps) {
   const base = `/${locale}`;
   const router = useRouter();
 
@@ -350,6 +352,11 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       {/* WHY US — trust-building USP row */}
       <HomeUSP locale={locale} />
+
+      {/* VOOR AMERIKAANSE BEZOEKERS — rendert alleen op /en (zie HomeUsBand).
+          Staat na de USP's en vóór de reviews: wie hier is aangekomen weet wat
+          we doen, en de eerste vraag van een Amerikaan is hoe hij er komt. */}
+      {usSlot}
 
       {/* GOOGLE REVIEWS — echte beoordelingen, direct onder de beloftes. Het
           cijfer stond al in de hero en de footer; de reviews zelf alleen op

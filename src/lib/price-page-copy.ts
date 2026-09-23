@@ -259,6 +259,31 @@ export const H_ALSO: L = {
   es: 'De la misma agenda', fr: 'Du même agenda',
 }
 
+/**
+ * De bronregel onder de lead: wanneer gemeten, hoeveel waarnemingen, hoe vaak
+ * het zichzelf herrekent.
+ *
+ * De methodesectie onderaan zegt dit allemaal al, maar die staat zeven secties
+ * lager en reist niet mee met een citaat. Een antwoordmachine pakt de lead en
+ * stopt; een journalist die het getal overneemt scrolt niet terug. Daarom hoort
+ * de herkomst naast het cijfer te staan, niet alleen onder aan de pagina.
+ *
+ * Geen meetdatum in de data → deze regel valt weg in plaats van "vandaag" te
+ * claimen. Zie measuredAt in PriceStats.
+ */
+export function sourceLine(s: PriceStats, l: string): string | null {
+  if (!s.measuredAt) return null
+  const op = longDate(s.measuredAt, l)
+  const m: L = {
+    nl: `Gemeten op ${op}, over ${s.clubN} gedateerde clubavonden bij ${s.venues.length} clubs. De pagina herrekent zichzelf zodra de agenda verandert, dus een later citaat kan een ander getal geven.`,
+    en: `Measured on ${op}, across ${s.clubN} dated club nights at ${s.venues.length} venues. The page recalculates itself whenever the agenda changes, so a later citation may show a different figure.`,
+    de: `Gemessen am ${op}, über ${s.clubN} datierte Clubnächte in ${s.venues.length} Locations. Die Seite berechnet sich neu, sobald sich der Kalender ändert — ein späteres Zitat kann also eine andere Zahl zeigen.`,
+    es: `Medido el ${op}, sobre ${s.clubN} noches con fecha en ${s.venues.length} locales. La página se recalcula cuando cambia la agenda, así que una cita posterior puede mostrar otra cifra.`,
+    fr: `Mesuré le ${op}, sur ${s.clubN} soirées datées dans ${s.venues.length} établissements. La page se recalcule dès que l'agenda change : une citation ultérieure peut donc afficher un autre chiffre.`,
+  }
+  return pick(m, l)
+}
+
 export const H_METHOD: L = {
   nl: 'Hoe we dit meten', en: 'How we measure this', de: 'Wie wir das messen',
   es: 'Cómo lo medimos', fr: 'Comment nous mesurons',

@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
-import { pageMetadata, DEFAULT_LOCALE, LOCALES, SITE_NAME, type Locale } from './seo'
+import { pageMetadata, fitDescription, truncateAtWord, DEFAULT_LOCALE, LOCALES, SITE_NAME, type Locale } from './seo'
+
+export { fitDescription, truncateAtWord }
 
 // ── Per-page SEO copy ──────────────────────────────────────────────────
 // Localized title + description for the static routes, keyed by their
@@ -21,11 +23,11 @@ export const HOME_TITLE: Record<Locale, string> = L(
   'Billets Ibiza, Clubs, Bateaux Privés & Événements',
 )
 export const HOME_DESC: Record<Locale, string> = L(
-  'Boek clubtickets, privéboten, boat parties, VIP-tafels en Formentera-trips op Ibiza — alles op één platform, geregeld door lokale experts.',
+  'Boek clubtickets, privéboten, boat parties, VIP-tafels en Formentera-trips op Ibiza — alles op één platform, geregeld door experts die er zelf wonen.',
   'Book club tickets, private boat charters, boat parties, VIP tables and Formentera trips in Ibiza — all on one platform, handled by local experts.',
   'Buche Clubtickets, Privatboote, Boat-Partys, VIP-Tische und Formentera-Trips auf Ibiza — alles auf einer Plattform, organisiert von lokalen Experten.',
   'Reserva entradas a clubs, barcos privados, boat parties, mesas VIP y excursiones a Formentera en Ibiza — todo en una plataforma, con expertos locales.',
-  'Réservez billets de clubs, bateaux privés, boat parties, tables VIP et excursions à Formentera à Ibiza — le tout sur une seule plateforme.',
+  'Réservez billets de clubs, bateaux privés, boat parties, tables VIP et excursions à Formentera à Ibiza — une seule plateforme, gérée par des experts locaux.',
 )
 
 export const SEO_PAGES: Record<string, Copy> = {
@@ -303,47 +305,6 @@ const FALLBACK_DESC: Record<Locale, (name: string) => string> = {
 }
 
 /**
- * A true sentence used to bring a too-short meta description up to length.
- *
- * Google truncates a description around 155–160 characters, but a description
- * far UNDER that wastes the space — and hundreds of pages here were generating
- * 90-to-110-character descriptions from a name plus a generic tail, which is
- * the single largest category of on-page problem on this site.
- *
- * Everything here has to be true of every page it can land on, because it lands
- * on all of them. It describes how this business actually works — a local team,
- * confirmation over WhatsApp before booking — and claims nothing about the
- * specific venue, boat or event the page is about. Do not add a figure, a
- * promise or a superlative to these strings: they cannot be verified per page.
- */
-const DESC_TAIL: Record<Locale, string> = {
-  nl: 'Ons team woont op Ibiza en bevestigt data, prijzen en beschikbaarheid via WhatsApp voordat je boekt.',
-  en: 'Our team lives on Ibiza and confirms dates, prices and availability over WhatsApp before you book.',
-  de: 'Unser Team lebt auf Ibiza und bestätigt Termine, Preise und Verfügbarkeit per WhatsApp vor der Buchung.',
-  es: 'Nuestro equipo vive en Ibiza y confirma fechas, precios y disponibilidad por WhatsApp antes de reservar.',
-  fr: 'Notre équipe vit à Ibiza et confirme dates, prix et disponibilités par WhatsApp avant votre réservation.',
-}
-
-/** Google's useful range. Below the minimum the snippet wastes space; above the
- *  maximum it gets cut off mid-sentence in the results. */
-const DESC_MIN = 140
-const DESC_MAX = 158
-
-/**
- * Bring a description into the 140–158 range: pad a short one with DESC_TAIL,
- * trim a long one at a word boundary. Never returns something outside the range
- * unless the tail itself cannot close the gap, which it can for any input.
- */
-export function fitDescription(text: string, locale: Locale): string {
-  let out = (text || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
-  if (out.length < DESC_MIN) {
-    const tail = DESC_TAIL[locale]
-    out = out ? `${out.replace(/[\s.]+$/, '')}. ${tail}` : tail
-  }
-  return truncateAtWord(out, DESC_MAX)
-}
-
-/**
  * A page title that still fits once the layout appends " | Ibiza mi vida".
  *
  * The root layout wraps every title in `%s | Ibiza mi vida`, which is 16
@@ -382,19 +343,6 @@ export function staticMetadata(localeRaw: string, path: string, fallbackName?: s
  * Full Metadata for a data-driven detail page (a specific venue/event/activity).
  * @param path  the full locale-agnostic path, e.g. `activities/${slug}`
  */
-/**
- * Trim to a length without breaking a word, and without leaving dangling
- * punctuation. Falls back to a hard cut only if the text has no spaces at all.
- */
-export function truncateAtWord(text: string, max: number): string {
-  const t = text.trim()
-  if (t.length <= max) return t
-  const cut = t.slice(0, max)
-  const lastSpace = cut.lastIndexOf(' ')
-  const base = lastSpace > max * 0.5 ? cut.slice(0, lastSpace) : cut
-  return base.replace(/[\s,;:.\-–—]+$/, '') + '…'
-}
-
 export function detailMetadata(
   localeRaw: string,
   path: string,
@@ -407,10 +355,40 @@ export function detailMetadata(
   // Prefer the decorated title, fall back to the bare name when the decoration
   // is what pushes it over the limit — losing " — Ibiza" costs nothing, losing
   // half the event name costs the reader the thing they searched for.
-  const decorated = `${clean}${opts.suffix ? ` ${opts.suffix}` : ' — Ibiza'}`
-  const title = fitTitle(decorated.length <= TITLE_MAX - BRAND_SUFFIX_LENGTH ? decorated : clean)
+  //
+  // Behalve wanneer de aanroeper zélf een suffix meegeeft. Die is er om déze
+  // route te onderscheiden van een andere met dezelfde naam, en dan is hij niet
+  // gratis om te laten vallen — hij is het enige verschil. Dat ging hier mis:
+  // de ClubTickets-feed voert "San Antonio - Cala Salada ferry boat" zowel als
+  // artiest als als event op, allebei 35 tekens, dus bij allebei viel de
+  // decoratie weg en hielden we twee eigen URL's over met exact dezelfde titel
+  // — precies wat `check:onpage` afvangt en wat Google laat kiezen welke van de
+  // twee hij weggooit. Is er een expliciete suffix, dan wijkt de naam.
+  const suffix = opts.suffix ? ` ${opts.suffix}` : ' — Ibiza'
+  const room = TITLE_MAX - BRAND_SUFFIX_LENGTH
+  let title: string
+  if (`${clean}${suffix}`.length <= room) {
+    title = `${clean}${suffix}`
+  } else if (opts.suffix) {
+    // -1 voor het beletselteken dat truncateAtWord erachter zet. De ondergrens
+    // houdt een onleesbaar restje tegen: is er voor de naam minder dan twaalf
+    // tekens over, dan zegt de suffix meer dan de snipper ervoor en valt hij
+    // alsnog weg.
+    const forName = room - suffix.length - 1
+    title = forName >= 12 ? `${truncateAtWord(clean, forName)}${suffix}` : fitTitle(clean)
+  } else {
+    title = fitTitle(clean)
+  }
 
-  const rawDesc = (opts.description || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+  const schoon = (opts.description || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+  // Een "omschrijving" zonder één letter of cijfer is er geen. De feed levert
+  // voor een paar venues letterlijk `<p>-</p>` en `<p>.<br></p>`; die vielen
+  // hier door als tekst, waarna er alleen nog de generieke aanvulzinnen
+  // overbleven — en dus twee verschillende URL's met exact dezelfde meta
+  // description. Zo'n pagina hoort de terugval met zijn eigen naam te krijgen.
+  // Geen \p{L}: het tsconfig-target laat de u-vlag niet toe. Een bereik dat de
+  // vijf talen van deze site dekt (incl. accenten en ñ/ü) volstaat hier.
+  const rawDesc = /[0-9A-Za-z\u00C0-\u024F]/.test(schoon) ? schoon : ''
   // Never cut mid-word. The old `.slice(0, 160)` produced descriptions ending
   // in fragments like "Met de gr", which is what Google actually printed in the
   // results — and a snippet that stops mid-word is one nobody clicks.

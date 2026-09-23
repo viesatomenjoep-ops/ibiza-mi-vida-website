@@ -11,7 +11,7 @@ import {
   KICKER, TITLE, META_TITLE, metaDescription, answer,
   H_VENUES, H_CATEGORIES, H_NOT_INCLUDED, H_METHOD,
   TH_VENUE, TH_TYPICAL, TH_RANGE, TH_DATES,
-  CATEGORY_LABEL, FROM_LABEL, notIncluded, method, faqs, H_SPREAD, spread,
+  CATEGORY_LABEL, FROM_LABEL, notIncluded, method, sourceLine, faqs, H_SPREAD, spread,
   H_ALSO, alsoSee, H_CHEAPEST, cheapestCopy, CHEAPEST_GUESTLIST,
 } from '@/lib/price-page-copy'
 
@@ -79,6 +79,7 @@ export default async function IbizaPricesPage({ params }: { params: { locale: st
 
   const questions = faqs(stats, l)
   const goedkoopste = cheapestCopy(stats, l)
+  const bron = sourceLine(stats, l)
 
   return (
     <main className="bg-white text-neutral-900">
@@ -98,6 +99,7 @@ export default async function IbizaPricesPage({ params }: { params: { locale: st
         to={stats.to}
         variable="Cheapest advertised entry ticket price in EUR per club night"
         observations={stats.clubN}
+        measuredAt={stats.measuredAt}
         technique="Counted from the published agenda of an official ticketing partner; median of the lowest advertised price per date, recomputed hourly."
       />
 
@@ -112,6 +114,15 @@ export default async function IbizaPricesPage({ params }: { params: { locale: st
         <p className="mt-6 text-lg leading-relaxed text-neutral-800">
           {answer(stats, l)}
         </p>
+        {/* Herkomst naast het cijfer, niet alleen in de methodesectie zeven
+            secties lager: een extractie pakt de lead en stopt. Zie
+            sourceLine() — valt weg zodra de meetdatum ontbreekt, want een
+            gegokte datum onder een gemeten getal is erger dan geen datum. */}
+        {bron && (
+          <p className="mt-4 text-sm leading-relaxed text-neutral-600">
+            {bron}
+          </p>
+        )}
       </section>
 
       {/* ── De goedkoopste kant, als eigen kop ────────────────────────
