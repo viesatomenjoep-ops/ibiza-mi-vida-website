@@ -54,6 +54,11 @@ export type RouteKey =
   | 'dress-code'
   | 'getting-around'
   | 'concierge'
+  | 'es-vedra-trip'
+  | 'calas-trip'
+  | 'pukka-up'
+  | 'float-your-boat'
+  | 'cruise-crush'
   | 'us-hub'
   | 'us-flights'
   | 'us-requirements'
@@ -239,6 +244,40 @@ export const ROUTE_SLUGS: Record<RouteKey, SlugSet> = {
     fr: 'conciergerie-ibiza',
     es: 'conserjeria-ibiza',
   },
+  // De Es Vedrà + Formentera-dagtocht (Clubtickets-feed, venue excursiones-
+  // ibiza). Keyword-slugs, geen merknaam: mensen zoeken de tocht, niet de
+  // rederij. De ES-slug is bewust identiek aan de detail-slug in de feed —
+  // dat is gewoon hoe je dit in het Spaans zegt; het pad verschilt
+  // (/es/excursion-... vs /es/boat-trip/excursiones-ibiza/excursion-...),
+  // dus er botst niets.
+  'es-vedra-trip': {
+    en: 'es-vedra-formentera-boat-trip',
+    nl: 'boottocht-es-vedra-formentera',
+    de: 'bootstour-es-vedra-formentera',
+    fr: 'excursion-bateau-es-vedra-formentera',
+    es: 'excursion-es-vedra-formentera',
+  },
+  // Calas de Formentera-dagtocht (Ulises-venue) — keyword-slugs, zelfde
+  // rationale als es-vedra-trip.
+  'calas-trip': {
+    en: 'calas-de-formentera-boat-trip',
+    nl: 'boottocht-calas-formentera',
+    de: 'bootstour-calas-formentera',
+    fr: 'excursion-calas-formentera',
+    es: 'excursion-calas-de-formentera',
+  },
+  // Drie merkpagina's: mensen zoeken deze tochten op merknaam, in elke taal
+  // hetzelfde — zelfde rationale als 'boat-party'. Set identiek in vijf talen
+  // betekent één routemap per pagina.
+  'pukka-up': {
+    en: 'pukka-up', nl: 'pukka-up', de: 'pukka-up', fr: 'pukka-up', es: 'pukka-up',
+  },
+  'float-your-boat': {
+    en: 'float-your-boat', nl: 'float-your-boat', de: 'float-your-boat', fr: 'float-your-boat', es: 'float-your-boat',
+  },
+  'cruise-crush': {
+    en: 'cruise-crush', nl: 'cruise-crush', de: 'cruise-crush', fr: 'cruise-crush', es: 'cruise-crush',
+  },
   // Het Amerikaanse cluster. Geschreven voor één publiek en één taal; de
   // vertaalde slugs staan er alleen zodat de middleware een verkeerde
   // taalvariant naar /en kan sturen. ROUTE_LOCALES blijft ['en'] tot een
@@ -374,6 +413,17 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   // taal geschreven en niet vertaald, dus het hreflang-cluster verwijst naar
   // vijf pagina's die alle vijf renderen.
   concierge: ['en', 'nl', 'de', 'es', 'fr'],
+  // Alle vijf vanaf dag één: EsVedraTripPage + es-vedra-trip-copy.ts, één
+  // routebestand per slug. De feiten (vertrek, inbegrepen, prijzen, data)
+  // komen per taal uit de Clubtickets-feed zelf; de copy is per taal
+  // geschreven.
+  'es-vedra-trip': ['en', 'nl', 'de', 'es', 'fr'],
+  // Zelfde opzet als es-vedra-trip: TripCollectionGuide + eigen copy-module,
+  // feiten live uit de feed.
+  'calas-trip': ['en', 'nl', 'de', 'es', 'fr'],
+  'pukka-up': ['en', 'nl', 'de', 'es', 'fr'],
+  'float-your-boat': ['en', 'nl', 'de', 'es', 'fr'],
+  'cruise-crush': ['en', 'nl', 'de', 'es', 'fr'],
   'us-hub': ['en'],
   'us-flights': ['en'],
   'us-requirements': ['en'],

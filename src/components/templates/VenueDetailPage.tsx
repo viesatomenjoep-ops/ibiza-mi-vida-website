@@ -6,6 +6,7 @@ import { withDate } from '@/lib/event-date-param'
 import Image from 'next/image'
 import Link from 'next/link'
 import { cleanHtml } from '@/lib/html-utils'
+import { venueCopyFor } from '@/lib/venue-copy'
 import { VenueLocationMap } from '@/components/ui/VenueLocationMap'
 import { BackButton } from '@/components/ui/BackButton'
 import { VenueSchema } from '@/components/seo/VenueSchema'
@@ -397,7 +398,26 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
           <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-8 items-start">
             <div className="text-black text-lg leading-relaxed">
               <h2 className="text-3xl md:text-4xl font-serif font-black text-black tracking-tight mb-4">{T.aboutPrefix} {club.name}</h2>
-              <div dangerouslySetInnerHTML={{ __html: cleanDescription }} className="prose prose-lg max-w-none text-black prose-p:text-black prose-li:text-black prose-strong:text-black mb-6" />
+              {/* Redactionele override vóór de feed-description: een deel van
+                  de boot-descriptions in de dump is vervuild met CSS-restanten
+                  die cleanHtml niet kan onderscheiden van echte tekst. De
+                  override-copy is per taal geschreven en feed-gegrond — zie
+                  src/lib/venue-copy.ts. */}
+              {(() => {
+                const override = venueCopyFor(club.slug, locale)
+                if (override) {
+                  return (
+                    <div className="mb-6">
+                      {override.map((p, i) => (
+                        <p key={i} className={i > 0 ? 'mt-4' : undefined}>{p}</p>
+                      ))}
+                    </div>
+                  )
+                }
+                return (
+                  <div dangerouslySetInnerHTML={{ __html: cleanDescription }} className="prose prose-lg max-w-none text-black prose-p:text-black prose-li:text-black prose-strong:text-black mb-6" />
+                )
+              })()}
               
               <a href="https://wa.me/34657639800" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-ibiza-green text-white font-bold text-sm px-6 py-3 rounded-full hover:brightness-95 transition-all">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2z"/></svg>
