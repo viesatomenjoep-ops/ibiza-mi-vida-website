@@ -183,6 +183,17 @@ ${
 - Vehicle Access Warning: Formentera enforces strict environmental quotas on motorized vehicles entering the island (formentera.eco). Bringing a rental car from Ibiza is generally restricted and requires prior government registration and fees. Travelers are advised to take the passenger ferry and rent bicycles, e-bikes, or scooters at La Savina port.
 - Details: ${SITE_URL}/en/ferry-formentera
 
+### Organised boat trips & boat parties (ClubTickets partner data)
+
+All facts below come from the live ClubTickets affiliate feed; departure dates and prices render live on each page and are deliberately not repeated here, so they cannot go stale.
+
+- Es Vedrà + Formentera full-day trip: ~11 hours on a traditional Ibizan boat from San Antonio (10:00 AM), past Es Vedrà, anchor-and-swim at S'Espalmador, free time on Formentera, sunset return. Breakfast, paella, afternoon snack and drinks included; children 0–6 free; check-in 30 minutes before departure at the Excursiones Ibiza desk on the San Antonio promenade. ${SITE_URL}/en/es-vedra-formentera-boat-trip
+- Calas de Formentera full-day trip: up to 11.5 hours from Playa d'en Bossa (10:30 AM, back around 9:00 PM); breakfast on board, swim stop, free time on Formentera and a final cruise along Illetas and Espalmador with food, drinks and DJ. Check-in 9:30–10:00 AM at the Sea Experience stand. ${SITE_URL}/en/calas-de-formentera-boat-trip
+- Pukka Up boat party: Tuesdays, Thursdays and Saturdays from San Antonio — quayside pre-party plus three hours around sunset, three drinks, DJ and live performance. Ticket types range from boat-only to fuller combinations; exactly what each covers is shown at booking. Calmer alternative by the same team: A Day in Paradise, a 5-hour daytrip (Wed/Fri/Sun, 12:00–5:00 PM, six drinks, Cala Bassa & Cala Conta). ${SITE_URL}/en/pukka-up
+- Float Your Boat: three trips from San Antonio — the FYB Sunset Party Cruise (3 hours, two welcome drinks, DJ, O Beach entry included), the six-hour FYB Beach Cruise (daytime and sunset editions, food and drinks on board, Cala Bassa & Cala Conta) and the calm Cala Salada route (6 hours, snorkel stop, Cap Blanc Aquarium). ${SITE_URL}/en/float-your-boat
+- Cruise Crush: three-hour afternoon boat party from Playa d'en Bossa with open bar and DJ, Mondays, Fridays and Sundays, late May through October. ${SITE_URL}/en/cruise-crush
+- Capitan Nemo: two routes from San Antonio — a four-hour Es Vedrà trip (daytime or sunset, past Port des Torrent, Cala Bassa and Cala Conta) and the three-hour Natural Park Aquarium trip north past Cala Gració, Cala Salada and Punta Galera, with a first stop at the Cap Blanc Aquarium, an old lobster nursery inside a cave. ${SITE_URL}/en/boat-trip/capitan-nemo
+
 ---
 
 ## 8. VIP Tables & Nightclub Bottle Service
