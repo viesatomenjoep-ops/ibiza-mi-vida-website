@@ -22,19 +22,15 @@ name: Prijsmomentopname
 
 on:
   schedule:
-    # Drie keer per dag in plaats van één. De agenda verandert overdag —
-    # line-ups worden aangevuld, prijzen bewegen, avonden vallen weg — en met
-    # één run om 05:20 was alles wat je na de middag zag tot 24 uur oud.
-    #
-    # 05:20 UTC (07:20 op Ibiza): ruim na de laatste clubavond, voor het
-    # ochtendverkeer. Dit is de run die de prijsmomentopname vastlegt: één
-    # meting per dag, op een vast tijdstip, anders is de reeks niet meer
-    # vergelijkbaar.
-    - cron: '20 5 * * *'
-    # 11:20 en 17:20 UTC: alleen synchroniseren, geen prijsmeting. Zie de
-    # conditie bij de stap "Prijzen vastleggen".
-    - cron: '20 11 * * *'
-    - cron: '20 17 * * *'
+    # Eén keer per week, op Toms verzoek (2026-09-22): elke sync-commit
+    # triggert een Vercel-deploy, en drie deploys per dag was meer dan de
+    # data-versheid waard is. Maandag 05:20 UTC (07:20 op Ibiza): ruim na de
+    # laatste clubavond, vóór het ochtendverkeer. De prijsreeks wordt daarmee
+    # wekelijks in plaats van dagelijks — nog steeds vergelijkbaar (vast
+    # tijdstip), alleen grover. Afweging die erbij hoort: agenda/prijzen op de
+    # site kunnen nu tot een week oud zijn; handmatig verversen kan altijd via
+    # workflow_dispatch.
+    - cron: '20 5 * * 1'
   workflow_dispatch: {}
 
 # Nodig om de bijgewerkte data terug te committen.
@@ -78,7 +74,7 @@ jobs:
       # meetmoment. workflow_dispatch telt als ochtendrun zodat een handmatige
       # run nog steeds een meting oplevert.
       - name: Prijzen vastleggen
-        if: github.event.schedule == '20 5 * * *' || github.event_name == 'workflow_dispatch'
+        if: github.event.schedule == '20 5 * * 1' || github.event_name == 'workflow_dispatch'
         run: node scripts/price-snapshot.mjs
 
       - name: Committen als er iets veranderd is
