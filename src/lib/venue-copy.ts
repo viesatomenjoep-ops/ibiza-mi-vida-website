@@ -82,6 +82,30 @@ export const VENUE_COPY: Record<string, { paragraphs: T[] }> = {
       ),
     ],
   },
+  // Bron: feed-events excursion-es-vedra(-capitan-nemo) — 4-uurstocht van San
+  // Antonio naar Es Vedrà langs Port des Torrent, Cala Bassa en Cala Conta,
+  // als dag- én sunsetvariant — en natural-park-aquarium: 3 uur noordwaarts
+  // met als eerste stop het Cap Blanc Aquarium (oude kreeftenkwekerij in een
+  // grot met endemische soorten), daarna Cala Gració, Cala Gracioneta, Cala
+  // Salada, Cala Saladeta en Punta Galera.
+  'capitan-nemo': {
+    paragraphs: [
+      L(
+        'Capitan Nemo vaart vanuit San Antonio twee kanten op. Zuidwaarts naar Es Vedrà: een tocht van vier uur langs Port des Torrent, Cala Bassa en Cala Conta naar de bekendste rots van Ibiza — overdag of als zonsondergangsvariant. En noordwaarts met de Natural Park Aquarium-tocht: drie uur langs Cala Gració, Cala Salada en Punta Galera, met als eerste stop het Cap Blanc Aquarium, een oude kreeftenkwekerij in een grot met soorten die alleen in deze zee voorkomen.',
+        'Capitan Nemo sails two ways out of San Antonio. South to Es Vedrà: a four-hour trip past Port des Torrent, Cala Bassa and Cala Conta to Ibiza’s most iconic rock — by day or as a sunset run. And north on the Natural Park Aquarium trip: three hours past Cala Gració, Cala Salada and Punta Galera, with a first stop at the Cap Blanc Aquarium, an old lobster nursery inside a cave housing species found only in these waters.',
+        'Capitan Nemo fährt von San Antonio aus in zwei Richtungen. Südwärts nach Es Vedrà: vier Stunden vorbei an Port des Torrent, Cala Bassa und Cala Conta zum bekanntesten Felsen Ibizas — tagsüber oder als Sunset-Variante. Und nordwärts mit der Natural-Park-Aquarium-Tour: drei Stunden entlang Cala Gració, Cala Salada und Punta Galera, mit erstem Stopp am Cap-Blanc-Aquarium, einer alten Hummerzucht in einer Grotte mit Arten, die nur in diesem Meer vorkommen.',
+        'Capitan Nemo navega desde San Antonio en dos direcciones. Hacia el sur, a Es Vedrà: cuatro horas frente a Port des Torrent, Cala Bassa y Cala Conta hasta el islote más icónico de Ibiza — de día o al atardecer. Y hacia el norte con la excursión Natural Park Aquarium: tres horas por Cala Gració, Cala Salada y Punta Galera, con primera parada en el Acuario Cap Blanc, un antiguo criadero de langostas dentro de una cueva con especies únicas de este mar.',
+        'Capitan Nemo navigue depuis San Antonio dans deux directions. Vers le sud, jusqu’à Es Vedrà : quatre heures devant Port des Torrent, Cala Bassa et Cala Conta jusqu’au rocher le plus emblématique d’Ibiza — en journée ou au coucher du soleil. Et vers le nord avec la sortie Natural Park Aquarium : trois heures le long de Cala Gració, Cala Salada et Punta Galera, avec un premier arrêt à l’aquarium de Cap Blanc, une ancienne ferme à homards dans une grotte abritant des espèces propres à cette mer.',
+      ),
+      L(
+        'Welke tochten er deze week varen en wat ze kosten, zie je hieronder in de agenda.',
+        'Which trips sail this week and what they cost is in the calendar below.',
+        'Welche Touren diese Woche fahren und was sie kosten, steht unten im Kalender.',
+        'Qué salidas navegan esta semana y su precio están abajo en la agenda.',
+        'Les sorties de la semaine et leurs tarifs figurent dans l’agenda ci-dessous.',
+      ),
+    ],
+  },
 }
 
 /** De override voor een venue, of null als de feed-description gewoon goed is. */
