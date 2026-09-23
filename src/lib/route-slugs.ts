@@ -55,6 +55,10 @@ export type RouteKey =
   | 'getting-around'
   | 'concierge'
   | 'es-vedra-trip'
+  | 'calas-trip'
+  | 'pukka-up'
+  | 'float-your-boat'
+  | 'cruise-crush'
 
 type SlugSet = Record<Locale, string>
 
@@ -249,6 +253,27 @@ export const ROUTE_SLUGS: Record<RouteKey, SlugSet> = {
     fr: 'excursion-bateau-es-vedra-formentera',
     es: 'excursion-es-vedra-formentera',
   },
+  // Calas de Formentera-dagtocht (Ulises-venue) — keyword-slugs, zelfde
+  // rationale als es-vedra-trip.
+  'calas-trip': {
+    en: 'calas-de-formentera-boat-trip',
+    nl: 'boottocht-calas-formentera',
+    de: 'bootstour-calas-formentera',
+    fr: 'excursion-calas-formentera',
+    es: 'excursion-calas-de-formentera',
+  },
+  // Drie merkpagina's: mensen zoeken deze tochten op merknaam, in elke taal
+  // hetzelfde — zelfde rationale als 'boat-party'. Set identiek in vijf talen
+  // betekent één routemap per pagina.
+  'pukka-up': {
+    en: 'pukka-up', nl: 'pukka-up', de: 'pukka-up', fr: 'pukka-up', es: 'pukka-up',
+  },
+  'float-your-boat': {
+    en: 'float-your-boat', nl: 'float-your-boat', de: 'float-your-boat', fr: 'float-your-boat', es: 'float-your-boat',
+  },
+  'cruise-crush': {
+    en: 'cruise-crush', nl: 'cruise-crush', de: 'cruise-crush', fr: 'cruise-crush', es: 'cruise-crush',
+  },
 }
 
 /**
@@ -356,6 +381,12 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   // komen per taal uit de Clubtickets-feed zelf; de copy is per taal
   // geschreven.
   'es-vedra-trip': ['en', 'nl', 'de', 'es', 'fr'],
+  // Zelfde opzet als es-vedra-trip: TripCollectionGuide + eigen copy-module,
+  // feiten live uit de feed.
+  'calas-trip': ['en', 'nl', 'de', 'es', 'fr'],
+  'pukka-up': ['en', 'nl', 'de', 'es', 'fr'],
+  'float-your-boat': ['en', 'nl', 'de', 'es', 'fr'],
+  'cruise-crush': ['en', 'nl', 'de', 'es', 'fr'],
 }
 
 /** The locales a route is published in. */

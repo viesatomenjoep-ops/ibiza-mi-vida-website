@@ -149,6 +149,11 @@ const LOCALIZED_ROUTES: { key: RouteKey; priority: number; changeFrequency: Meta
   // prijzen op de pagina komen live uit de Clubtickets-feed en de agenda
   // verandert dus tussen crawls.
   { key: 'es-vedra-trip', priority: 0.7, changeFrequency: 'weekly' },
+  // De overige gap-plan-pagina's (stap 3–5), zelfde reden weekly.
+  { key: 'calas-trip', priority: 0.7, changeFrequency: 'weekly' },
+  { key: 'pukka-up', priority: 0.7, changeFrequency: 'weekly' },
+  { key: 'float-your-boat', priority: 0.7, changeFrequency: 'weekly' },
+  { key: 'cruise-crush', priority: 0.6, changeFrequency: 'weekly' },
   // BEWUST AFWEZIG: 'pacha-venue', 'amnesia-venue' en 'dc10-venue'. Die drie
   // pagina's zijn geschreven maar 404'en nog (src/lib/pending-venues.ts) tot het
   // akkoord met de clubs rond is. Een URL in de sitemap die 404't is een

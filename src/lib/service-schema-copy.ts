@@ -158,5 +158,75 @@ export const SERVICE_COPY: Record<string, ServiceCopy> = {
       'Excursion à la journée d’environ 11 heures sur un bateau traditionnel ibicenco : départ de San Antonio à 10 h, passage devant Es Vedrà, mouillage et baignade à S’Espalmador et temps libre à Formentera, retour au coucher du soleil. Petit-déjeuner, paella, goûter et boissons à bord compris.',
     ),
   },
+  // De vier entries hieronder horen bij de gap-plan-pagina's (stap 3–5); alle
+  // feiten komen uit de feed-descriptions van de bijbehorende events.
+  'calas-trip': {
+    serviceType: 'Boat tour',
+    name: L(
+      'Boottocht Calas de Formentera',
+      'Calas de Formentera boat trip',
+      'Bootstour Calas de Formentera',
+      'Excursión Calas de Formentera',
+      'Excursion Calas de Formentera',
+    ),
+    description: L(
+      'Dagtocht van maximaal 11,5 uur vanaf Playa d’en Bossa naar Formentera: ontbijt aan boord, zwemstop, vrije tijd op het eiland en een slotcruise langs Illetas en Espalmador met eten, drankjes en DJ aan boord.',
+      'Full-day trip of up to 11.5 hours from Playa d’en Bossa to Formentera: breakfast on board, a swim stop, free time on the island and a final cruise along Illetas and Espalmador with food, drinks and a DJ on board.',
+      'Ganztagestour von bis zu 11,5 Stunden ab Playa d’en Bossa nach Formentera: Frühstück an Bord, Badestopp, freie Zeit auf der Insel und eine Abschluss-Cruise entlang Illetas und Espalmador mit Essen, Getränken und DJ an Bord.',
+      'Excursión de día completo de hasta 11,5 horas desde Playa d’en Bossa a Formentera: desayuno a bordo, parada para el baño, tiempo libre en la isla y crucero final por Illetas y Espalmador con comida, bebidas y DJ a bordo.',
+      'Excursion à la journée jusqu’à 11 h 30 depuis Playa d’en Bossa vers Formentera : petit-déjeuner à bord, arrêt baignade, temps libre sur l’île et croisière finale le long d’Illetas et Espalmador avec repas, boissons et DJ à bord.',
+    ),
+  },
+  'pukka-up': {
+    serviceType: 'Boat tour',
+    name: L(
+      'Pukka Up boat party Ibiza',
+      'Pukka Up boat party Ibiza',
+      'Pukka Up Boat Party Ibiza',
+      'Pukka Up boat party Ibiza',
+      'Pukka Up boat party Ibiza',
+    ),
+    description: L(
+      'Boat party vanuit San Antonio op dinsdag, donderdag en zaterdag: pre-party aan de kade, drie uur varen rond zonsondergang, drie drankjes, DJ en live performance aan boord. Ook als rustigere daytrip (A Day in Paradise) op woensdag, vrijdag en zondag.',
+      'Boat party out of San Antonio on Tuesdays, Thursdays and Saturdays: a pre-party on the quay, three hours on the water around sunset, three drinks, a DJ and a live performance on board. Also runs as a calmer daytrip (A Day in Paradise) on Wednesdays, Fridays and Sundays.',
+      'Boat Party ab San Antonio dienstags, donnerstags und samstags: Pre-Party am Kai, drei Stunden auf dem Wasser rund um den Sonnenuntergang, drei Getränke, DJ und Live-Performance an Bord. Auch als ruhigerer Daytrip (A Day in Paradise) mittwochs, freitags und sonntags.',
+      'Boat party desde San Antonio los martes, jueves y sábados: pre-fiesta en el muelle, tres horas navegando alrededor de la puesta de sol, tres bebidas, DJ y actuación en directo a bordo. También como excursión tranquila de día (A Day in Paradise) los miércoles, viernes y domingos.',
+      'Boat party au départ de San Antonio les mardis, jeudis et samedis : pré-soirée sur le quai, trois heures en mer autour du coucher du soleil, trois boissons, DJ et live à bord. Existe aussi en sortie plus calme en journée (A Day in Paradise) les mercredis, vendredis et dimanches.',
+    ),
+  },
+  'float-your-boat': {
+    serviceType: 'Boat tour',
+    name: L(
+      'Float Your Boat Ibiza',
+      'Float Your Boat Ibiza',
+      'Float Your Boat Ibiza',
+      'Float Your Boat Ibiza',
+      'Float Your Boat Ibiza',
+    ),
+    description: L(
+      'Drie tochten vanuit San Antonio: een sunset party cruise met O Beach-entree inbegrepen, een zesuurs beach cruise langs Cala Bassa en Cala Conta met eten en drankjes aan boord, en de rustigere Cala Salada-route met snorkelstop en het Cap Blanc Aquarium.',
+      'Three trips out of San Antonio: a sunset party cruise with O Beach entry included, a six-hour beach cruise along Cala Bassa and Cala Conta with food and drinks on board, and the calmer Cala Salada route with a snorkel stop and the Cap Blanc Aquarium.',
+      'Drei Touren ab San Antonio: eine Sunset Party Cruise mit O-Beach-Eintritt, eine sechsstündige Beach Cruise entlang Cala Bassa und Cala Conta mit Essen und Getränken an Bord und die ruhigere Cala-Salada-Route mit Schnorchelstopp und dem Cap-Blanc-Aquarium.',
+      'Tres salidas desde San Antonio: una sunset party cruise con entrada a O Beach incluida, una beach cruise de seis horas por Cala Bassa y Cala Conta con comida y bebidas a bordo, y la ruta más tranquila de Cala Salada con parada de snorkel y el Acuario Cap Blanc.',
+      'Trois sorties depuis San Antonio : une sunset party cruise avec entrée à O Beach comprise, une beach cruise de six heures le long de Cala Bassa et Cala Conta avec repas et boissons à bord, et la route plus calme de Cala Salada avec arrêt snorkeling et l’aquarium de Cap Blanc.',
+    ),
+  },
+  'cruise-crush': {
+    serviceType: 'Boat tour',
+    name: L(
+      'Cruise Crush boat party Ibiza',
+      'Cruise Crush boat party Ibiza',
+      'Cruise Crush Boat Party Ibiza',
+      'Cruise Crush boat party Ibiza',
+      'Cruise Crush boat party Ibiza',
+    ),
+    description: L(
+      'Boat party van drie uur vanaf Playa d’en Bossa met open bar en DJ aan boord, op maandag, vrijdag en zondagmiddag. Seizoen: eind mei tot en met oktober.',
+      'A three-hour boat party from Playa d’en Bossa with an open bar and a DJ on board, on Monday, Friday and Sunday afternoons. Season: late May through October.',
+      'Dreistündige Boat Party ab Playa d’en Bossa mit Open Bar und DJ an Bord, montags, freitags und sonntags am Nachmittag. Saison: Ende Mai bis Ende Oktober.',
+      'Boat party de tres horas desde Playa d’en Bossa con barra libre y DJ a bordo, los lunes, viernes y domingos por la tarde. Temporada: de finales de mayo a octubre.',
+      'Boat party de trois heures depuis Playa d’en Bossa avec open bar et DJ à bord, les lundis, vendredis et dimanches après-midi. Saison : de fin mai à octobre.',
+    ),
+  },
 }
 

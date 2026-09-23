@@ -29,6 +29,10 @@ export const BREADCRUMB_LABELS: Record<string, T> = {
   'ferry-formentera': L('Ferry Formentera', 'Formentera ferry', 'Fähre Formentera', 'Ferry Formentera', 'Ferry Formentera'),
   'water-sports': L('Watersport', 'Water sports', 'Wassersport', 'Deportes acuáticos', 'Sports nautiques'),
   'es-vedra-trip': L('Es Vedrà + Formentera', 'Es Vedrà + Formentera', 'Es Vedrà + Formentera', 'Es Vedrà + Formentera', 'Es Vedrà + Formentera'),
+  'calas-trip': L('Calas de Formentera', 'Calas de Formentera', 'Calas de Formentera', 'Calas de Formentera', 'Calas de Formentera'),
+  'pukka-up': L('Pukka Up', 'Pukka Up', 'Pukka Up', 'Pukka Up', 'Pukka Up'),
+  'float-your-boat': L('Float Your Boat', 'Float Your Boat', 'Float Your Boat', 'Float Your Boat', 'Float Your Boat'),
+  'cruise-crush': L('Cruise Crush', 'Cruise Crush', 'Cruise Crush', 'Cruise Crush', 'Cruise Crush'),
   faq: L('Veelgestelde vragen', 'FAQ', 'FAQ', 'Preguntas frecuentes', 'FAQ'),
 }
 

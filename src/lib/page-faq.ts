@@ -851,5 +851,58 @@ export const PAGE_FAQ: Record<string, FaqItem[]> = {
       ),
     },
   ],
+
+  // Alle antwoorden komen uit de feed voor event excursion-calas-de-formentera
+  // (check-in, vertrek, inclusies) — zie calas-trip-copy.ts voor de bron.
+  'calas-trip': [
+    {
+      q: L(
+        'Waar vertrekt de Calas de Formentera-tocht en hoe laat moet ik inchecken?',
+        'Where does the Calas de Formentera trip leave from, and when do I check in?',
+        'Wo startet die Calas-de-Formentera-Tour und wann muss ich einchecken?',
+        '¿De dónde sale la excursión Calas de Formentera y a qué hora hago el check-in?',
+        'D’où part l’excursion Calas de Formentera et à quelle heure s’enregistrer ?',
+      ),
+      a: L(
+        'De boot vertrekt om 10:30 vanaf Playa d’en Bossa. Je checkt in tussen 9:30 en 10:00 bij de Sea Experience-balie op het vertrekpunt, waar je je voucher omruilt voor een ticket.',
+        'The boat leaves at 10:30 AM from Playa d’en Bossa. Check in between 9:30 and 10:00 AM at the Sea Experience stand at the departure point, where you exchange your voucher for a ticket.',
+        'Das Boot legt um 10:30 Uhr in Playa d’en Bossa ab. Du checkst zwischen 9:30 und 10:00 Uhr am Sea-Experience-Stand am Abfahrtspunkt ein und tauschst dort deinen Voucher gegen ein Ticket.',
+        'El barco sale a las 10:30 desde Playa d’en Bossa. Haz el check-in entre las 9:30 y las 10:00 en el mostrador de Sea Experience en el punto de salida, donde cambias tu bono por la entrada.',
+        'Le bateau part à 10 h 30 de Playa d’en Bossa. Enregistrez-vous entre 9 h 30 et 10 h au stand Sea Experience, au point de départ, où vous échangez votre bon contre un billet.',
+      ),
+    },
+    {
+      q: L(
+        'Wat is er bij deze dagtocht inbegrepen?',
+        'What is included in this day trip?',
+        'Was ist bei dieser Tagestour inbegriffen?',
+        '¿Qué incluye esta excursión de un día?',
+        'Que comprend cette excursion à la journée ?',
+      ),
+      a: L(
+        'Ontbijt aan boord op de heenweg, een zwemstop, vrije tijd op Formentera en als afsluiter een cruise langs Illetas en Espalmador met eten, drankjes en een DJ aan boord. Wat je op Formentera zelf doet tijdens de vrije tijd, is voor eigen rekening.',
+        'Breakfast on board on the way out, a swim stop, free time on Formentera, and a final cruise along Illetas and Espalmador with food, drinks and a DJ on board. Whatever you do on Formentera during the free time is at your own expense.',
+        'Frühstück an Bord auf der Hinfahrt, ein Badestopp, freie Zeit auf Formentera und zum Abschluss eine Cruise entlang Illetas und Espalmador mit Essen, Getränken und DJ an Bord. Was du auf Formentera in der freien Zeit unternimmst, zahlst du selbst.',
+        'Desayuno a bordo a la ida, parada para el baño, tiempo libre en Formentera y, para terminar, un crucero por Illetas y Espalmador con comida, bebidas y DJ a bordo. Lo que hagas en Formentera durante el tiempo libre corre de tu cuenta.',
+        'Petit-déjeuner à bord à l’aller, un arrêt baignade, du temps libre à Formentera et, pour finir, une croisière le long d’Illetas et Espalmador avec repas, boissons et DJ à bord. Ce que vous faites à Formentera pendant le temps libre reste à votre charge.',
+      ),
+    },
+    {
+      q: L(
+        'Hoe lang duurt de tocht en hoe laat ben ik terug?',
+        'How long is the trip and what time am I back?',
+        'Wie lange dauert die Tour und wann bin ich zurück?',
+        '¿Cuánto dura la excursión y a qué hora vuelvo?',
+        'Combien de temps dure l’excursion et à quelle heure suis-je de retour ?',
+      ),
+      a: L(
+        'Tot zo’n 11,5 uur: vertrek om 10:30 en terug op Ibiza rond 21:00. Het is de langste Formentera-dagtocht in ons aanbod — wie korter wil, kan naar de andere dagtrips of de ferry kijken.',
+        'Up to some 11.5 hours: departure at 10:30 AM and back on Ibiza around 9:00 PM. It is the longest Formentera day trip we list — if you want shorter, look at the other day trips or the ferry.',
+        'Bis zu rund 11,5 Stunden: Abfahrt um 10:30 Uhr, zurück auf Ibiza gegen 21:00 Uhr. Es ist der längste Formentera-Tagesausflug in unserem Angebot — wer es kürzer mag, schaut bei den anderen Tagestouren oder der Fähre.',
+        'Hasta unas 11,5 horas: salida a las 10:30 y vuelta a Ibiza sobre las 21:00. Es la excursión de día a Formentera más larga que ofrecemos — si prefieres algo más corto, mira las otras excursiones o el ferry.',
+        'Jusqu’à environ 11 h 30 : départ à 10 h 30 et retour à Ibiza vers 21 h. C’est la plus longue excursion d’une journée vers Formentera de notre sélection — pour plus court, voyez les autres sorties ou le ferry.',
+      ),
+    },
+  ],
 }
 
