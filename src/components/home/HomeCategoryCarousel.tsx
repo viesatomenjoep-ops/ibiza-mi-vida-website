@@ -19,7 +19,11 @@ type CatKey = 'clubs' | 'boats' | 'land' | 'water' | 'car' | 'tours'
  */
 const CONTENT: Record<CatKey, { href: string; slugKey?: RouteKey; title: Record<string, string>; text: Record<string, string> }> = {
   clubs: {
-    href: 'club-tickets',
+    // `calendar` en niet `club-tickets`: die laatste is sinds de hernoeming
+    // alleen nog een 308 hierheen. Vanaf de eigen homepage linken naar een
+    // omleiding kost een hop voor de bezoeker en laat linkwaarde onderweg
+    // verdampen — in alle vijf de talen, op de commercieel belangrijkste kaart.
+    href: 'calendar',
     title: { nl: 'Club Tickets Ibiza', en: 'Club Tickets Ibiza', es: 'Club Tickets Ibiza', de: 'Club Tickets Ibiza', fr: 'Club Tickets Ibiza' },
     text: {
       nl: 'De heetste clubnachten van het eiland — Hï, UNVRS, Ushuaïa, Eden, O Beach en meer. Reserveer je tickets voor de grootste dj’s van de zomer.',

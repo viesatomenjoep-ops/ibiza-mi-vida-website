@@ -146,6 +146,15 @@ const LOCALIZED_ROUTES: { key: RouteKey; priority: number; changeFrequency: Meta
   // tekst over hoe de dienst werkt en wat hij kost — verandert die, dan is dat
   // een herziening en geen wekelijkse schommeling.
   { key: 'concierge', priority: 0.7, changeFrequency: 'monthly' },
+  // Es Vedrà + Formentera-dagtocht, vijf talen. Weekly: de afvaarten en
+  // prijzen op de pagina komen live uit de Clubtickets-feed en de agenda
+  // verandert dus tussen crawls.
+  { key: 'es-vedra-trip', priority: 0.7, changeFrequency: 'weekly' },
+  // De overige gap-plan-pagina's (stap 3–5), zelfde reden weekly.
+  { key: 'calas-trip', priority: 0.7, changeFrequency: 'weekly' },
+  { key: 'pukka-up', priority: 0.7, changeFrequency: 'weekly' },
+  { key: 'float-your-boat', priority: 0.7, changeFrequency: 'weekly' },
+  { key: 'cruise-crush', priority: 0.6, changeFrequency: 'weekly' },
   // Amerikaans cluster, alleen /en. Weekly voor de vluchtenpagina: de
   // nonstop-status en de wisselkoers veranderen; monthly voor de rest.
   { key: 'us-hub', priority: 0.8, changeFrequency: 'weekly' },

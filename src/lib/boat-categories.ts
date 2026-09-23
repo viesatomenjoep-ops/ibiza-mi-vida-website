@@ -47,7 +47,7 @@ export type BoatCategory =
  */
 const PREFERRED: Record<Exclude<BoatCategory, 'private-boat-charters'>, { type: string; slugs: string[] }> = {
   'boat-party': { type: 'boat', slugs: ['pukka-up', 'float-your-boat', 'ibiza-cruise-crush'] },
-  'boat-trip': { type: 'boat', slugs: ['the-beach-hopper', 'excursiones-ibiza', 'chilli-pepper-boats'] },
+  'boat-trip': { type: 'boat', slugs: ['the-beach-hopper', 'excursiones-ibiza', 'chilli-pepper-boats', 'salvador'] },
   'shuttle-ferry': { type: 'formentera-day-trip', slugs: ['santa-eularia-ferry', 'cruceros-portmany', 'aquabus'] },
   'ferry-formentera': { type: 'formentera-day-trip', slugs: ['aquabus', 'barco-a-formentera-ulises-cat', 'balearia'] },
 }

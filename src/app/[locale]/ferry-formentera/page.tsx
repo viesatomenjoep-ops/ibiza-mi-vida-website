@@ -4,6 +4,7 @@ import { SERVICE_COPY } from '@/lib/service-schema-copy'
 import { PageFaq } from '@/components/seo/PageFaq'
 import { QuickFacts } from '@/components/water/QuickFacts'
 import { MeasuredCrossingPrices } from '@/components/water/MeasuredCrossingPrices'
+import { FeaturedTrips } from '@/components/water/FeaturedTrips'
 import { FerryOrBoat } from '@/components/water/FerryOrBoat'
 import { AuthorByline } from '@/components/seo/AuthorByline'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
@@ -98,6 +99,9 @@ export default async function Page({ params }: { params: { locale: string } }) {
         vloot. Staat direct onder de gemeten prijs, want dat is de plek waar de
         vraag "en een boot dan?" opkomt. */}
     <FerryOrBoat locale={params.locale} />
+    {/* Ná de kale overtocht en de privéboot: de dagtrips die er een dag van
+        maken (Ulises-cluster + Calas). Data live uit de feed. */}
+    <FeaturedTrips pageKey="ferry-formentera" locale={params.locale} />
     <PageFaq pageKey="ferry-formentera" locale={params.locale} />
     <AuthorByline locale={params.locale} topic="the ferry to Formentera" />
     </>

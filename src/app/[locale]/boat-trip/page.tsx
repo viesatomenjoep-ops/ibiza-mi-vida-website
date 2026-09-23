@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { ServiceSchema } from '@/components/seo/ServiceSchema'
 import { SERVICE_COPY } from '@/lib/service-schema-copy'
 import { BoatRentalPromo } from '@/components/hub/BoatRentalPromo'
+import { FeaturedTrips } from '@/components/water/FeaturedTrips'
 import { PageFaq } from '@/components/seo/PageFaq'
 import { QuickFacts } from '@/components/water/QuickFacts'
 import { AuthorByline } from '@/components/seo/AuthorByline'
@@ -81,6 +82,10 @@ export default async function Page({ params }: { params: { locale: string } }) {
         events={events}
         venues={venues}
       />
+      {/* Redactioneel uitlicht-blok: welke tochten wij zelf aanwijzen en
+          waarom — de agenda erboven behandelt alles als gelijk. Data live uit
+          de feed; zie FeaturedTrips. */}
+      <FeaturedTrips pageKey="boat-trip" locale={params.locale} />
       <BoatRentalPromo locale={params.locale} />
       <QuickFacts pageKey="boat-trip" locale={params.locale} />
       <PageFaq pageKey="boat-trip" locale={params.locale} />
