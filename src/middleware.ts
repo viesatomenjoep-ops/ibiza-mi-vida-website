@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { ROUTE_SLUGS, ROUTE_LOCALES, MERGED_INTO, findRouteBySlug } from '@/lib/route-slugs'
+import { retiredVenuePath } from '@/lib/retired-venues'
 import { LOCALES, DEFAULT_LOCALE, type Locale } from '@/lib/seo'
 
 // Hier stond een eigen kopie van de vijf taalcodes. Dat was de gevaarlijkste
@@ -110,6 +111,26 @@ function route(request: NextRequest): NextResponse | undefined {
      */
     const segments = pathname.slice(matched.length + 2).split('/').filter(Boolean)
     const first = segments[0]
+
+    /**
+     * ── Venue die uit de ClubTickets-feed is verdwenen ────────────────────
+     *
+     * De venuepagina's komen volledig uit de feed, dus een club die de partner
+     * uit zijn catalogus haalt wordt bij de eerstvolgende synchronisatie stil
+     * een 404: `getVenues()` kent de slug niet meer en de route roept
+     * `notFound()`. Die URL stond wél in de sitemap en was intern gelinkt.
+     *
+     * Hier in plaats van in de zeven routebestanden, omdat dit in één klap ook
+     * de eventpagina's eronder dekt (`/club-tickets/swag/<event>`): die zouden
+     * anders elk hun eigen 404 blijven geven. Zie retired-venues.ts.
+     */
+    if (first && segments[1]) {
+      const weg = retiredVenuePath(first, segments[1], matched as Loc)
+      if (weg) {
+        request.nextUrl.pathname = weg
+        return NextResponse.redirect(request.nextUrl, 308)
+      }
+    }
     if (first) {
       const found = findRouteBySlug(first)
       if (found) {

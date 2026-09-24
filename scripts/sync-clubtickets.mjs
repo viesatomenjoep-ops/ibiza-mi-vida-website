@@ -230,8 +230,45 @@ async function syncLocale(locale) {
     fs.mkdirSync(dir, { recursive: true });
   }
 
+  // ── Welke venues zijn er sinds de vorige synchronisatie uit de feed? ─────
+  //
+  // Dit is een stille storing: de venuepagina's worden volledig uit dit
+  // bestand opgebouwd, dus een club die de partner uit zijn catalogus haalt
+  // wordt hier gewoon overschreven en is daarna een 404 — terwijl die URL in
+  // de sitemap stond en intern gelinkt was. Op 19/20 september 2026 ging de
+  // feed van 42 naar 40 venues (Bambuku en SWAG) en niemand zag het.
+  //
+  // We lezen daarom het bestand dat we op het punt staan te overschrijven, en
+  // zeggen wat eruit valt. De omleiding zelf zet je in
+  // src/lib/retired-venues.ts; die lijst is de bedoelde vervolgstap op deze
+  // melding en niet iets wat dit script zelf kan invullen (het doel hangt af
+  // van wat voor soort venue het was).
+  const verdwenen = [];
+  if (fs.existsSync(OUTPUT_FILE)) {
+    try {
+      const vorige = JSON.parse(fs.readFileSync(OUTPUT_FILE, 'utf8'));
+      const nu = new Set(allData.venues.map((v) => v.slug).filter(Boolean));
+      for (const v of vorige.venues || []) {
+        if (v.slug && !nu.has(v.slug)) verdwenen.push(v);
+      }
+    } catch {
+      // Onleesbaar of nog niet bestaand vorig bestand: dan is er niets te
+      // vergelijken en gaat de synchronisatie gewoon door.
+    }
+  }
+
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(allData, null, 2));
   console.log(`[${locale}] Synchronization complete! Saved ${allData.venues.length} venues, ${allData.events.length} events, ${allData.dates.length} future dates, and ${allData.artists.length} artists to ${OUTPUT_FILE}`);
+
+  if (verdwenen.length) {
+    console.warn(`\n[${locale}] LET OP: ${verdwenen.length} venue(s) staan niet meer in de feed.`);
+    for (const v of verdwenen) {
+      console.warn(`  - ${v.slug}  (${v.name || 'zonder naam'}, type ${v.type?.slug || 'onbekend'})`);
+    }
+    console.warn('  Hun pagina\'s geven vanaf nu een 404 tenzij ze in');
+    console.warn('  src/lib/retired-venues.ts staan met een doelpagina. Zet ze daar');
+    console.warn('  in voordat je deze feed commit — zie de toelichting in dat bestand.\n');
+  }
 }
 
 async function runAll() {
