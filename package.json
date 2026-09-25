@@ -23,7 +23,8 @@
     "check:live": "node scripts/live-check.mjs",
     "check:fleet": "node scripts/fleet-live-check.mjs",
     "find-place-id": "node scripts/find-place-id.mjs",
-    "check:homelinks": "node scripts/home-links-check.mjs"
+    "check:homelinks": "node scripts/home-links-check.mjs",
+    "check:mainlinks": "node scripts/main-links-check.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

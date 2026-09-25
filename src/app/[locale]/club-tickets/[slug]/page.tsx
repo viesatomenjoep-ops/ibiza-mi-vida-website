@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getVenues, getAllDates } from '@/lib/clubtickets'
 import { VenueDetailPage } from '@/components/templates/VenueDetailPage'
+import { VenueNextStep } from '@/components/venues/VenueNextStep'
 import { venueMetaDescription, VENUE_TITLE_SUFFIX } from '@/lib/venue-meta'
 import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
@@ -51,11 +52,16 @@ export default async function ClubDetailPage({ params }: Props) {
   const venueDates = allDates.filter(d => d.venueSlug === venue.slug && d.date >= tonightStr)
 
   return (
-    <VenueDetailPage
-      club={venue as any}
-      allDates={venueDates as any}
-      locale={params.locale}
-      basePath="club-tickets"
-    />
+    <>
+      <VenueDetailPage
+        club={venue as any}
+        allDates={venueDates as any}
+        locale={params.locale}
+        basePath="club-tickets"
+      />
+      {/* Zonder dit blok loopt de pagina dood: binnen <main> wezen alle
+          links naar de eigen avonden van deze venue. Zie VenueNextStep. */}
+      <VenueNextStep locale={params.locale as any} typeSlug="clubbing" currentSlug={params.slug} />
+    </>
   )
 }
