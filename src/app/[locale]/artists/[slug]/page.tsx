@@ -10,6 +10,7 @@ import { eventBasePath } from '@/lib/event-path'
 import { withDate } from '@/lib/event-date-param'
 import { ibizaTonight } from '@/lib/date-label'
 import { BackButton } from '@/components/ui/BackButton'
+import { ArtistNextStep } from '@/components/artists/ArtistNextStep'
 import { detailMetadata, staticMetadata } from '@/lib/seo-pages'
 import { BreadcrumbJsonLd, homeLabel, sectionLabel } from '@/components/seo/BreadcrumbJsonLd'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
@@ -528,6 +529,11 @@ export default async function ArtistPage({ params }: Props) {
           </section>
         )}
       </div>
+
+      {/* Zonder dit blok loopt de pagina dood: binnen <main> stonden hier twee
+          uitgaande links, allebei naar het overzicht. Zie ArtistNextStep. */}
+      <ArtistNextStep locale={locale} currentSlug={params.slug} />
+
       {/* Floating Bottom Bar for mobile/desktop checkout */}
       {futureDates.length > 0 && (
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-black/10 z-50 flex items-center justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
