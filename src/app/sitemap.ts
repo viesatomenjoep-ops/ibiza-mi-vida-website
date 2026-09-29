@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next'
 import { SITE_URL, LOCALES, DEFAULT_LOCALE } from '@/lib/seo'
-import { getVenues, getAllEvents, getArtists, getDataLastUpdated, getArtistsWithUpcomingDates } from '@/lib/clubtickets'
+import { getVenues, getAllEvents, getArtists, getAllDates, getDataLastUpdated, getArtistsWithUpcomingDates } from '@/lib/clubtickets'
 import { eventBasePath } from '@/lib/event-path'
 import { publishableMonths } from '@/lib/month-pages'
 import { locations } from '@/lib/locations'
@@ -181,12 +181,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic routes — slugs are locale-agnostic, so fetch the lists once.
   try {
-    const [venues, events, artists, dataDate] = await Promise.all([
+    const [venues, events, artists, dates, dataDate] = await Promise.all([
       getVenues(DEFAULT_LOCALE),
       getAllEvents(DEFAULT_LOCALE),
       getArtists(DEFAULT_LOCALE),
+      getAllDates(DEFAULT_LOCALE),
       getDataLastUpdated(DEFAULT_LOCALE),
     ])
+
+    /**
+     * Welke events hebben nog een avond voor de boeg?
+     *
+     * De eventroute roept `notFound()` zodra `getAllDates()` niets meer voor
+     * dit event heeft, en die functie geeft alleen wat nog komt. De sitemap
+     * bood daarentegen élk event uit `getAllEvents()` aan, ook als de laatste
+     * avond allang geweest was. Die twee liepen dus uit elkaar zodra een datum
+     * passeerde, en het resultaat is de ergste soort 404: eentje die we zelf
+     * hebben ingediend. Search Console telde er 39 onder "Niet gevonden", en
+     * `/club-tickets/ibiza-rocks/nothing-new` stond er in alle vijf de talen in.
+     *
+     * De sleutel is venue + event, net als in de route: een eventslug is niet
+     * uniek over venues heen.
+     *
+     * Dit is dezelfde regel die hieronder al voor artiesten geldt. Wat er nog
+     * niet was, is dat de regel wordt afgedwongen: `npm run check:sitemap`
+     * haalt elke aangeboden URL op en faalt op alles wat geen indexeerbare 200
+     * geeft.
+     */
+    const metDatum = new Set<string>()
+    for (const d of dates) {
+      if (d.venueSlug && d.eventSlug) metDatum.add(`${d.venueSlug}|${d.eventSlug}`)
+    }
 
     // Route every venue/event through eventBasePath(): only 'clubbing' lives
     // under /club-tickets. Boats, ferries and activities have their own
@@ -203,6 +228,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const e of events) {
       const venueSlug = (e as any).venueSlug || e.venue?.slug
       if (!venueSlug || !e.slug) continue
+      // Geen avond meer te gaan, geen pagina: de route 404't hier.
+      if (!metDatum.has(`${venueSlug}|${e.slug}`)) continue
       const base = typeBySlug.get(venueSlug) || eventBasePath((e as any).venue?.type?.slug)
       routes.push(...entriesFor(`/${base}/${venueSlug}/${e.slug}`, 0.6, 'daily', dataDate))
     }

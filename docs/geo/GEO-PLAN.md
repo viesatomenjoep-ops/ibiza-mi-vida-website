@@ -271,9 +271,12 @@ Volg `docs/search-setup.md` §1 letterlijk. Kernpunten:
 ### 6.3 Bing Webmaster Tools (de route naar ChatGPT)
 
 `docs/search-setup.md` §2: importeer de site uit Search Console, sitemap komt
-mee. IndexNow staat al aan (sleutel in `public/006dbc…txt`, ping via
-`postbuild`). **Nooit** een nieuwe IndexNow-sleutel genereren in het
-Bing-dashboard — dan matcht hij niet meer met de code.
+mee. IndexNow staat al aan (actieve sleutel `a09a375d…`, als bestand in
+`public/` en als `KEY` in `scripts/indexnow-ping.mjs`, ping via `postbuild`).
+Het oudere bestand `006dbc…txt` staat er nog en blijft staan — hier stond het
+abusievelijk als de actieve sleutel, terwijl het de vorige is; zie
+`docs/search-setup.md` §3. **Nooit** een nieuwe IndexNow-sleutel genereren in
+het Bing-dashboard — dan matcht hij niet meer met de code.
 
 ### 6.4 Referentiebestand
 
