@@ -2,6 +2,9 @@
 
 import React, { useRef } from 'react'
 import { fmtShortDate } from '@/lib/date-label'
+// Eén prijsparser voor de hele site: een tweede kopie is precies hoe twee
+// pagina's uit dezelfde feed op verschillende bedragen uitkomen (CLAUDE.md).
+import { priceNumbers } from '@/lib/price-parse'
 import { withDate } from '@/lib/event-date-param'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -30,6 +33,8 @@ interface VenueLabels {
   /** Toegankelijke naam voor de carrouselpijlen — ze hebben geen zichtbare tekst. */
   prevWeek: string; nextWeek: string;
   posterFromApi: string; tickets: string; ticketsUpper: string; buyTickets: string;
+  /** Label voor de entreeprijs op een datumrij. */
+  from: string;
   allEvents: string; agendaPrefix: string;
   aboutPrefix: string; guestlistVip: string;
   practicalInfo: string; location: string; openingHours: string; atNight: string; genre: string; clubbing: string;
@@ -42,7 +47,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
     night: 'Night', daytime: 'Daytime', ibizaSpain: 'Ibiza, Spain',
     weeklyKicker: 'Weekly parties 2026', weeklyTitlePrefix: 'Regular nights at',
     prevWeek: 'Previous parties', nextWeek: 'Next parties',
-    posterFromApi: 'Poster from API', tickets: 'Tickets', ticketsUpper: 'TICKETS', buyTickets: 'Buy Tickets',
+    posterFromApi: 'Poster from API', tickets: 'Tickets', ticketsUpper: 'TICKETS', buyTickets: 'Buy Tickets', from: 'from',
     allEvents: 'All events', agendaPrefix: 'Schedule',
     aboutPrefix: 'About', guestlistVip: 'Package deals & VIP via WhatsApp',
     practicalInfo: 'Practical info', location: 'Location', openingHours: 'Opening hours', atNight: 'At night', genre: 'Genre', clubbing: 'Clubbing',
@@ -58,7 +63,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
     night: 'Nacht', daytime: 'Overdag', ibizaSpain: 'Ibiza, Spanje',
     weeklyKicker: 'Wekelijkse parties 2026', weeklyTitlePrefix: 'Vaste avonden in',
     prevWeek: 'Vorige parties', nextWeek: 'Volgende parties',
-    posterFromApi: 'Poster uit API', tickets: 'Tickets', ticketsUpper: 'TICKETS', buyTickets: 'Koop tickets',
+    posterFromApi: 'Poster uit API', tickets: 'Tickets', ticketsUpper: 'TICKETS', buyTickets: 'Koop tickets', from: 'vanaf',
     allEvents: 'Alle events', agendaPrefix: 'Agenda',
     aboutPrefix: 'Over', guestlistVip: 'Package deals & VIP via WhatsApp',
     practicalInfo: 'Praktische info', location: 'Locatie', openingHours: 'Openingstijden', atNight: "'s Nachts", genre: 'Genre', clubbing: 'Clubbing',
@@ -74,7 +79,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
     night: 'Nacht', daytime: 'Tagsüber', ibizaSpain: 'Ibiza, Spanien',
     weeklyKicker: 'Wöchentliche Partys 2026', weeklyTitlePrefix: 'Feste Abende im',
     prevWeek: 'Vorherige Partys', nextWeek: 'Nächste Partys',
-    posterFromApi: 'Poster aus API', tickets: 'Tickets', ticketsUpper: 'TICKETS', buyTickets: 'Tickets kaufen',
+    posterFromApi: 'Poster aus API', tickets: 'Tickets', ticketsUpper: 'TICKETS', buyTickets: 'Tickets kaufen', from: 'ab',
     allEvents: 'Alle Events', agendaPrefix: 'Programm',
     aboutPrefix: 'Über', guestlistVip: 'Package Deals & VIP über WhatsApp',
     practicalInfo: 'Praktische Infos', location: 'Standort', openingHours: 'Öffnungszeiten', atNight: 'Nachts', genre: 'Genre', clubbing: 'Clubbing',
@@ -90,7 +95,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
     night: 'Noche', daytime: 'De día', ibizaSpain: 'Ibiza, España',
     weeklyKicker: 'Fiestas semanales 2026', weeklyTitlePrefix: 'Noches fijas en',
     prevWeek: 'Fiestas anteriores', nextWeek: 'Fiestas siguientes',
-    posterFromApi: 'Póster de la API', tickets: 'Entradas', ticketsUpper: 'ENTRADAS', buyTickets: 'Comprar entradas',
+    posterFromApi: 'Póster de la API', tickets: 'Entradas', ticketsUpper: 'ENTRADAS', buyTickets: 'Comprar entradas', from: 'desde',
     allEvents: 'Todos los eventos', agendaPrefix: 'Agenda',
     aboutPrefix: 'Sobre', guestlistVip: 'Package deals y VIP por WhatsApp',
     practicalInfo: 'Información práctica', location: 'Ubicación', openingHours: 'Horario', atNight: 'Por la noche', genre: 'Género', clubbing: 'Clubbing',
@@ -106,7 +111,7 @@ const VENUE_I18N: Record<string, VenueLabels> = {
     night: 'Nuit', daytime: 'En journée', ibizaSpain: 'Ibiza, Espagne',
     weeklyKicker: 'Soirées hebdomadaires 2026', weeklyTitlePrefix: 'Soirées régulières au',
     prevWeek: 'Fêtes précédentes', nextWeek: 'Fêtes suivantes',
-    posterFromApi: 'Affiche via API', tickets: 'Billets', ticketsUpper: 'BILLETS', buyTickets: 'Acheter des billets',
+    posterFromApi: 'Affiche via API', tickets: 'Billets', ticketsUpper: 'BILLETS', buyTickets: 'Acheter des billets', from: 'à partir de',
     allEvents: 'Tous les événements', agendaPrefix: 'Agenda',
     aboutPrefix: 'À propos de', guestlistVip: 'Package deals & VIP via WhatsApp',
     practicalInfo: 'Infos pratiques', location: 'Emplacement', openingHours: 'Horaires', atNight: 'La nuit', genre: 'Genre', clubbing: 'Clubbing',
@@ -240,23 +245,38 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
             de sinds vanavond vaste, ondoorzichtige navigatiebalk. Zie de
             uitleg bij de hero in EventDetailPage.tsx voor het volledige
             verhaal -- zelfde oorzaak, zelfde fix. */}
-      <section className="relative mt-[var(--nav-h)] h-[340px] md:h-[400px] rounded-b-[36px] overflow-hidden bg-gradient-to-br from-[#1a2e29] to-[#2C4A42] flex items-end">
+      {/* De achtergrond is neutraal grijs en niet groen: hij is alleen zichtbaar
+          als de foto niet laadt. Stond op een groen verloop met de foto er in
+          `mix-blend-overlay` op 60% overheen -- dat is geen donkerder beeld maar
+          een groene waas dóór de foto heen, waardoor elke venue er hetzelfde en
+          vaal uitzag. De foto hoort de foto te zijn; leesbaarheid van de titel
+          regelt het verloop hieronder, dat alleen onderin zit. */}
+      <section className="relative mt-[var(--nav-h)] h-[340px] md:h-[400px] rounded-b-[36px] overflow-hidden bg-neutral-900 flex items-end">
         <Image
           src={imageUrl}
           alt={club.name}
           fill
           priority
-          className="object-cover object-center mix-blend-overlay opacity-60"
+          sizes="100vw"
+          className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#14221E]/90 via-transparent to-transparent z-10" />
+        {/* Alleen onderin, en zwart in plaats van groen: genoeg contrast voor de
+            titel zonder de bovenste helft van het beeld te dempen. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent z-10" />
         <BackButton locale={locale} fallbackHref={`/${locale}/clubs`} variant="top" />
 
         <div className="relative z-20 w-full max-w-7xl mx-auto px-4 pb-8 flex items-end gap-5 text-white">
-          <div className="w-[88px] h-[88px] rounded-[22px] bg-white/95 shrink-0 flex items-center justify-center p-2 text-velvet-obsidian text-center text-xs font-bold shadow-lg">
+          {/* Donkere chip, want `whitelogo` uit de ClubTickets-feed is letterlijk
+              een wít logo. Hier stond een witte chip met `filter invert` erop:
+              dat maakt van een wit logo een zwart logo, maar mangelt elk logo
+              dat wél kleur heeft, en de naam als terugval stond als lichte tekst
+              op wit -- precies de onleesbare combinatie op de schermafbeelding.
+              Zie de regel hierover in CLAUDE.md. */}
+          <div className="w-[88px] h-[88px] rounded-[22px] bg-black/70 ring-1 ring-white/20 shrink-0 flex items-center justify-center p-2 text-white text-center text-xs font-bold leading-tight shadow-lg backdrop-blur-sm">
             {club.whitelogo ? (
-              <Image src={club.whitelogo} alt={`${club.name} logo`} width={72} height={72} className="object-contain filter invert" />
+              <Image src={club.whitelogo} alt={`${club.name} logo`} width={72} height={72} className="object-contain" />
             ) : (
-              <span>{club.name}</span>
+              <span className="line-clamp-3">{club.name}</span>
             )}
           </div>
           <div>
@@ -369,18 +389,39 @@ export function VenueDetailPage({ club, allDates, locale, basePath }: VenueDetai
                 const eventSlug = date.ct_events?.slug || date.eventSlug || 'event';
                 const eventCover = date.ct_events?.cover || date.eventCover || date.eventLogo;
                 const eventName = date.eventName || date.name;
+                // Het eerste getal in een prijsveld is de entree; de bovenkant
+                // van het bereik is een VIP- of tafelproduct. Geen getal in de
+                // feed betekent geen prijs op de rij -- nooit een placeholder.
+                const prijzen = priceNumbers(date.prices);
+                const entree = prijzen.length ? prijzen[0] : null;
+                const lineUp = String(date.lineUp || '').trim();
                 return (
                 <Link href={withDate(`/${locale}/${basePath}/${club.slug}/${eventSlug}`, date.date)} key={i} className="bg-white rounded-2xl p-3 md:p-4 border border-black/5 flex items-center gap-4 hover:shadow-md transition-shadow group">
-                   <div className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-xl overflow-hidden bg-ibiza-mint relative">
-                     {eventCover && <Image src={eventCover} alt={eventName || 'Event'} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />}
+                   {/* self-start: een flex-kind rekt standaard mee met de
+                       hoogte van de tekst ernaast, en dan klopt de verhouding
+                       van het beeld niet meer zodra er een line-up bij staat.
+                       Zie de regel hierover in CLAUDE.md. */}
+                   <div className="w-20 h-20 md:w-28 md:h-28 self-start shrink-0 rounded-xl overflow-hidden bg-ibiza-mint relative">
+                     {eventCover && <Image src={eventCover} alt={eventName || 'Event'} fill sizes="(max-width: 768px) 80px, 112px" className="object-cover group-hover:scale-110 transition-transform duration-500" />}
                    </div>
                    <div className="flex-1 min-w-0">
                       <div className="text-neutral-500 text-xs font-bold tracking-wider uppercase mb-1">
                          {fmtShortDate(String(date.date).slice(0, 10), locale)}
                       </div>
                       <h3 className="text-lg md:text-xl font-bold truncate text-neutral-900">{eventName}</h3>
+                      {/* De line-up is één platte string uit de feed en niet te
+                          ontleden tot losse namen (CLAUDE.md); hem heel tonen is
+                          het enige eerlijke. Lang: dan afkappen op twee regels. */}
+                      {lineUp && (
+                        <p className="mt-1 line-clamp-2 text-sm leading-snug text-neutral-600">{lineUp}</p>
+                      )}
+                      {entree != null && (
+                        <p className="mt-1.5 text-sm font-bold text-neutral-900">
+                          {T.from} €{entree}
+                        </p>
+                      )}
                    </div>
-                   <div className="shrink-0 hidden md:block">
+                   <div className="shrink-0 hidden md:block self-center">
                       <button className="bg-ibiza-green text-white font-bold text-sm px-5 py-2.5 rounded-full hover:brightness-95 transition-all">
                         {T.buyTickets}
                       </button>
