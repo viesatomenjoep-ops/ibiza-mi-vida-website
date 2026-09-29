@@ -186,13 +186,39 @@ export function businessNode(locale: Locale) {
     image: `${SITE_URL}/og-default.jpg`,
     telephone: `+${WHATSAPP_NUMBER}`,
     priceRange: '€€€',
+    /**
+     * Exact het adres zoals het op het Google Bedrijfsprofiel staat.
+     *
+     * Hier stond alleen "Ibiza, Balearic Islands, ES" — geen straat, geen
+     * postcode. Voor Maps is dat niet neutraal: een zoekmachine koppelt een
+     * website aan een bedrijfsvermelding onder meer op naam, adres en
+     * telefoonnummer, en een adres dat vager is dan het profiel geeft die
+     * koppeling minder houvast. De schrijfwijze volgt daarom het profiel
+     * ("Eivissa", "Illes Balears") en niet de Engelse variant die we in de
+     * lopende tekst gebruiken.
+     *
+     * Het telefoonnummer hierboven is hetzelfde nummer als op het profiel.
+     * Wijzigt er één, wijzig dan allebei: uit elkaar lopen is erger dan een
+     * ouder nummer op beide plekken.
+     */
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Ibiza',
-      addressRegion: 'Balearic Islands',
+      streetAddress: 'Carrer Josep Lluís Sert, 2',
+      addressLocality: 'Eivissa',
+      addressRegion: 'Illes Balears',
+      postalCode: '07800',
       addressCountry: 'ES',
     },
+    /**
+     * Deze coördinaten zijn het centrum van Ibiza-stad en niet de vestiging.
+     * Ze staan er nog omdat een grof maar kloppend punt beter is dan een
+     * verzonnen precies punt; vervang ze pas door de echte lengte- en
+     * breedtegraad van het profiel, nooit door een schatting uit een plus-code.
+     */
     geo: { '@type': 'GeoCoordinates', latitude: 38.9067, longitude: 1.4206 },
+    // Wijst rechtstreeks naar het Bedrijfsprofiel, in de stabiele cid-vorm die
+    // ook in sameAs staat (zie profiles.ts).
+    hasMap: 'https://maps.google.com/?cid=2584947247658109964',
     areaServed: [
       { '@type': 'Place', name: 'Ibiza, Spain' },
       { '@type': 'Place', name: 'Formentera, Spain' },
