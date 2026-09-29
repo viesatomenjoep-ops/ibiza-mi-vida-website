@@ -65,8 +65,14 @@ export interface GoogleReviewsData {
   reviews: GoogleReview[]
 }
 
-const ENDPOINT = 'https://places.googleapis.com/v1/places'
-const FIELD_MASK = 'id,displayName,rating,userRatingCount,googleMapsUri,reviews'
+/**
+ * Geëxporteerd omdat `/api/diagnose-reviews` precies hetzelfde moet vragen als
+ * de site. Die route had zijn eigen kopie van de URL en het veldmasker, en een
+ * diagnose die een ándere aanroep doet dan het ding dat je onderzoekt, kan je
+ * met goed fatsoen niets vertellen.
+ */
+export const ENDPOINT = 'https://places.googleapis.com/v1/places'
+export const FIELD_MASK = 'id,displayName,rating,userRatingCount,googleMapsUri,reviews'
 /**
  * Hoe vers het cijfer is.
  *

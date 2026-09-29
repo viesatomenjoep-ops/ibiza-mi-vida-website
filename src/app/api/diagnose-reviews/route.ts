@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 
+import { ENDPOINT, FIELD_MASK } from '@/lib/google-reviews'
+
 export const dynamic = 'force-dynamic'
 
 /**
@@ -49,16 +51,17 @@ export async function GET() {
   }
 
   try {
-    const res = await fetch(
-      `https://places.googleapis.com/v1/places/${encodeURIComponent(placeId)}`,
-      {
-        headers: {
-          'X-Goog-Api-Key': key,
-          'X-Goog-FieldMask': 'id,displayName,rating,userRatingCount,googleMapsUri,reviews',
-        },
-        cache: 'no-store',
+    // Dezelfde URL en hetzelfde veldmasker als google-reviews.ts, uit die ene
+    // bron. Deze route had er een eigen kopie van staan, en dan onderzoekt de
+    // diagnose een andere aanroep dan degene die de pagina doet -- precies de
+    // manier waarop zo'n hulpmiddel je een avond de verkeerde kant op stuurt.
+    const res = await fetch(`${ENDPOINT}/${encodeURIComponent(placeId)}`, {
+      headers: {
+        'X-Goog-Api-Key': key,
+        'X-Goog-FieldMask': FIELD_MASK,
       },
-    )
+      cache: 'no-store',
+    })
     uit.httpStatus = res.status
     const data = await res.json().catch(() => null)
 
