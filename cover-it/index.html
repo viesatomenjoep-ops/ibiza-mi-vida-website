@@ -7,7 +7,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Cover-It — krimpfolie, steigerafdekking, tenthallen en containment voor bouw en industrie. Webshop voor folie, zeilen, netten en gereedschap, plus inpakken op locatie.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600&display=swap">
 <style>
   /* ── Cover-It webshop — gebouwd op de Ibiza Mi Vida-huisstijl ─────────────
      Layout: schermvullende foto-slider als hero onder een doorzichtige balk
@@ -34,6 +34,7 @@
     --zone-4:#EEF6F8;
     --font-display:'Outfit',ui-sans-serif,system-ui,sans-serif;
     --font-body:'Inter',ui-sans-serif,system-ui,sans-serif;
+    --font-serif:'Playfair Display',Georgia,'Times New Roman',serif;
     --max:1180px;
     --nav-h:117px;
     --nav-h-min:93px;
@@ -61,6 +62,7 @@
 
   /* ── Header ── */
   .site-header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:60;color:#fff;transition:background .3s,color .3s}
+  .site-header .topbar{display:none}
   .topbar{display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 14px;font-family:var(--font-display);font-weight:700;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;line-height:1.2;text-align:center}
   .topbar svg{width:14px;height:14px;flex:none}
   .topbar .sep{opacity:.45}.topbar .star{font-size:.78rem;line-height:1}.topbar .count{opacity:.7;letter-spacing:.08em}
@@ -79,12 +81,11 @@
   .cat-card .ic,.usp-card .ic{color:var(--accent)}
   .usp-card:hover .ic{background:var(--accent)!important}
   .gfilter button[aria-pressed="true"]{background:var(--accent)!important;border-color:var(--accent)!important}
-  .hero-dots button[aria-current="true"]{background:var(--accent)!important}
-  .nav-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
-  .nav-links{display:none;gap:30px;align-items:center}
-  .nav-links a{font-family:var(--font-display);text-transform:uppercase;letter-spacing:.26em;font-size:.82rem;font-weight:700;padding:6px 0;border-bottom:1px solid transparent;transition:border-color .3s}
-  .nav-links a:hover{border-bottom-color:currentColor}
-  @media(min-width:1100px){.nav-links{display:flex}}
+
+  .nav-links{display:none;gap:30px;align-items:center;margin-right:14px}
+  .nav-links a{font-family:var(--font-body);text-transform:uppercase;letter-spacing:.08em;font-size:13px;font-weight:500;padding:8px 0;border-bottom:2px solid transparent;transition:border-color .3s,color .3s}
+  .nav-links a:hover,.nav-links a[aria-current="page"]{border-bottom-color:var(--accent)}
+  @media(min-width:1000px){.nav-links{display:flex}}
   .nav-right{display:flex;align-items:center;gap:10px}
   .lang{display:inline-flex;align-items:center;gap:4px;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.28);color:rgba(255,255,255,.9);border-radius:999px;padding:5px 10px;font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;transition:all .3s}
   .icon-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;position:relative;transition:background .2s}
@@ -98,37 +99,38 @@
   .site-header.is-solid .lang{border-color:rgba(0,0,0,.25);color:rgba(0,0,0,.65);background:rgba(255,255,255,.9)}
   .site-header.is-solid .icon-btn:hover{background:rgba(0,0,0,.05)}
   .site-header.is-solid .nav-inner{min-height:76px}
+  .nav-inner{min-height:90px}
   .partner-bottom{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;justify-content:center;background:#fff;color:var(--ink);border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(0,0,0,.06);padding-bottom:env(safe-area-inset-bottom,0px);pointer-events:none}
   .partner-bottom.is-on{display:flex}
 
-  /* ── Hero: fotoslider ── */
-  .hero{position:relative;height:100svh;min-height:600px;overflow:hidden;background:#0A0A0A;color:#fff}
-  .hero-slides{position:absolute;inset:0}
+  /* ── Hero: tekst links, fotoslider rechts die in het donker wegvloeit ── */
+  .hero{position:relative;min-height:clamp(600px,88vh,800px);overflow:hidden;background:#15181a;color:#fff;display:flex;align-items:center}
+  .hero-slides{position:absolute;top:0;right:0;bottom:0;width:62%;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 38%,#000 100%);mask-image:linear-gradient(90deg,transparent 0,#000 38%,#000 100%)}
+  @media(max-width:900px){.hero-slides{width:100%;-webkit-mask-image:none;mask-image:none;opacity:.45}}
   .hslide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease}
   .hslide.on{opacity:1}
-  .hslide img,.hslide .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.62) contrast(1.35) saturate(1.05)}
+  .hslide img,.hslide .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.8) contrast(1.15) saturate(1.05)}
   .hslide img[data-missing]{display:none}
   .hslide.on img,.hslide.on .ph{animation:kb 9s ease-out forwards}
-  @keyframes kb{from{transform:scale(1)}to{transform:scale(1.08)}}
-  .hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.15) 50%,rgba(0,0,0,.7))}
-  .hero-topshade{position:absolute;left:0;right:0;top:0;height:calc(var(--nav-h) + 40px);background:linear-gradient(180deg,rgba(0,0,0,.7),transparent)}
-  .hero-in{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12vh max(24px,env(safe-area-inset-left,0px)) 17vh max(24px,env(safe-area-inset-right,0px))}
-  .hero h1{font-weight:900;text-transform:uppercase;letter-spacing:.06em;line-height:1.05;font-size:clamp(1.9rem,5.6vw,4rem);text-shadow:0 2px 24px rgba(0,0,0,.6);max-width:18ch}
-  .hero-sub{position:relative;height:3.2em;margin-top:1rem;font-family:var(--font-display);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:clamp(.72rem,1.6vw,.95rem);color:rgba(255,255,255,.92);text-shadow:0 1px 10px rgba(0,0,0,.8);max-width:46ch}
-  .hero-sub span{position:absolute;left:0;right:0;top:0;opacity:0;transition:opacity 1.1s ease}
-  .hero-sub span.on{opacity:1}
-  .hero-cta{margin-top:2.4rem;display:inline-flex;align-items:center;gap:.5rem;border-radius:999px;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.1);padding:.9rem 2rem;font-family:var(--font-display);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.25em;color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 0 18px 1px rgba(0,0,0,.55),inset 0 0 12px rgba(0,0,0,.25);text-shadow:0 0 10px rgba(0,0,0,.85);transition:all .25s}
-  .hero-cta:hover{background:#fff;color:var(--black);border-color:#fff;text-shadow:none}
-  .rating{margin-top:1.1rem;display:inline-flex;align-items:center;gap:.5rem;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.95);text-shadow:0 1px 8px rgba(0,0,0,.8)}
-  .rating .stars{letter-spacing:.1em;color:#FFD166;font-size:14px}
-  .hero-tiles{display:none;margin-top:1.5rem;width:100%;max-width:42rem;grid-template-columns:repeat(4,1fr);gap:.5rem}
-  @media(min-width:768px){.hero-tiles{display:grid}}
-  .hero-tiles a{display:flex;min-height:52px;align-items:center;justify-content:center;border-radius:16px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.2);padding:.6rem .5rem;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;line-height:1.2;color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 10px 30px -10px rgba(0,0,0,.5);text-shadow:0 1px 4px rgba(0,0,0,.65);transition:all .2s;text-align:center}
-  .hero-tiles a:hover{border-color:rgba(255,255,255,.7);background:rgba(255,255,255,.35);transform:scale(1.02)}
-  .hero-dots{position:absolute;right:max(20px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);z-index:15;display:none;flex-direction:column;gap:8px}
-  @media(min-width:900px){.hero-dots{display:flex}}
-  .hero-dots button{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);border:1px solid rgba(0,0,0,.3);transition:all .3s}
-  .hero-dots button[aria-current="true"]{background:#fff;height:26px;border-radius:999px}
+  @keyframes kb{from{transform:scale(1)}to{transform:scale(1.07)}}
+  .hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,#15181a 0,rgba(21,24,26,.6) 45%,transparent 70%)}
+  @media(max-width:900px){.hero-shade{background:linear-gradient(180deg,rgba(21,24,26,.6),rgba(21,24,26,.85))}}
+  .hero-topshade{position:absolute;left:0;right:0;top:0;height:calc(var(--nav-h) + 20px);background:linear-gradient(180deg,rgba(0,0,0,.55),transparent)}
+  .hero-in{position:relative;z-index:10;width:100%;max-width:var(--max);margin:0 auto;padding:calc(var(--nav-h) + 24px) max(24px,env(safe-area-inset-right,0px)) 96px max(24px,env(safe-area-inset-left,0px))}
+  .hero-copy{max-width:600px}
+  .hero h1{font-family:var(--font-serif);font-weight:400;text-transform:none;letter-spacing:0;line-height:1.12;font-size:clamp(1.5rem,2.6vw,2.1rem);text-wrap:balance}
+  .hero h1 .pre{display:block}
+  .hero h1 .big{display:block;font-size:clamp(3.2rem,8vw,6.4rem);line-height:.98;letter-spacing:-.02em;margin-top:.1em;font-weight:400}
+  .hero-sub{margin-top:1.4rem;max-width:520px;font-size:14px;line-height:1.55;color:rgba(255,255,255,.82)}
+  .hero-cta{margin-top:2rem;display:inline-flex;align-items:center;gap:.5rem;border-radius:3px;background:var(--accent);padding:.85rem 1.4rem;font-family:var(--font-body);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#fff;transition:background .25s,transform .2s}
+  .hero-cta:hover{background:#155cb8;transform:translateY(-1px)}
+  .rating{display:none}
+  .hero-tiles{display:none!important}
+  .hero-dots{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:15;display:flex;gap:8px}
+  .hero-dots button{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.4);transition:all .3s}
+  .hero-dots button[aria-current="true"]{background:var(--accent)}
+  .live{display:none}
   .live{position:absolute;left:0;right:0;bottom:0;z-index:20;padding-bottom:max(10px,env(safe-area-inset-bottom,0px));background:linear-gradient(0deg,rgba(0,0,0,.8),rgba(0,0,0,.55) 60%,transparent);padding-top:2rem}
   .live-legend{display:flex;justify-content:center;gap:1.2rem;font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:.6rem;flex-wrap:wrap;padding:0 16px}
   .live-legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
@@ -154,9 +156,12 @@
   .cat-card small{font-size:12px;color:var(--muted)}
 
   /* ── Rails & productkaarten ── */
-  .white-rail{background:#fff;padding:44px 0 36px}
+  .white-rail{background:#F4F4F2;padding:64px 0 48px}
+  .services-head{text-align:center;max-width:640px;margin:0 auto 34px}
+  .services-head h2{font-family:var(--font-serif);font-weight:400;font-size:clamp(2rem,4vw,2.6rem);letter-spacing:0;color:#2a2a2a}
+  .services-head p{margin-top:10px;font-size:13px;color:#555;line-height:1.6}
   .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
-  .sec-head h2{font-size:clamp(1.625rem,3vw,2rem);font-weight:900;letter-spacing:-.02em}
+  .sec-head h2{font-family:var(--font-serif);font-weight:400;font-size:clamp(1.8rem,3.2vw,2.4rem);letter-spacing:0}
   .rail{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 12px)/2);gap:12px;overflow-x:auto;padding:4px 2px 18px;scrollbar-width:none;scroll-snap-type:x mandatory;cursor:grab}
   .rail::-webkit-scrollbar{display:none}
   @media(min-width:768px){.rail{grid-auto-columns:calc((100% - 2*16px)/3);gap:16px}}
@@ -453,8 +458,8 @@
         <svg class="logo" role="img" aria-label="Cover-It BV"><use href="#logo"/></svg>
         <span class="brand-sub">COVER-PLAST KRIMPFOLIE · TAPES · BRANDERS · ZIPPERDOORS</span>
       </a>
-      <div class="nav-center"><div class="nav-links"><a href="#zone-folie">Producten</a><a href="#galerij">Foto galerij</a><a href="#certificaten">Certificaten</a><a href="#info">Info</a><a href="#offerte">Contact</a></div></div>
       <div class="nav-right">
+        <div class="nav-links"><a href="#top" aria-current="page">Home</a><a href="#info">Info</a><a href="#zone-folie">Producten</a><a href="#certificaten">Certificaten</a><a href="#galerij">Foto galerij</a><a href="#offerte">Contact</a></div>
         <button class="lang" type="button" aria-label="Taal: Nederlands">NL <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg></button>
         <button class="icon-btn" type="button" id="cartBtn" aria-label="Winkelmand openen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 14H5L6 7Z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg><span class="cart-count" id="cartCount" hidden>0</span></button>
         <button class="icon-btn" type="button" id="menuBtn" aria-label="Menu openen" aria-expanded="false"><span class="burger-lines"><span></span><span></span><span></span></span></button>
@@ -470,18 +475,14 @@
     <div class="hero-slides" id="heroSlides" aria-hidden="true"></div>
     <div class="hero-shade" aria-hidden="true"></div>
     <div class="hero-topshade" aria-hidden="true"></div>
-    <div class="hero-dots" id="heroDots" role="tablist" aria-label="Herofoto's"></div>
     <div class="hero-in">
-      <h1>Elke constructie, weersdicht ingepakt.</h1>
-      <p class="hero-sub" aria-live="polite">
-        <span class="on">Cover-Plast krimpfolie in 250, 300 en 350 µm — standaard of brandvrij, altijd uv-beschermend.</span>
-        <span>Renovatie, industrie, maritiem, transport, asbestverwijdering, tenten, evenementen.</span>
-        <span>Tapes, clips, klittenband, branders en zipperdoors: alles voor de montage, uit één hand.</span>
-      </p>
-      <a href="#zone-folie" class="hero-cta">Bekijk de krimpfolie</a>
-      <div class="rating" aria-label="Google-beoordeling 5,0 van 5"><span class="stars" aria-hidden="true">★★★★★</span> 5,0 op Google</div>
-      <nav class="hero-tiles" aria-label="Categorieën"><a href="#zone-folie">Standaard folie</a><a href="#zone-brandvrij">Brandvrije folie</a><a href="#zone-tools">Toebehoren</a><a href="#galerij">Foto galerij</a></nav>
+      <div class="hero-copy">
+        <h1><span class="pre">Cover-Plast krimpfolie voor</span><span class="pre">bouw, industrie en maritiem:</span><span class="big">weersdicht ingepakt</span></h1>
+        <p class="hero-sub">Krimpfolie in 250, 300 en 350 µm, standaard of brandvrij, altijd uv-beschermend. Met de tapes, clips, klittenband, branders en zipperdoors voor de montage, uit één hand.</p>
+        <a href="#zone-folie" class="hero-cta">Bekijk de producten</a>
+      </div>
     </div>
+    <div class="hero-dots" id="heroDots" role="tablist" aria-label="Herofoto's"></div>
     <div class="live" aria-label="Lopende projecten">
       <div class="live-legend"><span><i class="dot-green"></i>Opgeleverd deze week</span><span><i class="dot-amber"></i>In uitvoering</span><span><i class="dot-blue"></i>Ingepland</span></div>
       <div class="marquee"><div class="marquee-track" id="liveTrack"></div></div>
@@ -492,7 +493,7 @@
 
   <section class="white-rail" id="bestsellers">
     <div class="wrap">
-      <div class="sec-head"><div><span class="kicker">Webshop · deze week</span><h2 style="margin-top:10px">Meest besteld door aannemers</h2></div><a href="#galerij" class="pill pill--ghost">Foto galerij →</a></div>
+      <div class="services-head"><h2>Onze producten</h2><p>Cover-Plast krimpfolie in drie diktes en vier rolmaten, standaard of brandvrij, plus alles voor de montage. Hieronder wat aannemers deze week het meest bestellen.</p></div>
       <div class="rail" data-rail="best"></div>
     </div>
   </section>
@@ -803,7 +804,6 @@
     const start=()=>{if(reduced)return;stop();timer=setInterval(()=>go(i+1),6500)};const stop=()=>clearInterval(timer);
     db.forEach((b,n)=>b.addEventListener('click',()=>{go(n);start()}));
     document.addEventListener('visibilitychange',()=>document.hidden?stop():start());start();
-    const lines=$$('.hero-sub span');let li=0;if(!reduced)setInterval(()=>{lines[li].classList.remove('on');li=(li+1)%lines.length;lines[li].classList.add('on')},4200);
   })();
 
   /* Marquees */
