@@ -32,10 +32,9 @@ pas ze aan waar een foto iets anders toont dan het bijschrift zegt.
 ## Wat nog echt moet worden vóór livegang
 
 - **Prijzen**: staan bewust niet op de site; alle producten gaan via de offertemand.
-- **Afrekenen**: de winkelmand werkt volledig client-side (localStorage) en
-  plaatst geen echte bestelling. Koppel `#placeOrder` aan een betaalprovider
-  (Mollie is in België gangbaar: Bancontact, iDEAL, kaart) of aan een
-  bestelformulier dat mailt.
+- **Offertemand**: werkt volledig client-side (localStorage) en verstuurt nog
+  niets. Koppel `#placeOrder` aan een formulierdienst of mailserver zodat de
+  aanvraag met de gekozen producten bij Cover-It binnenkomt.
 - **Formulieren**: het aanvraagformulier (`#customForm`) verstuurt nog niets;
   koppel het aan Formspree, Vercel Functions of uw mailserver.
 - **Reviews**: de drie klantquotes en het Google-cijfer zijn voorbeeldtekst.
