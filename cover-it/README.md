@@ -31,9 +31,7 @@ pas ze aan waar een foto iets anders toont dan het bijschrift zegt.
 
 ## Wat nog echt moet worden vóór livegang
 
-- **Prijzen**: de bedragen in `PRODUCTS` zijn richtprijzen als plaatshouder.
-  Vervang ze door de prijslijst (excl. btw) — of zet ze op `null` en verander
-  de knop in "Offerte aanvragen" als er geen vaste webshopprijzen zijn.
+- **Prijzen**: staan bewust niet op de site; alle producten gaan via de offertemand.
 - **Afrekenen**: de winkelmand werkt volledig client-side (localStorage) en
   plaatst geen echte bestelling. Koppel `#placeOrder` aan een betaalprovider
   (Mollie is in België gangbaar: Bancontact, iDEAL, kaart) of aan een
