@@ -27,7 +27,7 @@ locales `en · nl · de · es · fr` met `en` als default en `x-default`.
 | Boot-slugs per taal | `/boat-rental-ibiza`, `/boot-huren-ibiza`, `/boot-mieten-ibiza`, `/location-bateau-ibiza`, `/alquiler-barco-ibiza` — **alle vijf 308 → `/boats`** |
 | Formentera | `/ferry-formentera(/[slug]/[eventSlug])`, `/shuttle-ferry(/…)` |
 | Activiteiten | `/activities(/…)`, `/tours(/…)`, `/water-sports(/…)`, `/activities-calendar`, `/jet-ski-rental-ibiza` |
-| Auto | `/car-rental-ibiza` (+ nl/de/fr/es-slugs), `/car-rental-ibiza-airport`, `/convertible-car-rental-ibiza`, `/wiber-car-rental-ibiza` |
+| Auto | `/car-rental-ibiza` (+ nl/de/fr/es-slugs), `/car-rental-ibiza-airport`, `/convertible-car-rental-ibiza` |
 | Redactioneel | `/tips`, `/ibiza-tips` (redirect), `/ibiza-prices`, `/ibiza-season`, `/locations`, `/locations/[slug]`, `/beach-clubs`, `/faq`, `/about-us`, `/contact`, `/blog` |
 | Overig | `/deals-of-the-day`, `/free-discount-ibiza`, `/restaurants` (404't bewust), `/admin`, `/m` (app-shell), `/legal`, `/privacy-policy`, `/terms-&-conditions` (noindex) |
 

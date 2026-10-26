@@ -45,17 +45,59 @@
   /* Het enige accent dat op alle vier de sectietinten leesbaar blijft. */
   --imv-ink:#141414;
 
-  /* ── Sectietinten Homepage (Alternerend Ritme: WCAG AAA) ──
-        Vanaf "Vanavond op Ibiza" (zuiver wit #FFFFFF):
-        1. Events & Tickets: warm albast / ivoor (#FAF8F5, dezelfde tint als Populaire clubs)
-        2. Private Boat Rental: iets lichter (frisse zeenevel / marine-ijs #F0F5F8)
-        3. On the land activities: iets donkerder (Balearisch kalkzandsteen #ECE6DC)
-        4. On the water activities: iets lichter (kristalhelder baai-aqua #EEF6F8)
-        Alle teksten houden >14:1 tot >18:1 contrast met donkere inkt #141414. */
-  --zone-bg-events:#FAF8F5;         /* warm albast / ivoor (dezelfde tint als Populaire clubs) */
-  --zone-bg-boats:#F0F5F8;          /* zachte maritieme zeenevel: contrast 17.18:1 (AAA) */
-  --zone-bg-island:#ECE6DC;         /* Balearisch warm kalkzand: contrast 13.82:1 (AAA) */
-  --zone-bg-water:#EEF6F8;          /* kristalhelder baai-aqua: contrast 16.94:1 (AAA) */
+  /* ── Secties zijn wit; de kleur zit in de balk ertussen ───────────────
+     Hier heeft een warme trap gestaan (bone, zand, klei) om de secties uit
+     elkaar te houden. Die is er op verzoek van de eigenaar uit: beige leest
+     als een vuiltje op wit, niet als een keuze. Het onderscheid komt nu van
+     een gekleurde scheidingsbalk tussen de secties, en dat werkt beter dan
+     een tint kón werken -- een balk mag verzadigd zijn omdat er geen tekst
+     op staat, een sectieachtergrond nooit.
+
+     Twee vlakken dus, en dat zijn de énige achtergronden die een sectie mag
+     dragen. Doorgemeten tegen inkt #141414 (AA vraagt 4,5 voor tekst):
+
+         #FFFFFF  wit        18,09:1
+         #0E0D0C  espresso    1,32:1  -> draagt wit (18,67:1), nooit inkt
+
+     Espresso verdraagt géén donkere tekst. Zet je hem als sectieachtergrond,
+     dan gaat de tekst mee naar wit -- er is geen tussenweg, en een donkere
+     kop op espresso is de fout die hier eerder bij de vlootprijzen is
+     gemaakt (bijna zwart op bijna zwart). */
+  --surface-white:#FFFFFF;
+  --surface-espresso:#0E0D0C;       /* donkere sectie; draagt uitsluitend wit */
+  --surface-espresso-2:#1A1917;     /* kaarten en vlakken óp espresso */
+  --line-soft:rgba(14,13,12,.10);
+  --line-soft-strong:rgba(14,13,12,.18);
+
+  /* ── De accenten: Ibiza bij zonsondergang ──
+        Vijf verzadigde kleuren, één per sectie, en ze staan UITSLUITEND in
+        de scheidingsbalken en in decoratieve streepjes. Nooit als
+        sectieachtergrond en nooit als vlak met tekst erop: koraal haalt met
+        wit maar 3,05:1 en zakt daarmee door AA. Wie hier een knop van wil
+        maken, meet eerst.
+
+        Doorgemeten met zwarte tekst (#141414), voor het geval het ooit tóch
+        een vlak met tekst wordt:
+
+            #FF5A5F koraal     6,08:1  (wit erop 3,05 -- te weinig)
+            #E0218A magenta    4,55:1  (wit erop 4,08 -- te weinig)
+            #FFB020 amber      9,97:1
+            #00C2CB turquoise  8,47:1
+            #4C4CE0 indigo     2,62:1  (wit erop 7,07 -- draagt wél wit) */
+  --accent-coral:#FF5A5F;
+  --accent-magenta:#E0218A;
+  --accent-amber:#FFB020;
+  --accent-aqua:#00C2CB;
+  --accent-indigo:#4C4CE0;
+
+  /* De vier werelden zijn nu alle vier wit. Hun identiteit zit in de balk
+     erboven, niet in de ondergrond. De variabelen blijven bestaan omdat
+     HomeZoneRail eruit leest; zet je er ooit weer een tint in, doe het dan
+     hier en niet per component. */
+  --zone-bg-events:var(--surface-white);
+  --zone-bg-boats:var(--surface-white);
+  --zone-bg-island:var(--surface-white);
+  --zone-bg-water:var(--surface-white);
 
   /* ── Diepe varianten ── */
   --imv-rose-deep:#141414;          /* diep obsidiaan */
@@ -121,6 +163,85 @@ img{max-width:100%;display:block}
 h1,h2,h3,h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;line-height:1.08;font-weight:600}
 .kicker{font-family:var(--display);font-weight:400;font-size:.78rem;letter-spacing:.42em;text-transform:uppercase;color:var(--spring)}
 .section{padding:88px 0;border-top:1px solid var(--line);position:relative;overflow:hidden}
+
+/* ── Overvloeien tussen secties ───────────────────────────────────────────
+   Een sectie met `.surface` laat de kleur van de sectie erbóven nog even
+   doorlopen in zijn eigen bovenrand. Sinds alle secties wit zijn doet dat
+   tussen twee witte vlakken niets meer; de klasse blijft staan voor de
+   overgang van en naar een donker vel, waar hij wél werk doet.
+
+   De kleur geef je mee als `--blend-from`; staat die er niet, dan rendert
+   het verloop als transparant en kost de klasse niets. */
+.surface{position:relative}
+.surface::before{
+  content:'';position:absolute;left:0;right:0;top:0;z-index:0;pointer-events:none;
+  height:clamp(72px,12vh,160px);
+  background:linear-gradient(180deg,var(--blend-from,transparent) 0%,transparent 100%);
+}
+.surface > *{position:relative;z-index:1}
+
+/* ── De scheidingsbalk ────────────────────────────────────────────────────
+   Een gekleurde band tussen twee witte secties: bovenaan een kaarsrechte
+   lijn, onderaan een golvende rand die in de volgende sectie druipt. Dat is
+   het "strakke" en het "liquid" in één vorm -- de rechte kant geeft de
+   structuur, de golf de beweging.
+
+   Drie dingen die hier bewust zo staan, en waarom:
+
+   1. Alleen `transform` beweegt, nooit een lay-out- of verfeigenschap. Een
+      translate draait op de compositor en kost de hoofddraad niets. De site
+      is hier eerder op vastgelopen: een rAF-lus in de Navbar en twee
+      marquees die per frame een transform schreven, ook buiten beeld.
+
+   2. De animatie staat standaard op `paused`. Een IntersectionObserver in
+      <SectionDivider> zet `data-run="1"` zodra de balk in beeld komt en haalt
+      hem weg als hij eruit gaat, en `visibilitychange` dekt het tabblad op de
+      achtergrond. Een oneindige animatie mag hier alleen als hij stopt zodra
+      niemand kijkt.
+
+   3. De golf is één pad dat twee keer zo breed is als de balk en precies
+      één periode opschuift. Daardoor is het einde gelijk aan het begin en
+      is er geen zichtbare sprong bij het herhalen.
+
+   Bij `prefers-reduced-motion` staat alles stil: de golf blijft een vorm,
+   en een vorm is geen beweging. */
+.section-divider{
+  position:relative;display:block;width:100%;line-height:0;
+  /* Negatieve marges aan beide kanten: de balk hóórt tussen twee secties en
+     mag geen eigen witruimte toevoegen. */
+  margin:0;overflow:hidden;
+  height:clamp(44px,7vw,92px);
+  background:var(--surface-white);
+}
+.section-divider svg{display:block;width:100%;height:100%}
+.section-divider .sd-layer{
+  animation:sd-drift linear infinite;
+  animation-play-state:paused;
+  transform-origin:0 0;
+}
+.section-divider[data-run="1"] .sd-layer{animation-play-state:running}
+/* Achterste golf trager en tegen de klok in, zodat de twee lagen uit elkaar
+   lopen en het niet als één schuivend plaatje leest. */
+.section-divider .sd-back{animation-duration:19s;animation-direction:reverse;opacity:.38}
+.section-divider .sd-front{animation-duration:12s}
+@keyframes sd-drift{from{transform:translateX(0)}to{transform:translateX(-1440px)}}
+@media (prefers-reduced-motion:reduce){
+  .section-divider .sd-layer{animation:none}
+}
+/* De balk tegen een donker vel: dan is het wit eromheen juist espresso,
+   anders staat er een witte streep tussen de balk en het vel. */
+.section-divider.on-dark{background:var(--surface-espresso)}
+
+/* Een donkere sectie als eigen vel: afgeronde bovenhoeken en een zachte
+   slagschaduw erboven, dezelfde vormtaal als de vier werelden. Zonder dit
+   knalt espresso als een rechthoekige balk tussen twee lichte vlakken.
+
+   Longhand en geen `border-radius`-afkorting: die zet alle vier de hoeken,
+   dus een vel dat bovén én onder rond moet zijn (het clubvel) verloor met
+   twee afkortingen achter elkaar zijn bovenhoeken weer -- gemeten 0px boven,
+   40px onder. */
+.surface-slab{border-top-left-radius:40px;border-top-right-radius:40px;box-shadow:0 -24px 50px -34px rgba(26,23,20,.55)}
+.surface-slab-end{border-bottom-left-radius:40px;border-bottom-right-radius:40px}
 .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:44px;flex-wrap:wrap}
 .section-head h2{font-size:clamp(1.9rem,4vw,3rem)}
 .section-head p{color:var(--grey);max-width:520px;font-size:.95rem}

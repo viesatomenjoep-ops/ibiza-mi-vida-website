@@ -57,7 +57,13 @@ export function HomeTonight({
   const dateLabel = formatDay(day, locale)
 
   return (
-    <section className="border-t border-black/5 bg-white py-10 text-neutral-900 md:py-14">
+    /* Wit. Hier stond `border-t border-black/5`: een haarlijn is een
+       scheiding, geen overgang -- en dat is nu de taak van <SectionDivider>
+       erboven. */
+    <section
+      className="py-10 text-neutral-900 md:py-14"
+      style={{ background: 'var(--surface-white)' }}
+    >
       <div className="mx-auto max-w-7xl px-4">
         <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>

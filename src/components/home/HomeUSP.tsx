@@ -69,7 +69,9 @@ const USPS: { icon: any; title: L; text: L }[] = [
 
 export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
   return (
-    <section className="bg-white text-neutral-900 py-12 md:py-16 border-t border-black/5">
+    /* Wit. Geen overvloei nodig: hierboven eindigt het donkere clubvel met
+       een afgeronde onderrand, en die ronding ís de overgang. */
+    <section className="text-neutral-900 py-12 md:py-16" style={{ background: 'var(--surface-white)' }}>
       <Reveal className="max-w-7xl mx-auto px-4">
         <div className="mb-8 text-center">
           <span className="inline-block text-[11px] font-bold uppercase tracking-[0.28em] text-neutral-900">
@@ -84,11 +86,14 @@ export function HomeUSP({ locale = 'nl' }: { locale?: string }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {USPS.map((u, i) => {
             const Icon = u.icon
+            // Wit op wit, dus de kaart komt van zijn ondergrond af met een
+            // rand en een schaduw en niet met een eigen tint. Hier stond
+            // #FAF8F5: op een witte sectie is dat geen kaart maar een vlek.
             return (
               <Reveal
                 key={i}
                 delay={i * 90}
-                className="group relative overflow-hidden rounded-[22px] border border-neutral-200/90 bg-[#FAF8F5] p-6 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-black/30 hover:bg-white hover:shadow-[0_16px_36px_-10px_rgba(0,0,0,0.1)]"
+                className="group relative overflow-hidden rounded-[22px] border border-[var(--line-soft)] bg-white p-6 shadow-[0_4px_20px_-6px_rgba(26,23,20,0.07)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--line-soft-strong)] hover:shadow-[0_18px_38px_-12px_rgba(26,23,20,0.16)]"
               >
                 {/* Zachte gloed rechtsboven, subtiel op hover */}
                 <div

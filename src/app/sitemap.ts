@@ -132,7 +132,9 @@ const LOCALIZED_ROUTES: { key: RouteKey; priority: number; changeFrequency: Meta
   { key: 'boat-with-skipper', priority: 0.8, changeFrequency: 'weekly' },
   { key: 'car-rental-airport', priority: 0.7, changeFrequency: 'weekly' },
   { key: 'convertible-rental', priority: 0.7, changeFrequency: 'weekly' },
-  { key: 'wiber-partner', priority: 0.6, changeFrequency: 'monthly' },
+  // 'wiber-partner' stond hier en is eruit: de route is nu alleen nog een 308
+  // naar het autoverhuurcluster, en een omleiding in je eigen sitemap is een
+  // tegenspraak die je zelf indient ("Pagina met omleiding" in Search Console).
   { key: 'clickandboat-partner', priority: 0.6, changeFrequency: 'monthly' },
   { key: 'airport-transfer', priority: 0.6, changeFrequency: 'monthly' },
   // Voorlopig alleen /en — localesFor() bepaalt dat, dus deze regel levert één

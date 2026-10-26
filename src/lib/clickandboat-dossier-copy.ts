@@ -371,9 +371,14 @@ export const CLICKANDBOAT_DOSSIER: DossierCopy = {
       body: L('De 15 pk-categorie en de vier wettelijke voorwaarden erop.', 'The 15 hp category and the four legal conditions on it.', 'Die 15-PS-Kategorie und die vier gesetzlichen Bedingungen.', 'La categoría de 15 CV y las cuatro condiciones legales.', "La catégorie 15 ch et les quatre conditions légales."),
     },
     {
-      key: 'wiber-partner', localized: true,
-      label: L('Wiber, onze autopartner', 'Wiber, our car partner', 'Wiber, unser Autopartner', 'Wiber, nuestro socio de coches', 'Wiber, notre partenaire voiture'),
-      body: L('Dezelfde behandeling voor het bedrijf achter onze autohuur.', 'The same treatment for the company behind our car hire.', 'Dieselbe Behandlung für das Unternehmen hinter unserer Autovermietung.', 'El mismo tratamiento para la empresa detrás de nuestro alquiler de coches.', "Le même traitement pour la société derrière notre location de voitures."),
+      // Wees naar 'wiber-partner'; dat dossier is teruggetrokken en is nu een
+      // 308. Een interne link naar een omleiding is geen 404, maar linkwaarde
+      // die door een omleiding gaat verdampt onderweg -- dus wijs rechtstreeks
+      // naar het cluster dat de intentie draagt. Label en tekst gaan mee: ze
+      // beloofden een portret van het bedrijf, en dat staat er niet meer.
+      key: 'car-rental', localized: true,
+      label: L('Auto huren op Ibiza', 'Car rental on Ibiza', 'Mietwagen auf Ibiza', 'Alquiler de coches en Ibiza', 'Location de voiture à Ibiza'),
+      body: L('Wat een huurauto kost, en wat je bij het ophalen nodig hebt.', 'What a hire car costs, and what you need at pick-up.', 'Was ein Mietwagen kostet und was du bei der Abholung brauchst.', 'Lo que cuesta un coche de alquiler y qué necesitas al recogerlo.', "Ce que coûte une voiture de location et ce qu'il faut au retrait."),
     },
   ],
   bylineTopic: L(

@@ -75,7 +75,10 @@ export function HomeFaq({ locale }: { locale?: string }) {
   if (!faqs.length) return null
 
   return (
-    <section className="border-t border-black/5 bg-white py-16 text-neutral-900">
+    <section
+      className="py-16 text-neutral-900"
+      style={{ background: 'var(--surface-white)' }}
+    >
       <FaqJsonLd faqs={faqs} />
       <div className="mx-auto max-w-3xl px-4">
         <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-neutral-900">{KICKER[l]}</p>

@@ -122,7 +122,11 @@ export function HomeTikTok({ locale = 'nl' }: { locale?: string }) {
   }, [magLaden])
 
   return (
-    <section ref={wrap} className="border-t border-black/5 bg-white py-12 text-neutral-900 md:py-16">
+    <section
+      ref={wrap}
+      className="py-12 text-neutral-900 md:py-16"
+      style={{ background: 'var(--surface-white)' }}
+    >
       <Reveal className="mx-auto max-w-7xl px-4">
         <div className="flex flex-col items-center text-center">
           <SocialBrandMark />

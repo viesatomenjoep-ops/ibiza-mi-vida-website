@@ -383,8 +383,10 @@ export const ROUTE_LOCALES: Record<RouteKey, Locale[]> = {
   'club-tickets-hub': ['en', 'nl', 'de', 'es', 'fr'],
   // Alleen nog een 301-doel naar /guestlist — niet publiceren.
   'guestlist-hub': [],
-  // Vijf talen sinds 07-09: PartnerDossierPage + wiber-dossier-copy.ts.
-  'wiber-partner': ['en', 'nl', 'de', 'es', 'fr'],
+  // Teruggetrokken op verzoek van de eigenaar: alleen nog een 308-doel naar
+  // het autoverhuurcluster. Leeg, dus niet in de sitemap en geen hreflang --
+  // de slugs blijven wél staan zodat de middleware de oude URL's herkent.
+  'wiber-partner': [],
   // Vijf talen sinds 07-09: PartnerDossierPage + clickandboat-dossier-copy.ts.
   // Eén routebestand: de slug is een eigennaam en dus in alle talen gelijk.
   'clickandboat-partner': ['en', 'nl', 'de', 'es', 'fr'],
