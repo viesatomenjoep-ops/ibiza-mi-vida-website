@@ -1,24 +1,21 @@
-import type { Metadata } from 'next'
-import { PartnerDossierPage, dossierMetadata } from '@/components/guides/PartnerDossierPage'
-import { WIBER_DOSSIER } from '@/lib/wiber-dossier-copy'
+import { permanentRedirect } from 'next/navigation'
+import { pathFor } from '@/lib/route-slugs'
 import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/lib/seo'
 
-export const revalidate = 3600
-
 /**
- * Partnerdossier Wiber — Nederlandse slug.
+ * Teruggetrokken partnerdossier. De vijf `wiber-*`-URL's zijn op verzoek van
+ * de eigenaar uit de index gehaald; het autoverhuurcluster
+ * (`/car-rental-ibiza` en vertalingen) draagt die zoekintentie al én houdt de
+ * Awin-deeplink, dus daar gaat de linkwaarde heen.
  *
- * De taal komt uit `params.locale`; de tekst staat in
- * src/lib/wiber-dossier-copy.ts en de structuur in
- * src/components/guides/PartnerDossierPage.tsx.
+ * 308 en geen 404: deze URL's stonden in de sitemap en waren intern gelinkt,
+ * dus de index en de inkomende links verhuizen mee in plaats van dood te
+ * lopen. Geen `generateMetadata` meer: die titel wordt nooit geserveerd en
+ * zou wél met de pillar concurreren op dezelfde term.
  */
-const loc = (l: string): Locale =>
-  (LOCALES as readonly string[]).includes(l) ? (l as Locale) : DEFAULT_LOCALE
-
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
-  return dossierMetadata(WIBER_DOSSIER, loc(params.locale))
-}
-
 export default function Page({ params }: { params: { locale: string } }) {
-  return <PartnerDossierPage copy={WIBER_DOSSIER} locale={loc(params.locale)} />
+  const l: Locale = (LOCALES as readonly string[]).includes(params.locale)
+    ? (params.locale as Locale)
+    : DEFAULT_LOCALE
+  permanentRedirect(pathFor('car-rental', l))
 }

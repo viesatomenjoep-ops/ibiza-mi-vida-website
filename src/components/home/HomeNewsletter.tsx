@@ -64,7 +64,14 @@ export function HomeNewsletter({ locale = 'nl', rating = null }: { locale?: stri
   const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t(PREFILL, locale))}`
 
   return (
-    <section className="relative overflow-hidden bg-obsidian py-16 text-white md:py-20">
+    /* Espresso in plaats van obsidian. Obsidian is #0B0C10, een kóél zwart
+       met blauw erin; espresso (#0E0D0C) is neutraler en draagt wit op
+       18,67:1. `surface-slab` geeft het vel afgeronde hoeken, dezelfde
+       vormtaal als de vier werelden en als het clubvel. */
+    <section
+      className="surface-slab surface-slab-end relative overflow-hidden py-16 text-white md:py-20"
+      style={{ background: 'var(--surface-espresso)' }}
+    >
       {/* Een jacht uit de eigen vloot achter de tekst. Twee lagen, en die
           tweede is niet optioneel: de foto laat de boot zien, het donkere vlak
           eroverheen houdt de ondergrond donker genoeg, ongeacht welk deel van
@@ -100,7 +107,7 @@ export function HomeNewsletter({ locale = 'nl', rating = null }: { locale?: stri
           decoding="async"
           className="h-full w-full object-cover opacity-60"
         />
-        <div className="absolute inset-0 bg-obsidian/50" />
+        <div className="absolute inset-0" style={{ background: 'rgba(26,23,20,.5)' }} />
       </div>
       <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-white/10 blur-[120px]" />
       <div className="relative mx-auto max-w-3xl px-4 text-center">

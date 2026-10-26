@@ -101,8 +101,7 @@ export function HomeActivities({
       accent="var(--imv-ink)"
       accentInk="var(--ink-on-accent)"
       kickerColor="var(--imv-ink)"
-      glow={{ x: '90%', y: '30%', color: 'rgba(20,20,20,.03)' }}
-      roundedTop
+      glow={{ x: '90%', y: '30%', color: 'rgba(120,96,64,.10)' }}
       kicker={t(L.kicker, locale)}
       title={t(L.titel, locale)}
       ctaLabel={t(L.knop, locale)}

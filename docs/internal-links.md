@@ -47,7 +47,7 @@ Pillar: **`/en/car-rental-ibiza`**
 
 | Page | Links up to | Links sideways to |
 | --- | --- | --- |
-| `car-rental-ibiza` (pillar) | — | `boat-rental-ibiza` ¹, `wiber-car-rental-ibiza`, `car-rental-ibiza-airport` |
+| `car-rental-ibiza` (pillar) | — | `boat-rental-ibiza` ¹, `car-rental-ibiza-airport` |
 | `car-rental-ibiza-airport` | `car-rental-ibiza` | `convertible-car-rental-ibiza`, `boat-rental-ibiza` ¹ |
 | `convertible-car-rental-ibiza` | `car-rental-ibiza` | `car-rental-ibiza-airport`, `boat-rental-ibiza` ¹ |
 
@@ -63,8 +63,7 @@ rather than category queries, so they do not compete with the pillars:
 
 | Page | Hangs under | Links back to |
 | --- | --- | --- |
-| `wiber-car-rental-ibiza` | `car-rental-ibiza` | the pillar, `car-rental-ibiza-airport`, `click-and-boat-ibiza` |
-| `click-and-boat-ibiza` | `boat-rental-ibiza` | the pillar, `boat-hire-ibiza-no-licence`, `wiber-car-rental-ibiza` |
+| `click-and-boat-ibiza` | `boat-rental-ibiza` | the pillar, `boat-hire-ibiza-no-licence`, `car-rental-ibiza` |
 
 They link to each other deliberately — a reader checking whether one partner is
 trustworthy is often about to check the other — and each is linked from its own

@@ -6,20 +6,6 @@ import { optImg } from '@/lib/img'
 import { addDays, dayPickerParts, fmtShortDate, monthOnlyLabel, monthYearLabel } from '@/lib/date-label'
 import { Reveal } from '@/components/ui/Reveal'
 
-/**
- * De kleur van de wereld die ná deze komt, per sectie-id.
- *
- * Vier vellen in vier tinten lazen als vier losse pagina's: elke sectie stopte
- * hard in zijn eigen kleur, en pas dan schoof het volgende vel binnen. Nu
- * gloeit de kleur van de volgende wereld al op in de onderste helft van de
- * huidige, zodat je oog weet wat er komt vóór je er bent. De laatste wereld
- * heeft geen opvolger en houdt zijn eigen kleur.
- */
-const NEXT_ZONE_BG: Record<string, string> = {
-  'zone-events': 'var(--zone-bg-boats)',
-  'zone-water': 'var(--zone-bg-island)',
-  'zone-island': 'var(--zone-bg-water)',
-}
 
 type L5 = Record<string, string>
 const T = (nl: string, en: string, de: string, es: string, fr: string): L5 => ({ nl, en, de, es, fr })
@@ -317,31 +303,22 @@ export function HomeZoneRail({
          maandnaam die afbreekt, of grotere systeemletters -- dan groeit de
          sectie gewoon mee in plaats van te overlopen.
 
-         De +48px is de overlap. Elke sectie hierna wordt met marginTop:-48px
-         over deze heen getrokken, zodat zijn afgeronde bovenkant eroverheen
-         schuift. Zonder die 48px erbij kwam die rand precies 48px boven de
-         onderkant van het scherm uit -- gemeten -- en zag je de volgende kleur
-         alsnog meekijken. Met de correctie valt de overgang net onder de
-         vouw.
+         Hier stond `+48px` opgeteld bij de hoogte, als compensatie voor de
+         overlap: elke volgende sectie werd met marginTop:-48px over deze heen
+         getrokken zodat zijn afgeronde bovenkant eroverheen schoof. Die
+         overlap is weg. De vier werelden zijn alle vier wit en worden nu
+         gescheiden door een <SectionDivider>; een sectie die 48px over de
+         balk heen schuift vreet die balk juist op. Zonder overlap is de
+         correctie ook niet meer nodig en is de sectie precies de
+         schermhoogte.
 
          Hier heeft even `sticky top-[var(--nav-h-min)]` gestaan, waarmee de
          secties over elkaar heen schoven. Dat is er op verzoek weer uit; de
          secties scrollen weer gewoon langs elkaar. Mocht het ooit terugkomen:
          het werkte, maar `position` moet dan uit de inline style blijven
          (een inline stijl wint van de klasse) en geen enkele voorouder mag
-         overflow hidden of auto hebben.
-
-         De factor stond op 1,15 (15% hoger dan het scherm) omdat precies
-         passend gedrongen voelde: de kleuren volgden elkaar te snel op. Dat
-         bezwaar is weg sinds de kleur van de volgende wereld al in de
-         onderste helft oploopt (NEXT_ZONE_BG) -- er ís geen harde kleurwissel
-         meer om af te remmen. Wat overbleef was een lege strook van een half
-         scherm tussen de dagkiezer en het volgende vel, en die is op verzoek
-         van de eigenaar weg: de sectie is nu precies de schermhoogte.
-
-         Meer opvulling onderaan (pb-16 -> pb-24, sm 84 -> 104px): de inhoud
-         stond te dicht op de rand waar het volgende vel binnenschuift. */
-      className="relative flex min-h-[calc((100svh-var(--nav-h-min))+48px)] scroll-mt-[var(--nav-h-min)] flex-col justify-center pb-20 pt-10 sm:pb-[96px] sm:pt-[68px]"
+         overflow hidden of auto hebben. */
+      className="relative flex min-h-[calc(100svh-var(--nav-h-min))] scroll-mt-[var(--nav-h-min)] flex-col justify-center pb-20 pt-10 sm:pb-[96px] sm:pt-[68px]"
       style={{
         // Geen `position` hier. Die stond op 'relative' en een inline stijl wint
         // van een klasse, dus de `sticky` uit className deed niets -- gemeten:
@@ -361,20 +338,12 @@ export function HomeZoneRail({
           background: `radial-gradient(60% 50% at ${glow.x} ${glow.y}, ${glow.color}, transparent 70%)`,
         }}
       />
-      {/* De kleur van de volgende wereld loopt hier al in: onderste 45% van
-          de sectie, van niets naar de volgende tint. Niet tot 100% dekkend,
-          zodat de afgeronde rand van het volgende vel nog nét te zien is --
-          het blijft een stapel, maar zonder harde naad. Puur CSS. */}
-      {NEXT_ZONE_BG[id] && (
-        <div
-          aria-hidden
-          style={{
-            position: 'absolute', left: 0, right: 0, bottom: 0, height: '45%', pointerEvents: 'none',
-            background: `linear-gradient(180deg, transparent 0%, ${NEXT_ZONE_BG[id]} 100%)`,
-            opacity: 0.9,
-          }}
-        />
-      )}
+      {/* Hier liep de kleur van de volgende wereld al op in de onderste 45%
+          van deze sectie (NEXT_ZONE_BG), zodat er geen harde naad tussen twee
+          tinten stond. Dat is weg: de vier werelden zijn alle vier wit, dus
+          dat verloop ging van wit naar wit en deed niets meer -- en een
+          kleurenkaart die nergens meer op slaat leest als bron van waarheid.
+          De overgang is nu de <SectionDivider> erboven. */}
 
       {/* Kop: alleen de categorienaam, zodat het beeld eronder meteen in
           zicht komt. De omschrijvende zin ("Elke clubnacht van het seizoen,

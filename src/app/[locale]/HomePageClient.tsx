@@ -15,6 +15,7 @@ import { HomeCategoryCarousel } from '@/components/home/HomeCategoryCarousel';
 import dynamic from 'next/dynamic';
 import { HomeUSP } from '@/components/home/HomeUSP';
 import { HomeTonight } from '@/components/home/HomeTonight';
+import { SectionDivider } from '@/components/home/SectionDivider';
 
 const HomeInstagram = dynamic(() => import('@/components/home/HomeInstagram').then((m) => m.HomeInstagram), {
   ssr: true,
@@ -212,10 +213,18 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
 
       </header>
 
+      {/* Vanaf hier draagt elke sectie dezelfde witte ondergrond en doet de
+          balk ertussen het onderscheid. De kleuren lopen in vaste volgorde
+          door de pagina (koraal, magenta, amber, turquoise, indigo) en
+          `flip` spiegelt de golf, zodat twee balken nooit identiek zijn.
+          Geen balk tussen hero en deals: de hero eindigt in een zwart
+          verloop met de live-strook erin, en een gekleurde balk daar
+          bovenop wordt rommel in plaats van ritme. */}
       <HomeCategoryCarousel deals={deals} base={base} locale={locale} />
 
 
 
+      <SectionDivider accent="var(--accent-coral)" />
       <HomeTonight events={pickerEvents} tonightStr={tonightStr} locale={locale} base={base} />
 
 
@@ -237,55 +246,77 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       <div className="relative">
         {/* Wereld 01, direct onder "Alles op één eiland": de dagkiezer en de
             kaartrail laten zien wát er speelt, per avond. */}
+        <SectionDivider accent="var(--accent-magenta)" flip />
         <HomeEventsTickets clubDays={clubDays} tonightStr={tonightStr} allVenues={allVenues} locale={locale} base={base} />
 
         {/* Wereld 02: de eigen vloot. De knop "Private Boat Rental" in de
             hero landt hier. */}
+        <SectionDivider accent="var(--accent-aqua)" />
         <HomeBoats todayStr={todayStr || tonightStr} locale={locale} base={base} />
 
         {/* Wereld 03: alles wat geen clubavond en geen eigen boot is. */}
+        <SectionDivider accent="var(--accent-amber)" flip />
         <HomeActivities days={experienceDays} todayStr={todayStr || tonightStr} locale={locale} base={base} />
 
         {/* Wereld 04: alles wat vaart. De paarse heroknop landt hier. De
             scheiding met de landwereld gebeurt per event, niet per aanbieder --
             zie activity-split.ts. */}
+        <SectionDivider accent="var(--accent-indigo)" />
         <HomeWaterActivities days={experienceDays} todayStr={todayStr || tonightStr} locale={locale} base={base} />
       </div>
 
       {/* Boten en auto's. Stond onderaan de pagina, onder Instagram en de
           nieuwsbrief; hier volgt het direct op de strip met alles wat geen
           nachtclub is, waar het thuishoort en waar mensen nog kijken. */}
+      <SectionDivider accent="var(--accent-coral)" flip />
       {rentalsSlot}
 
-      {/* Club logo marquee — just the logos — right below "Volledige kalender", above Populaire clubs */}
-      <Reveal className="flex items-center bg-neutral-100 py-3 border-t border-b border-black/10">
-        <ClubLogoSlider
-          clubLogos={clubLogos}
-          base={base}
-          locale={locale}
-          speed={0.9}
-          onLight
-          className="w-full bg-transparent"
-        />
-      </Reveal>
+      {/* ── HET CLUBVEL ────────────────────────────────────────────────────
+          De logostrook en de uitgelichte clubs stonden hier als twee losse
+          lichte stroken (neutral-100 en #FAF8F5) met een haarlijn ertussen,
+          midden in een reeks van acht vrijwel witte secties. Ze gaan nu samen
+          in één donker vel: dat breekt de witte muur op precies de plek waar
+          de pagina het nodig heeft, en het is bovendien de ondergrond waar de
+          inhoud om vraagt -- de ClubTickets-feed levert wítte clublogo's, dus
+          ze kleuren op espresso vanzelf goed in plaats van met `onLight` naar
+          zwart te worden omgeklapt.
 
-      {/* FEATURED CLUBS — premium card grid */}
-      {featuredClubs.length > 0 && (
-        <section className="py-10 md:py-16 bg-[#FAF8F5] border-t border-b border-black/5">
-          <Reveal className="max-w-7xl mx-auto px-4">
+          De wikkel draagt het wit dat door de afgeronde hoeken van het vel
+          heen te zien is. Dit was een verloop met twee kleuren toen de sectie
+          erboven en die eronder verschilden; nu alles wit is volstaat één
+          effen kleur. */}
+      <div style={{ background: 'var(--surface-white)' }}>
+        <section
+          className="surface-slab surface-slab-end overflow-hidden"
+          style={{ background: 'var(--surface-espresso)' }}
+        >
+          <Reveal className="flex items-center py-5">
+            <ClubLogoSlider
+              clubLogos={clubLogos}
+              base={base}
+              locale={locale}
+              speed={0.9}
+              className="w-full bg-transparent"
+            />
+          </Reveal>
 
-            {/* Section header */}
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="m-0 font-serif text-[1.625rem] md:text-3xl font-black tracking-tight text-neutral-900">{translations.home_popular_clubs}</h2>
-              </div>
-              <Link
-                href={`${base}/clubs`}
-                className="inline-flex items-center gap-2 text-xs font-black tracking-widest uppercase text-neutral-900 border-2 border-black/15 hover:bg-neutral-900 hover:text-white rounded-full px-6 py-3 transition-colors"
-              >
-                {translations.home_all_clubs} &rarr;
-              </Link>
-            </div>
+          {/* FEATURED CLUBS — premium card grid */}
+          {featuredClubs.length > 0 && (
+            <div className="pb-12 pt-4 md:pb-16">
+              <Reveal className="max-w-7xl mx-auto px-4">
+
+                {/* Section header */}
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h2 className="m-0 font-serif text-[1.625rem] md:text-3xl font-black tracking-tight text-white">{translations.home_popular_clubs}</h2>
+                  </div>
+                  <Link
+                    href={`${base}/clubs`}
+                    className="inline-flex items-center gap-2 text-xs font-black tracking-widest uppercase text-white border-2 border-white/25 hover:bg-white hover:text-neutral-900 rounded-full px-6 py-3 transition-colors"
+                  >
+                    {translations.home_all_clubs} &rarr;
+                  </Link>
+                </div>
 
             {/* Card grid */}
             <div style={{
@@ -339,24 +370,41 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
               ))}
             </div>
 
-            {/* Mobile: all clubs link */}
-            <div className="mt-8 text-center md:hidden">
-              <Link href={`${base}/clubs`} className="btn fill w-full justify-center">
-                {translations.home_view_all_clubs}
-              </Link>
+                {/* Mobile: all clubs link */}
+                <div className="mt-8 text-center md:hidden">
+                  <Link
+                    href={`${base}/clubs`}
+                    className="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-4 font-display text-xs font-black uppercase tracking-widest text-neutral-900 transition-colors hover:bg-white/85"
+                  >
+                    {translations.home_view_all_clubs}
+                  </Link>
+                </div>
+              </Reveal>
             </div>
-          </Reveal>
+          )}
         </section>
-      )}
+      </div>
 
 
       {/* WHY US — trust-building USP row */}
+      <SectionDivider accent="var(--accent-amber)" />
       <HomeUSP locale={locale} />
 
       {/* VOOR AMERIKAANSE BEZOEKERS — rendert alleen op /en (zie HomeUsBand).
           Staat na de USP's en vóór de reviews: wie hier is aangekomen weet wat
           we doen, en de eerste vraag van een Amerikaan is hoe hij er komt. */}
-      {usSlot}
+      {/* Een balk vóór een slot die niets rendert laat een losse streep
+          achter. usSlot is `null` in elke taal behalve het Engels, dus de
+          balk hangt aan dezelfde voorwaarde. Vóór reviewsSlot staat om
+          dezelfde reden géén balk: dat slot is altijd een element, maar
+          rendert niets zolang het Bedrijfsprofiel niet gekoppeld is, en dat
+          kan deze component niet zien. */}
+      {usSlot ? (
+        <>
+          <SectionDivider accent="var(--accent-aqua)" flip />
+          {usSlot}
+        </>
+      ) : null}
 
       {/* GOOGLE REVIEWS — echte beoordelingen, direct onder de beloftes. Het
           cijfer stond al in de hero en de footer; de reviews zelf alleen op
@@ -368,14 +416,26 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       {/* TikTok boven Instagram: het is het kanaal waar de meeste nieuwe
           bezoekers vandaan komen, en bewegend beeld houdt beter vast dan een
           raster met foto's. De feed laadt pas na toestemming -- zie HomeTikTok. */}
+      <SectionDivider accent="var(--accent-magenta)" flip />
       <HomeTikTok locale={locale} />
+      <SectionDivider accent="var(--accent-indigo)" />
       <HomeInstagram locale={locale} />
 
-      {/* NEWSLETTER — lead capture */}
-      <HomeNewsletter locale={locale} rating={rating} />
+      {/* NEWSLETTER — lead capture.
+          De wikkel draagt de kleur van de sectie erbóven (bone, van Instagram),
+          zodat de afgeronde bovenhoeken van het donkere vel daarop uitkomen en
+          niet op het wit van de paginawikkel -- anders staan er twee lichte
+          hoekjes naast het vel. Welke kleur erboven zit weet alleen deze
+          volgorde, dus de wikkel staat hier en niet in de component. */}
+      <div style={{ background: 'linear-gradient(180deg, var(--surface-white) 0 calc(100% - 44px), var(--surface-white) calc(100% - 44px))' }}>
+        <HomeNewsletter locale={locale} rating={rating} />
+      </div>
 
       {/* CATEGORIES GRID */}
-      <section className="section bg-white text-neutral-900">
+      <section
+        className="section text-neutral-900"
+        style={{ background: 'var(--surface-white)', borderTop: 'none' }}
+      >
         <Reveal className="wrap">
           <div className="section-head">
             <div>
@@ -415,6 +475,7 @@ export default function HomePageClient({ locale = 'nl', translations = {}, featu
       </section>
 
       {/* FAQ — condensed sitewide FAQ, deliberately the very last section */}
+      <SectionDivider accent="var(--accent-coral)" />
       {faqSlot}
     </div>
   );

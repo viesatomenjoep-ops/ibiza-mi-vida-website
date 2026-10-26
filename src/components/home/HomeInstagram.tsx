@@ -82,7 +82,10 @@ export function HomeInstagram({ locale = 'nl' }: { locale?: string }) {
   }, [feedUrl])
 
   return (
-    <section className="bg-white text-neutral-900 py-12 md:py-16 border-t border-black/5">
+    <section
+      className="text-neutral-900 py-12 md:py-16"
+      style={{ background: 'var(--surface-white)' }}
+    >
       <Reveal className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col items-center text-center">
           <SocialBrandMark />

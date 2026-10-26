@@ -242,7 +242,12 @@ export function HomeCategoryCarousel({ deals, base = '/nl', locale = 'nl' }: { d
   }
 
   return (
-    <section className="w-full bg-neutral-100 px-4 py-8 md:py-16">
+    /* Wit, net als elke andere sectie. Hier stond `bg-neutral-100`, een koel
+       grijs, en het is het eerste vlak dat je ziet zodra je van de zwarte hero
+       af scrolt -- precies de plek waar een vuil grijs het meest opvalt. Het
+       onderscheid met de secties eronder komt van de gekleurde balk, niet van
+       de ondergrond. */
+    <section className="w-full px-4 py-8 md:py-16" style={{ background: 'var(--surface-white)' }}>
       {/* text-center op mobiel: de waaier staat gecentreerd in zijn kolom, maar
           de tekst ernaast stond links en dat trok het geheel scheef. Vanaf de
           tweekolomsopmaak lijnt alles weer links uit. */}

@@ -60,7 +60,10 @@ export function HomeUsBand({ locale }: { locale: string }) {
       : `${ns.airline} has announced the first nonstop between the United States and Ibiza, from ${ns.from.city} (${ns.from.iata}) starting ${usDate(ns.starts)} — announced, not yet on sale. Until then every US departure connects once, 11 to 13 hours from New York.`
 
   return (
-    <section className="border-t border-black/5 bg-white py-16 text-neutral-900">
+    <section
+      className="py-16 text-neutral-900"
+      style={{ background: 'var(--surface-white)' }}
+    >
       <Reveal className="mx-auto max-w-5xl px-4">
         <span className="inline-block text-[11px] font-bold uppercase tracking-[0.28em] text-neutral-900">
           Travelling from the United States
@@ -77,7 +80,7 @@ export function HomeUsBand({ locale }: { locale: string }) {
               <Link
                 key={s.href}
                 href={s.href}
-                className="group rounded-[22px] border border-neutral-200/90 bg-[#FAF8F5] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-black/30 hover:bg-white"
+                className="group rounded-[22px] border border-[var(--line-soft)] bg-[var(--surface-white)] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--line-soft-strong)] hover:shadow-[0_18px_38px_-12px_rgba(26,23,20,0.16)]"
               >
                 <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-black/5 text-[#141414] ring-1 ring-black/15 transition-colors duration-300 group-hover:bg-[#141414] group-hover:text-white">
                   <Icon size={20} strokeWidth={2} />

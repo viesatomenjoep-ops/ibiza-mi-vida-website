@@ -95,7 +95,6 @@ export const CONTENT_UPDATED: Record<string, string> = {
   'location-voiture-ibiza': '2026-08-31',
   'alquiler-barco-ibiza': '2026-08-31',
   'alquiler-coches-ibiza': '2026-08-31',
-  'wiber-car-rental-ibiza': '2026-08-31',
   'click-and-boat-ibiza': '2026-08-31',
 }
 

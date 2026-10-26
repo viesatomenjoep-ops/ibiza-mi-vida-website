@@ -45,7 +45,7 @@ valt zelden op de pagina die je wilde.
 | `/car-rental-ibiza` (+ 4 taalslugs) | "car rental ibiza" — de commerciële term. Wiber. |
 | `/car-rental-ibiza-airport` | Ophalen op de luchthaven |
 | `/convertible-car-rental-ibiza` | Cabrio |
-| `/wiber-car-rental-ibiza` | Merkzoekopdracht "Wiber Ibiza" |
+| ~~`/wiber-car-rental-ibiza`~~ | Teruggetrokken 26-10-2026; 308 naar `/car-rental-ibiza`. De merkzoekopdracht "Wiber Ibiza" wordt niet meer apart bediend. |
 
 ### Watersport
 

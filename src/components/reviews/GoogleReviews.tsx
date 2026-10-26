@@ -116,7 +116,15 @@ export async function GoogleReviews({ locale }: { locale: string }) {
   const ratingLabel = data.rating.toFixed(1)
 
   return (
-    <section className="mb-14 border-y border-black/5 bg-neutral-50 py-14">
+    /* Wit in plaats van neutral-50 (#FAFAFA, een koel bijna-wit), en de
+       onderruimte als padding in plaats van als marge. Met `mb-14` liep de
+       achtergrond van de pagina onder dit blok door, en dat is een naad zodra
+       de sectie ooit weer een eigen kleur draagt. Dezelfde totale hoogte, dus
+       de opmaak op /about-us verschuift niet. */
+    <section
+      className="pb-[7rem] pt-14"
+      style={{ background: 'var(--surface-white)' }}
+    >
       <div className="mx-auto max-w-5xl px-4">
         {/* Stond als twee kolommen met de knop "Lees alle reviews op Google"
             rechts; die knop is er op verzoek uit (zie READ_ALL hieronder).
